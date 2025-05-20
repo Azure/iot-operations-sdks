@@ -29,8 +29,8 @@ use crate::{
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
-const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialBackoff =
-    tokio_retry2::strategy::ExponentialBackoff::from_millis(100);
+const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
+    tokio_retry2::strategy::ExponentialFactorBackoff::from_millis(500, 2.0);
 
 /// An Observation for device endpoint creation events that uses
 /// multiple underlying clients to get full device endpoint information.
@@ -70,7 +70,7 @@ impl DeviceEndpointClientCreationObservation {
                 .await?;
 
             // and then get device update observation as well and turn it into a DeviceEndpointClientUpdateObservation
-            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY, async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -111,6 +111,7 @@ impl DeviceEndpointClientCreationObservation {
                             match e.kind() {
                                 // network/retriable
                                 azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+                                    log::warn!("Get device definition failed. Retrying: {e}");
                                     RetryError::transient(e)
                                 }
                                 // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
@@ -136,7 +137,7 @@ impl DeviceEndpointClientCreationObservation {
                     );
                     // unobserve as cleanup
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY,
+                        RETRY_STRATEGY.take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -176,7 +177,7 @@ impl DeviceEndpointClientCreationObservation {
                     );
                     // unobserve
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY,
+                        RETRY_STRATEGY.take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -296,7 +297,7 @@ impl DeviceEndpointClient {
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
+            // Endpoints are merged on the service, so sending an empty map won't update anything
             endpoints: HashMap::new(),
         };
 
@@ -306,10 +307,23 @@ impl DeviceEndpointClient {
 
     /// Used to report the status of just the endpoint,
     /// and then updates the [`Device`] with the new status returned
+    /// # Panics
+    /// if the status mutex has been poisoned, which should not be possible
     pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), AdrConfigError>) {
-        // Create status with empty device status
+        // If the version of the current status config matches the current version, then include the existing config.
+        // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
+        let current_config = self.status.read().unwrap().as_ref().and_then(|status| {
+            if status.config.as_ref().and_then(|config| config.version)
+                == self.specification.version
+            {
+                status.config.clone()
+            } else {
+                None
+            }
+        });
+        // Create status without updating the device status
         let status = azure_device_registry::DeviceStatus {
-            config: None, // TODO: does this need to include the version?
+            config: current_config,
             // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
@@ -344,7 +358,7 @@ impl DeviceEndpointClient {
     ) {
         // send status update to the service
         match Retry::spawn(
-            RETRY_STRATEGY,
+            RETRY_STRATEGY.take(10),
             async || -> Result<Device, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
@@ -359,6 +373,7 @@ impl DeviceEndpointClient {
                         match e.kind() {
                             // network/retriable
                             azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+                                log::warn!("Update device status failed. Retrying: {e}");
                                 RetryError::transient(e)
                             }
                             // indicates an error in the configuration, might be transient in the future depending on what it can indicate
@@ -458,7 +473,7 @@ impl AssetClientCreationObservation {
                 self.asset_create_observation.recv_notification().await?;
 
             // Get asset update observation as well and turn it into a AssetClientUpdateObservation
-            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY, async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_asset_update_notifications(
@@ -500,6 +515,7 @@ impl AssetClientCreationObservation {
                             match e.kind() {
                                 // network/retriable
                                 azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+                                    log::warn!("Get asset definition failed. Retrying: {e}");
                                     RetryError::transient(e)
                                 }
                                 // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
@@ -533,7 +549,7 @@ impl AssetClientCreationObservation {
                     log::error!("Dropping asset create notification: {asset_ref:?}");
                     // unobserve as cleanup
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY,
+                        RETRY_STRATEGY.take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -773,7 +789,7 @@ impl AssetClient {
     ) {
         // send status update to the service
         match Retry::spawn(
-            RETRY_STRATEGY,
+            RETRY_STRATEGY.take(10),
             async || -> Result<Asset, RetryError<azure_device_registry::Error>> {
                 connector_context
                     .azure_device_registry_client
@@ -789,6 +805,7 @@ impl AssetClient {
                         match e.kind() {
                             // network/retriable
                             azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+                                log::warn!("Update asset status failed. Retrying: {e}");
                                 RetryError::transient(e)
                             }
                             // indicates an error in the configuration, might be transient in the future depending on what it can indicate
@@ -889,16 +906,32 @@ impl DatasetClient {
     }
 
     /// Used to report the status of a dataset
+    /// # Panics
+    /// if the asset status mutex has been poisoned, which should not be possible
     pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
+        // If the version of the current status config matches the current version, then include the existing config.
+        // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
+        let current_asset_config = self
+            .asset_status
+            .read()
+            .unwrap()
+            .as_ref()
+            .and_then(|status| {
+                if status.config.as_ref().and_then(|config| config.version)
+                    == self.asset_specification.version
+                {
+                    status.config.clone()
+                } else {
+                    None
+                }
+            });
+        // Get current message schema reference, so that it isn't overwritten
+        let current_message_schema_reference = self.message_schema_reference();
         let adr_asset_status = azure_device_registry::AssetStatus {
-            // TODO: Do I need to include the version here?
-            // config: Some(azure_device_registry::StatusConfig {
-            //     version: self.asset_specification.version,
-            //     ..azure_device_registry::StatusConfig::default()
-            // }),
+            config: current_asset_config,
             datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
                 name: self.dataset_ref.dataset_name.clone(),
-                message_schema_reference: None,
+                message_schema_reference: current_message_schema_reference,
                 error: status.err(),
             }]),
             ..azure_device_registry::AssetStatus::default()
@@ -926,6 +959,8 @@ impl DatasetClient {
     /// # Panics
     /// If the Schema Registry Service returns a schema without required values. This should get updated
     /// to be validated by the Schema Registry API surface in the future
+    ///
+    /// If the asset status mutex has been poisoned, which should not be possible
     pub async fn report_message_schema(
         &self,
         message_schema: MessageSchema,
@@ -946,6 +981,7 @@ impl DatasetClient {
                         match e.kind() {
                             // network/retriable
                             schema_registry::ErrorKind::AIOProtocolError(_) => {
+                                log::warn!("Reporting message schema failed. Retrying: {e}");
                                 RetryError::transient(e)
                             }
                             // indicates an error in the provided message schema, return to caller so they can fix
@@ -975,17 +1011,42 @@ impl DatasetClient {
                     .expect("schema namespace will always be present."), // waiting on change to service DTDL for this to be guaranteed in code
             }
         })?;
-
+        // If the version of the current status config matches the current version, then include the existing config.
+        // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
+        let current_asset_config = self
+            .asset_status
+            .read()
+            .unwrap()
+            .as_ref()
+            .and_then(|status| {
+                if status.config.as_ref().and_then(|config| config.version)
+                    == self.asset_specification.version
+                {
+                    status.config.clone()
+                } else {
+                    None
+                }
+            });
+        // Get the current dataset config error, if it exists, so that it isn't overwritten
+        let current_dataset_config_error =
+            self.asset_status
+                .read()
+                .unwrap()
+                .as_ref()
+                .and_then(|status| {
+                    status.datasets.as_ref().and_then(|datasets| {
+                        datasets
+                            .iter()
+                            .find(|dataset| dataset.name == self.dataset_ref.dataset_name)
+                            .and_then(|dataset| dataset.error.clone())
+                    })
+                });
         let adr_asset_status = azure_device_registry::AssetStatus {
-            // TODO: Do I need to include the version here?
-            // config: Some(azure_device_registry::StatusConfig {
-            //     version: self.asset_specification.version,
-            //     ..azure_device_registry::StatusConfig::default()
-            // }),
+            config: current_asset_config,
             datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
                 name: self.dataset_ref.dataset_name.clone(),
                 message_schema_reference: Some(message_schema_reference.clone()),
-                error: None,
+                error: current_dataset_config_error,
             }]),
             ..azure_device_registry::AssetStatus::default()
         };
