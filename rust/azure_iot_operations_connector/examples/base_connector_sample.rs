@@ -56,11 +56,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 // This function runs in a loop, waiting for device creation notifications.
 async fn run_program(mut device_creation_observation: DeviceEndpointClientCreationObservation) {
     // Wait for a device creation notification
-    while let Some((
-        mut device_endpoint_client,
-        _device_endpoint_update_observation,
-        asset_creation_observation,
-    )) = device_creation_observation.recv_notification().await
+    while let Some((mut device_endpoint_client, asset_creation_observation)) =
+        device_creation_observation.recv_notification().await
     {
         log::info!("Device created: {device_endpoint_client:?}");
 

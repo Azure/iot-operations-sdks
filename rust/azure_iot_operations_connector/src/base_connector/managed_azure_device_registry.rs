@@ -59,7 +59,6 @@ impl DeviceEndpointClientCreationObservation {
         &mut self,
     ) -> Option<(
         DeviceEndpointClient,
-        DeviceEndpointClientUpdateObservation,
         /*DeviceDeleteToken,*/ AssetClientCreationObservation,
     )> {
         loop {
@@ -81,13 +80,7 @@ impl DeviceEndpointClientCreationObservation {
                     // retry on network errors, otherwise don't retry on config/dev errors
                     .await.map_err(observe_error_into_retry_error)
             }).await {
-                Ok(device_update_observation) => {
-                    DeviceEndpointClientUpdateObservation {
-                        device_update_observation,
-                        device_endpoint_ref: device_endpoint_ref.clone(),
-                        connector_context: self.connector_context.clone(),
-                    }
-                },
+                Ok(device_update_observation) => device_update_observation,
                 Err(e) => {
                   log::error!("Failed to observe for device update notifications after retries: {e}");
                   log::error!("Dropping device endpoint create notification: {device_endpoint_ref:?}");
@@ -165,6 +158,7 @@ impl DeviceEndpointClientCreationObservation {
             let device_endpoint_client = match DeviceEndpointClient::new(
                 device,
                 device_endpoint_ref.clone(),
+                device_endpoint_client_update_observation,
                 self.connector_context.clone(),
             ) {
                 Ok(managed_device) => managed_device,
@@ -209,17 +203,13 @@ impl DeviceEndpointClientCreationObservation {
                 device_status: device_endpoint_client.status.clone(),
             };
 
-            return Some((
-                device_endpoint_client,
-                device_endpoint_client_update_observation,
-                asset_client_creation_observation,
-            ));
+            return Some((device_endpoint_client, asset_client_creation_observation));
         }
     }
 }
 
-/// Azure Device Registry Device Endpoint that includes additional functionality to report status
-#[derive(Clone, Debug, Getters)]
+/// Azure Device Registry Device Endpoint that includes additional functionality to report status and receive updates
+#[derive(Debug, Getters)]
 pub struct DeviceEndpointClient {
     /// The names of the Device and Inbound Endpoint
     device_endpoint_ref: DeviceEndpointRef,
@@ -229,6 +219,9 @@ pub struct DeviceEndpointClient {
     /// The 'status' Field.
     #[getter(skip)]
     status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    /// The internal observation for updates
+    #[getter(skip)]
+    device_update_observation: DeviceUpdateObservation,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -236,6 +229,7 @@ impl DeviceEndpointClient {
     pub(crate) fn new(
         device: azure_device_registry::Device,
         device_endpoint_ref: DeviceEndpointRef,
+        device_update_observation: DeviceUpdateObservation,
         connector_context: Arc<ConnectorContext>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
@@ -250,17 +244,18 @@ impl DeviceEndpointClient {
                 DeviceEndpointStatus::new(recvd_status, &device_endpoint_ref.inbound_endpoint_name)
             }))),
             device_endpoint_ref,
+            device_update_observation,
             connector_context,
         })
     }
 
     /// Used to report the status of a device and endpoint together,
-    /// and then updates the [`Device`] with the new status returned
+    /// and then updates the `self.status` with the new status returned
     ///
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_status(
-        &mut self,
+        &self,
         device_status: Result<(), AdrConfigError>,
         endpoint_status: Result<(), AdrConfigError>,
     ) {
@@ -288,7 +283,7 @@ impl DeviceEndpointClient {
     ///
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
-    pub async fn report_device_status(&mut self, device_status: Result<(), AdrConfigError>) {
+    pub async fn report_device_status(&self, device_status: Result<(), AdrConfigError>) {
         // Create status with empty endpoint status
         let version = self.specification.read().unwrap().version; // TODO: this doesn't hold the read lock past this line, right?
         let status = azure_device_registry::DeviceStatus {
@@ -309,7 +304,7 @@ impl DeviceEndpointClient {
     /// and then updates the [`Device`] with the new status returned
     /// # Panics
     /// if the status or specification mutexes have been poisoned, which should not be possible
-    pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), AdrConfigError>) {
+    pub async fn report_endpoint_status(&self, endpoint_status: Result<(), AdrConfigError>) {
         // If the version of the current status config matches the current version, then include the existing config.
         // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
         let current_config = self.status.read().unwrap().as_ref().and_then(|status| {
@@ -335,6 +330,39 @@ impl DeviceEndpointClient {
         self.internal_report_status(status).await;
     }
 
+    /// Used to receive updates for the Device/Inbound Endpoint from the Azure Device Registry Service.
+    /// This function returning `Some(())` indicates that the device specification and status have been
+    /// updated in place. The function returns [`None`] if there will be no more notifications.
+    ///
+    /// # Panics
+    /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
+    ///
+    /// If the status or specification mutexes have been poisoned, which should not be possible
+    pub async fn recv_update(&mut self) -> Option<()> {
+        // handle the notification
+        // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
+        // get the update again because we'll pull the latest definition on the restart, so we don't need to get
+        // the notification again.
+        let (updated_device, _) = self.device_update_observation.recv_notification().await?;
+        // update self with updated specification and status
+        let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_specification = DeviceSpecification::new(
+                updated_device.specification,
+                // TODO: get device_endpoint_credentials_mount_path from connector config
+                "/etc/akri/secrets/device_endpoint_auth",
+                &self.device_endpoint_ref.inbound_endpoint_name,
+            ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
+
+        let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_status = updated_device.status.map(|recvd_status| {
+            DeviceEndpointStatus::new(
+                recvd_status,
+                &self.device_endpoint_ref.inbound_endpoint_name,
+            )
+        });
+        Some(())
+    }
+
     // Returns a clone of the current device status
     /// # Panics
     /// if the status mutex has been poisoned, which should not be possible
@@ -352,10 +380,7 @@ impl DeviceEndpointClient {
     }
 
     /// Reports an already built status to the service, with retries, and then updates the device with the new status returned
-    async fn internal_report_status(
-        &mut self,
-        adr_device_status: azure_device_registry::DeviceStatus,
-    ) {
+    async fn internal_report_status(&self, adr_device_status: azure_device_registry::DeviceStatus) {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY.take(10),
@@ -409,41 +434,6 @@ impl DeviceEndpointClient {
                 log::error!("Failed to Update Device Status: {e}");
             }
         };
-    }
-}
-
-/// An Observation for device endpoint update events that uses
-/// multiple underlying clients to get full device endpoint
-/// update information.
-/// TODO: maybe move this to be on the [`DeviceEndpointClient`]?
-#[allow(dead_code)]
-pub struct DeviceEndpointClientUpdateObservation {
-    device_update_observation: DeviceUpdateObservation,
-    device_endpoint_ref: DeviceEndpointRef,
-    connector_context: Arc<ConnectorContext>,
-}
-impl DeviceEndpointClientUpdateObservation {
-    /// Receives an updated [`DeviceEndpointClient`] or [`None`] if there will be no more notifications.
-    ///
-    /// If there are notifications:
-    /// - Returns Some([`DeviceEndpointClient`], [`Option<AckToken>`]) on success
-    ///     - If auto ack is disabled, the [`AckToken`] should be used or dropped when you want the ack to occur. If auto ack is enabled, you may use ([`DeviceEndpointClient`], _) to ignore the [`AckToken`].
-    ///
-    /// A received notification can be acknowledged via the [`AckToken`] by calling [`AckToken::ack`] or dropping the [`AckToken`].
-    ///
-    /// # Panics
-    /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
-    pub async fn recv_notification(&mut self) -> Option<(DeviceEndpointClient, Option<AckToken>)> {
-        // handle the notification
-        let (updated_device, ack) = self.device_update_observation.recv_notification().await?;
-        // convert into DeviceEndpointClient
-        let device_endpoint_client = DeviceEndpointClient::new(
-                updated_device,
-                self.device_endpoint_ref.clone(),
-                self.connector_context.clone(),
-        ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
-
-        Some((device_endpoint_client, ack))
     }
 }
 
