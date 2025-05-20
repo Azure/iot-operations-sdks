@@ -104,13 +104,6 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            if (_leaderElectionConfiguration != null)
-            {
-                // Connector client id prefix is provided as environment variable, but it is the same prefix for all replicated pods.
-                // To avoid collision, add a suffix when replicating pods.
-                mqttConnectionSettings!.ClientId += Guid.NewGuid().ToString();
-            }
-
             _logger.LogInformation("Connecting to MQTT broker");
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings!, cancellationToken);
