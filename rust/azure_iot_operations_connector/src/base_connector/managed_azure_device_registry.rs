@@ -308,13 +308,13 @@ impl DeviceEndpointClient {
     /// Used to report the status of just the endpoint,
     /// and then updates the [`Device`] with the new status returned
     /// # Panics
-    /// if the status mutex has been poisoned, which should not be possible
+    /// if the status or specification mutexes have been poisoned, which should not be possible
     pub async fn report_endpoint_status(&mut self, endpoint_status: Result<(), AdrConfigError>) {
         // If the version of the current status config matches the current version, then include the existing config.
         // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
         let current_config = self.status.read().unwrap().as_ref().and_then(|status| {
             if status.config.as_ref().and_then(|config| config.version)
-                == self.specification.version
+                == self.specification.read().unwrap().version
             {
                 status.config.clone()
             } else {
