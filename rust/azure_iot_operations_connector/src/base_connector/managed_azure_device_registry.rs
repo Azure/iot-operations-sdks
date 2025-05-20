@@ -260,7 +260,7 @@ impl DeviceEndpointClient {
         endpoint_status: Result<(), AdrConfigError>,
     ) {
         // Create status
-        let version = self.specification.read().unwrap().version; // TODO: this doesn't hold the read lock past this line, right?
+        let version = self.specification.read().unwrap().version;
         let status = azure_device_registry::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version,
@@ -285,7 +285,7 @@ impl DeviceEndpointClient {
     /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_device_status(&self, device_status: Result<(), AdrConfigError>) {
         // Create status with empty endpoint status
-        let version = self.specification.read().unwrap().version; // TODO: this doesn't hold the read lock past this line, right?
+        let version = self.specification.read().unwrap().version;
         let status = azure_device_registry::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version,
@@ -682,10 +682,21 @@ impl AssetClient {
                         log::error!(
                             "Invalid dataset destination for dataset: {dataset_name} {e:?}"
                         );
+                        // Get current message schema reference if there is one, so that it isn't overwritten
+                        let message_schema_reference = status
+                            .read()
+                            .unwrap()
+                            .as_ref()?
+                            .datasets
+                            .as_ref()?
+                            .iter()
+                            .find(|dataset| dataset.name == dataset_name)?
+                            .message_schema_reference
+                            .clone();
                         dataset_config_errors.push(
                             azure_device_registry::DatasetEventStreamStatus {
                                 name: dataset_name,
-                                message_schema_reference: None,
+                                message_schema_reference,
                                 error: Some(e),
                             },
                         );
@@ -695,12 +706,18 @@ impl AssetClient {
             })
             .collect();
         if !dataset_config_errors.is_empty() {
+            // If the version of the current status config matches the current version, then include the existing config.
+            // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
+            let current_asset_config = status.read().unwrap().as_ref().and_then(|status| {
+                if status.config.as_ref().and_then(|config| config.version) == specification.version
+                {
+                    status.config.clone()
+                } else {
+                    None
+                }
+            });
             let adr_asset_status = azure_device_registry::AssetStatus {
-                // TODO: Do I need to include the version here?
-                // config: Some(azure_device_registry::StatusConfig {
-                //     version: self.asset_specification.version,
-                //     ..azure_device_registry::StatusConfig::default()
-                // }),
+                config: current_asset_config,
                 datasets: Some(dataset_config_errors),
                 ..azure_device_registry::AssetStatus::default()
             };
@@ -759,8 +776,6 @@ impl AssetClient {
     #[must_use]
     pub fn device_specification(&self) -> DeviceSpecification {
         (*self.device_specification.read().unwrap()).clone()
-        // TODO: return read guard instead to avoid cloning? Need to decide whether to wrap to not expose read guard though
-        // self.device_specification.read().unwrap()
     }
 
     // Returns a clone of the current device status
