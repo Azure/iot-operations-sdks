@@ -45,19 +45,17 @@ internal static class ChecksumCalculator
         {
             return hashAlgorithm.ComputeHash(data.FirstSpan.ToArray());
         }
-        else
+
+        // Process multiple segments
+        hashAlgorithm.Initialize();
+
+        foreach (ReadOnlyMemory<byte> segment in data)
         {
-            // Process multiple segments
-            hashAlgorithm.Initialize();
-
-            foreach (ReadOnlyMemory<byte> segment in data)
-            {
-                hashAlgorithm.TransformBlock(segment.Span.ToArray(), 0, segment.Length, null, 0);
-            }
-
-            hashAlgorithm.TransformFinalBlock([], 0, 0);
-            return hashAlgorithm.Hash!;
+            hashAlgorithm.TransformBlock(segment.Span.ToArray(), 0, segment.Length, null, 0);
         }
+
+        hashAlgorithm.TransformFinalBlock([], 0, 0);
+        return hashAlgorithm.Hash!;
     }
 
     private static HashAlgorithm CreateHashAlgorithm(ChunkingChecksumAlgorithm algorithm)
