@@ -3,8 +3,8 @@ package adrbaseservice
 
 type AssetSpecificationSchema struct {
 
-	// The 'assetEndpointProfileRef' Field.
-	AssetEndpointProfileRef string `json:"assetEndpointProfileRef"`
+	// The 'assetTypeRefs' Field.
+	AssetTypeRefs []string `json:"assetTypeRefs,omitempty"`
 
 	// The 'attributes' Field.
 	Attributes map[string]string `json:"attributes,omitempty"`
@@ -15,14 +15,29 @@ type AssetSpecificationSchema struct {
 	// The 'defaultDatasetsConfiguration' Field.
 	DefaultDatasetsConfiguration *string `json:"defaultDatasetsConfiguration,omitempty"`
 
+	// The 'defaultDatasetsDestinations' Field.
+	DefaultDatasetsDestinations []DefaultDatasetsDestinationsSchemaElementSchema `json:"defaultDatasetsDestinations,omitempty"`
+
 	// The 'defaultEventsConfiguration' Field.
 	DefaultEventsConfiguration *string `json:"defaultEventsConfiguration,omitempty"`
 
-	// The 'defaultTopic' Field.
-	DefaultTopic *Topic `json:"defaultTopic,omitempty"`
+	// The 'defaultEventsDestinations' Field.
+	DefaultEventsDestinations []DefaultEventsDestinationsSchemaElementSchema `json:"defaultEventsDestinations,omitempty"`
+
+	// The 'defaultManagementGroupsConfiguration' Field.
+	DefaultManagementGroupsConfiguration *string `json:"defaultManagementGroupsConfiguration,omitempty"`
+
+	// The 'defaultStreamsConfiguration' Field.
+	DefaultStreamsConfiguration *string `json:"defaultStreamsConfiguration,omitempty"`
+
+	// The 'defaultStreamsDestinations' Field.
+	DefaultStreamsDestinations []DefaultStreamsDestinationsSchemaElementSchema `json:"defaultStreamsDestinations,omitempty"`
 
 	// The 'description' Field.
 	Description *string `json:"description,omitempty"`
+
+	// The 'deviceRef' Field.
+	DeviceRef DeviceRefSchema `json:"deviceRef"`
 
 	// The 'discoveredAssetRefs' Field.
 	DiscoveredAssetRefs []string `json:"discoveredAssetRefs,omitempty"`
@@ -45,6 +60,12 @@ type AssetSpecificationSchema struct {
 	// The 'hardwareRevision' Field.
 	HardwareRevision *string `json:"hardwareRevision,omitempty"`
 
+	// The 'lastTransitionTime' Field.
+	LastTransitionTime *string `json:"lastTransitionTime,omitempty"`
+
+	// The 'managementGroups' Field.
+	ManagementGroups []AssetManagementGroupSchemaElementSchema `json:"managementGroups,omitempty"`
+
 	// The 'manufacturer' Field.
 	Manufacturer *string `json:"manufacturer,omitempty"`
 
@@ -63,9 +84,12 @@ type AssetSpecificationSchema struct {
 	// The 'softwareRevision' Field.
 	SoftwareRevision *string `json:"softwareRevision,omitempty"`
 
+	// The 'streams' Field.
+	Streams []AssetStreamSchemaElementSchema `json:"streams,omitempty"`
+
 	// The 'uuid' Field.
 	Uuid *string `json:"uuid,omitempty"`
 
 	// The 'version' Field.
-	Version *string `json:"version,omitempty"`
+	Version *uint64 `json:"version,omitempty"`
 }
