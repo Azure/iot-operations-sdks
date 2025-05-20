@@ -9,18 +9,18 @@ import (
 type DiscoveredAssetEndpointProfileResponseStatusSchema int32
 
 const (
-	Created DiscoveredAssetEndpointProfileResponseStatusSchema = iota
-	Duplicate DiscoveredAssetEndpointProfileResponseStatusSchema = iota
-	Failed DiscoveredAssetEndpointProfileResponseStatusSchema = iota
+	DiscoveredAssetEndpointProfileResponseStatusSchemaCreated DiscoveredAssetEndpointProfileResponseStatusSchema = iota
+	DiscoveredAssetEndpointProfileResponseStatusSchemaDuplicate DiscoveredAssetEndpointProfileResponseStatusSchema = iota
+	DiscoveredAssetEndpointProfileResponseStatusSchemaFailed DiscoveredAssetEndpointProfileResponseStatusSchema = iota
 )
 
 func (v DiscoveredAssetEndpointProfileResponseStatusSchema) String() string {
 	switch v {
-	case Created:
+	case DiscoveredAssetEndpointProfileResponseStatusSchemaCreated:
 		return "Created"
-	case Duplicate:
+	case DiscoveredAssetEndpointProfileResponseStatusSchemaDuplicate:
 		return "Duplicate"
-	case Failed:
+	case DiscoveredAssetEndpointProfileResponseStatusSchemaFailed:
 		return "Failed"
 	default:
 		return ""
@@ -30,11 +30,11 @@ func (v DiscoveredAssetEndpointProfileResponseStatusSchema) String() string {
 func (v DiscoveredAssetEndpointProfileResponseStatusSchema) MarshalJSON() ([]byte, error) {
 	var s string
 	switch v {
-	case Created:
+	case DiscoveredAssetEndpointProfileResponseStatusSchemaCreated:
 		s = "created"
-	case Duplicate:
+	case DiscoveredAssetEndpointProfileResponseStatusSchemaDuplicate:
 		s = "duplicate"
-	case Failed:
+	case DiscoveredAssetEndpointProfileResponseStatusSchemaFailed:
 		s = "failed"
 	default:
 		return []byte{}, errors.New("unable to marshal unrecognized enum value to JSON")
@@ -51,11 +51,11 @@ func (v *DiscoveredAssetEndpointProfileResponseStatusSchema) UnmarshalJSON(b []b
 
 	switch s {
 	case "created":
-		*v = Created
+		*v = DiscoveredAssetEndpointProfileResponseStatusSchemaCreated
 	case "duplicate":
-		*v = Duplicate
+		*v = DiscoveredAssetEndpointProfileResponseStatusSchemaDuplicate
 	case "failed":
-		*v = Failed
+		*v = DiscoveredAssetEndpointProfileResponseStatusSchemaFailed
 	default:
 		return errors.New("unable to unmarshal unrecognized enum value from JSON")
 	}

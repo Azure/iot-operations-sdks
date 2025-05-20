@@ -10,7 +10,7 @@ import (
 	"github.com/Azure/iot-operations-sdks/go/internal/options"
 	"github.com/Azure/iot-operations-sdks/go/protocol"
 	"github.com/Azure/iot-operations-sdks/go/protocol/errors"
-	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/schemaregistry"
+	"github.com/Azure/iot-operations-sdks/go/services/schemaregistry/internal/schemaregistry"
 )
 
 type (

@@ -3,6 +3,12 @@ package adrbaseservice
 
 type AssetEventSchemaElementSchema struct {
 
+	// The 'dataPoints' Field.
+	DataPoints []AssetEventDataPointSchemaElementSchema `json:"dataPoints,omitempty"`
+
+	// The 'destinations' Field.
+	Destinations []AssetEventDestinationSchemaElementSchema `json:"destinations,omitempty"`
+
 	// The 'eventConfiguration' Field.
 	EventConfiguration *string `json:"eventConfiguration,omitempty"`
 
@@ -12,9 +18,6 @@ type AssetEventSchemaElementSchema struct {
 	// The 'name' Field.
 	Name string `json:"name"`
 
-	// The 'observabilityMode' Field.
-	ObservabilityMode *AssetEventObservabilityModeSchema `json:"observabilityMode,omitempty"`
-
-	// The 'topic' Field.
-	Topic *Topic `json:"topic,omitempty"`
+	// The 'typeRef' Field.
+	TypeRef *string `json:"typeRef,omitempty"`
 }
