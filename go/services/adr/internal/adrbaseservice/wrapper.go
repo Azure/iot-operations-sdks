@@ -9,9 +9,9 @@ import (
 
 type AdrBaseServiceTelemetryHandlers interface {
 
-	AssetEndpointProfileUpdateEvent(
+	DeviceUpdateEvent(
 		context.Context,
-		*protocol.TelemetryMessage[AssetEndpointProfileUpdateEventTelemetry],
+		*protocol.TelemetryMessage[DeviceUpdateEventTelemetry],
 	) error
 
 	AssetUpdateEvent(
@@ -22,20 +22,20 @@ type AdrBaseServiceTelemetryHandlers interface {
 
 type AdrBaseServiceClient struct {
 	protocol.Listeners
-	*GetAssetEndpointProfileCommandInvoker
+	*GetDeviceCommandInvoker
 	*GetAssetCommandInvoker
-	*UpdateAssetEndpointProfileStatusCommandInvoker
+	*UpdateDeviceStatusCommandInvoker
 	*UpdateAssetStatusCommandInvoker
-	*NotifyOnAssetEndpointProfileUpdateCommandInvoker
-	*NotifyOnAssetUpdateCommandInvoker
+	*SetNotificationPreferenceForDeviceUpdatesCommandInvoker
+	*SetNotificationPreferenceForAssetUpdatesCommandInvoker
 	*CreateDetectedAssetCommandInvoker
-	*AssetEndpointProfileUpdateEventTelemetryReceiver
+	*DeviceUpdateEventTelemetryReceiver
 	*AssetUpdateEventTelemetryReceiver
 }
 
 const (
-	CommandTopic = "akri/connector/resources/{ex:connectorClientId}/{ex:aepName}/{commandName}"
-	TelemetryTopic = "akri/connector/resources/telemetry/{ex:connectorClientId}/{ex:aepName}/{telemetryName}"
+	CommandTopic = "akri/connector/resources/{ex:connectorClientId}/{ex:deviceName}/{ex:inboundEndpointName}/{commandName}"
+	TelemetryTopic = "akri/connector/resources/telemetry/{ex:connectorClientId}/{ex:deviceName}/{ex:inboundEndpointName}/{telemetryName}"
 )
 
 func NewAdrBaseServiceClient(
@@ -61,7 +61,7 @@ func NewAdrBaseServiceClient(
 
 	adrBaseServiceClient := &AdrBaseServiceClient{}
 
-	adrBaseServiceClient.GetAssetEndpointProfileCommandInvoker, err = NewGetAssetEndpointProfileCommandInvoker(
+	adrBaseServiceClient.GetDeviceCommandInvoker, err = NewGetDeviceCommandInvoker(
 		app,
 		client,
 		CommandTopic,
@@ -71,7 +71,7 @@ func NewAdrBaseServiceClient(
 		adrBaseServiceClient.Close()
 		return nil, err
 	}
-	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.GetAssetEndpointProfileCommandInvoker)
+	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.GetDeviceCommandInvoker)
 
 	adrBaseServiceClient.GetAssetCommandInvoker, err = NewGetAssetCommandInvoker(
 		app,
@@ -85,7 +85,7 @@ func NewAdrBaseServiceClient(
 	}
 	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.GetAssetCommandInvoker)
 
-	adrBaseServiceClient.UpdateAssetEndpointProfileStatusCommandInvoker, err = NewUpdateAssetEndpointProfileStatusCommandInvoker(
+	adrBaseServiceClient.UpdateDeviceStatusCommandInvoker, err = NewUpdateDeviceStatusCommandInvoker(
 		app,
 		client,
 		CommandTopic,
@@ -95,7 +95,7 @@ func NewAdrBaseServiceClient(
 		adrBaseServiceClient.Close()
 		return nil, err
 	}
-	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.UpdateAssetEndpointProfileStatusCommandInvoker)
+	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.UpdateDeviceStatusCommandInvoker)
 
 	adrBaseServiceClient.UpdateAssetStatusCommandInvoker, err = NewUpdateAssetStatusCommandInvoker(
 		app,
@@ -109,7 +109,7 @@ func NewAdrBaseServiceClient(
 	}
 	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.UpdateAssetStatusCommandInvoker)
 
-	adrBaseServiceClient.NotifyOnAssetEndpointProfileUpdateCommandInvoker, err = NewNotifyOnAssetEndpointProfileUpdateCommandInvoker(
+	adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesCommandInvoker, err = NewSetNotificationPreferenceForDeviceUpdatesCommandInvoker(
 		app,
 		client,
 		CommandTopic,
@@ -119,9 +119,9 @@ func NewAdrBaseServiceClient(
 		adrBaseServiceClient.Close()
 		return nil, err
 	}
-	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.NotifyOnAssetEndpointProfileUpdateCommandInvoker)
+	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesCommandInvoker)
 
-	adrBaseServiceClient.NotifyOnAssetUpdateCommandInvoker, err = NewNotifyOnAssetUpdateCommandInvoker(
+	adrBaseServiceClient.SetNotificationPreferenceForAssetUpdatesCommandInvoker, err = NewSetNotificationPreferenceForAssetUpdatesCommandInvoker(
 		app,
 		client,
 		CommandTopic,
@@ -131,7 +131,7 @@ func NewAdrBaseServiceClient(
 		adrBaseServiceClient.Close()
 		return nil, err
 	}
-	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.NotifyOnAssetUpdateCommandInvoker)
+	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.SetNotificationPreferenceForAssetUpdatesCommandInvoker)
 
 	adrBaseServiceClient.CreateDetectedAssetCommandInvoker, err = NewCreateDetectedAssetCommandInvoker(
 		app,
@@ -145,18 +145,18 @@ func NewAdrBaseServiceClient(
 	}
 	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.CreateDetectedAssetCommandInvoker)
 
-	adrBaseServiceClient.AssetEndpointProfileUpdateEventTelemetryReceiver, err = NewAssetEndpointProfileUpdateEventTelemetryReceiver(
+	adrBaseServiceClient.DeviceUpdateEventTelemetryReceiver, err = NewDeviceUpdateEventTelemetryReceiver(
 		app,
 		client,
 		TelemetryTopic,
-		telemetryHandlers.AssetEndpointProfileUpdateEvent,
+		telemetryHandlers.DeviceUpdateEvent,
 		&receiverOpts,
 	)
 	if err != nil {
 		adrBaseServiceClient.Close()
 		return nil, err
 	}
-	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.AssetEndpointProfileUpdateEventTelemetryReceiver)
+	adrBaseServiceClient.Listeners = append(adrBaseServiceClient.Listeners, adrBaseServiceClient.DeviceUpdateEventTelemetryReceiver)
 
 	adrBaseServiceClient.AssetUpdateEventTelemetryReceiver, err = NewAssetUpdateEventTelemetryReceiver(
 		app,

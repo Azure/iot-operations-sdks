@@ -7,5 +7,5 @@ type Topic struct {
 	Path string `json:"path"`
 
 	// The 'retain' Field.
-	Retain *RetainSchema `json:"retain,omitempty"`
+	Retain *Retain `json:"retain,omitempty"`
 }

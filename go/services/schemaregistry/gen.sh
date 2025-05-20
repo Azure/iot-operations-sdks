@@ -1,6 +1,10 @@
 #!/bin/sh
 ROOT=$(git rev-parse --show-toplevel)
-"$(find "$ROOT/codegen/src" -name Azure.Iot.Operations.ProtocolCompiler -type f)" \
-    --modelFile "$ROOT/eng/dtdl/SchemaRegistry-1.json" \
-    --outDir "$ROOT/go/services/schemaregistry" \
+CODE=$(find "$ROOT/codegen/src" -name Azure.Iot.Operations.ProtocolCompiler -type f)
+DTDL=$ROOT/eng/dtdl
+HERE=$(dirname "$0")
+
+"$CODE" \
+    --modelFile "$DTDL/SchemaRegistry-1.json" \
+    --outDir "$HERE/internal" \
     --clientOnly --lang go
