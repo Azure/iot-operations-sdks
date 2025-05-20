@@ -24,7 +24,7 @@ import "github.com/Azure/iot-operations-sdks/go/services/connector"
 - [type ConnectionStatus](<#ConnectionStatus>)
 - [type DeviceData](<#DeviceData>)
 - [type DeviceEndpointCreateObservation](<#DeviceEndpointCreateObservation>)
-  - [func NewDeviceEndpointCreateObservation\(ctx context.Context, pollInterval time.Duration, logger \*slog.Logger\) \(\*DeviceEndpointCreateObservation, error\)](<#NewDeviceEndpointCreateObservation>)
+  - [func NewDeviceEndpointCreateObservation\(ctx context.Context, logger \*slog.Logger\) \(\*DeviceEndpointCreateObservation, error\)](<#NewDeviceEndpointCreateObservation>)
   - [func \(o \*DeviceEndpointCreateObservation\) Close\(\)](<#DeviceEndpointCreateObservation.Close>)
   - [func \(o \*DeviceEndpointCreateObservation\) GetConnectionMonitor\(\) \*ConnectionMonitor](<#DeviceEndpointCreateObservation.GetConnectionMonitor>)
   - [func \(o \*DeviceEndpointCreateObservation\) RecvNotification\(ctx context.Context\) \(\*DeviceNotification, error\)](<#DeviceEndpointCreateObservation.RecvNotification>)
@@ -48,7 +48,7 @@ const ADRResourcesNameMountPath = "ADR_RESOURCES_NAME_MOUNT_PATH"
 ```
 
 <a name="GetMountPath"></a>
-## func [GetMountPath](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L549>)
+## func [GetMountPath](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L536>)
 
 ```go
 func GetMountPath() (string, error)
@@ -57,7 +57,7 @@ func GetMountPath() (string, error)
 GetMountPath gets the mount path of the Azure Device Registry resources.
 
 <a name="WaitForDeletion"></a>
-## func [WaitForDeletion](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L536-L539>)
+## func [WaitForDeletion](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L523-L526>)
 
 ```go
 func WaitForDeletion(ctx context.Context, deletionToken AssetDeletionChan) error
@@ -66,7 +66,7 @@ func WaitForDeletion(ctx context.Context, deletionToken AssetDeletionChan) error
 WaitForDeletion waits for the asset to be deleted.
 
 <a name="AssetCreateObservation"></a>
-## type [AssetCreateObservation](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L212-L214>)
+## type [AssetCreateObservation](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L202-L204>)
 
 AssetCreateObservation represents an observation for asset creation events.
 
@@ -77,7 +77,7 @@ type AssetCreateObservation struct {
 ```
 
 <a name="AssetCreateObservation.RecvNotification"></a>
-### func \(\*AssetCreateObservation\) [RecvNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L521-L523>)
+### func \(\*AssetCreateObservation\) [RecvNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L508-L510>)
 
 ```go
 func (o *AssetCreateObservation) RecvNotification(ctx context.Context) (*AssetNotification, error)
@@ -86,7 +86,7 @@ func (o *AssetCreateObservation) RecvNotification(ctx context.Context) (*AssetNo
 RecvNotification receives the next asset notification.
 
 <a name="AssetDeletionChan"></a>
-## type [AssetDeletionChan](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L85>)
+## type [AssetDeletionChan](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L77>)
 
 AssetDeletionChan is used to notify when an asset has been deleted.
 
@@ -95,7 +95,7 @@ type AssetDeletionChan chan struct{}
 ```
 
 <a name="AssetNotification"></a>
-## type [AssetNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L206-L209>)
+## type [AssetNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L196-L199>)
 
 AssetNotification contains information about an asset notification.
 
@@ -107,7 +107,7 @@ type AssetNotification struct {
 ```
 
 <a name="AssetRef"></a>
-## type [AssetRef](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L75-L82>)
+## type [AssetRef](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L68-L74>)
 
 AssetRef represents an asset associated with a specific device and endpoint.
 
@@ -115,15 +115,14 @@ AssetRef represents an asset associated with a specific device and endpoint.
 type AssetRef struct {
     // The name of the asset
     Name string
-    // The name of the device
-    DeviceName string
-    // The name of the endpoint
-    InboundEndpointName string
+
+    // The associated device endpoint
+    DeviceEndpointRef
 }
 ```
 
 <a name="ConnectionMonitor"></a>
-## type [ConnectionMonitor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L96-L100>)
+## type [ConnectionMonitor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L88-L92>)
 
 ConnectionMonitor monitors the connection status of a mount point.
 
@@ -134,7 +133,7 @@ type ConnectionMonitor struct {
 ```
 
 <a name="NewConnectionMonitor"></a>
-### func [NewConnectionMonitor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L103>)
+### func [NewConnectionMonitor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L95>)
 
 ```go
 func NewConnectionMonitor() *ConnectionMonitor
@@ -143,7 +142,7 @@ func NewConnectionMonitor() *ConnectionMonitor
 NewConnectionMonitor creates a new ConnectionMonitor.
 
 <a name="ConnectionMonitor.IsConnected"></a>
-### func \(\*ConnectionMonitor\) [IsConnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L112>)
+### func \(\*ConnectionMonitor\) [IsConnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L104>)
 
 ```go
 func (m *ConnectionMonitor) IsConnected() bool
@@ -152,7 +151,7 @@ func (m *ConnectionMonitor) IsConnected() bool
 IsConnected returns true if the connection is currently connected.
 
 <a name="ConnectionMonitor.SetConnected"></a>
-### func \(\*ConnectionMonitor\) [SetConnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L119>)
+### func \(\*ConnectionMonitor\) [SetConnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L111>)
 
 ```go
 func (m *ConnectionMonitor) SetConnected()
@@ -161,7 +160,7 @@ func (m *ConnectionMonitor) SetConnected()
 SetConnected updates the connection status to connected.
 
 <a name="ConnectionMonitor.SetDisconnected"></a>
-### func \(\*ConnectionMonitor\) [SetDisconnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L130>)
+### func \(\*ConnectionMonitor\) [SetDisconnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L122>)
 
 ```go
 func (m *ConnectionMonitor) SetDisconnected()
@@ -170,7 +169,7 @@ func (m *ConnectionMonitor) SetDisconnected()
 SetDisconnected updates the connection status to disconnected.
 
 <a name="ConnectionMonitor.WaitForConnected"></a>
-### func \(\*ConnectionMonitor\) [WaitForConnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L141>)
+### func \(\*ConnectionMonitor\) [WaitForConnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L133>)
 
 ```go
 func (m *ConnectionMonitor) WaitForConnected(ctx context.Context) error
@@ -179,7 +178,7 @@ func (m *ConnectionMonitor) WaitForConnected(ctx context.Context) error
 WaitForConnected waits until the connection is connected.
 
 <a name="ConnectionMonitor.WaitForDisconnected"></a>
-### func \(\*ConnectionMonitor\) [WaitForDisconnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L163>)
+### func \(\*ConnectionMonitor\) [WaitForDisconnected](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L155>)
 
 ```go
 func (m *ConnectionMonitor) WaitForDisconnected(ctx context.Context) error
@@ -188,7 +187,7 @@ func (m *ConnectionMonitor) WaitForDisconnected(ctx context.Context) error
 WaitForDisconnected waits until the connection is disconnected.
 
 <a name="ConnectionStatus"></a>
-## type [ConnectionStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L88>)
+## type [ConnectionStatus](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L80>)
 
 ConnectionStatus represents the connection status of a mount point.
 
@@ -206,7 +205,7 @@ const (
 ```
 
 <a name="DeviceData"></a>
-## type [DeviceData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L226-L229>)
+## type [DeviceData](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L216-L219>)
 
 DeviceData contains data related to a device endpoint.
 
@@ -217,7 +216,7 @@ type DeviceData struct {
 ```
 
 <a name="DeviceEndpointCreateObservation"></a>
-## type [DeviceEndpointCreateObservation](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L185-L197>)
+## type [DeviceEndpointCreateObservation](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L177-L187>)
 
 DeviceEndpointCreateObservation represents an observation for device endpoint creation events.
 
@@ -228,16 +227,16 @@ type DeviceEndpointCreateObservation struct {
 ```
 
 <a name="NewDeviceEndpointCreateObservation"></a>
-### func [NewDeviceEndpointCreateObservation](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L351-L355>)
+### func [NewDeviceEndpointCreateObservation](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L339-L342>)
 
 ```go
-func NewDeviceEndpointCreateObservation(ctx context.Context, pollInterval time.Duration, logger *slog.Logger) (*DeviceEndpointCreateObservation, error)
+func NewDeviceEndpointCreateObservation(ctx context.Context, logger *slog.Logger) (*DeviceEndpointCreateObservation, error)
 ```
 
 NewDeviceEndpointCreateObservation creates a new DeviceEndpointCreateObservation.
 
 <a name="DeviceEndpointCreateObservation.Close"></a>
-### func \(\*DeviceEndpointCreateObservation\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L510>)
+### func \(\*DeviceEndpointCreateObservation\) [Close](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L497>)
 
 ```go
 func (o *DeviceEndpointCreateObservation) Close()
@@ -246,7 +245,7 @@ func (o *DeviceEndpointCreateObservation) Close()
 Close stops the observation and releases resources.
 
 <a name="DeviceEndpointCreateObservation.GetConnectionMonitor"></a>
-### func \(\*DeviceEndpointCreateObservation\) [GetConnectionMonitor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L516>)
+### func \(\*DeviceEndpointCreateObservation\) [GetConnectionMonitor](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L503>)
 
 ```go
 func (o *DeviceEndpointCreateObservation) GetConnectionMonitor() *ConnectionMonitor
@@ -255,7 +254,7 @@ func (o *DeviceEndpointCreateObservation) GetConnectionMonitor() *ConnectionMoni
 GetConnectionMonitor returns the connection monitor for this observation.
 
 <a name="DeviceEndpointCreateObservation.RecvNotification"></a>
-### func \(\*DeviceEndpointCreateObservation\) [RecvNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L495-L497>)
+### func \(\*DeviceEndpointCreateObservation\) [RecvNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L482-L484>)
 
 ```go
 func (o *DeviceEndpointCreateObservation) RecvNotification(ctx context.Context) (*DeviceNotification, error)
@@ -264,7 +263,7 @@ func (o *DeviceEndpointCreateObservation) RecvNotification(ctx context.Context) 
 RecvNotification receives the next device endpoint notification.
 
 <a name="DeviceEndpointRef"></a>
-## type [DeviceEndpointRef](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L24-L29>)
+## type [DeviceEndpointRef](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L23-L28>)
 
 DeviceEndpointRef represents a device and its associated endpoint.
 
@@ -278,7 +277,7 @@ type DeviceEndpointRef struct {
 ```
 
 <a name="ParseDeviceEndpointRef"></a>
-### func [ParseDeviceEndpointRef](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L48>)
+### func [ParseDeviceEndpointRef](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L47>)
 
 ```go
 func ParseDeviceEndpointRef(value string) (DeviceEndpointRef, error)
@@ -287,7 +286,7 @@ func ParseDeviceEndpointRef(value string) (DeviceEndpointRef, error)
 ParseDeviceEndpointRef parses a string into a DeviceEndpointRef.
 
 <a name="DeviceEndpointRef.String"></a>
-### func \(DeviceEndpointRef\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L43>)
+### func \(DeviceEndpointRef\) [String](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L42>)
 
 ```go
 func (d DeviceEndpointRef) String() string
@@ -296,7 +295,7 @@ func (d DeviceEndpointRef) String() string
 
 
 <a name="DeviceNotification"></a>
-## type [DeviceNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L200-L203>)
+## type [DeviceNotification](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L190-L193>)
 
 DeviceNotification contains information about a device endpoint notification.
 
@@ -308,7 +307,7 @@ type DeviceNotification struct {
 ```
 
 <a name="Error"></a>
-## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L31-L34>)
+## type [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L30-L33>)
 
 
 
@@ -320,7 +319,7 @@ type Error struct {
 ```
 
 <a name="Error.Error"></a>
-### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L36>)
+### func \(\*Error\) [Error](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L35>)
 
 ```go
 func (e *Error) Error() string
@@ -329,7 +328,7 @@ func (e *Error) Error() string
 
 
 <a name="FileMountMap"></a>
-## type [FileMountMap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L217-L223>)
+## type [FileMountMap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L207-L213>)
 
 FileMountMap tracks device endpoints and their associated assets.
 
@@ -340,7 +339,7 @@ type FileMountMap struct {
 ```
 
 <a name="NewFileMountMap"></a>
-### func [NewFileMountMap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L232>)
+### func [NewFileMountMap](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L222>)
 
 ```go
 func NewFileMountMap(fileMountPath string, logger *slog.Logger) *FileMountMap
@@ -349,7 +348,7 @@ func NewFileMountMap(fileMountPath string, logger *slog.Logger) *FileMountMap
 NewFileMountMap creates a new FileMountMap.
 
 <a name="FileMountMap.UpdateDeviceEndpoints"></a>
-### func \(\*FileMountMap\) [UpdateDeviceEndpoints](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/main.go#L242-L244>)
+### func \(\*FileMountMap\) [UpdateDeviceEndpoints](<https://github.com/Azure/iot-operations-sdks/blob/main/go/services/connector/connector.go#L232-L234>)
 
 ```go
 func (f *FileMountMap) UpdateDeviceEndpoints(devices map[string]DeviceEndpointRef)

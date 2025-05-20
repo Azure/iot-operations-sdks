@@ -20,7 +20,7 @@ log.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
 uuid = { version = "1.8.0", features = ["v4","fast-rng"] }
-chrono = "0.4"
+chrono.workspace = true
 regex = "1.11.0"
 thiserror.workspace = true
 fluent-uri = "0.3.2"

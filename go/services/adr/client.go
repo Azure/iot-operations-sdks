@@ -159,9 +159,8 @@ func (c *Client) Start(ctx context.Context) error {
 }
 
 // Close all underlying resources.
-func (c *Client) Close(_ context.Context) error {
+func (c *Client) Close() {
 	c.listeners.Close()
-	return nil
 }
 
 // ObserveAssetEndpointProfileUpdates starts observation of asset endpoint profile updates.
@@ -376,7 +375,7 @@ func (c *Client) UpdateAssetStatus(
 		aepName,
 		"assetName",
 		asset.Name,
-		"status",
+		"assetStatus",
 		asset.Status,
 	)
 
@@ -492,7 +491,7 @@ func (c *Client) handleAepUpdateTelemetry(
 
 // translateError converts protocol errors to client errors.
 //
-//nolint:staticcheck // adr compat.
+//nolint:staticcheck // TODO: Remove use of deprecated PropertyName.
 func translateError(err error) error {
 	if err == nil {
 		return nil

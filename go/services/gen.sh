@@ -6,10 +6,15 @@ HERE=$(dirname "$0")
 
 "$CODE" \
 	--modelFile "$DTDL/device-name-based-operations.json" \
-	--outDir "$HERE/internal" \
+	--outDir "$HERE/adr/internal" \
 	--clientOnly --lang go
 
 "$CODE" \
 	--modelFile "$DTDL/aep-type-based-operations.json" \
-	--outDir "$HERE/internal" \
+	--outDir "$HERE/adr/internal" \
 	--clientOnly --lang go
+
+"$CODE" \
+    --modelFile "$DTDL/SchemaRegistry-1.json" \
+    --outDir "$HERE/schemaregistry/internal" \
+    --clientOnly --lang go
