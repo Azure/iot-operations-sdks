@@ -601,7 +601,8 @@ pub struct AssetClient {
     /// Asset, device, and inbound endpoint names
     asset_ref: AssetRef,
     /// Specification for the Asset
-    specification: Arc<AssetSpecification>, // TODO: will need to be Arc<RwLock> once update is supported
+    #[getter(skip)]
+    specification: Arc<RwLock<AssetSpecification>>,
     /// Status for the Asset
     #[getter(skip)]
     status: Arc<RwLock<Option<AssetStatus>>>,
@@ -627,10 +628,11 @@ impl AssetClient {
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
-        let specification = Arc::new(AssetSpecification::from(asset.specification));
+        let unlocked_specification = AssetSpecification::from(asset.specification);
+        let specification_version = unlocked_specification.version;
         let default_dataset_destinations =
             match destination_endpoint::Destination::new_dataset_destinations(
-                &specification.default_datasets_destinations,
+                &unlocked_specification.default_datasets_destinations,
                 &asset_ref.inbound_endpoint_name,
                 &connector_context,
             ) {
@@ -642,7 +644,7 @@ impl AssetClient {
                     );
                     let adr_asset_status = azure_device_registry::AssetStatus {
                         config: Some(azure_device_registry::StatusConfig {
-                            version: specification.version,
+                            version: specification_version,
                             error: Some(e),
                             last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
                         }),
@@ -660,6 +662,7 @@ impl AssetClient {
                     vec![]
                 }
             };
+        let specification = Arc::new(RwLock::new(unlocked_specification));
         let mut dataset_config_errors = Vec::new();
         let datasets = dataset_definitions
             .into_iter()
@@ -709,7 +712,7 @@ impl AssetClient {
             // If the version of the current status config matches the current version, then include the existing config.
             // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
             let current_asset_config = status.read().unwrap().as_ref().and_then(|status| {
-                if status.config.as_ref().and_then(|config| config.version) == specification.version
+                if status.config.as_ref().and_then(|config| config.version) == specification_version
                 {
                     status.config.clone()
                 } else {
@@ -741,11 +744,16 @@ impl AssetClient {
         }
     }
 
-    /// Used to report the status of an Asset
+    /// Used to report the status of an Asset,
+    /// and then updates the `self.status` with the new status returned
+    ///
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
+        let version = self.specification.read().unwrap().version;
         let adr_asset_status = azure_device_registry::AssetStatus {
             config: Some(azure_device_registry::StatusConfig {
-                version: self.specification.version,
+                version,
                 error: status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
@@ -760,6 +768,14 @@ impl AssetClient {
             &self.status,
         )
         .await;
+    }
+
+    // Returns a clone of the current asset specification
+    /// # Panics
+    /// if the specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn specification(&self) -> AssetSpecification {
+        (*self.specification.read().unwrap()).clone()
     }
 
     /// Returns a clone of the current asset status
@@ -857,7 +873,8 @@ pub struct DatasetClient {
     #[getter(skip)]
     asset_status: Arc<RwLock<Option<AssetStatus>>>,
     /// Current specification for the Asset
-    asset_specification: Arc<AssetSpecification>,
+    #[getter(skip)]
+    asset_specification: Arc<RwLock<AssetSpecification>>,
     /// Specification of the device that this dataset is tied to
     #[getter(skip)]
     device_specification: Arc<RwLock<DeviceSpecification>>,
@@ -880,7 +897,7 @@ impl DatasetClient {
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
-        asset_specification: Arc<AssetSpecification>,
+        asset_specification: Arc<RwLock<AssetSpecification>>,
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
         connector_context: Arc<ConnectorContext>,
@@ -912,7 +929,7 @@ impl DatasetClient {
 
     /// Used to report the status of a dataset
     /// # Panics
-    /// if the asset status mutex has been poisoned, which should not be possible
+    /// if the asset status or specification mutexes have been poisoned, which should not be possible
     pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
         // If the version of the current status config matches the current version, then include the existing config.
         // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
@@ -923,7 +940,7 @@ impl DatasetClient {
             .as_ref()
             .and_then(|status| {
                 if status.config.as_ref().and_then(|config| config.version)
-                    == self.asset_specification.version
+                    == self.asset_specification.read().unwrap().version
                 {
                     status.config.clone()
                 } else {
@@ -965,7 +982,7 @@ impl DatasetClient {
     /// If the Schema Registry Service returns a schema without required values. This should get updated
     /// to be validated by the Schema Registry API surface in the future
     ///
-    /// If the asset status mutex has been poisoned, which should not be possible
+    /// If the asset status or specification mutexes have been poisoned, which should not be possible
     pub async fn report_message_schema(
         &self,
         message_schema: MessageSchema,
@@ -1025,7 +1042,7 @@ impl DatasetClient {
             .as_ref()
             .and_then(|status| {
                 if status.config.as_ref().and_then(|config| config.version)
-                    == self.asset_specification.version
+                    == self.asset_specification.read().unwrap().version
                 {
                     status.config.clone()
                 } else {
@@ -1096,6 +1113,14 @@ impl DatasetClient {
             .find(|dataset| dataset.name == self.dataset_ref.dataset_name)?
             .message_schema_reference
             .clone()
+    }
+
+    /// Returns a clone of the current asset specification
+    /// # Panics
+    /// if the asset specification mutex has been poisoned, which should not be possible
+    #[must_use]
+    pub fn asset_specification(&self) -> AssetSpecification {
+        (*self.asset_specification.read().unwrap()).clone()
     }
 
     /// Returns a clone of the current asset status, if it exists
@@ -1292,7 +1317,7 @@ impl DeviceEndpointStatus {
 }
 
 /// Represents the specification of an Asset in the Azure Device Registry service.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AssetSpecification {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
