@@ -30,7 +30,7 @@ runs:
   using: composite
   steps:
     - name: Create k3s cluster
-      run: tools/deployment/initialize-cluster.sh
+      run: tools/deployment/initialize-cluster.sh -y
       shell: bash
 
     - name: Checkout deploy action
@@ -43,11 +43,19 @@ runs:
     - name: Install AIO
       uses: ./action-deploy
       with:
-        akri: 2504
+        install_aio: "true"
+        install_akri: "false"
 
     - name: Configure AIO
       run: tools/deployment/configure-aio.sh
       shell: bash
+
+    - name: Install Akri
+      uses: ./action-deploy
+      with:
+        akri: 2504
+        install_aio: "false"
+        install_akri: "true"
 
     - name: Setup .NET
       if: inputs.install-dotnet == 'true'
@@ -64,8 +72,10 @@ runs:
     - name: Setup Rust
       if: inputs.install-rust == 'true'
       uses: actions-rust-lang/setup-rust-toolchain@v1
+      with:
+        cache: false
 
     - name: Wait for Mqtt Broker
       if: inputs.wait-for-broker == 'true'
-      run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=60s
+      run: kubectl wait --for=create pod/aio-broker-frontend-0 --timeout=120s
       shell: bash

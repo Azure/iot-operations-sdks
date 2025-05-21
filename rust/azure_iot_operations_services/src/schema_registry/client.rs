@@ -148,11 +148,11 @@ where
         let put_request_payload = PutRequestPayloadBuilder::default()
             .put_schema_request(
                 PutRequestSchemaBuilder::default()
-                    .format(Some(put_request.format))
+                    .format(Some(put_request.format.into()))
                     .schema_content(Some(put_request.content))
                     .version(Some(put_request.version))
                     .tags(Some(put_request.tags))
-                    .schema_type(Some(put_request.schema_type))
+                    .schema_type(Some(put_request.schema_type.into()))
                     .build()
                     .map_err(|e| Error(ErrorKind::InvalidArgument(e.to_string())))?,
             )

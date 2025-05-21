@@ -104,16 +104,9 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            if (_leaderElectionConfiguration != null)
-            {
-                // Connector client id prefix is provided as environment variable, but it is the same prefix for all replicated pods.
-                // To avoid collision, add a suffix when replicating pods.
-                mqttConnectionSettings!.ClientId += Guid.NewGuid().ToString();
-            }
+            _logger.LogInformation("Connecting to MQTT broker");
 
-            _logger.LogInformation("Connecting to MQTT broker with connection string {connString}", mqttConnectionSettings!.ToString()); //TODO revert
-
-            await _mqttClient.ConnectAsync(mqttConnectionSettings, cancellationToken);
+            await _mqttClient.ConnectAsync(mqttConnectionSettings!, cancellationToken);
 
             _logger.LogInformation($"Successfully connected to MQTT broker");
 
@@ -134,7 +127,7 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
-                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings.ClientId)
+                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings!.ClientId)
                         {
                             AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
@@ -277,6 +270,12 @@ namespace Azure.Iot.Operations.Connector
                         mqttMessage.Retain = retain == Retain.Keep;
                     }
 
+                    ulong? ttl = destination.Configuration.Ttl;
+                    if (ttl != null)
+                    {
+                        mqttMessage.MessageExpiryInterval = (uint)ttl.Value;
+                    }
+
                     MqttClientPublishResult puback = await _mqttClient.PublishAsync(mqttMessage, cancellationToken);
 
                     if (puback.ReasonCode == MqttClientPublishReasonCode.Success
@@ -284,7 +283,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
                         // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
                     }
                     else
                     {
@@ -297,19 +296,11 @@ namespace Azure.Iot.Operations.Connector
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
-                    ulong? ttl = destination.Configuration.Ttl;
-                    StateStoreSetRequestOptions options = new StateStoreSetRequestOptions();
-                    if (ttl != null)
-                    {
-                        //TODO ttl is in seconds? milliseconds?
-                        options.ExpiryTime = TimeSpan.FromSeconds(ttl.Value);
-                    }
-
-                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), options);
+                    StateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload));
 
                     if (response.Success)
                     {
-                        _logger.LogInformation($"Message was accepted by the state store");
+                        _logger.LogInformation($"Message was accepted by the state store in key {stateStoreKey}");
                     }
                     else
                     {
@@ -358,7 +349,7 @@ namespace Azure.Iot.Operations.Connector
                     {
                         // NoMatchingSubscribers case is still successful in the sense that the PUBLISH packet was delivered to the broker successfully.
                         // It does suggest that the broker has no one to send that PUBLISH packet to, though.
-                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString}");
+                        _logger.LogInformation($"Message was accepted by the MQTT broker with PUBACK reason code: {puback.ReasonCode} and reason {puback.ReasonString} on topic {mqttMessage.Topic}");
                     }
                     else
                     {
@@ -397,7 +388,6 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating)
         {
-            _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
             await _assetMonitor.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
 
             if (_devices.TryRemove(compoundDeviceName, out var deviceContext))

@@ -3,15 +3,18 @@ package adrbaseservice
 
 type AssetStatus struct {
 
-	// The 'datasetsSchema' Field.
-	DatasetsSchema []DatasetsSchemaSchemaElementSchema `json:"datasetsSchema,omitempty"`
+	// The 'config' Field.
+	Config *AssetConfigStatusSchema `json:"config,omitempty"`
 
-	// The 'errors' Field.
-	Errors []Error `json:"errors,omitempty"`
+	// The 'datasets' Field.
+	Datasets []AssetDatasetEventStreamStatus `json:"datasets,omitempty"`
 
-	// The 'eventsSchema' Field.
-	EventsSchema []EventsSchemaSchemaElementSchema `json:"eventsSchema,omitempty"`
+	// The 'events' Field.
+	Events []AssetDatasetEventStreamStatus `json:"events,omitempty"`
 
-	// The 'version' Field.
-	Version *int32 `json:"version,omitempty"`
+	// The 'managementGroups' Field.
+	ManagementGroups []AssetManagementGroupStatusSchemaElementSchema `json:"managementGroups,omitempty"`
+
+	// The 'streams' Field.
+	Streams []AssetDatasetEventStreamStatus `json:"streams,omitempty"`
 }

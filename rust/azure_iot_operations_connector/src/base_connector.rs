@@ -9,56 +9,63 @@ use azure_iot_operations_mqtt::session::{
     Session, SessionError, SessionManagedClient, SessionOptionsBuilder,
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_services::azure_device_registry;
+use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
-use crate::{
-    data_transformer::DataTransformer, filemount::connector_config::ConnectorConfiguration,
-};
+use crate::filemount::connector_config::ConnectorConfiguration;
 
 pub mod managed_azure_device_registry;
 
 /// Context required to run the base connector operations
-#[allow(dead_code)]
-pub(crate) struct ConnectorContext<T: DataTransformer> {
+pub(crate) struct ConnectorContext {
     /// Application context used for creating new clients and envoys
-    application_context: ApplicationContext,
+    pub(crate) application_context: ApplicationContext,
+    /// Used to create new envoys
+    pub(crate) managed_client: SessionManagedClient,
     /// Connector configuration if needed by any dependent operations
     connector_config: ConnectorConfiguration,
     /// Debounce duration for filemount operations for the connector
     debounce_duration: Duration,
+    /// Default timeout for connector operations
+    pub(crate) default_timeout: Duration,
     /// Clients used to perform connector operations
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
-    data_transformer: T,
-    // state_store_client: Arc<state_store::Client<SessionManagedClient>>,
-    // schema_registry_client: schema_registry::Client<SessionManagedClient>,
-    // etc
+    pub(crate) state_store_client: Arc<state_store::Client<SessionManagedClient>>,
+    schema_registry_client: schema_registry::Client<SessionManagedClient>,
 }
+
+#[allow(clippy::missing_fields_in_debug)]
+impl std::fmt::Debug for ConnectorContext {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ConnectorContext")
+            .field("connector_config", &self.connector_config)
+            .field("debounce_duration", &self.debounce_duration)
+            .field("default_timeout", &self.default_timeout)
+            .finish()
+    }
+}
+
 /// Base Connector for Azure IoT Operations
-pub struct BaseConnector<T: DataTransformer> {
-    connector_context: Arc<ConnectorContext<T>>,
+pub struct BaseConnector {
+    connector_context: Arc<ConnectorContext>,
     session: Session,
 }
 
-impl<T> BaseConnector<T>
-where
-    T: DataTransformer,
-{
+impl BaseConnector {
     /// Creates a new [`BaseConnector`] and all required clients/etc needed to run connector operations.
     /// On any failures, will log the error and then retry getting the connector configuration
     /// with exponential backoff. This allows for new configuration to be deployed to fix any
     /// errors without needing to restart the connector.
     #[must_use]
-    pub fn new(application_context: ApplicationContext, data_transformer: T) -> Self {
+    pub fn new(application_context: ApplicationContext) -> Self {
         // if any of these operations fail, wait and try again in case connector configuration has changed
-        let (connector_config, azure_device_registry_client, session) = operation_with_retries::<
-            (
-                ConnectorConfiguration,
-                azure_device_registry::Client<SessionManagedClient>,
-                Session,
-            ),
-            String,
-        >(|| {
+        let (
+            connector_config,
+            azure_device_registry_client,
+            schema_registry_client,
+            state_store_client,
+            session,
+        ) = operation_with_retries::<(_, _, _, _, _), String>(|| {
             // Get Connector Configuration
             let connector_config =
                 ConnectorConfiguration::new_from_deployment().map_err(|e| e.to_string())?;
@@ -85,15 +92,42 @@ where
             )
             .map_err(|e| e.to_string())?;
 
-            Ok((connector_config, azure_device_registry_client, session))
+            // Create Schema Registry Client
+            let schema_registry_client = schema_registry::Client::new(
+                application_context.clone(),
+                &session.create_managed_client(),
+            );
+
+            // Create State Store Client
+            let state_store_client = state_store::Client::new(
+                application_context.clone(),
+                session.create_managed_client(),
+                session.create_connection_monitor(),
+                state_store::ClientOptionsBuilder::default()
+                    .build()
+                    .map_err(|e| e.to_string())?,
+            )
+            .map_err(|e| e.to_string())?;
+
+            Ok((
+                connector_config,
+                azure_device_registry_client,
+                schema_registry_client,
+                state_store_client,
+                session,
+            ))
         });
         Self {
             connector_context: Arc::new(ConnectorContext {
+                // TODO: validate these timeouts here once they come from somewhere
                 debounce_duration: Duration::from_secs(5), // TODO: come from somewhere
+                default_timeout: Duration::from_secs(10),  // TODO: come from somewhere
                 application_context,
+                managed_client: session.create_managed_client(),
                 connector_config,
                 azure_device_registry_client,
-                data_transformer,
+                schema_registry_client,
+                state_store_client: Arc::new(state_store_client),
             }),
             session,
         }
@@ -113,7 +147,7 @@ where
     /// Creates a new [`DeviceEndpointClientCreationObservation`] to allow for all Azure Device Registry operations
     pub fn create_device_endpoint_client_create_observation(
         &self,
-    ) -> DeviceEndpointClientCreationObservation<T> {
+    ) -> DeviceEndpointClientCreationObservation {
         DeviceEndpointClientCreationObservation::new(self.connector_context.clone())
     }
 }
