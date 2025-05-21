@@ -34,7 +34,7 @@ namespace EventDrivenTelemetryConnector
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }
 
-        private void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs e)
+        public void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs e)
         {
             // This callback notifies your app when an asset is available and you can open a connection to your asset to start receiving events
             _logger.LogInformation("Asset with name {0} is now available", e.AssetName);
