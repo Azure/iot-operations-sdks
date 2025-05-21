@@ -168,7 +168,7 @@ public class ChunkingMqttClient : IMqttClient
         return new MqttClientPublishResult(
             null,
             MqttClientPublishReasonCode.Success,
-            string.Empty, //TODO: @maxim set the correct reason string, do we need any?
+            ChunkingConstants.ChunkedMessageSuccessReasonString,
             new List<MqttUserProperty>(message.UserProperties ?? Enumerable.Empty<MqttUserProperty>()));
     }
 

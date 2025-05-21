@@ -48,4 +48,9 @@ internal static class ChunkingConstants
     /// This accounts for MQTT packet headers, topic name, and other metadata.
     /// </summary>
     public const int DefaultStaticOverhead = 1024;
+
+    /// <summary>
+    /// Reason string for successful chunked message transmission.
+    /// </summary>
+    public const string ChunkedMessageSuccessReasonString = "Chunked message successfully sent";
 }
