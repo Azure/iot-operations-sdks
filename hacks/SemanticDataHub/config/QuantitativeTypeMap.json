@@ -1,0 +1,16 @@
+{
+  "Temperature": [
+    {
+      "from": "degreeCelsius",
+      "to": "degreeFahrenheit",
+      "scale": 1.8,
+      "offset": 32.0
+    },
+    {
+      "from": "degreeFahrenheit",
+      "to": "degreeCelsius",
+      "scale": 0.5555,
+      "offset": -17.778
+    }
+  ]
+}

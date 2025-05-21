@@ -8,6 +8,7 @@
     using Azure.Iot.Operations.Protocol.Connection;
     using Azure.Iot.Operations.Protocol.Telemetry;
     using SemanticDataClient.FirstModel;
+    using Common;
 
     internal sealed class MyClient : FirstModel.Client
     {
@@ -16,9 +17,27 @@
         {
         }
 
-        public override Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata)
+        public override Task ReceiveTelemetry(string senderId, ThermalConditionTelemetry telemetry, IncomingTelemetryMetadata metadata)
         {
-            Console.WriteLine($"SurfaceTemp = {telemetry.SurfaceTemp} degrees Celsius, Mode = {telemetry.Mode}");
+            Console.WriteLine($"ThermalCondition:  InternalTemp = {telemetry.ThermalCondition.InternalTemp:F1} degrees Celsius, ExternalTemp = {telemetry.ThermalCondition.ExternalTemp:F1} degrees Celsius");
+            return Task.CompletedTask;
+        }
+
+        public override Task ReceiveTelemetry(string senderId, ArmPositionTelemetry telemetry, IncomingTelemetryMetadata metadata)
+        {
+            Console.WriteLine($"ArmPosition:  ({telemetry.ArmPosition.X:F1}, {telemetry.ArmPosition.Y:F1})");
+            return Task.CompletedTask;
+        }
+
+        public override Task ReceiveTelemetry(string senderId, StatusTelemetry telemetry, IncomingTelemetryMetadata metadata)
+        {
+            Console.WriteLine($"Status:  {telemetry.Status.ToString()}");
+            return Task.CompletedTask;
+        }
+
+        public override Task ReceiveTelemetry(string senderId, ModeTelemetry telemetry, IncomingTelemetryMetadata metadata)
+        {
+            Console.WriteLine($"Mode:  {telemetry.Mode}");
             return Task.CompletedTask;
         }
     }
@@ -40,11 +59,15 @@
             ApplicationContext appContext = new();
             MqttSessionClient mqttSessionClient = new();
 
-            Console.Write($"Connecting to MQTT broker as {clientId} ..0. ");
+            Console.Write($"Connecting to MQTT broker as {clientId} ... ");
             await mqttSessionClient.ConnectAsync(new MqttConnectionSettings("localhost", clientId) { TcpPort = 1883, UseTls = false });
             Console.WriteLine("Connected!");
 
             MyClient client = new(appContext, mqttSessionClient);
+            client.ThermalConditionTelemetryReceiver.TopicNamespace = Constants.MqttNamespace;
+            client.ArmPositionTelemetryReceiver.TopicNamespace = Constants.MqttNamespace;
+            client.StatusTelemetryReceiver.TopicNamespace = Constants.MqttNamespace;
+            client.ModeTelemetryReceiver.TopicNamespace = Constants.MqttNamespace;
 
             await client.StartAsync();
 

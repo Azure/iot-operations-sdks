@@ -1,0 +1,21 @@
+{
+  "deviceTypeId": "DeluxeDevice",
+  "modelId": "dtmi:SemanticDataModel:FirstModel;1",
+  "Telemetry": {
+    "ThermalCondition": {
+      "InternalTemp": [ "$[*].Measurement.Equipment.Internal.Temperature", "Temperature(degreeCelsius)" ],
+      "ExternalTemp": [ "$[*].Measurement.Equipment.Surface.Temperature", "Temperature(degreeCelsius)" ]
+    },
+    "ArmPosition": "$[*].Control.Position",
+    "Status": [
+      "$[*].Measurement.Equipment.Status",
+      {
+        "Good": 0,
+        "Warn": 1,
+        "Alert": 2,
+        "Panic": 2
+      }
+    ],
+    "Mode": "$[*].Control.Mode"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "deviceTypeId": "BareBonesDevice",
+  "modelId": "dtmi:SemanticDataModel:FirstModel;1",
+  "Telemetry": {
+    "ThermalCondition": {
+      "InternalTemp": [ "$[?(@[0]=='temps')][1]", "Temperature(degreeFahrenheit)" ],
+      "ExternalTemp": [ "$[?(@[0]=='temps')][2]", "Temperature(degreeFahrenheit)" ]
+    },
+    "ArmPosition": {
+      "x": "$[?(@[0]=='pos')][1]",
+      "y": "$[?(@[0]=='pos')][2]"
+    },
+    "Status": [
+      "$[?(@[0]=='stat')][1]",
+      {
+        "1": 0,
+        "2": 1,
+        "4": 2
+      }
+    ],
+    "Mode": "$[?(@[0]=='mode')][1]"
+  }
+}

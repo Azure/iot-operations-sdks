@@ -15,7 +15,7 @@ namespace SemanticDataClient.FirstModel
     using Azure.Iot.Operations.Protocol.Telemetry;
     using SemanticDataClient;
 
-    [TelemetryTopic("sample/{modelId}/{senderId}/telemetry")]
+    [TelemetryTopic("sample/{modelId}/{senderId}/telemetry/{telemetryName}")]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public static partial class FirstModel
     {
@@ -23,7 +23,10 @@ namespace SemanticDataClient.FirstModel
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-            private readonly TelemetryReceiver telemetryReceiver;
+            private readonly ThermalConditionTelemetryReceiver thermalConditionTelemetryReceiver;
+            private readonly ArmPositionTelemetryReceiver armPositionTelemetryReceiver;
+            private readonly StatusTelemetryReceiver statusTelemetryReceiver;
+            private readonly ModeTelemetryReceiver modeTelemetryReceiver;
 
             /// <summary>
             /// Construct a new instance of this client.
@@ -39,19 +42,55 @@ namespace SemanticDataClient.FirstModel
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
-                this.telemetryReceiver = new TelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                this.thermalConditionTelemetryReceiver = new ThermalConditionTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.thermalConditionTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
+                this.armPositionTelemetryReceiver = new ArmPositionTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.armPositionTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
+                this.statusTelemetryReceiver = new StatusTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.statusTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
+                this.modeTelemetryReceiver = new ModeTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.modeTelemetryReceiver.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
 
-            public TelemetryReceiver TelemetryReceiver { get => this.telemetryReceiver; }
+            public ThermalConditionTelemetryReceiver ThermalConditionTelemetryReceiver { get => this.thermalConditionTelemetryReceiver; }
 
-            public abstract Task ReceiveTelemetry(string senderId, TelemetryCollection telemetry, IncomingTelemetryMetadata metadata);
+            public ArmPositionTelemetryReceiver ArmPositionTelemetryReceiver { get => this.armPositionTelemetryReceiver; }
+
+            public StatusTelemetryReceiver StatusTelemetryReceiver { get => this.statusTelemetryReceiver; }
+
+            public ModeTelemetryReceiver ModeTelemetryReceiver { get => this.modeTelemetryReceiver; }
+
+            public abstract Task ReceiveTelemetry(string senderId, ThermalConditionTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+            public abstract Task ReceiveTelemetry(string senderId, ArmPositionTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+            public abstract Task ReceiveTelemetry(string senderId, StatusTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+            public abstract Task ReceiveTelemetry(string senderId, ModeTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
             /// <summary>
             /// Begin accepting telemetry for all telemetry receivers.
@@ -60,7 +99,10 @@ namespace SemanticDataClient.FirstModel
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
+                    this.thermalConditionTelemetryReceiver.StartAsync(cancellationToken),
+                    this.armPositionTelemetryReceiver.StartAsync(cancellationToken),
+                    this.statusTelemetryReceiver.StartAsync(cancellationToken),
+                    this.modeTelemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -70,17 +112,26 @@ namespace SemanticDataClient.FirstModel
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.thermalConditionTelemetryReceiver.StopAsync(cancellationToken),
+                    this.armPositionTelemetryReceiver.StopAsync(cancellationToken),
+                    this.statusTelemetryReceiver.StopAsync(cancellationToken),
+                    this.modeTelemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()
             {
-                await this.telemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.thermalConditionTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.armPositionTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.statusTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
+                await this.modeTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-                await this.telemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.thermalConditionTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.armPositionTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.statusTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.modeTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
     }

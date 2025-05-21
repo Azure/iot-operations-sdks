@@ -1,0 +1,4 @@
+{
+  "ThermalCondition.InternalTemp": "Temperature(degreeCelsius)",
+  "ThermalCondition.ExternalTemp": "Temperature(degreeCelsius)"
+}

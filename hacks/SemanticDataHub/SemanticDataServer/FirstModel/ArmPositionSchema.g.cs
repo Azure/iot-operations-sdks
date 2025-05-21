@@ -10,21 +10,23 @@ namespace SemanticDataServer.FirstModel
     using SemanticDataServer;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class TelemetryCollection
+    public partial class ArmPositionSchema
     {
         /// <summary>
-        /// The 'mode' Telemetry.
+        /// The 'x' Field.
         /// </summary>
-        [JsonPropertyName("mode")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Mode { get; set; } = default;
+        [JsonPropertyName("x")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public double X { get; set; } = default!;
 
         /// <summary>
-        /// The 'surfaceTemp' Telemetry.
+        /// The 'y' Field.
         /// </summary>
-        [JsonPropertyName("surfaceTemp")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double? SurfaceTemp { get; set; } = default;
+        [JsonPropertyName("y")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public double Y { get; set; } = default!;
 
     }
 }

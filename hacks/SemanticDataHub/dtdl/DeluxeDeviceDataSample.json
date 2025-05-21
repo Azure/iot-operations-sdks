@@ -1,0 +1,25 @@
+{
+  "Measurement": {
+    "Equipment": {
+      "Internal": {
+        "Temperature": 55.5,
+        "Pressure": 10.0
+      },
+      "Surface": {
+        "Temperature": 66.6,
+        "Extension": 0.01
+      },
+      "Status": "Good"
+    },
+    "Environment": {
+      "Temperature": 33.3
+    }
+  },
+  "Control": {
+    "Mode": "scan",
+    "Position": {
+      "x": 12.2,
+      "y": 9.5
+    }
+  }
+}

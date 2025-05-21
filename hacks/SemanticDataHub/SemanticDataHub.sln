@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticDataHub", "Semantic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSourceAlpha", "DataSourceAlpha\DataSourceAlpha.csproj", "{5E05F1E5-FE7F-4A6B-AEBF-819B63EAF3A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remapper", "Remapper\Remapper.csproj", "{1AD8A333-A111-4AB1-B039-325EA2060F25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSourceBeta", "DataSourceBeta\DataSourceBeta.csproj", "{94737E18-CEAC-42B5-AE9E-A13CE4529682}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{5E05F1E5-FE7F-4A6B-AEBF-819B63EAF3A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E05F1E5-FE7F-4A6B-AEBF-819B63EAF3A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E05F1E5-FE7F-4A6B-AEBF-819B63EAF3A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AD8A333-A111-4AB1-B039-325EA2060F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AD8A333-A111-4AB1-B039-325EA2060F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AD8A333-A111-4AB1-B039-325EA2060F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AD8A333-A111-4AB1-B039-325EA2060F25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94737E18-CEAC-42B5-AE9E-A13CE4529682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94737E18-CEAC-42B5-AE9E-A13CE4529682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94737E18-CEAC-42B5-AE9E-A13CE4529682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94737E18-CEAC-42B5-AE9E-A13CE4529682}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

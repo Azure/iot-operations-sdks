@@ -15,7 +15,7 @@ namespace SemanticDataServer.FirstModel
     using Azure.Iot.Operations.Protocol.Telemetry;
     using SemanticDataServer;
 
-    [TelemetryTopic("sample/{modelId}/{senderId}/telemetry")]
+    [TelemetryTopic("sample/{modelId}/{senderId}/telemetry/{telemetryName}")]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public static partial class FirstModel
     {
@@ -23,7 +23,10 @@ namespace SemanticDataServer.FirstModel
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-            private readonly TelemetrySender telemetrySender;
+            private readonly ThermalConditionTelemetrySender thermalConditionTelemetrySender;
+            private readonly ArmPositionTelemetrySender armPositionTelemetrySender;
+            private readonly StatusTelemetrySender statusTelemetrySender;
+            private readonly ModeTelemetrySender modeTelemetrySender;
 
             /// <summary>
             /// Construct a new instance of this service.
@@ -46,19 +49,31 @@ namespace SemanticDataServer.FirstModel
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.telemetrySender = new TelemetrySender(applicationContext, mqttClient);
+                this.thermalConditionTelemetrySender = new ThermalConditionTelemetrySender(applicationContext, mqttClient);
+                this.armPositionTelemetrySender = new ArmPositionTelemetrySender(applicationContext, mqttClient);
+                this.statusTelemetrySender = new StatusTelemetrySender(applicationContext, mqttClient);
+                this.modeTelemetrySender = new ModeTelemetrySender(applicationContext, mqttClient);
 
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.telemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.thermalConditionTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.armPositionTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.statusTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.modeTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
             }
 
-            public TelemetrySender TelemetrySender { get => this.telemetrySender; }
+            public ThermalConditionTelemetrySender ThermalConditionTelemetrySender { get => this.thermalConditionTelemetrySender; }
+
+            public ArmPositionTelemetrySender ArmPositionTelemetrySender { get => this.armPositionTelemetrySender; }
+
+            public StatusTelemetrySender StatusTelemetrySender { get => this.statusTelemetrySender; }
+
+            public ModeTelemetrySender ModeTelemetrySender { get => this.modeTelemetrySender; }
 
             /// <summary>
             /// Send telemetry.
@@ -72,7 +87,7 @@ namespace SemanticDataServer.FirstModel
             /// <param name="qos">The quality of service to send the telemetry with.</param>
             /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
-            public async Task SendTelemetryAsync(TelemetryCollection telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            public async Task SendTelemetryAsync(ThermalConditionTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
             {
                 additionalTopicTokenMap ??= new();
 
@@ -81,17 +96,95 @@ namespace SemanticDataServer.FirstModel
                 {
                     prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
                 }
-                await this.telemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+                await this.thermalConditionTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(ArmPositionTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.armPositionTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(StatusTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.statusTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
+            }
+
+            /// <summary>
+            /// Send telemetry.
+            /// </summary>
+            /// <param name="telemetry">The payload of the telemetry.</param>
+            /// <param name="metadata">The metadata of the telemetry.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic token map provided in the constructor. If this map
+            /// contains any keys that topic token map provided in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="qos">The quality of service to send the telemetry with.</param>
+            /// <param name="telemetryTimeout">How long the telemetry message will be available on the broker for a receiver to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task SendTelemetryAsync(ModeTelemetry telemetry, OutgoingTelemetryMetadata metadata, Dictionary<string, string>? additionalTopicTokenMap = null, MqttQualityOfServiceLevel qos = MqttQualityOfServiceLevel.AtLeastOnce, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+            {
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+                await this.modeTelemetrySender.SendTelemetryAsync(telemetry, metadata, prefixedAdditionalTopicTokenMap, qos, telemetryTimeout, cancellationToken);
             }
 
             public async ValueTask DisposeAsync()
             {
-                await this.telemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.thermalConditionTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.armPositionTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.statusTelemetrySender.DisposeAsync().ConfigureAwait(false);
+                await this.modeTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-                await this.telemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.thermalConditionTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.armPositionTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.statusTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.modeTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
     }

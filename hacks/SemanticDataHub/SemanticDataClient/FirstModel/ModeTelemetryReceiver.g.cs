@@ -14,17 +14,18 @@ namespace SemanticDataClient.FirstModel
     public static partial class FirstModel
     {
         /// <summary>
-        /// Specializes the <c>TelemetryReceiver</c> class for type <c>TelemetryCollection</c>.
+        /// Specializes the <c>TelemetryReceiver</c> class for type <c>ModeTelemetry</c>.
         /// </summary>
-        public class TelemetryReceiver : TelemetryReceiver<TelemetryCollection>
+        public class ModeTelemetryReceiver : TelemetryReceiver<ModeTelemetry>
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="TelemetryReceiver"/> class.
+            /// Initializes a new instance of the <see cref="ModeTelemetryReceiver"/> class.
             /// </summary>
-            public TelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public ModeTelemetryReceiver(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
                 TopicTokenMap["modelId"] = "dtmi:SemanticDataModel:FirstModel;1";
+                TopicTokenMap["telemetryName"] = "Mode";
             }
         }
     }

@@ -1,0 +1,5 @@
+temps,152,132,92
+pres,10,-1,-1
+stat,1,0.01
+pos,12.2,9.5
+mode,scan

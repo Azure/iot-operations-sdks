@@ -2,29 +2,29 @@
 
 #nullable enable
 
-namespace SemanticDataClient.FirstModel
+namespace SemanticDataServer.FirstModel
 {
     using System;
     using System.Collections.Generic;
     using System.Text.Json.Serialization;
-    using SemanticDataClient;
+    using SemanticDataServer;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class TelemetryCollection
+    public partial class ThermalConditionSchema
     {
         /// <summary>
-        /// The 'mode' Telemetry.
+        /// The 'ExternalTemp' Field.
         /// </summary>
-        [JsonPropertyName("mode")]
+        [JsonPropertyName("ExternalTemp")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Mode { get; set; } = default;
+        public double? ExternalTemp { get; set; } = default;
 
         /// <summary>
-        /// The 'surfaceTemp' Telemetry.
+        /// The 'InternalTemp' Field.
         /// </summary>
-        [JsonPropertyName("surfaceTemp")]
+        [JsonPropertyName("InternalTemp")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double? SurfaceTemp { get; set; } = default;
+        public double? InternalTemp { get; set; } = default;
 
     }
 }

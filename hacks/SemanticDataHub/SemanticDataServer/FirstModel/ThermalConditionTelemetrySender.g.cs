@@ -13,14 +13,14 @@ namespace SemanticDataServer.FirstModel
     public static partial class FirstModel
     {
         /// <summary>
-        /// Specializes the <c>TelemetrySender</c> class for type <c>TelemetryCollection</c>.
+        /// Specializes the <c>TelemetrySender</c> class for type <c>ThermalConditionTelemetry</c>.
         /// </summary>
-        public class TelemetrySender : TelemetrySender<TelemetryCollection>
+        public class ThermalConditionTelemetrySender : TelemetrySender<ThermalConditionTelemetry>
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="TelemetrySender"/> class.
+            /// Initializes a new instance of the <see cref="ThermalConditionTelemetrySender"/> class.
             /// </summary>
-            public TelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            public ThermalConditionTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
                 TopicTokenMap["modelId"] = "dtmi:SemanticDataModel:FirstModel;1";
@@ -28,6 +28,7 @@ namespace SemanticDataServer.FirstModel
                 {
                     TopicTokenMap["senderId"] = mqttClient.ClientId;
                 }
+                TopicTokenMap["telemetryName"] = "ThermalCondition";
             }
         }
     }
