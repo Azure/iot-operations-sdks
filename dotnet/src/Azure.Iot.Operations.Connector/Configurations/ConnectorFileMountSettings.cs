@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Connector.ConnectorConfigurations
         public const string ConnectorConfigMountPathEnvVar = "CONNECTOR_CONFIGURATION_MOUNT_PATH";
         public const string BrokerTrustBundleMountPathEnvVar = "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH";
         public const string BrokerSatMountPathEnvVar = "BROKER_SAT_MOUNT_PATH";
-        public const string ConnectorClientIdEnvVar = "CONNECTOR_CLIENT_ID_PREFIX";
+        public const string ConnectorClientIdEnvVar = "CONNECTOR_ID";
 
         public const string ConnectorMqttConfigFileName = "MQTT_CONNECTION_CONFIGURATION";
         public const string ConnectorAioMetadataFileName = "AIO_METADATA";

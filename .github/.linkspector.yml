@@ -7,3 +7,8 @@ excludedFiles:
 ignorePatterns:
   # There are some dummy links, ignore these
   - pattern: "^http://link_to_"
+aliveStatusCodes:
+  - 200
+  - 201
+  - 204
+  - 429 # Add 429 because we are rate limiting

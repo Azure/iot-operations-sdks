@@ -3,14 +3,13 @@
 
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Services.Assets;
 
 namespace EventDrivenTelemetryConnector
 {
-    public class ConnectorWorker : BackgroundService, IDisposable
+    public class TemplateConnectorWorker : BackgroundService, IDisposable
     {
-        private readonly ILogger<ConnectorWorker> _logger;
-        private readonly TelemetryConnectorWorker _connector;
+        private readonly ILogger<TemplateConnectorWorker> _logger;
+        private readonly ConnectorWorker _connector;
 
         /// <summary>
         /// Construct a new event-driven connector worker.
@@ -21,13 +20,13 @@ namespace EventDrivenTelemetryConnector
         /// <param name="mqttClient">The MQTT client that the connector layer will use to connect to the broker and forward telemetry.</param>
         /// <param name="messageSchemaProviderFactory">The provider for any message schemas to associate with events forwarded as telemetry messages to the MQTT broker</param>
         /// <param name="assetMonitor">The asset monitor.</param>
-        public ConnectorWorker(
+        public TemplateConnectorWorker(
             ApplicationContext applicationContext,
-            ILogger<ConnectorWorker> logger,
-            ILogger<TelemetryConnectorWorker> connectorLogger,
+            ILogger<TemplateConnectorWorker> logger,
+            ILogger<ConnectorWorker> connectorLogger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            IAssetMonitor assetMonitor)
+            IAdrClientWrapper assetMonitor)
         {
             _logger = logger;
             _connector = new(applicationContext, connectorLogger, mqttClient, messageSchemaProviderFactory, assetMonitor);
@@ -35,10 +34,10 @@ namespace EventDrivenTelemetryConnector
             _connector.OnAssetUnavailable += OnAssetUnavailableAsync;
         }
 
-        public void OnAssetAvailableAsync(object? sender, AssetAvailabileEventArgs args)
+        public void OnAssetAvailableAsync(object? sender, AssetAvailableEventArgs e)
         {
             // This callback notifies your app when an asset is available and you can open a connection to your asset to start receiving events
-            _logger.LogInformation("Asset with name {0} is now available", args.AssetName);
+            _logger.LogInformation("Asset with name {0} is now available", e.AssetName);
 
             // Once you receive an event from your asset, use the connector to forward it as telemetry to your MQTT broker
             // await _connector.ForwardReceivedEventAsync(args.Asset, args.Asset.Events[0], new byte[0]);
