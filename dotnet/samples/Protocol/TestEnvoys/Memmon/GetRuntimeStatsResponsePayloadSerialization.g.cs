@@ -17,12 +17,11 @@ namespace TestEnvoys.Memmon
     {
       ""name"": ""diagnosticResults"",
       ""type"": {
-        ""type"": ""map"",
-        ""values"": {
-          ""type"": ""string""
-        },
-        ""default"": {}
-      }
+  ""name"": ""GetRuntimeStatsResponseSchema"",
+  ""type"": ""map"",
+  ""values"": ""string"",
+  ""default"": {}
+}
     }
   ]
 }
