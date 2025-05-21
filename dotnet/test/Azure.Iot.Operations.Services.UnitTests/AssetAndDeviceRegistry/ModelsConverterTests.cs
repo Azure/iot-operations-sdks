@@ -576,7 +576,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 
             Assert.NotNull(result.Specification.DefaultManagementGroupsConfiguration);
             actualJson = JsonSerializer.Serialize(result.Specification.DefaultManagementGroupsConfiguration);
-            expectedJson = JsonSerializer.Serialize(JsonDocument.Parse("{\"defaultManagementGroupKey\":\"defaultManagementGroupValue\"}"));
+            expectedJson = source.Specification.DefaultManagementGroupsConfiguration;
             Assert.Equal(expectedJson, actualJson);
         }
 
@@ -789,7 +789,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal("mqtt", mqttEndpoint.EndpointType);
             Assert.NotNull(mqttEndpoint.AdditionalConfiguration);
             string actualJson = JsonSerializer.Serialize(mqttEndpoint.AdditionalConfiguration);
-            string expectedJson = JsonSerializer.Serialize(JsonDocument.Parse("{\"someKey\":\"someValue\"}"));
+            string expectedJson = source.Specification.Endpoints.Inbound["mqtt-endpoint"].AdditionalConfiguration!;
             Assert.Equal(expectedJson, actualJson);
 
             // Verify MQTT endpoint authentication
