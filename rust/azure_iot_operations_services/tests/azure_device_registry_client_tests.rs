@@ -361,10 +361,10 @@ async fn observe_device_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Get Device Reponse: {response:?}",);
             //old_version = response.specification.version.unwrap_or(0);
-            log::info!(
-                "[{log_identifier}] Datetime: {}",
-                time::OffsetDateTime::now_utc().to_string()
-            );
+            // log::info!(
+            //     "[{log_identifier}] Datetime: {}",
+            //     time::OffsetDateTime::now_utc()
+            // );
             let mut endpoint_statuses = HashMap::new();
             for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
                 if endpoint.endpoint_type == ENDPOINT_TYPE {
