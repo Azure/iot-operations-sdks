@@ -107,31 +107,31 @@ async fn run_device(
                 if let Some((asset_client, _asset_update_observation, _asset_deletion_token)) = res {
                     log::info!("Asset created: {asset_client:?}");
 
-                // now we should update the status of the asset
-                let asset_status = match asset_client.specification().manufacturer.as_deref() {
-                    Some("Contoso") | None => Ok(()),
-                    Some(m) => {
-                        log::warn!(
-                            "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
-                            asset_client.asset_ref().name
-                        );
-                        Err(AdrConfigError {
-                            message: Some("asset manufacturer type is not supported".to_string()),
-                            ..AdrConfigError::default()
-                        })
-                    }
-                };
-
-                asset_client.report_status(asset_status).await;
-
-                for dataset in asset_client.datasets() {
-                    tokio::task::spawn({
-                        let dataset_clone = dataset.clone();
-                        async move {
-                            run_dataset(dataset_clone).await;
+                    // now we should update the status of the asset
+                    let asset_status = match asset_client.specification().manufacturer.as_deref() {
+                        Some("Contoso") | None => Ok(()),
+                        Some(m) => {
+                            log::warn!(
+                                "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
+                                asset_client.asset_ref().name
+                            );
+                            Err(AdrConfigError {
+                                message: Some("asset manufacturer type is not supported".to_string()),
+                                ..AdrConfigError::default()
+                            })
                         }
-                    });
-                }
+                    };
+
+                    asset_client.report_status(asset_status).await;
+
+                    for dataset in asset_client.datasets() {
+                        tokio::task::spawn({
+                            let dataset_clone = dataset.clone();
+                            async move {
+                                run_dataset(dataset_clone).await;
+                            }
+                        });
+                    }
                 } else {
                     log::error!("asset_creation_observer has been dropped");
                     break;
