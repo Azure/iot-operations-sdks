@@ -625,7 +625,7 @@ pub struct AssetSpecification {
 }
 
 /// Represents a dataset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Dataset {
     /// Configuration for the dataset.
     pub dataset_configuration: Option<String>,
@@ -642,7 +642,7 @@ pub struct Dataset {
 }
 
 /// Represents a data point in a dataset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DatasetDataPoint {
     /// Configuration for the data point
     pub data_point_configuration: Option<String>,
@@ -655,7 +655,7 @@ pub struct DatasetDataPoint {
 }
 
 /// Represents the destination for a dataset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DatasetDestination {
     /// The configuration for the destination
     pub configuration: DestinationConfiguration,
@@ -778,7 +778,7 @@ pub struct EventDataPoint {
 
 // TODO: turn into rust enums for which of these options can correlate to which destination enums
 /// The configuration for the destination
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DestinationConfiguration {
     /// The key of the destination configuration.
     pub key: Option<String>,
@@ -926,7 +926,7 @@ pub enum EventStreamTarget {
     Storage,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the retain policy.
 pub enum Retain {
     /// Should be retained.
@@ -936,7 +936,7 @@ pub enum Retain {
 }
 
 // TODO: remove in favor of Rust enum
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the target type for a dataset.
 pub enum DatasetTarget {
     /// Represents a broker state store dataset target.
