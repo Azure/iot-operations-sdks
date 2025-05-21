@@ -291,7 +291,7 @@ async fn update_asset_status() {
 }
 
 #[tokio::test]
-#[ignore = "This test is ignored as it is not fully implemented yet."]
+// #[ignore = "This test is ignored as it is not fully implemented yet."]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -323,8 +323,8 @@ async fn observe_device_update_notifications() {
                     // }
                     if let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] Harry Potter DELETE LOG");
-                        log::info!("[{log_identifier}] Device From Observation 1: {device:?}");
+                        log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
+                        log::info!("[{log_identifier}] Device Observation: {device:?}");
                         assert_eq!(device.name, DEVICE1);
                     }
                     // if let Some((device, _)) = observation.recv_notification().await {
@@ -340,8 +340,9 @@ async fn observe_device_update_notifications() {
                     // }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
+                        log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
                         log::info!(
-                            "[{log_identifier}] Device From Observation Any Other: {device:?}"
+                            "[{log_identifier}] Device Observation If Any Other Works: {device:?}"
                         );
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
