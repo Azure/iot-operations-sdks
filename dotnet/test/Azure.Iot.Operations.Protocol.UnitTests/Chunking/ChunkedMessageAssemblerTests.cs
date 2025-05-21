@@ -76,7 +76,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
             // Arrange
             var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
             var chunk0 = CreateMqttMessageEventArgs("payload1");
-            var chunk1 = CreateMqttMessageEventArgs("payload2");
+            var chunk1 = CreateMqttMessageEventArgs(" payload2");
 
             // Act
             assembler.AddChunk(0, chunk0);
@@ -89,13 +89,13 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
 
             // Convert payload to string for easier assertion
             var payload = reassembledArgs!.ApplicationMessage.Payload;
-            var combined = "";
+            var assembledPayloadAsString = "";
             foreach (var segment in payload)
             {
-                combined += Encoding.UTF8.GetString(segment.Span);
+                assembledPayloadAsString += Encoding.UTF8.GetString(segment.Span);
             }
 
-            Assert.Equal("payload1payload2", combined);
+            Assert.Equal("payload1 payload2", assembledPayloadAsString);
         }
 
         [Fact]
