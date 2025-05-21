@@ -6,6 +6,7 @@
 use std::{
     collections::HashMap,
     sync::{Arc, RwLock},
+    task::Context,
 };
 
 use azure_iot_operations_services::{
@@ -14,6 +15,10 @@ use azure_iot_operations_services::{
         DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination, MessageSchemaReference,
     },
     schema_registry,
+};
+use tokio::sync::{
+    mpsc::{self, UnboundedReceiver, UnboundedSender},
+    oneshot,
 };
 use tokio_retry2::{Retry, RetryError};
 
@@ -449,7 +454,13 @@ impl AssetClientCreationObservation {
     /// will be no more notifications. This notification includes the [`AssetClient`],
     /// an [`AssetClientUpdateObservation`] to observe for updates on the new Asset,
     /// and an [`AssetDeletionToken`] to observe for deletion of this Asset
-    pub async fn recv_notification(&mut self) -> Option<(AssetClient, AssetDeletionToken)> {
+    pub async fn recv_notification(
+        &mut self,
+    ) -> Option<(
+        AssetClient,
+        AssetDeletionToken,
+        DatasetClientCreationObservation,
+    )> {
         loop {
             // Get the notification
             let (asset_ref, asset_deletion_token) =
@@ -476,6 +487,7 @@ impl AssetClientCreationObservation {
                 },
             };
 
+            let (dataset_creation_tx, dataset_creation_rx) = mpsc::unbounded_channel();
             // get the asset definition
             let asset_client = match Retry::spawn(
                 RETRY_STRATEGY,
@@ -519,6 +531,7 @@ impl AssetClientCreationObservation {
                         self.device_specification.clone(),
                         self.device_status.clone(),
                         asset_client_update_observation,
+                        dataset_creation_tx,
                         self.connector_context.clone(),
                     )
                     .await
@@ -552,7 +565,14 @@ impl AssetClientCreationObservation {
                     continue;
                 }
             };
-            return Some((asset_client, asset_deletion_token));
+
+            return Some((
+                asset_client,
+                asset_deletion_token,
+                DatasetClientCreationObservation {
+                    dataset_creation_rx,
+                },
+            ));
         }
     }
 }
@@ -570,8 +590,8 @@ pub struct AssetClient {
     #[getter(skip)]
     status: Arc<RwLock<Option<AssetStatus>>>,
     /// Datasets on this Asset
-    #[getter(skip)]
-    datasets: Arc<RwLock<Vec<DatasetClient>>>,
+    // #[getter(skip)]
+    // datasets: Arc<RwLock<Vec<DatasetClient>>>,
     // TODO: events, streams, and management groups as well
     /// Specification of the device that this Asset is tied to
     #[getter(skip)]
@@ -582,9 +602,30 @@ pub struct AssetClient {
     /// The internal observation for updates
     #[getter(skip)]
     asset_update_observation: AssetUpdateObservation,
+    dataset_creation_tx: UnboundedSender<(DatasetClient, DatasetDeletionToken)>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
+// either I have the assetClient::new() return (Self, Vec<DatasetClient>) and the DatasetClients can't
+// update in place, but a new Vec of them gets returned on recv_update as well
+// Pros: easy to implement
+// Cons: nothing to keep someone from using the out of data DatasetClients (don't like this)
+
+/// or, I have functionality for the DatasetClients to update in place - the Dataset definition would be
+/// under a rwLock, but the DatasetRef wouldn't be, like other clients
+/// reqs:
+/// - dataset_definition under rwLock
+/// - needs to have recv_update fn?
+/// - asset update would trigger update on the datasets - would they update automatically and just
+///     send a notification, or would that make an update available to the dataset, but not happen
+///     in place until it's requested. Ideally, things don't update without the user knowing something
+///     is going to update.
+/// - need a deletion flow to keep fns from working if the datasetClient is deleted? (this might be
+///     something to consider for other clients as well)
+/// - could have a dataset_client_creation_observation that would be used to get new datasets, but I
+///     don't think this is necessary since the datasets are created when the asset is created.
+///     - actually, you need the create for the update scenario, since if the asset is updated,
+///         there could be new datasets added/deleted
 impl AssetClient {
     pub(crate) async fn new(
         asset: azure_device_registry::Asset,
@@ -592,6 +633,7 @@ impl AssetClient {
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
         asset_update_observation: AssetUpdateObservation,
+        dataset_creation_tx: UnboundedSender<(DatasetClient, DatasetDeletionToken)>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
@@ -614,15 +656,29 @@ impl AssetClient {
             &connector_context,
         )
         .await;
+        for dataset in datasets {
+            // Create a one shot channel for dataset deletion
+            let (_dataset_deletion_tx, dataset_deletion_rx) = oneshot::channel();
+
+            let dataset_deletion_token = DatasetDeletionToken(dataset_deletion_rx);
+
+            if dataset_creation_tx
+                .send((dataset, dataset_deletion_token))
+                .is_err()
+            {
+                log::error!("Failed to send dataset creation notification");
+            }
+        }
 
         AssetClient {
             asset_ref,
             specification,
             status,
-            datasets: Arc::new(RwLock::new(datasets)),
+            // datasets: Arc::new(RwLock::new(datasets)),
             device_specification,
             device_status,
             asset_update_observation,
+            dataset_creation_tx,
             connector_context,
         }
     }
@@ -667,10 +723,10 @@ impl AssetClient {
         let (updated_asset, _) = self.asset_update_observation.recv_notification().await?;
 
         // datasets
-        let dataset_definitions = updated_asset.specification.datasets.clone();
-        let specification_version = updated_asset.specification.version;
-        let default_datasets_destinations =
-            &updated_asset.specification.default_datasets_destinations;
+        // let dataset_definitions = updated_asset.specification.datasets.clone();
+        // let specification_version = updated_asset.specification.version;
+        // let default_datasets_destinations =
+        //     &updated_asset.specification.default_datasets_destinations;
 
         // Update status before generating datasets in case a status needs to be reported that it uses the latest one
         // but release the write guard because `create_datasets` might update the status
@@ -679,20 +735,20 @@ impl AssetClient {
             *unlocked_status = updated_asset.status;
         }
 
-        let datasets = Self::create_datasets(
-            &self.asset_ref,
-            default_datasets_destinations,
-            dataset_definitions,
-            &self.specification,
-            specification_version,
-            &self.status,
-            &self.device_specification,
-            &self.device_status,
-            &self.connector_context,
-        )
-        .await;
-        let mut unlocked_datasets = self.datasets.write().unwrap(); // unwrap can't fail unless lock is poisoned
-        *unlocked_datasets = datasets;
+        // let datasets = Self::create_datasets(
+        //     &self.asset_ref,
+        //     default_datasets_destinations,
+        //     dataset_definitions,
+        //     &self.specification,
+        //     specification_version,
+        //     &self.status,
+        //     &self.device_specification,
+        //     &self.device_status,
+        //     &self.connector_context,
+        // )
+        // .await;
+        // let mut unlocked_datasets = self.datasets.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        // *unlocked_datasets = datasets;
 
         // specification
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
@@ -701,13 +757,13 @@ impl AssetClient {
         Some(())
     }
 
-    /// Returns a clone of the current datasets
-    /// # Panics
-    /// if the dataset mutex has been poisoned, which should not be possible
-    #[must_use]
-    pub fn datasets(&self) -> Vec<DatasetClient> {
-        (*self.datasets.read().unwrap()).clone()
-    }
+    // /// Returns a clone of the current datasets
+    // /// # Panics
+    // /// if the dataset mutex has been poisoned, which should not be possible
+    // #[must_use]
+    // pub fn datasets(&self) -> Vec<DatasetClient> {
+    //     (*self.datasets.read().unwrap()).clone()
+    // }
 
     // Returns a clone of the current asset specification
     /// # Panics
@@ -914,6 +970,40 @@ impl AssetClient {
             .await;
         }
         datasets
+    }
+}
+
+/// An Observation for dataset creation events that uses
+/// multiple underlying clients to get full dataset information.
+pub struct DatasetClientCreationObservation {
+    // asset_create_observation: AssetCreateObservation,
+    /// A channel for receiving notifications about dataset creation events.
+    dataset_creation_rx: UnboundedReceiver<(DatasetClient, DatasetDeletionToken)>,
+    // connector_context: Arc<ConnectorContext>,
+    // device_specification: Arc<RwLock<DeviceSpecification>>,
+    // device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+}
+impl DatasetClientCreationObservation {
+    /// Receives a notification for a newly created dataset or [`None`] if there
+    /// will be no more notifications. This notification includes the [`DatasetClient`],
+    /// a [`DatasetClientUpdateObservation`] to observe for updates on the new Dataset,
+    /// and a [`DatasetDeletionToken`] to observe for deletion of this Dataset
+    pub async fn recv_notification(&mut self) -> Option<(DatasetClient, DatasetDeletionToken)> {
+        self.dataset_creation_rx.recv().await
+    }
+}
+
+/// Represents a token that can be used to wait for the deletion of a Dataset.
+pub struct DatasetDeletionToken(oneshot::Receiver<()>);
+
+impl std::future::Future for DatasetDeletionToken {
+    type Output = ();
+
+    fn poll(self: std::pin::Pin<&mut Self>, cx: &mut Context<'_>) -> std::task::Poll<Self::Output> {
+        match std::pin::Pin::new(&mut self.get_mut().0).poll(cx) {
+            std::task::Poll::Ready(Err(_) | Ok(())) => std::task::Poll::Ready(()),
+            std::task::Poll::Pending => std::task::Poll::Pending,
+        }
     }
 }
 

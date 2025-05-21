@@ -17,7 +17,8 @@ use azure_iot_operations_connector::{
     base_connector::{
         BaseConnector,
         managed_azure_device_registry::{
-            AssetClientCreationObservation, DatasetClient, DeviceEndpointClient,
+            AssetClient, AssetClientCreationObservation, DatasetClient,
+            DatasetClientCreationObservation, DeviceEndpointClient,
             DeviceEndpointClientCreationObservation,
         },
     },
@@ -104,29 +105,57 @@ async fn run_device(
             }
             // Listen for a asset creation notifications
             res = asset_creation_observation.recv_notification() => {
-                if let Some((asset_client, _asset_deletion_token)) = res {
+                if let Some((asset_client, _asset_deletion_token, dataset_creation_observation)) = res {
                     log::info!("Asset created: {asset_client:?}");
 
-                // now we should update the status of the asset
-                let asset_status = match asset_client.specification().manufacturer.as_deref() {
-                    Some("Contoso") | None => Ok(()),
-                    Some(m) => {
-                        log::warn!(
-                            "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
-                            asset_client.asset_ref().name
-                        );
-                        Err(AdrConfigError {
-                            message: Some("asset manufacturer type is not supported".to_string()),
-                            ..AdrConfigError::default()
-                        })
-                    }
-                };
+                    // now we should update the status of the asset
+                    let asset_status = generate_asset_status(&asset_client);
 
-                asset_client.report_status(asset_status).await;
+                    asset_client.report_status(asset_status).await;
 
-                for dataset in asset_client.datasets() {
-                    tokio::task::spawn(run_dataset(dataset));
+                    // Start handling the datasets for this asset
+                    // if we didn't accept the asset, then we still want to run this to wait for updates
+                    tokio::task::spawn(run_asset(
+                        asset_client,
+                        dataset_creation_observation,
+                    ));
+                } else {
+                    log::error!("asset_creation_observer has been dropped");
+                    break;
                 }
+            }
+        }
+    }
+    panic!("asset_creation_observer has been dropped");
+}
+
+// This function runs in a loop, waiting for dataset creation notifications.
+async fn run_asset(
+    mut asset_client: AssetClient,
+    mut dataset_creation_observation: DatasetClientCreationObservation,
+) {
+    loop {
+        tokio::select! {
+            biased;
+            // Listen for a asset update notifications
+            res = asset_client.recv_update() => {
+                if let Some(()) = res {
+                    log::info!("asset updated: {asset_client:?}");
+                    // now we should update the status of the asset
+                    let asset_status = generate_asset_status(&asset_client);
+
+                    asset_client
+                        .report_status(asset_status)
+                        .await;
+                } else {
+                    log::error!("No more Asset updates will be received");
+                    break;
+                }
+            }
+            // Listen for a dataset creation notifications
+            res = dataset_creation_observation.recv_notification() => {
+                if let Some((dataset_client, _dataset_deletion_token)) = res {
+                    tokio::task::spawn(run_dataset(dataset_client));
                 } else {
                     log::error!("asset_creation_observer has been dropped");
                     break;
@@ -219,6 +248,22 @@ fn generate_endpoint_status(
             );
             Err(AdrConfigError {
                 message: Some("endpoint type is not supported".to_string()),
+                ..AdrConfigError::default()
+            })
+        }
+    }
+}
+
+fn generate_asset_status(asset_client: &AssetClient) -> Result<(), AdrConfigError> {
+    match asset_client.specification().manufacturer.as_deref() {
+        Some("Contoso") | None => Ok(()),
+        Some(m) => {
+            log::warn!(
+                "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
+                asset_client.asset_ref().name
+            );
+            Err(AdrConfigError {
+                message: Some("asset manufacturer type is not supported".to_string()),
                 ..AdrConfigError::default()
             })
         }
