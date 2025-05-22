@@ -36,19 +36,8 @@
         "@type": "Telemetry",
         "name": "ArmPosition",
         "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "x",
-              "schema": "double"
-            },
-            {
-              "@type": [ "Field", "Required" ],
-              "name": "y",
-              "schema": "double"
-            }
-          ]
+          "@type": "Array",
+          "elementSchema": "double"
         }
       },
       {

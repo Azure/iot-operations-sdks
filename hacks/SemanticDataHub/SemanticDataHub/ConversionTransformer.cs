@@ -37,6 +37,11 @@
 
         public ConversionTransformer(string propertyPath, JsonElement elt1, JsonElement elt2, string bindingFileName)
         {
+            if (elt2.ValueKind != JsonValueKind.String)
+            {
+                throw new Exception($"Invalid '@quant' definition in binding {bindingFileName}: third array element must be a string");
+            }
+
             selectionTransformer = new SelectionTransformer(elt1, bindingFileName);
 
             if (modelUnitsObj == null)

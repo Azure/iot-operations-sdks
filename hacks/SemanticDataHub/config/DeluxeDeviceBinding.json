@@ -3,11 +3,15 @@
   "modelId": "dtmi:SemanticDataModel:FirstModel;1",
   "Telemetry": {
     "ThermalCondition": {
-      "InternalTemp": [ "$[*].Measurement.Equipment.Internal.Temperature", "Temperature(degreeCelsius)" ],
-      "ExternalTemp": [ "$[*].Measurement.Equipment.Surface.Temperature", "Temperature(degreeCelsius)" ]
+      "InternalTemp": [ "@quant", "$[*].Measurement.Equipment.Internal.Temperature", "Temperature(degreeCelsius)" ],
+      "ExternalTemp": [ "@quant", "$[*].Measurement.Equipment.Surface.Temperature", "Temperature(degreeCelsius)" ]
     },
-    "ArmPosition": "$[*].Control.Position",
+    "ArmPosition": [
+      "$[*].Control.Position.x",
+      "$[*].Control.Position.y"
+    ],
     "Status": [
+      "@map",
       "$[*].Measurement.Equipment.Status",
       {
         "Good": 0,

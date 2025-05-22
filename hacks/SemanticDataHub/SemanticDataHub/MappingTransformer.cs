@@ -12,6 +12,11 @@
 
         public MappingTransformer(JsonElement elt1, JsonElement elt2, string bindingFileName)
         {
+            if (elt2.ValueKind != JsonValueKind.Object)
+            {
+                throw new Exception($"Invalid '@map' definition in binding {bindingFileName}: third array element must be an object");
+            }
+
             selectionTransformer = new SelectionTransformer(elt1, bindingFileName);
             transformationMap = new Dictionary<string, JValue>();
 

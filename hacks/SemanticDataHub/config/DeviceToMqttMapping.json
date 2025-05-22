@@ -1,7 +1,7 @@
 {
   "MyMqttNamespace": {
-    "deviceAddress": "DataSourceBeta",
-    "commFormat": "JSON",
-    "deviceTypeId": "DeluxeDevice"
+    "deviceAddress": "DataSourceAlpha",
+    "commFormat": "CSV",
+    "deviceTypeId": "BareBonesDevice"
   }
 }

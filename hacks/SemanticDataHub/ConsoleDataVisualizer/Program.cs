@@ -25,7 +25,7 @@
 
         public override Task ReceiveTelemetry(string senderId, ArmPositionTelemetry telemetry, IncomingTelemetryMetadata metadata)
         {
-            Console.WriteLine($"ArmPosition:  ({telemetry.ArmPosition.X:F1}, {telemetry.ArmPosition.Y:F1})");
+            Console.WriteLine($"ArmPosition:  ({telemetry.ArmPosition[0]:F1}, {telemetry.ArmPosition[1]:F1})");
             return Task.CompletedTask;
         }
 

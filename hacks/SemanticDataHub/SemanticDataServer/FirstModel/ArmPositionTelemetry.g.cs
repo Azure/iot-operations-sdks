@@ -18,7 +18,7 @@ namespace SemanticDataServer.FirstModel
         [JsonPropertyName("ArmPosition")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public ArmPositionSchema ArmPosition { get; set; } = default!;
+        public List<double> ArmPosition { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
