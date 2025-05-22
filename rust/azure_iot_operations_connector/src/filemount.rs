@@ -4,6 +4,6 @@
 //! Utilities for extracting data from filemounts in an Akri deployment
 
 pub mod azure_device_registry;
-pub mod connector_config;
+pub mod connector_artifacts;
 
 // TODO: Add common artifact structs and helpers here once implementation is unified
