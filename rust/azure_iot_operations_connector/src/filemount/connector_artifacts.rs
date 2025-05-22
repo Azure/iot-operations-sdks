@@ -1069,4 +1069,5 @@ mod tests {
     }
 
     // TODO: Simulate permissions issues in mounts
+    // TODO: Simulate symlinks issues in mounts
 }
