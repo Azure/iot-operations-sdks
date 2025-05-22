@@ -13,6 +13,6 @@ sudo apt-get update
 sudo apt-get install -y --no-install-recommends mosquitto-clients
 
 # initialize the cluster
-tools/deployment/initialize-cluster.sh
+tools/deployment/initialize-cluster.sh -y
 
 echo "Ending onCreateCommand"
