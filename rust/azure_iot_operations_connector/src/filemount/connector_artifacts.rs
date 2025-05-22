@@ -111,8 +111,10 @@ impl ConnectorArtifacts {
                 .transpose()?;
 
         // Broker SAT token mount path
-        // TODO: Validate. Doing so will have testing implications.
-        let broker_sat_mount = string_from_environment("BROKER_SAT_MOUNT_PATH")?.map(PathBuf::from);
+        let broker_sat_mount =
+            string_from_environment("BROKER_SAT_MOUNT_PATH")?
+                .map(valid_mount_pathbuf_from)
+                .transpose()?;
 
         // Device Endpoint TLS Trust Bundle CA cert mount path
         let device_endpoint_trust_bundle_mount =
@@ -765,7 +767,7 @@ mod tests {
     #[test_case("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")]
     #[test_case("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH")]
     #[test_case("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")]
-    //#[test_case("BROKER_SAT_MOUNT_PATH")]
+    #[test_case("BROKER_SAT_MOUNT_PATH")]
     #[test_case("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")]
     #[test_case("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")]
     fn nonexistent_mount_path(invalid_mount_env_var: &str) {
