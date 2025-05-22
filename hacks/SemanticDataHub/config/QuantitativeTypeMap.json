@@ -11,6 +11,32 @@
       "to": "degreeCelsius",
       "scale": 0.5555,
       "offset": -17.778
+    },
+    {
+      "from": "degreeCelsius",
+      "to": "kelvin",
+      "scale": 1.0,
+      "offset": 273.15
+    },
+    {
+      "from": "kelvin",
+      "to": "degreeCelsius",
+      "scale": 1.0,
+      "offset": -273.15
+    }
+  ],
+  "Pressure": [
+    {
+      "from": "bar",
+      "to": "inchesOfWater",
+      "scale": 401.46,
+      "offset": 0.0
+    },
+    {
+      "from": "inchesOfWater",
+      "to": "bar",
+      "scale": 0.00249,
+      "offset": 0.0
     }
   ]
 }
