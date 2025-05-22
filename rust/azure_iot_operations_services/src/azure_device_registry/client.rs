@@ -12,11 +12,11 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Notify;
 
-use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
+use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::azure_device_registry::{
     Asset, AssetStatus, AssetUpdateObservation, Device, DeviceStatus, DeviceUpdateObservation,
     Error, ErrorKind,
-    device_name_gen::{
+    adr_base_gen::{
         common_types::options::CommandInvokerOptionsBuilder,
         common_types::options::TelemetryReceiverOptionsBuilder,
     },
@@ -47,16 +47,16 @@ where
     // general
     shutdown_notifier: Arc<Notify>,
     // device
-    get_device_command_invoker: Arc<adr_name_gen::GetDeviceCommandInvoker<C>>,
-    update_device_status_command_invoker: Arc<adr_name_gen::UpdateDeviceStatusCommandInvoker<C>>,
+    get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker<C>>,
+    update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker<C>>,
     notify_on_device_update_command_invoker:
-        Arc<adr_name_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>>,
+        Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>>,
     device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>)>>,
     // asset
-    get_asset_command_invoker: Arc<adr_name_gen::GetAssetCommandInvoker<C>>,
-    update_asset_status_command_invoker: Arc<adr_name_gen::UpdateAssetStatusCommandInvoker<C>>,
+    get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker<C>>,
+    update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker<C>>,
     notify_on_asset_update_command_invoker:
-        Arc<adr_name_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker<C>>,
+        Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker<C>>,
     asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
 }
 
@@ -124,13 +124,13 @@ where
 
             // telemetry receivers
             let device_update_telemetry_receiver =
-                adr_name_gen::DeviceUpdateEventTelemetryReceiver::new(
+                base_client_gen::DeviceUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
                     &telemetry_options,
                 );
             let asset_update_telemetry_receiver =
-                adr_name_gen::AssetUpdateEventTelemetryReceiver::new(
+                base_client_gen::AssetUpdateEventTelemetryReceiver::new(
                     application_context.clone(),
                     client.clone(),
                     &telemetry_options,
@@ -150,40 +150,40 @@ where
 
         Ok(Self {
             shutdown_notifier,
-            get_device_command_invoker: Arc::new(adr_name_gen::GetDeviceCommandInvoker::new(
+            get_device_command_invoker: Arc::new(base_client_gen::GetDeviceCommandInvoker::new(
                 application_context.clone(),
                 client.clone(),
                 &command_options,
             )),
             update_device_status_command_invoker: Arc::new(
-                adr_name_gen::UpdateDeviceStatusCommandInvoker::new(
+                base_client_gen::UpdateDeviceStatusCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &command_options,
                 ),
             ),
             notify_on_device_update_command_invoker: Arc::new(
-                adr_name_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker::new(
+                base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &command_options,
                 ),
             ),
             device_update_notification_dispatcher,
-            get_asset_command_invoker: Arc::new(adr_name_gen::GetAssetCommandInvoker::new(
+            get_asset_command_invoker: Arc::new(base_client_gen::GetAssetCommandInvoker::new(
                 application_context.clone(),
                 client.clone(),
                 &command_options,
             )),
             update_asset_status_command_invoker: Arc::new(
-                adr_name_gen::UpdateAssetStatusCommandInvoker::new(
+                base_client_gen::UpdateAssetStatusCommandInvoker::new(
                     application_context.clone(),
                     client.clone(),
                     &command_options,
                 ),
             ),
             notify_on_asset_update_command_invoker: Arc::new(
-                adr_name_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker::new(
+                base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker::new(
                     application_context,
                     client,
                     &command_options,
@@ -324,9 +324,9 @@ where
     /// It receives update notifications from the Azure Device Registry service.
     async fn receive_update_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut device_update_telemetry_receiver: adr_name_gen::DeviceUpdateEventTelemetryReceiver<C>,
+        mut device_update_telemetry_receiver: base_client_gen::DeviceUpdateEventTelemetryReceiver<C>,
         device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>)>>,
-        mut asset_update_telemetry_receiver: adr_name_gen::AssetUpdateEventTelemetryReceiver<C>,
+        mut asset_update_telemetry_receiver: base_client_gen::AssetUpdateEventTelemetryReceiver<C>,
         asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
     ) {
         let max_attempt = 3;
@@ -504,7 +504,7 @@ where
         inbound_endpoint_name: String,
         timeout: Duration,
     ) -> Result<Device, Error> {
-        let get_device_request = adr_name_gen::GetDeviceRequestBuilder::default()
+        let get_device_request = base_client_gen::GetDeviceRequestBuilder::default()
             .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
             .timeout(timeout)
             .build()
@@ -542,11 +542,11 @@ where
         status: DeviceStatus,
         timeout: Duration,
     ) -> Result<Device, Error> {
-        let status_payload = adr_name_gen::UpdateDeviceStatusRequestPayload {
+        let status_payload = base_client_gen::UpdateDeviceStatusRequestPayload {
             device_status_update: status.into(),
         };
         let update_device_status_request =
-            adr_name_gen::UpdateDeviceStatusRequestBuilder::default()
+            base_client_gen::UpdateDeviceStatusRequestBuilder::default()
                 .payload(status_payload)
                 .map_err(ErrorKind::from)?
                 .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
@@ -598,12 +598,12 @@ where
             .map_err(ErrorKind::from)?;
 
         let observe_payload =
-            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestPayload {
-                notification_preference_request: adr_name_gen::NotificationPreference::On,
+            base_client_gen::SetNotificationPreferenceForDeviceUpdatesRequestPayload {
+                notification_preference_request: base_client_gen::NotificationPreference::On,
             };
 
         let observe_request =
-            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestBuilder::default()
+            base_client_gen::SetNotificationPreferenceForDeviceUpdatesRequestBuilder::default()
                 .payload(observe_payload)
                 .map_err(ErrorKind::from)?
                 .topic_tokens(Self::get_topic_tokens(
@@ -621,10 +621,10 @@ where
         {
             Ok(response) => {
                 match response.payload.notification_preference_response {
-                    adr_name_gen::NotificationPreferenceResponse::Accepted => {
+                    base_client_gen::NotificationPreferenceResponse::Accepted => {
                         Ok(DeviceUpdateObservation(rx))
                     }
-                    adr_name_gen::NotificationPreferenceResponse::Failed => {
+                    base_client_gen::NotificationPreferenceResponse::Failed => {
                         // If the observe request wasn't successful, remove it from our dispatcher
                         if self
                             .device_update_notification_dispatcher
@@ -687,12 +687,12 @@ where
         timeout: Duration,
     ) -> Result<(), Error> {
         let unobserve_payload =
-            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestPayload {
-                notification_preference_request: adr_name_gen::NotificationPreference::Off,
+            base_client_gen::SetNotificationPreferenceForDeviceUpdatesRequestPayload {
+                notification_preference_request: base_client_gen::NotificationPreference::Off,
             };
 
         let unobserve_request =
-            adr_name_gen::SetNotificationPreferenceForDeviceUpdatesRequestBuilder::default()
+            base_client_gen::SetNotificationPreferenceForDeviceUpdatesRequestBuilder::default()
                 .payload(unobserve_payload)
                 .map_err(ErrorKind::from)?
                 .topic_tokens(Self::get_topic_tokens(
@@ -708,7 +708,7 @@ where
             .await
             .map_err(ErrorKind::from)?;
         match response.payload.notification_preference_response {
-            adr_name_gen::NotificationPreferenceResponse::Accepted => {
+            base_client_gen::NotificationPreferenceResponse::Accepted => {
                 let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
                 // Remove it from our dispatcher
                 if self
@@ -725,7 +725,7 @@ where
                 }
                 Ok(())
             }
-            adr_name_gen::NotificationPreferenceResponse::Failed => {
+            base_client_gen::NotificationPreferenceResponse::Failed => {
                 Err(Error(ErrorKind::ObservationError))
             }
         }
@@ -780,8 +780,8 @@ where
                 "asset_name must not be empty".to_string(),
             )));
         }
-        let payload = adr_name_gen::GetAssetRequestPayload { asset_name };
-        let command_request = adr_name_gen::GetAssetRequestBuilder::default()
+        let payload = base_client_gen::GetAssetRequestPayload { asset_name };
+        let command_request = base_client_gen::GetAssetRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
             .timeout(timeout)
@@ -833,13 +833,13 @@ where
             )));
         }
 
-        let payload = adr_name_gen::UpdateAssetStatusRequestPayload {
-            asset_status_update: adr_name_gen::UpdateAssetStatusRequestSchema {
+        let payload = base_client_gen::UpdateAssetStatusRequestPayload {
+            asset_status_update: base_client_gen::UpdateAssetStatusRequestSchema {
                 asset_name,
                 asset_status: status.into(),
             },
         };
-        let command_request = adr_name_gen::UpdateAssetStatusRequestBuilder::default()
+        let command_request = base_client_gen::UpdateAssetStatusRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
             .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
@@ -906,16 +906,16 @@ where
             .register_receiver(receiver_id.clone())
             .map_err(ErrorKind::from)?;
 
-        let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
+        let payload = base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
             notification_preference_request:
-                adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
+                base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
                     asset_name,
-                    notification_preference: adr_name_gen::NotificationPreference::On,
+                    notification_preference: base_client_gen::NotificationPreference::On,
                 },
         };
 
         let command_request =
-            adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestBuilder::default()
+            base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestBuilder::default()
                 .payload(payload)
                 .map_err(ErrorKind::from)?
                 .topic_tokens(Self::get_topic_tokens(device_name, inbound_endpoint_name))
@@ -930,7 +930,7 @@ where
 
         match result {
             Ok(response) => {
-                if let adr_name_gen::NotificationPreferenceResponse::Accepted =
+                if let base_client_gen::NotificationPreferenceResponse::Accepted =
                     response.payload.notification_preference_response
                 {
                     Ok(AssetUpdateObservation(rx))
@@ -1006,16 +1006,16 @@ where
             )));
         }
 
-        let payload = adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
+        let payload = base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestPayload {
             notification_preference_request:
-                adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
+                base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestSchema {
                     asset_name: asset_name.clone(),
-                    notification_preference: adr_name_gen::NotificationPreference::Off,
+                    notification_preference: base_client_gen::NotificationPreference::Off,
                 },
         };
 
         let command_request =
-            adr_name_gen::SetNotificationPreferenceForAssetUpdatesRequestBuilder::default()
+            base_client_gen::SetNotificationPreferenceForAssetUpdatesRequestBuilder::default()
                 .payload(payload)
                 .map_err(ErrorKind::from)?
                 .topic_tokens(Self::get_topic_tokens(
@@ -1033,7 +1033,7 @@ where
             .map_err(ErrorKind::from)?;
 
         match response.payload.notification_preference_response {
-            adr_name_gen::NotificationPreferenceResponse::Accepted => {
+            base_client_gen::NotificationPreferenceResponse::Accepted => {
                 let receiver_id = Self::hash_device_endpoint_asset(
                     &device_name,
                     &inbound_endpoint_name,
@@ -1054,7 +1054,7 @@ where
                 }
                 Ok(())
             }
-            adr_name_gen::NotificationPreferenceResponse::Failed => {
+            base_client_gen::NotificationPreferenceResponse::Failed => {
                 Err(Error(ErrorKind::ObservationError))
             }
         }
