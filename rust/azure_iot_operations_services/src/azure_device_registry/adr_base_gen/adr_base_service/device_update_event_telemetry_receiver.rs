@@ -3,16 +3,17 @@
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::{AckToken, ManagedClient};
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::telemetry;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::device_update_event_telemetry::DeviceUpdateEventTelemetry;
+use super::super::common_types::options::TelemetryReceiverOptions;
 use super::MODEL_ID;
 use super::TELEMETRY_TOPIC_PATTERN;
-use super::super::common_types::options::TelemetryReceiverOptions;
+use super::device_update_event_telemetry::DeviceUpdateEventTelemetry;
 
-pub type DeviceUpdateEventTelemetryMessage = telemetry::receiver::Message<DeviceUpdateEventTelemetry>;
+pub type DeviceUpdateEventTelemetryMessage =
+    telemetry::receiver::Message<DeviceUpdateEventTelemetry>;
 
 /// Telemetry Receiver for `DeviceUpdateEventTelemetry`
 pub struct DeviceUpdateEventTelemetryReceiver<C>(
@@ -31,7 +32,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &TelemetryReceiverOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &TelemetryReceiverOptions,
+    ) -> Self {
         let mut receiver_options_builder = telemetry::receiver::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             receiver_options_builder.topic_namespace(topic_namespace.clone());
@@ -74,7 +79,8 @@ where
     /// [`AIOProtocolError`] if there is a failure receiving a message
     pub async fn recv(
         &mut self,
-    ) -> Option<Result<(DeviceUpdateEventTelemetryMessage, Option<AckToken>), AIOProtocolError>> {
+    ) -> Option<Result<(DeviceUpdateEventTelemetryMessage, Option<AckToken>), AIOProtocolError>>
+    {
         self.0.recv().await
     }
 }

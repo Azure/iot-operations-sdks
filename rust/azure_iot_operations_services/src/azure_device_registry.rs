@@ -14,10 +14,10 @@ use thiserror::Error;
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::common::dispatcher::{self, Receiver};
 
-/// Azure Device Registry Client implementation wrapper
-pub mod client;
 /// Azure Device Registry generated code
 mod adr_base_gen;
+/// Azure Device Registry Client implementation wrapper
+pub mod client;
 
 pub use client::{Client, ClientOptions, ClientOptionsBuilder};
 
@@ -47,7 +47,7 @@ pub enum ErrorKind {
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
-    ServiceError(ServiceError),
+    ServiceError(#[from] base_client_gen::AkriServiceError),
     /// A Device or an asset may only have one observation at a time.
     #[error("Device or asset may only be observed once at a time")]
     DuplicateObserve(#[from] dispatcher::RegisterError),
@@ -60,14 +60,6 @@ pub enum ErrorKind {
     /// An error occurred while validating the inputs.
     #[error("{0}")]
     ValidationError(String),
-}
-
-/// An error returned by the Azure Device Registry Service.
-/// TODO placeholder until we get the format from the service
-#[derive(Debug)]
-pub struct ServiceError {
-    /// A message describing the error returned by the Azure Device Registry Service.
-    pub message: String,
 }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
@@ -575,13 +567,13 @@ pub struct AssetSpecification {
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
     /// Default destinations for events.
-    pub default_events_destinations: Vec<EventStreamsDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_events_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for management groups.
     pub default_management_groups_configuration: Option<String>,
     /// Default configuration for streams.
     pub default_streams_configuration: Option<String>,
     /// Default destinations for streams.
-    pub default_streams_destinations: Vec<EventStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub default_streams_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The description of the asset.
     pub description: Option<String>,
     /// A reference to the Device and Endpoint within the device
@@ -674,7 +666,7 @@ pub struct DatasetDestination {
 
 /// Represents the destination for an event or stream.
 #[derive(Clone, Debug)]
-pub struct EventStreamsDestination {
+pub struct EventStreamDestination {
     /// The configuration for the destination
     pub configuration: DestinationConfiguration,
     /// The target for the destination
@@ -682,7 +674,7 @@ pub struct EventStreamsDestination {
 }
 
 // TODO: switch to this  rust enum
-// pub enum EventStreamsDestination {
+// pub enum EventStreamDestination {
 //     Mqtt{ topic: String,
 //         qos: Option<Qos>,
 //         retain: Option<Retain>,
@@ -705,7 +697,7 @@ pub struct Event {
     /// Array of data points that are part of the event.
     pub data_points: Vec<EventDataPoint>, // if None, we can represent as empty vec
     /// The destination for the event.
-    pub destinations: Vec<EventStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The configuration for the event.
     pub event_configuration: Option<String>,
     /// The address of the notifier of the event
@@ -756,7 +748,7 @@ pub struct ManagementGroupAction {
 #[derive(Clone, Debug)]
 pub struct Stream {
     /// Destinations for a stream.
-    pub destinations: Vec<EventStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The name of the stream.
     pub name: String,
     /// The configuration for the stream.
@@ -881,7 +873,9 @@ impl From<DatasetEventStreamStatus> for base_client_gen::AssetDatasetEventStream
     }
 }
 
-impl From<ManagementGroupStatus> for base_client_gen::AssetManagementGroupStatusSchemaElementSchema {
+impl From<ManagementGroupStatus>
+    for base_client_gen::AssetManagementGroupStatusSchemaElementSchema
+{
     fn from(value: ManagementGroupStatus) -> Self {
         base_client_gen::AssetManagementGroupStatusSchemaElementSchema {
             actions: option_vec_from(value.actions, ActionStatus::into),
@@ -992,7 +986,9 @@ impl From<base_client_gen::AssetStatus> for AssetStatus {
     }
 }
 
-impl From<base_client_gen::AssetManagementGroupStatusSchemaElementSchema> for ManagementGroupStatus {
+impl From<base_client_gen::AssetManagementGroupStatusSchemaElementSchema>
+    for ManagementGroupStatus
+{
     fn from(value: base_client_gen::AssetManagementGroupStatusSchemaElementSchema) -> Self {
         ManagementGroupStatus {
             actions: option_vec_from(value.actions, ActionStatus::from),
@@ -1052,13 +1048,13 @@ impl From<base_client_gen::AssetSpecificationSchema> for AssetSpecification {
             default_events_configuration: value.default_events_configuration,
             default_events_destinations: vec_from_option_vec(
                 value.default_events_destinations,
-                EventStreamsDestination::from,
+                EventStreamDestination::from,
             ),
             default_management_groups_configuration: value.default_management_groups_configuration,
             default_streams_configuration: value.default_streams_configuration,
             default_streams_destinations: vec_from_option_vec(
                 value.default_streams_destinations,
-                EventStreamsDestination::from,
+                EventStreamDestination::from,
             ),
             description: value.description,
             device_ref: DeviceRef::from(value.device_ref),
@@ -1130,10 +1126,7 @@ impl From<base_client_gen::AssetEventSchemaElementSchema> for Event {
     fn from(value: base_client_gen::AssetEventSchemaElementSchema) -> Self {
         Event {
             data_points: vec_from_option_vec(value.data_points, EventDataPoint::from),
-            destinations: vec_from_option_vec(
-                value.destinations,
-                EventStreamsDestination::from,
-            ),
+            destinations: vec_from_option_vec(value.destinations, EventStreamDestination::from),
             event_configuration: value.event_configuration,
             event_notifier: value.event_notifier,
             name: value.name,
@@ -1142,9 +1135,9 @@ impl From<base_client_gen::AssetEventSchemaElementSchema> for Event {
     }
 }
 
-impl From<base_client_gen::EventStreamDestination> for EventStreamsDestination {
+impl From<base_client_gen::EventStreamDestination> for EventStreamDestination {
     fn from(value: base_client_gen::EventStreamDestination) -> Self {
-        EventStreamsDestination {
+        EventStreamDestination {
             configuration: value.configuration.into(),
             target: value.target.into(),
         }
@@ -1174,7 +1167,9 @@ impl From<base_client_gen::AssetManagementGroupSchemaElementSchema> for Manageme
     }
 }
 
-impl From<base_client_gen::AssetManagementGroupActionSchemaElementSchema> for ManagementGroupAction {
+impl From<base_client_gen::AssetManagementGroupActionSchemaElementSchema>
+    for ManagementGroupAction
+{
     fn from(value: base_client_gen::AssetManagementGroupActionSchemaElementSchema) -> Self {
         ManagementGroupAction {
             action_configuration: value.action_configuration,
@@ -1200,10 +1195,7 @@ impl From<base_client_gen::AssetManagementGroupActionType> for ActionType {
 impl From<base_client_gen::AssetStreamSchemaElementSchema> for Stream {
     fn from(value: base_client_gen::AssetStreamSchemaElementSchema) -> Self {
         Stream {
-            destinations: vec_from_option_vec(
-                value.destinations,
-                EventStreamsDestination::from,
-            ),
+            destinations: vec_from_option_vec(value.destinations, EventStreamDestination::from),
             name: value.name,
             stream_configuration: value.stream_configuration,
             type_ref: value.type_ref,

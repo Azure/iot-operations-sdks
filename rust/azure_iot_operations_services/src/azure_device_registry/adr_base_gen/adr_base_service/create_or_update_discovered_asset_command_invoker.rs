@@ -5,30 +5,33 @@ use std::error::Error;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
-    AIOProtocolError,
-    AIOProtocolErrorKind,
+    AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::create_or_update_discovered_asset_request_payload::CreateOrUpdateDiscoveredAssetRequestPayload;
-use super::create_or_update_discovered_asset_response_schema::CreateOrUpdateDiscoveredAssetResponseSchema;
-use super::create_or_update_discovered_asset_response_payload::CreateOrUpdateDiscoveredAssetResponsePayload;
-use super::akri_service_error::AkriServiceError;
+use super::super::common_types::options::CommandInvokerOptions;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::super::common_types::options::CommandInvokerOptions;
+use super::akri_service_error::AkriServiceError;
+use super::create_or_update_discovered_asset_request_payload::CreateOrUpdateDiscoveredAssetRequestPayload;
+use super::create_or_update_discovered_asset_response_payload::CreateOrUpdateDiscoveredAssetResponsePayload;
+use super::create_or_update_discovered_asset_response_schema::CreateOrUpdateDiscoveredAssetResponseSchema;
 
-pub type CreateOrUpdateDiscoveredAssetRequest = rpc_command::invoker::Request<CreateOrUpdateDiscoveredAssetRequestPayload>;
-pub type CreateOrUpdateDiscoveredAssetResponse = rpc_command::invoker::Response<CreateOrUpdateDiscoveredAssetResponsePayload>;
-pub type CreateOrUpdateDiscoveredAssetRequestBuilderError = rpc_command::invoker::RequestBuilderError;
+pub type CreateOrUpdateDiscoveredAssetRequest =
+    rpc_command::invoker::Request<CreateOrUpdateDiscoveredAssetRequestPayload>;
+pub type CreateOrUpdateDiscoveredAssetResponse =
+    rpc_command::invoker::Response<CreateOrUpdateDiscoveredAssetResponsePayload>;
+pub type CreateOrUpdateDiscoveredAssetRequestBuilderError =
+    rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`CreateOrUpdateDiscoveredAssetRequest`]
 pub struct CreateOrUpdateDiscoveredAssetRequestBuilder {
-    inner_builder: rpc_command::invoker::RequestBuilder<CreateOrUpdateDiscoveredAssetRequestPayload>,
+    inner_builder:
+        rpc_command::invoker::RequestBuilder<CreateOrUpdateDiscoveredAssetRequestPayload>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -71,8 +74,13 @@ impl CreateOrUpdateDiscoveredAssetRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
-    pub fn build(&mut self) -> Result<CreateOrUpdateDiscoveredAssetRequest, CreateOrUpdateDiscoveredAssetRequestBuilderError> {
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
+    pub fn build(
+        &mut self,
+    ) -> Result<
+        CreateOrUpdateDiscoveredAssetRequest,
+        CreateOrUpdateDiscoveredAssetRequestBuilderError,
+    > {
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -81,7 +89,11 @@ impl CreateOrUpdateDiscoveredAssetRequestBuilder {
 
 /// Command Invoker for `createOrUpdateDiscoveredAsset`
 pub struct CreateOrUpdateDiscoveredAssetCommandInvoker<C>(
-    rpc_command::Invoker<CreateOrUpdateDiscoveredAssetRequestPayload, CreateOrUpdateDiscoveredAssetResponseSchema, C>,
+    rpc_command::Invoker<
+        CreateOrUpdateDiscoveredAssetRequestPayload,
+        CreateOrUpdateDiscoveredAssetResponseSchema,
+        C,
+    >,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -96,7 +108,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &CommandInvokerOptions,
+    ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -110,8 +126,14 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "createOrUpdateDiscoveredAsset".to_string());
+        topic_token_map.insert(
+            "invokerClientId".to_string(),
+            client.client_id().to_string(),
+        );
+        topic_token_map.insert(
+            "commandName".to_string(),
+            "createOrUpdateDiscoveredAsset".to_string(),
+        );
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -135,15 +157,22 @@ where
     pub async fn invoke(
         &self,
         request: CreateOrUpdateDiscoveredAssetRequest,
-    ) -> Result<Result<CreateOrUpdateDiscoveredAssetResponse, AkriServiceError>, AIOProtocolError> {
+    ) -> Result<Result<CreateOrUpdateDiscoveredAssetResponse, AkriServiceError>, AIOProtocolError>
+    {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
-                if let Some(create_or_update_discovered_asset_error) = response.payload.create_or_update_discovered_asset_error {
+                if let Some(create_or_update_discovered_asset_error) =
+                    response.payload.create_or_update_discovered_asset_error
+                {
                     Ok(Err(create_or_update_discovered_asset_error))
-                } else if let Some(discovered_asset_response) = response.payload.discovered_asset_response {
+                } else if let Some(discovered_asset_response) =
+                    response.payload.discovered_asset_response
+                {
                     Ok(Ok(CreateOrUpdateDiscoveredAssetResponse {
-                        payload: CreateOrUpdateDiscoveredAssetResponsePayload { discovered_asset_response },
+                        payload: CreateOrUpdateDiscoveredAssetResponsePayload {
+                            discovered_asset_response,
+                        },
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,

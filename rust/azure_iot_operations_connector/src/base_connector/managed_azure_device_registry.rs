@@ -12,7 +12,7 @@ use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
         self, Asset, AssetStatus, AssetUpdateObservation, Dataset, DatasetDestination, Device,
-        DeviceRef, DeviceUpdateObservation, EventsAndStreamsDestination, MessageSchemaReference,
+        DeviceRef, DeviceUpdateObservation, EventStreamDestination, MessageSchemaReference,
     },
     schema_registry,
 };
@@ -1307,13 +1307,13 @@ pub struct AssetSpecification {
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
     /// Default destinations for events.
-    pub default_events_destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_events_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for management groups.
     pub default_management_groups_configuration: Option<String>,
     /// Default configuration for streams.
     pub default_streams_configuration: Option<String>,
     /// Default destinations for streams.
-    pub default_streams_destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub default_streams_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The description of the asset.
     pub description: Option<String>,
     /// A reference to the Device and Endpoint within the device

@@ -324,7 +324,9 @@ where
     /// It receives update notifications from the Azure Device Registry service.
     async fn receive_update_notification_loop(
         shutdown_notifier: Arc<Notify>,
-        mut device_update_telemetry_receiver: base_client_gen::DeviceUpdateEventTelemetryReceiver<C>,
+        mut device_update_telemetry_receiver: base_client_gen::DeviceUpdateEventTelemetryReceiver<
+            C,
+        >,
         device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>)>>,
         mut asset_update_telemetry_receiver: base_client_gen::AssetUpdateEventTelemetryReceiver<C>,
         asset_update_notification_dispatcher: Arc<Dispatcher<(Asset, Option<AckToken>)>>,
@@ -514,6 +516,7 @@ where
             .get_device_command_invoker
             .invoke(get_device_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
         Ok(response.payload.device.into())
     }
