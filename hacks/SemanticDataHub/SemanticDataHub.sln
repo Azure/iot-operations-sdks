@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Remapper", "Remapper\Remapp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSourceBeta", "DataSourceBeta\DataSourceBeta.csproj", "{94737E18-CEAC-42B5-AE9E-A13CE4529682}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitExtractor", "UnitExtractor\UnitExtractor.csproj", "{DD080500-B42C-4722-979B-BAB3E98E7A7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{94737E18-CEAC-42B5-AE9E-A13CE4529682}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94737E18-CEAC-42B5-AE9E-A13CE4529682}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94737E18-CEAC-42B5-AE9E-A13CE4529682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD080500-B42C-4722-979B-BAB3E98E7A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD080500-B42C-4722-979B-BAB3E98E7A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD080500-B42C-4722-979B-BAB3E98E7A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD080500-B42C-4722-979B-BAB3E98E7A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

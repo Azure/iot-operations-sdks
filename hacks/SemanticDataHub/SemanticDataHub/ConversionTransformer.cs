@@ -44,8 +44,15 @@
                 throw new Exception("Model units not configured");
             }
 
+            if (!modelUnitsObj.TryGetValue(propertyPath, out JToken? modelQuantExpr))
+            {
+                scale = 1.0;
+                offset = 0.0;
+                return;
+            }
+
             GetQuantitativeTypeAndUnit(elt2.GetString()!, out string fromQuantitativeType, out string fromQuantitativeUnit);
-            GetQuantitativeTypeAndUnit(((JValue)modelUnitsObj.GetValue(propertyPath)!).Value<string>()!, out string toQuantitativeType, out string toQuantitativeUnit);
+            GetQuantitativeTypeAndUnit(((JValue)modelQuantExpr!).Value<string>()!, out string toQuantitativeType, out string toQuantitativeUnit);
             if (fromQuantitativeType != toQuantitativeType)
             {
                 throw new Exception($"Inconsistent quantitative types for property path {propertyPath}: model specifies {toQuantitativeType} but binding specifies {fromQuantitativeType}");

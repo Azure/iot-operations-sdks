@@ -7,3 +7,5 @@ $gen --modelFile ./dtdl/SemanticDataModel.json --outDir ./SemanticDataClient --l
 
 [[ -d ./SemanticDataServer ]] && rm -r ./SemanticDataServer
 $gen --modelFile ./dtdl/SemanticDataModel.json --outDir ./SemanticDataServer --lang csharp --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol --serverOnly
+
+UnitExtractor/bin/Debug/net9.0/UnitExtractor dtdl/SemanticDataModel.json ./SemanticDataHub/FirstModel.units.json
