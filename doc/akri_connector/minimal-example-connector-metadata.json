@@ -1,5 +1,5 @@
 {
-  "aioConnectorMetadataVersion": "1.0.0",
+  "aioConnectorMetadataSchemaVersion": "1.0.0",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",

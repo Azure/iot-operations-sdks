@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "aioConnectorMetadataVersion": "1.0.0",
+  "aioConnectorMetadataSchemaVersion": "1.0.0",
   "definitions": {
     "AdditionalConfiguration": {
       "type": "object",
