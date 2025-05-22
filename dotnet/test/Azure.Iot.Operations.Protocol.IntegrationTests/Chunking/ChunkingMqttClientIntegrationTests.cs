@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests.Chunking
         {
             // Arrange
             // Create a base client
-            var baseClient = await ClientFactory.CreateClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
+            await using var mqttClient = await ClientFactory.CreateExtendedClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
 
             // Create a chunking client with modest settings
             var options = new ChunkingOptions
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests.Chunking
                 ChunkTimeout = TimeSpan.FromSeconds(10)
             };
 
-            await using var chunkingClient = new ChunkingMqttClient(baseClient, options);
+            await using var chunkingClient = new ChunkingMqttPubSubClient(mqttClient, options);
 
             var messageReceivedTcs = new TaskCompletionSource<MqttApplicationMessage>();
             chunkingClient.ApplicationMessageReceivedAsync += (args) =>
@@ -87,8 +87,6 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests.Chunking
             var testProperty = receivedMessage.UserProperties?.FirstOrDefault(p => p.Name == "testProperty");
             Assert.NotNull(testProperty);
             Assert.Equal("testValue", testProperty!.Value);
-
-            await chunkingClient.DisconnectAsync();
         }
 
         [Fact]
@@ -96,7 +94,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests.Chunking
         {
             // Arrange
             // Create a base client
-            var baseClient = await ClientFactory.CreateClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
+            await using var mqttClient = await ClientFactory.CreateExtendedClientAsyncFromEnvAsync(Guid.NewGuid().ToString());
 
             // Create a chunking client with settings that force chunking
             var options = new ChunkingOptions
@@ -106,7 +104,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests.Chunking
                 ChunkTimeout = TimeSpan.FromSeconds(30)
             };
 
-            await using var chunkingClient = new ChunkingMqttClient(baseClient, options);
+            await using var chunkingClient = new ChunkingMqttPubSubClient(mqttClient, options);
 
             var messageReceivedTcs = new TaskCompletionSource<MqttApplicationMessage>();
             chunkingClient.ApplicationMessageReceivedAsync += (args) =>
@@ -172,8 +170,6 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests.Chunking
             var testProperty = receivedMessage.UserProperties?.FirstOrDefault(p => p.Name == "testProperty");
             Assert.NotNull(testProperty);
             Assert.Equal("testValue", testProperty!.Value);
-
-            await chunkingClient.DisconnectAsync();
         }
 
         /*
