@@ -3,7 +3,8 @@
 
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Azure.Iot.Operations.Protocol.IntegrationTests")]
+// TODO: @maximsemenov80 it looks like assembly shoulb be signed for the integration tests to work
+//[assembly: InternalsVisibleTo("Azure.Iot.Operations.Protocol.IntegrationTests")]
 
 namespace Azure.Iot.Operations.Protocol;
 

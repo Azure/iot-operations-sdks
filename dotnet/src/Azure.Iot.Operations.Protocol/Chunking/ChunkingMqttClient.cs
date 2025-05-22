@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 public class ChunkingMqttClient : IMqttClient
 {
     private readonly IMqttClient _innerClient;
-    private readonly ChunkingOptions _options;
+    private readonly ChunkingOptions _chunkingOptions;
     private readonly ConcurrentDictionary<string, ChunkedMessageAssembler> _messageAssemblers = new();
     private readonly ChunkedMessageSplitter _messageSplitter;
     private int _maxPacketSize;
@@ -33,8 +33,8 @@ public class ChunkingMqttClient : IMqttClient
     public ChunkingMqttClient(IMqttClient innerClient, ChunkingOptions? options = null)
     {
         _innerClient = innerClient ?? throw new ArgumentNullException(nameof(innerClient));
-        _options = options ?? new ChunkingOptions();
-        _messageSplitter = new ChunkedMessageSplitter(_options);
+        _chunkingOptions = options ?? new ChunkingOptions();
+        _messageSplitter = new ChunkedMessageSplitter(_chunkingOptions);
 
         // Hook into the inner client's event
         _innerClient.ApplicationMessageReceivedAsync += HandleApplicationMessageReceivedAsync;
@@ -52,15 +52,23 @@ public class ChunkingMqttClient : IMqttClient
     public event Func<MqttClientConnectedEventArgs, Task>? ConnectedAsync;
 
     /// <inheritdoc/>
-    public Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
+    public async Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
     {
-        return _innerClient.ConnectAsync(options, cancellationToken);
+        var result = await _innerClient.ConnectAsync(options, cancellationToken);
+
+        UpdateMaxPacketSizeFromConnectResult(result);
+
+        return result;
     }
 
     /// <inheritdoc/>
-    public Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
+    public async Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
     {
-        return _innerClient.ConnectAsync(settings, cancellationToken);
+        var result = await _innerClient.ConnectAsync(settings, cancellationToken);
+
+        UpdateMaxPacketSizeFromConnectResult(result);
+
+        return result;
     }
 
     /// <inheritdoc/>
@@ -85,7 +93,7 @@ public class ChunkingMqttClient : IMqttClient
     public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
     {
         // If chunking is disabled or the message is small enough, pass through to the inner client
-        if (!_options.Enabled || applicationMessage.Payload.Length <= Utils.GetMaxChunkSize(_maxPacketSize, _options.StaticOverhead))
+        if (!_chunkingOptions.Enabled || applicationMessage.Payload.Length <= Utils.GetMaxChunkSize(_maxPacketSize, _chunkingOptions.StaticOverhead))
         {
             return await _innerClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
         }
@@ -129,6 +137,18 @@ public class ChunkingMqttClient : IMqttClient
         GC.SuppressFinalize(this);
 
         return _innerClient.DisposeAsync();
+    }
+
+    private void UpdateMaxPacketSizeFromConnectResult(MqttClientConnectResult result)
+    {
+        if (_chunkingOptions.Enabled && result.MaximumPacketSize is not > 0)
+        {
+            throw new InvalidOperationException("Chunking client requires a defined maximum packet size to function properly.");
+        }
+
+        // TODO: @maximsemnov80 figure out how to set the max packet size on the broker side
+        // Interlocked.Exchange(ref _maxPacketSize, (int)result.MaximumPacketSize!.Value);
+        _maxPacketSize = 64*1024; // 64KB
     }
 
     private async Task<MqttClientPublishResult> PublishChunkedMessageAsync(MqttApplicationMessage message, CancellationToken cancellationToken)
@@ -191,7 +211,7 @@ public class ChunkingMqttClient : IMqttClient
         // Get or create the message assembler
         var assembler = _messageAssemblers.GetOrAdd(
             metadata.MessageId,
-            _ => new ChunkedMessageAssembler(metadata.TotalChunks ?? 0, _options.ChecksumAlgorithm));
+            _ => new ChunkedMessageAssembler(metadata.TotalChunks ?? 0, _chunkingOptions.ChecksumAlgorithm));
 
         // Add this chunk to the assembler
         if (assembler.AddChunk(metadata.ChunkIndex, args))
@@ -245,13 +265,6 @@ public class ChunkingMqttClient : IMqttClient
 
     private Task HandleConnectedAsync(MqttClientConnectedEventArgs args)
     {
-        if (!args.ConnectResult.MaximumPacketSize.HasValue)
-        {
-            throw new InvalidOperationException("Chunking client requires a defined maximum packet size to function properly.");
-        }
-
-        Interlocked.Exchange(ref _maxPacketSize, (int)args.ConnectResult.MaximumPacketSize.Value);
-
         // Forward the event
         var handler = ConnectedAsync;
         return handler != null ? handler.Invoke(args) : Task.CompletedTask;

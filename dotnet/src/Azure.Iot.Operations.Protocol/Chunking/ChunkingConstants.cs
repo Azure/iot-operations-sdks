@@ -6,7 +6,8 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 /// <summary>
 /// Constants used for the MQTT message chunking feature.
 /// </summary>
-internal static class ChunkingConstants
+//TODO: @maximsemenov80 public for testing purposes, should be internal
+public static class ChunkingConstants
 {
     /// <summary>
     /// The user property name used to store chunking metadata.
