@@ -878,4 +878,195 @@ mod tests {
             },
         );
     }
+
+    #[test]
+    fn convert_to_mqtt_connection_settings_minimum() {
+        let connector_artifacts = ConnectorArtifacts {
+            connector_id: "connector_id".to_string(),
+            connector_configuration: ConnectorConfiguration {
+                mqtt_connection_configuration: MqttConnectionConfiguration {
+                    host: "someHostName:1234".to_string(),
+                    keep_alive_seconds: 60,
+                    max_inflight_messages: 100,
+                    protocol: Protocol::Mqtt,
+                    session_expiry_seconds: 3600,
+                    tls: Tls {
+                        mode: TlsMode::Disabled,
+                    },
+                },
+                diagnostics: None,
+                persistent_volumes: vec![],
+                additional_configuration: None,
+            },
+            connector_secrets_metadata_mount: None,
+            connector_trust_settings_mount: None,
+            broker_trust_bundle_mount: None,
+            broker_sat_mount: None,
+            device_endpoint_trust_bundle_mount: None,
+            device_endpoint_credentials_mount: None,
+        };
+
+        // Convert to MQTT ConnectionSettings
+        let mqtt_connection_settings = connector_artifacts
+            .to_mqtt_connection_settings("0")
+            .unwrap();
+        assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
+        assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
+        assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
+        assert_eq!(
+            *mqtt_connection_settings.keep_alive(),
+            Duration::from_secs(60)
+        );
+        assert_eq!(mqtt_connection_settings.receive_max(), 100);
+        assert_eq!(
+            *mqtt_connection_settings.session_expiry(),
+            Duration::from_secs(3600)
+        );
+        assert!(!mqtt_connection_settings.use_tls());
+        assert_eq!(*mqtt_connection_settings.ca_file(), None);
+        assert_eq!(*mqtt_connection_settings.sat_file(), None);
+    }
+
+    #[test]
+    fn convert_to_mqtt_connection_settings_maximum() {
+        let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
+
+        let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
+        broker_trust_bundle_mount.add_file("ca.txt", "");
+
+        let connector_artifacts = ConnectorArtifacts {
+            connector_id: "connector_id".to_string(),
+            connector_configuration: ConnectorConfiguration {
+                mqtt_connection_configuration: MqttConnectionConfiguration {
+                    host: "someHostName:1234".to_string(),
+                    keep_alive_seconds: 60,
+                    max_inflight_messages: 100,
+                    protocol: Protocol::Mqtt,
+                    session_expiry_seconds: 3600,
+                    tls: Tls {
+                        mode: TlsMode::Enabled,
+                    },
+                },
+                diagnostics: None,
+                persistent_volumes: vec![],
+                additional_configuration: None,
+            },
+            connector_secrets_metadata_mount: None,
+            connector_trust_settings_mount: None,
+            broker_trust_bundle_mount: Some(broker_trust_bundle_mount.path().to_path_buf()),
+            broker_sat_mount: Some(broker_sat_file_mount.path().to_path_buf()),
+            device_endpoint_trust_bundle_mount: None,
+            device_endpoint_credentials_mount: None,
+        };
+
+        // Convert to MQTT ConnectionSettings
+        let mqtt_connection_settings = connector_artifacts
+            .to_mqtt_connection_settings("0")
+            .unwrap();
+        assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
+        assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
+        assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
+        assert_eq!(
+            *mqtt_connection_settings.keep_alive(),
+            Duration::from_secs(60)
+        );
+        assert_eq!(mqtt_connection_settings.receive_max(), 100);
+        assert_eq!(
+            *mqtt_connection_settings.session_expiry(),
+            Duration::from_secs(3600)
+        );
+        assert!(mqtt_connection_settings.use_tls());
+        assert_eq!(
+            *mqtt_connection_settings.ca_file(),
+            Some(
+                broker_trust_bundle_mount
+                    .path()
+                    .join("ca.txt")
+                    .into_os_string()
+                    .into_string()
+                    .unwrap()
+            )
+        );
+        assert_eq!(
+            *mqtt_connection_settings.sat_file(),
+            Some(broker_sat_file_mount.path().to_str().unwrap().to_string())
+        );
+    }
+
+    #[test_case("someHostName:not_a_number"; "Invalid TCP port")]
+    #[test_case("someHostName:1234:extra_colon"; "Extra colon in host")]
+    #[test_case("not_a_host"; "No port in host")]
+    fn convert_to_mqtt_connection_settings_malformed_host(host: &str) {
+        let connector_artifacts = ConnectorArtifacts {
+            connector_id: "connector_id".to_string(),
+            connector_configuration: ConnectorConfiguration {
+                mqtt_connection_configuration: MqttConnectionConfiguration {
+                    host: host.to_string(),
+                    keep_alive_seconds: 60,
+                    max_inflight_messages: 100,
+                    protocol: Protocol::Mqtt,
+                    session_expiry_seconds: 3600,
+                    tls: Tls {
+                        mode: TlsMode::Disabled,
+                    },
+                },
+                diagnostics: None,
+                persistent_volumes: vec![],
+                additional_configuration: None,
+            },
+            connector_secrets_metadata_mount: None,
+            connector_trust_settings_mount: None,
+            broker_trust_bundle_mount: None,
+            broker_sat_mount: None,
+            device_endpoint_trust_bundle_mount: None,
+            device_endpoint_credentials_mount: None,
+        };
+
+        // Convert to MQTT ConnectionSettings
+        assert!(
+            connector_artifacts
+                .to_mqtt_connection_settings("0")
+                .is_err()
+        );
+    }
+
+    #[test]
+    fn convert_to_mqtt_connection_settings_no_ca_cert() {
+        // NOTE: no CA cert is added to this mount
+        let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
+
+        let connector_artifacts = ConnectorArtifacts {
+            connector_id: "connector_id".to_string(),
+            connector_configuration: ConnectorConfiguration {
+                mqtt_connection_configuration: MqttConnectionConfiguration {
+                    host: "someHostName:1234".to_string(),
+                    keep_alive_seconds: 60,
+                    max_inflight_messages: 100,
+                    protocol: Protocol::Mqtt,
+                    session_expiry_seconds: 3600,
+                    tls: Tls {
+                        mode: TlsMode::Disabled,
+                    },
+                },
+                diagnostics: None,
+                persistent_volumes: vec![],
+                additional_configuration: None,
+            },
+            connector_secrets_metadata_mount: None,
+            connector_trust_settings_mount: None,
+            broker_trust_bundle_mount: Some(broker_trust_bundle_mount.path().to_path_buf()),
+            broker_sat_mount: None,
+            device_endpoint_trust_bundle_mount: None,
+            device_endpoint_credentials_mount: None,
+        };
+
+        // Convert to MQTT ConnectionSettings
+        assert!(
+            connector_artifacts
+                .to_mqtt_connection_settings("0")
+                .is_err()
+        );
+    }
+
+    // TODO: Simulate permissions issues in mounts
 }
