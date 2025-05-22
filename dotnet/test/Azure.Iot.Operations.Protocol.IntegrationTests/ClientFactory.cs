@@ -35,6 +35,29 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             return orderedAckClient;
         }
 
+        public static async Task<ExtendedPubSubMqttClient> CreateExtendedClientAsyncFromEnvAsync(string clientId, bool withTraces = false, CancellationToken cancellationToken = default)
+        {
+            Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
+            string cs = $"{Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")}";
+            MqttConnectionSettings mcs = MqttConnectionSettings.FromConnectionString(cs);
+            if (string.IsNullOrEmpty(clientId))
+            {
+                mcs.ClientId += Guid.NewGuid();
+            }
+            else
+            {
+                mcs.ClientId = clientId;
+            }
+
+            MQTTnet.IMqttClient mqttClient = withTraces
+                ? new MQTTnet.MqttClientFactory().CreateMqttClient(MqttNetTraceLogger.CreateTraceLogger())
+                : new MQTTnet.MqttClientFactory().CreateMqttClient();
+            var extendedPubSubClient = new ExtendedPubSubMqttClient(mqttClient);
+            await extendedPubSubClient.ConnectAsync(new MqttClientOptions(mcs), cancellationToken);
+
+            return extendedPubSubClient;
+        }
+
         public static async Task<MqttSessionClient> CreateSessionClientForFaultableBrokerFromEnv(List<MqttUserProperty>? ConnectUserProperties = null, string? clientId = null)
         {
             if (string.IsNullOrEmpty(clientId))

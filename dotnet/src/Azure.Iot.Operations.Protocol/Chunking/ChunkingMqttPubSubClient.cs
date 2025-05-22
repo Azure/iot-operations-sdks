@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
 using System;
@@ -17,77 +16,31 @@ namespace Azure.Iot.Operations.Protocol.Chunking;
 /// <summary>
 /// MQTT client middleware that provides transparent chunking of large messages.
 /// </summary>
-public class ChunkingMqttClient : IMqttClient
+public class ChunkingMqttPubSubClient : IMqttPubSubClient
 {
-    private readonly IMqttClient _innerClient;
+    private readonly IExtendedPubSubMqttClient _innerClient;
     private readonly ChunkingOptions _chunkingOptions;
     private readonly ConcurrentDictionary<string, ChunkedMessageAssembler> _messageAssemblers = new();
     private readonly ChunkedMessageSplitter _messageSplitter;
     private int _maxPacketSize;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ChunkingMqttClient"/> class.
+    /// Initializes a new instance of the <see cref="ChunkingMqttPubSubClient"/> class.
     /// </summary>
     /// <param name="innerClient">The MQTT client to wrap with chunking capabilities.</param>
     /// <param name="options">The chunking options.</param>
-    public ChunkingMqttClient(IMqttClient innerClient, ChunkingOptions? options = null)
+    public ChunkingMqttPubSubClient(IExtendedPubSubMqttClient innerClient, ChunkingOptions? options = null)
     {
         _innerClient = innerClient ?? throw new ArgumentNullException(nameof(innerClient));
         _chunkingOptions = options ?? new ChunkingOptions();
         _messageSplitter = new ChunkedMessageSplitter(_chunkingOptions);
 
-        // Hook into the inner client's event
+        UpdateMaxPacketSizeFromConnectResult(_innerClient.GetConnectResult());
+
         _innerClient.ApplicationMessageReceivedAsync += HandleApplicationMessageReceivedAsync;
-        _innerClient.ConnectedAsync += HandleConnectedAsync;
-        _innerClient.DisconnectedAsync += HandleDisconnectedAsync;
     }
 
-    /// <inheritdoc/>
     public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync;
-
-    /// <inheritdoc/>
-    public event Func<MqttClientDisconnectedEventArgs, Task>? DisconnectedAsync;
-
-    /// <inheritdoc/>
-    public event Func<MqttClientConnectedEventArgs, Task>? ConnectedAsync;
-
-    /// <inheritdoc/>
-    public async Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
-    {
-        var result = await _innerClient.ConnectAsync(options, cancellationToken);
-
-        UpdateMaxPacketSizeFromConnectResult(result);
-
-        return result;
-    }
-
-    /// <inheritdoc/>
-    public async Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
-    {
-        var result = await _innerClient.ConnectAsync(settings, cancellationToken);
-
-        UpdateMaxPacketSizeFromConnectResult(result);
-
-        return result;
-    }
-
-    /// <inheritdoc/>
-    public Task DisconnectAsync(MqttClientDisconnectOptions? options = null, CancellationToken cancellationToken = default)
-    {
-        return _innerClient.DisconnectAsync(options, cancellationToken);
-    }
-
-    public Task ReconnectAsync(CancellationToken cancellationToken = default)
-    {
-        return _innerClient.ReconnectAsync(cancellationToken);
-    }
-
-    public bool IsConnected => _innerClient.IsConnected;
-
-    public Task SendEnhancedAuthenticationExchangeDataAsync(MqttEnhancedAuthenticationExchangeData data, CancellationToken cancellationToken = default)
-    {
-        return _innerClient.SendEnhancedAuthenticationExchangeDataAsync(data, cancellationToken);
-    }
 
     /// <inheritdoc/>
     public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
@@ -130,8 +83,6 @@ public class ChunkingMqttClient : IMqttClient
 
         // Detach events
         _innerClient.ApplicationMessageReceivedAsync -= HandleApplicationMessageReceivedAsync;
-        _innerClient.ConnectedAsync -= HandleConnectedAsync;
-        _innerClient.DisconnectedAsync -= HandleDisconnectedAsync;
 
         // Suppress finalization since we're explicitly disposing
         GC.SuppressFinalize(this);
@@ -139,16 +90,14 @@ public class ChunkingMqttClient : IMqttClient
         return _innerClient.DisposeAsync();
     }
 
-    private void UpdateMaxPacketSizeFromConnectResult(MqttClientConnectResult result)
+    private void UpdateMaxPacketSizeFromConnectResult(MqttClientConnectResult? result)
     {
-        if (_chunkingOptions.Enabled && result.MaximumPacketSize is not > 0)
+        if (_chunkingOptions.Enabled && result?.MaximumPacketSize is not > 0)
         {
             throw new InvalidOperationException("Chunking client requires a defined maximum packet size to function properly.");
         }
 
-        // TODO: @maximsemnov80 figure out how to set the max packet size on the broker side
-        // Interlocked.Exchange(ref _maxPacketSize, (int)result.MaximumPacketSize!.Value);
-        _maxPacketSize = 64*1024; // 64KB
+        Interlocked.Exchange(ref _maxPacketSize, (int)result!.MaximumPacketSize!.Value);
     }
 
     private async Task<MqttClientPublishResult> PublishChunkedMessageAsync(MqttApplicationMessage message, CancellationToken cancellationToken)
@@ -261,22 +210,5 @@ public class ChunkingMqttClient : IMqttClient
         {
             return false;
         }
-    }
-
-    private Task HandleConnectedAsync(MqttClientConnectedEventArgs args)
-    {
-        // Forward the event
-        var handler = ConnectedAsync;
-        return handler != null ? handler.Invoke(args) : Task.CompletedTask;
-    }
-
-    private Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs args)
-    {
-        // Clear any in-progress reassembly when disconnected
-        _messageAssemblers.Clear();
-
-        // Forward the event
-        var handler = DisconnectedAsync;
-        return handler != null ? handler.Invoke(args) : Task.CompletedTask;
     }
 }

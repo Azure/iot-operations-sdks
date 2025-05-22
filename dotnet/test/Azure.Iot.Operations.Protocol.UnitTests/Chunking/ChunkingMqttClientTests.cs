@@ -17,7 +17,7 @@ public class ChunkingMqttClientTests
     public async Task PublishAsync_SmallMessage_PassesThroughToInnerClient()
     {
         // Arrange
-        var mockInnerClient = new Mock<IMqttClient>();
+        var mockInnerClient = new Mock<IExtendedPubSubMqttClient>();
         var expectedResult = new MqttClientPublishResult(
             null,
             MqttClientPublishReasonCode.Success,
@@ -30,9 +30,6 @@ public class ChunkingMqttClientTests
             .Callback<MqttApplicationMessage, CancellationToken>((msg, _) => capturedMessage = msg)
             .ReturnsAsync(expectedResult);
 
-        // Configure connected client with MaxPacketSize
-        mockInnerClient.SetupGet(c => c.IsConnected).Returns(true);
-
         // Setup connection result with MaximumPacketSize to be large
         uint? maxPacketSize = 10000;
         var connectResult = new MqttClientConnectResult
@@ -42,6 +39,7 @@ public class ChunkingMqttClientTests
             MaximumPacketSize = maxPacketSize,
             UserProperties = new List<MqttUserProperty>()
         };
+        mockInnerClient.Setup(c => c.GetConnectResult()).Returns(connectResult);
 
         var options = new ChunkingOptions
         {
@@ -49,11 +47,7 @@ public class ChunkingMqttClientTests
             StaticOverhead = 100
         };
 
-        var client = new ChunkingMqttClient(mockInnerClient.Object, options);
-
-        // Make sure the client is "connected" and knows the max packet size
-        var connectedArgs = new MqttClientConnectedEventArgs(connectResult);
-        await mockInnerClient.RaiseAsync(m => m.ConnectedAsync += null, connectedArgs);
+        var client = new ChunkingMqttPubSubClient(mockInnerClient.Object, options);
 
         // Create a small message that doesn't need chunking
         var smallPayload = new byte[100];
@@ -75,7 +69,7 @@ public class ChunkingMqttClientTests
     public async Task PublishAsync_LargeMessage_ChunksMessageAndSendsMultipleMessages()
     {
         // Arrange
-        var mockInnerClient = new Mock<IMqttClient>();
+        var mockInnerClient = new Mock<IExtendedPubSubMqttClient>();
         var publishedMessages = new List<MqttApplicationMessage>();
 
         var mqttClientPublishResult = new MqttClientPublishResult(
@@ -89,9 +83,6 @@ public class ChunkingMqttClientTests
             .Callback<MqttApplicationMessage, CancellationToken>((msg, _) => publishedMessages.Add(msg))
             .ReturnsAsync(mqttClientPublishResult);
 
-        // Configure connected client with MaxPacketSize
-        mockInnerClient.SetupGet(c => c.IsConnected).Returns(true);
-
         // Set a small max packet size to force chunking
         var maxPacketSize = 1000;
         var connectResult = new MqttClientConnectResult
@@ -102,6 +93,7 @@ public class ChunkingMqttClientTests
             MaximumQoS = MqttQualityOfServiceLevel.AtLeastOnce,
             UserProperties = new List<MqttUserProperty>()
         };
+        mockInnerClient.Setup(c => c.GetConnectResult()).Returns(connectResult);
 
         var options = new ChunkingOptions
         {
@@ -110,11 +102,7 @@ public class ChunkingMqttClientTests
             ChecksumAlgorithm = ChunkingChecksumAlgorithm.SHA256
         };
 
-        var client = new ChunkingMqttClient(mockInnerClient.Object, options);
-
-        // Make sure the client is "connected" and knows the max packet size
-        var connectedArgs = new MqttClientConnectedEventArgs(connectResult);
-        await mockInnerClient.RaiseAsync(m => m.ConnectedAsync += null, connectedArgs);
+        var client = new ChunkingMqttPubSubClient(mockInnerClient.Object, options);
 
         // Create a large message that needs chunking
         // The max chunk size will be maxPacketSize - staticOverhead = 900 bytes
@@ -172,11 +160,22 @@ public class ChunkingMqttClientTests
     public async Task HandleApplicationMessageReceivedAsync_NonChunkedMessage_PassesThroughToHandler()
     {
         // Arrange
-        var mockInnerClient = new Mock<IMqttClient>();
+        var mockInnerClient = new Mock<IExtendedPubSubMqttClient>();
         var handlerCalled = false;
         var capturedArgs = default(MqttApplicationMessageReceivedEventArgs);
 
-        var client = new ChunkingMqttClient(mockInnerClient.Object);
+        var maxPacketSize = 1000;
+        var connectResult = new MqttClientConnectResult
+        {
+            IsSessionPresent = true,
+            ResultCode = MqttClientConnectResultCode.Success,
+            MaximumPacketSize = (uint)maxPacketSize,
+            MaximumQoS = MqttQualityOfServiceLevel.AtLeastOnce,
+            UserProperties = new List<MqttUserProperty>()
+        };
+        mockInnerClient.Setup(c => c.GetConnectResult()).Returns(connectResult);
+
+        var client = new ChunkingMqttPubSubClient(mockInnerClient.Object);
         client.ApplicationMessageReceivedAsync += args =>
         {
             handlerCalled = true;
@@ -205,11 +204,22 @@ public class ChunkingMqttClientTests
     public async Task HandleApplicationMessageReceivedAsync_ChunkedMessage_ReassemblesBeforeDelivering()
     {
         // Arrange
-        var mockInnerClient = new Mock<IMqttClient>();
+        var mockInnerClient = new Mock<IExtendedPubSubMqttClient>();
         var handlerCalled = false;
         var capturedArgs = default(MqttApplicationMessageReceivedEventArgs);
 
-        var client = new ChunkingMqttClient(mockInnerClient.Object);
+        var maxPacketSize = 1000;
+        var connectResult = new MqttClientConnectResult
+        {
+            IsSessionPresent = true,
+            ResultCode = MqttClientConnectResultCode.Success,
+            MaximumPacketSize = (uint)maxPacketSize,
+            MaximumQoS = MqttQualityOfServiceLevel.AtLeastOnce,
+            UserProperties = new List<MqttUserProperty>()
+        };
+        mockInnerClient.Setup(c => c.GetConnectResult()).Returns(connectResult);
+
+        var client = new ChunkingMqttPubSubClient(mockInnerClient.Object);
         client.ApplicationMessageReceivedAsync += args =>
         {
             handlerCalled = true;
@@ -250,33 +260,6 @@ public class ChunkingMqttClientTests
         Assert.DoesNotContain(
             capturedArgs.ApplicationMessage.UserProperties ?? Enumerable.Empty<MqttUserProperty>(),
             p => p.Name == ChunkingConstants.ChunkUserProperty);
-    }
-
-    [Fact]
-    public async Task DisconnectedAsync_ClearsInProgressChunks()
-    {
-        // Since we can't directly test private fields, we'll test the behavior
-        // by simulating a reconnect scenario with chunks from before
-
-        // Arrange
-        var mockInnerClient = new Mock<IMqttClient>();
-        var client = new ChunkingMqttClient(mockInnerClient.Object);
-
-        // Create and set up a disconnect event
-        var disconnectArgs = new MqttClientDisconnectedEventArgs(
-            true,
-            null,
-            MqttClientDisconnectReason.NormalDisconnection,
-            null,
-            new List<MqttUserProperty>(),
-            null);
-
-        // Act
-        await mockInnerClient.RaiseAsync(m => m.DisconnectedAsync += null, disconnectArgs);
-
-        // Assert
-        // This test is mostly for coverage since we can't directly verify the _messageAssemblers was cleared
-        // The behavior would be verified in a combination with other tests like HandleApplicationMessageReceivedAsync_ChunkedMessage
     }
 
     // Helper method to create a chunked message with metadata
