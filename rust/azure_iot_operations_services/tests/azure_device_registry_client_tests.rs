@@ -511,3 +511,155 @@ async fn observe_device_update_notifications() {
         .is_ok()
     );
 }
+
+async fn observe_asset_update_notifications(
+    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
+) {
+    let log_identifier = "observe_asset_update_notifications_network_tests-rust";
+    if !setup_test(log_identifier) {
+        return;
+    }
+    let (session, azure_device_registry_client, exit_handle) =
+        initialize_client(&format!("{log_identifier}-client"));
+
+    let test_task = tokio::task::spawn({
+        async move {
+            let mut observation = azure_device_registry_client
+                .observe_asset_update_notifications(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    ASSET_NAME1.to_string(),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Observation Response: {observation:?}",);
+            let receive_notifications_task = tokio::task::spawn({
+                async move {
+                    log::info!("[{log_identifier}] Asset Notification receiver started.");
+                    let mut count = 0;
+                    if let Some((device, _)) = observation.recv_notification().await {
+                        count += 1;
+                        log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
+                        log::info!("[{log_identifier}] Asset Observation: {device:?}");
+                        assert_eq!(device.name, DEVICE1);
+                    }
+                    // if let Some((device, _)) = observation.recv_notification().await {
+                    //     count += 1;
+                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
+                    //     log::info!("[{log_identifier}] Device From Observation 2: {device:?}");
+                    //     assert_eq!(device.name, DEVICE1);
+                    // }
+                    // if let Some((device, _)) = observation.recv_notification().await {
+                    //     count += 1;
+                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
+                    //     log::info!("[{log_identifier}] Device From Observation 3: {device:?}");
+                    // }
+                    while let Some((device, _)) = observation.recv_notification().await {
+                        count += 1;
+                        log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
+                        log::info!(
+                            "[{log_identifier}] Asset Observation If Any Other Works: {device:?}"
+                        );
+                        // if something weird happens, this should prevent an infinite loop.
+                        // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
+                        assert!(count < 2);
+                    }
+                    // only the 1 expected notifications should occur
+                    assert_eq!(count, 1);
+                    log::info!("[{log_identifier}] Asset Notification receiver closed");
+                }
+            });
+
+            tokio::time::sleep(Duration::from_secs(1)).await;
+            // Get the device
+            let response = azure_device_registry_client
+                .get_asset(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    ASSET_NAME1.to_string(),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Get Asset Reponse: {response:?}",);
+            //old_version = response.specification.version.unwrap_or(0);
+            // log::info!(
+            //     "[{log_identifier}] Datetime: {}",
+            //     time::OffsetDateTime::now_utc()
+            // );
+            let mut dataset_statuses = Vec::new();
+            for dataset in response.specification.datasets {
+                dataset_statuses.push(azure_device_registry::AssetDatasetEventStreamStatus {
+                    error: None,
+                    message_schema_reference: None,
+                    name: dataset.name,
+                });
+            }
+            let status_to_be_updated = azure_device_registry::AssetStatus {
+                config: Some(azure_device_registry::StatusConfig {
+                    version: response.specification.version,
+                    ..azure_device_registry::StatusConfig::default()
+                }),
+                datasets: Some(dataset_statuses),
+                ..azure_device_registry::AssetStatus::default()
+            };
+            let updated_response1 = azure_device_registry_client
+                .update_asset_status(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    ASSET_NAME1.to_string(),
+                    status_to_be_updated,
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] Updated Response Device After Observation: {updated_response1:?}",
+            );
+
+            azure_device_registry_client
+                .unobserve_device_update_notifications(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!("[{log_identifier}] Unobservation Device Response: {:?}", ());
+
+            let updated_response4 = azure_device_registry_client
+                .update_device_plus_endpoint_status(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    DeviceStatus {
+                        config: None,
+                        endpoints: std::collections::HashMap::new(),
+                    },
+                    TIMEOUT,
+                )
+                .await
+                .unwrap();
+            log::info!(
+                "[{log_identifier}] Updated Response Device After Unobserve: {updated_response4:?}",
+            );
+            // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
+            assert!(receive_notifications_task.await.is_ok());
+
+            tokio::time::sleep(Duration::from_secs(1)).await;
+
+            // Shutdown adr client and underlying resources
+            assert!(azure_device_registry_client.shutdown().await.is_ok());
+
+            exit_handle.try_exit().await.unwrap();
+        }
+    });
+
+    assert!(
+        tokio::try_join!(
+            async move { test_task.await.map_err(|e| { e.to_string() }) },
+            async move { session.run().await.map_err(|e| { e.to_string() }) }
+        )
+        .is_ok()
+    );
+}
