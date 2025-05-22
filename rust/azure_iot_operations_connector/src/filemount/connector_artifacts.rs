@@ -58,7 +58,7 @@ pub struct ConnectorArtifacts {
     pub connector_secrets_metadata_mount: Option<PathBuf>,
     /// Path to directory containing trust list certificates for the connector
     pub connector_trust_settings_mount: Option<PathBuf>,
-    /// Path to directory containing  trust bundle for the broker
+    /// Path to directory containing trust bundle for the broker
     pub broker_trust_bundle_mount: Option<PathBuf>,
     /// Path to file containing service account token for authentication with the broker
     pub broker_sat_mount: Option<PathBuf>,
@@ -141,7 +141,6 @@ impl ConnectorArtifacts {
         })
     }
 
-    // TODO:
     /// Converts the value to an [`azure_iot_operations_mqtt::MqttConnectionSettings`] struct,
     /// given a suffix for the client ID.
     ///
