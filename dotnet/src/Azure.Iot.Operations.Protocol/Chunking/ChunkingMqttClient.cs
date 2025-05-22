@@ -52,31 +52,15 @@ public class ChunkingMqttClient : IMqttClient
     public event Func<MqttClientConnectedEventArgs, Task>? ConnectedAsync;
 
     /// <inheritdoc/>
-    public async Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
+    public Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
     {
-        var result = await _innerClient.ConnectAsync(options, cancellationToken).ConfigureAwait(false);
-
-        if (!result.MaximumPacketSize.HasValue)
-        {
-            throw new InvalidOperationException("Chunking client requires a defined maximum packet size to function properly.");
-        }
-
-        _maxPacketSize = (int)result.MaximumPacketSize.Value;
-        return result;
+        return _innerClient.ConnectAsync(options, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public async Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
+    public Task<MqttClientConnectResult> ConnectAsync(MqttConnectionSettings settings, CancellationToken cancellationToken = default)
     {
-        var result = await _innerClient.ConnectAsync(settings, cancellationToken).ConfigureAwait(false);
-
-        if (!result.MaximumPacketSize.HasValue)
-        {
-            throw new InvalidOperationException("Chunking client requires a defined maximum packet size to function properly.");
-        }
-
-        _maxPacketSize = (int)result.MaximumPacketSize;
-        return result;
+        return _innerClient.ConnectAsync(settings, cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -101,7 +85,7 @@ public class ChunkingMqttClient : IMqttClient
     public async Task<MqttClientPublishResult> PublishAsync(MqttApplicationMessage applicationMessage, CancellationToken cancellationToken = default)
     {
         // If chunking is disabled or the message is small enough, pass through to the inner client
-        if (!_options.Enabled || applicationMessage.Payload.Length <= GetMaxChunkSize())
+        if (!_options.Enabled || applicationMessage.Payload.Length <= Utils.GetMaxChunkSize(_maxPacketSize, _options.StaticOverhead))
         {
             return await _innerClient.PublishAsync(applicationMessage, cancellationToken).ConfigureAwait(false);
         }
@@ -147,12 +131,6 @@ public class ChunkingMqttClient : IMqttClient
         return _innerClient.DisposeAsync();
     }
 
-    private int GetMaxChunkSize()
-    {
-        // Subtract the static overhead to ensure we don't exceed the broker's limits
-        return Math.Max(0, _maxPacketSize - _options.StaticOverhead);
-    }
-
     private async Task<MqttClientPublishResult> PublishChunkedMessageAsync(MqttApplicationMessage message, CancellationToken cancellationToken)
     {
         // Use the message splitter to split the message into chunks
@@ -175,12 +153,13 @@ public class ChunkingMqttClient : IMqttClient
     private async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs args)
     {
         // Check if this is a chunked message
+        var onApplicationMessageReceivedAsync = ApplicationMessageReceivedAsync;
         if (!TryGetChunkMetadata(args.ApplicationMessage, out var chunkMetadata))
         {
             // Not a chunked message, pass it through
-            if (ApplicationMessageReceivedAsync != null)
+            if (onApplicationMessageReceivedAsync != null)
             {
-                await ApplicationMessageReceivedAsync.Invoke(args).ConfigureAwait(false);
+                await onApplicationMessageReceivedAsync.Invoke(args).ConfigureAwait(false);
             }
 
             return;
@@ -190,9 +169,9 @@ public class ChunkingMqttClient : IMqttClient
         if (TryProcessChunk(args, chunkMetadata!, out var reassembledArgs))
         {
             // We have a complete message, invoke the event
-            if (ApplicationMessageReceivedAsync != null && reassembledArgs != null)
+            if (onApplicationMessageReceivedAsync != null && reassembledArgs != null)
             {
-                await ApplicationMessageReceivedAsync.Invoke(reassembledArgs).ConfigureAwait(false);
+                await onApplicationMessageReceivedAsync.Invoke(reassembledArgs).ConfigureAwait(false);
             }
         }
         else
@@ -271,10 +250,11 @@ public class ChunkingMqttClient : IMqttClient
             throw new InvalidOperationException("Chunking client requires a defined maximum packet size to function properly.");
         }
 
-        _maxPacketSize = (int)args.ConnectResult.MaximumPacketSize.Value;
+        Interlocked.Exchange(ref _maxPacketSize, (int)args.ConnectResult.MaximumPacketSize.Value);
 
         // Forward the event
-        return ConnectedAsync?.Invoke(args) ?? Task.CompletedTask;
+        var handler = ConnectedAsync;
+        return handler != null ? handler.Invoke(args) : Task.CompletedTask;
     }
 
     private Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs args)
@@ -283,6 +263,7 @@ public class ChunkingMqttClient : IMqttClient
         _messageAssemblers.Clear();
 
         // Forward the event
-        return DisconnectedAsync?.Invoke(args) ?? Task.CompletedTask;
+        var handler = DisconnectedAsync;
+        return handler != null ? handler.Invoke(args) : Task.CompletedTask;
     }
 }
