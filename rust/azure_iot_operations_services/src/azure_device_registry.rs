@@ -549,7 +549,7 @@ impl From<adr_name_gen::DeviceStatus> for DeviceStatus {
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
 
 /// Represents an Asset in the Azure Device Registry service.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Asset {
     /// The name of the asset.
     pub name: String,
@@ -560,7 +560,7 @@ pub struct Asset {
 }
 
 /// Represents the specification of an Asset in the Azure Device Registry service.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct AssetSpecification {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
@@ -673,7 +673,7 @@ pub struct DatasetDestination {
 // }
 
 /// Represents the destination for an event or stream.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct EventsAndStreamsDestination {
     /// The configuration for the destination
     pub configuration: DestinationConfiguration,
@@ -691,7 +691,7 @@ pub struct EventsAndStreamsDestination {
 // }
 
 /// A reference to the Device and Endpoint within the device
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DeviceRef {
     /// The name of the device
     pub device_name: String,
@@ -700,7 +700,7 @@ pub struct DeviceRef {
 }
 
 /// Represents an event in an asset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Event {
     /// Array of data points that are part of the event.
     pub data_points: Vec<EventDataPoint>, // if None, we can represent as empty vec
@@ -717,7 +717,7 @@ pub struct Event {
 }
 
 /// Represents a management group
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ManagementGroup {
     /// Actions for this management group
     pub actions: Vec<ManagementGroupAction>, // if None, we can represent as empty vec
@@ -734,7 +734,7 @@ pub struct ManagementGroup {
 }
 
 /// Represents a management group action
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ManagementGroupAction {
     /// Configuration for the action.
     pub action_configuration: Option<String>,
@@ -753,7 +753,7 @@ pub struct ManagementGroupAction {
 }
 
 /// Represents a stream for an asset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Stream {
     /// Destinations for a stream.
     pub destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
@@ -766,7 +766,7 @@ pub struct Stream {
 }
 
 /// A data point in an event.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct EventDataPoint {
     /// The configuration for the data point in the event.
     pub data_point_configuration: Option<String>,
@@ -795,7 +795,7 @@ pub struct DestinationConfiguration {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset Status DTDL Equivalent Structs~~~~~~~
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of an asset.
 pub struct AssetStatus {
     /// The configuration of the asset.
@@ -810,7 +810,7 @@ pub struct AssetStatus {
     pub streams: Option<Vec<DatasetEventStreamStatus>>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for a dataset, event, or stream.
 pub struct DatasetEventStreamStatus {
     /// The name of the dataset, event, or stream.
@@ -821,7 +821,7 @@ pub struct DatasetEventStreamStatus {
     pub error: Option<ConfigError>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for a management group
 pub struct ManagementGroupStatus {
     /// A collection of actions associated with the management group.
@@ -830,7 +830,7 @@ pub struct ManagementGroupStatus {
     pub name: String,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for an action associated with a management group.
 pub struct ActionStatus {
     /// The configuration error of the management group action.
@@ -843,7 +843,7 @@ pub struct ActionStatus {
     pub response_message_schema_reference: Option<MessageSchemaReference>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents a reference to a schema, including its name, version, and namespace.
 pub struct MessageSchemaReference {
     /// The name of the message schema.
@@ -918,7 +918,7 @@ impl From<MessageSchemaReference> for adr_name_gen::MessageSchemaReference {
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Enums~~~~~~~
 // TODO: remove in favor of Rust enum
 /// The target of the event or stream.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum EventStreamTarget {
     /// MQTT
     Mqtt,
@@ -947,7 +947,7 @@ pub enum DatasetTarget {
     Storage,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the type of action that can be performed in an asset management group.
 pub enum ActionType {
     /// Represents a call action type.

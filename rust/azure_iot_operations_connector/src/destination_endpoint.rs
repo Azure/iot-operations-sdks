@@ -3,10 +3,7 @@
 
 //! Traits, types, and implementations for Azure IoT Operations Connector Destination Endpoints.
 
-use std::{
-    sync::{Arc, RwLock},
-    time::Duration,
-};
+use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::{control_packet::QoS, session::SessionManagedClient};
 use azure_iot_operations_protocol::{
@@ -61,7 +58,7 @@ pub enum ErrorKind {
 /// A [`Forwarder`] forwards [`Data`] to a destination defined in a dataset or asset
 #[derive(Debug)]
 pub(crate) struct Forwarder {
-    message_schema_reference: Arc<RwLock<Option<MessageSchemaReference>>>,
+    message_schema_reference: Option<MessageSchemaReference>,
     destination: ForwarderDestination,
     connector_context: Arc<ConnectorContext>,
 }
@@ -105,7 +102,7 @@ impl Forwarder {
         };
 
         Ok(Self {
-            message_schema_reference: Arc::new(RwLock::new(None)),
+            message_schema_reference: None,
             destination,
             connector_context,
         })
@@ -171,21 +168,20 @@ impl Forwarder {
                 // TODO: cloud event
                 // TODO: remove once message schema validation is turned back on
                 #[allow(clippy::manual_map)]
-                let message_schema_uri = if let Some(message_schema_reference) =
-                    self.message_schema_reference.read().unwrap().as_ref()
-                {
-                    Some(format!(
-                        "aio-sr://{}/{}:{}",
-                        message_schema_reference.registry_namespace,
-                        message_schema_reference.name,
-                        message_schema_reference.version
-                    ))
-                } else {
-                    // TODO: validate this for other destinations as well
-                    // Commented out to remove the requirement for message schema temporarily
-                    // return Err(Error(ErrorKind::MissingMessageSchema));
-                    None
-                };
+                let message_schema_uri =
+                    if let Some(message_schema_reference) = &self.message_schema_reference {
+                        Some(format!(
+                            "aio-sr://{}/{}:{}",
+                            message_schema_reference.registry_namespace,
+                            message_schema_reference.name,
+                            message_schema_reference.version
+                        ))
+                    } else {
+                        // TODO: validate this for other destinations as well
+                        // Commented out to remove the requirement for message schema temporarily
+                        // return Err(Error(ErrorKind::MissingMessageSchema));
+                        None
+                    };
                 let mut cloud_event_builder = telemetry::sender::CloudEventBuilder::default();
                 cloud_event_builder.source(inbound_endpoint_name);
                 // .event_type("something?")
@@ -254,11 +250,11 @@ impl Forwarder {
     /// # Panics
     /// if the message schema reference mutex has been poisoned, which should not be possible
     pub(crate) fn update_message_schema_reference(
-        &self,
+        &mut self,
         message_schema_reference: Option<MessageSchemaReference>,
     ) {
         // Add the message schema URI to the forwarder
-        *self.message_schema_reference.write().unwrap() = message_schema_reference;
+        self.message_schema_reference = message_schema_reference;
     }
 }
 

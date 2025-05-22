@@ -166,7 +166,7 @@ async fn run_asset(
     panic!("asset_creation_observer has been dropped");
 }
 
-async fn run_dataset(dataset_client: DatasetClient) {
+async fn run_dataset(mut dataset_client: DatasetClient) {
     log::info!("new Dataset: {dataset_client:?}");
 
     // now we should update the status of the dataset and report the message schema
@@ -185,22 +185,52 @@ async fn run_dataset(dataset_client: DatasetClient) {
         }
     }
     let mut count = 0;
+    // Timer will trigger the sampling of data
+    let mut timer = tokio::time::interval(Duration::from_secs(10));
     loop {
-        tokio::time::sleep(Duration::from_secs(10)).await;
-        let sample_data = mock_received_data(count);
-        let (transformed_data, _) =
-            derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
-                .unwrap();
-        match dataset_client.forward_data(transformed_data).await {
-            Ok(()) => {
-                log::info!(
-                    "data {} for {} forwarded",
-                    String::from_utf8(sample_data.payload).unwrap(),
-                    dataset_client.dataset_ref().dataset_name
-                );
-                count += 1;
+        tokio::select! {
+            biased;
+            // Listen for a dataset update notifications
+            res = dataset_client.recv_update() => {
+                if let Some(()) = res {
+                    log::info!("dataset updated: {dataset_client:?}");
+                    // now we should update the status of the dataset and report the message schema
+                    dataset_client.report_status(Ok(())).await;
+
+                    let sample_data = mock_received_data(0);
+
+                    let (_, message_schema) =
+                        derived_json::transform(sample_data, dataset_client.dataset_definition()).unwrap();
+                    match dataset_client.report_message_schema(message_schema).await {
+                        Ok(message_schema_reference) => {
+                            log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
+                        }
+                        Err(e) => {
+                            log::error!("Error reporting message schema: {e}");
+                        }
+                    }
+                } else {
+                    log::error!("No more dataset updates will be received");
+                    break;
+                }
             }
-            Err(e) => log::error!("error forwarding data: {e}"),
+            _ = timer.tick() => {
+                let sample_data = mock_received_data(count);
+                let (transformed_data, _) =
+                    derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
+                        .unwrap();
+                match dataset_client.forward_data(transformed_data).await {
+                    Ok(()) => {
+                        log::info!(
+                            "data {} for {} forwarded",
+                            String::from_utf8(sample_data.payload).unwrap(),
+                            dataset_client.dataset_ref().dataset_name
+                        );
+                        count += 1;
+                    }
+                    Err(e) => log::error!("error forwarding data: {e}"),
+                }
+            }
         }
     }
 }
