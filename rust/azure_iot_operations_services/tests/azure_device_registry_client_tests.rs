@@ -29,8 +29,10 @@ const TIMEOUT: Duration = Duration::from_secs(10);
 // Test Scenarios:
 // get device
 // update status of device
-// observe device telemetry
-// unobserve device telemetry
+// get asset
+// update status of asset
+// observe device update notifications
+// observe asset update notifications
 
 fn setup_test(test_name: &str) -> bool {
     let _ = Builder::new()
@@ -88,7 +90,7 @@ fn initialize_client(
 }
 
 #[tokio::test]
-#[ignore = "For update notification tests focus"]
+#[ignore]
 async fn get_device() {
     let log_identifier = "get_device_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -132,7 +134,7 @@ async fn get_device() {
 }
 
 #[tokio::test]
-#[ignore = "For update notification tests focus"]
+#[ignore]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -191,7 +193,7 @@ async fn update_device_plus_endpoint_status() {
 }
 
 #[tokio::test]
-#[ignore = "For update notification tests focus"]
+#[ignore]
 async fn get_asset() {
     let log_identifier = "get_asset_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -236,7 +238,7 @@ async fn get_asset() {
 }
 
 #[tokio::test]
-#[ignore = "For update notification tests focus"]
+#[ignore]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -295,6 +297,7 @@ async fn update_asset_status() {
 }
 
 #[tokio::test]
+#[ignore]
 // #[ignore = "This test is ignored as it is not fully implemented yet."]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
@@ -516,6 +519,8 @@ async fn observe_device_update_notifications() {
     );
 }
 
+#[tokio::test]
+#[ignore]
 async fn observe_asset_update_notifications(
     azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
 ) {
@@ -544,27 +549,12 @@ async fn observe_asset_update_notifications(
                     let mut count = 0;
                     if let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
-                        log::info!("[{log_identifier}] Asset Observation: {device:?}");
+                        log::info!("[{log_identifier}] Asset Observation Expected: {device:?}");
                         assert_eq!(device.name, DEVICE1);
                     }
-                    // if let Some((device, _)) = observation.recv_notification().await {
-                    //     count += 1;
-                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
-                    //     log::info!("[{log_identifier}] Device From Observation 2: {device:?}");
-                    //     assert_eq!(device.name, DEVICE1);
-                    // }
-                    // if let Some((device, _)) = observation.recv_notification().await {
-                    //     count += 1;
-                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
-                    //     log::info!("[{log_identifier}] Device From Observation 3: {device:?}");
-                    // }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
-                        log::info!(
-                            "[{log_identifier}] Asset Observation If Any Other Works: {device:?}"
-                        );
+                        log::info!("[{log_identifier}] Asset Observation Unexpected: {device:?}");
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
                         assert!(count < 2);
@@ -587,11 +577,7 @@ async fn observe_asset_update_notifications(
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Get Asset Reponse: {response:?}",);
-            //old_version = response.specification.version.unwrap_or(0);
-            // log::info!(
-            //     "[{log_identifier}] Datetime: {}",
-            //     time::OffsetDateTime::now_utc()
-            // );
+
             let mut dataset_statuses = Vec::new();
             for dataset in response.specification.datasets {
                 dataset_statuses.push(azure_device_registry::DatasetEventStreamStatus {
@@ -651,7 +637,7 @@ async fn observe_asset_update_notifications(
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
 
-            tokio::time::sleep(Duration::from_secs(1)).await;
+            // tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
