@@ -52,9 +52,6 @@ pub enum ErrorKind {
     /// An error occurred from the State Store Service. See [`ServiceError`] for more information.
     #[error(transparent)]
     ServiceError(#[from] ServiceError),
-    /// The key length must not be zero.
-    #[error("key length must not be zero")]
-    KeyLengthZero,
     /// An error occurred during serialization of a request.
     #[error("{0}")]
     SerializationError(String),
@@ -134,7 +131,6 @@ impl From<Vec<u8>> for ServiceError {
             b"wrong number of arguments" => ServiceError::WrongNumberOfArguments,
             b"missing timestamp" => ServiceError::TimestampMissing,
             b"malformed timestamp" => ServiceError::TimestampMalformed,
-            b"the key length is zero" => ServiceError::KeyLengthZero,
             other => ServiceError::Unknown(std::str::from_utf8(other).unwrap_or_default().to_string()),
         }
     }

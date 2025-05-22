@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector;
-using Azure.Iot.Operations.Services.Assets;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace PollingTelemetryConnectorTemplate
 {
@@ -13,13 +13,13 @@ namespace PollingTelemetryConnectorTemplate
             return new MessageSchemaProvider();
         };
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string datasetName, Dataset dataset, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string datasetName, AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
         {
             // By returning null, no message schema will be registered for telemetry sent for this dataset.
             return Task.FromResult((ConnectorMessageSchema?)null);
         }
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(AssetEndpointProfile assetEndpointProfile, Asset asset, string eventName, Event assetEvent, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string eventName, AssetEventSchemaElement assetEvent, CancellationToken cancellationToken = default)
         {
             // By returning null, no message schema will be registered for telemetry sent for this event.
             return Task.FromResult((ConnectorMessageSchema?)null);

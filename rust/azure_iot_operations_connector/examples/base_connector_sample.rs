@@ -17,7 +17,8 @@ use azure_iot_operations_connector::{
     base_connector::{
         BaseConnector,
         managed_azure_device_registry::{
-            AssetClientCreationObservation, DatasetClient, DeviceEndpointClientCreationObservation,
+            AssetClientCreationObservation, DatasetClient, DeviceEndpointClient,
+            DeviceEndpointClientCreationObservation,
         },
     },
     data_processor::derived_json,
@@ -56,86 +57,86 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 // This function runs in a loop, waiting for device creation notifications.
 async fn run_program(mut device_creation_observation: DeviceEndpointClientCreationObservation) {
     // Wait for a device creation notification
-    while let Some((
-        mut device_endpoint_client,
-        _device_endpoint_update_observation,
-        asset_creation_observation,
-    )) = device_creation_observation.recv_notification().await
+    while let Some((device_endpoint_client, asset_creation_observation)) =
+        device_creation_observation.recv_notification().await
     {
         log::info!("Device created: {device_endpoint_client:?}");
 
         // now we should update the status of the device
-        let endpoint_status = match device_endpoint_client
-            .specification()
-            .endpoints
-            .inbound
-            .endpoint_type
-            .as_str()
-        {
-            "rest-thermostat" | "coap-thermostat" => Ok(()),
-            unsupported_endpoint_type => {
-                // if we don't support the endpoint type, then we can report that error
-                log::warn!(
-                    "Endpoint '{}' not accepted. Endpoint type '{}' not supported.",
-                    device_endpoint_client
-                        .specification()
-                        .endpoints
-                        .inbound
-                        .name,
-                    unsupported_endpoint_type
-                );
-                Err(AdrConfigError {
-                    message: Some("endpoint type is not supported".to_string()),
-                    ..AdrConfigError::default()
-                })
-            }
-        };
-
-        // Start handling the assets for this device endpoint
-        // if we didn't accept the inbound endpoint, then there's no reason to manage the assets
-        if endpoint_status.is_ok() {
-            tokio::task::spawn(run_assets(asset_creation_observation));
-        }
+        let endpoint_status = generate_endpoint_status(&device_endpoint_client);
 
         device_endpoint_client
             .report_status(Ok(()), endpoint_status)
             .await;
+
+        // Start handling the assets for this device endpoint
+        // if we didn't accept the inbound endpoint, then we still want to run this to wait for updates
+        tokio::task::spawn(run_device(
+            device_endpoint_client,
+            asset_creation_observation,
+        ));
     }
     panic!("device_creation_observer has been dropped");
 }
 
 // This function runs in a loop, waiting for asset creation notifications.
-async fn run_assets(mut asset_creation_observation: AssetClientCreationObservation) {
-    // Wait for a device creation notification
-    while let Some((asset_client, _asset_update_observation, _asset_deletion_token)) =
-        asset_creation_observation.recv_notification().await
-    {
-        log::info!("Asset created: {asset_client:?}");
+async fn run_device(
+    mut device_endpoint_client: DeviceEndpointClient,
+    mut asset_creation_observation: AssetClientCreationObservation,
+) {
+    loop {
+        tokio::select! {
+            biased;
+            // Listen for a device update notifications
+            res = device_endpoint_client.recv_update() => {
+                if let Some(()) = res {
+                    log::info!("Device updated: {device_endpoint_client:?}");
+                    // now we should update the status of the device
+                    let endpoint_status = generate_endpoint_status(&device_endpoint_client);
 
-        // now we should update the status of the asset
-        let asset_status = match asset_client.specification().manufacturer.as_deref() {
-            Some("Contoso") | None => Ok(()),
-            Some(m) => {
-                log::warn!(
-                    "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
-                    asset_client.asset_ref().name
-                );
-                Err(AdrConfigError {
-                    message: Some("asset manufacturer type is not supported".to_string()),
-                    ..AdrConfigError::default()
-                })
-            }
-        };
-
-        asset_client.report_status(asset_status).await;
-
-        for dataset in asset_client.datasets() {
-            tokio::task::spawn({
-                let dataset_clone = dataset.clone();
-                async move {
-                    run_dataset(dataset_clone).await;
+                    device_endpoint_client
+                        .report_status(Ok(()), endpoint_status)
+                        .await;
+                } else {
+                    log::error!("No more Device Endpoint updates will be received");
+                    break;
                 }
-            });
+            }
+            // Listen for a asset creation notifications
+            res = asset_creation_observation.recv_notification() => {
+                if let Some((asset_client, _asset_update_observation, _asset_deletion_token)) = res {
+                    log::info!("Asset created: {asset_client:?}");
+
+                    // now we should update the status of the asset
+                    let asset_status = match asset_client.specification().manufacturer.as_deref() {
+                        Some("Contoso") | None => Ok(()),
+                        Some(m) => {
+                            log::warn!(
+                                "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
+                                asset_client.asset_ref().name
+                            );
+                            Err(AdrConfigError {
+                                message: Some("asset manufacturer type is not supported".to_string()),
+                                ..AdrConfigError::default()
+                            })
+                        }
+                    };
+
+                    asset_client.report_status(asset_status).await;
+
+                    for dataset in asset_client.datasets() {
+                        tokio::task::spawn({
+                            let dataset_clone = dataset.clone();
+                            async move {
+                                run_dataset(dataset_clone).await;
+                            }
+                        });
+                    }
+                } else {
+                    log::error!("asset_creation_observer has been dropped");
+                    break;
+                }
+            }
         }
     }
     panic!("asset_creation_observer has been dropped");
@@ -161,7 +162,7 @@ async fn run_dataset(dataset_client: DatasetClient) {
     }
     let mut count = 0;
     loop {
-        tokio::time::sleep(Duration::from_secs(5)).await;
+        tokio::time::sleep(Duration::from_secs(10)).await;
         let sample_data = mock_received_data(count);
         let (transformed_data, _) =
             derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
@@ -195,5 +196,36 @@ pub fn mock_received_data(count: u32) -> Data {
         content_type: "application/json".to_string(),
         custom_user_data: Vec::new(),
         timestamp: None,
+    }
+}
+
+fn generate_endpoint_status(
+    device_endpoint_client: &DeviceEndpointClient,
+) -> Result<(), AdrConfigError> {
+    // now we should update the status of the device
+    match device_endpoint_client
+        .specification()
+        .endpoints
+        .inbound
+        .endpoint_type
+        .as_str()
+    {
+        "rest-thermostat" | "coap-thermostat" => Ok(()),
+        unsupported_endpoint_type => {
+            // if we don't support the endpoint type, then we can report that error
+            log::warn!(
+                "Endpoint '{}' not accepted. Endpoint type '{}' not supported.",
+                device_endpoint_client
+                    .specification()
+                    .endpoints
+                    .inbound
+                    .name,
+                unsupported_endpoint_type
+            );
+            Err(AdrConfigError {
+                message: Some("endpoint type is not supported".to_string()),
+                ..AdrConfigError::default()
+            })
+        }
     }
 }
