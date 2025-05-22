@@ -474,9 +474,15 @@ mod tests {
 
     impl TempMount {
         fn new(dir_name: &str) -> Self {
-            Self {
-                dir: tempfile::TempDir::with_prefix(dir_name).unwrap(),
-            }
+            let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
+            Self { dir }
+            // TODO: Add symlink simulation. Currently this doesn't work, because
+            // trying to add a ".." file is interpreted as trying to go up a level
+            // in the directory structure.
+            //let ret = Self { dir };
+            // Create a ".." file to simulate a symlink in a mounted directory
+            //ret.add_file("..", "");
+            //ret
         }
 
         fn add_file(&self, file_name: &str, contents: &str) {
@@ -1069,5 +1075,4 @@ mod tests {
     }
 
     // TODO: Simulate permissions issues in mounts
-    // TODO: Simulate symlinks issues in mounts
 }
