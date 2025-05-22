@@ -5,6 +5,7 @@ use azure_iot_operations_connector::filemount::connector_artifacts::{
     ConnectorArtifacts, LogLevel, Protocol, TlsMode,
 };
 use std::path::PathBuf;
+use std::time::Duration;
 
 fn get_test_directory() -> PathBuf {
     let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
@@ -19,7 +20,7 @@ fn get_connector_config_mount_path(dir_name: &str) -> PathBuf {
     path
 }
 
-fn get_trust_bundle_mount_path() -> PathBuf {
+fn get_broker_trust_bundle_mount_path() -> PathBuf {
     let mut path = get_test_directory();
     path.push("trust-bundle");
     path
@@ -29,9 +30,10 @@ fn get_trust_bundle_mount_path() -> PathBuf {
 const FAKE_SAT_FILE: &str = "/path/to/sat/file";
 
 #[test]
+#[allow(clippy::similar_names)]
 fn local_connector_artifacts() {
     let cc_mount_path = get_connector_config_mount_path("connector-config");
-    let trust_bundle_mount_path = get_trust_bundle_mount_path();
+    let trust_bundle_mount_path = get_broker_trust_bundle_mount_path();
     temp_env::with_vars(
         [
             ("CONNECTOR_ID", Some("connector_id")),
@@ -46,19 +48,22 @@ fn local_connector_artifacts() {
             ("BROKER_SAT_MOUNT_PATH", Some(FAKE_SAT_FILE)),
         ],
         || {
-            let ca = ConnectorArtifacts::new_from_deployment().unwrap();
+            let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
             // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
-            assert_eq!(ca.connector_id, "connector_id");
+            assert_eq!(artifacts.connector_id, "connector_id");
             // NOTE: These values are paths specified in the environment variable
             assert_eq!(
-                ca.broker_tls_trust_bundle_ca_cert_mount,
-                Some(get_trust_bundle_mount_path())
+                artifacts.broker_trust_bundle_mount,
+                Some(get_broker_trust_bundle_mount_path())
             );
-            assert_eq!(ca.broker_sat_mount, Some(PathBuf::from(FAKE_SAT_FILE)));
+            assert_eq!(
+                artifacts.broker_sat_mount,
+                Some(PathBuf::from(FAKE_SAT_FILE))
+            );
 
             // --- Validate the ConnectorConfiguration from the ConnectorArtifacts ---
-            let cc = &ca.connector_configuration;
+            let cc = &artifacts.connector_configuration;
             // NOTE: These values come from the MQTT_CONNECTION_CONFIGURATION file
             let mcc = &cc.mqtt_connection_configuration;
             assert_eq!(mcc.host, "someHostName:1234");
@@ -73,9 +78,31 @@ fn local_connector_artifacts() {
             assert!(matches!(diagnostics.logs.level, LogLevel::Trace));
 
             // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
-            assert!(ca.to_mqtt_connection_settings("-id_suffix").is_ok());
-            // TODO: validate - but need getters from MQTTCS first.
-            // Or maybe that's just for unit tests and this should just make a session
+            let conversion_result = artifacts.to_mqtt_connection_settings("-id_suffix");
+            assert!(conversion_result.is_ok());
+            let mcs = conversion_result.unwrap();
+            let expected_ca_file = trust_bundle_mount_path
+                .join("ca.txt")
+                .into_os_string()
+                .into_string()
+                .unwrap();
+            assert_eq!(mcs.client_id(), "connector_id-id_suffix");
+            assert_eq!(mcs.hostname(), "someHostName");
+            assert_eq!(mcs.tcp_port(), 1234);
+            assert_eq!(mcs.keep_alive(), &Duration::from_secs(10));
+            assert_eq!(mcs.receive_max(), 10);
+            assert_eq!(mcs.session_expiry(), &Duration::from_secs(20));
+            assert!(mcs.use_tls());
+            assert_eq!(mcs.ca_file(), &Some(expected_ca_file));
+            assert_eq!(mcs.sat_file(), &Some(FAKE_SAT_FILE.to_string()));
+
+            // TODO: Cannot test this due to the fake SAT file mount path
+            // --- Create a Session from the MqttConnectionSettings ---
+            // let session_options = SessionOptionsBuilder::default()
+            //     .connection_settings(mcs.clone())
+            //     .build()
+            //     .unwrap();
+            // assert!(Session::new(session_options).is_ok());
         },
     );
 }

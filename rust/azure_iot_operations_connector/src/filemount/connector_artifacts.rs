@@ -47,7 +47,7 @@ enum DeploymentArtifactErrorRepr {
     JsonParseError(#[from] serde_json::Error),
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Values extracted from the artifacts in an Akri deployment.
 pub struct ConnectorArtifacts {
     /// The connector ID
@@ -59,11 +59,11 @@ pub struct ConnectorArtifacts {
     /// Path to directory containing trust list certificates for the connector
     pub connector_trust_settings_mount: Option<PathBuf>,
     /// Path to directory containing  trust bundle for the broker
-    pub broker_tls_trust_bundle_ca_cert_mount: Option<PathBuf>,
+    pub broker_trust_bundle_mount: Option<PathBuf>,
     /// Path to file containing service account token for authentication with the broker
     pub broker_sat_mount: Option<PathBuf>,
     /// Path to directory containing trust bundle for device inbound endpoints
-    pub device_endpoint_tls_trust_bundle_ca_cert_mount: Option<PathBuf>,
+    pub device_endpoint_trust_bundle_mount: Option<PathBuf>,
     /// Path to directory containing credentials for device inbound endpoints
     pub device_endpoint_credentials_mount: Option<PathBuf>,
 }
@@ -105,7 +105,7 @@ impl ConnectorArtifacts {
                 .transpose()?;
 
         // Broker TLS trust bundle CA cert mount path
-        let broker_tls_trust_bundle_ca_cert_mount =
+        let broker_trust_bundle_mount =
             string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
                 .map(valid_mount_pathbuf_from)
                 .transpose()?;
@@ -115,7 +115,7 @@ impl ConnectorArtifacts {
         let broker_sat_mount = string_from_environment("BROKER_SAT_MOUNT_PATH")?.map(PathBuf::from);
 
         // Device Endpoint TLS Trust Bundle CA cert mount path
-        let device_endpoint_tls_trust_bundle_ca_cert_mount =
+        let device_endpoint_trust_bundle_mount =
             string_from_environment("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
                 .map(valid_mount_pathbuf_from)
                 .transpose()?;
@@ -126,19 +126,22 @@ impl ConnectorArtifacts {
                 .map(valid_mount_pathbuf_from)
                 .transpose()?;
 
+        // TODO: Validate that mutually required fields are present/absent in tandem.
+        // Wait for spec updates to finalize logic.
+
         Ok(ConnectorArtifacts {
             connector_id,
             connector_configuration,
             connector_secrets_metadata_mount,
             connector_trust_settings_mount,
-            broker_tls_trust_bundle_ca_cert_mount,
+            broker_trust_bundle_mount,
             broker_sat_mount,
-            device_endpoint_tls_trust_bundle_ca_cert_mount,
+            device_endpoint_trust_bundle_mount,
             device_endpoint_credentials_mount,
         })
     }
 
-    // TODO: Need a wrapper function that will make the suffix automatic
+    // TODO:
     /// Converts the value to an [`azure_iot_operations_mqtt::MqttConnectionSettings`] struct,
     /// given a suffix for the client ID.
     ///
@@ -197,7 +200,7 @@ impl ConnectorArtifacts {
         // Verify there is only a single CA cert in the path, and then we will pass the path to
         // that FILE into the MqttConnectionSettings
         let ca_file = {
-            if let Some(ca_trustbundle_path) = &self.broker_tls_trust_bundle_ca_cert_mount {
+            if let Some(ca_trustbundle_path) = &self.broker_trust_bundle_mount {
                 let mut d = std::fs::read_dir(ca_trustbundle_path)
                     .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
                 let path_s;
@@ -246,7 +249,7 @@ impl ConnectorArtifacts {
 }
 
 /// The Connector Configuration extracted from the Akri deployment
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct ConnectorConfiguration {
     /// MQTT connection details
     pub mqtt_connection_configuration: MqttConnectionConfiguration,
@@ -364,7 +367,7 @@ impl ConnectorConfiguration {
 }
 
 /// Configuration details related to an MQTT connection
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct MqttConnectionConfiguration {
     /// Broker host in the format <hostname>:<port>
@@ -382,7 +385,7 @@ pub struct MqttConnectionConfiguration {
 }
 
 /// Enum representing the type of MQTT connection
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum Protocol {
     /// Regular MQTT
@@ -390,7 +393,7 @@ pub enum Protocol {
 }
 
 /// TLS configuration information
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Tls {
     /// Indicates if TLS is enabled or not
@@ -398,7 +401,7 @@ pub struct Tls {
 }
 
 /// Enum representing whether TLS is enabled or disabled
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 pub enum TlsMode {
     /// TLS is enabled
     Enabled,
@@ -407,21 +410,21 @@ pub enum TlsMode {
 }
 
 /// Diagnostic information
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct Diagnostics {
     /// Log information
     pub logs: Logs,
 }
 
 /// Logging information
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct Logs {
     /// Level to log at
     pub level: LogLevel,
 }
 
 /// Represents the logging level
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "lowercase")]
 pub enum LogLevel {
     /// Info logging
@@ -456,4 +459,423 @@ fn valid_mount_pathbuf_from(mount_path_s: String) -> Result<PathBuf, DeploymentA
         ));
     }
     Ok(mount_path)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use tempfile::{NamedTempFile, TempDir};
+    use test_case::{test_case, test_matrix};
+
+    /// Simulates a file mount directory using a temporary directory.
+    struct TempMount {
+        dir: TempDir,
+    }
+
+    impl TempMount {
+        fn new(dir_name: &str) -> Self {
+            Self {
+                dir: tempfile::TempDir::with_prefix(dir_name).unwrap(),
+            }
+        }
+
+        fn add_file(&self, file_name: &str, contents: &str) {
+            let file_path = self.dir.path().join(file_name);
+            std::fs::write(file_path, contents).unwrap();
+        }
+
+        fn remove_file(&self, file_name: &str) {
+            let file_path = self.dir.path().join(file_name);
+            std::fs::remove_file(file_path).unwrap();
+        }
+
+        fn path(&self) -> &Path {
+            self.dir.path()
+        }
+    }
+
+    /// Simulates persistent volume mounts using temporary directories.
+    /// An admittedly funny name.
+    struct TempPersistentVolumeManager {
+        volumes: Vec<TempMount>,
+    }
+
+    impl TempPersistentVolumeManager {
+        fn new() -> Self {
+            Self {
+                volumes: Vec::new(),
+            }
+        }
+
+        fn add_mount(&mut self, mount_name: &str) {
+            let mount = TempMount::new(mount_name);
+            self.volumes.push(mount);
+        }
+
+        fn index_file_contents(&self) -> String {
+            let mut contents = String::new();
+            for mount in &self.volumes {
+                contents.push_str(&format!("{}\n", mount.path().to_str().unwrap()));
+            }
+            contents
+        }
+
+        fn volume_path_bufs(&self) -> Vec<PathBuf> {
+            self.volumes
+                .iter()
+                .map(|m| m.path().to_path_buf())
+                .collect()
+        }
+    }
+
+    const CONNECTOR_ID: &str = "connector_id";
+
+    const MQTT_CONNECTION_CONFIGURATION_JSON: &str = r#"
+    {
+        "host": "someHostName:1234",
+        "keepAliveSeconds": 60,
+        "maxInflightMessages": 100,
+        "protocol": "mqtt",
+        "sessionExpirySeconds": 3600,
+        "tls": {
+            "mode": "Enabled"
+        }
+    }"#;
+
+    const DIAGNOSTICS_JSON: &str = r#"
+    {
+        "logs": {
+            "level": "info"
+        }
+    }"#;
+
+    const ADDITIONAL_CONFIGURATION_JSON: &str = r#"
+    {
+        "arbitraryConnectorDeveloperConfiguration": "value"
+    }"#;
+
+    const ARBITRARY_JSON: &str = r#"
+    {
+        "arbitraryKey": "arbitraryValue"
+    }"#;
+
+    const NOT_JSON: &str = "this is not json";
+
+    #[test]
+    fn minimum_artifacts() {
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+
+        temp_env::with_vars(
+            [
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+                ("CONNECTOR_SECRETS_METADATA_MOUNT_PATH", None),
+                ("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH", None),
+                ("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
+                ("BROKER_SAT_MOUNT_PATH", None),
+                ("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
+                ("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH", None),
+            ],
+            || {
+                let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+                // -- Validate the values directly in the artifacts --
+                assert_eq!(artifacts.connector_id, CONNECTOR_ID);
+                assert!(artifacts.connector_secrets_metadata_mount.is_none());
+                assert!(artifacts.connector_trust_settings_mount.is_none());
+                assert!(artifacts.broker_trust_bundle_mount.is_none());
+                assert!(artifacts.broker_sat_mount.is_none());
+                assert!(artifacts.device_endpoint_trust_bundle_mount.is_none());
+                assert!(artifacts.device_endpoint_credentials_mount.is_none());
+
+                // -- Validate the ConnectorConfiguration from the ConnectorArtifacts --
+                assert_eq!(
+                    artifacts
+                        .connector_configuration
+                        .mqtt_connection_configuration,
+                    serde_json::from_str::<MqttConnectionConfiguration>(
+                        MQTT_CONNECTION_CONFIGURATION_JSON
+                    )
+                    .unwrap()
+                );
+                assert!(artifacts.connector_configuration.diagnostics.is_none());
+                assert_eq!(
+                    artifacts.connector_configuration.persistent_volumes,
+                    Vec::<PathBuf>::new()
+                );
+                assert!(
+                    artifacts
+                        .connector_configuration
+                        .additional_configuration
+                        .is_none()
+                );
+            },
+        );
+    }
+
+    #[test]
+    fn maximum_artifacts() {
+        let mut persistent_volume_manager = TempPersistentVolumeManager::new();
+        persistent_volume_manager.add_mount("persistent_volume_1");
+        persistent_volume_manager.add_mount("persistent_volume_2");
+
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        connector_configuration_mount.add_file("DIAGNOSTICS", DIAGNOSTICS_JSON);
+        connector_configuration_mount.add_file(
+            "PERSISTENT_VOLUME_MOUNT_PATH",
+            &persistent_volume_manager.index_file_contents(),
+        );
+        connector_configuration_mount
+            .add_file("ADDITIONAL_CONFIGURATION", ADDITIONAL_CONFIGURATION_JSON);
+
+        let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
+
+        let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
+        broker_trust_bundle_mount.add_file("ca.txt", "");
+
+        // NOTE: There do not have to be any files in these mounts
+        let connector_secrets_metadata_mount = TempMount::new("connector_secrets_metadata");
+        let connector_trust_settings_mount = TempMount::new("connector_trust_settings");
+        let device_endpoint_trust_bundle_mount =
+            TempMount::new("device_endpoint_tls_trust_bundle_ca_cert");
+        let device_endpoint_credentials_mount = TempMount::new("device_endpoint_credentials");
+
+        temp_env::with_vars(
+            [
+                ("CONNECTOR_ID", Some("connector_id")),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "CONNECTOR_SECRETS_METADATA_MOUNT_PATH",
+                    Some(connector_secrets_metadata_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "CONNECTOR_TRUST_SETTINGS_MOUNT_PATH",
+                    Some(connector_trust_settings_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    Some(broker_trust_bundle_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "BROKER_SAT_MOUNT_PATH",
+                    Some(broker_sat_file_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    Some(device_endpoint_trust_bundle_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH",
+                    Some(device_endpoint_credentials_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+                // -- Validate the values directly in the artifacts --
+                assert_eq!(artifacts.connector_id, "connector_id");
+                assert_eq!(
+                    artifacts.connector_secrets_metadata_mount.unwrap(),
+                    connector_secrets_metadata_mount.path()
+                );
+                assert_eq!(
+                    artifacts.connector_trust_settings_mount.unwrap(),
+                    connector_trust_settings_mount.path()
+                );
+                assert_eq!(
+                    artifacts.broker_trust_bundle_mount.unwrap(),
+                    broker_trust_bundle_mount.path()
+                );
+                assert_eq!(
+                    artifacts.broker_sat_mount.unwrap(),
+                    broker_sat_file_mount.path()
+                );
+                assert_eq!(
+                    artifacts.device_endpoint_trust_bundle_mount.unwrap(),
+                    device_endpoint_trust_bundle_mount.path()
+                );
+                assert_eq!(
+                    artifacts.device_endpoint_credentials_mount.unwrap(),
+                    device_endpoint_credentials_mount.path()
+                );
+
+                // -- Validate the ConnectorConfiguration from the ConnectorArtifacts --
+                assert_eq!(
+                    artifacts
+                        .connector_configuration
+                        .mqtt_connection_configuration,
+                    serde_json::from_str::<MqttConnectionConfiguration>(
+                        MQTT_CONNECTION_CONFIGURATION_JSON
+                    )
+                    .unwrap()
+                );
+                assert_eq!(
+                    artifacts.connector_configuration.diagnostics,
+                    Some(serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON).unwrap())
+                );
+                assert_eq!(
+                    artifacts.connector_configuration.persistent_volumes,
+                    persistent_volume_manager.volume_path_bufs()
+                );
+                assert_eq!(
+                    artifacts.connector_configuration.additional_configuration,
+                    Some(ADDITIONAL_CONFIGURATION_JSON.to_string())
+                );
+            },
+        );
+    }
+
+    #[test_case("CONNECTOR_ID")]
+    #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
+    fn missing_required_env_var(missing_env_var: &str) {
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+
+        temp_env::with_vars(
+            [
+                ("CONNECTOR_ID", Some("connector_id")),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+                // NOTE: This will override one of the above
+                (missing_env_var, None),
+            ],
+            || {
+                assert!(ConnectorArtifacts::new_from_deployment().is_err());
+            },
+        );
+    }
+
+    #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
+    #[test_case("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")]
+    #[test_case("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH")]
+    #[test_case("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")]
+    //#[test_case("BROKER_SAT_MOUNT_PATH")]
+    #[test_case("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")]
+    #[test_case("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")]
+    fn nonexistent_mount_path(invalid_mount_env_var: &str) {
+        let invalid_mount = PathBuf::from("nonexistent/mount/path");
+        assert!(!invalid_mount.exists());
+
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+
+        temp_env::with_vars(
+            [
+                ("CONNECTOR_ID", Some("connector_id")),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+                // NOTE: This may override CONNECTOR_CONFIGURATION_MOUNT_PATH
+                (invalid_mount_env_var, Some(invalid_mount.to_str().unwrap())),
+            ],
+            || {
+                assert!(ConnectorArtifacts::new_from_deployment().is_err());
+            },
+        );
+    }
+
+    #[test_case("MQTT_CONNECTION_CONFIGURATION")]
+    fn missing_required_file_in_mount(required_file: &str) {
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+
+        // NOTE: This will override one of the above
+        connector_configuration_mount.remove_file(required_file);
+
+        temp_env::with_vars(
+            [
+                ("CONNECTOR_ID", Some("connector_id")),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                assert!(ConnectorArtifacts::new_from_deployment().is_err());
+            },
+        );
+    }
+
+    #[test_matrix(
+        ["MQTT_CONNECTION_CONFIGURATION", "DIAGNOSTICS"],
+        [NOT_JSON, ARBITRARY_JSON, ]
+    )]
+    fn invalid_contents_in_json_file(file: &str, file_contents: &str) {
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        connector_configuration_mount.add_file("DIAGNOSTICS", DIAGNOSTICS_JSON);
+
+        // Replace one of the above with the invalid content
+        connector_configuration_mount.remove_file(file);
+        connector_configuration_mount.add_file(file, file_contents);
+
+        temp_env::with_vars(
+            [
+                ("CONNECTOR_ID", Some("connector_id")),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                assert!(ConnectorArtifacts::new_from_deployment().is_err());
+            },
+        );
+    }
+
+    #[test]
+    fn nonexistent_persistent_volume_mount() {
+        let fake_mount_path = PathBuf::from("nonexistent/mount/path");
+        assert!(!fake_mount_path.exists());
+
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        connector_configuration_mount.add_file(
+            "PERSISTENT_VOLUME_MOUNT_PATH",
+            fake_mount_path.to_str().unwrap(),
+        );
+
+        temp_env::with_vars(
+            [
+                ("CONNECTOR_ID", Some("connector_id")),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                assert!(ConnectorArtifacts::new_from_deployment().is_err());
+            },
+        );
+    }
 }
