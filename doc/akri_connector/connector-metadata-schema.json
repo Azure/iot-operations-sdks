@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "aioConnectorMetadataVersion": "1.0.0",
   "definitions": {
     "AdditionalConfiguration": {
       "type": "object",
@@ -28,6 +29,10 @@
     }
   },
   "properties": {
+    "aioConnectorMetadataVersion": {
+      "type": "string",
+      "description": "The version of AIO connector metadata schema that this connector metadata file adheres to."
+    },
     "name": {
       "type": "string",
       "description": "The name of the connector."
@@ -94,33 +99,7 @@
       "type": "object",
       "description": "The kubernetes-level metadata",
       "properties": {
-        "kubernetesPermissions": {
-          "type": "object",
-          "description": "The kubernetes-level permissions required by this connector",
-          "properties": {
-            "resources": {
-              "type": "array",
-              "items": [
-                {
-                  "type": "string"
-                }
-              ]
-            },
-            "verbs": {
-              "type": "array",
-              "items": [
-                {
-                  "type": "string"
-                }
-              ]
-            }
-          },
-          "required": [
-            "resources",
-            "verbs"
-          ]
-        },
-        "minimum_kubernetes_version": {
+        "minimumKubernetesVersion": {
           "type": "string",
           "description": "Minimum required version of kubernetes needed to run this connector"
         }
@@ -142,19 +121,19 @@
           "type": "string",
           "description": "The version of the programming language used to write this connector"
         },
-        "SDK": {
+        "sdk": {
           "type": "object",
           "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
           "properties": {
-            "MqttPackageVersion": {
+            "mqttPackageVersion": {
               "type": "string",
               "description": "The version of the azure iot operations MQTT package"
             },
-            "ServicesPackageVersion": {
+            "servicesPackageVersion": {
               "type": "string",
               "description": "The version of the azure iot operations services package"
             },
-            "ConnectorPackageVersion": {
+            "connectorPackageVersion": {
               "type": "string",
               "description": "The version of the azure iot operations connector package"
             }
@@ -166,7 +145,7 @@
         "languageVersion"
       ]
     },
-    "resource_requirements": {
+    "resourceRequirements": {
       "type": "object",
       "description": "The minimal resource requirements to run this connector",
       "properties": {
