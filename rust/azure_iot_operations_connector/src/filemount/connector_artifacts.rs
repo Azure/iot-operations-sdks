@@ -111,10 +111,9 @@ impl ConnectorArtifacts {
                 .transpose()?;
 
         // Broker SAT token mount path
-        let broker_sat_mount =
-            string_from_environment("BROKER_SAT_MOUNT_PATH")?
-                .map(valid_mount_pathbuf_from)
-                .transpose()?;
+        let broker_sat_mount = string_from_environment("BROKER_SAT_MOUNT_PATH")?
+            .map(valid_mount_pathbuf_from)
+            .transpose()?;
 
         // Device Endpoint TLS Trust Bundle CA cert mount path
         let device_endpoint_trust_bundle_mount =

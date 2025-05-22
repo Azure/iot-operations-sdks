@@ -108,10 +108,7 @@ fn local_connector_artifacts_no_tls() {
                 "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                 Some(cc_mount_path.to_str().unwrap()),
             ),
-            (
-                "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
-                None,
-            ),
+            ("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
         ],
         || {
             let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
