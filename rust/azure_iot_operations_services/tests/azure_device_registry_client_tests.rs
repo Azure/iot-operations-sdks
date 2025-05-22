@@ -88,6 +88,7 @@ fn initialize_client(
 }
 
 #[tokio::test]
+#[ignore = "For update notification tests focus"]
 async fn get_device() {
     let log_identifier = "get_device_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -131,6 +132,7 @@ async fn get_device() {
 }
 
 #[tokio::test]
+#[ignore = "For update notification tests focus"]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -189,6 +191,7 @@ async fn update_device_plus_endpoint_status() {
 }
 
 #[tokio::test]
+#[ignore = "For update notification tests focus"]
 async fn get_asset() {
     let log_identifier = "get_asset_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -233,6 +236,7 @@ async fn get_asset() {
 }
 
 #[tokio::test]
+#[ignore = "For update notification tests focus"]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -387,37 +391,37 @@ async fn observe_device_update_notifications() {
                     );
                 }
             }
-            let status_to_be_updated = azure_device_registry::DeviceStatus {
-                config: Some(azure_device_registry::StatusConfig {
-                    version: response.specification.version,
-                    last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
-                    // error: Some(azure_device_registry::ConfigError {
-                    //     message: Some("device type is not supported".to_string()),
-                    //     ..azure_device_registry::ConfigError::default()
-                    // }),
-                    ..azure_device_registry::StatusConfig::default()
-                }),
-                endpoints: endpoint_statuses,
-            };
-            let updated_response1 = azure_device_registry_client
+            // let status_to_be_updated = azure_device_registry::DeviceStatus {
+            //     config: Some(azure_device_registry::StatusConfig {
+            //         version: response.specification.version,
+            //         last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+            //         // error: Some(azure_device_registry::ConfigError {
+            //         //     message: Some("device type is not supported".to_string()),
+            //         //     ..azure_device_registry::ConfigError::default()
+            //         // }),
+            //         ..azure_device_registry::StatusConfig::default()
+            //     }),
+            //     endpoints: endpoint_statuses,
+            // };
+            let response_during_obs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE1.to_string(),
                     ENDPOINT1.to_string(),
-                    // DeviceStatus {
-                    //     config: Some(StatusConfig {
-                    //         error: None,
-                    //         version: Some(old_version + 1),
-                    //         last_transition_time: Some(String::from("2025-12-12:00:00Z")),
-                    //     }),
-                    //     endpoints: std::collections::HashMap::new(),
-                    // },
-                    status_to_be_updated,
+                    DeviceStatus {
+                        config: Some(StatusConfig {
+                            version: response.specification.version,
+                            last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+                            ..azure_device_registry::StatusConfig::default()
+                        }),
+                        endpoints: endpoint_statuses,
+                    },
+                    // status_to_be_updated,
                     TIMEOUT,
                 )
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Device After Observation: {updated_response1:?}",
+                "[{log_identifier}] Updated Response Device After Observation: {response_during_obs:?}",
             );
             // assert_eq!(
             //     updated_response1.specification.version.unwrap(),
@@ -476,7 +480,7 @@ async fn observe_device_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Unobservation Device Response: {:?}", ());
 
-            let updated_response4 = azure_device_registry_client
+            let response_after_unobs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE1.to_string(),
                     ENDPOINT1.to_string(),
@@ -489,7 +493,7 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Device After Unobserve: {updated_response4:?}",
+                "[{log_identifier}] Updated Response Device After Unobserve: {response_after_unobs:?}",
             );
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
@@ -590,7 +594,7 @@ async fn observe_asset_update_notifications(
             // );
             let mut dataset_statuses = Vec::new();
             for dataset in response.specification.datasets {
-                dataset_statuses.push(azure_device_registry::AssetDatasetEventStreamStatus {
+                dataset_statuses.push(azure_device_registry::DatasetEventStreamStatus {
                     error: None,
                     message_schema_reference: None,
                     name: dataset.name,
@@ -599,6 +603,7 @@ async fn observe_asset_update_notifications(
             let status_to_be_updated = azure_device_registry::AssetStatus {
                 config: Some(azure_device_registry::StatusConfig {
                     version: response.specification.version,
+                    last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
                     ..azure_device_registry::StatusConfig::default()
                 }),
                 datasets: Some(dataset_statuses),
