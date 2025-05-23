@@ -97,7 +97,8 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
             throw new InvalidOperationException("Chunking client requires a defined maximum packet size to function properly.");
         }
 
-        Interlocked.Exchange(ref _maxPacketSize, (int)result!.MaximumPacketSize!.Value);
+        // _maxPacketSize = (int)result!.MaximumPacketSize!.Value;
+        _maxPacketSize = 64 * 1024;
     }
 
     private async Task<MqttClientPublishResult> PublishChunkedMessageAsync(MqttApplicationMessage message, CancellationToken cancellationToken)
