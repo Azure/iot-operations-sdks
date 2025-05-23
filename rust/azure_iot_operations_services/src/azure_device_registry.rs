@@ -16,6 +16,7 @@ use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry generated code
 mod adr_base_gen;
+mod device_discovery_gen;
 /// Azure Device Registry Client implementation wrapper
 pub mod client;
 
