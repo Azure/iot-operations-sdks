@@ -73,7 +73,7 @@ impl DeviceEndpointClientCreationObservation {
                 .await?;
 
             // and then get device update observation as well and turn it into a DeviceEndpointClientUpdateObservation
-            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -94,7 +94,7 @@ impl DeviceEndpointClientCreationObservation {
 
             // get the device definition
             let device = match Retry::spawn(
-                RETRY_STRATEGY,
+                RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
                 async || -> Result<Device, RetryError<azure_device_registry::Error>> {
                     self.connector_context
                         .azure_device_registry_client
@@ -134,7 +134,7 @@ impl DeviceEndpointClientCreationObservation {
                     );
                     // unobserve as cleanup
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY.take(10),
+                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -175,7 +175,7 @@ impl DeviceEndpointClientCreationObservation {
                     );
                     // unobserve
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY.take(10),
+                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -387,7 +387,7 @@ impl DeviceEndpointClient {
     async fn internal_report_status(&self, adr_device_status: azure_device_registry::DeviceStatus) {
         // send status update to the service
         match Retry::spawn(
-            RETRY_STRATEGY.take(10),
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
             async || -> Result<Device, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
@@ -467,7 +467,7 @@ impl AssetClientCreationObservation {
                 self.asset_create_observation.recv_notification().await?;
 
             // Get asset update observation as well and turn it into a AssetClientUpdateObservation
-            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_asset_update_notifications(
@@ -490,7 +490,7 @@ impl AssetClientCreationObservation {
             let (dataset_creation_tx, dataset_creation_rx) = mpsc::unbounded_channel();
             // get the asset definition
             let asset_client = match Retry::spawn(
-                RETRY_STRATEGY,
+                RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
                 async || -> Result<Asset, RetryError<azure_device_registry::Error>> {
                     self.connector_context
                         .azure_device_registry_client
@@ -541,7 +541,7 @@ impl AssetClientCreationObservation {
                     log::error!("Dropping asset create notification: {asset_ref:?}");
                     // unobserve as cleanup
                     let _ = Retry::spawn(
-                        RETRY_STRATEGY.take(10),
+                        RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
                         async || -> Result<(), RetryError<azure_device_registry::Error>> {
                             self.connector_context
                                 .azure_device_registry_client
@@ -599,7 +599,11 @@ pub struct AssetClient {
     #[getter(skip)]
     asset_update_observation: AssetUpdateObservation,
     #[getter(skip)]
-    dataset_creation_tx: UnboundedSender<(DatasetClient, DatasetDeletionToken)>,
+    dataset_creation_tx: UnboundedSender<(
+        DatasetClient,
+        DatasetDeletionToken,
+        tokio::sync::watch::Receiver<()>,
+    )>,
     /// hashmap of current dataset names to their current definition, the deletion token tx, and a sender to send updates
     #[getter(skip)]
     #[allow(clippy::type_complexity)]
@@ -608,7 +612,11 @@ pub struct AssetClient {
         (
             Dataset,
             oneshot::Sender<()>,
-            UnboundedSender<(Dataset, Vec<Arc<destination_endpoint::Destination>>)>,
+            UnboundedSender<(
+                Dataset,
+                Vec<Arc<destination_endpoint::Destination>>,
+                tokio::sync::watch::Receiver<()>,
+            )>,
         ),
     >,
     #[getter(skip)]
@@ -616,6 +624,8 @@ pub struct AssetClient {
     /// The last definition of the asset that was received so we can filter out updates that only report status changes. Temporary
     #[getter(skip)]
     last_specification: azure_device_registry::AssetSpecification,
+    #[getter(skip)]
+    release_updates_tx: tokio::sync::watch::Sender<()>,
 }
 // either I have the assetClient::new() return (Self, Vec<DatasetClient>) and the DatasetClients can't
 // update in place, but a new Vec of them gets returned on recv_update as well
@@ -644,13 +654,18 @@ impl AssetClient {
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
         asset_update_observation: AssetUpdateObservation,
-        dataset_creation_tx: UnboundedSender<(DatasetClient, DatasetDeletionToken)>,
+        dataset_creation_tx: UnboundedSender<(
+            DatasetClient,
+            DatasetDeletionToken,
+            tokio::sync::watch::Receiver<()>,
+        )>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
         let unlocked_specification = AssetSpecification::from(asset.specification.clone());
         let specification_version = unlocked_specification.version;
+        let release_updates_tx = tokio::sync::watch::Sender::new(());
         let mut dataset_manager = HashMap::new();
 
         let default_destinations: Vec<Arc<destination_endpoint::Destination>> =
@@ -673,6 +688,7 @@ impl AssetClient {
                         &connector_context,
                         &asset_ref,
                         status.clone(),
+                        "AssetClient::new default_dataset_destination",
                     )
                     .await;
                     // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
@@ -734,7 +750,11 @@ impl AssetClient {
             );
 
             if dataset_creation_tx
-                .send((new_dataset_client, dataset_deletion_token))
+                .send((
+                    new_dataset_client,
+                    dataset_deletion_token,
+                    release_updates_tx.subscribe(),
+                ))
                 .is_err()
             {
                 log::error!("Failed to send dataset creation notification");
@@ -758,14 +778,22 @@ impl AssetClient {
                 ..azure_device_registry::AssetStatus::default()
             };
             // send status update to the service
+            log::debug!(
+                "Reporting status(es) for invalid dataset destination(s) for Asset {}",
+                asset_ref.name
+            );
             AssetClient::internal_report_status(
                 adr_asset_status,
                 &connector_context,
                 &asset_ref,
                 status.clone(),
+                "AssetClient::new dataset_destination(s)",
             )
             .await;
         }
+
+        // release new datasets to be consumable
+        release_updates_tx.send_modify(|()| ());
 
         AssetClient {
             asset_ref,
@@ -778,6 +806,7 @@ impl AssetClient {
             dataset_manager,
             connector_context,
             last_specification: asset.specification,
+            release_updates_tx,
         }
     }
 
@@ -790,12 +819,14 @@ impl AssetClient {
         let version = self.specification.read().unwrap().version;
         let adr_asset_status = Self::internal_asset_status(status, version);
 
+        log::debug!("reporting asset status from app");
         // send status update to the service
         Self::internal_report_status(
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
             self.status.clone(),
+            "AssetClient::report_status",
         )
         .await;
     }
@@ -821,6 +852,8 @@ impl AssetClient {
     /// # Panics
     /// If the status or specification mutexes have been poisoned, which should not be possible
     pub async fn recv_update(&mut self) -> Option<()> {
+        // release any pending dataset create/update notifications
+        self.release_updates_tx.send_modify(|()| ());
         loop {
             // handle the notification
             // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
@@ -829,8 +862,9 @@ impl AssetClient {
             let (updated_asset, _) = self.asset_update_observation.recv_notification().await?;
 
             if updated_asset.specification == self.last_specification
-                && updated_asset.status == *self.status.read().unwrap()
+            // && updated_asset.status == *self.status.read().unwrap() // needed to keep status updates from other devices? Was currently buggy
             {
+                log::debug!("ignoring asset update, nothing new");
                 // if the asset hasn't changed, then we should ignore this update, since it's just a status update
                 continue;
             }
@@ -884,6 +918,7 @@ impl AssetClient {
                             &self.connector_context,
                             &self.asset_ref,
                             self.status.clone(),
+                            "AssetClient::recv_update default_dataset_destination",
                         )
                         .await;
                         // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
@@ -895,15 +930,21 @@ impl AssetClient {
             for received_dataset in &updated_asset.specification.datasets {
                 // it already exists
                 if let Some((dataset, _deletion_token, dataset_update_tx)) =
-                    self.dataset_manager.get(&received_dataset.name)
+                    self.dataset_manager.get_mut(&received_dataset.name)
                 {
                     // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
                     // otherwise, only send an update if the dataset definition has changed
                     if default_destination_updated || received_dataset != dataset {
+                        // we need to make sure we have the updated definition for comparing next time
+                        *dataset = received_dataset.clone();
                         // send update to the dataset
                         // TODO: would like not not have this clone
                         dataset_update_tx
-                            .send((received_dataset.clone(), default_destinations.clone()))
+                            .send((
+                                received_dataset.clone(),
+                                default_destinations.clone(),
+                                self.release_updates_tx.subscribe(),
+                            ))
                             .unwrap();
                     }
                 }
@@ -969,6 +1010,7 @@ impl AssetClient {
                                 &self.connector_context,
                                 &self.asset_ref,
                                 self.status.clone(),
+                                "AssetClient::recv_update dataset_destination",
                             )
                             .await;
                             continue;
@@ -988,7 +1030,11 @@ impl AssetClient {
                     );
 
                     self.dataset_creation_tx
-                        .send((new_dataset_client, dataset_deletion_token))
+                        .send((
+                            new_dataset_client,
+                            dataset_deletion_token,
+                            self.release_updates_tx.subscribe(),
+                        ))
                         .unwrap();
                 }
             }
@@ -1040,10 +1086,11 @@ impl AssetClient {
         connector_context: &ConnectorContext,
         asset_ref: &AssetRef,
         asset_status_ref: Arc<RwLock<Option<AssetStatus>>>,
+        log_identifier: &str,
     ) {
         // send status update to the service
         match Retry::spawn(
-            RETRY_STRATEGY.take(10),
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10),
             async || -> Result<Asset, RetryError<azure_device_registry::Error>> {
                 connector_context
                     .azure_device_registry_client
@@ -1059,7 +1106,9 @@ impl AssetClient {
                         match e.kind() {
                             // network/retriable
                             azure_device_registry::ErrorKind::AIOProtocolError(_) => {
-                                log::warn!("Update asset status failed. Retrying: {e}");
+                                log::warn!(
+                                    "Update asset status failed for {log_identifier}. Retrying: {e}"
+                                );
                                 RetryError::transient(e)
                             }
                             // indicates an error in the configuration, might be transient in the future depending on what it can indicate
@@ -1098,14 +1147,21 @@ impl AssetClient {
 /// multiple underlying clients to get full dataset information.
 pub struct DatasetClientCreationObservation {
     /// Internal channel for receiving notifications about dataset creation events.
-    dataset_creation_rx: UnboundedReceiver<(DatasetClient, DatasetDeletionToken)>,
+    dataset_creation_rx: UnboundedReceiver<(
+        DatasetClient,
+        DatasetDeletionToken,
+        tokio::sync::watch::Receiver<()>,
+    )>,
 }
 impl DatasetClientCreationObservation {
     /// Receives a notification for a newly created dataset or [`None`] if there
     /// will be no more notifications. This notification includes the [`DatasetClient`],
     /// and a [`DatasetDeletionToken`] to observe for deletion of this Dataset
     pub async fn recv_notification(&mut self) -> Option<(DatasetClient, DatasetDeletionToken)> {
-        self.dataset_creation_rx.recv().await
+        let (dc, ddt, mut watch_receiver) = self.dataset_creation_rx.recv().await?;
+        // wait until the message has been released
+        watch_receiver.changed().await.unwrap();
+        Some((dc, ddt))
     }
 }
 
@@ -1153,7 +1209,11 @@ pub struct DatasetClient {
     asset_ref: AssetRef,
     /// Internal channel for receiving notifications about dataset updates.
     #[getter(skip)]
-    dataset_update_rx: UnboundedReceiver<(Dataset, Vec<Arc<destination_endpoint::Destination>>)>,
+    dataset_update_rx: UnboundedReceiver<(
+        Dataset,
+        Vec<Arc<destination_endpoint::Destination>>,
+        tokio::sync::watch::Receiver<()>,
+    )>,
 }
 
 impl DatasetClient {
@@ -1169,6 +1229,7 @@ impl DatasetClient {
         dataset_update_rx: UnboundedReceiver<(
             Dataset,
             Vec<Arc<destination_endpoint::Destination>>,
+            tokio::sync::watch::Receiver<()>,
         )>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
@@ -1231,11 +1292,16 @@ impl DatasetClient {
         };
 
         // send status update to the service
+        log::debug!(
+            "reporting dataset {} status from app",
+            self.dataset_ref.dataset_name
+        );
         AssetClient::internal_report_status(
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
             self.asset_status.clone(),
+            "DatasetClient::report_status",
         )
         .await;
     }
@@ -1261,7 +1327,7 @@ impl DatasetClient {
         // TODO: save message schema provided with message schema uri so it can be compared
         // send message schema to schema registry service
         let message_schema_reference = Retry::spawn(
-            RETRY_STRATEGY,
+            RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
             async || -> Result<schema_registry::Schema, RetryError<schema_registry::Error>> {
                 self.connector_context
                     .schema_registry_client
@@ -1274,7 +1340,10 @@ impl DatasetClient {
                         match e.kind() {
                             // network/retriable
                             schema_registry::ErrorKind::AIOProtocolError(_) => {
-                                log::warn!("Reporting message schema failed. Retrying: {e}");
+                                log::warn!(
+                                    "Reporting message schema failed for {}. Retrying: {e}",
+                                    self.dataset_ref.dataset_name
+                                );
                                 RetryError::transient(e)
                             }
                             // indicates an error in the provided message schema, return to caller so they can fix
@@ -1345,11 +1414,16 @@ impl DatasetClient {
         };
 
         // send status update to the service
+        log::debug!(
+            "reporting dataset {} message schema from app",
+            self.dataset_ref.dataset_name
+        );
         AssetClient::internal_report_status(
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
             self.asset_status.clone(),
+            "DatasetClient::report_message_schema",
         )
         .await;
 
@@ -1371,7 +1445,10 @@ impl DatasetClient {
     /// updated in place. The function returns [`None`] if there will be no more notifications.
     pub async fn recv_update(&mut self) -> Option<()> {
         loop {
-            let (updated_dataset, default_destinations) = self.dataset_update_rx.recv().await?;
+            let (updated_dataset, default_destinations, mut watch_receiver) =
+                self.dataset_update_rx.recv().await?;
+            // wait until the udpate has been released
+            watch_receiver.changed().await.unwrap();
             // create new forwarder, in case destination has changed
             self.forwarder = match Forwarder::new_dataset_forwarder(
                 &updated_dataset.destinations,

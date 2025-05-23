@@ -34,6 +34,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations_protocol", log::LevelFilter::Warn)
+        .filter_module("azure_iot_operations_services", log::LevelFilter::Warn)
+        .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
         .filter_module("notify_debouncer_full", log::LevelFilter::Off)
         .filter_module("notify::inotify", log::LevelFilter::Off)
         .init();
@@ -222,8 +224,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                 match dataset_client.forward_data(transformed_data).await {
                     Ok(()) => {
                         log::info!(
-                            "data {} for {} forwarded",
-                            String::from_utf8(sample_data.payload).unwrap(),
+                            "data {count} for {} forwarded",
                             dataset_client.dataset_ref().dataset_name
                         );
                         count += 1;
