@@ -500,7 +500,7 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
-    /// 
+    ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
     pub async fn get_device(
