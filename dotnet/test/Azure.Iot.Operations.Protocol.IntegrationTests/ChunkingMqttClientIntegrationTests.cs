@@ -5,9 +5,9 @@ using Azure.Iot.Operations.Protocol.Chunking;
 using Azure.Iot.Operations.Protocol.Models;
 using System.Buffers;
 
-namespace Azure.Iot.Operations.Protocol.IntegrationTests.Chunking
+namespace Azure.Iot.Operations.Protocol.IntegrationTests
 {
-    public class ChunkingMqttClientIntegrationTests
+    public class ChunkingMqttClientTests
     {
         [Fact]
         public async Task ChunkingMqttClient_SmallMessage_NoChunking()
