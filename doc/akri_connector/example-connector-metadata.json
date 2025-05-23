@@ -5,12 +5,12 @@
   "version": "1.0.0",
   "maintainer": "dev@example.com",
   "vendor": "Contoso",
-  "image": {
+  "imageConfigurationSettings": {
     "repository": "contoso-acr.io/RestConnector",
     "tag": "1.0.0",
     "digest": "sha256:abcd1234..."
   },
-  "helm": {
+  "helmConfigurationSettings": {
     "repository": "contoso-acr.io/helm/RestConnector",
     "tag": "1.0.0",
     "digest": "sha256:abcd1234..."
@@ -33,7 +33,7 @@
     "memory": "256Mi",
     "storage": "5Gi"
   },
-  "aioConfig": {
+  "aioMetadata": {
     "minVersion": "1.0.0",
     "maxVersion": "2.0.0"
   },
@@ -135,6 +135,21 @@
             "properties": {
               "SomeStreamProperty": {
                 "description": "Some configuration that is relevant to streams",
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "processControlConfigSchema": {
+          "schema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "https://contoso.com/processControlConfig.schema.json",
+            "title": "Process control Config Schema",
+            "description": "The JSON schema for both the default process control configuration field and all process control-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "SomeProcessControlProperty": {
+                "description": "Some configuration that is relevant to process control",
                 "type": "integer"
               }
             }

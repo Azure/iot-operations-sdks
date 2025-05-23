@@ -3,7 +3,7 @@
   "type": "object",
   "aioConnectorMetadataSchemaVersion": "1.0.0",
   "definitions": {
-    "AdditionalConfiguration": {
+    "additionalConfigurationType": {
       "type": "object",
       "description": "The schema for this 'additional configuration' field. Must provide inline schema xor the file that contains the schema",
       "properties": {
@@ -29,7 +29,7 @@
     }
   },
   "properties": {
-    "aioConnectorMetadataVersion": {
+    "aioConnectorMetadataSchemaVersion": {
       "type": "string",
       "description": "The version of AIO connector metadata schema that this connector metadata file adheres to."
     },
@@ -53,7 +53,7 @@
       "type": "string",
       "description": "A name and/or email of the vendor that distributes this connector."
     },
-    "image": {
+    "imageConfigurationSettings": {
       "type": "object",
       "properties": {
         "repository": {
@@ -74,7 +74,7 @@
         "tag"
       ]
     },
-    "helm": {
+    "helmConfigurationSettings": {
       "type": "object",
       "properties": {
         "repository": {
@@ -104,6 +104,29 @@
           "description": "Minimum required version of kubernetes needed to run this connector"
         }
       }
+    },
+    "secrets" : {
+      "type": "object",
+      "description": " Secrets that will be mounted onto all connector instances.",
+      "properties": {
+        "secretAlias": {
+          "type": "string",
+          "description": "The application-defined alias for the secret"
+        },
+        "secretKey": {
+          "type": "string",
+          "description": "The key in the secret to be mounted"
+        },
+        "secretRef": {
+          "type": "string",
+          "description": "The name of the secret to be mounted"
+        }
+      },
+      "required": [
+        "secretAlias",
+        "secretKey",
+        "secretRef"
+      ]
     },
     "architecture": {
       "type": "string",
@@ -160,15 +183,15 @@
         }
       }
     },
-    "aioConfig": {
+    "aioMetadata": {
       "type": "object",
       "description": "The AIO requirements to run this connector",
       "properties": {
-        "minVersion": {
+        "aioMinVersion": {
           "type": "string",
           "description": "The minimal (inclusive) version that can run this connector."
         },
-        "maxVersion": {
+        "aioMaxVersion": {
           "type": "string",
           "description": "The maximal (inclusive) version that can run this connector."
         }
@@ -192,22 +215,25 @@
               "description": "The JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
               "properties": {
                 "deviceEndpointAdditionalConfigSchema": {
-                  "$ref": "#/definitions/AdditionalConfiguration"
+                  "$ref": "#/definitions/additionalConfigurationType"
                 },
                 "datasetConfigSchema": {
-                  "$ref": "#/definitions/AdditionalConfiguration"
+                  "$ref": "#/definitions/additionalConfigurationType"
                 },
                 "dataPointConfigSchema": {
-                  "$ref": "#/definitions/AdditionalConfiguration"
+                  "$ref": "#/definitions/additionalConfigurationType"
                 },
                 "eventConfigSchema": {
-                  "$ref": "#/definitions/AdditionalConfiguration"
+                  "$ref": "#/definitions/additionalConfigurationType"
                 },
                 "streamConfigSchema": {
-                  "$ref": "#/definitions/AdditionalConfiguration"
+                  "$ref": "#/definitions/additionalConfigurationType"
                 },
                 "managementGroupConfigSchema": {
-                  "$ref": "#/definitions/AdditionalConfiguration"
+                  "$ref": "#/definitions/additionalConfigurationType"
+                },
+                "processControlConfigSchema": {
+                  "$ref": "#/definitions/additionalConfigurationType"
                 }
               }
             }
