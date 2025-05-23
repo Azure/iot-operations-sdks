@@ -137,7 +137,7 @@
         }
       }
     },
-    "secrets" : {
+    "secrets": {
       "type": "object",
       "description": " Secrets that will be mounted onto all connector instances.",
       "properties": {
@@ -229,9 +229,9 @@
         }
       }
     },
-    "protocols": {
+    "inboundEndpoints": {
       "type": "array",
-      "description": "The array of protocols that this connector operates over.",
+      "description": "The array of inbound endpoints that this connector connects with.",
       "items": [
         {
           "type": "object",
@@ -239,35 +239,52 @@
             "name": {
               "type": "string"
             },
-            "version": {
-              "type": "string"
-            },
             "configSchemas": {
               "type": "object",
-              "description": "The JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
+              "description": "The inbound endpoint level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
               "properties": {
                 "deviceEndpointAdditionalConfigSchema": {
                   "$ref": "#/definitions/additionalConfigurationType"
-                },
-                "datasetConfigSchema": {
-                  "$ref": "#/definitions/additionalConfigurationType"
-                },
-                "dataPointConfigSchema": {
-                  "$ref": "#/definitions/additionalConfigurationType"
-                },
-                "eventConfigSchema": {
-                  "$ref": "#/definitions/additionalConfigurationType"
-                },
-                "streamConfigSchema": {
-                  "$ref": "#/definitions/additionalConfigurationType"
-                },
-                "managementGroupConfigSchema": {
-                  "$ref": "#/definitions/additionalConfigurationType"
-                },
-                "processControlConfigSchema": {
-                  "$ref": "#/definitions/additionalConfigurationType"
                 }
               }
+            },
+            "assets": {
+              "type": "array",
+              "description": "The array of assets within an inbound endpoint",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "configSchemas": {
+                      "type": "object",
+                      "description": "The JSON schemas for the asset-level various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
+                      "properties": {
+                        "datasetConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "dataPointConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "eventConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "streamConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "managementGroupConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "processControlConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
             }
           },
           "required": [
@@ -282,7 +299,7 @@
   "required": [
     "name",
     "version",
-    "image",
-    "protocols"
+    "imageConfigurationSettings",
+    "inboundEndpoints"
   ]
 }

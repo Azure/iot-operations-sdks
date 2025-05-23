@@ -8,9 +8,9 @@
     "imageName": "RestConnector",
     "tag": "1.0.0"
   },
-  "protocols": [
+  "inboundEndpoints": [
     {
-      "name": "Rest",
+      "name": "RestInboundEndpoint",
       "version": "1.0",
       "configSchemas": {
         "datasetConfigSchema": {
@@ -26,7 +26,8 @@
             }
           }
         }
-      }
+      },
+      "assets": []
     }
   ]
 }
