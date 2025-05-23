@@ -143,11 +143,12 @@ async fn update_device_plus_endpoint_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
+    let new_version = Random.random::<u32>();
     let updated_status = DeviceStatus {
         config: Some(StatusConfig {
             error: None,
-            version: Some(11),
-            last_transition_time: Some(String::from("2025-11-11T00:00:00Z")),
+            version: new_version,
+            ..StatusConfig::default()
         }),
         endpoints: vec![(ENDPOINT1.to_string(), None)]
             .into_iter()
@@ -174,6 +175,10 @@ async fn update_device_plus_endpoint_status() {
             assert_eq!(
                 updated_response.specification.attributes["deviceType"],
                 TYPE
+            );
+            assert_eq!(
+                updated_response.specification.attributes["version"],
+                new_version.to_string()
             );
 
             // Shutdown adr client and underlying resources
@@ -298,7 +303,6 @@ async fn update_asset_status() {
 
 #[tokio::test]
 #[ignore]
-// #[ignore = "This test is ignored as it is not fully implemented yet."]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -306,8 +310,6 @@ async fn observe_device_update_notifications() {
     }
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
-    // let new_version = 12;
-    //let mut old_version = 0;
 
     let test_task = tokio::task::spawn({
         async move {
@@ -368,11 +370,6 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Get Device Reponse: {response:?}",);
-            //old_version = response.specification.version.unwrap_or(0);
-            // log::info!(
-            //     "[{log_identifier}] Datetime: {}",
-            //     time::OffsetDateTime::now_utc()
-            // );
             let mut endpoint_statuses = HashMap::new();
             for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
                 if endpoint.endpoint_type == ENDPOINT_TYPE {
@@ -394,18 +391,7 @@ async fn observe_device_update_notifications() {
                     );
                 }
             }
-            // let status_to_be_updated = azure_device_registry::DeviceStatus {
-            //     config: Some(azure_device_registry::StatusConfig {
-            //         version: response.specification.version,
-            //         last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
-            //         // error: Some(azure_device_registry::ConfigError {
-            //         //     message: Some("device type is not supported".to_string()),
-            //         //     ..azure_device_registry::ConfigError::default()
-            //         // }),
-            //         ..azure_device_registry::StatusConfig::default()
-            //     }),
-            //     endpoints: endpoint_statuses,
-            // };
+
             let response_during_obs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE1.to_string(),
@@ -414,11 +400,10 @@ async fn observe_device_update_notifications() {
                         config: Some(StatusConfig {
                             version: response.specification.version,
                             last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
-                            ..azure_device_registry::StatusConfig::default()
+                            ..StatusConfig::default()
                         }),
                         endpoints: endpoint_statuses,
                     },
-                    // status_to_be_updated,
                     TIMEOUT,
                 )
                 .await
@@ -426,52 +411,6 @@ async fn observe_device_update_notifications() {
             log::info!(
                 "[{log_identifier}] Updated Response Device After Observation: {response_during_obs:?}",
             );
-            // assert_eq!(
-            //     updated_response1.specification.version.unwrap(),
-            //     old_version + 1
-            // );
-            // let updated_response2 = azure_device_registry_client
-            //     .update_device_plus_endpoint_status(
-            //         DEVICE1.to_string(),
-            //         ENDPOINT1.to_string(),
-            //         DeviceStatus {
-            //             config: Some(StatusConfig {
-            //                 error: None,
-            //                 version: Some(old_version + 2),
-            //                 last_transition_time: Some(String::from("2025-12-12:00:00Z")),
-            //             }),
-            //             endpoints: std::collections::HashMap::new(),
-            //         },
-            //         TIMEOUT,
-            //     )
-            //     .await
-            //     .unwrap();
-            // log::info!("[{log_identifier}] Updated Response Device: {updated_response2:?}",);
-            // assert_eq!(
-            //     updated_response1.specification.version.unwrap(),
-            //     old_version + 2
-            // );
-            // let updated_response3 = azure_device_registry_client
-            //     .update_device_plus_endpoint_status(
-            //         DEVICE1.to_string(),
-            //         ENDPOINT1.to_string(),
-            //         DeviceStatus {
-            //             config: Some(StatusConfig {
-            //                 error: None,
-            //                 version: Some(old_version),
-            //                 last_transition_time: Some(String::from("2025-12-12:00:00Z")),
-            //             }),
-            //             endpoints: std::collections::HashMap::new(),
-            //         },
-            //         TIMEOUT,
-            //     )
-            //     .await
-            //     .unwrap();
-            // log::info!("[{log_identifier}] Updated Response Device: {updated_response3:?}",);
-            // assert_eq!(
-            //     updated_response1.specification.version.unwrap(),
-            //     old_version
-            // );
 
             azure_device_registry_client
                 .unobserve_device_update_notifications(
@@ -520,7 +459,6 @@ async fn observe_device_update_notifications() {
 }
 
 #[tokio::test]
-#[ignore]
 async fn observe_asset_update_notifications(
     azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
 ) {
