@@ -1,0 +1,56 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Asset
+metadata:
+  name: my-rest-thermostat-asset
+  namespace: azure-iot-operations
+spec:
+  # attributes: # This part of the spec is currently broken in the operator. Re-enable later
+  #   assetId: my-rest-thermostat-asset
+  #   assetType: thermostat
+  datasets:
+    - name: thermostat_status
+      dataPoints:
+        - dataSource: temp
+          name: currentTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+        - dataSource: newTemp
+          name: desiredTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+      dataSource: /thermostat
+      destinations:
+        - configuration:
+            topic: mqtt/machine/status
+          target: Mqtt
+    - name: oven_status
+      dataPoints:
+        - dataSource: temp
+          name: currentTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+        - dataSource: newTemp
+          name: desiredTemperature
+          dataPointConfiguration: |-
+           {
+              "HttpRequestMethod": "GET",
+           }
+      dataSource: /oven
+      destinations:
+        - configuration:
+            key: oventemp
+          target: BrokerStateStore
+  defaultDatasetsConfiguration: |-
+   {
+      "samplingInterval": 4000,
+   }
+  deviceRef:
+    deviceName: my-thermostat
+    endpointName: my-rest-endpoint
+  version: 1

@@ -1,0 +1,1 @@
+This folder contains directories with files that mimic sample file mounts that an operator would deploy a connector with. They are intended for use in unit tests only.
