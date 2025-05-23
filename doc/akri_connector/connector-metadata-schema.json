@@ -56,9 +56,13 @@
     "imageConfigurationSettings": {
       "type": "object",
       "properties": {
-        "repository": {
+        "containerRegistryName": {
           "type": "string",
-          "description": "The container registry and docker image name for the connector. For example: contoso-acr.io/MyConnector"
+          "description": "The container registry that holds the image for the connector. For example: contoso-acr.io"
+        },
+        "imageName": {
+          "type": "string",
+          "description": "The docker image name for the connector. For example: MyConnector"
         },
         "tag": {
           "type": "string",
@@ -69,17 +73,33 @@
           "description": "The digest of the docker image for this connector"
         }
       },
-      "required": [
-        "repository",
-        "tag"
+      "oneOf": [
+        {
+          "required": [
+            "containerRegistryName",
+            "imageName",
+            "tag"
+          ]
+        },
+        {
+          "required": [
+            "containerRegistryName",
+            "imageName",
+            "digest"
+          ]
+        }
       ]
     },
     "helmConfigurationSettings": {
       "type": "object",
       "properties": {
-        "repository": {
+        "containerRegistryName": {
           "type": "string",
-          "description": "The container registry and helm chart name for the connector. For example: contoso-acr.io/helm/MyConnector"
+          "description": "The container registry name that holds the helm chart for the connector. For example: contoso-acr.io"
+        },
+        "helmChartName": {
+          "type": "string",
+          "description": "The helm chart name for the connector. For example: helm/MyConnector"
         },
         "tag": {
           "type": "string",
@@ -90,9 +110,21 @@
           "description": "The digest of the helm chart for this connector"
         }
       },
-      "required": [
-        "repository",
-        "tag"
+      "oneOf": [
+        {
+          "required": [
+            "containerRegistryName",
+            "helmChartName",
+            "tag"
+          ]
+        },
+        {
+          "required": [
+            "containerRegistryName",
+            "helmChartName",
+            "digest"
+          ]
+        }
       ]
     },
     "kubernetes": {

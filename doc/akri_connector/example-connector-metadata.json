@@ -6,12 +6,14 @@
   "maintainer": "dev@example.com",
   "vendor": "Contoso",
   "imageConfigurationSettings": {
-    "repository": "contoso-acr.io/RestConnector",
+    "containerRegistryName": "contoso-acr.io",
+    "imageName": "RestConnector",
     "tag": "1.0.0",
     "digest": "sha256:abcd1234..."
   },
   "helmConfigurationSettings": {
-    "repository": "contoso-acr.io/helm/RestConnector",
+    "containerRegistryName": "contoso-acr.io",
+    "helmChartName": "helm/RestConnector",
     "tag": "1.0.0",
     "digest": "sha256:abcd1234..."
   },
