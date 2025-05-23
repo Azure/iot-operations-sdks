@@ -4,7 +4,8 @@
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",
   "imageConfigurationSettings": {
-    "repository": "contoso-acr.io/RestConnector",
+    "containerRegistryName": "contoso-acr.io",
+    "imageName": "RestConnector",
     "tag": "1.0.0"
   },
   "protocols": [
