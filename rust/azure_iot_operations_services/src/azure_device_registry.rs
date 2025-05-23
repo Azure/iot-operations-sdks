@@ -11,13 +11,13 @@ use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
 use thiserror::Error;
 
-use crate::azure_device_registry::device_name_gen::adr_base_service::client as adr_name_gen;
+use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::common::dispatcher::{self, Receiver};
 
+/// Azure Device Registry generated code
+mod adr_base_gen;
 /// Azure Device Registry Client implementation wrapper
 pub mod client;
-/// Azure Device Registry generated code
-mod device_name_gen;
 
 pub use client::{Client, ClientOptions, ClientOptionsBuilder};
 
@@ -47,7 +47,7 @@ pub enum ErrorKind {
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
     /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
-    ServiceError(ServiceError),
+    ServiceError(#[from] base_client_gen::AkriServiceError),
     /// A Device or an asset may only have one observation at a time.
     #[error("Device or asset may only be observed once at a time")]
     DuplicateObserve(#[from] dispatcher::RegisterError),
@@ -60,14 +60,6 @@ pub enum ErrorKind {
     /// An error occurred while validating the inputs.
     #[error("{0}")]
     ValidationError(String),
-}
-
-/// An error returned by the Azure Device Registry Service.
-/// TODO placeholder until we get the format from the service
-#[derive(Debug)]
-pub struct ServiceError {
-    /// A message describing the error returned by the Azure Device Registry Service.
-    pub message: String,
 }
 
 // ~~~~~~~~~~~~~~~~~~~SDK Created Device Structs~~~~~~~~~~~~~
@@ -156,9 +148,9 @@ pub struct Details {
 }
 
 // ~~ From impls ~~
-impl From<StatusConfig> for adr_name_gen::DeviceStatusConfigSchema {
+impl From<StatusConfig> for base_client_gen::DeviceStatusConfigSchema {
     fn from(value: StatusConfig) -> Self {
-        adr_name_gen::DeviceStatusConfigSchema {
+        base_client_gen::DeviceStatusConfigSchema {
             version: value.version,
             error: value.error.map(ConfigError::into),
             last_transition_time: value.last_transition_time,
@@ -166,19 +158,19 @@ impl From<StatusConfig> for adr_name_gen::DeviceStatusConfigSchema {
     }
 }
 
-impl From<adr_name_gen::DeviceStatusConfigSchema> for StatusConfig {
-    fn from(value: adr_name_gen::DeviceStatusConfigSchema) -> Self {
+impl From<base_client_gen::DeviceStatusConfigSchema> for StatusConfig {
+    fn from(value: base_client_gen::DeviceStatusConfigSchema) -> Self {
         StatusConfig {
             version: value.version,
-            error: value.error.map(adr_name_gen::ConfigError::into),
+            error: value.error.map(base_client_gen::ConfigError::into),
             last_transition_time: value.last_transition_time,
         }
     }
 }
 
-impl From<StatusConfig> for adr_name_gen::AssetConfigStatusSchema {
+impl From<StatusConfig> for base_client_gen::AssetConfigStatusSchema {
     fn from(value: StatusConfig) -> Self {
-        adr_name_gen::AssetConfigStatusSchema {
+        base_client_gen::AssetConfigStatusSchema {
             error: value.error.map(ConfigError::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
@@ -186,8 +178,8 @@ impl From<StatusConfig> for adr_name_gen::AssetConfigStatusSchema {
     }
 }
 
-impl From<adr_name_gen::AssetConfigStatusSchema> for StatusConfig {
-    fn from(value: adr_name_gen::AssetConfigStatusSchema) -> Self {
+impl From<base_client_gen::AssetConfigStatusSchema> for StatusConfig {
+    fn from(value: base_client_gen::AssetConfigStatusSchema) -> Self {
         StatusConfig {
             error: value.error.map(ConfigError::from),
             last_transition_time: value.last_transition_time,
@@ -196,13 +188,13 @@ impl From<adr_name_gen::AssetConfigStatusSchema> for StatusConfig {
     }
 }
 
-impl From<ConfigError> for adr_name_gen::ConfigError {
+impl From<ConfigError> for base_client_gen::ConfigError {
     fn from(value: ConfigError) -> Self {
-        adr_name_gen::ConfigError {
+        base_client_gen::ConfigError {
             code: value.code,
             message: value.message,
             details: option_vec_from(value.details, |details| {
-                adr_name_gen::DetailsSchemaElementSchema {
+                base_client_gen::DetailsSchemaElementSchema {
                     code: details.code,
                     correlation_id: details.correlation_id,
                     info: details.info,
@@ -214,8 +206,8 @@ impl From<ConfigError> for adr_name_gen::ConfigError {
     }
 }
 
-impl From<adr_name_gen::ConfigError> for ConfigError {
-    fn from(value: adr_name_gen::ConfigError) -> Self {
+impl From<base_client_gen::ConfigError> for ConfigError {
+    fn from(value: base_client_gen::ConfigError) -> Self {
         ConfigError {
             code: value.code,
             message: value.message,
@@ -338,8 +330,8 @@ pub enum Authentication {
     },
 }
 // ~~ From impls ~~
-impl From<adr_name_gen::Device> for Device {
-    fn from(value: adr_name_gen::Device) -> Self {
+impl From<base_client_gen::Device> for Device {
+    fn from(value: base_client_gen::Device) -> Self {
         Device {
             name: value.name,
             specification: value.specification.into(),
@@ -348,8 +340,8 @@ impl From<adr_name_gen::Device> for Device {
     }
 }
 
-impl From<adr_name_gen::DeviceUpdateEventTelemetry> for Device {
-    fn from(value: adr_name_gen::DeviceUpdateEventTelemetry) -> Self {
+impl From<base_client_gen::DeviceUpdateEventTelemetry> for Device {
+    fn from(value: base_client_gen::DeviceUpdateEventTelemetry) -> Self {
         Device {
             name: value.device_update_event.device.name,
             specification: value.device_update_event.device.specification.into(),
@@ -362,8 +354,8 @@ impl From<adr_name_gen::DeviceUpdateEventTelemetry> for Device {
     }
 }
 
-impl From<adr_name_gen::DeviceSpecificationSchema> for DeviceSpecification {
-    fn from(value: adr_name_gen::DeviceSpecificationSchema) -> Self {
+impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
+    fn from(value: base_client_gen::DeviceSpecificationSchema) -> Self {
         DeviceSpecification {
             attributes: value.attributes.unwrap_or_default(),
             discovered_device_ref: value.discovered_device_ref,
@@ -384,8 +376,8 @@ impl From<adr_name_gen::DeviceSpecificationSchema> for DeviceSpecification {
     }
 }
 
-impl From<adr_name_gen::DeviceEndpointSchema> for DeviceEndpoints {
-    fn from(value: adr_name_gen::DeviceEndpointSchema) -> Self {
+impl From<base_client_gen::DeviceEndpointSchema> for DeviceEndpoints {
+    fn from(value: base_client_gen::DeviceEndpointSchema) -> Self {
         let inbound = match value.inbound {
             Some(inbound_endpoints) => inbound_endpoints
                 .into_iter()
@@ -415,8 +407,8 @@ impl From<adr_name_gen::DeviceEndpointSchema> for DeviceEndpoints {
     }
 }
 
-impl From<adr_name_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
-    fn from(value: adr_name_gen::DeviceOutboundEndpoint) -> Self {
+impl From<base_client_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
+    fn from(value: base_client_gen::DeviceOutboundEndpoint) -> Self {
         OutboundEndpoint {
             address: value.address,
             endpoint_type: value.endpoint_type,
@@ -424,8 +416,8 @@ impl From<adr_name_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
     }
 }
 
-impl From<adr_name_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
-    fn from(value: adr_name_gen::InboundSchemaMapValueSchema) -> Self {
+impl From<base_client_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
+    fn from(value: base_client_gen::InboundSchemaMapValueSchema) -> Self {
         InboundEndpoint {
             additional_configuration: value.additional_configuration,
             address: value.address,
@@ -440,8 +432,8 @@ impl From<adr_name_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
     }
 }
 
-impl From<adr_name_gen::TrustSettingsSchema> for TrustSettings {
-    fn from(value: adr_name_gen::TrustSettingsSchema) -> Self {
+impl From<base_client_gen::TrustSettingsSchema> for TrustSettings {
+    fn from(value: base_client_gen::TrustSettingsSchema) -> Self {
         TrustSettings {
             issuer_list: value.issuer_list,
             trust_list: value.trust_list,
@@ -449,11 +441,11 @@ impl From<adr_name_gen::TrustSettingsSchema> for TrustSettings {
     }
 }
 
-impl From<adr_name_gen::AuthenticationSchema> for Authentication {
-    fn from(value: adr_name_gen::AuthenticationSchema) -> Self {
+impl From<base_client_gen::AuthenticationSchema> for Authentication {
+    fn from(value: base_client_gen::AuthenticationSchema) -> Self {
         match value.method {
-            adr_name_gen::MethodSchema::Anonymous => Authentication::Anonymous,
-            adr_name_gen::MethodSchema::Certificate => Authentication::Certificate {
+            base_client_gen::MethodSchema::Anonymous => Authentication::Anonymous,
+            base_client_gen::MethodSchema::Certificate => Authentication::Certificate {
                 certificate_secret_name: if let Some(x509credentials) = value.x509credentials {
                     x509credentials.certificate_secret_name
                 } else {
@@ -464,7 +456,7 @@ impl From<adr_name_gen::AuthenticationSchema> for Authentication {
                 },
             },
 
-            adr_name_gen::MethodSchema::UsernamePassword => {
+            base_client_gen::MethodSchema::UsernamePassword => {
                 if let Some(username_password_credentials) = value.username_password_credentials {
                     Authentication::UsernamePassword {
                         password_secret_name: username_password_credentials.password_secret_name,
@@ -496,12 +488,12 @@ pub struct DeviceStatus {
 }
 
 // ~~ From impls ~~
-impl From<DeviceStatus> for adr_name_gen::DeviceStatus {
+impl From<DeviceStatus> for base_client_gen::DeviceStatus {
     fn from(value: DeviceStatus) -> Self {
         let endpoints = if value.endpoints.is_empty() {
             None
         } else {
-            Some(adr_name_gen::DeviceStatusEndpointSchema {
+            Some(base_client_gen::DeviceStatusEndpointSchema {
                 inbound: Some(
                     value
                         .endpoints
@@ -509,7 +501,7 @@ impl From<DeviceStatus> for adr_name_gen::DeviceStatus {
                         .map(|(k, v)| {
                             (
                                 k,
-                                adr_name_gen::DeviceStatusInboundEndpointSchemaMapValueSchema {
+                                base_client_gen::DeviceStatusInboundEndpointSchemaMapValueSchema {
                                     error: v.map(ConfigError::into),
                                 },
                             )
@@ -518,15 +510,15 @@ impl From<DeviceStatus> for adr_name_gen::DeviceStatus {
                 ),
             })
         };
-        adr_name_gen::DeviceStatus {
+        base_client_gen::DeviceStatus {
             config: value.config.map(StatusConfig::into),
             endpoints,
         }
     }
 }
 
-impl From<adr_name_gen::DeviceStatus> for DeviceStatus {
-    fn from(value: adr_name_gen::DeviceStatus) -> Self {
+impl From<base_client_gen::DeviceStatus> for DeviceStatus {
+    fn from(value: base_client_gen::DeviceStatus) -> Self {
         let endpoints = match value.endpoints {
             Some(endpoint_status) => match endpoint_status.inbound {
                 Some(inbound_endpoints) => inbound_endpoints
@@ -540,7 +532,7 @@ impl From<adr_name_gen::DeviceStatus> for DeviceStatus {
         DeviceStatus {
             config: value
                 .config
-                .map(adr_name_gen::DeviceStatusConfigSchema::into),
+                .map(base_client_gen::DeviceStatusConfigSchema::into),
             endpoints,
         }
     }
@@ -575,13 +567,13 @@ pub struct AssetSpecification {
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
     /// Default destinations for events.
-    pub default_events_destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_events_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for management groups.
     pub default_management_groups_configuration: Option<String>,
     /// Default configuration for streams.
     pub default_streams_configuration: Option<String>,
     /// Default destinations for streams.
-    pub default_streams_destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub default_streams_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The description of the asset.
     pub description: Option<String>,
     /// A reference to the Device and Endpoint within the device
@@ -674,7 +666,7 @@ pub struct DatasetDestination {
 
 /// Represents the destination for an event or stream.
 #[derive(Clone, Debug)]
-pub struct EventsAndStreamsDestination {
+pub struct EventStreamDestination {
     /// The configuration for the destination
     pub configuration: DestinationConfiguration,
     /// The target for the destination
@@ -682,7 +674,7 @@ pub struct EventsAndStreamsDestination {
 }
 
 // TODO: switch to this  rust enum
-// pub enum EventsAndStreamsDestination {
+// pub enum EventStreamDestination {
 //     Mqtt{ topic: String,
 //         qos: Option<Qos>,
 //         retain: Option<Retain>,
@@ -705,7 +697,7 @@ pub struct Event {
     /// Array of data points that are part of the event.
     pub data_points: Vec<EventDataPoint>, // if None, we can represent as empty vec
     /// The destination for the event.
-    pub destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The configuration for the event.
     pub event_configuration: Option<String>,
     /// The address of the notifier of the event
@@ -756,7 +748,7 @@ pub struct ManagementGroupAction {
 #[derive(Clone, Debug)]
 pub struct Stream {
     /// Destinations for a stream.
-    pub destinations: Vec<EventsAndStreamsDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The name of the stream.
     pub name: String,
     /// The configuration for the stream.
@@ -854,9 +846,9 @@ pub struct MessageSchemaReference {
     pub registry_namespace: String,
 }
 
-impl From<AssetStatus> for adr_name_gen::AssetStatus {
+impl From<AssetStatus> for base_client_gen::AssetStatus {
     fn from(value: AssetStatus) -> Self {
-        adr_name_gen::AssetStatus {
+        base_client_gen::AssetStatus {
             config: value.config.map(StatusConfig::into),
             datasets: option_vec_from(value.datasets, DatasetEventStreamStatus::into),
             events: option_vec_from(value.events, DatasetEventStreamStatus::into),
@@ -869,9 +861,9 @@ impl From<AssetStatus> for adr_name_gen::AssetStatus {
     }
 }
 
-impl From<DatasetEventStreamStatus> for adr_name_gen::AssetDatasetEventStreamStatus {
+impl From<DatasetEventStreamStatus> for base_client_gen::AssetDatasetEventStreamStatus {
     fn from(value: DatasetEventStreamStatus) -> Self {
-        adr_name_gen::AssetDatasetEventStreamStatus {
+        base_client_gen::AssetDatasetEventStreamStatus {
             name: value.name,
             message_schema_reference: value
                 .message_schema_reference
@@ -881,18 +873,20 @@ impl From<DatasetEventStreamStatus> for adr_name_gen::AssetDatasetEventStreamSta
     }
 }
 
-impl From<ManagementGroupStatus> for adr_name_gen::AssetManagementGroupStatusSchemaElementSchema {
+impl From<ManagementGroupStatus>
+    for base_client_gen::AssetManagementGroupStatusSchemaElementSchema
+{
     fn from(value: ManagementGroupStatus) -> Self {
-        adr_name_gen::AssetManagementGroupStatusSchemaElementSchema {
+        base_client_gen::AssetManagementGroupStatusSchemaElementSchema {
             actions: option_vec_from(value.actions, ActionStatus::into),
             name: value.name,
         }
     }
 }
 
-impl From<ActionStatus> for adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema {
+impl From<ActionStatus> for base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema {
     fn from(value: ActionStatus) -> Self {
-        adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema {
+        base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema {
             error: value.error.map(ConfigError::into),
             name: value.name,
             request_message_schema_reference: value
@@ -905,9 +899,9 @@ impl From<ActionStatus> for adr_name_gen::AssetManagementGroupActionStatusSchema
     }
 }
 
-impl From<MessageSchemaReference> for adr_name_gen::MessageSchemaReference {
+impl From<MessageSchemaReference> for base_client_gen::MessageSchemaReference {
     fn from(value: MessageSchemaReference) -> Self {
-        adr_name_gen::MessageSchemaReference {
+        base_client_gen::MessageSchemaReference {
             schema_name: value.name,
             schema_version: value.version,
             schema_registry_namespace: value.registry_namespace,
@@ -958,7 +952,7 @@ pub enum ActionType {
     Write,
 }
 
-impl From<Retain> for adr_name_gen::Retain {
+impl From<Retain> for base_client_gen::Retain {
     fn from(value: Retain) -> Self {
         match value {
             Retain::Keep => Self::Keep,
@@ -967,8 +961,8 @@ impl From<Retain> for adr_name_gen::Retain {
     }
 }
 
-impl From<adr_name_gen::Asset> for Asset {
-    fn from(value: adr_name_gen::Asset) -> Self {
+impl From<base_client_gen::Asset> for Asset {
+    fn from(value: base_client_gen::Asset) -> Self {
         Asset {
             name: value.name,
             specification: AssetSpecification::from(value.specification),
@@ -977,8 +971,8 @@ impl From<adr_name_gen::Asset> for Asset {
     }
 }
 
-impl From<adr_name_gen::AssetStatus> for AssetStatus {
-    fn from(value: adr_name_gen::AssetStatus) -> Self {
+impl From<base_client_gen::AssetStatus> for AssetStatus {
+    fn from(value: base_client_gen::AssetStatus) -> Self {
         AssetStatus {
             config: value.config.map(StatusConfig::from),
             datasets: option_vec_from(value.datasets, DatasetEventStreamStatus::from),
@@ -992,8 +986,10 @@ impl From<adr_name_gen::AssetStatus> for AssetStatus {
     }
 }
 
-impl From<adr_name_gen::AssetManagementGroupStatusSchemaElementSchema> for ManagementGroupStatus {
-    fn from(value: adr_name_gen::AssetManagementGroupStatusSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetManagementGroupStatusSchemaElementSchema>
+    for ManagementGroupStatus
+{
+    fn from(value: base_client_gen::AssetManagementGroupStatusSchemaElementSchema) -> Self {
         ManagementGroupStatus {
             actions: option_vec_from(value.actions, ActionStatus::from),
             name: value.name,
@@ -1001,8 +997,8 @@ impl From<adr_name_gen::AssetManagementGroupStatusSchemaElementSchema> for Manag
     }
 }
 
-impl From<adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema> for ActionStatus {
-    fn from(value: adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema> for ActionStatus {
+    fn from(value: base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema) -> Self {
         ActionStatus {
             error: value.error.map(ConfigError::from),
             name: value.name,
@@ -1016,8 +1012,8 @@ impl From<adr_name_gen::AssetManagementGroupActionStatusSchemaElementSchema> for
     }
 }
 
-impl From<adr_name_gen::AssetDatasetEventStreamStatus> for DatasetEventStreamStatus {
-    fn from(value: adr_name_gen::AssetDatasetEventStreamStatus) -> Self {
+impl From<base_client_gen::AssetDatasetEventStreamStatus> for DatasetEventStreamStatus {
+    fn from(value: base_client_gen::AssetDatasetEventStreamStatus) -> Self {
         DatasetEventStreamStatus {
             name: value.name,
             message_schema_reference: value
@@ -1028,8 +1024,8 @@ impl From<adr_name_gen::AssetDatasetEventStreamStatus> for DatasetEventStreamSta
     }
 }
 
-impl From<adr_name_gen::MessageSchemaReference> for MessageSchemaReference {
-    fn from(value: adr_name_gen::MessageSchemaReference) -> Self {
+impl From<base_client_gen::MessageSchemaReference> for MessageSchemaReference {
+    fn from(value: base_client_gen::MessageSchemaReference) -> Self {
         MessageSchemaReference {
             name: value.schema_name,
             version: value.schema_version,
@@ -1038,8 +1034,8 @@ impl From<adr_name_gen::MessageSchemaReference> for MessageSchemaReference {
     }
 }
 
-impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
-    fn from(value: adr_name_gen::AssetSpecificationSchema) -> Self {
+impl From<base_client_gen::AssetSpecificationSchema> for AssetSpecification {
+    fn from(value: base_client_gen::AssetSpecificationSchema) -> Self {
         AssetSpecification {
             asset_type_refs: value.asset_type_refs.unwrap_or_default(),
             attributes: value.attributes.unwrap_or_default(),
@@ -1052,13 +1048,13 @@ impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
             default_events_configuration: value.default_events_configuration,
             default_events_destinations: vec_from_option_vec(
                 value.default_events_destinations,
-                EventsAndStreamsDestination::from,
+                EventStreamDestination::from,
             ),
             default_management_groups_configuration: value.default_management_groups_configuration,
             default_streams_configuration: value.default_streams_configuration,
             default_streams_destinations: vec_from_option_vec(
                 value.default_streams_destinations,
-                EventsAndStreamsDestination::from,
+                EventStreamDestination::from,
             ),
             description: value.description,
             device_ref: DeviceRef::from(value.device_ref),
@@ -1084,8 +1080,8 @@ impl From<adr_name_gen::AssetSpecificationSchema> for AssetSpecification {
     }
 }
 
-impl From<adr_name_gen::AssetDatasetSchemaElementSchema> for Dataset {
-    fn from(value: adr_name_gen::AssetDatasetSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetDatasetSchemaElementSchema> for Dataset {
+    fn from(value: base_client_gen::AssetDatasetSchemaElementSchema) -> Self {
         Dataset {
             dataset_configuration: value.dataset_configuration,
             data_points: vec_from_option_vec(value.data_points, DatasetDataPoint::from),
@@ -1097,8 +1093,8 @@ impl From<adr_name_gen::AssetDatasetSchemaElementSchema> for Dataset {
     }
 }
 
-impl From<adr_name_gen::AssetDatasetDataPointSchemaElementSchema> for DatasetDataPoint {
-    fn from(value: adr_name_gen::AssetDatasetDataPointSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetDatasetDataPointSchemaElementSchema> for DatasetDataPoint {
+    fn from(value: base_client_gen::AssetDatasetDataPointSchemaElementSchema) -> Self {
         DatasetDataPoint {
             data_point_configuration: value.data_point_configuration,
             data_source: value.data_source,
@@ -1108,8 +1104,8 @@ impl From<adr_name_gen::AssetDatasetDataPointSchemaElementSchema> for DatasetDat
     }
 }
 
-impl From<adr_name_gen::AssetDatasetDestinationSchemaElementSchema> for DatasetDestination {
-    fn from(value: adr_name_gen::AssetDatasetDestinationSchemaElementSchema) -> Self {
+impl From<base_client_gen::DatasetDestination> for DatasetDestination {
+    fn from(value: base_client_gen::DatasetDestination) -> Self {
         DatasetDestination {
             configuration: value.configuration.into(),
             target: value.target.into(),
@@ -1117,39 +1113,8 @@ impl From<adr_name_gen::AssetDatasetDestinationSchemaElementSchema> for DatasetD
     }
 }
 
-impl From<adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema> for DatasetDestination {
-    fn from(value: adr_name_gen::DefaultDatasetsDestinationsSchemaElementSchema) -> Self {
-        DatasetDestination {
-            configuration: value.configuration.into(),
-            target: value.target.into(),
-        }
-    }
-}
-
-impl From<adr_name_gen::DefaultEventsDestinationsSchemaElementSchema>
-    for EventsAndStreamsDestination
-{
-    fn from(value: adr_name_gen::DefaultEventsDestinationsSchemaElementSchema) -> Self {
-        EventsAndStreamsDestination {
-            configuration: value.configuration.into(),
-            target: value.target.into(),
-        }
-    }
-}
-
-impl From<adr_name_gen::DefaultStreamsDestinationsSchemaElementSchema>
-    for EventsAndStreamsDestination
-{
-    fn from(value: adr_name_gen::DefaultStreamsDestinationsSchemaElementSchema) -> Self {
-        EventsAndStreamsDestination {
-            configuration: value.configuration.into(),
-            target: value.target.into(),
-        }
-    }
-}
-
-impl From<adr_name_gen::DeviceRefSchema> for DeviceRef {
-    fn from(value: adr_name_gen::DeviceRefSchema) -> Self {
+impl From<base_client_gen::AssetDeviceRef> for DeviceRef {
+    fn from(value: base_client_gen::AssetDeviceRef) -> Self {
         DeviceRef {
             device_name: value.device_name,
             endpoint_name: value.endpoint_name,
@@ -1157,14 +1122,11 @@ impl From<adr_name_gen::DeviceRefSchema> for DeviceRef {
     }
 }
 
-impl From<adr_name_gen::AssetEventSchemaElementSchema> for Event {
-    fn from(value: adr_name_gen::AssetEventSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetEventSchemaElementSchema> for Event {
+    fn from(value: base_client_gen::AssetEventSchemaElementSchema) -> Self {
         Event {
             data_points: vec_from_option_vec(value.data_points, EventDataPoint::from),
-            destinations: vec_from_option_vec(
-                value.destinations,
-                EventsAndStreamsDestination::from,
-            ),
+            destinations: vec_from_option_vec(value.destinations, EventStreamDestination::from),
             event_configuration: value.event_configuration,
             event_notifier: value.event_notifier,
             name: value.name,
@@ -1173,17 +1135,17 @@ impl From<adr_name_gen::AssetEventSchemaElementSchema> for Event {
     }
 }
 
-impl From<adr_name_gen::AssetEventDestinationSchemaElementSchema> for EventsAndStreamsDestination {
-    fn from(value: adr_name_gen::AssetEventDestinationSchemaElementSchema) -> Self {
-        EventsAndStreamsDestination {
+impl From<base_client_gen::EventStreamDestination> for EventStreamDestination {
+    fn from(value: base_client_gen::EventStreamDestination) -> Self {
+        EventStreamDestination {
             configuration: value.configuration.into(),
             target: value.target.into(),
         }
     }
 }
 
-impl From<adr_name_gen::AssetEventDataPointSchemaElementSchema> for EventDataPoint {
-    fn from(value: adr_name_gen::AssetEventDataPointSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetEventDataPointSchemaElementSchema> for EventDataPoint {
+    fn from(value: base_client_gen::AssetEventDataPointSchemaElementSchema) -> Self {
         EventDataPoint {
             data_point_configuration: value.data_point_configuration,
             data_source: value.data_source,
@@ -1192,8 +1154,8 @@ impl From<adr_name_gen::AssetEventDataPointSchemaElementSchema> for EventDataPoi
     }
 }
 
-impl From<adr_name_gen::AssetManagementGroupSchemaElementSchema> for ManagementGroup {
-    fn from(value: adr_name_gen::AssetManagementGroupSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetManagementGroupSchemaElementSchema> for ManagementGroup {
+    fn from(value: base_client_gen::AssetManagementGroupSchemaElementSchema) -> Self {
         ManagementGroup {
             actions: vec_from_option_vec(value.actions, ManagementGroupAction::from),
             default_time_out_in_seconds: value.default_time_out_in_seconds,
@@ -1205,8 +1167,10 @@ impl From<adr_name_gen::AssetManagementGroupSchemaElementSchema> for ManagementG
     }
 }
 
-impl From<adr_name_gen::AssetManagementGroupActionSchemaElementSchema> for ManagementGroupAction {
-    fn from(value: adr_name_gen::AssetManagementGroupActionSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetManagementGroupActionSchemaElementSchema>
+    for ManagementGroupAction
+{
+    fn from(value: base_client_gen::AssetManagementGroupActionSchemaElementSchema) -> Self {
         ManagementGroupAction {
             action_configuration: value.action_configuration,
             action_type: value.action_type.into(),
@@ -1219,22 +1183,19 @@ impl From<adr_name_gen::AssetManagementGroupActionSchemaElementSchema> for Manag
     }
 }
 
-impl From<adr_name_gen::AssetManagementGroupActionTypeSchema> for ActionType {
-    fn from(value: adr_name_gen::AssetManagementGroupActionTypeSchema) -> Self {
+impl From<base_client_gen::AssetManagementGroupActionType> for ActionType {
+    fn from(value: base_client_gen::AssetManagementGroupActionType) -> Self {
         match value {
-            adr_name_gen::AssetManagementGroupActionTypeSchema::Call => ActionType::Call,
-            adr_name_gen::AssetManagementGroupActionTypeSchema::Read => ActionType::Read,
-            adr_name_gen::AssetManagementGroupActionTypeSchema::Write => ActionType::Write,
+            base_client_gen::AssetManagementGroupActionType::Call => ActionType::Call,
+            base_client_gen::AssetManagementGroupActionType::Read => ActionType::Read,
+            base_client_gen::AssetManagementGroupActionType::Write => ActionType::Write,
         }
     }
 }
-impl From<adr_name_gen::AssetStreamSchemaElementSchema> for Stream {
-    fn from(value: adr_name_gen::AssetStreamSchemaElementSchema) -> Self {
+impl From<base_client_gen::AssetStreamSchemaElementSchema> for Stream {
+    fn from(value: base_client_gen::AssetStreamSchemaElementSchema) -> Self {
         Stream {
-            destinations: vec_from_option_vec(
-                value.destinations,
-                EventsAndStreamsDestination::from,
-            ),
+            destinations: vec_from_option_vec(value.destinations, EventStreamDestination::from),
             name: value.name,
             stream_configuration: value.stream_configuration,
             type_ref: value.type_ref,
@@ -1242,17 +1203,8 @@ impl From<adr_name_gen::AssetStreamSchemaElementSchema> for Stream {
     }
 }
 
-impl From<adr_name_gen::AssetStreamDestinationSchemaElementSchema> for EventsAndStreamsDestination {
-    fn from(value: adr_name_gen::AssetStreamDestinationSchemaElementSchema) -> Self {
-        EventsAndStreamsDestination {
-            configuration: value.configuration.into(),
-            target: value.target.into(),
-        }
-    }
-}
-
-impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
-    fn from(value: adr_name_gen::DestinationConfiguration) -> Self {
+impl From<base_client_gen::DestinationConfiguration> for DestinationConfiguration {
+    fn from(value: base_client_gen::DestinationConfiguration) -> Self {
         DestinationConfiguration {
             key: value.key,
             path: value.path,
@@ -1264,39 +1216,39 @@ impl From<adr_name_gen::DestinationConfiguration> for DestinationConfiguration {
     }
 }
 
-impl From<adr_name_gen::EventStreamTarget> for EventStreamTarget {
-    fn from(value: adr_name_gen::EventStreamTarget) -> Self {
+impl From<base_client_gen::EventStreamTarget> for EventStreamTarget {
+    fn from(value: base_client_gen::EventStreamTarget) -> Self {
         match value {
-            adr_name_gen::EventStreamTarget::Mqtt => EventStreamTarget::Mqtt,
-            adr_name_gen::EventStreamTarget::Storage => EventStreamTarget::Storage,
+            base_client_gen::EventStreamTarget::Mqtt => EventStreamTarget::Mqtt,
+            base_client_gen::EventStreamTarget::Storage => EventStreamTarget::Storage,
         }
     }
 }
 
-impl From<adr_name_gen::DatasetTarget> for DatasetTarget {
-    fn from(value: adr_name_gen::DatasetTarget) -> Self {
+impl From<base_client_gen::DatasetTarget> for DatasetTarget {
+    fn from(value: base_client_gen::DatasetTarget) -> Self {
         match value {
-            adr_name_gen::DatasetTarget::BrokerStateStore => DatasetTarget::BrokerStateStore,
-            adr_name_gen::DatasetTarget::Mqtt => DatasetTarget::Mqtt,
-            adr_name_gen::DatasetTarget::Storage => DatasetTarget::Storage,
+            base_client_gen::DatasetTarget::BrokerStateStore => DatasetTarget::BrokerStateStore,
+            base_client_gen::DatasetTarget::Mqtt => DatasetTarget::Mqtt,
+            base_client_gen::DatasetTarget::Storage => DatasetTarget::Storage,
         }
     }
 }
 
-impl From<adr_name_gen::Qos> for azure_iot_operations_mqtt::control_packet::QoS {
-    fn from(value: adr_name_gen::Qos) -> Self {
+impl From<base_client_gen::Qos> for azure_iot_operations_mqtt::control_packet::QoS {
+    fn from(value: base_client_gen::Qos) -> Self {
         match value {
-            adr_name_gen::Qos::Qos0 => MqttQoS::AtMostOnce,
-            adr_name_gen::Qos::Qos1 => MqttQoS::AtLeastOnce,
+            base_client_gen::Qos::Qos0 => MqttQoS::AtMostOnce,
+            base_client_gen::Qos::Qos1 => MqttQoS::AtLeastOnce,
         }
     }
 }
 
-impl From<adr_name_gen::Retain> for Retain {
-    fn from(value: adr_name_gen::Retain) -> Self {
+impl From<base_client_gen::Retain> for Retain {
+    fn from(value: base_client_gen::Retain) -> Self {
         match value {
-            adr_name_gen::Retain::Keep => Retain::Keep,
-            adr_name_gen::Retain::Never => Retain::Never,
+            base_client_gen::Retain::Keep => Retain::Keep,
+            base_client_gen::Retain::Never => Retain::Never,
         }
     }
 }
