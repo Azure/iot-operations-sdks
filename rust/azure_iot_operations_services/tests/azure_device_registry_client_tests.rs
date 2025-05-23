@@ -143,7 +143,7 @@ async fn update_device_plus_endpoint_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
-    let new_version = Random.random::<u32>();
+    let new_version = 12;
     let updated_status = DeviceStatus {
         config: Some(StatusConfig {
             error: None,
@@ -252,10 +252,11 @@ async fn update_asset_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
+    let new_version = 12;
     let updated_status = AssetStatus {
         config: Some(StatusConfig {
             error: None,
-            version: Some(11),
+            version: new_version,
             last_transition_time: Some(String::from("2025-11-11T00:00:00Z")),
         }),
         datasets: None,
@@ -284,7 +285,10 @@ async fn update_asset_status() {
                 ASSET_NAME1
             );
             assert_eq!(updated_response.specification.attributes["assetType"], TYPE);
-
+            assert_eq!(
+                updated_response.specification.attributes["version"],
+                new_version.to_string()
+            );
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
