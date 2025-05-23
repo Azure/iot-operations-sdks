@@ -6,7 +6,7 @@
 
 use std::collections::BTreeMap;
 
-use azure_iot_operations_services::azure_device_registry::Dataset;
+use azure_iot_operations_services::azure_device_registry::models::Dataset;
 use azure_iot_operations_services::schema_registry::{Format, SchemaType};
 use jmespath::{self, JmespathError};
 use serde_json::{self, Value};
@@ -119,7 +119,7 @@ fn transform_in_place_and_create_output_schema(
 #[cfg(test)]
 mod test {
     use super::*;
-    use azure_iot_operations_services::azure_device_registry::DatasetDataPoint;
+    use azure_iot_operations_services::azure_device_registry::models::DatasetDataPoint;
     use test_case::test_case;
 
     struct TransformTestCase {

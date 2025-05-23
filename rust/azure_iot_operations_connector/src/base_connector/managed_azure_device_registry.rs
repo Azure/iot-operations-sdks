@@ -11,8 +11,7 @@ use std::{
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, Asset, AssetStatus, AssetUpdateObservation, Dataset, DatasetDestination, Device,
-        DeviceRef, DeviceUpdateObservation, EventStreamDestination, MessageSchemaReference,
+        self, AssetUpdateObservation, DeviceUpdateObservation, models as adr_models,
     },
     schema_registry,
 };
@@ -91,7 +90,7 @@ impl DeviceEndpointClientCreationObservation {
             // get the device definition
             let device = match Retry::spawn(
                 RETRY_STRATEGY,
-                async || -> Result<Device, RetryError<azure_device_registry::Error>> {
+                async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error>> {
                     self.connector_context
                         .azure_device_registry_client
                         .get_device(
@@ -227,7 +226,7 @@ pub struct DeviceEndpointClient {
 }
 impl DeviceEndpointClient {
     pub(crate) fn new(
-        device: azure_device_registry::Device,
+        device: adr_models::Device,
         device_endpoint_ref: DeviceEndpointRef,
         device_update_observation: DeviceUpdateObservation,
         connector_context: Arc<ConnectorContext>,
@@ -261,7 +260,7 @@ impl DeviceEndpointClient {
     ) {
         // Create status
         let version = self.specification.read().unwrap().version;
-        let status = azure_device_registry::DeviceStatus {
+        let status = adr_models::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version,
                 error: device_status.err(),
@@ -286,7 +285,7 @@ impl DeviceEndpointClient {
     pub async fn report_device_status(&self, device_status: Result<(), AdrConfigError>) {
         // Create status with empty endpoint status
         let version = self.specification.read().unwrap().version;
-        let status = azure_device_registry::DeviceStatus {
+        let status = adr_models::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version,
                 error: device_status.err(),
@@ -317,7 +316,7 @@ impl DeviceEndpointClient {
             }
         });
         // Create status without updating the device status
-        let status = azure_device_registry::DeviceStatus {
+        let status = adr_models::DeviceStatus {
             config: current_config,
             // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
@@ -380,11 +379,11 @@ impl DeviceEndpointClient {
     }
 
     /// Reports an already built status to the service, with retries, and then updates the device with the new status returned
-    async fn internal_report_status(&self, adr_device_status: azure_device_registry::DeviceStatus) {
+    async fn internal_report_status(&self, adr_device_status: adr_models::DeviceStatus) {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY.take(10),
-            async || -> Result<Device, RetryError<azure_device_registry::Error>> {
+            async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .update_device_plus_endpoint_status(
@@ -491,7 +490,7 @@ impl AssetClientCreationObservation {
             // get the asset definition
             let asset_client = match Retry::spawn(
                 RETRY_STRATEGY,
-                async || -> Result<Asset, RetryError<azure_device_registry::Error>> {
+                async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error>> {
                     self.connector_context
                         .azure_device_registry_client
                         .get_asset(
@@ -604,7 +603,7 @@ pub struct AssetClient {
     specification: Arc<AssetSpecification>, // TODO: will need to be Arc<RwLock> once update is supported
     /// Status for the Asset
     #[getter(skip)]
-    status: Arc<RwLock<Option<AssetStatus>>>,
+    status: Arc<RwLock<Option<adr_models::AssetStatus>>>,
     /// Datasets on this Asset
     datasets: Vec<DatasetClient>, // TODO: might need to change this model once the dataset definition can get updated from an update
     // TODO: events, streams, and management groups as well
@@ -619,7 +618,7 @@ pub struct AssetClient {
 }
 impl AssetClient {
     pub(crate) async fn new(
-        asset: azure_device_registry::Asset,
+        asset: adr_models::Asset,
         asset_ref: AssetRef,
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
@@ -640,13 +639,13 @@ impl AssetClient {
                         "Invalid default dataset destination for Asset {}: {e:?}",
                         asset_ref.name
                     );
-                    let adr_asset_status = azure_device_registry::AssetStatus {
+                    let adr_asset_status = adr_models::AssetStatus {
                         config: Some(azure_device_registry::StatusConfig {
                             version: specification.version,
                             error: Some(e),
                             last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
                         }),
-                        ..azure_device_registry::AssetStatus::default()
+                        ..adr_models::AssetStatus::default()
                     };
                     // send status update to the service
                     Self::internal_report_status(
@@ -693,13 +692,11 @@ impl AssetClient {
                             .find(|dataset| dataset.name == dataset_name)?
                             .message_schema_reference
                             .clone();
-                        dataset_config_errors.push(
-                            azure_device_registry::DatasetEventStreamStatus {
-                                name: dataset_name,
-                                message_schema_reference,
-                                error: Some(e),
-                            },
-                        );
+                        dataset_config_errors.push(adr_models::DatasetEventStreamStatus {
+                            name: dataset_name,
+                            message_schema_reference,
+                            error: Some(e),
+                        });
                         None
                     }
                 }
@@ -716,10 +713,10 @@ impl AssetClient {
                     None
                 }
             });
-            let adr_asset_status = azure_device_registry::AssetStatus {
+            let adr_asset_status = adr_models::AssetStatus {
                 config: current_asset_config,
                 datasets: Some(dataset_config_errors),
-                ..azure_device_registry::AssetStatus::default()
+                ..adr_models::AssetStatus::default()
             };
             // send status update to the service
             AssetClient::internal_report_status(
@@ -743,13 +740,13 @@ impl AssetClient {
 
     /// Used to report the status of an Asset
     pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
-        let adr_asset_status = azure_device_registry::AssetStatus {
+        let adr_asset_status = adr_models::AssetStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version: self.specification.version,
                 error: status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            ..azure_device_registry::AssetStatus::default()
+            ..adr_models::AssetStatus::default()
         };
 
         // send status update to the service
@@ -766,7 +763,7 @@ impl AssetClient {
     /// # Panics
     /// if the status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn status(&self) -> Option<AssetStatus> {
+    pub fn status(&self) -> Option<adr_models::AssetStatus> {
         (*self.status.read().unwrap()).clone()
     }
 
@@ -787,15 +784,15 @@ impl AssetClient {
     }
 
     pub(crate) async fn internal_report_status(
-        adr_asset_status: azure_device_registry::AssetStatus,
+        adr_asset_status: adr_models::AssetStatus,
         connector_context: &ConnectorContext,
         asset_ref: &AssetRef,
-        asset_status_ref: &Arc<RwLock<Option<AssetStatus>>>,
+        asset_status_ref: &Arc<RwLock<Option<adr_models::AssetStatus>>>,
     ) {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY.take(10),
-            async || -> Result<Asset, RetryError<azure_device_registry::Error>> {
+            async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error>> {
                 connector_context
                     .azure_device_registry_client
                     .update_asset_status(
@@ -852,10 +849,10 @@ pub struct DatasetClient {
     /// Dataset, asset, device, and inbound endpoint names
     dataset_ref: DatasetRef,
     /// Dataset Definition
-    dataset_definition: Dataset,
+    dataset_definition: adr_models::Dataset,
     /// Current status for the Asset
     #[getter(skip)]
-    asset_status: Arc<RwLock<Option<AssetStatus>>>,
+    asset_status: Arc<RwLock<Option<adr_models::AssetStatus>>>,
     /// Current specification for the Asset
     asset_specification: Arc<AssetSpecification>,
     /// Specification of the device that this dataset is tied to
@@ -876,10 +873,10 @@ pub struct DatasetClient {
 impl DatasetClient {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
-        dataset_definition: Dataset,
+        dataset_definition: adr_models::Dataset,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
-        asset_status: Arc<RwLock<Option<AssetStatus>>>,
+        asset_status: Arc<RwLock<Option<adr_models::AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
@@ -932,14 +929,14 @@ impl DatasetClient {
             });
         // Get current message schema reference, so that it isn't overwritten
         let current_message_schema_reference = self.message_schema_reference();
-        let adr_asset_status = azure_device_registry::AssetStatus {
+        let adr_asset_status = adr_models::AssetStatus {
             config: current_asset_config,
-            datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
+            datasets: Some(vec![adr_models::DatasetEventStreamStatus {
                 name: self.dataset_ref.dataset_name.clone(),
                 message_schema_reference: current_message_schema_reference,
                 error: status.err(),
             }]),
-            ..azure_device_registry::AssetStatus::default()
+            ..adr_models::AssetStatus::default()
         };
 
         // send status update to the service
@@ -969,7 +966,7 @@ impl DatasetClient {
     pub async fn report_message_schema(
         &self,
         message_schema: MessageSchema,
-    ) -> Result<MessageSchemaReference, schema_registry::Error> {
+    ) -> Result<adr_models::MessageSchemaReference, schema_registry::Error> {
         // TODO: save message schema provided with message schema uri so it can be compared
         // send message schema to schema registry service
         let message_schema_reference = Retry::spawn(
@@ -1004,7 +1001,7 @@ impl DatasetClient {
         )
         .await
         .map(|schema| {
-            MessageSchemaReference {
+            adr_models::MessageSchemaReference {
                 name: schema
                     .name
                     .expect("schema name will always be present since sent in PUT"),
@@ -1046,14 +1043,14 @@ impl DatasetClient {
                             .and_then(|dataset| dataset.error.clone())
                     })
                 });
-        let adr_asset_status = azure_device_registry::AssetStatus {
+        let adr_asset_status = adr_models::AssetStatus {
             config: current_asset_config,
-            datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
+            datasets: Some(vec![adr_models::DatasetEventStreamStatus {
                 name: self.dataset_ref.dataset_name.clone(),
                 message_schema_reference: Some(message_schema_reference.clone()),
                 error: current_dataset_config_error,
             }]),
-            ..azure_device_registry::AssetStatus::default()
+            ..adr_models::AssetStatus::default()
         };
 
         // send status update to the service
@@ -1084,7 +1081,7 @@ impl DatasetClient {
     /// # Panics
     /// if the asset status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn message_schema_reference(&self) -> Option<MessageSchemaReference> {
+    pub fn message_schema_reference(&self) -> Option<adr_models::MessageSchemaReference> {
         // unwrap can't fail unless lock is poisoned
         self.asset_status
             .read()
@@ -1102,7 +1099,7 @@ impl DatasetClient {
     /// # Panics
     /// if the asset status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn asset_status(&self) -> Option<AssetStatus> {
+    pub fn asset_status(&self) -> Option<adr_models::AssetStatus> {
         (*self.asset_status.read().unwrap()).clone()
     }
 
@@ -1157,7 +1154,7 @@ pub struct DeviceSpecification {
 
 impl DeviceSpecification {
     pub(crate) fn new(
-        device_specification: azure_device_registry::DeviceSpecification,
+        device_specification: adr_models::DeviceSpecification,
         device_endpoint_credentials_mount_path: &str,
         inbound_endpoint_name: &str,
     ) -> Result<Self, String> {
@@ -1171,13 +1168,13 @@ impl DeviceSpecification {
             .ok_or("Inbound endpoint not found on Device specification")?;
         // update authentication to include the full file path for the credentials
         let authentication = match recvd_inbound.authentication {
-            azure_device_registry::Authentication::Anonymous => Authentication::Anonymous,
-            azure_device_registry::Authentication::Certificate {
+            adr_models::Authentication::Anonymous => Authentication::Anonymous,
+            adr_models::Authentication::Certificate {
                 certificate_secret_name,
             } => Authentication::Certificate {
                 certificate_path: format!("path/{certificate_secret_name}"),
             },
-            azure_device_registry::Authentication::UsernamePassword {
+            adr_models::Authentication::UsernamePassword {
                 password_secret_name,
                 username_secret_name,
             } => Authentication::UsernamePassword {
@@ -1226,9 +1223,9 @@ pub struct DeviceEndpoints {
     /// The 'inbound' Field.
     pub inbound: InboundEndpoint, // different from adr
     /// The 'outbound' Field.
-    pub outbound_assigned: HashMap<String, azure_device_registry::OutboundEndpoint>,
+    pub outbound_assigned: HashMap<String, adr_models::OutboundEndpoint>,
     /// The 'outboundUnassigned' Field.
-    pub outbound_unassigned: HashMap<String, azure_device_registry::OutboundEndpoint>,
+    pub outbound_unassigned: HashMap<String, adr_models::OutboundEndpoint>,
 }
 /// Represents an inbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
@@ -1244,7 +1241,7 @@ pub struct InboundEndpoint {
     /// The 'endpointType' Field.
     pub endpoint_type: String,
     /// The 'trustSettings' Field.
-    pub trust_settings: Option<azure_device_registry::TrustSettings>,
+    pub trust_settings: Option<adr_models::TrustSettings>,
     /// The 'version' Field.
     pub version: Option<String>,
 }
@@ -1279,10 +1276,7 @@ pub struct DeviceEndpointStatus {
 }
 
 impl DeviceEndpointStatus {
-    pub(crate) fn new(
-        recvd_status: azure_device_registry::DeviceStatus,
-        inbound_endpoint_name: &str,
-    ) -> Self {
+    pub(crate) fn new(recvd_status: adr_models::DeviceStatus, inbound_endpoint_name: &str) -> Self {
         let inbound_endpoint_error = recvd_status.endpoints.get(inbound_endpoint_name).cloned();
         DeviceEndpointStatus {
             config: recvd_status.config,
@@ -1303,21 +1297,21 @@ pub struct AssetSpecification {
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
     /// Default destinations for datasets.
-    pub default_datasets_destinations: Vec<DatasetDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_datasets_destinations: Vec<adr_models::DatasetDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
     /// Default destinations for events.
-    pub default_events_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_events_destinations: Vec<adr_models::EventStreamDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for management groups.
     pub default_management_groups_configuration: Option<String>,
     /// Default configuration for streams.
     pub default_streams_configuration: Option<String>,
     /// Default destinations for streams.
-    pub default_streams_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub default_streams_destinations: Vec<adr_models::EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
     /// The description of the asset.
     pub description: Option<String>,
     /// A reference to the Device and Endpoint within the device
-    pub device_ref: DeviceRef,
+    pub device_ref: adr_models::DeviceRef,
     /// Reference to a list of discovered assets
     pub discovered_asset_refs: Vec<String>, // if None, we can represent as empty vec
     /// The display name of the asset.
@@ -1327,7 +1321,7 @@ pub struct AssetSpecification {
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
     ///  Array of events that are part of the asset. TODO: `EventClient`
-    pub events: Vec<azure_device_registry::Event>, // if None, we can represent as empty vec
+    pub events: Vec<adr_models::Event>, // if None, we can represent as empty vec
     /// Asset id provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
@@ -1335,7 +1329,7 @@ pub struct AssetSpecification {
     /// The last time the asset has been modified.
     pub last_transition_time: Option<String>,
     /// Array of management groups that are part of the asset. TODO: `ManagementGroupClient`
-    pub management_groups: Vec<azure_device_registry::ManagementGroup>, // if None, we can represent as empty vec
+    pub management_groups: Vec<adr_models::ManagementGroup>, // if None, we can represent as empty vec
     /// The name of the manufacturer.
     pub manufacturer: Option<String>,
     /// The URI of the manufacturer.
@@ -1349,15 +1343,15 @@ pub struct AssetSpecification {
     /// The revision number of the software.
     pub software_revision: Option<String>,
     /// Array of streams that are part of the asset. TODO: `StreamClient`
-    pub streams: Vec<azure_device_registry::Stream>, // if None, we can represent as empty vec
+    pub streams: Vec<adr_models::Stream>, // if None, we can represent as empty vec
     ///  Globally unique, immutable, non-reusable id.
     pub uuid: Option<String>,
     /// The version of the asset.
     pub version: Option<u64>,
 }
 
-impl From<azure_device_registry::AssetSpecification> for AssetSpecification {
-    fn from(value: azure_device_registry::AssetSpecification) -> Self {
+impl From<adr_models::AssetSpecification> for AssetSpecification {
+    fn from(value: adr_models::AssetSpecification) -> Self {
         AssetSpecification {
             asset_type_refs: value.asset_type_refs,
             attributes: value.attributes,
