@@ -83,8 +83,7 @@ public class ChunkingMqttClientTests
             .Callback<MqttApplicationMessage, CancellationToken>((msg, _) => publishedMessages.Add(msg))
             .ReturnsAsync(mqttClientPublishResult);
 
-        // Set a small max packet size to force chunking
-        var maxPacketSize = 1000;
+        var maxPacketSize = 64 * 1024;
         var connectResult = new MqttClientConnectResult
         {
             IsSessionPresent = true,
@@ -98,7 +97,7 @@ public class ChunkingMqttClientTests
         var options = new ChunkingOptions
         {
             Enabled = true,
-            StaticOverhead = 100,
+            StaticOverhead = 500,
             ChecksumAlgorithm = ChunkingChecksumAlgorithm.SHA256
         };
 
@@ -106,7 +105,7 @@ public class ChunkingMqttClientTests
 
         // Create a large message that needs chunking
         // The max chunk size will be maxPacketSize - staticOverhead = 900 bytes
-        var largePayloadSize = 2500; // This should create 3 chunks
+        var largePayloadSize = 2 * 64 * 1024; // This should create 3 chunks
         var largePayload = new byte[largePayloadSize];
         // Fill with identifiable content for later verification
         for (var i = 0; i < largePayloadSize; i++) largePayload[i] = (byte)(i % 256);
