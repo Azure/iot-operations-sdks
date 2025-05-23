@@ -459,9 +459,7 @@ async fn observe_device_update_notifications() {
 }
 
 #[tokio::test]
-async fn observe_asset_update_notifications(
-    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
-) {
+async fn observe_asset_update_notifications() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
         return;
