@@ -5,30 +5,33 @@ use std::error::Error;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
-    AIOProtocolError,
-    AIOProtocolErrorKind,
+    AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::create_or_update_discovered_device_request_payload::CreateOrUpdateDiscoveredDeviceRequestPayload;
-use super::create_or_update_discovered_device_response_schema::CreateOrUpdateDiscoveredDeviceResponseSchema;
-use super::create_or_update_discovered_device_response_payload::CreateOrUpdateDiscoveredDeviceResponsePayload;
-use super::akri_service_error::AkriServiceError;
+use super::super::common_types::options::CommandInvokerOptions;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::super::common_types::options::CommandInvokerOptions;
+use super::akri_service_error::AkriServiceError;
+use super::create_or_update_discovered_device_request_payload::CreateOrUpdateDiscoveredDeviceRequestPayload;
+use super::create_or_update_discovered_device_response_payload::CreateOrUpdateDiscoveredDeviceResponsePayload;
+use super::create_or_update_discovered_device_response_schema::CreateOrUpdateDiscoveredDeviceResponseSchema;
 
-pub type CreateOrUpdateDiscoveredDeviceRequest = rpc_command::invoker::Request<CreateOrUpdateDiscoveredDeviceRequestPayload>;
-pub type CreateOrUpdateDiscoveredDeviceResponse = rpc_command::invoker::Response<CreateOrUpdateDiscoveredDeviceResponsePayload>;
-pub type CreateOrUpdateDiscoveredDeviceRequestBuilderError = rpc_command::invoker::RequestBuilderError;
+pub type CreateOrUpdateDiscoveredDeviceRequest =
+    rpc_command::invoker::Request<CreateOrUpdateDiscoveredDeviceRequestPayload>;
+pub type CreateOrUpdateDiscoveredDeviceResponse =
+    rpc_command::invoker::Response<CreateOrUpdateDiscoveredDeviceResponsePayload>;
+pub type CreateOrUpdateDiscoveredDeviceRequestBuilderError =
+    rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`CreateOrUpdateDiscoveredDeviceRequest`]
 pub struct CreateOrUpdateDiscoveredDeviceRequestBuilder {
-    inner_builder: rpc_command::invoker::RequestBuilder<CreateOrUpdateDiscoveredDeviceRequestPayload>,
+    inner_builder:
+        rpc_command::invoker::RequestBuilder<CreateOrUpdateDiscoveredDeviceRequestPayload>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -71,8 +74,13 @@ impl CreateOrUpdateDiscoveredDeviceRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
-    pub fn build(&mut self) -> Result<CreateOrUpdateDiscoveredDeviceRequest, CreateOrUpdateDiscoveredDeviceRequestBuilderError> {
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
+    pub fn build(
+        &mut self,
+    ) -> Result<
+        CreateOrUpdateDiscoveredDeviceRequest,
+        CreateOrUpdateDiscoveredDeviceRequestBuilderError,
+    > {
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -81,7 +89,11 @@ impl CreateOrUpdateDiscoveredDeviceRequestBuilder {
 
 /// Command Invoker for `createOrUpdateDiscoveredDevice`
 pub struct CreateOrUpdateDiscoveredDeviceCommandInvoker<C>(
-    rpc_command::Invoker<CreateOrUpdateDiscoveredDeviceRequestPayload, CreateOrUpdateDiscoveredDeviceResponseSchema, C>,
+    rpc_command::Invoker<
+        CreateOrUpdateDiscoveredDeviceRequestPayload,
+        CreateOrUpdateDiscoveredDeviceResponseSchema,
+        C,
+    >,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -96,7 +108,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &CommandInvokerOptions,
+    ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -110,8 +126,14 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
-        topic_token_map.insert("commandName".to_string(), "createOrUpdateDiscoveredDevice".to_string());
+        topic_token_map.insert(
+            "invokerClientId".to_string(),
+            client.client_id().to_string(),
+        );
+        topic_token_map.insert(
+            "commandName".to_string(),
+            "createOrUpdateDiscoveredDevice".to_string(),
+        );
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
@@ -135,15 +157,22 @@ where
     pub async fn invoke(
         &self,
         request: CreateOrUpdateDiscoveredDeviceRequest,
-    ) -> Result<Result<CreateOrUpdateDiscoveredDeviceResponse, AkriServiceError>, AIOProtocolError> {
+    ) -> Result<Result<CreateOrUpdateDiscoveredDeviceResponse, AkriServiceError>, AIOProtocolError>
+    {
         let response = self.0.invoke(request).await;
         match response {
             Ok(response) => {
-                if let Some(create_or_update_discovered_device_error) = response.payload.create_or_update_discovered_device_error {
+                if let Some(create_or_update_discovered_device_error) =
+                    response.payload.create_or_update_discovered_device_error
+                {
                     Ok(Err(create_or_update_discovered_device_error))
-                } else if let Some(discovered_device_response) = response.payload.discovered_device_response {
+                } else if let Some(discovered_device_response) =
+                    response.payload.discovered_device_response
+                {
                     Ok(Ok(CreateOrUpdateDiscoveredDeviceResponse {
-                        payload: CreateOrUpdateDiscoveredDeviceResponsePayload { discovered_device_response },
+                        payload: CreateOrUpdateDiscoveredDeviceResponsePayload {
+                            discovered_device_response,
+                        },
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
