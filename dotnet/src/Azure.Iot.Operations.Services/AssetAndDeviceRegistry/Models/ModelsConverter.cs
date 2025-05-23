@@ -101,6 +101,7 @@ internal static class ModelsConverter
             SoftwareRevision = source.SoftwareRevision,
             DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration != null ? JsonDocument.Parse(source.DefaultDatasetsConfiguration, _jsonDocumentOptions) : null,
             DefaultEventsConfiguration = source.DefaultEventsConfiguration != null ? JsonDocument.Parse(source.DefaultEventsConfiguration, _jsonDocumentOptions) : null,
+            DefaultManagementGroupsConfiguration = source.DefaultManagementGroupsConfiguration != null ? JsonDocument.Parse(source.DefaultManagementGroupsConfiguration, _jsonDocumentOptions) : null,
             DiscoveredAssetRefs = source.DiscoveredAssetRefs,
             ExternalAssetId = source.ExternalAssetId,
             DefaultDatasetsDestinations = source.DefaultDatasetsDestinations?.Select(x => x.ToModel()).ToList(),
@@ -279,7 +280,7 @@ internal static class ModelsConverter
         return new InboundEndpointSchemaMapValue
         {
             Address = source.Address,
-            AdditionalConfiguration = source.AdditionalConfiguration,
+            AdditionalConfiguration = source.AdditionalConfiguration != null ? JsonDocument.Parse(source.AdditionalConfiguration, _jsonDocumentOptions) : null,
             Version = source.Version,
             EndpointType = source.EndpointType,
             Authentication = source.Authentication?.ToModel(),

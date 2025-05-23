@@ -1,0 +1,305 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "aioConnectorMetadataSchemaVersion": "1.0.0",
+  "definitions": {
+    "additionalConfigurationType": {
+      "type": "object",
+      "description": "The schema for this 'additional configuration' field. Must provide inline schema xor the file that contains the schema",
+      "properties": {
+        "schema": {
+          "$ref": "http://json-schema.org/draft-07/schema#"
+        },
+        "schemaFile": {
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "schema"
+          ]
+        },
+        {
+          "required": [
+            "schemaFile"
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "aioConnectorMetadataSchemaVersion": {
+      "type": "string",
+      "description": "The version of AIO connector metadata schema that this connector metadata file adheres to."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the connector."
+    },
+    "description": {
+      "type": "string",
+      "description": "A brief (human-readable) description of the connector."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of this connector."
+    },
+    "maintainer": {
+      "type": "string",
+      "description": "A name and/or email of the maintainer of this connector."
+    },
+    "vendor": {
+      "type": "string",
+      "description": "A name and/or email of the vendor that distributes this connector."
+    },
+    "imageConfigurationSettings": {
+      "type": "object",
+      "properties": {
+        "containerRegistryName": {
+          "type": "string",
+          "description": "The container registry that holds the image for the connector. For example: contoso-acr.io"
+        },
+        "imageName": {
+          "type": "string",
+          "description": "The docker image name for the connector. For example: MyConnector"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag of the docker image for this connector"
+        },
+        "digest": {
+          "type": "string",
+          "description": "The digest of the docker image for this connector"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "containerRegistryName",
+            "imageName",
+            "tag"
+          ]
+        },
+        {
+          "required": [
+            "containerRegistryName",
+            "imageName",
+            "digest"
+          ]
+        }
+      ]
+    },
+    "helmConfigurationSettings": {
+      "type": "object",
+      "properties": {
+        "containerRegistryName": {
+          "type": "string",
+          "description": "The container registry name that holds the helm chart for the connector. For example: contoso-acr.io"
+        },
+        "helmChartName": {
+          "type": "string",
+          "description": "The helm chart name for the connector. For example: helm/MyConnector"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The tag of the helm chart for this connector"
+        },
+        "digest": {
+          "type": "string",
+          "description": "The digest of the helm chart for this connector"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "containerRegistryName",
+            "helmChartName",
+            "tag"
+          ]
+        },
+        {
+          "required": [
+            "containerRegistryName",
+            "helmChartName",
+            "digest"
+          ]
+        }
+      ]
+    },
+    "kubernetes": {
+      "type": "object",
+      "description": "The kubernetes-level metadata",
+      "properties": {
+        "minimumKubernetesVersion": {
+          "type": "string",
+          "description": "Minimum required version of kubernetes needed to run this connector"
+        }
+      }
+    },
+    "secrets": {
+      "type": "object",
+      "description": " Secrets that will be mounted onto all connector instances.",
+      "properties": {
+        "secretAlias": {
+          "type": "string",
+          "description": "The application-defined alias for the secret"
+        },
+        "secretKey": {
+          "type": "string",
+          "description": "The key in the secret to be mounted"
+        },
+        "secretRef": {
+          "type": "string",
+          "description": "The name of the secret to be mounted"
+        }
+      },
+      "required": [
+        "secretAlias",
+        "secretKey",
+        "secretRef"
+      ]
+    },
+    "architecture": {
+      "type": "string",
+      "description": "The architecture that this connector should run on"
+    },
+    "sourceCode": {
+      "type": "object",
+      "description": "Details about the source code that compiled this connector",
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "The programming language used to write this connector"
+        },
+        "languageVersion": {
+          "type": "string",
+          "description": "The version of the programming language used to write this connector"
+        },
+        "sdk": {
+          "type": "object",
+          "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
+          "properties": {
+            "mqttPackageVersion": {
+              "type": "string",
+              "description": "The version of the azure iot operations MQTT package"
+            },
+            "servicesPackageVersion": {
+              "type": "string",
+              "description": "The version of the azure iot operations services package"
+            },
+            "connectorPackageVersion": {
+              "type": "string",
+              "description": "The version of the azure iot operations connector package"
+            }
+          }
+        }
+      },
+      "required": [
+        "language",
+        "languageVersion"
+      ]
+    },
+    "resourceRequirements": {
+      "type": "object",
+      "description": "The minimal resource requirements to run this connector",
+      "properties": {
+        "cpu": {
+          "type": "string"
+        },
+        "memory": {
+          "type": "string"
+        },
+        "storage": {
+          "type": "string"
+        }
+      }
+    },
+    "aioMetadata": {
+      "type": "object",
+      "description": "The AIO requirements to run this connector",
+      "properties": {
+        "aioMinVersion": {
+          "type": "string",
+          "description": "The minimal (inclusive) version that can run this connector."
+        },
+        "aioMaxVersion": {
+          "type": "string",
+          "description": "The maximal (inclusive) version that can run this connector."
+        }
+      }
+    },
+    "inboundEndpoints": {
+      "type": "array",
+      "description": "The array of inbound endpoints that this connector connects with.",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "configSchemas": {
+              "type": "object",
+              "description": "The inbound endpoint level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
+              "properties": {
+                "deviceEndpointAdditionalConfigSchema": {
+                  "$ref": "#/definitions/additionalConfigurationType"
+                }
+              }
+            },
+            "assets": {
+              "type": "array",
+              "description": "The array of assets within an inbound endpoint",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "configSchemas": {
+                      "type": "object",
+                      "description": "The JSON schemas for the asset-level various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
+                      "properties": {
+                        "datasetConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "dataPointConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "eventConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "streamConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "managementGroupConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        },
+                        "processControlConfigSchema": {
+                          "$ref": "#/definitions/additionalConfigurationType"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "version",
+            "configSchemas"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "version",
+    "imageConfigurationSettings",
+    "inboundEndpoints"
+  ]
+}
