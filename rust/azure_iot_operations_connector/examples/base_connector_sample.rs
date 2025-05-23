@@ -212,7 +212,7 @@ async fn run_dataset(mut dataset_client: DatasetClient) {
                         }
                     }
                 } else {
-                    log::error!("No more dataset updates will be received");
+                    log::error!("Dataset has been deleted. No more dataset updates will be received");
                     break;
                 }
             }

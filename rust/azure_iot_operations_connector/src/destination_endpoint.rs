@@ -123,9 +123,6 @@ impl Forwarder {
     ///
     /// [`struct@Error`] of kind [`MqttTelemetryError`](ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
-    ///
-    /// # Panics
-    /// if the message schema reference mutex has been poisoned, which should not be possible
     pub(crate) async fn send_data(&self, data: Data) -> Result<(), Error> {
         // Forward the data to the destination
         let destination = match &self.destination {
@@ -246,9 +243,6 @@ impl Forwarder {
 
     /// Sets the message schema reference for this forwarder to use. Must be done before
     /// calling `send_data`
-    ///
-    /// # Panics
-    /// if the message schema reference mutex has been poisoned, which should not be possible
     pub(crate) fn update_message_schema_reference(
         &mut self,
         message_schema_reference: Option<MessageSchemaReference>,

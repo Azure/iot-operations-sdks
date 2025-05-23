@@ -338,6 +338,8 @@ impl DeviceEndpointClient {
     /// This function returning `Some(())` indicates that the device specification and status have been
     /// updated in place. The function returns [`None`] if there will be no more notifications.
     ///
+    /// TODO: add deletion monitoring to this same receive flow
+    ///
     /// # Panics
     /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
     ///
@@ -849,6 +851,8 @@ impl AssetClient {
     /// This function returning `Some(())` indicates that the asset specification and status have been
     /// updated in place. The function returns [`None`] if there will be no more notifications.
     ///
+    /// TODO: add deletion monitoring to this same receive flow
+    ///
     /// # Panics
     /// If the status or specification mutexes have been poisoned, which should not be possible
     pub async fn recv_update(&mut self) -> Option<()> {
@@ -938,14 +942,20 @@ impl AssetClient {
                         // we need to make sure we have the updated definition for comparing next time
                         *dataset = received_dataset.clone();
                         // send update to the dataset
-                        // TODO: would like not not have this clone
-                        dataset_update_tx
+                        // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
+                        if dataset_update_tx
                             .send((
                                 received_dataset.clone(),
                                 default_destinations.clone(),
                                 self.release_updates_tx.subscribe(),
                             ))
-                            .unwrap();
+                            .is_err()
+                        {
+                            log::warn!(
+                                "Update received for dataset {}, but DatasetClient has been dropped",
+                                received_dataset.name
+                            )
+                        }
                     }
                 }
                 // it needs to be created
@@ -1029,13 +1039,19 @@ impl AssetClient {
                         ),
                     );
 
-                    self.dataset_creation_tx
+                    if self
+                        .dataset_creation_tx
                         .send((
                             new_dataset_client,
                             dataset_deletion_token,
                             self.release_updates_tx.subscribe(),
                         ))
-                        .unwrap();
+                        .is_err()
+                    {
+                        log::warn!(
+                            "New dataset received, but DatasetClientCreationObservation has been dropped"
+                        )
+                    }
                 }
             }
 
@@ -1158,10 +1174,11 @@ impl DatasetClientCreationObservation {
     /// will be no more notifications. This notification includes the [`DatasetClient`],
     /// and a [`DatasetDeletionToken`] to observe for deletion of this Dataset
     pub async fn recv_notification(&mut self) -> Option<(DatasetClient, DatasetDeletionToken)> {
-        let (dc, ddt, mut watch_receiver) = self.dataset_creation_rx.recv().await?;
-        // wait until the message has been released
-        watch_receiver.changed().await.unwrap();
-        Some((dc, ddt))
+        let (dataset_client, dataset_deletion_token, mut watch_receiver) =
+            self.dataset_creation_rx.recv().await?;
+        // wait until the message has been released. If the watch sender has been dropped, this means the Asset has been deleted
+        watch_receiver.changed().await.ok()?;
+        Some((dataset_client, dataset_deletion_token))
     }
 }
 
@@ -1447,8 +1464,8 @@ impl DatasetClient {
         loop {
             let (updated_dataset, default_destinations, mut watch_receiver) =
                 self.dataset_update_rx.recv().await?;
-            // wait until the udpate has been released
-            watch_receiver.changed().await.unwrap();
+            // wait until the udpate has been released. If the watch sender has been dropped, this means the Asset has been deleted
+            watch_receiver.changed().await.ok()?;
             // create new forwarder, in case destination has changed
             self.forwarder = match Forwarder::new_dataset_forwarder(
                 &updated_dataset.destinations,
