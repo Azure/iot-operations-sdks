@@ -34,7 +34,7 @@ fn local_connector_config() {
     let trust_bundle_mount_path = get_trust_bundle_mount_path();
     temp_env::with_vars(
         [
-            ("CONNECTOR_CLIENT_ID_PREFIX", Some("id_prefix")),
+            ("CONNECTOR_ID", Some("connector-id")),
             (
                 "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                 Some(cc_mount_path.to_str().unwrap()),
@@ -49,7 +49,7 @@ fn local_connector_config() {
             // --- Create and validate the ConnectorConfiguration ---
             let cc = ConnectorConfiguration::new_from_deployment().unwrap();
             // NOTE: This value was set directly above in the environment variables
-            assert_eq!(cc.client_id_prefix, "id_prefix");
+            assert_eq!(cc.connector_id, "connector-id");
             // NOTE: These values come from the MQTT_CONNECTION_CONFIGURATION file
             assert_eq!(cc.mqtt_connection_configuration.host, "someHostName:1234");
             assert_eq!(cc.mqtt_connection_configuration.keep_alive_seconds, 10);
@@ -63,10 +63,6 @@ fn local_connector_config() {
                 cc.mqtt_connection_configuration.tls.mode,
                 TlsMode::Enabled
             ));
-            // NOTE: These values come from the AIO_METADATA file
-            // TODO: reenable test
-            // assert_eq!(cc.aio_metadata.aio_min_version, "1.0");
-            // assert_eq!(cc.aio_metadata.aio_max_version, "2.0");
             // NOTE: These values come from the DIAGNOSTICS file
             // TODO: reenable test
             //assert!(matches!(cc.diagnostics.logs.level, LogLevel::Trace));
@@ -78,7 +74,7 @@ fn local_connector_config() {
             assert_eq!(cc.broker_sat_path, Some(FAKE_SAT_FILE.to_string()));
 
             // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
-            assert!(cc.to_mqtt_connection_settings("-id_suffix").is_ok());
+            assert!(cc.to_mqtt_connection_settings("-suffix").is_ok());
             // TODO: validate - but need getters from MQTTCS first.
             // Or maybe that's just for unit tests and this should just make a session
         },

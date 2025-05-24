@@ -94,7 +94,7 @@ namespace Azure.Iot.Operations.Connector
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceError("Failed to read the file mount for MQTT connection settings. Will try again: {}", ex.Message);
+                    _logger.LogWarning("Failed to read the file mount for MQTT connection settings. Will try again: {}", ex.Message);
                     await Task.Delay(TimeSpan.FromMilliseconds(100));
 
                     if (++currentRetryCount >= maxRetryCount)
