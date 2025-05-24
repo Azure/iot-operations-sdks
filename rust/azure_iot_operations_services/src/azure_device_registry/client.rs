@@ -12,15 +12,14 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Notify;
 
-use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
-use crate::azure_device_registry::{
-    Asset, AssetStatus, AssetUpdateObservation, Device, DeviceStatus, DeviceUpdateObservation,
-    Error, ErrorKind,
-    adr_base_gen::{
-        common_types::options::CommandInvokerOptionsBuilder,
-        common_types::options::TelemetryReceiverOptionsBuilder,
-    },
+use crate::azure_device_registry::adr_base_gen::{
+    adr_base_service::client as base_client_gen, common_types::options as base_options_gen,
 };
+use crate::azure_device_registry::models::{Asset, AssetStatus, Device, DeviceStatus};
+use crate::azure_device_registry::{
+    AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
+};
+
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
 const DEVICE_NAME_TOPIC_TOKEN: &str = "deviceName";
@@ -89,7 +88,7 @@ where
             ))));
         }
 
-        let command_options = CommandInvokerOptionsBuilder::default()
+        let command_options = base_options_gen::CommandInvokerOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
                 "connectorClientId".to_string(),
                 client.client_id().to_string(),
@@ -97,7 +96,7 @@ where
             .build()
             .expect("Builder cannot fail as there is no validation function");
 
-        let telemetry_options = TelemetryReceiverOptionsBuilder::default()
+        let telemetry_options = base_options_gen::TelemetryReceiverOptionsBuilder::default()
             .topic_token_map(HashMap::from([(
                 "connectorClientId".to_string(),
                 client.client_id().to_string(),
