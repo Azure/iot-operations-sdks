@@ -14,15 +14,15 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public static partial class AdrBaseService
     {
         /// <summary>
-        /// Specializes the <c>CommandInvoker</c> class for Command 'createDetectedAsset'.
+        /// Specializes the <c>CommandInvoker</c> class for Command 'createOrUpdateDiscoveredAsset'.
         /// </summary>
-        public class CreateDetectedAssetCommandInvoker : CommandInvoker<CreateDetectedAssetRequestPayload, CreateDetectedAssetResponsePayload>
+        public class CreateOrUpdateDiscoveredAssetCommandInvoker : CommandInvoker<CreateOrUpdateDiscoveredAssetRequestPayload, CreateOrUpdateDiscoveredAssetResponseSchema>
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="CreateDetectedAssetCommandInvoker"/> class.
+            /// Initializes a new instance of the <see cref="CreateOrUpdateDiscoveredAssetCommandInvoker"/> class.
             /// </summary>
-            public CreateDetectedAssetCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-                : base(applicationContext, mqttClient, "createDetectedAsset", new Utf8JsonSerializer())
+            public CreateOrUpdateDiscoveredAssetCommandInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "createOrUpdateDiscoveredAsset", new Utf8JsonSerializer())
             {
                 this.ResponseTopicPrefix = "clients/{invokerClientId}"; // default value, can be overwritten by user code
 
@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 {
                     TopicTokenMap["invokerClientId"] = mqttClient.ClientId;
                 }
-                TopicTokenMap["commandName"] = "createDetectedAsset";
+                TopicTokenMap["commandName"] = "createOrUpdateDiscoveredAsset";
             }
         }
     }

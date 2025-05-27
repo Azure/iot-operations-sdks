@@ -141,7 +141,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(
         string deviceName,
         string inboundEndpointName,
-        CreateDetectedAssetRequest request,
+        DiscoveredAsset request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 

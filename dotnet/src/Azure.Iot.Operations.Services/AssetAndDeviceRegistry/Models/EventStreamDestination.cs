@@ -1,7 +1,7 @@
 ﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetDatasetDestinationSchemaElement
+public record EventStreamDestination
 {
     public required DestinationConfiguration Configuration { get; set; }
-    public DatasetTarget Target { get; set; }
+    public EventStreamTarget Target { get; set; }
 }

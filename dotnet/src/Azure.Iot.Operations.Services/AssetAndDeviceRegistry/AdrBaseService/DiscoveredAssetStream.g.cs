@@ -10,21 +10,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DetectedAssetDatasetSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class DiscoveredAssetStream : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'dataPoints' Field.
+        /// The 'destinations' Field.
         /// </summary>
-        [JsonPropertyName("dataPoints")]
+        [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DetectedAssetDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
+        public List<EventStreamDestination>? Destinations { get; set; } = default;
 
         /// <summary>
-        /// The 'dataSetConfiguration' Field.
+        /// The 'lastUpdatedOn' Field.
         /// </summary>
-        [JsonPropertyName("dataSetConfiguration")]
+        [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DataSetConfiguration { get; set; } = default;
+        public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
         /// The 'name' Field.
@@ -35,11 +35,18 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The 'topic' Field.
+        /// The 'streamConfiguration' Field.
         /// </summary>
-        [JsonPropertyName("topic")]
+        [JsonPropertyName("streamConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Topic? Topic { get; set; } = default;
+        public string? StreamConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'typeRef' Field.
+        /// </summary>
+        [JsonPropertyName("typeRef")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? TypeRef { get; set; } = default;
 
         void IJsonOnDeserialized.OnDeserialized()
         {

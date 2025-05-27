@@ -10,37 +10,45 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DefaultDatasetsDestinationsSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class AssetDeviceRef : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'configuration' Field.
+        /// The 'deviceName' Field.
         /// </summary>
-        [JsonPropertyName("configuration")]
+        [JsonPropertyName("deviceName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public DestinationConfiguration Configuration { get; set; } = default!;
+        public string DeviceName { get; set; } = default!;
 
         /// <summary>
-        /// The 'target' Field.
+        /// The 'endpointName' Field.
         /// </summary>
-        [JsonPropertyName("target")]
+        [JsonPropertyName("endpointName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public DatasetTarget Target { get; set; } = default!;
+        public string EndpointName { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (Configuration is null)
+            if (DeviceName is null)
             {
-                throw new ArgumentNullException("configuration field cannot be null");
+                throw new ArgumentNullException("deviceName field cannot be null");
+            }
+            if (EndpointName is null)
+            {
+                throw new ArgumentNullException("endpointName field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (Configuration is null)
+            if (DeviceName is null)
             {
-                throw new ArgumentNullException("configuration field cannot be null");
+                throw new ArgumentNullException("deviceName field cannot be null");
+            }
+            if (EndpointName is null)
+            {
+                throw new ArgumentNullException("endpointName field cannot be null");
             }
         }
     }

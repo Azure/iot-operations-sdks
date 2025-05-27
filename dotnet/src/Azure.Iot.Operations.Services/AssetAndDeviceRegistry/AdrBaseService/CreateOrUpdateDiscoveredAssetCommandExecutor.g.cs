@@ -16,22 +16,22 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public static partial class AdrBaseService
     {
         /// <summary>
-        /// Specializes a <c>CommandExecutor</c> class for Command 'createDetectedAsset'.
+        /// Specializes a <c>CommandExecutor</c> class for Command 'createOrUpdateDiscoveredAsset'.
         /// </summary>
-        public class CreateDetectedAssetCommandExecutor : CommandExecutor<CreateDetectedAssetRequestPayload, CreateDetectedAssetResponsePayload>
+        public class CreateOrUpdateDiscoveredAssetCommandExecutor : CommandExecutor<CreateOrUpdateDiscoveredAssetRequestPayload, CreateOrUpdateDiscoveredAssetResponseSchema>
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="CreateDetectedAssetCommandExecutor"/> class.
+            /// Initializes a new instance of the <see cref="CreateOrUpdateDiscoveredAssetCommandExecutor"/> class.
             /// </summary>
-            public CreateDetectedAssetCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
-                : base(applicationContext, mqttClient, "createDetectedAsset", new Utf8JsonSerializer())
+            public CreateOrUpdateDiscoveredAssetCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, "createOrUpdateDiscoveredAsset", new Utf8JsonSerializer())
             {
                 TopicTokenMap["modelId"] = "dtmi:com:microsoft:akri:AdrBaseService;1";
                 if (mqttClient.ClientId != null)
                 {
                     TopicTokenMap["executorId"] = mqttClient.ClientId;
                 }
-                TopicTokenMap["commandName"] = "createDetectedAsset";
+                TopicTokenMap["commandName"] = "createOrUpdateDiscoveredAsset";
             }
         }
     }

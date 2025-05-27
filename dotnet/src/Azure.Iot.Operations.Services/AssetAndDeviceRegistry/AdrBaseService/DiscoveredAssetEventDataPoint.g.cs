@@ -10,35 +10,29 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetDatasetSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class DiscoveredAssetEventDataPoint : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'dataPoints' Field.
+        /// The 'dataPointConfiguration' Field.
         /// </summary>
-        [JsonPropertyName("dataPoints")]
+        [JsonPropertyName("dataPointConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
-
-        /// <summary>
-        /// The 'datasetConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("datasetConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DatasetConfiguration { get; set; } = default;
+        public string? DataPointConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'dataSource' Field.
         /// </summary>
         [JsonPropertyName("dataSource")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DataSource { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string DataSource { get; set; } = default!;
 
         /// <summary>
-        /// The 'destinations' Field.
+        /// The 'lastUpdatedOn' Field.
         /// </summary>
-        [JsonPropertyName("destinations")]
+        [JsonPropertyName("lastUpdatedOn")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DatasetDestination>? Destinations { get; set; } = default;
+        public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
         /// The 'name' Field.
@@ -48,15 +42,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonRequired]
         public string Name { get; set; } = default!;
 
-        /// <summary>
-        /// The 'typeRef' Field.
-        /// </summary>
-        [JsonPropertyName("typeRef")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? TypeRef { get; set; } = default;
-
         void IJsonOnDeserialized.OnDeserialized()
         {
+            if (DataSource is null)
+            {
+                throw new ArgumentNullException("dataSource field cannot be null");
+            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");
@@ -65,6 +56,10 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
         void IJsonOnSerializing.OnSerializing()
         {
+            if (DataSource is null)
+            {
+                throw new ArgumentNullException("dataSource field cannot be null");
+            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");

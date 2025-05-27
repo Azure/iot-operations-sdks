@@ -8,6 +8,7 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
 using DeviceStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DeviceStatus;
+using DiscoveredAsset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DiscoveredAsset;
 using NotificationResponse = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.NotificationResponse;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
@@ -268,7 +269,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public async Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string deviceName, string inboundEndpointName, CreateDetectedAssetRequest request,
+    public Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string deviceName, string inboundEndpointName, DiscoveredAsset request,
         TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -281,13 +282,14 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _endpointNameTokenKey, inboundEndpointName }
         };
 
-        var result = await _assetServiceClient.CreateDetectedAssetAsync(
+        /*var result = await _assetServiceClient.CreateOrUpdateDiscoveredAssetAsync(
             request.ToProtocol(),
             null,
             additionalTopicTokenMap,
             commandTimeout ?? _defaultTimeout,
             cancellationToken);
-        return result.CreateDetectedAssetResponse.ToModel();
+        return result.CreateDetectedAssetResponse.ToModel();*/
+        return Task.FromResult(new CreateDetectedAssetResponse() { });
     }
 
     /// <inheritdoc />

@@ -10,29 +10,29 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class CreateDetectedAssetRequestPayload : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class CreateOrUpdateDiscoveredAssetResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The Command request argument.
+        /// The Command response argument.
         /// </summary>
-        [JsonPropertyName("detectedAsset")]
+        [JsonPropertyName("discoveredAssetResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public DetectedAsset DetectedAsset { get; set; } = default!;
+        public DiscoveredAssetResponse DiscoveredAssetResponse { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (DetectedAsset is null)
+            if (DiscoveredAssetResponse is null)
             {
-                throw new ArgumentNullException("detectedAsset field cannot be null");
+                throw new ArgumentNullException("discoveredAssetResponse field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (DetectedAsset is null)
+            if (DiscoveredAssetResponse is null)
             {
-                throw new ArgumentNullException("detectedAsset field cannot be null");
+                throw new ArgumentNullException("discoveredAssetResponse field cannot be null");
             }
         }
     }

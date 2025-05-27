@@ -10,35 +10,43 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class AssetDatasetSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class DiscoveredAssetEvent : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The 'dataPoints' Field.
         /// </summary>
         [JsonPropertyName("dataPoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
-
-        /// <summary>
-        /// The 'datasetConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("datasetConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DatasetConfiguration { get; set; } = default;
-
-        /// <summary>
-        /// The 'dataSource' Field.
-        /// </summary>
-        [JsonPropertyName("dataSource")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DataSource { get; set; } = default;
+        public List<DiscoveredAssetEventDataPoint>? DataPoints { get; set; } = default;
 
         /// <summary>
         /// The 'destinations' Field.
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DatasetDestination>? Destinations { get; set; } = default;
+        public List<EventStreamDestination>? Destinations { get; set; } = default;
+
+        /// <summary>
+        /// The 'eventConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("eventConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? EventConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'eventNotifier' Field.
+        /// </summary>
+        [JsonPropertyName("eventNotifier")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string EventNotifier { get; set; } = default!;
+
+        /// <summary>
+        /// The 'lastUpdatedOn' Field.
+        /// </summary>
+        [JsonPropertyName("lastUpdatedOn")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DateTime? LastUpdatedOn { get; set; } = default;
 
         /// <summary>
         /// The 'name' Field.
@@ -57,6 +65,10 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
         void IJsonOnDeserialized.OnDeserialized()
         {
+            if (EventNotifier is null)
+            {
+                throw new ArgumentNullException("eventNotifier field cannot be null");
+            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");
@@ -65,6 +77,10 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
         void IJsonOnSerializing.OnSerializing()
         {
+            if (EventNotifier is null)
+            {
+                throw new ArgumentNullException("eventNotifier field cannot be null");
+            }
             if (Name is null)
             {
                 throw new ArgumentNullException("name field cannot be null");

@@ -9,13 +9,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public enum DetectedAssetResponseStatusSchema
+    public enum AssetManagementGroupActionType
     {
-        [EnumMember(Value = @"created")]
-        Created = 0,
-        [EnumMember(Value = @"duplicate")]
-        Duplicate = 1,
-        [EnumMember(Value = @"failed")]
-        Failed = 2,
+        [EnumMember(Value = @"Call")]
+        Call = 0,
+        [EnumMember(Value = @"Read")]
+        Read = 1,
+        [EnumMember(Value = @"Write")]
+        Write = 2,
     }
 }

@@ -10,29 +10,37 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class CreateDetectedAssetResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class DatasetDestination : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The Command response argument.
+        /// The 'configuration' Field.
         /// </summary>
-        [JsonPropertyName("createDetectedAssetResponse")]
+        [JsonPropertyName("configuration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public CreateDetectedAssetResponseSchema CreateDetectedAssetResponse { get; set; } = default!;
+        public DestinationConfiguration Configuration { get; set; } = default!;
+
+        /// <summary>
+        /// The 'target' Field.
+        /// </summary>
+        [JsonPropertyName("target")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public DatasetTarget Target { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (CreateDetectedAssetResponse is null)
+            if (Configuration is null)
             {
-                throw new ArgumentNullException("createDetectedAssetResponse field cannot be null");
+                throw new ArgumentNullException("configuration field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (CreateDetectedAssetResponse is null)
+            if (Configuration is null)
             {
-                throw new ArgumentNullException("createDetectedAssetResponse field cannot be null");
+                throw new ArgumentNullException("configuration field cannot be null");
             }
         }
     }
