@@ -172,11 +172,11 @@
   },
   "supportedArchitectures": {
     "type": "array",
-    "description": "The architectures that this connector image was built for. At least one must be specified.",
+    "description": "The CPU architectures that this connector image was built for. At least one must be specified.",
     "items": [
       {
         "type": "string",
-        "description": "One of the architectures this connector image was built for. For example: 'linux/amd64' or 'linux/arm64'"
+        "description": "One of the CPU architectures this connector image was built for. For example: 'linux/amd64', 'linux/arm64', or 'windows/amd64'"
       }  
     ],
     "minItems": 1,
@@ -337,6 +337,7 @@
     "name",
     "version",
     "imageConfigurationSettings",
+    "supportedArchitectures",
     "inboundEndpoints"
   ]
 }
