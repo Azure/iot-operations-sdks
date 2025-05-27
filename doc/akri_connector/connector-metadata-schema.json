@@ -5,7 +5,7 @@
   "definitions": {
     "schema": {
       "type": "object",
-      "description": "The schema for a stringified JSON field such as 'additionalConfiguration'. Must provide inline schema xor the file that contains the schema",
+      "description": "The schema for a stringified JSON schema fields such as 'additionalConfigurationSchema'. Must provide inline schema xor the file that contains the schema",
       "properties": {
         "schema": {
           "$ref": "http://json-schema.org/draft-07/schema#"
@@ -39,7 +39,7 @@
     },
     "description": {
       "type": "string",
-      "description": "A brief (human-readable) description of the connector."
+      "description": "A brief (human-readable) description of the connector (preferably in English). This is seen when browsing connectors in the portal."
     },
     "version": {
       "type": "string",
@@ -254,7 +254,7 @@
               "description": "The inbound endpoint level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
               "properties": {
                 "additionalConfigurationSchema": {
-                  "$ref": "#/definitions/additionalConfigurationType"
+                  "$ref": "#/definitions/schema"
                 }
               }
             },
