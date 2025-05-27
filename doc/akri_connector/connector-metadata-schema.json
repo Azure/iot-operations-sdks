@@ -144,20 +144,10 @@
         "secretAlias": {
           "type": "string",
           "description": "The application-defined alias for the secret"
-        },
-        "secretKey": {
-          "type": "string",
-          "description": "The key in the secret to be mounted"
-        },
-        "secretRef": {
-          "type": "string",
-          "description": "The name of the secret to be mounted"
         }
       },
       "required": [
-        "secretAlias",
-        "secretKey",
-        "secretRef"
+        "secretAlias"
       ]
     },
     "architecture": {
@@ -176,21 +166,21 @@
           "type": "string",
           "description": "The version of the programming language used to write this connector"
         },
-        "sdk": {
+        "sdks": {
           "type": "object",
           "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
           "properties": {
             "mqttPackageVersion": {
               "type": "string",
-              "description": "The version of the azure iot operations MQTT package"
+              "description": "The version of the Azure IoT Operations MQTT package"
             },
             "servicesPackageVersion": {
               "type": "string",
-              "description": "The version of the azure iot operations services package"
+              "description": "The version of the Azure IoT Operations services package"
             },
             "connectorPackageVersion": {
               "type": "string",
-              "description": "The version of the azure iot operations connector package"
+              "description": "The version of the Azure IoT Operations connector package"
             }
           }
         }
@@ -231,19 +221,20 @@
     },
     "inboundEndpoints": {
       "type": "array",
-      "description": "The array of inbound endpoints that this connector connects with.",
+      "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
       "items": [
         {
           "type": "object",
           "properties": {
-            "name": {
-              "type": "string"
+            "endpointType": {
+              "type": "string",
+              "description" : "The type of this inbound endpoint."
             },
             "configSchemas": {
               "type": "object",
               "description": "The inbound endpoint level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
               "properties": {
-                "deviceEndpointAdditionalConfigSchema": {
+                "additionalConfigurationSchema": {
                   "$ref": "#/definitions/additionalConfigurationType"
                 }
               }

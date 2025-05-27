@@ -19,7 +19,7 @@
   "sourceCode": {
     "language": ".NET",
     "languageVersion": ".NET 8.0",
-    "sdk": {
+    "sdks": {
       "mqttPackageVersion": "1.0.0",
       "servicesPackageVersion": "1.0.0",
       "connectorPackageVersion": "1.0.0"
@@ -42,7 +42,7 @@
       "name": "RestInboundEndpoint",
       "version": "1.0",
       "configSchemas": {
-        "deviceEndpointAdditionalConfigSchema": {
+        "additionalConfigurationSchema": {
           "schema": {
             "$schema": "http://json-schema.org/draft-07/schema#",
             "$id": "https://contoso.com/deviceEndpointConfig.schema.json",
