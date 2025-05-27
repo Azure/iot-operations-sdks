@@ -15,7 +15,6 @@
     "helmChartName": "helm/RestConnector",
     "digest": "sha256:abcd1234..."
   },
-  "architecture": "amd64",
   "sourceCode": {
     "language": ".NET",
     "languageVersion": ".NET 8.0",
