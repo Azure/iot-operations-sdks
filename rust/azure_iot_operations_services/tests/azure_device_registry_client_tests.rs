@@ -396,11 +396,14 @@ async fn observe_device_update_notifications() {
                     DeviceStatus {
                         config: Some(StatusConfig {
                             version: response.specification.version,
-                            error: Some(ConfigError {
-                                message: Some("test error".to_string()),
-                                ..ConfigError::default()
-                            }),
-                            // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+                            // error: Some(ConfigError {
+                            //     message: format!(
+                            //         "test error with random uuid {}".to_string(),
+                            //         Uuid::new_v4().to_string()
+                            //     ),
+                            //     ..ConfigError::default()
+                            // }),
+                            last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
                             ..StatusConfig::default()
                         }),
                         endpoints: endpoint_statuses,
