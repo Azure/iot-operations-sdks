@@ -19,11 +19,6 @@ use crate::azure_device_registry::models::{Asset, AssetStatus, Device, DeviceSta
 use crate::azure_device_registry::{
     AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
 };
-use crate::azure_device_registry::models::{Asset, AssetStatus, Device, DeviceStatus};
-use crate::azure_device_registry::{
-    AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
-};
-
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
 const DEVICE_NAME_TOPIC_TOKEN: &str = "deviceName";
