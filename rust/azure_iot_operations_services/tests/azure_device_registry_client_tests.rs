@@ -6,6 +6,7 @@
 use std::collections::HashMap;
 use std::{env, time::Duration};
 
+use base64::engine::Config;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -14,7 +15,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
-    self, AssetStatus, DeviceStatus, StatusConfig,
+    self, AssetStatus, ConfigError, DeviceStatus, StatusConfig,
 };
 
 const DEVICE1: &str = "my-thermostat";
@@ -411,7 +412,11 @@ async fn observe_device_update_notifications() {
                     DeviceStatus {
                         config: Some(StatusConfig {
                             version: response.specification.version,
-                            last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+                            error: Some(ConfigError {
+                                message: Some("test error".to_string()),
+                                ..ConfigError::default()
+                            }),
+                            // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
                             ..StatusConfig::default()
                         }),
                         endpoints: endpoint_statuses,
