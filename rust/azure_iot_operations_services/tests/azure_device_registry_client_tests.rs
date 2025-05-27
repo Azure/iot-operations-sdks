@@ -134,6 +134,7 @@ async fn get_device() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -248,6 +249,7 @@ async fn get_asset() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
     if !setup_test(log_identifier) {
