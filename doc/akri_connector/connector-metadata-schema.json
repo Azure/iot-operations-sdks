@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "aioConnectorMetadataSchemaVersion": "1.0.0",
+  "aioConnectorMetadataSchemaVersion": "1.0",
   "definitions": {
     "schema": {
       "type": "object",
@@ -31,7 +31,9 @@
   "properties": {
     "aioConnectorMetadataSchemaVersion": {
       "type": "string",
-      "description": "The version of AIO connector metadata schema that this connector metadata file adheres to."
+      "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)",
+      "default":"1.0"
     },
     "name": {
       "type": "string",
@@ -43,7 +45,9 @@
     },
     "version": {
       "type": "string",
-      "description": "The version of this connector."
+      "description": "The version of this connector. This must use semantic versioning such as '1.2.3'",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)",
+      "default":"1.0.0"
     },
     "maintainer": {
       "type": "string",
@@ -58,11 +62,11 @@
       "properties": {
         "containerRegistryName": {
           "type": "string",
-          "description": "The container registry that holds the image for the connector. For example: contoso-acr.io"
+          "description": "The container registry that holds the image for the connector. For example: 'contoso-acr.io'"
         },
         "imageName": {
           "type": "string",
-          "description": "The docker image name for the connector. For example: MyConnector"
+          "description": "The docker image name for the connector. For example: 'myconnector'"
         },
         "tag": {
           "type": "string",
@@ -95,11 +99,11 @@
       "properties": {
         "containerRegistryName": {
           "type": "string",
-          "description": "The container registry name that holds the helm chart for the connector. For example: contoso-acr.io"
+          "description": "The container registry name that holds the helm chart for the connector. For example: 'contoso-acr.io'"
         },
         "helmChartName": {
           "type": "string",
-          "description": "The helm chart name for the connector. For example: helm/MyConnector"
+          "description": "The helm chart name for the connector. For example: 'helm/MyConnector'"
         },
         "tag": {
           "type": "string",
