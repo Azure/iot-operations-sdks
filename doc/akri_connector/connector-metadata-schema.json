@@ -33,7 +33,7 @@
       "type": "string",
       "description": "The version of AIO connector metadata schema that this connector metadata file adheres to.",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)",
-      "default":"1.0"
+      "default": "1.0"
     },
     "name": {
       "type": "string",
@@ -47,7 +47,7 @@
       "type": "string",
       "description": "The version of this connector. This must use semantic versioning such as '1.2.3'",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)",
-      "default":"1.0.0"
+      "default": "1.0.0"
     },
     "maintainer": {
       "type": "string",
@@ -142,173 +142,188 @@
       }
     },
     "secrets": {
-      "type": "object",
-      "description": " Secrets that will be mounted onto all connector instances.",
-      "properties": {
-        "secretAlias": {
-          "type": "string",
-          "description": "The application-defined alias for the secret"
-        }
-      },
-      "required": [
-        "secretAlias"
-      ]
-    },
-    "architecture": {
-      "type": "string",
-      "description": "The architecture that this connector should run on"
-    },
-    "sourceCode": {
-      "type": "object",
-      "description": "Details about the source code that compiled this connector",
-      "properties": {
-        "language": {
-          "type": "string",
-          "description": "The programming language used to write this connector"
-        },
-        "languageVersion": {
-          "type": "string",
-          "description": "The version of the programming language used to write this connector"
-        },
-        "sdks": {
-          "type": "object",
-          "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
-          "properties": {
-            "mqttPackageVersion": {
-              "type": "string",
-              "description": "The version of the Azure IoT Operations MQTT package"
-            },
-            "servicesPackageVersion": {
-              "type": "string",
-              "description": "The version of the Azure IoT Operations services package"
-            },
-            "connectorPackageVersion": {
-              "type": "string",
-              "description": "The version of the Azure IoT Operations connector package"
-            }
-          }
-        }
-      },
-      "required": [
-        "language",
-        "languageVersion"
-      ]
-    },
-    "resourceRequirements": {
-      "type": "object",
-      "description": "The resource requirements to run this connector (per pod)",
-      "properties": {
-        "requests": {
-          "type": "object",
-          "description": "The lower bounds for resources that should be allocated to a connector pod",
-          "properties": {
-            "cpu": {
-              "type": "string",
-              "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
-            },
-            "memory": {
-              "type": "string",
-              "description" : "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
-            }
-          }
-        },
-        "limits": {
-          "type": "object",
-          "description": "The upper bounds for resources that can be allocated to a connector pod",
-          "properties": {
-            "cpu": {
-              "type": "string",
-              "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
-            },
-            "memory": {
-              "type": "string",
-              "description" : "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
-            }
-          }
-        }
-      }
-    },
-    "aioMetadata": {
-      "type": "object",
-      "description": "The AIO requirements to run this connector",
-      "properties": {
-        "aioMinVersion": {
-          "type": "string",
-          "description": "The minimal (inclusive) version that can run this connector."
-        },
-        "aioMaxVersion": {
-          "type": "string",
-          "description": "The maximal (inclusive) version that can run this connector."
-        }
-      }
-    },
-    "inboundEndpoints": {
       "type": "array",
-      "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
+      "description": "The array of secrets that will be mounted onto all connector instances.",
       "items": [
         {
           "type": "object",
+          "description": "A single secret that will be mounted onto all connector instances.",
           "properties": {
-            "endpointType": {
+            "secretAlias": {
               "type": "string",
-              "description" : "The type of this inbound endpoint."
+              "description": "The application-defined alias for the secret"
             },
-            "configSchemas": {
-              "type": "object",
-              "description": "The inbound endpoint level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
-              "properties": {
-                "additionalConfigurationSchema": {
-                  "$ref": "#/definitions/schema"
-                }
-              }
+            "secretDescription": {
+              "type": "string",
+              "description": "The description for this secret alias"
             },
-            "assets": {
-              "type": "array",
-              "description": "The array of assets that reference this inbound endpoint",
-              "items": [
-                {
-                  "type": "object",
-                  "properties": {
-                    "name": {
-                      "type": "string"
-                    },
-                    "configSchemas": {
-                      "type": "object",
-                      "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
-                      "properties": {
-                        "datasetConfigSchema": {
-                          "$ref": "#/definitions/schema"
-                        },
-                        "dataPointConfigSchema": {
-                          "$ref": "#/definitions/schema"
-                        },
-                        "eventConfigSchema": {
-                          "$ref": "#/definitions/schema"
-                        },
-                        "streamConfigSchema": {
-                          "$ref": "#/definitions/schema"
-                        },
-                        "managementGroupConfigSchema": {
-                          "$ref": "#/definitions/schema"
-                        },
-                        "processControlConfigSchema": {
-                          "$ref": "#/definitions/schema"
-                        }
-                      }
-                    }
-                  }
-                }
-              ]
+            "isOptional": {
+              "type": "boolean",
+              "description": "If the secret is optional or mandatory",
+              "default": false
             }
           },
           "required": [
-            "name",
-            "version",
-            "configSchemas"
+            "secretAlias"
           ]
         }
       ]
     }
+  },
+  "architecture": {
+    "type": "string",
+    "description": "The architecture that this connector should run on"
+  },
+  "sourceCode": {
+    "type": "object",
+    "description": "Details about the source code that compiled this connector",
+    "properties": {
+      "language": {
+        "type": "string",
+        "description": "The programming language used to write this connector"
+      },
+      "languageVersion": {
+        "type": "string",
+        "description": "The version of the programming language used to write this connector"
+      },
+      "sdks": {
+        "type": "object",
+        "description": "Details about the versions of the AIO SDKs used to write this connector (if they were used)",
+        "properties": {
+          "mqttPackageVersion": {
+            "type": "string",
+            "description": "The version of the Azure IoT Operations MQTT package"
+          },
+          "servicesPackageVersion": {
+            "type": "string",
+            "description": "The version of the Azure IoT Operations services package"
+          },
+          "connectorPackageVersion": {
+            "type": "string",
+            "description": "The version of the Azure IoT Operations connector package"
+          }
+        }
+      }
+    },
+    "required": [
+      "language",
+      "languageVersion"
+    ]
+  },
+  "resourceRequirements": {
+    "type": "object",
+    "description": "The resource requirements to run this connector (per pod)",
+    "properties": {
+      "requests": {
+        "type": "object",
+        "description": "The lower bounds for resources that should be allocated to a connector pod",
+        "properties": {
+          "cpu": {
+            "type": "string",
+            "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
+          },
+          "memory": {
+            "type": "string",
+            "description": "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
+          }
+        }
+      },
+      "limits": {
+        "type": "object",
+        "description": "The upper bounds for resources that can be allocated to a connector pod",
+        "properties": {
+          "cpu": {
+            "type": "string",
+            "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
+          },
+          "memory": {
+            "type": "string",
+            "description": "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
+          }
+        }
+      }
+    }
+  },
+  "aioMetadata": {
+    "type": "object",
+    "description": "The AIO requirements to run this connector",
+    "properties": {
+      "aioMinVersion": {
+        "type": "string",
+        "description": "The minimal (inclusive) version that can run this connector."
+      },
+      "aioMaxVersion": {
+        "type": "string",
+        "description": "The maximal (inclusive) version that can run this connector."
+      }
+    }
+  },
+  "inboundEndpoints": {
+    "type": "array",
+    "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
+    "items": [
+      {
+        "type": "object",
+        "properties": {
+          "endpointType": {
+            "type": "string",
+            "description": "The type of this inbound endpoint."
+          },
+          "configSchemas": {
+            "type": "object",
+            "description": "The inbound endpoint level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
+            "properties": {
+              "additionalConfigurationSchema": {
+                "$ref": "#/definitions/schema"
+              }
+            }
+          },
+          "assets": {
+            "type": "array",
+            "description": "The array of assets that reference this inbound endpoint",
+            "items": [
+              {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "configSchemas": {
+                    "type": "object",
+                    "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
+                    "properties": {
+                      "datasetConfigSchema": {
+                        "$ref": "#/definitions/schema"
+                      },
+                      "dataPointConfigSchema": {
+                        "$ref": "#/definitions/schema"
+                      },
+                      "eventConfigSchema": {
+                        "$ref": "#/definitions/schema"
+                      },
+                      "streamConfigSchema": {
+                        "$ref": "#/definitions/schema"
+                      },
+                      "managementGroupConfigSchema": {
+                        "$ref": "#/definitions/schema"
+                      },
+                      "processControlConfigSchema": {
+                        "$ref": "#/definitions/schema"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "configSchemas"
+        ]
+      }
+    ]
   },
   "required": [
     "name",
