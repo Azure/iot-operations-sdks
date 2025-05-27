@@ -150,6 +150,10 @@
         "secretAlias"
       ]
     },
+    "architecture": {
+      "type": "string",
+      "description": "The architecture that this connector should run on"
+    },
     "sourceCode": {
       "type": "object",
       "description": "Details about the source code that compiled this connector",
