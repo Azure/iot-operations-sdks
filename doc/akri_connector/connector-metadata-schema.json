@@ -5,7 +5,7 @@
   "definitions": {
     "schema": {
       "type": "object",
-      "description": "The schema for a stringified JSON schema fields such as 'additionalConfigurationSchema'. Must provide inline schema xor the file that contains the schema",
+      "description": "The schema for a stringified JSON schema fields such as 'additionalConfigurationSchema'. Must provide inline schema xor the file that contains the schema. These schemas may be used to define the default values of unspecified fields.",
       "properties": {
         "schema": {
           "$ref": "http://json-schema.org/draft-07/schema#"
