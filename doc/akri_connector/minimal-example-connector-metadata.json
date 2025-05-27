@@ -8,6 +8,7 @@
     "imageName": "RestConnector",
     "tag": "1.0.0"
   },
+  "supportedArchitectures": ["linux/amd64"],
   "inboundEndpoints": [
     {
       "name": "RestInboundEndpoint",
