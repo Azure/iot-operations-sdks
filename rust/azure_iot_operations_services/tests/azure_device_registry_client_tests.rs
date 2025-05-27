@@ -316,7 +316,6 @@ async fn update_asset_status() {
 }
 
 #[tokio::test]
-#[ignore]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -472,7 +471,6 @@ async fn observe_device_update_notifications() {
 }
 
 #[tokio::test]
-#[ignore]
 async fn observe_asset_update_notifications() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
