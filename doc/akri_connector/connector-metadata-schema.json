@@ -170,9 +170,17 @@
       ]
     }
   },
-  "architecture": {
-    "type": "string",
-    "description": "The architecture that this connector should run on"
+  "supportedArchitectures": {
+    "type": "array",
+    "description": "The architectures that this connector image was built for. At least one must be specified.",
+    "items": [
+      {
+        "type": "string",
+        "description": "One of the architectures this connector image was built for. For example: 'linux/amd64' or 'linux/arm64'"
+      }  
+    ],
+    "minItems": 1,
+    "uniqueItems": true
   },
   "sourceCode": {
     "type": "object",
