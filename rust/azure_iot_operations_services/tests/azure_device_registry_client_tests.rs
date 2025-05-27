@@ -6,7 +6,6 @@
 use std::collections::HashMap;
 use std::{env, time::Duration};
 
-use base64::engine::Config;
 use env_logger::Builder;
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -342,27 +341,12 @@ async fn observe_device_update_notifications() {
                 async move {
                     log::info!("[{log_identifier}] Device update notification receiver started.");
                     let mut count = 0;
-                    // while let Some((notification, _)) = observation.recv_notification().await {
-                    //     log::info!("[{log_identifier}] Harry Potter");
-                    //     log::info!("device updated: {notification:#?}");
-                    // }
                     if let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
                         log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
                         log::info!("[{log_identifier}] Device Observation: {device:?}");
                         assert_eq!(device.name, DEVICE1);
                     }
-                    // if let Some((device, _)) = observation.recv_notification().await {
-                    //     count += 1;
-                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
-                    //     log::info!("[{log_identifier}] Device From Observation 2: {device:?}");
-                    //     assert_eq!(device.name, DEVICE1);
-                    // }
-                    // if let Some((device, _)) = observation.recv_notification().await {
-                    //     count += 1;
-                    //     log::info!("[{log_identifier}] Harry Potter DELETE LOG");
-                    //     log::info!("[{log_identifier}] Device From Observation 3: {device:?}");
-                    // }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
                         log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
@@ -371,7 +355,7 @@ async fn observe_device_update_notifications() {
                         );
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
-                        assert!(count < 4);
+                        assert!(count < 2);
                     }
                     // only the 2 expected notifications should occur
                     assert_eq!(count, 1);
@@ -384,7 +368,7 @@ async fn observe_device_update_notifications() {
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Get device to update the observation: {response:?}",);
+            log::info!("[{log_identifier}] Get device to update the status: {response:?}",);
             let mut endpoint_statuses = HashMap::new();
             for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
                 if endpoint.endpoint_type == ENDPOINT_TYPE {
@@ -496,19 +480,19 @@ async fn observe_asset_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Observation asset Response: {observation:?}",);
+            log::info!("[{log_identifier}] Observation asset response: {observation:?}",);
             let receive_notifications_task = tokio::task::spawn({
                 async move {
                     log::info!("[{log_identifier}] Asset update notification receiver started.");
                     let mut count = 0;
                     if let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] Asset observation Expected: {device:?}");
+                        log::info!("[{log_identifier}] Asset observation expected: {device:?}");
                         assert_eq!(device.name, DEVICE1);
                     }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] Asset observation Unexpected: {device:?}");
+                        log::info!("[{log_identifier}] Asset observation unexpected: {device:?}");
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
                         assert!(count < 2);
@@ -529,7 +513,7 @@ async fn observe_asset_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Get asset Reponse: {response:?}",);
+            log::info!("[{log_identifier}] Get asset to update the status: {response:?}",);
 
             let mut dataset_statuses = Vec::new();
             for dataset in response.specification.datasets {
@@ -559,7 +543,7 @@ async fn observe_asset_update_notifications() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Device After Observation: {updated_response1:?}",
+                "[{log_identifier}] Updated asset response after observation: {updated_response1:?}",
             );
 
             azure_device_registry_client
@@ -573,7 +557,7 @@ async fn observe_asset_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Unobservation asset Response: {:?}", ());
 
-            let updated_response4 = azure_device_registry_client
+            let updated_response2 = azure_device_registry_client
                 .update_asset_status(
                     DEVICE1.to_string(),
                     ENDPOINT1.to_string(),
@@ -590,7 +574,7 @@ async fn observe_asset_update_notifications() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Device After Unobserve: {updated_response4:?}",
+                "[{log_identifier}] Updated asset response after unobserve: {updated_response2:?}",
             );
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
