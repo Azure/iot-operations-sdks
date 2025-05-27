@@ -4,10 +4,11 @@
 //! Asset/Dataset models for Azure Device Registry operations.
 use std::collections::HashMap;
 
+use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
+
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::azure_device_registry::helper::{option_vec_from, vec_from_option_vec};
 use crate::azure_device_registry::{ConfigError, StatusConfig};
-use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
 
