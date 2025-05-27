@@ -11,7 +11,7 @@ use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError
 use thiserror::Error;
 
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
-use crate::azure_device_registry::helper::option_vec_from;
+use crate::azure_device_registry::helper::ConvertOptionVec;
 use crate::azure_device_registry::models::{Asset, Device};
 use crate::common::dispatcher::{self, Receiver};
 
@@ -148,7 +148,7 @@ impl From<StatusConfig> for base_client_gen::DeviceStatusConfigSchema {
     fn from(value: StatusConfig) -> Self {
         base_client_gen::DeviceStatusConfigSchema {
             version: value.version,
-            error: value.error.map(ConfigError::into),
+            error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
         }
     }
@@ -158,7 +158,7 @@ impl From<base_client_gen::DeviceStatusConfigSchema> for StatusConfig {
     fn from(value: base_client_gen::DeviceStatusConfigSchema) -> Self {
         StatusConfig {
             version: value.version,
-            error: value.error.map(base_client_gen::ConfigError::into),
+            error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
         }
     }
@@ -167,7 +167,7 @@ impl From<base_client_gen::DeviceStatusConfigSchema> for StatusConfig {
 impl From<StatusConfig> for base_client_gen::AssetConfigStatusSchema {
     fn from(value: StatusConfig) -> Self {
         base_client_gen::AssetConfigStatusSchema {
-            error: value.error.map(ConfigError::into),
+            error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
         }
@@ -177,7 +177,7 @@ impl From<StatusConfig> for base_client_gen::AssetConfigStatusSchema {
 impl From<base_client_gen::AssetConfigStatusSchema> for StatusConfig {
     fn from(value: base_client_gen::AssetConfigStatusSchema) -> Self {
         StatusConfig {
-            error: value.error.map(ConfigError::from),
+            error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
         }
@@ -189,14 +189,7 @@ impl From<ConfigError> for base_client_gen::ConfigError {
         base_client_gen::ConfigError {
             code: value.code,
             message: value.message,
-            details: option_vec_from(value.details, |details| {
-                base_client_gen::DetailsSchemaElementSchema {
-                    code: details.code,
-                    correlation_id: details.correlation_id,
-                    info: details.info,
-                    message: details.message,
-                }
-            }),
+            details: value.details.option_vec_into(),
             inner_error: value.inner_error,
         }
     }
@@ -207,13 +200,30 @@ impl From<base_client_gen::ConfigError> for ConfigError {
         ConfigError {
             code: value.code,
             message: value.message,
-            details: option_vec_from(value.details, |details| Details {
-                code: details.code,
-                correlation_id: details.correlation_id,
-                info: details.info,
-                message: details.message,
-            }),
+            details: value.details.option_vec_into(),
             inner_error: value.inner_error,
+        }
+    }
+}
+
+impl From<Details> for base_client_gen::DetailsSchemaElementSchema {
+    fn from(value: Details) -> Self {
+        base_client_gen::DetailsSchemaElementSchema {
+            code: value.code,
+            correlation_id: value.correlation_id,
+            info: value.info,
+            message: value.message,
+        }
+    }
+}
+
+impl From<base_client_gen::DetailsSchemaElementSchema> for Details {
+    fn from(value: base_client_gen::DetailsSchemaElementSchema) -> Self {
+        Details {
+            code: value.code,
+            correlation_id: value.correlation_id,
+            info: value.info,
+            message: value.message,
         }
     }
 }
