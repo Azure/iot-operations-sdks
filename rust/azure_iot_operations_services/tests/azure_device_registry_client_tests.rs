@@ -461,7 +461,6 @@ async fn observe_device_update_notifications() {
 }
 
 #[tokio::test]
-#[ignore]
 async fn observe_asset_update_notifications() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -524,14 +523,18 @@ async fn observe_asset_update_notifications() {
                     name: dataset.name,
                 });
             }
-            let status_to_be_updated = azure_device_registry::AssetStatus {
-                config: Some(azure_device_registry::StatusConfig {
+            let status_to_be_updated = AssetStatus {
+                config: Some(StatusConfig {
                     version: response.specification.version,
-                    last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
-                    ..azure_device_registry::StatusConfig::default()
+                    error: Some(ConfigError {
+                        message: Some(format!("Random test error {}", Uuid::new_v4())),
+                        ..ConfigError::default()
+                    }),
+                    // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+                    ..StatusConfig::default()
                 }),
                 datasets: Some(dataset_statuses),
-                ..azure_device_registry::AssetStatus::default()
+                ..AssetStatus::default()
             };
             let updated_response1 = azure_device_registry_client
                 .update_asset_status(
