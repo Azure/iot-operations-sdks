@@ -3,9 +3,9 @@
   "type": "object",
   "aioConnectorMetadataSchemaVersion": "1.0.0",
   "definitions": {
-    "additionalConfigurationType": {
+    "schema": {
       "type": "object",
-      "description": "The schema for this 'additional configuration' field. Must provide inline schema xor the file that contains the schema",
+      "description": "The schema for a stringified JSON field such as 'additionalConfiguration'. Must provide inline schema xor the file that contains the schema",
       "properties": {
         "schema": {
           "$ref": "http://json-schema.org/draft-07/schema#"
@@ -273,22 +273,22 @@
                       "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
                       "properties": {
                         "datasetConfigSchema": {
-                          "$ref": "#/definitions/additionalConfigurationType"
+                          "$ref": "#/definitions/schema"
                         },
                         "dataPointConfigSchema": {
-                          "$ref": "#/definitions/additionalConfigurationType"
+                          "$ref": "#/definitions/schema"
                         },
                         "eventConfigSchema": {
-                          "$ref": "#/definitions/additionalConfigurationType"
+                          "$ref": "#/definitions/schema"
                         },
                         "streamConfigSchema": {
-                          "$ref": "#/definitions/additionalConfigurationType"
+                          "$ref": "#/definitions/schema"
                         },
                         "managementGroupConfigSchema": {
-                          "$ref": "#/definitions/additionalConfigurationType"
+                          "$ref": "#/definitions/schema"
                         },
                         "processControlConfigSchema": {
-                          "$ref": "#/definitions/additionalConfigurationType"
+                          "$ref": "#/definitions/schema"
                         }
                       }
                     }
