@@ -5,7 +5,7 @@
 use std::collections::HashMap;
 
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
-use crate::azure_device_registry::helper::{option_vec_from, vec_from_option_vec};
+use crate::azure_device_registry::helper::ConvertOptionVec;
 use crate::azure_device_registry::{ConfigError, StatusConfig};
 use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
 
@@ -320,14 +320,11 @@ pub struct MessageSchemaReference {
 impl From<AssetStatus> for base_client_gen::AssetStatus {
     fn from(value: AssetStatus) -> Self {
         base_client_gen::AssetStatus {
-            config: value.config.map(StatusConfig::into),
-            datasets: option_vec_from(value.datasets, DatasetEventStreamStatus::into),
-            events: option_vec_from(value.events, DatasetEventStreamStatus::into),
-            management_groups: option_vec_from(
-                value.management_groups,
-                ManagementGroupStatus::into,
-            ),
-            streams: option_vec_from(value.streams, DatasetEventStreamStatus::into),
+            config: value.config.map(Into::into),
+            datasets: value.datasets.option_vec_into(),
+            events: value.events.option_vec_into(),
+            management_groups: value.management_groups.option_vec_into(),
+            streams: value.streams.option_vec_into(),
         }
     }
 }
@@ -336,10 +333,8 @@ impl From<DatasetEventStreamStatus> for base_client_gen::AssetDatasetEventStream
     fn from(value: DatasetEventStreamStatus) -> Self {
         base_client_gen::AssetDatasetEventStreamStatus {
             name: value.name,
-            message_schema_reference: value
-                .message_schema_reference
-                .map(MessageSchemaReference::into),
-            error: value.error.map(ConfigError::into),
+            message_schema_reference: value.message_schema_reference.map(Into::into),
+            error: value.error.map(Into::into),
         }
     }
 }
@@ -349,7 +344,7 @@ impl From<ManagementGroupStatus>
 {
     fn from(value: ManagementGroupStatus) -> Self {
         base_client_gen::AssetManagementGroupStatusSchemaElementSchema {
-            actions: option_vec_from(value.actions, ActionStatus::into),
+            actions: value.actions.option_vec_into(),
             name: value.name,
         }
     }
@@ -358,14 +353,14 @@ impl From<ManagementGroupStatus>
 impl From<ActionStatus> for base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema {
     fn from(value: ActionStatus) -> Self {
         base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema {
-            error: value.error.map(ConfigError::into),
+            error: value.error.map(Into::into),
             name: value.name,
             request_message_schema_reference: value
                 .request_message_schema_reference
-                .map(MessageSchemaReference::into),
+                .map(Into::into),
             response_message_schema_reference: value
                 .response_message_schema_reference
-                .map(MessageSchemaReference::into),
+                .map(Into::into),
         }
     }
 }
@@ -436,8 +431,8 @@ impl From<base_client_gen::Asset> for Asset {
     fn from(value: base_client_gen::Asset) -> Self {
         Asset {
             name: value.name,
-            specification: AssetSpecification::from(value.specification),
-            status: value.status.map(AssetStatus::from),
+            specification: value.specification.into(),
+            status: value.status.map(Into::into),
         }
     }
 }
@@ -445,14 +440,11 @@ impl From<base_client_gen::Asset> for Asset {
 impl From<base_client_gen::AssetStatus> for AssetStatus {
     fn from(value: base_client_gen::AssetStatus) -> Self {
         AssetStatus {
-            config: value.config.map(StatusConfig::from),
-            datasets: option_vec_from(value.datasets, DatasetEventStreamStatus::from),
-            events: option_vec_from(value.events, DatasetEventStreamStatus::from),
-            management_groups: option_vec_from(
-                value.management_groups,
-                ManagementGroupStatus::from,
-            ),
-            streams: option_vec_from(value.streams, DatasetEventStreamStatus::from),
+            config: value.config.map(Into::into),
+            datasets: value.datasets.option_vec_into(),
+            events: value.events.option_vec_into(),
+            management_groups: value.management_groups.option_vec_into(),
+            streams: value.streams.option_vec_into(),
         }
     }
 }
@@ -462,7 +454,7 @@ impl From<base_client_gen::AssetManagementGroupStatusSchemaElementSchema>
 {
     fn from(value: base_client_gen::AssetManagementGroupStatusSchemaElementSchema) -> Self {
         ManagementGroupStatus {
-            actions: option_vec_from(value.actions, ActionStatus::from),
+            actions: value.actions.option_vec_into(),
             name: value.name,
         }
     }
@@ -471,14 +463,14 @@ impl From<base_client_gen::AssetManagementGroupStatusSchemaElementSchema>
 impl From<base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema> for ActionStatus {
     fn from(value: base_client_gen::AssetManagementGroupActionStatusSchemaElementSchema) -> Self {
         ActionStatus {
-            error: value.error.map(ConfigError::from),
+            error: value.error.map(Into::into),
             name: value.name,
             request_message_schema_reference: value
                 .request_message_schema_reference
-                .map(MessageSchemaReference::from),
+                .map(Into::into),
             response_message_schema_reference: value
                 .response_message_schema_reference
-                .map(MessageSchemaReference::from),
+                .map(Into::into),
         }
     }
 }
@@ -487,10 +479,8 @@ impl From<base_client_gen::AssetDatasetEventStreamStatus> for DatasetEventStream
     fn from(value: base_client_gen::AssetDatasetEventStreamStatus) -> Self {
         DatasetEventStreamStatus {
             name: value.name,
-            message_schema_reference: value
-                .message_schema_reference
-                .map(MessageSchemaReference::from),
-            error: value.error.map(ConfigError::from),
+            message_schema_reference: value.message_schema_reference.map(Into::into),
+            error: value.error.map(Into::into),
         }
     }
 }
@@ -510,41 +500,44 @@ impl From<base_client_gen::AssetSpecificationSchema> for AssetSpecification {
         AssetSpecification {
             asset_type_refs: value.asset_type_refs.unwrap_or_default(),
             attributes: value.attributes.unwrap_or_default(),
-            datasets: vec_from_option_vec(value.datasets, Dataset::from),
+            datasets: value.datasets.option_vec_into().unwrap_or_default(),
             default_datasets_configuration: value.default_datasets_configuration,
-            default_datasets_destinations: vec_from_option_vec(
-                value.default_datasets_destinations,
-                DatasetDestination::from,
-            ),
+            default_datasets_destinations: value
+                .default_datasets_destinations
+                .option_vec_into()
+                .unwrap_or_default(),
             default_events_configuration: value.default_events_configuration,
-            default_events_destinations: vec_from_option_vec(
-                value.default_events_destinations,
-                EventStreamDestination::from,
-            ),
+            default_events_destinations: value
+                .default_events_destinations
+                .option_vec_into()
+                .unwrap_or_default(),
             default_management_groups_configuration: value.default_management_groups_configuration,
             default_streams_configuration: value.default_streams_configuration,
-            default_streams_destinations: vec_from_option_vec(
-                value.default_streams_destinations,
-                EventStreamDestination::from,
-            ),
+            default_streams_destinations: value
+                .default_streams_destinations
+                .option_vec_into()
+                .unwrap_or_default(),
             description: value.description,
-            device_ref: DeviceRef::from(value.device_ref),
+            device_ref: value.device_ref.into(),
             discovered_asset_refs: value.discovered_asset_refs.unwrap_or_default(),
             display_name: value.display_name,
             documentation_uri: value.documentation_uri,
             enabled: value.enabled,
-            events: vec_from_option_vec(value.events, Event::from),
+            events: value.events.option_vec_into().unwrap_or_default(),
             external_asset_id: value.external_asset_id,
             hardware_revision: value.hardware_revision,
             last_transition_time: value.last_transition_time,
-            management_groups: vec_from_option_vec(value.management_groups, ManagementGroup::from),
+            management_groups: value
+                .management_groups
+                .option_vec_into()
+                .unwrap_or_default(),
             manufacturer: value.manufacturer,
             manufacturer_uri: value.manufacturer_uri,
             model: value.model,
             product_code: value.product_code,
             serial_number: value.serial_number,
             software_revision: value.software_revision,
-            streams: vec_from_option_vec(value.streams, Stream::from),
+            streams: value.streams.option_vec_into().unwrap_or_default(),
             uuid: value.uuid,
             version: value.version,
         }
@@ -555,9 +548,9 @@ impl From<base_client_gen::AssetDatasetSchemaElementSchema> for Dataset {
     fn from(value: base_client_gen::AssetDatasetSchemaElementSchema) -> Self {
         Dataset {
             dataset_configuration: value.dataset_configuration,
-            data_points: vec_from_option_vec(value.data_points, DatasetDataPoint::from),
+            data_points: value.data_points.option_vec_into().unwrap_or_default(),
             data_source: value.data_source,
-            destinations: vec_from_option_vec(value.destinations, DatasetDestination::from),
+            destinations: value.destinations.option_vec_into().unwrap_or_default(),
             name: value.name,
             type_ref: value.type_ref,
         }
@@ -596,8 +589,8 @@ impl From<base_client_gen::AssetDeviceRef> for DeviceRef {
 impl From<base_client_gen::AssetEventSchemaElementSchema> for Event {
     fn from(value: base_client_gen::AssetEventSchemaElementSchema) -> Self {
         Event {
-            data_points: vec_from_option_vec(value.data_points, EventDataPoint::from),
-            destinations: vec_from_option_vec(value.destinations, EventStreamDestination::from),
+            data_points: value.data_points.option_vec_into().unwrap_or_default(),
+            destinations: value.destinations.option_vec_into().unwrap_or_default(),
             event_configuration: value.event_configuration,
             event_notifier: value.event_notifier,
             name: value.name,
@@ -628,7 +621,7 @@ impl From<base_client_gen::AssetEventDataPointSchemaElementSchema> for EventData
 impl From<base_client_gen::AssetManagementGroupSchemaElementSchema> for ManagementGroup {
     fn from(value: base_client_gen::AssetManagementGroupSchemaElementSchema) -> Self {
         ManagementGroup {
-            actions: vec_from_option_vec(value.actions, ManagementGroupAction::from),
+            actions: value.actions.option_vec_into().unwrap_or_default(),
             default_time_out_in_seconds: value.default_time_out_in_seconds,
             default_topic: value.default_topic,
             management_group_configuration: value.management_group_configuration,
@@ -666,7 +659,7 @@ impl From<base_client_gen::AssetManagementGroupActionType> for ActionType {
 impl From<base_client_gen::AssetStreamSchemaElementSchema> for Stream {
     fn from(value: base_client_gen::AssetStreamSchemaElementSchema) -> Self {
         Stream {
-            destinations: vec_from_option_vec(value.destinations, EventStreamDestination::from),
+            destinations: value.destinations.option_vec_into().unwrap_or_default(),
             name: value.name,
             stream_configuration: value.stream_configuration,
             type_ref: value.type_ref,
@@ -679,8 +672,8 @@ impl From<base_client_gen::DestinationConfiguration> for DestinationConfiguratio
         DestinationConfiguration {
             key: value.key,
             path: value.path,
-            qos: value.qos.map(MqttQoS::from),
-            retain: value.retain.map(Retain::from),
+            qos: value.qos.map(Into::into),
+            retain: value.retain.map(Into::into),
             topic: value.topic,
             ttl: value.ttl,
         }
