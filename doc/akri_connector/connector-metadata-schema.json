@@ -196,7 +196,7 @@
       "properties": {
         "requests": {
           "type": "object",
-          "description": "",
+          "description": "The lower bounds for resources that should be allocated to a connector pod",
           "properties": {
             "cpu": {
               "type": "string",
@@ -210,7 +210,7 @@
         },
         "limits": {
           "type": "object",
-          "description": "",
+          "description": "The upper bounds for resources that can be allocated to a connector pod",
           "properties": {
             "cpu": {
               "type": "string",
