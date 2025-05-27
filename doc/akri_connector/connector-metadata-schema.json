@@ -196,7 +196,7 @@
     },
     "resourceRequirements": {
       "type": "object",
-      "description": "The minimal resource requirements to run this connector",
+      "description": "The resource requirements to run this connector (per pod)",
       "properties": {
         "requests": {
           "type": "object",
