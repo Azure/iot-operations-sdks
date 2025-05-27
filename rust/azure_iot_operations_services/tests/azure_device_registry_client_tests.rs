@@ -14,7 +14,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
-    self, AssetStatus, ConfigError, DeviceStatus, StatusConfig,
+    self, AssetStatus, DeviceStatus, StatusConfig,
 };
 
 const DEVICE1: &str = "my-thermostat";
