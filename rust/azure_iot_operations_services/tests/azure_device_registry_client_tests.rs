@@ -175,7 +175,16 @@ async fn update_device_plus_endpoint_status() {
                 updated_response.specification.attributes["deviceType"],
                 TYPE
             );
-            assert_eq!(updated_response.status.unwrap().config.version, new_version);
+            assert_eq!(
+                updated_response
+                    .status
+                    .unwrap()
+                    .config
+                    .unwrap()
+                    .version
+                    .unwrap(),
+                new_version
+            );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -280,7 +289,16 @@ async fn update_asset_status() {
                 ASSET_NAME1
             );
             assert_eq!(updated_response.specification.attributes["assetType"], TYPE);
-            assert_eq!(updated_response.status.unwrap().config.version, new_version);
+            assert_eq!(
+                updated_response
+                    .status
+                    .unwrap()
+                    .config
+                    .unwrap()
+                    .version
+                    .unwrap(),
+                new_version
+            );
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
