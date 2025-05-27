@@ -673,7 +673,7 @@ impl AssetClient {
                         adr_asset_status,
                         &connector_context,
                         &asset_ref,
-                        status.clone(),
+                        &status,
                         "AssetClient::new default_dataset_destination",
                     )
                     .await;
@@ -783,7 +783,7 @@ impl AssetClient {
                 adr_asset_status,
                 &connector_context,
                 &asset_ref,
-                status.clone(),
+                &status,
                 "AssetClient::new dataset_destination(s)",
             )
             .await;
@@ -822,7 +822,7 @@ impl AssetClient {
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
-            self.status.clone(),
+            &self.status,
             "AssetClient::report_status",
         )
         .await;
@@ -905,7 +905,7 @@ impl AssetClient {
                             adr_asset_status,
                             &self.connector_context,
                             &self.asset_ref,
-                            self.status.clone(),
+                            &self.status,
                             "AssetClient::recv_update default_dataset_destination",
                         )
                         .await;
@@ -1003,7 +1003,7 @@ impl AssetClient {
                                 adr_asset_status,
                                 &self.connector_context,
                                 &self.asset_ref,
-                                self.status.clone(),
+                                &self.status,
                                 "AssetClient::recv_update dataset_destination",
                             )
                             .await;
@@ -1100,7 +1100,7 @@ impl AssetClient {
         adr_asset_status: azure_device_registry::AssetStatus,
         connector_context: &ConnectorContext,
         asset_ref: &AssetRef,
-        asset_status_ref: Arc<RwLock<Option<AssetStatus>>>, // TODO: change this back to reference
+        asset_status_ref: &Arc<RwLock<Option<AssetStatus>>>,
         log_identifier: &str,
     ) {
         // send status update to the service
@@ -1317,7 +1317,7 @@ impl DatasetClient {
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
-            self.asset_status.clone(),
+            &self.asset_status,
             "DatasetClient::report_status",
         )
         .await;
@@ -1439,7 +1439,7 @@ impl DatasetClient {
             adr_asset_status,
             &self.connector_context,
             &self.asset_ref,
-            self.asset_status.clone(),
+            &self.asset_status,
             "DatasetClient::report_message_schema",
         )
         .await;
@@ -1475,7 +1475,7 @@ impl DatasetClient {
             ) {
                 Ok(forwarder) => forwarder,
                 Err(e) => {
-                    // TODO: delete the dataset?
+                    // TODO: we could delete the dataset here, but the current implementation would just wait for a new valid definition, which seems okay for now?
                     log::error!(
                         "Ignoring update. Invalid dataset destination for updated dataset: {} {e:?}",
                         updated_dataset.name.clone()
