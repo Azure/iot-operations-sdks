@@ -120,7 +120,7 @@ impl From<base_client_gen::Device> for Device {
         Device {
             name: value.name,
             specification: value.specification.into(),
-            status: value.status.map(DeviceStatus::from),
+            status: value.status.map(Into::into),
         }
     }
 }
@@ -130,11 +130,7 @@ impl From<base_client_gen::DeviceUpdateEventTelemetry> for Device {
         Device {
             name: value.device_update_event.device.name,
             specification: value.device_update_event.device.specification.into(),
-            status: value
-                .device_update_event
-                .device
-                .status
-                .map(DeviceStatus::from),
+            status: value.device_update_event.device.status.map(Into::into),
         }
     }
 }
@@ -145,10 +141,7 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
             attributes: value.attributes.unwrap_or_default(),
             discovered_device_ref: value.discovered_device_ref,
             enabled: value.enabled,
-            endpoints: value
-                .endpoints
-                .map(DeviceEndpoints::from)
-                .unwrap_or_default(),
+            endpoints: value.endpoints.map(Into::into).unwrap_or_default(),
             external_device_id: value.external_device_id,
             last_transition_time: value.last_transition_time,
             manufacturer: value.manufacturer,
@@ -175,12 +168,12 @@ impl From<base_client_gen::DeviceEndpointSchema> for DeviceEndpoints {
 
         if let Some(outbound) = value.outbound {
             for (k, v) in outbound.assigned {
-                outbound_assigned.insert(k, OutboundEndpoint::from(v));
+                outbound_assigned.insert(k, v.into());
             }
 
             if let Some(map) = outbound.unassigned {
                 for (k, v) in map {
-                    outbound_unassigned.insert(k, OutboundEndpoint::from(v));
+                    outbound_unassigned.insert(k, v.into());
                 }
             }
         }
@@ -206,11 +199,8 @@ impl From<base_client_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
         InboundEndpoint {
             additional_configuration: value.additional_configuration,
             address: value.address,
-            authentication: value
-                .authentication
-                .map(Authentication::from)
-                .unwrap_or_default(),
-            trust_settings: value.trust_settings.map(TrustSettings::from),
+            authentication: value.authentication.map(Into::into).unwrap_or_default(),
+            trust_settings: value.trust_settings.map(Into::into),
             endpoint_type: value.endpoint_type,
             version: value.version,
         }
