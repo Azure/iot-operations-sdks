@@ -260,7 +260,7 @@
             },
             "assets": {
               "type": "array",
-              "description": "The array of assets within an inbound endpoint",
+              "description": "The array of assets that reference this inbound endpoint",
               "items": [
                 {
                   "type": "object",
