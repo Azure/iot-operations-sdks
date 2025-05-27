@@ -14,8 +14,9 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
-    self, AssetStatus, DeviceStatus, StatusConfig,
+    self, AssetStatus, ConfigError, DeviceStatus, StatusConfig,
 };
+use uuid::Uuid;
 
 const DEVICE1: &str = "my-thermostat";
 #[allow(dead_code)]
@@ -396,14 +397,11 @@ async fn observe_device_update_notifications() {
                     DeviceStatus {
                         config: Some(StatusConfig {
                             version: response.specification.version,
-                            // error: Some(ConfigError {
-                            //     message: format!(
-                            //         "test error with random uuid {}".to_string(),
-                            //         Uuid::new_v4().to_string()
-                            //     ),
-                            //     ..ConfigError::default()
-                            // }),
-                            last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+                            error: Some(ConfigError {
+                                message: Some(format!("Random test error {}", Uuid::new_v4())),
+                                ..ConfigError::default()
+                            }),
+                            // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
                             ..StatusConfig::default()
                         }),
                         endpoints: endpoint_statuses,
