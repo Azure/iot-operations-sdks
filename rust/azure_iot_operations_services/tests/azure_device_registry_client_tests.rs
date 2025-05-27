@@ -336,7 +336,7 @@ async fn observe_device_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Observation response: {observation:?}",);
+            log::info!("[{log_identifier}] Device update observation: {observation:?}",);
             let receive_notifications_task = tokio::task::spawn({
                 async move {
                     log::info!("[{log_identifier}] Device update notification receiver started.");
@@ -383,15 +383,13 @@ async fn observe_device_update_notifications() {
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Get device Reponse: {response:?}",);
+            log::info!("[{log_identifier}] Get device to update the observation: {response:?}",);
             let mut endpoint_statuses = HashMap::new();
             for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
                 if endpoint.endpoint_type == ENDPOINT_TYPE {
                     log::info!("Endpoint '{endpoint_name}' accepted");
-                    // adding endpoint to status hashmap with None ConfigError to show that we accept the endpoint with no errors
                     endpoint_statuses.insert(endpoint_name, None);
                 } else {
-                    // if we don't support the endpoint type, then we can report that error
                     log::warn!(
                         "Endpoint '{endpoint_name}' not accepted. Endpoint type '{}' not supported.",
                         endpoint.endpoint_type
@@ -423,7 +421,7 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Device After Observation: {response_during_obs:?}",
+                "[{log_identifier}] Updated device response after observation: {response_during_obs:?}",
             );
 
             azure_device_registry_client
@@ -434,7 +432,7 @@ async fn observe_device_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Unobservation device Response: {:?}", ());
+            log::info!("[{log_identifier}] Device update unobservation: {:?}", ());
 
             let response_after_unobs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
@@ -454,7 +452,7 @@ async fn observe_device_update_notifications() {
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
 
-            // tokio::time::sleep(Duration::from_secs(1)).await;
+            tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -591,7 +589,7 @@ async fn observe_asset_update_notifications() {
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
 
-            // tokio::time::sleep(Duration::from_secs(1)).await;
+            tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
