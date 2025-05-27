@@ -194,14 +194,33 @@
       "type": "object",
       "description": "The minimal resource requirements to run this connector",
       "properties": {
-        "cpu": {
-          "type": "string"
+        "requests": {
+          "type": "object",
+          "description": "",
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
+            },
+            "memory": {
+              "type": "string",
+              "description" : "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
+            }
+          }
         },
-        "memory": {
-          "type": "string"
-        },
-        "storage": {
-          "type": "string"
+        "limits": {
+          "type": "object",
+          "description": "",
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
+            },
+            "memory": {
+              "type": "string",
+              "description" : "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
+            }
+          }
         }
       }
     },

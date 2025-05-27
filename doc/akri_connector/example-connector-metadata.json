@@ -29,9 +29,14 @@
     "minimumKubernetesVersion": "1.23.0"
   },
   "resourceRequirements": {
-    "cpu": "500m",
-    "memory": "256Mi",
-    "storage": "5Gi"
+    "requests" : {
+      "cpu": "500m",
+      "memory": "256Mi"
+    },
+    "limits" : {
+      "cpu": "1000m",
+      "memory": "512Mi"
+    }
   },
   "aioMetadata": {
     "minVersion": "1.0.0",
