@@ -28,11 +28,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\..\eng\dtdl\aep-type-based-operations.json">
-      <Link>AssetAndDeviceRegistry\aep-type-based-operations.json</Link>
+    <Content Include="..\..\..\eng\dtdl\adr-base-service.json">
+      <Link>AssetAndDeviceRegistry\adr-base-service.json</Link>
     </Content>
-    <Content Include="..\..\..\eng\dtdl\device-name-based-operations.json">
-      <Link>AssetAndDeviceRegistry\device-name-based-operations.json</Link>
+    <Content Include="..\..\..\eng\dtdl\device-discovery-service.json">
+      <Link>AssetAndDeviceRegistry\device-discovery-service.json</Link>
     </Content>
   </ItemGroup>
 </Project>

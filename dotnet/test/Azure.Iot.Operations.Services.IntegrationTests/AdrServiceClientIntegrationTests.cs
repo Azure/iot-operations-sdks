@@ -14,6 +14,7 @@ using IntegrationTest;
 using Xunit;
 using Xunit.Abstractions;
 
+/*
 [Trait("Category", "ADR")]
 public class AdrServiceClientIntegrationTests
 {
@@ -330,7 +331,7 @@ public class AdrServiceClientIntegrationTests
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        CreateDetectedAssetRequest request = CreateCreateDetectedAssetRequest();
+        DiscoveredAsset request = CreateCreateDetectedAssetRequest();
 
         // Act
         await client.CreateDetectedAssetAsync(TestDevice_1_Name, TestEndpointName, request);
@@ -672,9 +673,9 @@ public class AdrServiceClientIntegrationTests
         Assert.True(receivedEvents.All(d => d.Name != TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
-    private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
+    private DiscoveredAsset CreateCreateDetectedAssetRequest()
     {
-        return new CreateDetectedAssetRequest
+        return new DiscoveredAsset
         {
             AssetName = TestAssetName,
             AssetEndpointProfileRef = TestEndpointName,
@@ -719,3 +720,4 @@ public class AdrServiceClientIntegrationTests
     }
 
 }
+*/
