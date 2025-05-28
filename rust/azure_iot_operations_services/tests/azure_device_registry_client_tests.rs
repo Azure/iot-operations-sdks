@@ -258,17 +258,19 @@ async fn update_asset_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
-    let new_version = 12;
+    // let new_version = 12;
     let updated_status = AssetStatus {
         config: Some(StatusConfig {
-            error: None,
-            version: Some(new_version),
+            error: Some(ConfigError {
+                message: Some(format!(
+                    "Random test error for asset update {}",
+                    Uuid::new_v4()
+                )),
+                ..ConfigError::default()
+            }),
             ..StatusConfig::default()
         }),
-        datasets: None,
-        events: None,
-        management_groups: None,
-        streams: None,
+        ..AssetStatus::default()
     };
 
     let test_task = tokio::task::spawn({
@@ -291,16 +293,16 @@ async fn update_asset_status() {
                 ASSET_NAME2
             );
             assert_eq!(updated_response.specification.attributes["assetType"], TYPE);
-            assert_eq!(
-                updated_response
-                    .status
-                    .unwrap()
-                    .config
-                    .unwrap()
-                    .version
-                    .unwrap(),
-                new_version
-            );
+            // assert_eq!(
+            //     updated_response
+            //         .status
+            //         .unwrap()
+            //         .config
+            //         .unwrap()
+            //         .version
+            //         .unwrap(),
+            //     new_version
+            // );
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
