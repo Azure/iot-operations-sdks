@@ -49,6 +49,25 @@ pub struct DeviceSpecification {
     pub version: Option<u64>,
 }
 
+#[derive(Debug, Clone)]
+pub struct DiscoveredDeviceSpecification {
+    /// The 'attributes' Field.
+    pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
+    /// The 'endpoints' Field.
+    pub endpoints: DeviceEndpoints,     // TODO: custom type
+    /// The 'externalDeviceId' Field.
+    pub external_device_id: Option<String>,
+    /// The 'manufacturer' Field.
+    pub manufacturer: Option<String>,
+    /// The 'model' Field.
+    pub model: Option<String>,
+    /// The 'operatingSystem' Field.
+    pub operating_system: Option<String>,
+    /// The 'operatingSystemVersion' Field.
+    pub operating_system_version: Option<String>,
+}
+
+
 #[derive(Debug, Clone, Default)]
 /// Represents the endpoints of a device in the Azure Device Registry service.
 pub struct DeviceEndpoints {
@@ -59,6 +78,8 @@ pub struct DeviceEndpoints {
     /// The 'outboundUnassigned' Field.
     pub outbound_unassigned: HashMap<String, OutboundEndpoint>,
 }
+
+
 
 /// Represents an outbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
@@ -114,6 +135,7 @@ pub enum Authentication {
         username_secret_name: String,
     },
 }
+
 // ~~ From impls ~~
 impl From<base_client_gen::Device> for Device {
     fn from(value: base_client_gen::Device) -> Self {
