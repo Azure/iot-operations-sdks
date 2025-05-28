@@ -24,6 +24,7 @@ const ENDPOINT1: &str = "my-rest-endpoint";
 const ENDPOINT2: &str = "my-coap-endpoint";
 const ASSET_NAME1: &str = "my-rest-thermostat-asset";
 const ASSET_NAME2: &str = " my-coap-thermostat-asset";
+#[allow(dead_code)]
 const ENDPOINT_TYPE: &str = "rest-thermostat";
 const TYPE: &str = "thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
