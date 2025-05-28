@@ -9,7 +9,6 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
 using DeviceStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DeviceStatus;
-using DiscoveredAsset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DiscoveredAsset;
 using NotificationResponse = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.NotificationResponse;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
