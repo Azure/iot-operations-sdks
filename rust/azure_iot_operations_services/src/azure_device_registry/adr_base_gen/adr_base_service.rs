@@ -56,6 +56,7 @@ mod discovered_asset_event_data_point;
 mod discovered_asset_management_group;
 mod discovered_asset_management_group_action;
 mod discovered_asset_response;
+mod discovered_asset_response_schema;
 mod discovered_asset_response_specification_schema;
 mod discovered_asset_stream;
 mod event_stream_destination;
@@ -165,6 +166,7 @@ pub mod client {
     pub use super::discovered_asset_management_group::*;
     pub use super::discovered_asset_management_group_action::*;
     pub use super::discovered_asset_response::*;
+    pub use super::discovered_asset_response_schema::*;
     pub use super::discovered_asset_response_specification_schema::*;
     pub use super::discovered_asset_stream::*;
     pub use super::event_stream_destination::*;

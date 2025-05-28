@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::akri_service_error::AkriServiceError;
-use super::discovered_device_response::DiscoveredDeviceResponse;
+use super::discovered_device_response_schema::DiscoveredDeviceResponseSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceResponseSchema {
@@ -25,5 +25,5 @@ pub struct CreateOrUpdateDiscoveredDeviceResponseSchema {
     #[serde(rename = "discoveredDeviceResponse")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub discovered_device_response: Option<DiscoveredDeviceResponse>,
+    pub discovered_device_response: Option<DiscoveredDeviceResponseSchema>,
 }

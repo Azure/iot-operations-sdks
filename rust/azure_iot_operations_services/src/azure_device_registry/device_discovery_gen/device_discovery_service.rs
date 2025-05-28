@@ -16,6 +16,7 @@ mod discovered_device_endpoint;
 mod discovered_device_inbound_endpoint_schema;
 mod discovered_device_outbound_endpoints_schema;
 mod discovered_device_response;
+mod discovered_device_response_schema;
 mod spec_schema;
 
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
@@ -40,5 +41,6 @@ pub mod client {
     pub use super::discovered_device_inbound_endpoint_schema::*;
     pub use super::discovered_device_outbound_endpoints_schema::*;
     pub use super::discovered_device_response::*;
+    pub use super::discovered_device_response_schema::*;
     pub use super::spec_schema::*;
 }
