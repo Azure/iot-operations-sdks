@@ -4,20 +4,21 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+use azure_iot_operations_protocol::common::aio_protocol_error::{
+    AIOProtocolError,
+};
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::super::common_types::options::CommandInvokerOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 use super::update_asset_status_request_payload::UpdateAssetStatusRequestPayload;
 use super::update_asset_status_response_payload::UpdateAssetStatusResponsePayload;
+use super::MODEL_ID;
+use super::REQUEST_TOPIC_PATTERN;
+use super::super::common_types::options::CommandInvokerOptions;
 
 pub type UpdateAssetStatusRequest = rpc_command::invoker::Request<UpdateAssetStatusRequestPayload>;
-pub type UpdateAssetStatusResponse =
-    rpc_command::invoker::Response<UpdateAssetStatusResponsePayload>;
+pub type UpdateAssetStatusResponse = rpc_command::invoker::Response<UpdateAssetStatusResponsePayload>;
 pub type UpdateAssetStatusRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
@@ -66,10 +67,8 @@ impl UpdateAssetStatusRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)] // The panic is not possible
-    pub fn build(
-        &mut self,
-    ) -> Result<UpdateAssetStatusRequest, UpdateAssetStatusRequestBuilderError> {
+    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
+    pub fn build(&mut self) -> Result<UpdateAssetStatusRequest, UpdateAssetStatusRequestBuilderError> {
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -93,11 +92,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        options: &CommandInvokerOptions,
-    ) -> Self {
+    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -111,10 +106,7 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert(
-            "invokerClientId".to_string(),
-            client.client_id().to_string(),
-        );
+        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
         topic_token_map.insert("commandName".to_string(), "updateAssetStatus".to_string());
 
         let invoker_options = invoker_options_builder

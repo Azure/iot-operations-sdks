@@ -4,30 +4,27 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+use azure_iot_operations_protocol::common::aio_protocol_error::{
+    AIOProtocolError,
+};
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::super::common_types::options::CommandInvokerOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 use super::set_notification_preference_for_device_updates_request_payload::SetNotificationPreferenceForDeviceUpdatesRequestPayload;
 use super::set_notification_preference_for_device_updates_response_payload::SetNotificationPreferenceForDeviceUpdatesResponsePayload;
+use super::MODEL_ID;
+use super::REQUEST_TOPIC_PATTERN;
+use super::super::common_types::options::CommandInvokerOptions;
 
-pub type SetNotificationPreferenceForDeviceUpdatesRequest =
-    rpc_command::invoker::Request<SetNotificationPreferenceForDeviceUpdatesRequestPayload>;
-pub type SetNotificationPreferenceForDeviceUpdatesResponse =
-    rpc_command::invoker::Response<SetNotificationPreferenceForDeviceUpdatesResponsePayload>;
-pub type SetNotificationPreferenceForDeviceUpdatesRequestBuilderError =
-    rpc_command::invoker::RequestBuilderError;
+pub type SetNotificationPreferenceForDeviceUpdatesRequest = rpc_command::invoker::Request<SetNotificationPreferenceForDeviceUpdatesRequestPayload>;
+pub type SetNotificationPreferenceForDeviceUpdatesResponse = rpc_command::invoker::Response<SetNotificationPreferenceForDeviceUpdatesResponsePayload>;
+pub type SetNotificationPreferenceForDeviceUpdatesRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
 #[derive(Default)]
 /// Builder for [`SetNotificationPreferenceForDeviceUpdatesRequest`]
 pub struct SetNotificationPreferenceForDeviceUpdatesRequestBuilder {
-    inner_builder: rpc_command::invoker::RequestBuilder<
-        SetNotificationPreferenceForDeviceUpdatesRequestPayload,
-    >,
+    inner_builder: rpc_command::invoker::RequestBuilder<SetNotificationPreferenceForDeviceUpdatesRequestPayload>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -70,13 +67,8 @@ impl SetNotificationPreferenceForDeviceUpdatesRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)] // The panic is not possible
-    pub fn build(
-        &mut self,
-    ) -> Result<
-        SetNotificationPreferenceForDeviceUpdatesRequest,
-        SetNotificationPreferenceForDeviceUpdatesRequestBuilderError,
-    > {
+    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
+    pub fn build(&mut self) -> Result<SetNotificationPreferenceForDeviceUpdatesRequest, SetNotificationPreferenceForDeviceUpdatesRequestBuilderError> {
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -85,11 +77,7 @@ impl SetNotificationPreferenceForDeviceUpdatesRequestBuilder {
 
 /// Command Invoker for `setNotificationPreferenceForDeviceUpdates`
 pub struct SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>(
-    rpc_command::Invoker<
-        SetNotificationPreferenceForDeviceUpdatesRequestPayload,
-        SetNotificationPreferenceForDeviceUpdatesResponsePayload,
-        C,
-    >,
+    rpc_command::Invoker<SetNotificationPreferenceForDeviceUpdatesRequestPayload, SetNotificationPreferenceForDeviceUpdatesResponsePayload, C>,
 )
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
@@ -104,11 +92,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        options: &CommandInvokerOptions,
-    ) -> Self {
+    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -122,14 +106,8 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert(
-            "invokerClientId".to_string(),
-            client.client_id().to_string(),
-        );
-        topic_token_map.insert(
-            "commandName".to_string(),
-            "setNotificationPreferenceForDeviceUpdates".to_string(),
-        );
+        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
+        topic_token_map.insert("commandName".to_string(), "setNotificationPreferenceForDeviceUpdates".to_string());
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)

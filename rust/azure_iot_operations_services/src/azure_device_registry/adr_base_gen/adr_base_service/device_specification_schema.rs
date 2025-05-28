@@ -9,8 +9,8 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::device_endpoint_schema::DeviceEndpointSchema;
+use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceSpecificationSchema {
@@ -45,7 +45,7 @@ pub struct DeviceSpecificationSchema {
     #[serde(rename = "lastTransitionTime")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub last_transition_time: Option<String>,
+    pub last_transition_time: Option<DateTime<Utc>>,
 
     /// The 'manufacturer' Field.
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -41,7 +41,21 @@
             {
               "@type": [ "Field", "NormalResult" ],
               "name": "discoveredDeviceResponse",
-              "schema": "dtmi:com:microsoft:akri:DiscoveredDeviceResponse;1"
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "@type": [ "Field", "Required" ],
+                    "name": "discoveryId",
+                    "schema": "string"
+                  },
+                  {
+                    "@type": [ "Field", "Required" ],
+                    "name": "version",
+                    "schema": "unsignedLong"
+                  }
+                ]
+              }
             },
             {
               "@type": [ "Field", "ErrorResult" ],
@@ -199,81 +213,6 @@
           "@type": "Field",
           "name": "endpointType",
           "schema": "string"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceResponse;1",
-      "@type": "Object",
-      "fields": [
-        {
-          "@type": "Field",
-          "name": "name",
-          "schema": "string"
-        },
-        {
-          "@type": "Field",
-          "name": "spec",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": "Field",
-                "name": "attributes",
-                "schema": {
-                  "@type": "Map",
-                  "mapKey": {
-                    "name": "attributeKey",
-                    "schema": "string"
-                  },
-                  "mapValue": {
-                    "name": "attributeValue",
-                    "schema": "string"
-                  }
-                }
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "discoveryId",
-                "schema": "string"
-              },
-              {
-                "@type": "Field",
-                "name": "endpoints",
-                "schema": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoint;1"
-              },
-              {
-                "@type": "Field",
-                "name": "externalDeviceId",
-                "schema": "string"
-              },
-              {
-                "@type": "Field",
-                "name": "manufacturer",
-                "schema": "string"
-              },
-              {
-                "@type": "Field",
-                "name": "model",
-                "schema": "string"
-              },
-              {
-                "@type": "Field",
-                "name": "operatingSystem",
-                "schema": "string"
-              },
-              {
-                "@type": "Field",
-                "name": "operatingSystemVersion",
-                "schema": "string"
-              },
-              {
-                "@type": [ "Field", "Required" ],
-                "name": "version",
-                "schema": "unsignedLong"
-              }
-            ]
-          }
         }
       ]
     },

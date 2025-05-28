@@ -4,16 +4,18 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::ApplicationContext;
-use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
+use azure_iot_operations_protocol::common::aio_protocol_error::{
+    AIOProtocolError,
+};
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::super::common_types::options::CommandInvokerOptions;
-use super::MODEL_ID;
-use super::REQUEST_TOPIC_PATTERN;
 use super::get_asset_request_payload::GetAssetRequestPayload;
 use super::get_asset_response_payload::GetAssetResponsePayload;
+use super::MODEL_ID;
+use super::REQUEST_TOPIC_PATTERN;
+use super::super::common_types::options::CommandInvokerOptions;
 
 pub type GetAssetRequest = rpc_command::invoker::Request<GetAssetRequestPayload>;
 pub type GetAssetResponse = rpc_command::invoker::Response<GetAssetResponsePayload>;
@@ -65,7 +67,7 @@ impl GetAssetRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)] // The panic is not possible
+    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
     pub fn build(&mut self) -> Result<GetAssetRequest, GetAssetRequestBuilderError> {
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
@@ -90,11 +92,7 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        options: &CommandInvokerOptions,
-    ) -> Self {
+    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -108,10 +106,7 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert(
-            "invokerClientId".to_string(),
-            client.client_id().to_string(),
-        );
+        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
         topic_token_map.insert("commandName".to_string(), "getAsset".to_string());
 
         let invoker_options = invoker_options_builder

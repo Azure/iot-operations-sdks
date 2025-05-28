@@ -9,13 +9,14 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::config_error::ConfigError;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DeviceStatusInboundEndpointSchemaMapValueSchema {
-    /// The 'error' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub error: Option<ConfigError>,
+pub struct DiscoveredAssetResponseSchema {
+    /// The 'discoveryId' Field.
+    #[serde(rename = "discoveryId")]
+    pub discovery_id: String,
+
+    /// The 'version' Field.
+    pub version: u64,
 }

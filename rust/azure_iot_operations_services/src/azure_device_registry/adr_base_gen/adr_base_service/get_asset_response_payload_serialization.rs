@@ -10,8 +10,10 @@ use super::get_asset_response_payload::GetAssetResponsePayload;
 impl PayloadSerialize for GetAssetResponsePayload {
     type Error = serde_json::Error;
 
+
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
-        let payload = serde_json::to_vec(&self);
+let payload =         serde_json::to_vec(&self)
+;
         Ok(SerializedPayload {
             payload: payload?,
             content_type: "application/json".to_string(),
@@ -19,8 +21,7 @@ impl PayloadSerialize for GetAssetResponsePayload {
         })
     }
 
-    fn deserialize(
-        payload: &[u8],
+    fn deserialize(payload: &[u8],
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
@@ -31,6 +32,7 @@ impl PayloadSerialize for GetAssetResponsePayload {
                 )));
             }
         }
-        serde_json::from_slice(payload).map_err(DeserializationError::InvalidPayload)
+        serde_json::from_slice(payload)
+.map_err(DeserializationError::InvalidPayload)
     }
 }

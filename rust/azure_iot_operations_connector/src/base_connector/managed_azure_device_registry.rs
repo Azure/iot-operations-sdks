@@ -15,6 +15,7 @@ use azure_iot_operations_services::{
     },
     schema_registry,
 };
+use chrono::{DateTime, Utc};
 use tokio_retry2::{Retry, RetryError};
 
 use crate::{
@@ -1137,7 +1138,7 @@ pub struct DeviceSpecification {
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
-    pub last_transition_time: Option<String>, // TODO DateTime?
+    pub last_transition_time: Option<DateTime<Utc>>,
     /// The 'manufacturer' Field.
     pub manufacturer: Option<String>,
     /// The 'model' Field.

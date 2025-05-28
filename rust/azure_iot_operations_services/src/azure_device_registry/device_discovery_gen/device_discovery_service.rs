@@ -16,6 +16,7 @@ mod discovered_device_endpoint;
 mod discovered_device_inbound_endpoint_schema;
 mod discovered_device_outbound_endpoints_schema;
 mod discovered_device_response;
+mod discovered_device_response_schema;
 mod spec_schema;
 
 pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
@@ -23,8 +24,7 @@ pub use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolEr
 pub use super::common_types::options::{CommandInvokerOptions, TelemetryReceiverOptions};
 
 pub const MODEL_ID: &str = "dtmi:com:microsoft:akri:DeviceDiscoveryService;1";
-pub const REQUEST_TOPIC_PATTERN: &str =
-    "akri/discovery/resources/{ex:discoveryClientId}/{ex:inboundEndpointType}/{commandName}";
+pub const REQUEST_TOPIC_PATTERN: &str = "akri/discovery/resources/{ex:discoveryClientId}/{ex:inboundEndpointType}/{commandName}";
 
 pub mod client {
     pub use super::akri_service_error::*;
@@ -40,5 +40,6 @@ pub mod client {
     pub use super::discovered_device_inbound_endpoint_schema::*;
     pub use super::discovered_device_outbound_endpoints_schema::*;
     pub use super::discovered_device_response::*;
+    pub use super::discovered_device_response_schema::*;
     pub use super::spec_schema::*;
 }

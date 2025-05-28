@@ -9,12 +9,12 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
+use super::discovered_device_response_schema::DiscoveredDeviceResponseSchema;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::discovered_device_response::DiscoveredDeviceResponse;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceResponsePayload {
     /// The Command response argument.
     #[serde(rename = "discoveredDeviceResponse")]
-    pub discovered_device_response: DiscoveredDeviceResponse,
+    pub discovered_device_response: DiscoveredDeviceResponseSchema,
 }
