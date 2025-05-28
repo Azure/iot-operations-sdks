@@ -47,16 +47,14 @@ enum DeploymentArtifactErrorRepr {
 #[derive(Debug, Clone)]
 pub struct ConnectorConfiguration {
     /// Prefix of an MQTT client ID
-    pub client_id_prefix: String,
+    pub connector_id: String,
 
     // NOTE: The following three structs are the actual contents of the Connector Configuration
     // file mount.
     /// MQTT connection details
     pub mqtt_connection_configuration: MqttConnectionConfiguration,
-    /// Azure IoT Operations metadata
-    pub aio_metadata: Option<AioMetadata>, // TODO: Not option
     /// Diagnostics
-    pub diagnostics: Option<Diagnostics>, // TODO: not option
+    pub diagnostics: Option<Diagnostics>,
 
     // NOTE: the below mounts are combined here for convenience, although are technically different
     // mounts. This will change in the future as the specification is updated
@@ -75,8 +73,8 @@ impl ConnectorConfiguration {
     /// - Returns a `DeploymentArtifactError` if there is an error with one of the artifacts in the
     ///   Akri deployment.
     pub fn new_from_deployment() -> Result<Self, DeploymentArtifactError> {
-        let client_id_prefix = string_from_environment("CONNECTOR_CLIENT_ID_PREFIX")?.ok_or(
-            DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_CLIENT_ID_PREFIX".to_string()),
+        let connector_id = string_from_environment("CONNECTOR_ID")?.ok_or(
+            DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_ID".to_string()),
         )?;
         // MQTT Connection Configuration Filemount
         let cc_mount_pathbuf = PathBuf::from(
@@ -94,9 +92,7 @@ impl ConnectorConfiguration {
         let mqtt_connection_configuration =
             Self::extract_mqtt_connection_configuration(cc_mount_pathbuf.as_path())?;
         // TODO: re-enable this functionality when spec is finalized
-        //let aio_metadata = Self::extract_aio_metadata(&cc_mount_pathbuf)?;
         //let diagnostics = Self::extract_diagnostics(&cc_mount_pathbuf)?;
-        let aio_metadata = None;
         let diagnostics = None;
 
         let broker_ca_cert_trustbundle_path =
@@ -114,9 +110,8 @@ impl ConnectorConfiguration {
         let broker_sat_path = string_from_environment("BROKER_SAT_MOUNT_PATH")?;
 
         Ok(ConnectorConfiguration {
-            client_id_prefix,
+            connector_id,
             mqtt_connection_configuration,
-            aio_metadata,
             diagnostics,
             broker_ca_cert_trustbundle_path,
             broker_sat_path,
@@ -133,7 +128,7 @@ impl ConnectorConfiguration {
         &self,
         client_id_suffix: &str,
     ) -> Result<aio_mqtt::MqttConnectionSettings, String> {
-        let client_id = self.client_id_prefix.clone() + client_id_suffix;
+        let client_id = self.connector_id.clone() + client_id_suffix;
         let host_c = self.mqtt_connection_configuration.host.clone();
         let (hostname, tcp_port) = host_c.split_once(':').ok_or(format!(
             "'host' malformed. Expected format <hostname>:<port>. Found: {host_c}"
@@ -221,19 +216,6 @@ impl ConnectorConfiguration {
         Ok(m)
     }
 
-    fn extract_aio_metadata(mount_path: &Path) -> Result<AioMetadata, DeploymentArtifactErrorRepr> {
-        let aio_metadata_pathbuf = mount_path.join("AIO_METADATA");
-        if !aio_metadata_pathbuf.as_path().exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                aio_metadata_pathbuf.into_os_string(),
-            ))?;
-        }
-        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
-        let a: AioMetadata =
-            serde_json::from_str(&std::fs::read_to_string(&aio_metadata_pathbuf)?)?;
-        Ok(a)
-    }
-
     fn extract_diagnostics(mount_path: &Path) -> Result<Diagnostics, DeploymentArtifactErrorRepr> {
         let diagnostics_pathbuf = mount_path.join("DIAGNOSTICS");
         if !diagnostics_pathbuf.as_path().exists() {
@@ -288,17 +270,6 @@ pub enum TlsMode {
     Enabled,
     /// TLS is disabled
     Disabled,
-}
-
-/// Metadata regaridng Azure IoT Operations
-#[derive(Debug, Deserialize, Clone)]
-#[serde(rename_all = "camelCase")]
-pub struct AioMetadata {
-    // TODO: implement regex parsing
-    /// Minimum supported AIO version
-    pub aio_min_version: String,
-    /// Maximum supported AIO version
-    pub aio_max_version: String,
 }
 
 /// Diagnostic information
