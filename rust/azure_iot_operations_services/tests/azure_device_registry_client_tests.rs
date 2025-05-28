@@ -354,7 +354,7 @@ async fn observe_device_update_notifications() {
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
                         assert!(count < 2);
                     }
-                    // only the 2 expected notifications should occur
+                    // only the 1 expected notifications should occur
                     assert_eq!(count, 1);
                     log::info!("[{log_identifier}] Device update notification receiver closed");
                 }
@@ -436,7 +436,7 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated Response Device After Unobserve: {response_after_unobs:?}",
+                "[{log_identifier}] Updated device response after unobserve: {response_after_unobs:?}",
             );
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
@@ -480,7 +480,7 @@ async fn observe_asset_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Observation asset response: {observation:?}",);
+            log::info!("[{log_identifier}] Asset ipdate observation: {observation:?}",);
             let receive_notifications_task = tokio::task::spawn({
                 async move {
                     log::info!("[{log_identifier}] Asset update notification receiver started.");
@@ -525,34 +525,49 @@ async fn observe_asset_update_notifications() {
                     name: dataset.name,
                 });
             }
-            let status_to_be_updated = AssetStatus {
-                config: Some(StatusConfig {
-                    version: response.specification.version,
-                    error: Some(ConfigError {
-                        message: Some(format!(
-                            "Random test error for asset update {}",
-                            Uuid::new_v4()
-                        )),
-                        ..ConfigError::default()
-                    }),
-                    // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
-                    ..StatusConfig::default()
-                }),
-                datasets: Some(dataset_statuses),
-                ..AssetStatus::default()
-            };
-            let updated_response1 = azure_device_registry_client
+            // let status_to_be_updated = AssetStatus {
+            //     config: Some(StatusConfig {
+            //         version: response.specification.version,
+            //         error: Some(ConfigError {
+            //             message: Some(format!(
+            //                 "Random test error for asset update {}",
+            //                 Uuid::new_v4()
+            //             )),
+            //             ..ConfigError::default()
+            //         }),
+            //         // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+            //         ..StatusConfig::default()
+            //     }),
+            //     datasets: Some(dataset_statuses),
+            //     ..AssetStatus::default()
+            // };
+            let response_during_obs = azure_device_registry_client
                 .update_asset_status(
                     DEVICE1.to_string(),
                     ENDPOINT1.to_string(),
                     ASSET_NAME1.to_string(),
-                    status_to_be_updated,
+                    AssetStatus {
+                        config: Some(StatusConfig {
+                            version: response.specification.version,
+                            error: Some(ConfigError {
+                                message: Some(format!(
+                                    "Random test error for asset update {}",
+                                    Uuid::new_v4()
+                                )),
+                                ..ConfigError::default()
+                            }),
+                            // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
+                            ..StatusConfig::default()
+                        }),
+                        datasets: Some(dataset_statuses),
+                        ..AssetStatus::default()
+                    },
                     TIMEOUT,
                 )
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated asset response after observation: {updated_response1:?}",
+                "[{log_identifier}] Updated asset response after observation: {response_during_obs:?}",
             );
 
             azure_device_registry_client
@@ -564,9 +579,9 @@ async fn observe_asset_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Unobservation asset Response: {:?}", ());
+            log::info!("[{log_identifier}] Asset update unobservation: {:?}", ());
 
-            let updated_response2 = azure_device_registry_client
+            let response_after_unobs = azure_device_registry_client
                 .update_asset_status(
                     DEVICE1.to_string(),
                     ENDPOINT1.to_string(),
@@ -583,7 +598,7 @@ async fn observe_asset_update_notifications() {
                 .await
                 .unwrap();
             log::info!(
-                "[{log_identifier}] Updated asset response after unobserve: {updated_response2:?}",
+                "[{log_identifier}] Updated asset response after unobserve: {response_after_unobs:?}",
             );
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
