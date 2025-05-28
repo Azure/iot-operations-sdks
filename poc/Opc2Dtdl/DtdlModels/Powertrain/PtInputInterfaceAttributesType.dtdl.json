@@ -1,0 +1,83 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "InputCurrentMax",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputCurrentRated",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputFrequencyMax",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputFrequencyRangeRated",
+      "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputPowerMax",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputPowerRated",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputVoltageMax",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputVoltageRange",
+      "schema": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputVoltageRated",
+      "schema": "float",
+      "writable": false
+    }
+  ]
+}

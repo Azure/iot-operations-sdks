@@ -1,0 +1,118 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveCyclicJobValuesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AverageCycleTime",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoxBadPartsCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoxCycleCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoxGoodPartsCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoxPartsCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoxTestSamplesCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "JobBadPartsCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "JobCycleCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "JobGoodPartsCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "JobPartsCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "JobTestSamplesCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LastCycleTime",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LastPartId",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MachineCycleCounter",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "ResetAverageCycleTime"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetBoxCounters"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetJobCounters"
+    },
+    {
+      "@type": "Command",
+      "name": "StopAtCycleEnd"
+    }
+  ]
+}

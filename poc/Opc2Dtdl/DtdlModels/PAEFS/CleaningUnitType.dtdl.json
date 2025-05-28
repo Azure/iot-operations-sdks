@@ -1,0 +1,48 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PAEFS:CleaningUnitType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "RequestCleaning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Valve",
+      "target": "dtmi:opcua:PAEFS:CleaningUnitValveType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirConsumption",
+      "target": "dtmi:opcua:PAEFS:ConsumptionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleaningInterval",
+      "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FilterCleaningEffect",
+      "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineryBuildingBlocks"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReservoirPressure",
+      "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
+    }
+  ]
+}

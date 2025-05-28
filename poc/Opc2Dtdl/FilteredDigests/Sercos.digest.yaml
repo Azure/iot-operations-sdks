@@ -1,0 +1,93 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  SercosDeviceType:
+  - [ UAObjectType, sercos:1001, SercosDeviceType ]
+  - HasComponent:
+    - [ UAObject, sercos:5007, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, sercos:5001, ProfileSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, sercos:5002, ClassSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, sercos:5003, FunctionGroupSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ProfileSet:
+  - [ UAObjectType, sercos:6075, ProfileSet ]
+  - HasComponent:
+    - [ UAObject, sercos:6076, <SercosProfileIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, sercos:1002, SercosProfileType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  ClassSet:
+  - [ UAObjectType, sercos:6077, ClassSet ]
+  - HasComponent:
+    - [ UAObject, sercos:6078, <SercosClassIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, sercos:1003, SercosClassType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  FunctionGroupSet:
+  - [ UAObjectType, sercos:6079, FunctionGroupSet ]
+  - HasComponent:
+    - [ UAObject, sercos:6080, <FunctionGroupIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, sercos:1004, SercosFunctionGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]

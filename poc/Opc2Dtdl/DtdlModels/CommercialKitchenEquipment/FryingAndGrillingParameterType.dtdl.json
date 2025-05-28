@@ -1,0 +1,161 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:GrillingZoneStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "Standby",
+          "enumValue": 1
+        },
+        {
+          "name": "Idle",
+          "enumValue": 2
+        },
+        {
+          "name": "Grilling",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:PlatenPositionStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Home",
+          "enumValue": 0
+        },
+        {
+          "name": "Cooking",
+          "enumValue": 1
+        },
+        {
+          "name": "Idle",
+          "enumValue": 2
+        },
+        {
+          "name": "Open",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualGrillTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualGrillTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualGrillTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPlatenTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualPlatenTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualPlatenTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CurrentState",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:GrillingZoneStateEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "GrillingZoneName",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsWithPlaten",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PlatenPositionState",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryingAndGrillingParameterType:dataType:PlatenPositionStateEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RemainingProcessTime",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetGrillTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "SetGrillTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "SetGrillTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetPlatenTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "SetPlatenTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "SetPlatenTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTime",
+      "schema": "integer",
+      "writable": false
+    }
+  ]
+}

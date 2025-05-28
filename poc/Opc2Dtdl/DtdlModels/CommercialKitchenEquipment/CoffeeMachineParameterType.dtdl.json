@@ -1,0 +1,112 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType:dataType:CoffeeMachineModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "Standby",
+          "enumValue": 1
+        },
+        {
+          "name": "Error",
+          "enumValue": 2
+        },
+        {
+          "name": "Cleaning",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "BoilerPressureSteam",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoilerPressureWater",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoilerTempSteam",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BoilerTempWater",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CurrentState",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineParameterType:dataType:CoffeeMachineModeEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "GrinderRuntime_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "GrinderRuntime_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "GrinderRuntime_NoSchema",
+          "schema": "unsignedLong"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SystemClean",
+      "schema": "dateTime",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TotalBrew_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "TotalBrew_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "TotalBrew_NoSchema",
+          "schema": "unsignedLong"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TotalMix",
+      "schema": "unsignedLong",
+      "writable": false
+    }
+  ]
+}

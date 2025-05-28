@@ -1,0 +1,63 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PADIM:IAdministrationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PADIM:IAdministrationType:dataType:ResetModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Application",
+          "enumValue": 1
+        },
+        {
+          "name": "Communication",
+          "enumValue": 2712
+        },
+        {
+          "name": "Factory",
+          "enumValue": 2713
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DisplayLanguage",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DateOfLastChange",
+      "schema": "dateTime",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "FactoryReset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResetMode",
+              "schema": "dtmi:opcua:PADIM:IAdministrationType:dataType:ResetModeEnum;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

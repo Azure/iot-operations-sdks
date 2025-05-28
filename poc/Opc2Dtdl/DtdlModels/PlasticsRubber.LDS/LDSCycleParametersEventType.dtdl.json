@@ -1,0 +1,129 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_LDS:LDSCycleParametersEventType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AdditivesPressure",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "double"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AdditivesRatioActual",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "double"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AdditivesRatioTarget",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "double"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FilterPressurePrimary",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FilterPressureSecondary",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MixingPointPressureA",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MixingPointPressureB",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MixingPointPressureBlender",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MixingRatioActual",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MixingRatioTarget",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ResidualAmountA",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ResidualAmountB",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeA",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeAB",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeAdditives",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "double"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeB",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeTotal",
+      "schema": "double",
+      "writable": false
+    }
+  ]
+}

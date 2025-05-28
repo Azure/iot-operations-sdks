@@ -1,0 +1,141 @@
+DataTypes:
+- UADataType: [ ISA95:4772, DecimalString ]
+  Bases:
+  - String
+- UADataType: [ ISA95:4773, DateString ]
+  Bases:
+  - String
+- UADataType: [ ISA95:4774, TimeString ]
+  Bases:
+  - String
+- UADataType: [ ISA95:4775, DurationString ]
+  Bases:
+  - String
+- UADataType: [ ISA95:4929, NormalizedString ]
+  Bases:
+  - String
+- UADataType: [ ISA95:927, Decimal ]
+  Bases:
+  - ByteString
+- UADataType: [ ISA95:4776, CurrencyCode ]
+  Fields:
+    namespaceUri: [ String, 0 ]
+    unitId: [ Int32, 0 ]
+    charId: [ Byte, 1 ]
+    displayName: [ LocalizedText, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ ISA95:4796, CDTAmountDecimal ]
+  Bases:
+  - Decimal
+- UADataType: [ ISA95:4798, CDTBinaryObject ]
+  Bases:
+  - ByteString
+- UADataType: [ ISA95:4792, CDTCode ]
+  Bases:
+  - String
+- UADataType: [ ISA95:4803, CDTDateTime ]
+  Bases:
+  - UtcTime
+- UADataType: [ ISA95:4806, CDTGraphic ]
+  Bases:
+  - ByteString
+- UADataType: [ ISA95:4777, CDTIdentifier ]
+  Bases:
+  - String
+- UADataType: [ ISA95:4809, CDTMeasureDecimal ]
+  Bases:
+  - Decimal
+- UADataType: [ ISA95:4811, CDTMeasureDouble ]
+  Bases:
+  - Double
+- UADataType: [ ISA95:4813, CDTMeasureFloat ]
+  Bases:
+  - Float
+- UADataType: [ ISA95:4815, CDTMeasureInt16 ]
+  Bases:
+  - Int16
+- UADataType: [ ISA95:4817, CDTMeasureInt32 ]
+  Bases:
+  - Int32
+- UADataType: [ ISA95:4819, CDTMeasureInt64 ]
+  Bases:
+  - Int64
+- UADataType: [ ISA95:4821, CDTOrdinal ]
+  Bases:
+  - Int32
+- UADataType: [ ISA95:4822, CDTPicture ]
+  Bases:
+  - Image
+- UADataType: [ ISA95:4825, CDTRateDecimal ]
+  Bases:
+  - Decimal
+- UADataType: [ ISA95:4832, CDTRateDouble ]
+  Bases:
+  - Double
+- UADataType: [ ISA95:4839, CDTRateFloat ]
+  Bases:
+  - Float
+- UADataType: [ ISA95:4846, CDTRateInt32 ]
+  Bases:
+  - Int32
+- UADataType: [ ISA95:4853, CDTSound ]
+  Bases:
+  - ByteString
+- UADataType: [ ISA95:4856, CDTVideo ]
+  Bases:
+  - ByteString
+- UADataType: [ ISA95:4871, ISA95EquipmentElementLevelEnum ]
+  Enums:
+    Enterprise: 0
+    Site: 1
+    Area: 2
+    ProcessCell: 3
+    Unit: 4
+    ProductionLine: 5
+    WorkCell: 6
+    ProductionUnit: 7
+    StorageZone: 8
+    StorageUnit: 9
+    WorkCenter: 10
+    WorkUnit: 11
+    EquipmentModule: 12
+    ControlModule: 13
+    Other: 14
+- UADataType: [ ISA95:4862, ISA95TestResultMeasurementDataType ]
+  Fields:
+    Id: [ NodeId, 0 ]
+    TestResultDescription: [ LocalizedText, 0 ]
+    Date: [ DateTime, 0 ]
+    Result: [ null, 0 ]
+    ResultUnitOfMeasure: [ EUInformation, 0 ]
+    Expiration: [ DateTime, 0 ]
+- UADataType: [ ISA95:4873, ISA95TestResultDataType ]
+  Fields:
+    Id: [ NodeId, 0 ]
+    TestResultDescription: [ LocalizedText, 0 ]
+    Date: [ DateTime, 0 ]
+    Result: [ null, 0 ]
+    ResultUnitOfMeasure: [ String, 0 ]
+    Expiration: [ DateTime, 0 ]
+- UADataType: [ ISA95:4956, ISA95AssetAssignmentDataType ]
+  Fields:
+    Id: [ NodeId, 0 ]
+    AssinmentDescription: [ LocalizedText, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+
+DefinedTypes:
+
+  PhysicalAssetType:
+  - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
+  - HasComponent:
+    - [ UAVariable, ISA95:5308, AssetAssignment ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  EquipmentType:
+  - [ UAObjectType, ISA95:5040, EquipmentType ]
+  - HasComponent:
+    - [ UAVariable, ISA95:5328, AssetAssignment ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

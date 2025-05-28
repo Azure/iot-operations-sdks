@@ -1,0 +1,56 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "Load",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Name",
+              "schema": "string"
+            },
+            {
+              "name": "Components",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "unsignedShort"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Save",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Name",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

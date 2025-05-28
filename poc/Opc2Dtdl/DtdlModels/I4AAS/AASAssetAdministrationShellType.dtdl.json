@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:I4AAS:AASAssetAdministrationShellType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ConceptDictionary",
+      "target": "dtmi:opcua:I4AAS:AASConceptDictionaryType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DataSpecification",
+      "target": "dtmi:opcua:I4AAS:AASReferenceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Submodel",
+      "target": "dtmi:opcua:I4AAS:AASSubmodelType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SubmodelReference",
+      "target": "dtmi:opcua:I4AAS:AASReferenceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "View",
+      "target": "dtmi:opcua:I4AAS:AASViewType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Asset",
+      "target": "dtmi:opcua:I4AAS:AASAssetType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DerivedFrom",
+      "target": "dtmi:opcua:I4AAS:AASReferenceType"
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:CombiSteamerModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "On",
+          "enumValue": 1
+        },
+        {
+          "name": "Preheat",
+          "enumValue": 2
+        },
+        {
+          "name": "StandBy",
+          "enumValue": 3
+        },
+        {
+          "name": "Steaming",
+          "enumValue": 4
+        },
+        {
+          "name": "CombiSteaming",
+          "enumValue": 5
+        },
+        {
+          "name": "HotAir",
+          "enumValue": 6
+        },
+        {
+          "name": "Perfection",
+          "enumValue": 7
+        },
+        {
+          "name": "Cleaning",
+          "enumValue": 8
+        },
+        {
+          "name": "PresetStart",
+          "enumValue": 9
+        },
+        {
+          "name": "Error",
+          "enumValue": 10
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:SpecialCookingModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NoSpecialMode",
+          "enumValue": 0
+        },
+        {
+          "name": "Baking",
+          "enumValue": 1
+        },
+        {
+          "name": "SousVide",
+          "enumValue": 2
+        },
+        {
+          "name": "RestStage",
+          "enumValue": 3
+        },
+        {
+          "name": "Humidification",
+          "enumValue": 4
+        },
+        {
+          "name": "PerfectHold",
+          "enumValue": 5
+        },
+        {
+          "name": "InfoStep",
+          "enumValue": 6
+        },
+        {
+          "name": "Smoking",
+          "enumValue": 7
+        },
+        {
+          "name": "LowTemp_Cooking",
+          "enumValue": 8
+        },
+        {
+          "name": "DeltaTSteaming",
+          "enumValue": 9
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualExternalCoreTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualExternalCoreTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualExternalCoreTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualHumidity",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualInternalCoreTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualInternalCoreTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualInternalCoreTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualTemperatureChamber_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualTemperatureChamber_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualTemperatureChamber_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CombiSteamerMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:CombiSteamerModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsDoorOpen",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsEnergySavingActive",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsLoaActive",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsSteamExhaustSystemActive",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SetExternalCoreTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetHumidity",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetInternalCoreTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTimeProgram",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTimeStep",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SpecialCookingMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType:dataType:SpecialCookingModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeRemainingProgram",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeRemainingStep",
+      "schema": "integer",
+      "writable": false
+    }
+  ]
+}

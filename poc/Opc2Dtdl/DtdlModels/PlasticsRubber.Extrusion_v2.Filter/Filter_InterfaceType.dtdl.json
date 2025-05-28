@@ -1,0 +1,78 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:Filter_InterfaceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Area",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BackflushPressure",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FiltrationFineness",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "AdditionalMeasuringDevices",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Drive",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FilterPackage_Nr",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Filter:FilterPackageType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HydraulicPressure",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MeltPressureZones",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MeltTemperatureZones",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SpecificWasteOutput",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TemperatureZones",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WasteOutput",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    }
+  ]
+}

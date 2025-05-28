@@ -1,0 +1,109 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Fdi5:DirectDeviceAccessType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "InitDirectAccess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Context",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InitDirectAccessError",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Transfer",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SendData",
+              "schema": "string"
+            },
+            {
+              "name": "ReceiveData",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TransferError",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "EndDirectAccess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InvalidateCache",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EndDirectAccessError",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

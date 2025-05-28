@@ -1,0 +1,45 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISInstrumentObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "HHlimit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Hlimit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Llimit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LLlimit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessVariable",
+      "schema": "float",
+      "writable": false
+    }
+  ]
+}

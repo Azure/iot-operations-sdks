@@ -1,0 +1,74 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PADIM:ControlSignalType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PADIM:ControlSignalType:dataType:ExecutionModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Start",
+          "enumValue": 2
+        },
+        {
+          "name": "Abort",
+          "enumValue": 255
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ControlSignal",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "ControlSignal",
+            "schema": "float"
+          },
+          {
+            "name": "ActuatorType",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "OperatingDirection",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Setpoint",
+            "schema": "float"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "AutoAdjustPositioner",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionMode",
+              "schema": "dtmi:opcua:PADIM:ControlSignalType:dataType:ExecutionModeEnum;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

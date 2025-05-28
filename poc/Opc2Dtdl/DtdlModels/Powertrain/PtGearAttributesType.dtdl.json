@@ -1,0 +1,95 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtGearAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Efficiency",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "Efficiency",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "EfficiencySchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "GearRatio",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "GearRatio",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "GearRatioSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AxialForceMax",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Backlash",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "GearInertia",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "GearType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LubricantType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SpeedRated",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TorqueRated",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TorsionalRigidity",
+      "schema": "float",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Adi:StreamType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ParameterSet"
+    },
+    {
+      "@type": "Relationship",
+      "name": "GroupIdentifier",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Status",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AcquisitionSettings",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AcquisitionStatus",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AcquisitionData",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ChemometricModelSettings",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Context",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    }
+  ]
+}

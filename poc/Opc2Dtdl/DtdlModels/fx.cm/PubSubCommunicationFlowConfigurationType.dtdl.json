@@ -1,0 +1,119 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:PubSubCommunicationFlowConfigurationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationFlowConfigurationType:dataType:NetworkAddressDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NetworkInterface",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationFlowConfigurationType:dataType:CommunicationFlowQosDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "QosCategory",
+          "schema": "string"
+        },
+        {
+          "name": "TransmitQos",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "bytes"
+          }
+        },
+        {
+          "name": "ReceiveQos",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationFlowConfigurationType:dataType:MessageSecurityMode;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Invalid",
+          "enumValue": 0
+        },
+        {
+          "name": "None",
+          "enumValue": 1
+        },
+        {
+          "name": "Sign",
+          "enumValue": 2
+        },
+        {
+          "name": "SignAndEncrypt",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Address",
+      "schema": "dtmi:opcua:fx_cm:PubSubCommunicationFlowConfigurationType:dataType:NetworkAddressDataType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "HeaderLayoutUri",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PublishingInterval",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Qos",
+      "schema": "dtmi:opcua:fx_cm:PubSubCommunicationFlowConfigurationType:dataType:CommunicationFlowQosDataType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SecurityGroupId",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SecurityMode",
+      "schema": "dtmi:opcua:fx_cm:PubSubCommunicationFlowConfigurationType:dataType:MessageSecurityMode;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TransportProfileUri",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "SubscriberConfiguration",
+      "target": "dtmi:opcua:FX_CM:SubscriberConfigurationType"
+    }
+  ]
+}

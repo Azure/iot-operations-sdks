@@ -1,0 +1,79 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC:ControlModuleAggregatesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC:ControlModuleAggregatesType:dataType:MethodExecutionFeedbackType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:ControlModuleAggregatesType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:ControlModuleAggregatesType:dataType:MessageType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AggregateItem",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "AggregateItem",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "AggregateItemSchema",
+          "schema": "string"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "ResetAggregates",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:ControlModuleAggregatesType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

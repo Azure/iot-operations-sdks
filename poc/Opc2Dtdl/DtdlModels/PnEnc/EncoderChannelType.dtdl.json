@@ -1,0 +1,252 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PnEnc:EncoderChannelType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PnEnc:EncoderChannelType:dataType:EncoderChannelStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NORMAL_OPERATION",
+          "enumValue": 0
+        },
+        {
+          "name": "ERROR_ACKNOWLEDGEMENT",
+          "enumValue": 1
+        },
+        {
+          "name": "ERROR",
+          "enumValue": 2
+        },
+        {
+          "name": "REFERENCE_VALUE_Gx_XIST2",
+          "enumValue": 3
+        },
+        {
+          "name": "WAIT_FOR_REFERENCE_MARKS",
+          "enumValue": 4
+        },
+        {
+          "name": "SET_SHIFT_HOME_POSITION",
+          "enumValue": 5
+        },
+        {
+          "name": "WAIT_FOR_MEASURED_VALUE",
+          "enumValue": 6
+        },
+        {
+          "name": "MEASURED_VALUE_IN_XIST2",
+          "enumValue": 7
+        },
+        {
+          "name": "PARKING",
+          "enumValue": 8
+        },
+        {
+          "name": "PARKING_ERROR",
+          "enumValue": 9
+        },
+        {
+          "name": "PARKING_ERROR_ACK",
+          "enumValue": 10
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Acceleration",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "EncoderChannelState",
+      "schema": "dtmi:opcua:PnEnc:EncoderChannelType:dataType:EncoderChannelStateEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_STW",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_XIST1",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_XIST2",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_XIST3",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_XIST_PRESET_B",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_XIST_PRESET_B1",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_XIST_PRESET_C",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "G1_ZSW",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NIST_A",
+      "schema": "short",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NIST_B",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Position",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "Position",
+            "schema": "double"
+          },
+          {
+            "name": "Resolution",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PositionSensorSignalValue",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "STW2_ENC",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Temperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Velocity",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "Velocity",
+            "schema": "float"
+          },
+          {
+            "name": "Damping",
+            "schema": "float"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ZSW2_ENC",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SetApplicationTag",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationTag",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "AxisConfig",
+      "target": "dtmi:opcua:PNENC:EncoderAxisConfigType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ControlConfig",
+      "target": "dtmi:opcua:PNENC:EncoderControlConfigType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Lock",
+      "target": "dtmi:opcua:DI:LockingServicesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Logbook",
+      "target": "dtmi:opcua:PNENC:LogbookType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Probes",
+      "target": "dtmi:opcua:PNENC:EncoderProbesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Sensor",
+      "target": "dtmi:opcua:PNENC:EncoderSensorType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SensorConfig",
+      "target": "dtmi:opcua:PNENC:EncoderSensorConfigType"
+    }
+  ]
+}

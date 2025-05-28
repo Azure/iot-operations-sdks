@@ -1,0 +1,2092 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ IA:3003, LevelDisplayMode ]
+  Enums:
+    Dimmed: 0
+    Blinking: 1
+    Other: 2
+- UADataType: [ IA:3004, SignalColor ]
+  Enums:
+    Off: 0
+    Red: 1
+    Green: 2
+    Blue: 3
+    Yellow: 4
+    Purple: 5
+    Cyan: 6
+    White: 7
+- UADataType: [ IA:3005, SignalModeLight ]
+  Enums:
+    Continuous: 0
+    Blinking: 1
+    Flashing: 2
+    Other: 3
+- UADataType: [ IA:3002, StacklightOperationMode ]
+  Enums:
+    Segmented: 0
+    Levelmeter: 1
+    Running_Light: 2
+    Other: 3
+- UADataType: [ MachineTool:67, ChannelMode ]
+  Enums:
+    Automatic: 0
+    MdaMdi: 1
+    JogManual: 2
+    JogIncrement: 3
+    TeachingHandle: 4
+    Remote: 5
+    Reference: 6
+    Other: 7
+- UADataType: [ MachineTool:64, ChannelState ]
+  Enums:
+    Active: 0
+    Interrupted: 1
+    Reset: 2
+- UADataType: [ MachineTool:71, EDMGeneratorState ]
+  Enums:
+    Undefined: 0
+    Ready: 1
+    Active_Low_Voltage: 2
+    Active_High_Voltage: 3
+    Error: 4
+- UADataType: [ MachineTool:70, LaserState ]
+  Enums:
+    Undefined: 0
+    Ready: 1
+    Active: 2
+    Error: 3
+- UADataType: [ MachineTool:65, MachineOperationMode ]
+  Enums:
+    Manual: 0
+    Automatic: 1
+    Setup: 2
+    AutoWithManualIntervention: 3
+    Service: 4
+    Other: 5
+- UADataType: [ MachineTool:63, PartQuality ]
+  Enums:
+    CapabilityUnavailable: 0
+    Good: 1
+    Bad: 2
+    NotYetMeasured: 3
+    WillNotBeMeasured: 4
+- UADataType: [ MachineTool:62, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ MachineTool:68, ToolLifeIndication ]
+  Enums:
+    Time: 0
+    NumberOfParts: 1
+    NumberOfUsages: 2
+    Feed_Distance: 3
+    Cutting_Distance: 4
+    Length: 5
+    Diameter: 6
+    Other: 7
+- UADataType: [ MachineTool:66, ToolLocked ]
+  Enums:
+    CapabilityUnavailable: 0
+    ByOperator: 1
+    ToolBreak: 2
+    ToolLife: 3
+    MeasurementError: 4
+    Other: 5
+- UADataType: [ MachineTool:69, ToolManagement ]
+  Enums:
+    NumberBased: 0
+    GroupBased: 1
+    Other: 2
+- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EquipmentUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+  Fields:
+    JobOrder: [ ISA95JobOrderDataType, 0 ]
+    State: [ ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+  Fields:
+    JobOrderID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Priority: [ Int16, 0 ]
+    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+  Fields:
+    JobResponseID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JobOrderID: [ String, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    JobState: [ ISA95StateDataType, 1 ]
+    JobResponseData: [ ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+  Fields:
+    MaterialClassID: [ String, 0 ]
+    MaterialDefinitionID: [ String, 0 ]
+    MaterialLotID: [ String, 0 ]
+    MaterialSublotID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    MaterialUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subparameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PersonnelUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PhysicalAssetUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subproperties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+  Fields:
+    BrowsePath: [ RelativePath, 0 ]
+    StateText: [ LocalizedText, 0 ]
+    StateNumber: [ UInt32, 0 ]
+- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+  Enums:
+    SimulationMode: 0
+    TestMode: 1
+    ProductionMode: 2
+- UADataType: [ Machinery.Jobs:3006, JobResult ]
+  Enums:
+    Unknown: 0
+    Successful: 1
+    Unsuccessful: 2
+- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+  Enums:
+    OrderNumber: 0
+    LotNumber: 1
+    SerialNumber: 2
+- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    Quantity: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+  Fields:
+    ItemNumber: [ String, 0 ]
+    OutputInfo: [ OutputInfoType, 0 ]
+    OrderNumber: [ String, 0 ]
+    LotNumber: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+
+DefinedTypes:
+
+  ActivityDataMonitoringType:
+  - [ UAObjectType, LaserSystems:1008, ActivityDataMonitoringType ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6012, CurrentValue, Number, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6013, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6062, Description, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasInterface:
+    - [ UAObjectType, 23513, IOrderedObjectType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6024, NumberInList, UInt16, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6009, ParameterIdentifier, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6010, PreviousValue, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6011, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ConditionDataMonitoringType:
+  - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6005, ConditionParameterIdentifier, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6070, Description, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6068, LowerErrorLevel, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6069, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6066, LowerWarningLevel, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6067, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6064, UpperErrorLevel, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6065, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6008, UpperWarningLevel, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6063, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6006, Value, Number, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6007, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ConsumptionDataMonitoringType:
+  - [ UAObjectType, LaserSystems:1004, ConsumptionDataMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6001, ConsumableIdentifier, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6002, Description, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6003, Value, Number, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6004, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  LaserSystemOperationCounterType:
+  - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6027, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasInterface:
+    - [ UAObjectType, DI:480, IOperationCounterType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6042, OperationDuration, Duration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6041, PowerOnDuration, Duration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  LaserSystemMonitoringType:
+  - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5008, ActivityData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 23518, OrderedListType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasOrderedComponent:
+      - [ UAObject, LaserSystems:5003, <ActivityData> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1008, ActivityDataMonitoringType ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6153, CurrentValue, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6154, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6026, Name, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6025, NumberInList, UInt16, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6155, ParameterIdentifier, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5009, ConditionData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, LaserSystems:5101, <ConditionData> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6158, ConditionParameterIdentifier, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6161, Name, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6159, Value, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6160, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5010, ConsumptionData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, LaserSystems:5102, <ConsumptionData> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1004, ConsumptionDataMonitoringType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6162, ConsumableIdentifier, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6165, Name, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6163, Value, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6164, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5006, LaserSystemStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, LaserSystems:5007, LaserSystemState ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6020, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6021, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasAddIn:
+      - [ UAObject, LaserSystems:5018, MachineryItemState ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6040, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6043, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasAddIn:
+      - [ UAObject, LaserSystems:5019, MachineryOperationMode ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6044, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6045, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, LaserSystems:5020, MachineToolsLaserStatus ]
+      - HasTypeDefinition:
+        - [ UAObjectType, MachineTool:36, LaserMonitoringType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6046, ControllerIsOn, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6047, LaserState, LaserState, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6048, Name, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasAddIn:
+      - [ UAObject, LaserSystems:5021, OperationCounters ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6049, OperationDuration, Duration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6050, PowerOnDuration, Duration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5005, Stacklight ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IA:1002, BasicStacklightType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6019, StacklightMode, StacklightOperationMode, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  LaserSystemProductionType:
+  - [ UAObjectType, LaserSystems:1003, LaserSystemProductionType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5068, RecipeSettingsAndOverviews ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, LaserSystems:5104, <Recipe> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6166, LastModification, UtcTime, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6167, LastUsage, UtcTime, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6168, RecipeIdentifier, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6169, RunsCompleted, UInt64, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+
+  LaserSystemStatusType:
+  - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5013, LaserSystemState ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
+    - HasComponent:
+      - [ UAVariable, LaserSystems:6022, CurrentState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6023, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasAddIn:
+    - [ UAObject, LaserSystems:5015, MachineryItemState ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+    - HasComponent:
+      - [ UAVariable, LaserSystems:6034, CurrentState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6035, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasAddIn:
+    - [ UAObject, LaserSystems:5016, MachineryOperationMode ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+    - HasComponent:
+      - [ UAVariable, LaserSystems:6036, CurrentState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6037, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5014, MachineToolsLaserStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineTool:36, LaserMonitoringType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, LaserSystems:6031, ControllerIsOn, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, LaserSystems:6032, LaserState, LaserState, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6033, Name, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasAddIn:
+    - [ UAObject, LaserSystems:5017, OperationCounters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6038, OperationDuration, Duration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6039, PowerOnDuration, Duration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  LaserSystemType:
+  - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
+  - HasAddIn:
+    - [ UAObject, LaserSystems:5001, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6017, Manufacturer, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6018, SerialNumber, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasAddIn:
+      - [ UAObject, LaserSystems:5001, Identification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6017, Manufacturer, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6018, SerialNumber, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasAddIn:
+      - [ UAObject, LaserSystems:5024, MachineryItemState ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6053, CurrentState, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6054, Id, NodeId, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, LaserSystems:5025, MachineryOperationMode ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+      - HasComponent:
+        - [ UAVariable, LaserSystems:6055, CurrentState, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6056, Id, NodeId, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, LaserSystems:5027, OperationCounters ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6060, OperationDuration, Duration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, LaserSystems:6061, PowerOnDuration, Duration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5004, Monitoring ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
+    - HasComponent:
+      - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
+      - HasComponent:
+        - [ UAObject, LaserSystems:5023, LaserSystemState ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
+        - HasComponent:
+          - [ UAVariable, LaserSystems:6051, CurrentState, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasProperty:
+            - [ UAVariable, LaserSystems:6052, Id, NodeId, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+      - HasAddIn:
+        - [ UAObject, LaserSystems:5024, MachineryItemState ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+        - HasComponent:
+          - [ UAVariable, LaserSystems:6053, CurrentState, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasProperty:
+            - [ UAVariable, LaserSystems:6054, Id, NodeId, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+      - HasAddIn:
+        - [ UAObject, LaserSystems:5025, MachineryOperationMode ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+        - HasComponent:
+          - [ UAVariable, LaserSystems:6055, CurrentState, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasProperty:
+            - [ UAVariable, LaserSystems:6056, Id, NodeId, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAObject, LaserSystems:5026, MachineToolsLaserStatus ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, MachineTool:36, LaserMonitoringType ]
+        - HasComponent:
+          - [ UAVariable, LaserSystems:6057, ControllerIsOn, Boolean, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, LaserSystems:6058, LaserState, LaserState, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6059, Name, String, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasAddIn:
+        - [ UAObject, LaserSystems:5027, OperationCounters ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6060, OperationDuration, Duration, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, LaserSystems:6061, PowerOnDuration, Duration, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5011, Notification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineTool:7, NotificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5012, Production ]
+    - HasTypeDefinition:
+      - [ UAObjectType, LaserSystems:1003, LaserSystemProductionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  LaserSystemMaintenancePrognosisType:
+  - [ UAObjectType, LaserSystems:1013, LaserSystemMaintenancePrognosisType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6077, Code, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6076, Description, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  LaserSystemUtilityChangePrognosisType:
+  - [ UAObjectType, LaserSystems:1014, LaserSystemUtilityChangePrognosisType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6079, Code, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6078, Description, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  RecipeSettingsAndOverviewType:
+  - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6074, CreationDate, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6075, Description, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6073, LastModification, UtcTime, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6014, LastUsage, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6072, RecipeIdentifier, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6071, RecipeName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6016, RecipeRevision, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, LaserSystems:6015, RunsCompleted, UInt64, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  LaserSystemState_StateMachineType:
+  - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
+  - HasProperty:
+    - [ UAVariable, LaserSystems:6152, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6081, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5034, Error ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6086, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5045, FromEnergySavingToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6097, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5050, FromEnergySavingToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6102, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5046, FromEnergySavingToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6098, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5051, FromEnergySavingToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6103, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5048, FromEnergySavingToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6100, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5049, FromEnergySavingToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6101, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5044, FromEnergySavingToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6096, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5047, FromEnergySavingToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6099, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5086, FromErrorToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6137, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5091, FromErrorToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6142, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5087, FromErrorToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6138, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5092, FromErrorToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6143, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5089, FromErrorToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6140, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5090, FromErrorToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6141, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5085, FromErrorToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6136, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5088, FromErrorToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6139, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5053, FromIdleToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6105, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5058, FromIdleToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6110, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5054, FromIdleToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6106, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5059, FromIdleToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6111, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5056, FromIdleToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6108, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5057, FromIdleToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6109, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5052, FromIdleToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6104, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5055, FromIdleToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6107, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5094, FromLaserOnToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6145, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5099, FromLaserOnToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6150, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5095, FromLaserOnToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6146, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5100, FromLaserOnToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6151, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5097, FromLaserOnToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6148, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5098, FromLaserOnToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6149, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5093, FromLaserOnToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6144, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5096, FromLaserOnToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6147, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5070, FromLaserReadyToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6121, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5075, FromLaserReadyToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6126, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5071, FromLaserReadyToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6122, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5076, FromLaserReadyToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6127, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5073, FromLaserReadyToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6124, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5074, FromLaserReadyToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6125, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5069, FromLaserReadyToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6120, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5072, FromLaserReadyToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6123, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5078, FromMaintenanceToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6129, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5083, FromMaintenanceToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6134, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5079, FromMaintenanceToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6130, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5084, FromMaintenanceToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6135, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5081, FromMaintenanceToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6132, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5082, FromMaintenanceToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6133, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5077, FromMaintenanceToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6128, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5080, FromMaintenanceToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6131, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5037, FromOffToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6089, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5042, FromOffToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6094, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5038, FromOffToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6090, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5043, FromOffToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6095, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5040, FromOffToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6092, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5041, FromOffToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6093, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5036, FromOffToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6088, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5039, FromOffToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6091, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5061, FromSetUpToEnergySaving ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6113, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5066, FromSetUpToError ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5034, Error ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6118, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5062, FromSetUpToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5030, Idle ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6114, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5067, FromSetUpToLaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5035, LaserOn ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6119, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5064, FromSetUpToLaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5032, LaserReady ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6116, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5065, FromSetUpToMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5033, Maintenance ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6117, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5060, FromSetUpToOff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, LaserSystems:5028, Off ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6112, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5063, FromSetUpToSetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - ToState:
+      - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6115, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5030, Idle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6082, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5035, LaserOn ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6087, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5032, LaserReady ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6084, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5033, Maintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6085, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5028, Off ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6080, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, LaserSystems:5031, SetUp ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, LaserSystems:6083, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]

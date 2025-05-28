@@ -1,0 +1,52 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:ECM:EnergyMeasurementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "MeasurementValue",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "MeasurementValue",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "MeasurementValue",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "MeasurementValueSchema",
+                "schema": "string"
+              }
+            }
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "ResetStatistics"
+    }
+  ]
+}

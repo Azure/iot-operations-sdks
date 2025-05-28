@@ -1,0 +1,31 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+    {
+<# if (this.isHistorized) { #>
+      "@type": [ "Property", "Historized" ],
+<# } else { #>
+      "@type": "Property",
+<# } #>
+      "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))#>",
+<# if (this.SubVariables.Count == 0) { #>
+      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Item1, this.Variable.Item2, definedType.BrowseName, 6)#>,
+<# } else { #>
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))#>",
+            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Item1, this.Variable.Item2, definedType.BrowseName, 12)#>
+          },
+<# int ix = 1; foreach (KeyValuePair<string, (string, int)> subVar in this.SubVariables) { #>
+          {
+            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(subVar.Key))#>",
+            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Value.Item1, subVar.Value.Item2, 12)#>
+          }<#=ix < this.SubVariables.Count ? "," : ""#>
+<# ix++; } #>
+        ]
+      },
+<# } #>
+      "writable": <#=this.isWritable ? "true" : "false"#>
+    }

@@ -1,0 +1,105 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  CsppAnalogItemType:
+  - [ UAVariableType, CSPPlusForMachine:2001, CsppAnalogItemType, Number, -2, 0 ]
+  - HasProperty:
+    - [ UAVariable, CSPPlusForMachine:6006, Duration, Number, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  CsppMachineType:
+  - [ UAObjectType, CSPPlusForMachine:1001, CsppMachineType ]
+  - HasComponent:
+    - [ UAObject, CSPPlusForMachine:5001, ParameterSet ]
+    - HasComponent:
+      - [ UAVariable, CSPPlusForMachine:6001, <VariableName> ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAVariable, CSPPlusForMachine:6002, <ConfigurationName> ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, CSPPlusForMachine:5002, <CommIfSection> ]
+    - HasComponent:
+      - [ UAObject, CSPPlusForMachine:5003, <CommIfVariablePart> ]
+      - Organizes:
+        - [ UAVariable, CSPPlusForMachine:6004, <VariableName> ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2365, DataItemType ]
+        - HasModellingRule:
+          - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAObject, CSPPlusForMachine:5004, <CommIfConfigurationPart> ]
+      - Organizes:
+        - [ UAVariable, CSPPlusForMachine:6005, <ConfigurationName> ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2365, DataItemType ]
+        - HasModellingRule:
+          - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+    - Organizes:
+      - [ UAVariable, CSPPlusForMachine:6003, <VariableOrConfigurationName> ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]

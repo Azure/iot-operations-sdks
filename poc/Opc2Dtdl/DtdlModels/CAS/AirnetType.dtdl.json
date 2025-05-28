@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:AirnetType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Ambient",
+      "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Components",
+      "target": "dtmi:opcua:CAS:AirnetComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:CAS:AirnetConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ElectricalCircuit",
+      "target": "dtmi:opcua:CAS:ElectricalCircuitType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Identification",
+      "target": "dtmi:opcua:CAS:CASIdentificationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operational",
+      "target": "dtmi:opcua:CAS:AirnetOperationalType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessFluidCircuit",
+      "target": "dtmi:opcua:CAS:FluidCircuitType"
+    }
+  ]
+}

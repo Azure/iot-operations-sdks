@@ -1,0 +1,174 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:MultiPumpType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pumps:MultiPumpType:dataType:DistributionTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ManufacturerSpecific",
+          "enumValue": 0
+        },
+        {
+          "name": "OperatorSpecific",
+          "enumValue": 1
+        },
+        {
+          "name": "ConcerningTimeDistribution",
+          "enumValue": 2
+        },
+        {
+          "name": "ConcerningLoadDistribution",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:MultiPumpType:dataType:ExchangeModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ManufacturerSpecific",
+          "enumValue": 0
+        },
+        {
+          "name": "ExchangeDisabled",
+          "enumValue": 1
+        },
+        {
+          "name": "OperatorSpecific",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:MultiPumpType:dataType:MultiPumpOperationModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Standalone",
+          "enumValue": 0
+        },
+        {
+          "name": "RedundancyOperation",
+          "enumValue": 1
+        },
+        {
+          "name": "AdditionOperation",
+          "enumValue": 2
+        },
+        {
+          "name": "MixedRedundancy",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:MultiPumpType:dataType:PumpRoleEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Slave",
+          "enumValue": 0
+        },
+        {
+          "name": "Master",
+          "enumValue": 1
+        },
+        {
+          "name": "SlaveAndAuxiliaryMaster",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DistributionPriority",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DistributionType",
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:DistributionTypeEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ExchangeMode",
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:ExchangeModeEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ExchangeTime",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ExchangeTimeDifference",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumNumberOfPumpsInOperation",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MultiPumpOperationMode",
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:MultiPumpOperationModeEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NumberOfPumps",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PumpCollectiveIDs",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PumpRole",
+      "schema": "dtmi:opcua:Pumps:MultiPumpType:dataType:PumpRoleEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RedundantPumpIDs",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    }
+  ]
+}

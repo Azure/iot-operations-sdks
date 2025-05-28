@@ -1,0 +1,67 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualOutput",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AverageControllerOutput",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LowerOutput",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SetValueManualOutput",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SetValueType",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "UpperOutput",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "UpperSetValueCascade",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "LoadCurrent",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LoadPower",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    }
+  ]
+}

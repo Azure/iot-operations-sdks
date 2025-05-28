@@ -1,0 +1,241 @@
+DataTypes:
+- UADataType: [ LADS:3003, KeyValueType ]
+  Fields:
+    Key: [ String, 0 ]
+    Value: [ String, 0 ]
+- UADataType: [ LADS:3002, SampleInfoType ]
+  Fields:
+    ContainerId: [ String, 0 ]
+    SampleId: [ String, 0 ]
+    Position: [ String, 0 ]
+    CustomData: [ String, 0 ]
+- UADataType: [ LADS:3000, MaintenanceTaskResultEnum ]
+  Enums:
+    Success: 0
+    Failure: 1
+    Undetermined: 2
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+  Enums:
+    Local: 0
+    Remote: 1
+- UADataType: [ AMB:3003, NameNodeIdDataType ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    NodeId: [ NodeId, 0 ]
+- UADataType: [ AMB:3002, RootCauseDataType ]
+  Fields:
+    RootCauseId: [ NodeId, 0 ]
+    RootCause: [ LocalizedText, 0 ]
+
+DefinedTypes:
+
+  ActiveProgramType:
+  - [ UAObjectType, LADS:1040, ActiveProgramType ]
+
+  LADSComponentsType:
+  - [ UAObjectType, LADS:1025, LADSComponentsType ]
+  - GeneratesEvent:
+    - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+
+  LADSOperationCountersType:
+  - [ UAObjectType, LADS:1034, LADSOperationCountersType ]
+  - HasInterface:
+    - [ UAObjectType, DI:480, IOperationCounterType ]
+
+  FunctionalUnitSetType:
+  - [ UAObjectType, LADS:1023, FunctionalUnitSetType ]
+
+  FunctionSetType:
+  - [ UAObjectType, LADS:1026, FunctionSetType ]
+
+  ProgramTemplateSetType:
+  - [ UAObjectType, LADS:1019, ProgramTemplateSetType ]
+
+  ProgramTemplateType:
+  - [ UAObjectType, LADS:1018, ProgramTemplateType ]
+
+  SupportedPropertiesSetType:
+  - [ UAObjectType, LADS:1033, SupportedPropertiesSetType ]
+
+  SupportedPropertyType:
+  - [ UAObjectType, LADS:1035, SupportedPropertyType ]
+
+  ResultFileSetType:
+  - [ UAObjectType, LADS:1022, ResultFileSetType ]
+
+  ResultFileType:
+  - [ UAObjectType, LADS:1001, ResultFileType ]
+
+  ResultSetType:
+  - [ UAObjectType, LADS:1020, ResultSetType ]
+
+  ResultType:
+  - [ UAObjectType, LADS:1021, ResultType ]
+
+  CoverStateMachineType:
+  - [ UAObjectType, LADS:1010, CoverStateMachineType ]
+
+  LADSDeviceStateMachineType:
+  - [ UAObjectType, LADS:1039, LADSDeviceStateMachineType ]
+
+  FunctionalStateMachineType:
+  - [ UAObjectType, LADS:1038, FunctionalStateMachineType ]
+
+  RunningStateMachineType:
+  - [ UAObjectType, LADS:1036, RunningStateMachineType ]
+
+  MaintenanceSetType:
+  - [ UAObjectType, LADS:1027, MaintenanceSetType ]
+  - GeneratesEvent:
+    - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+
+  MaintenanceTaskType:
+  - [ UAObjectType, LADS:1028, MaintenanceTaskType ]
+  - HasInterface:
+    - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+
+  LADSDeviceType:
+  - [ UAObjectType, LADS:1002, LADSDeviceType ]
+
+  LADSComponentType:
+  - [ UAObjectType, LADS:1024, LADSComponentType ]
+  - HasInterface:
+    - [ UAObjectType, DI:15051, IDeviceHealthType ]
+
+  FunctionalUnitType:
+  - [ UAObjectType, LADS:1003, FunctionalUnitType ]
+  - HasInterface:
+    - [ UAObjectType, DI:15048, ITagNameplateType ]
+
+  FunctionType:
+  - [ UAObjectType, LADS:1004, FunctionType ]
+
+  BaseControlFunctionType:
+  - [ UAObjectType, LADS:1007, BaseControlFunctionType ]
+
+  AnalogControlFunctionType:
+  - [ UAObjectType, LADS:1009, AnalogControlFunctionType ]
+
+  AnalogControlFunctionWithTotalizerType:
+  - [ UAObjectType, LADS:1014, AnalogControlFunctionWithTotalizerType ]
+
+  DiscreteControlFunctionType:
+  - [ UAObjectType, LADS:1017, DiscreteControlFunctionType ]
+
+  MultiStateDiscreteControlFunctionType:
+  - [ UAObjectType, LADS:1045, MultiStateDiscreteControlFunctionType ]
+
+  TwoStateDiscreteControlFunctionType:
+  - [ UAObjectType, LADS:1042, TwoStateDiscreteControlFunctionType ]
+
+  BaseSensorFunctionType:
+  - [ UAObjectType, LADS:1005, BaseSensorFunctionType ]
+
+  AnalogScalarSensorFunctionType:
+  - [ UAObjectType, LADS:1016, AnalogScalarSensorFunctionType ]
+
+  DiscreteSensorFunctionType:
+  - [ UAObjectType, LADS:1012, DiscreteSensorFunctionType ]
+
+  CoverFunctionType:
+  - [ UAObjectType, LADS:1011, CoverFunctionType ]
+
+  ProgramManagerType:
+  - [ UAObjectType, LADS:1006, ProgramManagerType ]
+
+  TimerControlFunctionType:
+  - [ UAObjectType, LADS:1013, TimerControlFunctionType ]
+
+  AnalogScalarSensorFunctionWithCompensationType:
+  - [ UAObjectType, LADS:1000, AnalogScalarSensorFunctionWithCompensationType ]
+
+  ControllerTuningParameterType:
+  - [ UAObjectType, LADS:1008, ControllerTuningParameterType ]
+
+  PidControllerParameterType:
+  - [ UAObjectType, LADS:1030, PidControllerParameterType ]
+
+  TwoStateDiscreteSensorFunctionType:
+  - [ UAObjectType, LADS:1031, TwoStateDiscreteSensorFunctionType ]
+
+  MultiStateDiscreteSensorFunctionType:
+  - [ UAObjectType, LADS:1037, MultiStateDiscreteSensorFunctionType ]
+
+  FunctionalUnitStateMachineType:
+  - [ UAObjectType, LADS:1043, FunctionalUnitStateMachineType ]
+
+  ControlFunctionStateMachineType:
+  - [ UAObjectType, LADS:1044, ControlFunctionStateMachineType ]
+
+  MultiModeAnalogControlFunctionType:
+  - [ UAObjectType, LADS:1047, MultiModeAnalogControlFunctionType ]
+
+  ControllerParameterType:
+  - [ UAObjectType, LADS:1048, ControllerParameterType ]
+
+  ControllerParameterSetType:
+  - [ UAObjectType, LADS:1049, ControllerParameterSetType ]
+
+  AnalogControlFunctionWithComposedTargetValueType:
+  - [ UAObjectType, LADS:1052, AnalogControlFunctionWithComposedTargetValueType ]
+
+  MultiSensorFunctionType:
+  - [ UAObjectType, LADS:1051, MultiSensorFunctionType ]
+
+  AnalogControlFunctionWithRelativeTargetValueType:
+  - [ UAObjectType, LADS:1029, AnalogControlFunctionWithRelativeTargetValueType ]
+
+  AnalogArraySensorFunctionType:
+  - [ UAObjectType, LADS:1015, AnalogArraySensorFunctionType ]
+
+  SetType:
+  - [ UAObjectType, LADS:61, SetType ]
+  - GeneratesEvent:
+    - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+
+  VariableSetType:
+  - [ UAObjectType, LADS:1041, VariableSetType ]
+  - GeneratesEvent:
+    - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+
+  AnalogSensorFunctionType:
+  - [ UAObjectType, LADS:1046, AnalogSensorFunctionType ]
+
+  LADSOperationModeStateMachineType:
+  - [ UAObjectType, LADS:1050, LADSOperationModeStateMachineType ]

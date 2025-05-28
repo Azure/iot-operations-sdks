@@ -1,0 +1,40 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:I4AAS:AASDataSpecificationIEC61360Type;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Administration",
+      "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Identification",
+      "target": "dtmi:opcua:I4AAS:AASIdentifierType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnitId",
+      "target": "dtmi:opcua:I4AAS:AASReferenceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ValueId",
+      "target": "dtmi:opcua:I4AAS:AASReferenceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ValueList",
+      "target": "dtmi:opcua:I4AAS:ValueListType"
+    }
+  ]
+}

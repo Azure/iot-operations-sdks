@@ -1,0 +1,165 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:ConnectionManagerType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxEditEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "StartEditing",
+          "enumValue": 0
+        },
+        {
+          "name": "CommitUpdates",
+          "enumValue": 1
+        },
+        {
+          "name": "DiscardUpdates",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxProcessEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ActionEstablishConnectionsEnabled",
+          "enumValue": 0
+        },
+        {
+          "name": "ActionEstablishConnectionsDisabled",
+          "enumValue": 1
+        },
+        {
+          "name": "ActionEstablishConnections",
+          "enumValue": 2
+        },
+        {
+          "name": "ActionRemoveConnections",
+          "enumValue": 3
+        },
+        {
+          "name": "ActionEnableConnections",
+          "enumValue": 4
+        },
+        {
+          "name": "ActionDisableConnections",
+          "enumValue": 5
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AggregatedCurrentState",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "EditConnectionConfigurationSets",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Action",
+              "schema": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxEditEnum;1"
+            },
+            {
+              "name": "ConnectionConfigurationSets",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ProcessConnectionConfigurationSets",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Action",
+              "schema": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxProcessEnum;1"
+            },
+            {
+              "name": "ConnectionConfigurationSets",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Capabilities",
+      "target": "dtmi:opcua:FX_CM:ConnectionManagerCapabilitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ConnectionConfigurationSets"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ConnectionManagerConfiguration",
+      "target": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType"
+    }
+  ]
+}

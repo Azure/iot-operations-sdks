@@ -1,0 +1,252 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:MetaDataType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:MetaDataType:dataType:ConfidentialityClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ConfidentialInformation",
+          "enumValue": 0
+        },
+        {
+          "name": "NonConfidentialInformation",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ApprovalDateRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ApprovalDescriptionAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ApproverNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ArchiveNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AreaIsa95NameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "BlockNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "BlockNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "CheckerNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "CompanyNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "CompanyNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ConfidentialitySpecialization",
+      "schema": "dtmi:opcua:DEXPI:MetaDataType:dataType:ConfidentialityClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "CreationDateRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "CreatorNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DesignerNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DrafterNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DrawingNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DrawingNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DrawingSubTitleAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FileNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LocationNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ModificationDataRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessCellIsa95NameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessCellIsa95NumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProjectNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProjectNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProjectRangeNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ReplacedDrawingAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ResponsibleDepartmentNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RevisionNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SheetFormatAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SheetNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SiteIsa95NameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SubProjectNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SubProjectNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TotalNumberOfSheets",
+      "schema": "long",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "UnitIsa95NameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "UnitIsa95NumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    }
+  ]
+}

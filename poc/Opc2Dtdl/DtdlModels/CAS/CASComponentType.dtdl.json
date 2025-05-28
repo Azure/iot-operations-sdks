@@ -1,0 +1,65 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:CASComponentType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Ambient",
+      "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:CAS:ConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CoolantCircuit",
+      "target": "dtmi:opcua:CAS:FluidCircuitType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Design",
+      "target": "dtmi:opcua:CAS:DesignType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ElectricalCircuit",
+      "target": "dtmi:opcua:CAS:ElectricalCircuitType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Events",
+      "target": "dtmi:opcua:CAS:EventsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Identification",
+      "target": "dtmi:opcua:Machinery:MachineryItemIdentificationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operational",
+      "target": "dtmi:opcua:CAS:OperationalType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessFluidCircuit",
+      "target": "dtmi:opcua:CAS:FluidCircuitType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Statistics",
+      "target": "dtmi:opcua:CAS:StatisticsType"
+    }
+  ]
+}

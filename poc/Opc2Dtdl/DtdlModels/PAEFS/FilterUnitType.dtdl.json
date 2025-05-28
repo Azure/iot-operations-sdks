@@ -1,0 +1,133 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PAEFS:FilterUnitType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "OperationOff"
+    },
+    {
+      "@type": "Command",
+      "name": "OperationOn"
+    },
+    {
+      "@type": "Command",
+      "name": "SetAndActivateAirflowSetpoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Value",
+              "schema": "double"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetAndActivatePressureSetpoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Value",
+              "schema": "double"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetAndActivateRotationalSpeedSetpoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Value",
+              "schema": "double"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleaningUnit",
+      "target": "dtmi:opcua:PAEFS:CleaningUnitType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DischargeSystem",
+      "target": "dtmi:opcua:PAEFS:DischargeSystemType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Separator",
+      "target": "dtmi:opcua:PAEFS:SeparatorType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirConsumption",
+      "target": "dtmi:opcua:PAEFS:ConsumptionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Airflow",
+      "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirIntakeConnection",
+      "target": "dtmi:opcua:PAEFS:AirConnectionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirOutletConnection",
+      "target": "dtmi:opcua:PAEFS:AirConnectionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineryBuildingBlocks"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PowerConsumption",
+      "target": "dtmi:opcua:PAEFS:ConsumptionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Pressure",
+      "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PressureLoss",
+      "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RotationalSpeed",
+      "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
+    }
+  ]
+}

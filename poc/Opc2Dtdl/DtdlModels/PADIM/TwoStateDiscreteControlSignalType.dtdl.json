@@ -1,0 +1,38 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PADIM:TwoStateDiscreteControlSignalType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ControlSignal",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "ControlSignal",
+            "schema": "boolean"
+          },
+          {
+            "name": "OperatingDirection",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Setpoint",
+            "schema": "boolean"
+          }
+        ]
+      },
+      "writable": true
+    }
+  ]
+}

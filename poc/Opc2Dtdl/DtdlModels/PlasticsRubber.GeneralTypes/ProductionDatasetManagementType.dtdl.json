@@ -1,0 +1,165 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "MESId",
+          "schema": "string"
+        },
+        {
+          "name": "CreationTimestamp",
+          "schema": "dateTime"
+        },
+        {
+          "name": "LastModificationTimestamp",
+          "schema": "dateTime"
+        },
+        {
+          "name": "LastSaveTimestamp",
+          "schema": "dateTime"
+        },
+        {
+          "name": "UserName",
+          "schema": "string"
+        },
+        {
+          "name": "Components",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "unsignedShort"
+          }
+        },
+        {
+          "name": "Manufacturer",
+          "schema": "string"
+        },
+        {
+          "name": "SerialNumber",
+          "schema": "string"
+        },
+        {
+          "name": "Model",
+          "schema": "string"
+        },
+        {
+          "name": "ControllerName",
+          "schema": "string"
+        },
+        {
+          "name": "UserMachineName",
+          "schema": "string"
+        },
+        {
+          "name": "LocationName",
+          "schema": "string"
+        },
+        {
+          "name": "ProductName",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "MouldId",
+          "schema": "string"
+        },
+        {
+          "name": "NumCavities",
+          "schema": "unsignedInteger"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GetProductionDatasetInformation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "fileHandle",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Information",
+              "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendProductionDatasetInformation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "fileHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Information",
+              "schema": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType:dataType:ProductionDatasetInformationType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "ActiveProductionDatasetStatus",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionDatasetInPreparationStatus",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionDatasetLists",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionDatasetTransfer"
+    }
+  ]
+}

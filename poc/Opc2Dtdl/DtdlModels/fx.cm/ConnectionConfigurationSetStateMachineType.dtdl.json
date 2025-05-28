@@ -1,0 +1,49 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "LastTransition",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Error"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorToProcessing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Processing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessingToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessingToReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Ready"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToProcessing"
+    }
+  ]
+}

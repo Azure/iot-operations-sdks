@@ -1,0 +1,44 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pn:IPnDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pn:IPnDeviceType:dataType:PnDeviceStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OFFLINE",
+          "enumValue": 0
+        },
+        {
+          "name": "OFFLINE_DOCKING",
+          "enumValue": 1
+        },
+        {
+          "name": "ONLINE",
+          "enumValue": 2
+        },
+        {
+          "name": "ONLINE_DOCKING",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "State",
+      "schema": "dtmi:opcua:Pn:IPnDeviceType:dataType:PnDeviceStateEnumeration;1",
+      "writable": false
+    }
+  ]
+}

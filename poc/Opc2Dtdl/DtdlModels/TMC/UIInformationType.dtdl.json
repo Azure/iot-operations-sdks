@@ -1,0 +1,114 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC:UIInformationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC:UIInformationType:dataType:MethodExecutionFeedbackType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:UIInformationType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:UIInformationType:dataType:MessageType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "DeleteUIResource",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResourceName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:UIInformationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "LoadUIResource",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResourceName",
+              "schema": "string"
+            },
+            {
+              "name": "ResourceValue",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:UIInformationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "UIResources"
+    }
+  ]
+}

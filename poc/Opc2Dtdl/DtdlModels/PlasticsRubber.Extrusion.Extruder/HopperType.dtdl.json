@@ -1,0 +1,37 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Extruder:HopperType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "MaterialLevel",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Weight",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Material",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaterialTemperature",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    }
+  ]
+}

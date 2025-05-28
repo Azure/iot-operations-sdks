@@ -1,0 +1,135 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:SupervisionElectronicsType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ArmatureCircuit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "CurrentInsideDevice",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ElectricalFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "FieldCircuit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "InstallationFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "InsulationResistance",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "PhaseFailure",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ShortCircuit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ShortToEarth",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyCurrent",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyCurrentHigh",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyCurrentLow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyFrequency",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyFrequencyHigh",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyFrequencyLow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyVoltage",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyVoltageHigh",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SupplyVoltageLow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VoltageInsideDevice",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "WindingTemperature",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

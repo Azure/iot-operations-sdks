@@ -1,0 +1,619 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "LabelCollection",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelDataType;1"
+          }
+        },
+        {
+          "name": "LabelCollectionProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined0",
+          "enumValue": 0
+        },
+        {
+          "name": "NoError1",
+          "enumValue": 1
+        },
+        {
+          "name": "InvalidSerialNumberCollection2",
+          "enumValue": 2
+        },
+        {
+          "name": "InsufficientSerialNumbers3",
+          "enumValue": 3
+        },
+        {
+          "name": "InvalidSerialNumbersFormat4",
+          "enumValue": 4
+        },
+        {
+          "name": "InvalidRequestToken5",
+          "enumValue": 5
+        },
+        {
+          "name": "InvalidSelectionCriteria6",
+          "enumValue": 6
+        },
+        {
+          "name": "UnableToAcceptSerialNumberEvents7",
+          "enumValue": 7
+        },
+        {
+          "name": "UnableToAcceptLabelEvents8",
+          "enumValue": 8
+        },
+        {
+          "name": "UnableToAcceptSIDEvents9",
+          "enumValue": 9
+        },
+        {
+          "name": "UnknownAggregationSID10",
+          "enumValue": 10
+        },
+        {
+          "name": "InsufficientPrivilegeToExecute11",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSCollectionDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "State",
+          "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1"
+        },
+        {
+          "name": "AssociatedPoolID",
+          "schema": "string"
+        },
+        {
+          "name": "SerialNumbers",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unassigned0",
+          "enumValue": 0
+        },
+        {
+          "name": "Unallocated1",
+          "enumValue": 1
+        },
+        {
+          "name": "Allocated2",
+          "enumValue": 2
+        },
+        {
+          "name": "SNInvalid3",
+          "enumValue": 3
+        },
+        {
+          "name": "Encoded4",
+          "enumValue": 4
+        },
+        {
+          "name": "LabelSampled5",
+          "enumValue": 5
+        },
+        {
+          "name": "LabelScrapped6",
+          "enumValue": 6
+        },
+        {
+          "name": "Commissioned7",
+          "enumValue": 7
+        },
+        {
+          "name": "Sampled8",
+          "enumValue": 8
+        },
+        {
+          "name": "Inactive9",
+          "enumValue": 9
+        },
+        {
+          "name": "Destroyed10",
+          "enumValue": 10
+        },
+        {
+          "name": "Released11",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "LabelProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "LabelsEncodingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "LabelsInspectingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "LabelsSamplingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "LabelsScrappingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SIDCommissioningEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SIDDecommissioningEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SIDDestroyingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SIDInspectingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SIDShippingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LabelCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SNInvalidatingEvent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SNCollection",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSCollectionDataType;1"
+            },
+            {
+              "name": "SNFormat",
+              "schema": "string"
+            },
+            {
+              "name": "OPENSCSEventContext",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "dtmi:opcua:OPENSCS:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "EPCISStream"
+    }
+  ]
+}

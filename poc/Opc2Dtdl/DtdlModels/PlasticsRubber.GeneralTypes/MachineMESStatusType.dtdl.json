@@ -1,0 +1,59 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESStatusType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "ClearMESMessage"
+    },
+    {
+      "@type": "Command",
+      "name": "SetMESMessage",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Id",
+              "schema": "string"
+            },
+            {
+              "name": "Message",
+              "schema": "string"
+            },
+            {
+              "name": "Severity",
+              "schema": "unsignedShort"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "MESMessage",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionControl",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StandstillMessage",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StandstillMessageType"
+    }
+  ]
+}

@@ -1,0 +1,474 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:ResultManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ResultId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1"
+        },
+        {
+          "name": "HasTransferableDataOnFile",
+          "schema": "boolean"
+        },
+        {
+          "name": "IsPartial",
+          "schema": "boolean"
+        },
+        {
+          "name": "IsSimulated",
+          "schema": "boolean"
+        },
+        {
+          "name": "ResultState",
+          "schema": "integer"
+        },
+        {
+          "name": "MeasId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1"
+        },
+        {
+          "name": "PartId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1"
+        },
+        {
+          "name": "ExternalRecipeId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "InternalRecipeId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "ProductId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1"
+        },
+        {
+          "name": "ExternalConfigurationId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "InternalConfigurationId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "JobId",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1"
+        },
+        {
+          "name": "CreationTime",
+          "schema": "time"
+        },
+        {
+          "name": "ProcessingTimes",
+          "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProcessingTimesDataType;1"
+        },
+        {
+          "name": "ResultContent",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "name": "Hash",
+          "schema": "bytes"
+        },
+        {
+          "name": "HashAlgorithm",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProcessingTimesDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "StartTime",
+          "schema": "time"
+        },
+        {
+          "name": "EndTime",
+          "schema": "time"
+        },
+        {
+          "name": "AcquisitionDuration",
+          "schema": "duration"
+        },
+        {
+          "name": "ProcessingDuration",
+          "schema": "duration"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GetResultById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Result",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetResultComponentsById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "HasTransferableDataOnFile",
+              "schema": "boolean"
+            },
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "IsPartial",
+              "schema": "boolean"
+            },
+            {
+              "name": "IsSimulated",
+              "schema": "boolean"
+            },
+            {
+              "name": "ResultState",
+              "schema": "integer"
+            },
+            {
+              "name": "MeasId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1"
+            },
+            {
+              "name": "PartId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1"
+            },
+            {
+              "name": "ExternalRecipeId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "InternalRecipeId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1"
+            },
+            {
+              "name": "ExternalConfigurationId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "InternalConfigurationId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "JobId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1"
+            },
+            {
+              "name": "CreationTime",
+              "schema": "time"
+            },
+            {
+              "name": "ProcessingTimes",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProcessingTimesDataType;1"
+            },
+            {
+              "name": "ResultContent",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetResultListFiltered",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultState",
+              "schema": "integer"
+            },
+            {
+              "name": "MeasId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1"
+            },
+            {
+              "name": "PartId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1"
+            },
+            {
+              "name": "ExternalRecipeId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "InternalRecipeId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ExternalConfigurationId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "InternalConfigurationId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1"
+            },
+            {
+              "name": "JobId",
+              "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1"
+            },
+            {
+              "name": "MaxResults",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "StartIndex",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "IsComplete",
+              "schema": "boolean"
+            },
+            {
+              "name": "ResultCount",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ResultList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultDataType;1"
+              }
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ReleaseResultHandle",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Results",
+      "target": "dtmi:opcua:MachineVision:ResultFolderType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResultTransfer",
+      "target": "dtmi:opcua:MachineVision:ResultTransferType"
+    }
+  ]
+}

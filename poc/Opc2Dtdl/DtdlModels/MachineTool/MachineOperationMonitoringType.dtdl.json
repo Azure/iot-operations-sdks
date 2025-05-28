@@ -1,0 +1,75 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:MachineOperationMonitoringType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineTool:MachineOperationMonitoringType:dataType:MachineOperationMode;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Manual",
+          "enumValue": 0
+        },
+        {
+          "name": "Automatic",
+          "enumValue": 1
+        },
+        {
+          "name": "Setup",
+          "enumValue": 2
+        },
+        {
+          "name": "AutoWithManualIntervention",
+          "enumValue": 3
+        },
+        {
+          "name": "Service",
+          "enumValue": 4
+        },
+        {
+          "name": "Other",
+          "enumValue": 5
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "FeedOverride",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsWarmUp",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperationMode",
+      "schema": "dtmi:opcua:MachineTool:MachineOperationMonitoringType:dataType:MachineOperationMode;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PowerOnDuration",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Obligation",
+      "target": "dtmi:opcua:MachineTool:ObligationType"
+    }
+  ]
+}

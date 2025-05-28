@@ -1,0 +1,1289 @@
+DataTypes:
+- UADataType: [ TTD:3006, ExchangeablePartDataType ]
+  Fields:
+    PartType: [ String, 0 ]
+    Mounted: [ Boolean, 0 ]
+    Traceable: [ Boolean, 0 ]
+    PartId: [ String, 0 ]
+    MachineReadable: [ Boolean, 0 ]
+    LastCalibrationDate: [ UtcTime, 0 ]
+- UADataType: [ TTD:3025, JobOrderDataType ]
+  Fields:
+    JobId: [ String, 0 ]
+    RecipeId: [ RecipeIdDataType, 0 ]
+    NumberOfTests: [ TestNumDataType, 1 ]
+    SampleInfos: [ SampleInfoDataType, 1 ]
+    CarrierTypeId: [ String, 0 ]
+    CarrierId: [ String, 0 ]
+    AdditionalInfo: [ KeyValuePair, 1 ]
+    Scheduled: [ Boolean, 0 ]
+- UADataType: [ TTD:3009, OptionalModuleDataType ]
+  Fields:
+    ModuleName: [ String, 0 ]
+    ModuleType: [ String, 0 ]
+    IsInstalled: [ Boolean, 0 ]
+    Version: [ String, 0 ]
+- UADataType: [ TTD:3018, RecipeDataType ]
+  Fields:
+    RecipeId: [ RecipeIdDataType, 0 ]
+    RecipeContent: [ ByteString, 0 ]
+    ContentEncoding: [ String, 0 ]
+- UADataType: [ TTD:3003, RecipeIdDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Id: [ String, 0 ]
+    Type: [ String, 0 ]
+    Description: [ String, 0 ]
+    Comment: [ String, 0 ]
+    ModifiedDate: [ UtcTime, 0 ]
+    Version: [ String, 0 ]
+    Validated: [ Boolean, 0 ]
+- UADataType: [ TTD:3022, TTDResultMetaDataType ]
+  Fields:
+    SampleId: [ String, 0 ]
+    TesterJobId: [ String, 0 ]
+    TesterSampleResultId: [ String, 0 ]
+    ProductInstanceURI: [ String, 0 ]
+    CanBeDeleted: [ Boolean, 0 ]
+    JobOrder: [ ISA95JobOrderDataType, 0 ]
+- UADataType: [ TTD:3031, SampleInfoDataType ]
+  Fields:
+    SampleId: [ String, 0 ]
+    NominalLinearDensity: [ Double, 0 ]
+    MaterialDensity: [ Double, 0 ]
+    MaterialType: [ String, 0 ]
+    PositionOnCarrier: [ String, 0 ]
+- UADataType: [ TTD:3012, StatisticResultContentDataType ]
+  Fields:
+    ResultKey: [ String, 0 ]
+    ItemCount: [ UInt32, 0 ]
+    MeanValue: [ Double, 0 ]
+    StandardDeviation: [ Double, 0 ]
+    CoefficientOfVariation: [ Double, 0 ]
+    MinValue: [ Double, 0 ]
+    MaxValue: [ Double, 0 ]
+    ConfidenceInterval95: [ Double, 0 ]
+- UADataType: [ TTD:3015, StatisticResultContentWithUnitsDataType ]
+  Fields:
+    UnitItemCount: [ EUInformation, 0 ]
+    UnitMeanValue: [ EUInformation, 0 ]
+    UnitStandardDeviation: [ EUInformation, 0 ]
+    UnitCoefficientOfVariation: [ EUInformation, 0 ]
+    UnitMinValue: [ EUInformation, 0 ]
+    UnitMaxValue: [ EUInformation, 0 ]
+    UnitConfidenceInterval: [ EUInformation, 0 ]
+- UADataType: [ TTD:3028, TestNumDataType ]
+  Fields:
+    TestProcedureId: [ String, 0 ]
+    NumberOfTests: [ UInt32, 0 ]
+- UADataType: [ TTD:3034, TestProcedureIdDataType ]
+  Fields:
+    TestProcedureId: [ String, 0 ]
+    Description: [ String, 0 ]
+    ProcedureReferences: [ String, 1 ]
+    IsProcedureLicensed: [ Boolean, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+  Enums:
+    Undefined: 0
+    OK: 1
+    NotOK: 2
+    NotDecidable: 3
+- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+  Bases:
+  - BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    AcquisitionDuration: [ Duration, 0 ]
+    ProcessingDuration: [ Duration, 0 ]
+- UADataType: [ Machinery.Result:3008, ResultDataType ]
+  Fields:
+    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultContent: [ null, 1 ]
+- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    IsPartial: [ Boolean, 0 ]
+    IsSimulated: [ Boolean, 0 ]
+    ResultState: [ Int32, 0 ]
+    StepId: [ TrimmedString, 0 ]
+    PartId: [ TrimmedString, 0 ]
+    ExternalRecipeId: [ TrimmedString, 0 ]
+    InternalRecipeId: [ TrimmedString, 0 ]
+    ProductId: [ TrimmedString, 0 ]
+    ExternalConfigurationId: [ TrimmedString, 0 ]
+    InternalConfigurationId: [ TrimmedString, 0 ]
+    JobId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ResultUri: [ UriString, 1 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluationCode: [ Int64, 0 ]
+    ResultEvaluationDetails: [ LocalizedText, 0 ]
+    FileFormat: [ String, 1 ]
+- UADataType: [ IA:3003, LevelDisplayMode ]
+  Enums:
+    Dimmed: 0
+    Blinking: 1
+    Other: 2
+- UADataType: [ IA:3004, SignalColor ]
+  Enums:
+    Off: 0
+    Red: 1
+    Green: 2
+    Blue: 3
+    Yellow: 4
+    Purple: 5
+    Cyan: 6
+    White: 7
+- UADataType: [ IA:3005, SignalModeLight ]
+  Enums:
+    Continuous: 0
+    Blinking: 1
+    Flashing: 2
+    Other: 3
+- UADataType: [ IA:3002, StacklightOperationMode ]
+  Enums:
+    Segmented: 0
+    Levelmeter: 1
+    Running_Light: 2
+    Other: 3
+- UADataType: [ MachineTool:67, ChannelMode ]
+  Enums:
+    Automatic: 0
+    MdaMdi: 1
+    JogManual: 2
+    JogIncrement: 3
+    TeachingHandle: 4
+    Remote: 5
+    Reference: 6
+    Other: 7
+- UADataType: [ MachineTool:64, ChannelState ]
+  Enums:
+    Active: 0
+    Interrupted: 1
+    Reset: 2
+- UADataType: [ MachineTool:71, EDMGeneratorState ]
+  Enums:
+    Undefined: 0
+    Ready: 1
+    Active_Low_Voltage: 2
+    Active_High_Voltage: 3
+    Error: 4
+- UADataType: [ MachineTool:70, LaserState ]
+  Enums:
+    Undefined: 0
+    Ready: 1
+    Active: 2
+    Error: 3
+- UADataType: [ MachineTool:65, MachineOperationMode ]
+  Enums:
+    Manual: 0
+    Automatic: 1
+    Setup: 2
+    AutoWithManualIntervention: 3
+    Service: 4
+    Other: 5
+- UADataType: [ MachineTool:63, PartQuality ]
+  Enums:
+    CapabilityUnavailable: 0
+    Good: 1
+    Bad: 2
+    NotYetMeasured: 3
+    WillNotBeMeasured: 4
+- UADataType: [ MachineTool:62, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ MachineTool:68, ToolLifeIndication ]
+  Enums:
+    Time: 0
+    NumberOfParts: 1
+    NumberOfUsages: 2
+    Feed_Distance: 3
+    Cutting_Distance: 4
+    Length: 5
+    Diameter: 6
+    Other: 7
+- UADataType: [ MachineTool:66, ToolLocked ]
+  Enums:
+    CapabilityUnavailable: 0
+    ByOperator: 1
+    ToolBreak: 2
+    ToolLife: 3
+    MeasurementError: 4
+    Other: 5
+- UADataType: [ MachineTool:69, ToolManagement ]
+  Enums:
+    NumberBased: 0
+    GroupBased: 1
+    Other: 2
+- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EquipmentUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+  Fields:
+    JobOrder: [ ISA95JobOrderDataType, 0 ]
+    State: [ ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+  Fields:
+    JobOrderID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Priority: [ Int16, 0 ]
+    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+  Fields:
+    JobResponseID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JobOrderID: [ String, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    JobState: [ ISA95StateDataType, 1 ]
+    JobResponseData: [ ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+  Fields:
+    MaterialClassID: [ String, 0 ]
+    MaterialDefinitionID: [ String, 0 ]
+    MaterialLotID: [ String, 0 ]
+    MaterialSublotID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    MaterialUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subparameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PersonnelUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PhysicalAssetUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subproperties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+  Fields:
+    BrowsePath: [ RelativePath, 0 ]
+    StateText: [ LocalizedText, 0 ]
+    StateNumber: [ UInt32, 0 ]
+- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+  Enums:
+    SimulationMode: 0
+    TestMode: 1
+    ProductionMode: 2
+- UADataType: [ Machinery.Jobs:3006, JobResult ]
+  Enums:
+    Unknown: 0
+    Successful: 1
+    Unsuccessful: 2
+- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+  Enums:
+    OrderNumber: 0
+    LotNumber: 1
+    SerialNumber: 2
+- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    Quantity: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+  Fields:
+    ItemNumber: [ String, 0 ]
+    OutputInfo: [ OutputInfoType, 0 ]
+    OrderNumber: [ String, 0 ]
+    LotNumber: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+
+DefinedTypes:
+
+  TTDResultType:
+  - [ UAVariableType, TTD:2003, TTDResultType, ResultDataType, 0, 0 ]
+  - HasStructuredComponent:
+    - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6036, CanBeDeleted, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6031, CreationTime, UtcTime, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6029, HasTransferableDataOnFile, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6030, IsPartial, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6037, JobOrder, ISA95JobOrderDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6032, ProductInstanceUri, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6034, SampleId, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6035, TesterJobId, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6033, TesterSampleResultId, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+
+  TTDResultReadyEventType:
+  - [ UAObjectType, TTD:1006, TTDResultReadyEventType ]
+  - HasComponent:
+    - [ UAVariable, TTD:6038, Result, ResultDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, TTD:2003, TTDResultType, ResultDataType, 0, 0 ]
+    - HasStructuredComponent:
+      - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6040, CanBeDeleted, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6041, CreationTime, UtcTime, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6042, HasTransferableDataOnFile, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6043, IsPartial, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6044, JobOrder, ISA95JobOrderDataType, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6045, ProductInstanceUri, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6046, SampleId, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6047, TesterJobId, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6048, TesterSampleResultId, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+
+  JobStatisticsType:
+  - [ UAObjectType, TTD:1009, JobStatisticsType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6056, EndTime, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6057, StartTime, UtcTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6058, TotalInitializingTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6059, TotalInterruptedTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6060, TotalRunningTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  MachineStatisticsType:
+  - [ UAObjectType, TTD:1012, MachineStatisticsType ]
+  - HasInterface:
+    - [ UAObjectType, IA:1011, IStatisticsType ]
+  - HasComponent:
+    - [ UAMethod, TTD:7007, ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, TTD:6065, StartTime, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasStatisticComponent:
+    - [ UAVariable, TTD:6061, TotalExecutingTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasStatisticComponent:
+    - [ UAVariable, TTD:6062, TotalNotAvailableTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasStatisticComponent:
+    - [ UAVariable, TTD:6063, TotalNotExecutingTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasStatisticComponent:
+    - [ UAVariable, TTD:6064, TotalOutOfServiceTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+
+  RecurrentPrognosisType:
+  - [ UAObjectType, TTD:1004, RecurrentPrognosisType ]
+  - HasComponent:
+    - [ UAVariable, TTD:6066, Activity, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6067, Interval, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6068, LastExecutionTime, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  RecipeManagementType:
+  - [ UAObjectType, TTD:1003, RecipeManagementType ]
+  - HasComponent:
+    - [ UAMethod, TTD:7004, DeleteRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TTD:6053, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, TTD:7002, GetRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TTD:6050, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, TTD:6051, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Recipe: [ RecipeDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, TTD:7001, GetRecipeIds ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TTD:6049, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeIds: [ RecipeIdDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, TTD:7005, GetRecipes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TTD:6054, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Recipes: [ RecipeDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6016, RecipeIds, RecipeIdDataType, 1, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TTD:7003, SetRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TTD:6052, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Recipe: [ RecipeDataType, 0 ]
+          Overwrite: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, TTD:7006, SetRecipes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TTD:6055, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Recipes: [ RecipeDataType, 1 ]
+          Overwrite: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  TTDResultManagementType:
+  - [ UAObjectType, TTD:1007, TTDResultManagementType ]
+  - HasComponent:
+    - [ UAMethod, TTD:7009, GetResultById ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TTD:6111, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultId: [ TrimmedString, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, TTD:6112, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultHandle: [ Handle, 0 ]
+          Result: [ ResultDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, TTD:5042, Results ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasComponent:
+      - [ UAVariable, TTD:6120, <ResultVariable>, ResultDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAVariableType, TTD:2003, TTDResultType, ResultDataType, 0, 0 ]
+      - HasStructuredComponent:
+        - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6122, CanBeDeleted, Boolean, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6123, CreationTime, UtcTime, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6124, HasTransferableDataOnFile, Boolean, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6125, IsPartial, Boolean, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6126, JobOrder, JobOrderDataType, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6127, ProductInstanceUri, String, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6128, SampleId, String, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6129, TesterJobId, String, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, TTD:6130, TesterSampleResultId, String, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAObject, TTD:5043, ResultTransfer ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
+    - HasProperty:
+      - [ UAVariable, TTD:6115, ClientProcessingTimeout, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, TTD:7011, CloseAndCommit ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, TTD:6116, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, TTD:6117, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            CompletionStateMachine: [ NodeId, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, TTD:7010, GenerateFileForRead ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, TTD:6113, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            GenerateOptions: [ BaseResultTransferOptionsDataType, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, TTD:6114, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileNodeId: [ NodeId, 0 ]
+            FileHandle: [ UInt32, 0 ]
+            CompletionStateMachine: [ NodeId, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, TTD:7012, GenerateFileForWrite ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, TTD:6118, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            GenerateOptions: [ BaseDataType, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, TTD:6119, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileNodeId: [ NodeId, 0 ]
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent:
+    - [ UAObjectType, TTD:1006, TTDResultReadyEventType ]
+
+  TextileTestingDeviceType:
+  - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6131, AvailableExchangeableParts, ExchangeablePartDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasAddIn:
+    - [ UAObject, TTD:5044, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, TTD:6133, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, TTD:6132, ProductInstanceUri, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, TTD:6134, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6135, InstalledTesterModules, OptionalModuleDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasAddIn:
+    - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasAddIn:
+      - [ UAObject, TTD:5044, Identification ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+      - HasProperty:
+        - [ UAVariable, TTD:6133, Manufacturer, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, TTD:6132, ProductInstanceUri, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, TTD:6134, SerialNumber, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, TTD:5035, JobManagement ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
+      - HasComponent:
+        - [ UAObject, TTD:5036, JobOrderControl ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6002, CurrentState, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasProperty:
+            - [ UAVariable, TTD:6003, Id, NodeId, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6004, EquipmentID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6005, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6006, MaterialClassID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6007, MaterialDefinitionID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasProperty:
+          - [ UAVariable, TTD:6008, MaxDownloadableJobOrders, UInt16, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6009, PersonnelID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6010, PhysicalAssetID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, TTD:6011, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAObject, TTD:5037, JobOrderResults ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+        - HasComponent:
+          - [ UAMethod, TTD:7008, RequestJobResponseByJobOrderID ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, TTD:6012, InputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobOrderID: [ String, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, TTD:6013, OutputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobResponse: [ ISA95JobResponseDataType, 0 ]
+                ReturnStatus: [ UInt64, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAMethod, TTD:7013, RequestJobResponseByJobOrderState ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, TTD:6014, InputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobOrderState: [ ISA95StateDataType, 1 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, TTD:6015, OutputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobResponses: [ ISA95JobResponseDataType, 1 ]
+                ReturnStatus: [ UInt64, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, TTD:5055, MachineryItemState ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, TTD:6136, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, TTD:6137, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasAddIn:
+      - [ UAObject, TTD:5001, MachineryOperationMode ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, TTD:6001, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, TTD:6027, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasAddIn:
+      - [ UAObject, TTD:5041, ResultManagement ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, TTD:1007, TTDResultManagementType ]
+      - HasComponent:
+        - [ UAMethod, TTD:7019, GetResultById ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, TTD:6095, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ResultId: [ TrimmedString, 0 ]
+              Timeout: [ Int32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, TTD:6096, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ResultHandle: [ Handle, 0 ]
+              Result: [ ResultDataType, 0 ]
+              Error: [ Int32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAObject, TTD:5046, Results ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+      - HasComponent:
+        - [ UAObject, TTD:5047, ResultTransfer ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
+        - HasProperty:
+          - [ UAVariable, TTD:6097, ClientProcessingTimeout, Duration, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAMethod, TTD:7020, CloseAndCommit ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, TTD:6098, InputArguments, Argument, 1, 0 ]
+            - Arguments:
+                FileHandle: [ UInt32, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, TTD:6099, OutputArguments, Argument, 1, 0 ]
+            - Arguments:
+                CompletionStateMachine: [ NodeId, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAMethod, TTD:7021, GenerateFileForRead ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, TTD:6100, InputArguments, Argument, 1, 0 ]
+            - Arguments:
+                GenerateOptions: [ BaseResultTransferOptionsDataType, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, TTD:6101, OutputArguments, Argument, 1, 0 ]
+            - Arguments:
+                FileNodeId: [ NodeId, 0 ]
+                FileHandle: [ UInt32, 0 ]
+                CompletionStateMachine: [ NodeId, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAMethod, TTD:7022, GenerateFileForWrite ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, TTD:6102, InputArguments, Argument, 1, 0 ]
+            - Arguments:
+                GenerateOptions: [ BaseDataType, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, TTD:6103, OutputArguments, Argument, 1, 0 ]
+            - Arguments:
+                FileNodeId: [ NodeId, 0 ]
+                FileHandle: [ UInt32, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, TTD:5049, MachineStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TTD:1012, MachineStatisticsType ]
+    - HasStatisticComponent:
+      - [ UAVariable, TTD:6141, TotalExecutingTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStatisticComponent:
+      - [ UAVariable, TTD:6142, TotalNotAvailableTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStatisticComponent:
+      - [ UAVariable, TTD:6143, TotalNotExecutingTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStatisticComponent:
+      - [ UAVariable, TTD:6144, TotalOutOfServiceTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAObject, TTD:5050, Notification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineTool:7, NotificationType ]
+  - HasComponent:
+    - [ UAObject, TTD:5051, RecipeManagement ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
+    - HasComponent:
+      - [ UAMethod, TTD:7014, GetRecipeIds ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, TTD:6145, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            RecipeIds: [ RecipeIdDataType, 1 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, TTD:6017, RecipeIds, RecipeIdDataType, 1, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, TTD:6146, TestProcedureIds, TestProcedureIdDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]

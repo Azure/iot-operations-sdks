@@ -1,0 +1,52 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:ProductionJobType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PartsCompleted",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PartsGood",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RunsCompleted",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RunsPlanned",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "PartSets"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionPrograms"
+    },
+    {
+      "@type": "Relationship",
+      "name": "State",
+      "target": "dtmi:opcua:MachineTool:ProductionJobStateMachineType"
+    }
+  ]
+}

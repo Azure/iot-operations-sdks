@@ -1,0 +1,356 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "name": "PushTargetFolder",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EndpointUrl",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        },
+        {
+          "name": "UserTokenType",
+          "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1"
+        },
+        {
+          "name": "RequestedKeyCount",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "RetryInterval",
+          "schema": "duration"
+        },
+        {
+          "name": "PushTargetProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:KeyValuePair;1"
+          }
+        },
+        {
+          "name": "SecurityGroups",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityGroupFolder",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "KeyLifetime",
+          "schema": "duration"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        },
+        {
+          "name": "MaxFutureKeyCount",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "MaxPastKeyCount",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "SecurityGroupId",
+          "schema": "string"
+        },
+        {
+          "name": "RolePermissions",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:RolePermissionType;1"
+          }
+        },
+        {
+          "name": "GroupProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:KeyValuePair;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:RolePermissionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "RoleId",
+          "schema": "string"
+        },
+        {
+          "name": "Permissions",
+          "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PermissionType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PermissionType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Browse",
+          "enumValue": 0
+        },
+        {
+          "name": "ReadRolePermissions",
+          "enumValue": 1
+        },
+        {
+          "name": "WriteAttribute",
+          "enumValue": 2
+        },
+        {
+          "name": "WriteRolePermissions",
+          "enumValue": 3
+        },
+        {
+          "name": "WriteHistorizing",
+          "enumValue": 4
+        },
+        {
+          "name": "Read",
+          "enumValue": 5
+        },
+        {
+          "name": "Write",
+          "enumValue": 6
+        },
+        {
+          "name": "ReadHistory",
+          "enumValue": 7
+        },
+        {
+          "name": "InsertHistory",
+          "enumValue": 8
+        },
+        {
+          "name": "ModifyHistory",
+          "enumValue": 9
+        },
+        {
+          "name": "DeleteHistory",
+          "enumValue": 10
+        },
+        {
+          "name": "ReceiveEvents",
+          "enumValue": 11
+        },
+        {
+          "name": "Call",
+          "enumValue": 12
+        },
+        {
+          "name": "AddReference",
+          "enumValue": 13
+        },
+        {
+          "name": "RemoveReference",
+          "enumValue": 14
+        },
+        {
+          "name": "DeleteNode",
+          "enumValue": 15
+        },
+        {
+          "name": "AddNode",
+          "enumValue": 16
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Address",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        },
+        {
+          "name": "ServerUri",
+          "schema": "string"
+        },
+        {
+          "name": "UsePushModel",
+          "schema": "boolean"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "PolicyId",
+          "schema": "string"
+        },
+        {
+          "name": "TokenType",
+          "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenType;1"
+        },
+        {
+          "name": "IssuedTokenType",
+          "schema": "string"
+        },
+        {
+          "name": "IssuerEndpointUrl",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Anonymous",
+          "enumValue": 0
+        },
+        {
+          "name": "UserName",
+          "enumValue": 1
+        },
+        {
+          "name": "Certificate",
+          "enumValue": 2
+        },
+        {
+          "name": "IssuedToken",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:KeyValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PubSubKeyPushTargets",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SecurityGroups",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SecurityKeyServer",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "SecurityKeyServer",
+            "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1"
+          },
+          {
+            "name": "Address",
+            "schema": "string"
+          },
+          {
+            "name": "SecurityPolicyUri",
+            "schema": "string"
+          },
+          {
+            "name": "ServerUri",
+            "schema": "string"
+          },
+          {
+            "name": "UsePushModel",
+            "schema": "boolean"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Version",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "ConnectionConfigurationSetStateMachine",
+      "target": "dtmi:opcua:FX_CM:ConnectionConfigurationSetStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Lock",
+      "target": "dtmi:opcua:DI:LockingServicesType"
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PackML:PackMLAdminObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLDescriptorDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "integer"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Unit",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "integer"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Unit",
+          "schema": "string"
+        },
+        {
+          "name": "Count",
+          "schema": "integer"
+        },
+        {
+          "name": "AccCount",
+          "schema": "integer"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AccTimeSinceReset",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AlarmExtent",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AlarmHistoryExtent",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MachDesignSpeed",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ModeCumulativeTime",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "integer"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ModeCurrentTime",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "integer"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Parameter",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLDescriptorDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProdConsumedCount",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProdDefectiveCount",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProdProcessedCount",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PackML:PackMLAdminObjectType:dataType:PackMLCountDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StateCumulativeTime",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": {
+          "@type": "Array",
+          "elementSchema": "integer"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StateCurrentTime",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": {
+          "@type": "Array",
+          "elementSchema": "integer"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StopReasonExtent",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "WarningExtent",
+      "schema": "integer",
+      "writable": false
+    }
+  ]
+}

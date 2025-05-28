@@ -1,0 +1,53 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AnalogInputElectricalType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputCurrentRange",
+      "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InputVoltageRange",
+      "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InternalResistance",
+      "schema": "float",
+      "writable": false
+    }
+  ]
+}

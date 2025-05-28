@@ -1,0 +1,328 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Fdi5:EditContextType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:WindowModeType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ModalWindow",
+          "enumValue": 1
+        },
+        {
+          "name": "NonModalWindow",
+          "enumValue": 2
+        },
+        {
+          "name": "UIP",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:RegistrationParameters;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Path",
+          "schema": "string"
+        },
+        {
+          "name": "SelectionFlags",
+          "schema": "unsignedInteger"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisterNodesResult;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Status",
+          "schema": "integer"
+        },
+        {
+          "name": "RegisteredNodes",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisteredNode;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisteredNode;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NodeStatus",
+          "schema": "integer"
+        },
+        {
+          "name": "OnlineContextNodeId",
+          "schema": "string"
+        },
+        {
+          "name": "OnlineDeviceNodeId",
+          "schema": "string"
+        },
+        {
+          "name": "OfflineContextNodeId",
+          "schema": "string"
+        },
+        {
+          "name": "OfflineDeviceNodeId",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:ApplyResult;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Status",
+          "schema": "integer"
+        },
+        {
+          "name": "TransferIncidents",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:TransferIncident;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:TransferIncident;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ContextNodeId",
+          "schema": "string"
+        },
+        {
+          "name": "StatusCode",
+          "schema": "integer"
+        },
+        {
+          "name": "Diagnostics",
+          "schema": "bytes"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GetEditContext",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ParentId",
+              "schema": "string"
+            },
+            {
+              "name": "TargetWindowMode",
+              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:WindowModeType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EditContextId",
+              "schema": "string"
+            },
+            {
+              "name": "GetEditContextStatus",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RegisterNodesById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EditContextId",
+              "schema": "string"
+            },
+            {
+              "name": "NodesToRegister",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegistrationParameters;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RegisterNodesStatus",
+              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisterNodesResult;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RegisterNodesByRelativePath",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EditContextId",
+              "schema": "string"
+            },
+            {
+              "name": "NodesToRegister",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegistrationParameters;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RegisterNodesStatus",
+              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisterNodesResult;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Apply",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EditContextId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplyStatus",
+              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:ApplyResult;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Reset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EditContextId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResetStatus",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Discard",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EditContextId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "DiscardStatus",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

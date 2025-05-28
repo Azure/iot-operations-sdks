@@ -1,0 +1,235 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:DocumentationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ArrangementsLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CertificatesLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CircuitDiagramLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ComponentsListLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DetailLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DuringMaintenanceServicesRenderedLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ImplementationDescriptionLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LayoutLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LocationLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LogicDiagramLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LubricationMapLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaintenanceManualLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperationManualLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PersonnelRecordingLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PipeAndInstrumentDiagramLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ScopeOfWorkLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SingleLineDiagramLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SparePartReferenceLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StaffLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TechnicalDataLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TestProgramReportLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnitMaintenanceReportLink",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Arrangements"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Certificates"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CircuitDiagram"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ComponentsList"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Detail"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DuringMaintenanceServicesRendered"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ImplementationDescription"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Layout"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Location"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LogicDiagram"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LubricationMap"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceManual"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperationManual"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PersonnelRecording"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PipeAndInstrumentDiagram"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ScopeOfWork"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SingleLineDiagram"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SparePartReference"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Staff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TechnicalData"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TestProgramReport"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnitMaintenanceReport"
+    }
+  ]
+}

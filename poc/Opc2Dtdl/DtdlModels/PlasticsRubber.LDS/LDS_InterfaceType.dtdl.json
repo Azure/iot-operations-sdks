@@ -1,0 +1,30 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_LDS:LDS_InterfaceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Identification",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineConfiguration",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operation",
+      "target": "dtmi:opcua:PlasticsRubber_LDS:OperationType"
+    }
+  ]
+}

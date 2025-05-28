@@ -1,0 +1,75 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:ProductionProgramStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Aborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AbortedToInitializing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Ended"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EndedToInitializing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Initializing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InitializingToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InitializingToRunning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Interrupted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InterruptedToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InterruptedToRunning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Running"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RunningToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RunningToEnded"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RunningToInterrupted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RunningToRunning"
+    }
+  ]
+}

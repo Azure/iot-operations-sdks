@@ -1,0 +1,586 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95JobOrderDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JobOrderID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "WorkMasterID",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95WorkMasterDataType;1"
+          }
+        },
+        {
+          "name": "StartTime",
+          "schema": "dateTime"
+        },
+        {
+          "name": "EndTime",
+          "schema": "dateTime"
+        },
+        {
+          "name": "Priority",
+          "schema": "short"
+        },
+        {
+          "name": "JobOrderParameters",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95ParameterDataType;1"
+          }
+        },
+        {
+          "name": "PersonnelRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PersonnelDataType;1"
+          }
+        },
+        {
+          "name": "EquipmentRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95EquipmentDataType;1"
+          }
+        },
+        {
+          "name": "PhysicalAssetRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PhysicalAssetDataType;1"
+          }
+        },
+        {
+          "name": "MaterialRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95MaterialDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95WorkMasterDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Parameters",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95ParameterDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95ParameterDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subparameters",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95ParameterDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PersonnelDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "PersonnelUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PropertyDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subproperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95EquipmentDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EquipmentUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PhysicalAssetDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "PhysicalAssetUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95MaterialDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "MaterialClassID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialDefinitionID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialLotID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialSublotID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "MaterialUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "Abort",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Cancel",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Clear",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Pause",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Start",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Stop",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Store",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrder",
+              "schema": "dtmi:opcua:wireharness:WireHarnessJobOrderReceiverSubStatesType:dataType:ISA95JobOrderDataType;1"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

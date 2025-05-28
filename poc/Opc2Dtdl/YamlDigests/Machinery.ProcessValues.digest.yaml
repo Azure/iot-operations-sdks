@@ -1,0 +1,878 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PADIM:1156, ResetModeEnum ]
+  Enums:
+    Application: 1
+    Communication: 2712
+    Factory: 2713
+- UADataType: [ PADIM:1158, ExecutionModeEnum ]
+  Enums:
+    Start: 2
+    Abort: 255
+- UADataType: [ PADIM:1276, PatDictionaryEnum ]
+  Enums:
+    CAS: 0
+    PAT: 1
+    User-defined: 2
+- UADataType: [ PADIM:1275, ChemicalSubstanceDataType ]
+  Fields:
+    PatDictionary: [ PatDictionaryEnum, 0 ]
+    Label: [ LocalizedText, 0 ]
+    Id: [ LocalizedText, 0 ]
+
+DefinedTypes:
+
+  ProcessValueVariableType:
+  - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType, Number, -2, 0 ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6017, HighHighLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6018, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6015, HighLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6016, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6013, LowLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6014, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6011, LowLowLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6012, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6008, PercentageValue, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17570, AnalogUnitRangeType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6009, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6010, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ProcessValueSetpointVariableType:
+  - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+  - HasProperty:
+    - [ UAVariable, Machinery.ProcessValues:6027, AutoDeviationAdjustment, Boolean, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6028, DeviationSensitivity, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6029, EnumValues, EnumValueType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6030, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6023, HighDeviation, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6024, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6025, HighHighDeviation, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6026, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6021, LowDeviation, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6022, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6019, LowLowDeviation, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6020, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6031, SubstituteValue, Number, -2, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+
+  ZeroPointAdjustmentEventType:
+  - [ UAObjectType, Machinery.ProcessValues:1002, ZeroPointAdjustmentEventType ]
+  - HasProperty:
+    - [ UAVariable, Machinery.ProcessValues:6032, ZeroPointAdjustmentResult, StatusCode, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ProcessValueType:
+  - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6108, AlarmSuppression, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6109, EnumValues, EnumValueType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6110, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6033, AnalogSignal, Number, -2, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6034, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6035, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6119, HighHighLimit, Number, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6120, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6117, HighLimit, Number, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6118, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6115, LowLimit, Number, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6116, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6113, LowLowLimit, Number, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6114, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6104, PercentageValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17570, AnalogUnitRangeType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6111, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6112, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 9764, ExclusiveDeviationAlarmType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6048, AckedState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 8995, TwoStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6049, Id, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7002, Acknowledge ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - AlwaysGeneratesEvent:
+        - [ UAObjectType, 8944, AuditConditionAcknowledgeEventType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6050, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            EventId: [ ByteString, 0 ]
+            Comment: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 8995, TwoStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6041, Id, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTrueSubState:
+        - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
+        - HasComponent:
+          - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasProperty:
+            - [ UAVariable, Machinery.ProcessValues:6043, Id, NodeId, 0, 0 ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7003, AddComment ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - AlwaysGeneratesEvent:
+        - [ UAObjectType, 2829, AuditConditionCommentEventType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6051, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            EventId: [ ByteString, 0 ]
+            Comment: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6052, BranchId, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6053, ClientUserId, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6054, Comment, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 9002, ConditionVariableType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6055, SourceTimestamp, UtcTime, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6056, ConditionClassId, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6057, ConditionClassName, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6058, ConditionName, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7004, Disable ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - AlwaysGeneratesEvent:
+        - [ UAObjectType, 2803, AuditConditionEnableEventType ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7005, Enable ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - AlwaysGeneratesEvent:
+        - [ UAObjectType, 2803, AuditConditionEnableEventType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6044, EnabledState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 8995, TwoStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTrueSubState:
+        - [ UAVariable, Machinery.ProcessValues:6040, ActiveState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 8995, TwoStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, Machinery.ProcessValues:6041, Id, Boolean, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTrueSubState:
+          - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
+          - HasComponent:
+            - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 2760, FiniteStateVariableType ]
+            - HasProperty:
+              - [ UAVariable, Machinery.ProcessValues:6043, Id, NodeId, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6045, Id, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6064, EventId, ByteString, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6065, EventType, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6046, InputNode, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6059, LastSeverity, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 9002, ConditionVariableType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6060, SourceTimestamp, UtcTime, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, Machinery.ProcessValues:5003, LimitState ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
+      - HasComponent:
+        - [ UAVariable, Machinery.ProcessValues:6042, CurrentState, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, Machinery.ProcessValues:6043, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6066, Message, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6061, Quality, StatusCode, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 9002, ConditionVariableType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6062, SourceTimestamp, UtcTime, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6067, ReceiveTime, UtcTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6063, Retain, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6039, SetpointNode, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6068, Severity, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6069, SourceName, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6070, SourceNode, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6047, SuppressedOrShelved, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6071, Time, UtcTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 9341, ExclusiveLimitAlarmType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6080, AckedState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 8995, TwoStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6081, Id, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7006, Acknowledge ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6082, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            EventId: [ ByteString, 0 ]
+            Comment: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6072, ActiveState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 8995, TwoStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6073, Id, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7007, AddComment ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6083, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            EventId: [ ByteString, 0 ]
+            Comment: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6084, BranchId, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6085, ClientUserId, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6086, Comment, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 9002, ConditionVariableType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6087, SourceTimestamp, UtcTime, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6088, ConditionClassId, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6089, ConditionClassName, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6090, ConditionName, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7008, Disable ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.ProcessValues:7009, Enable ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6076, EnabledState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 8995, TwoStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6077, Id, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6096, EventId, ByteString, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6097, EventType, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6078, InputNode, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6091, LastSeverity, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 9002, ConditionVariableType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6092, SourceTimestamp, UtcTime, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, Machinery.ProcessValues:5005, LimitState ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 9318, ExclusiveLimitStateMachineType ]
+      - HasComponent:
+        - [ UAVariable, Machinery.ProcessValues:6074, CurrentState, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, Machinery.ProcessValues:6075, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6098, Message, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Machinery.ProcessValues:6093, Quality, StatusCode, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 9002, ConditionVariableType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.ProcessValues:6094, SourceTimestamp, UtcTime, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6099, ReceiveTime, UtcTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6095, Retain, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6100, Severity, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6101, SourceName, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6102, SourceNode, NodeId, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6079, SuppressedOrShelved, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6103, Time, UtcTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6036, ProcessValueSetpoint, Number, -2, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, Machinery.ProcessValues:2003, ProcessValueSetpointVariableType, Number, -2, 0 ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6037, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6038, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Machinery.ProcessValues:6105, Status, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6106, EnumValues, EnumValueType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.ProcessValues:6107, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Machinery.ProcessValues:7001, ZeroPointAdjustment ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - GeneratesEvent:
+      - [ UAObjectType, Machinery.ProcessValues:1002, ZeroPointAdjustmentEventType ]

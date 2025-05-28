@@ -1,0 +1,40 @@
+DataTypes:
+
+DefinedTypes:
+
+  Order:
+  - [ UAObjectType, AMLLibs:25, Order ]
+  - HasComponent:
+    - [ UAVariable, AMLLibs:46, Direction, String, 0, 0 ]
+
+  ExternalDataConnector:
+  - [ UAObjectType, AMLLibs:37, ExternalDataConnector ]
+  - HasComponent:
+    - [ UAVariable, AMLLibs:49, refURI, String, 0, 0 ]
+
+  InterlockingVariableInterface:
+  - [ UAObjectType, AMLLibs:64, InterlockingVariableInterface ]
+  - HasComponent:
+    - [ UAVariable, AMLLibs:67, SafeConditionEquals, Boolean, 0, 0 ]
+
+  Group:
+  - [ UAObjectType, AMLLibs:77, Group ]
+  - HasComponent:
+    - [ UAVariable, AMLLibs:104, AssociatedFacet, String, 0, 0 ]
+
+  Port:
+  - [ UAObjectType, AMLLibs:83, Port ]
+  - HasComponent:
+    - [ UAVariable, AMLLibs:113, Direction, String, 0, 0 ]
+  - HasComponent:
+    - [ UAVariable, AMLLibs:116, Cardinality, String, 0, 0 ]
+    - HasComponent:
+      - [ UAVariable, AMLLibs:125, MinOccur, UInt32, 0, 0 ]
+    - HasComponent:
+      - [ UAVariable, AMLLibs:128, MaxOccur, UInt32, 0, 0 ]
+  - HasComponent:
+    - [ UAVariable, AMLLibs:119, Category, String, 0, 0 ]
+  - HasComponent:
+    - [ UAObject, AMLLibs:122, ConnectionPoint ]
+    - HasTypeDefinition:
+      - [ UAObjectType, AMLLibs:28, PortConnector ]

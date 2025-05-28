@@ -1,0 +1,51 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:IREDES:OpPerfLogType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Mworking",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TurnedOff",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "WaitOperator",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "WaitProcess",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "WaitRepair",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "WaitSamples",
+      "schema": "duration",
+      "writable": true
+    }
+  ]
+}

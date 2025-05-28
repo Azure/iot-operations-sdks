@@ -1,0 +1,75 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtEncoderRotaryAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "EncoderFlangeSize",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "EncoderFlangeType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "EncoderRotarySpeedMax",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "EncoderShaftSize",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "EncoderShaftType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FeedbackResolverExcitationFrequency",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FeedbackResolverExcitationVoltage",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ResolutionMultiturnAbsolute",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ResolutionRotaryIncremental",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ResolutionSingleturnAbsolute",
+      "schema": "unsignedInteger",
+      "writable": false
+    }
+  ]
+}

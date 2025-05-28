@@ -1,0 +1,8 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+    {
+      "@type": "Relationship",
+      "name": "<#=TypeConverter.StripAngles(definedType.BrowseName)#>"<#=this.Target != null ? "," : ""#>
+<# if (this.Target != null) { #>
+      "target": "<#=this.Target#>"
+<# } #>
+    }

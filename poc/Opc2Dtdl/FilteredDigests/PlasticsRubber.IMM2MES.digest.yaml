@@ -1,0 +1,512 @@
+DataTypes:
+- UADataType: [ PlasticsRubber.IMM2MES:3004, IMMMessageClassificationEnumeration ]
+  Enums:
+    OTHER: 0
+    IMM_INJECTION_UNIT: 100
+    IMM_CLAMPING_UNIT: 101
+    IMM_HARDWARE: 102
+    IMM_COMPRESSED_AIR_CONTROL: 103
+    IMM_MACHINE_MONITORING: 104
+    IMM_MOULD: 105
+    IMM_EJECTOR: 106
+    IMM_CORE_PULL: 107
+    IMM_TABLE: 108
+    IMM_INJECTION_PROGRAM: 109
+    IMM_HYDRAULIC_TEMPERATURE_CONTROL: 110
+    IMM_CYLINDER_TEMPERATURE_CONTROL: 111
+    IMM_MOULD_TEMPERATURE_CONTROL: 112
+    IMM_HOT_RUNNER: 113
+    IMM_INTERFACES: 114
+    IMM_MEASURING_SYSTEM: 115
+    IMM_ROBOTIC_SYSTEM_INTERFACE: 116
+    IMM_SPECIAL_PURPOSE_SIGNALS: 117
+    IMM_REAL_TIME_ETHERNET_SYSTEM: 118
+    IMM_MACHINE_CONTROLLER: 119
+    IMM_SOFTWARE_MONITORING: 120
+    PERIPHERAL_EXTERNAL_DEVICE_INTERFACE: 200
+    PERIPHERAL_TEMPERATURE_CONTROL_UNIT: 201
+    PERIPHERAL_ROBOTICS_SYSTEM: 202
+    PERIPHERAL_LSR: 203
+    PERIPHERAL_STRIPPER_UNIT: 204
+    PERIPHERAL_DRYER: 205
+    PERIPHERAL_CONVEYOR_BELT: 206
+    PERIPHERAL_SORTER_UNIT: 207
+    PERIPHERAL_COLOURING_UNIT: 208
+    PERIPHERAL_FEEDING: 209
+    PERIPHERAL_EXTERNAL_ALARMS: 210
+    PERIPHERAL_VACUUM_CONTROL: 211
+    PERIPHERAL_PRINTER_INTERFACE: 212
+    OPERATION_QUALITY_MONITORING: 300
+    OPERATION_MANUAL_OPERATION: 301
+    OPERATION_EMERGENCY_STOP: 302
+    OPERATION_JOB_STATUS: 303
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+  Enums:
+    NO_PART: 0
+    GOOD_PART: 1
+    BAD_PART: 2
+    REWORK: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+  Enums:
+    OTHER: 0
+    OFF: 1
+    AUTOMATIC: 2
+    TUNING: 3
+    STANDBY: 4
+    OPEN_LOOP: 5
+    ONLY_MEASUREMENT: 6
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+  Enums:
+    GOOD_CYCLE: 0
+    BAD_CYCLE: 1
+    TEST_SAMPLE_CYCLE: 2
+    FAILED_CYCLE: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+  Enums:
+    OFF: 0
+    ACTIVE_OK: 1
+    ACTIVE_ERROR_DETECTED: 2
+    COMPLETE: 3
+    COMPLETE_ERROR_DETECTED: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+  Enums:
+    OTHER: 0
+    MACHINE: 1
+    OPERATOR: 2
+    MES: 3
+    PERIPHERAL_DEVICE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    TRANSFERRED_ASSIGNED: 1
+    SET_UP_ACTIVE: 2
+    SET_UP_INTERRUPTED: 3
+    SET_UP_FINISHED: 4
+    START_UP_ACTIVE: 5
+    JOB_IN_PRODUCTION: 6
+    JOB_INTERRUPTED: 7
+    JOB_FINISHED: 8
+    TEAR_DOWN_ACTIVE: 9
+    TEAR_DOWN_INTERRUPTED: 10
+    TEAR_DOWN_FINISHED: 11
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+  Enums:
+    PARAMETER_CHANGE: 0
+    USER: 1
+    REMOTE_ACCESS: 2
+    SEQUENCE_CHANGE: 3
+    MACHINE_MODE_CHANGE: 4
+    PRODUCTION_STATUS_CHANGE: 5
+    PRODUCTION_DATASET_CHANGE: 6
+    PRODUCTION_DATASET_FROZEN: 7
+    STANDSTILL_REASON: 8
+    MESSAGE: 9
+    USER_FEEDBACK: 10
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+  Enums:
+    OTHER: 0
+    AUTOMATIC: 1
+    SEMI_AUTOMATIC: 2
+    MANUAL: 3
+    SETUP: 4
+    SLEEP: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+  Enums:
+    NOT_DUE: 0
+    WARNING: 1
+    DUE: 2
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    MOULD_NOT_INSTALLED: 1
+    MOULD_CHANGE: 2
+    MOULD_INSTALLED: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    NO_PRODUCTION: 1
+    START_UP: 2
+    READY_FOR_PRODUCTION: 3
+    PRODUCTION: 4
+    DRY_RUN: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+  Enums:
+    UPDATE: 0
+    ADD: 1
+    MODIFY: 2
+    MOVE: 3
+    DELETE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+  Enums:
+    NOT_READY_TO_START: 0
+    START_BLOCKED_BY_CLIENT: 1
+    READY_TO_START: 2
+    START_REQUESTED: 3
+    STARTED: 4
+    STOP_REQUESTED: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+  Enums:
+    PRODUCTION: 1
+    PREPARATION: 2
+    FILE_SYSTEM: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+  Enums:
+    OTHER: 0
+    HEATING: 1
+    COOLING: 2
+    TEMPERATURE_CONTROL: 3
+    HOT_RUNNER: 4
+    MEASURING: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+  Enums:
+    LOG_ON: 0
+    LOG_OFF: 1
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Severity: [ UInt16, 0 ]
+    Message: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+  Fields:
+    SourceNodes: [ NodeId, 1 ]
+    Classification: [ UInt16, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Description: [ LocalizedText, 0 ]
+    DefaultValue: [ null, 0 ]
+    Unit: [ EUInformation, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+  Fields:
+    JobName: [ String, 0 ]
+    JobDescription: [ String, 0 ]
+    JobClassification: [ String, 0 ]
+    CustomerName: [ String, 0 ]
+    ProductionDatasetName: [ String, 0 ]
+    ProductionDatasetDescription: [ String, 0 ]
+    Material: [ String, 1 ]
+    ProductName: [ String, 1 ]
+    ProductDescription: [ String, 1 ]
+    JobPriority: [ String, 0 ]
+    PlannedStart: [ DateTime, 0 ]
+    PlannedProductionTime: [ Duration, 0 ]
+    LatestEnd: [ DateTime, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+  Fields:
+    NominalParts: [ UInt64, 0 ]
+    NominalBoxParts: [ UInt64, 0 ]
+    ExpectedCycleTime: [ Duration, 0 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Title: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+  Fields:
+    P: [ Double, 0 ]
+    I: [ Double, 0 ]
+    D: [ Double, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    MESId: [ String, 0 ]
+    CreationTimestamp: [ DateTime, 0 ]
+    LastModificationTimestamp: [ DateTime, 0 ]
+    LastSaveTimestamp: [ DateTime, 0 ]
+    UserName: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+    Manufacturer: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+    Model: [ String, 0 ]
+    ControllerName: [ String, 0 ]
+    UserMachineName: [ String, 0 ]
+    LocationName: [ String, 0 ]
+    ProductName: [ String, 1 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+  Fields:
+    Id: [ String, 0 ]
+    Text: [ LocalizedText, 0 ]
+    LockedByMES: [ Boolean, 0 ]
+
+DefinedTypes:
+
+  IMM_MES_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.IMM2MES:1007, IMM_MES_InterfaceType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5029, InjectionUnits ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1016, InjectionUnitsType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5004, Jobs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1032, JobsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5005, MachineConfiguration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, MachineConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5001, MachineInformation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1009, MachineInformationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5009, MachineMESConfiguration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1018, MachineMESConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5011, MachineMESStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1020, MachineMESStatusType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5006, MachineStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1019, MachineStatusType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5035, Moulds ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1050, MouldsType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5054, PowerUnits ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1049, PowerUnitsType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5003, ProductionDatasetManagement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1008, ProductionDatasetManagementType ]
+
+  InjectionUnitCycleParametersType:
+  - [ UAObjectType, PlasticsRubber.IMM2MES:1039, InjectionUnitCycleParametersType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6118, BackPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6129, CavityPressureMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6093, CushionStroke, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6441, CushionVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6131, DecompressionVolumeAfterPlastification, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6064, DecompressionVolumeBeforePlastification, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6059, DosingTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6160, FlowIndex, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6146, HoldHydraulicPressureAverage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6148, HoldHydraulicPressureMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6150, HoldSpecificPressureAverage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6152, HoldSpecificPressureMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6188, HydraulicPressureMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6065, InjectionSpeedAverage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6061, InjectionSpeedMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6164, InjectionStartPosition, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6060, InjectionTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6208, PlastificationCircumferentialSpeedAverage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6211, PlastificationCircumferentialSpeedMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6194, PlastificationHydraulicPressureAverage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6197, PlastificationHydraulicPressureMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6223, PlastificationRotationalSpeedAverage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6225, PlastificationRotationalSpeedMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6067, PlastificationSpecificPressureAverage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6069, PlastificationSpecificPressureMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6063, PlastificationVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6247, SpecificPressureMaximum, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6117, TransferCavityPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6156, TransferHydraulicPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6228, TransferSpecificPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6071, TransferStroke, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6254, TransferVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6166, VPChangeOverPosition, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  InjectionUnitsType:
+  - [ UAObjectType, PlasticsRubber.IMM2MES:1016, InjectionUnitsType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5027, InjectionUnit_<Nr> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.IMM2MES:1028, InjectionUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  InjectionUnitType:
+  - [ UAObjectType, PlasticsRubber.IMM2MES:1028, InjectionUnitType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6102, MaxScrewStroke, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6100, ScrewDiameter, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.IMM2MES:6104, ScrewVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.IMM2MES:5017, TemperatureZones ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1055, TemperatureZonesType ]

@@ -1,0 +1,201 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:FxAssetType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_ac:FxAssetType:dataType:DeviceHealthEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NORMAL",
+          "enumValue": 0
+        },
+        {
+          "name": "FAILURE",
+          "enumValue": 1
+        },
+        {
+          "name": "CHECK_FUNCTION",
+          "enumValue": 2
+        },
+        {
+          "name": "OFF_SPEC",
+          "enumValue": 3
+        },
+        {
+          "name": "MAINTENANCE_REQUIRED",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:FxAssetType:dataType:AssetVerificationModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "AssetCompatibility",
+          "enumValue": 0
+        },
+        {
+          "name": "AssetIdentity",
+          "enumValue": 1
+        },
+        {
+          "name": "AssetIdentityAndCompatibility",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:FxAssetType:dataType:KeyValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:FxAssetType:dataType:NodeIdValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "dtmi:opcua:fx_ac:FxAssetType:dataType:NodeIdArray;1"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:FxAssetType:dataType:NodeIdArray;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Node",
+          "schema": "string"
+        },
+        {
+          "name": "ArrayIndex",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "unsignedInteger"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:FxAssetType:dataType:AssetVerificationResultEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NotSet",
+          "enumValue": 0
+        },
+        {
+          "name": "Match",
+          "enumValue": 1
+        },
+        {
+          "name": "Compatible",
+          "enumValue": 2
+        },
+        {
+          "name": "Mismatch",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DeviceHealth",
+      "schema": "dtmi:opcua:fx_ac:FxAssetType:dataType:DeviceHealthEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "VerifyAsset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VerificationMode",
+              "schema": "dtmi:opcua:fx_ac:FxAssetType:dataType:AssetVerificationModeEnum;1"
+            },
+            {
+              "name": "ExpectedVerificationVariables",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:FxAssetType:dataType:KeyValuePair;1"
+              }
+            },
+            {
+              "name": "ExpectedAdditionalVerificationVariables",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:FxAssetType:dataType:NodeIdValuePair;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VerificationResult",
+              "schema": "dtmi:opcua:fx_ac:FxAssetType:dataType:AssetVerificationResultEnum;1"
+            },
+            {
+              "name": "VerificationVariablesErrors",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            },
+            {
+              "name": "VerificationAdditionalVariablesErrors",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Connectors"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DeviceHealthAlarms"
+    }
+  ]
+}

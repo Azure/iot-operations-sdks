@@ -1,0 +1,189 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "L1",
+          "schema": "float"
+        },
+        {
+          "name": "L2",
+          "schema": "float"
+        },
+        {
+          "name": "L3",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "L1L2",
+          "schema": "float"
+        },
+        {
+          "name": "L2L3",
+          "schema": "float"
+        },
+        {
+          "name": "L3L1",
+          "schema": "float"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AcActivePowerPe",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AcActivePowerPe",
+            "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AcCurrentPe",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AcCurrentPe",
+            "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AcPowerFactorPe",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AcPowerFactorPe",
+            "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AcReactivePowerPe",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AcReactivePowerPe",
+            "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AcVoltagePe",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AcVoltagePe",
+            "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AcVoltagePp",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AcVoltagePp",
+            "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    }
+  ]
+}

@@ -1,0 +1,256 @@
+DataTypes:
+- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+  Enums:
+    SimulationMode: 0
+    TestMode: 1
+    ProductionMode: 2
+- UADataType: [ Machinery.Jobs:3006, JobResult ]
+  Enums:
+    Unknown: 0
+    Successful: 1
+    Unsuccessful: 2
+- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+  Enums:
+    OrderNumber: 0
+    LotNumber: 1
+    SerialNumber: 2
+- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    Quantity: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+  Fields:
+    ItemNumber: [ String, 0 ]
+    OutputInfo: [ OutputInfoType, 0 ]
+    OrderNumber: [ String, 0 ]
+    LotNumber: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EquipmentUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+  Fields:
+    JobOrder: [ ISA95JobOrderDataType, 0 ]
+    State: [ ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+  Fields:
+    JobOrderID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Priority: [ Int16, 0 ]
+    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+  Fields:
+    JobResponseID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JobOrderID: [ String, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    JobState: [ ISA95StateDataType, 1 ]
+    JobResponseData: [ ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+  Fields:
+    MaterialClassID: [ String, 0 ]
+    MaterialDefinitionID: [ String, 0 ]
+    MaterialLotID: [ String, 0 ]
+    MaterialSublotID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    MaterialUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subparameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PersonnelUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PhysicalAssetUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subproperties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+  Fields:
+    BrowsePath: [ RelativePath, 0 ]
+    StateText: [ LocalizedText, 0 ]
+    StateNumber: [ UInt32, 0 ]
+- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+
+DefinedTypes:
+
+  JobManagementType:
+  - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
+  - HasProperty:
+    - [ UAVariable, Machinery.Jobs:6013, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6009, CurrentState, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasProperty:
+        - [ UAVariable, Machinery.Jobs:6010, Id, NodeId, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6001, EquipmentID, String, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6002, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6003, MaterialClassID, String, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6004, MaterialDefinitionID, String, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Jobs:6005, MaxDownloadableJobOrders, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6006, PersonnelID, String, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6007, PhysicalAssetID, String, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, Machinery.Jobs:6008, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAObject, Machinery.Jobs:5002, JobOrderResults ]
+    - HasTypeDefinition:
+      - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.Jobs:7001, RequestJobResponseByJobOrderID ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.Jobs:6011, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JobOrderID: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.Jobs:6012, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JobResponse: [ ISA95JobResponseDataType, 0 ]
+            ReturnStatus: [ UInt64, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Machinery.Jobs:7002, RequestJobResponseByJobOrderState ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.Jobs:6037, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JobOrderState: [ ISA95StateDataType, 1 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Machinery.Jobs:6038, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JobResponses: [ ISA95JobResponseDataType, 1 ]
+            ReturnStatus: [ UInt64, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]

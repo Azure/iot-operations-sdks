@@ -1,0 +1,58 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:ControlledActuatorType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:ControlledActuatorType:dataType:FailActionClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FailClose",
+          "enumValue": 0
+        },
+        {
+          "name": "FailOpen",
+          "enumValue": 1
+        },
+        {
+          "name": "FailRetainPosition",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "SubTagNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DeviceTypeNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FailActionRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FailActionSpecialization",
+      "schema": "dtmi:opcua:DEXPI:ControlledActuatorType:dataType:FailActionClassification;1",
+      "writable": true
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtAssetType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Powertrain:PtAssetType:dataType:DeviceHealthEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NORMAL",
+          "enumValue": 0
+        },
+        {
+          "name": "FAILURE",
+          "enumValue": 1
+        },
+        {
+          "name": "CHECK_FUNCTION",
+          "enumValue": 2
+        },
+        {
+          "name": "OFF_SPEC",
+          "enumValue": 3
+        },
+        {
+          "name": "MAINTENANCE_REQUIRED",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DeviceHealth",
+      "schema": "dtmi:opcua:Powertrain:PtAssetType:dataType:DeviceHealthEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "VerifyAsset"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtAnalogInputElectricalAttributes",
+      "target": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtAnalogOutputElectricalAttributes",
+      "target": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtDigitalInputElectricalAttributes",
+      "target": "dtmi:opcua:Powertrain:PtDigitalInputElectricalAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtDigitalOutputElectricalAttributes",
+      "target": "dtmi:opcua:Powertrain:PtDigitalOutputElectricalAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtStandardAttributes",
+      "target": "dtmi:opcua:Powertrain:PtStandardAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DeviceHealthAlarms"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DeviceTypeImage"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Documentation"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DocumentationFiles"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ImageSet"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProtocolSupport"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtAmbientAttributes",
+      "target": "dtmi:opcua:Powertrain:PtAmbientAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtAuxiliarySupplyAttributes",
+      "target": "dtmi:opcua:Powertrain:PtAuxiliarySupplyAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtCertificateAttributes",
+      "target": "dtmi:opcua:Powertrain:PtCertificateAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtHardwareAttributes",
+      "target": "dtmi:opcua:Powertrain:PtHardwareAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtMechanicalStrengthAttributes",
+      "target": "dtmi:opcua:Powertrain:PtMechanicalStrengthAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtProtectionClassAttributes",
+      "target": "dtmi:opcua:Powertrain:PtProtectionClassAttributesType"
+    }
+  ]
+}

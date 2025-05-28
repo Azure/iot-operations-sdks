@@ -1,0 +1,47 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AnalogOutputElectricalType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FrequencyRange",
+      "schema": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LoadResistance",
+      "schema": "float",
+      "writable": false
+    }
+  ]
+}

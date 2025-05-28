@@ -1,0 +1,129 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "PreHeat",
+          "enumValue": 1
+        },
+        {
+          "name": "PreCool",
+          "enumValue": 2
+        },
+        {
+          "name": "HoldWarm",
+          "enumValue": 3
+        },
+        {
+          "name": "HoldCool",
+          "enumValue": 4
+        },
+        {
+          "name": "Regenerating",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayTypeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Generic",
+          "enumValue": 0
+        },
+        {
+          "name": "HeaterPlate",
+          "enumValue": 1
+        },
+        {
+          "name": "CoolingPlate",
+          "enumValue": 2
+        },
+        {
+          "name": "CombiPlate",
+          "enumValue": 3
+        },
+        {
+          "name": "BainMarie",
+          "enumValue": 4
+        },
+        {
+          "name": "HeaterCabinet",
+          "enumValue": 5
+        },
+        {
+          "name": "CoolingCabinet",
+          "enumValue": 6
+        },
+        {
+          "name": "HeatBridge",
+          "enumValue": 7
+        },
+        {
+          "name": "CombiCabinet",
+          "enumValue": 8
+        },
+        {
+          "name": "RegenCabinet",
+          "enumValue": 9
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActiveSince",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingCounter",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProgramMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayModeEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SetTemperature",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Type",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:TrayType:dataType:TrayTypeEnumeration;1",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:SubscriberConfigurationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_cm:SubscriberConfigurationType:dataType:NetworkAddressDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NetworkInterface",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Address",
+      "schema": "dtmi:opcua:fx_cm:SubscriberConfigurationType:dataType:NetworkAddressDataType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MessageReceiveTimeout",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ReceiveQos",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "bytes"
+      },
+      "writable": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:LaserMonitoringType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined",
+          "enumValue": 0
+        },
+        {
+          "name": "Ready",
+          "enumValue": 1
+        },
+        {
+          "name": "Active",
+          "enumValue": 2
+        },
+        {
+          "name": "Error",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ControllerIsOn",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LaserState",
+      "schema": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1",
+      "writable": false
+    }
+  ]
+}

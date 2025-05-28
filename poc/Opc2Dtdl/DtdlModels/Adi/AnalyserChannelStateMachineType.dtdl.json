@@ -1,0 +1,87 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Adi:AnalyserChannelStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "OperatingSubStateMachine",
+      "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LocalSubStateMachine"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceSubStateMachine"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SlaveMode"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operating",
+      "target": "dtmi:opcua:ADI:AnalyserChannelOperatingStateType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Local",
+      "target": "dtmi:opcua:ADI:AnalyserChannelLocalStateType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Maintenance",
+      "target": "dtmi:opcua:ADI:AnalyserChannelMaintenanceStateType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SlaveModeToOperatingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperatingToLocalTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperatingToMaintenanceTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LocalToOperatingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LocalToMaintenanceTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceToOperatingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceToLocalTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperatingToSlaveModeTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LocalToSlaveModeTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceToSlaveModeTransition"
+    }
+  ]
+}

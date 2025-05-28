@@ -1,0 +1,90 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:AMB:DocumentationLinksType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Link",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "Link",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "LinkSchema",
+          "schema": "string"
+        }
+      },
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "AddLink",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LinkToExternalSource",
+              "schema": "string"
+            },
+            {
+              "name": "BrowseName",
+              "schema": "string"
+            },
+            {
+              "name": "DisplayName",
+              "schema": "string"
+            },
+            {
+              "name": "Description",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LinkVariable",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RemoveLink",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VariableToBeDeleted",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

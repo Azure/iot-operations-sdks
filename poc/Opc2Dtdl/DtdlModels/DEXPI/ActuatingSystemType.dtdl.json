@@ -1,0 +1,42 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:ActuatingSystemType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActuatingSystemNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TypicalInformationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "ControlledActuator",
+      "target": "dtmi:opcua:DEXPI:ControlledActuatorType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ShutOffValveReference",
+      "target": "dtmi:opcua:DEXPI:ShutOffValveReferenceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Positioner",
+      "target": "dtmi:opcua:DEXPI:PositionerType"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtMotorRatedAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "MotorCurrentContinuousStall",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MotorEfficiencyClass",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MotorPowerFactor",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MotorPowerRated",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MotorWindingType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtInputInterfaceAttributes",
+      "target": "dtmi:opcua:Powertrain:PtInputInterfaceAttributesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PtMotorDutyAttributes",
+      "target": "dtmi:opcua:Powertrain:PtMotorDutyAttributesType"
+    }
+  ]
+}

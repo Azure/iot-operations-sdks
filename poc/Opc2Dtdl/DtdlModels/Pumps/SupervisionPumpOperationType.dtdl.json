@@ -1,0 +1,237 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:SupervisionPumpOperationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AccessoryLiquidFlow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AccessoryLiquidHigh",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AccessoryLiquidLow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AccessoryLiquidOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AccessoryLiquidPressure",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AmbientTemperature",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "CaseOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ControllerOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ConverterOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "CoolantFlow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "CoolantHigh",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "CoolantLow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "CoolantOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Deceleration",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "DirtyImpeller",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "DriveOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "GeneratorOperation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Leakage",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Lubricant",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MaximumNumberStarts",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MaximumOperationTime",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MaximumStartsAtTime",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MotorHumidity",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MotorOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OperationFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverLoad",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverSpeed",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "PartialLoad",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Synchronisation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "TemperatureFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "TimeOut",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "TMSFailure",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "TorqueLimit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "TurbineOperation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "UnderSpeed",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VelocityLimit",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "WearReserveExhausted",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

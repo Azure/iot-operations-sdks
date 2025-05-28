@@ -1,0 +1,118 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:IAssetRevisionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "AssetCompatibility",
+          "enumValue": 0
+        },
+        {
+          "name": "AssetIdentity",
+          "enumValue": 1
+        },
+        {
+          "name": "AssetIdentityAndCompatibility",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:KeyValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationResultEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NotSet",
+          "enumValue": 0
+        },
+        {
+          "name": "Match",
+          "enumValue": 1
+        },
+        {
+          "name": "Compatible",
+          "enumValue": 2
+        },
+        {
+          "name": "Mismatch",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "VerifyAsset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VerificationMode",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationModeEnum;1"
+              }
+            },
+            {
+              "name": "ExpectedVerificationVariables",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:KeyValuePair;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VerificationResult",
+              "schema": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationResultEnum;1"
+            },
+            {
+              "name": "VerificationVariablesErrors",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

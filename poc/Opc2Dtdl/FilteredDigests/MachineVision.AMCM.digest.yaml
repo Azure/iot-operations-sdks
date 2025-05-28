@@ -1,0 +1,240 @@
+DataTypes:
+- UADataType: [ MachineVision.AMCM:3002, SEMI_E10SystemStateDataType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Priority: [ UInt32, 0 ]
+- UADataType: [ MachineVision.AMCM:3003, SEMI_E10SystemStateInfoDataType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Name: [ LocalizedText, 0 ]
+    ParentStateId: [ UInt32, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  VisionHealthInfoType:
+  - [ UAObjectType, MachineVision.AMCM:1004, VisionHealthInfoType ]
+  - HasComponent:
+    - [ UAVariable, MachineVision.AMCM:6497, DeviceHealth, DeviceHealthEnumeration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5221, DeviceHealthAlarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, MachineVision.AMCM:6010, RemainingLifeTime, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, MachineVision.AMCM:6013, State, SEMI_E10SystemStateDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, MachineVision.AMCM:6011, Temperature, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  VisionMaintenanceInfoType:
+  - [ UAObjectType, MachineVision.AMCM:1003, VisionMaintenanceInfoType ]
+  - HasComponent:
+    - [ UAVariable, MachineVision.AMCM:6008, ServiceClass, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  VisionSystemAssetType:
+  - [ UAObjectType, MachineVision.AMCM:1008, VisionSystemAssetType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5040, AcquisitionBackgrounds ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5058, Cables ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5038, CalibrationTargets ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5050, ClimateControllers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5010, ComputingDevices ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5012, DisplayUnits ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5018, FrameGrabbers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5044, Housings ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5060, ImageHandlingAspects ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5016, ImageSensors ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5032, Lamps ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5022, LensControllers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5020, Lenses ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5052, Licenses ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5034, LightingControllers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5046, MotionDevices ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5056, NetworkDevices ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5024, OpticalFilters ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5026, OtherOpticalEquipments ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5036, PatternGenerators ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5014, PhysicalInterfaces ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5048, PowerSupplies ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5054, SoftwareComponents ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5042, SurroundingEnvironment ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5030, TriggerSensors ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5028, WayEncoders ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]

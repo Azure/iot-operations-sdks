@@ -1,0 +1,812 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ConfigurationMask",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefMask;1"
+        },
+        {
+          "name": "ElementIndex",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "ConnectionIndex",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "GroupIndex",
+          "schema": "unsignedShort"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationValueDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ConfigurationElement",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Identifier",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfiguration2DataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "SubscribedDataSets",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:StandaloneSubscribedDataSetDataType;1"
+          }
+        },
+        {
+          "name": "DataSetClasses",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1"
+          }
+        },
+        {
+          "name": "DefaultSecurityKeyServices",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:EndpointDescription;1"
+          }
+        },
+        {
+          "name": "SecurityGroups",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:SecurityGroupDataType;1"
+          }
+        },
+        {
+          "name": "PubSubKeyPushTargets",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubKeyPushTargetDataType;1"
+          }
+        },
+        {
+          "name": "ConfigurationVersion",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "ConfigurationProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Fields",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:FieldMetaData;1"
+          }
+        },
+        {
+          "name": "DataSetClassId",
+          "schema": "uuid"
+        },
+        {
+          "name": "ConfigurationVersion",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ConfigurationVersionDataType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:StandaloneSubscribedDataSetDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "DataSetFolder",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "DataSetMetaData",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1"
+        },
+        {
+          "name": "SubscribedDataSet",
+          "schema": "bytes"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:FieldMetaData;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "FieldFlags",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetFieldFlags;1"
+        },
+        {
+          "name": "BuiltInType",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "DataType",
+          "schema": "string"
+        },
+        {
+          "name": "ValueRank",
+          "schema": "integer"
+        },
+        {
+          "name": "ArrayDimensions",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "unsignedInteger"
+          }
+        },
+        {
+          "name": "MaxStringLength",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "DataSetFieldId",
+          "schema": "uuid"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetFieldFlags;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "PromotedField",
+          "enumValue": 0
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:NodeIdTranslationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NodePlaceholder",
+          "schema": "string"
+        },
+        {
+          "name": "PortableNode",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeIdentifier;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeIdentifier;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Node",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1"
+        },
+        {
+          "name": "Alias",
+          "schema": "string"
+        },
+        {
+          "name": "IdentifierBrowsePath",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePath;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePath;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Elements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePathElement;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePathElement;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ReferenceTypeId",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1"
+        },
+        {
+          "name": "IsInverse",
+          "schema": "boolean"
+        },
+        {
+          "name": "IncludeSubtypes",
+          "schema": "boolean"
+        },
+        {
+          "name": "TargetName",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableQualifiedName;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableQualifiedName;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NamespaceUri",
+          "schema": "string"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NamespaceUri",
+          "schema": "string"
+        },
+        {
+          "name": "Identifier",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefMask;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ElementAdd",
+          "enumValue": 0
+        },
+        {
+          "name": "ElementMatch",
+          "enumValue": 1
+        },
+        {
+          "name": "ElementModify",
+          "enumValue": 2
+        },
+        {
+          "name": "ElementRemove",
+          "enumValue": 3
+        },
+        {
+          "name": "ReferenceWriter",
+          "enumValue": 4
+        },
+        {
+          "name": "ReferenceReader",
+          "enumValue": 5
+        },
+        {
+          "name": "ReferenceWriterGroup",
+          "enumValue": 6
+        },
+        {
+          "name": "ReferenceReaderGroup",
+          "enumValue": 7
+        },
+        {
+          "name": "ReferenceConnection",
+          "enumValue": 8
+        },
+        {
+          "name": "ReferencePubDataset",
+          "enumValue": 9
+        },
+        {
+          "name": "ReferenceSubDataset",
+          "enumValue": 10
+        },
+        {
+          "name": "ReferenceSecurityGroup",
+          "enumValue": 11
+        },
+        {
+          "name": "ReferencePushTarget",
+          "enumValue": 12
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:EndpointDescription;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "EndpointUrl",
+          "schema": "string"
+        },
+        {
+          "name": "Server",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationDescription;1"
+        },
+        {
+          "name": "ServerCertificate",
+          "schema": "bytes"
+        },
+        {
+          "name": "SecurityMode",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:MessageSecurityMode;1"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        },
+        {
+          "name": "UserIdentityTokens",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1"
+          }
+        },
+        {
+          "name": "TransportProfileUri",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityLevel",
+          "schema": "unsignedByte"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "PolicyId",
+          "schema": "string"
+        },
+        {
+          "name": "TokenType",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenType;1"
+        },
+        {
+          "name": "IssuedTokenType",
+          "schema": "string"
+        },
+        {
+          "name": "IssuerEndpointUrl",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:MessageSecurityMode;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Invalid",
+          "enumValue": 0
+        },
+        {
+          "name": "None",
+          "enumValue": 1
+        },
+        {
+          "name": "Sign",
+          "enumValue": 2
+        },
+        {
+          "name": "SignAndEncrypt",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationDescription;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "name": "ProductUri",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationName",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationType",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationType;1"
+        },
+        {
+          "name": "GatewayServerUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryProfileUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Server",
+          "enumValue": 0
+        },
+        {
+          "name": "Client",
+          "enumValue": 1
+        },
+        {
+          "name": "ClientAndServer",
+          "enumValue": 2
+        },
+        {
+          "name": "DiscoveryServer",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Anonymous",
+          "enumValue": 0
+        },
+        {
+          "name": "UserName",
+          "enumValue": 1
+        },
+        {
+          "name": "Certificate",
+          "enumValue": 2
+        },
+        {
+          "name": "IssuedToken",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:SecurityGroupDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityGroupFolder",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "KeyLifetime",
+          "schema": "duration"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        },
+        {
+          "name": "MaxFutureKeyCount",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "MaxPastKeyCount",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "SecurityGroupId",
+          "schema": "string"
+        },
+        {
+          "name": "RolePermissions",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:RolePermissionType;1"
+          }
+        },
+        {
+          "name": "GroupProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:RolePermissionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "RoleId",
+          "schema": "string"
+        },
+        {
+          "name": "Permissions",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PermissionType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PermissionType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Browse",
+          "enumValue": 0
+        },
+        {
+          "name": "ReadRolePermissions",
+          "enumValue": 1
+        },
+        {
+          "name": "WriteAttribute",
+          "enumValue": 2
+        },
+        {
+          "name": "WriteRolePermissions",
+          "enumValue": 3
+        },
+        {
+          "name": "WriteHistorizing",
+          "enumValue": 4
+        },
+        {
+          "name": "Read",
+          "enumValue": 5
+        },
+        {
+          "name": "Write",
+          "enumValue": 6
+        },
+        {
+          "name": "ReadHistory",
+          "enumValue": 7
+        },
+        {
+          "name": "InsertHistory",
+          "enumValue": 8
+        },
+        {
+          "name": "ModifyHistory",
+          "enumValue": 9
+        },
+        {
+          "name": "DeleteHistory",
+          "enumValue": 10
+        },
+        {
+          "name": "ReceiveEvents",
+          "enumValue": 11
+        },
+        {
+          "name": "Call",
+          "enumValue": 12
+        },
+        {
+          "name": "AddReference",
+          "enumValue": 13
+        },
+        {
+          "name": "RemoveReference",
+          "enumValue": 14
+        },
+        {
+          "name": "DeleteNode",
+          "enumValue": 15
+        },
+        {
+          "name": "AddNode",
+          "enumValue": 16
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubKeyPushTargetDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "name": "PushTargetFolder",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EndpointUrl",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        },
+        {
+          "name": "UserTokenType",
+          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1"
+        },
+        {
+          "name": "RequestedKeyCount",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "RetryInterval",
+          "schema": "duration"
+        },
+        {
+          "name": "PushTargetProperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+          }
+        },
+        {
+          "name": "SecurityGroups",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ConfigurationVersionDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "MajorVersion",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "MinorVersion",
+          "schema": "unsignedInteger"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ConfigurationReferences",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ConfigurationValues",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationValueDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Namespaces",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PubSubConfiguration",
+      "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfiguration2DataType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TranslationTable",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:NodeIdTranslationDataType;1"
+      },
+      "writable": true
+    }
+  ]
+}

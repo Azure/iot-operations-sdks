@@ -1,0 +1,908 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderAndStateDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JobOrder",
+          "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
+        },
+        {
+          "name": "State",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95StateDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Parameters",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95ParameterDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95ParameterDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subparameters",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95ParameterDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JobOrderID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "WorkMasterID",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1"
+          }
+        },
+        {
+          "name": "StartTime",
+          "schema": "dateTime"
+        },
+        {
+          "name": "EndTime",
+          "schema": "dateTime"
+        },
+        {
+          "name": "Priority",
+          "schema": "short"
+        },
+        {
+          "name": "JobOrderParameters",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95ParameterDataType;1"
+          }
+        },
+        {
+          "name": "PersonnelRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PersonnelDataType;1"
+          }
+        },
+        {
+          "name": "EquipmentRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95EquipmentDataType;1"
+          }
+        },
+        {
+          "name": "PhysicalAssetRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PhysicalAssetDataType;1"
+          }
+        },
+        {
+          "name": "MaterialRequirements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95MaterialDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PersonnelDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "PersonnelUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95EquipmentDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EquipmentUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subproperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95StateDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "BrowsePath",
+          "schema": "string"
+        },
+        {
+          "name": "StateText",
+          "schema": "string"
+        },
+        {
+          "name": "StateNumber",
+          "schema": "unsignedInteger"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PhysicalAssetDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "PhysicalAssetUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95MaterialDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "MaterialClassID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialDefinitionID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialLotID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialSublotID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "MaterialUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "EquipmentID",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "JobOrderList",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderAndStateDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaterialClassID",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaterialDefinitionID",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PersonnelID",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PhysicalAssetID",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "WorkMaster",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Abort",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Cancel",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Clear",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Pause",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Resume",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RevokeStart",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Start",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Stop",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Store",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrder",
+              "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StoreAndStart",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrder",
+              "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Update",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrder",
+              "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
+            },
+            {
+              "name": "Comment",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Aborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Ended"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToNotAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToRunning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromInterruptedToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromInterruptedToEnded"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromInterruptedToRunning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromNotAllowedToStartToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromNotAllowedToStartToAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromNotAllowedToStartToNotAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromRunningToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromRunningToEnded"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromRunningToInterrupted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Interrupted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "NotAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Running"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:IREDES:LTPPaccPtsType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "LTPPLcycl",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPLdist",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPLdrawPtID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPLdumpPtID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPLmass",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPLopObserv",
+      "schema": "string",
+      "writable": true
+    }
+  ]
+}

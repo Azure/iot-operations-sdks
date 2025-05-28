@@ -1,0 +1,82 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:ProductionPartType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineTool:ProductionPartType:dataType:PartQuality;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CapabilityUnavailable",
+          "enumValue": 0
+        },
+        {
+          "name": "Good",
+          "enumValue": 1
+        },
+        {
+          "name": "Bad",
+          "enumValue": 2
+        },
+        {
+          "name": "NotYetMeasured",
+          "enumValue": 3
+        },
+        {
+          "name": "WillNotBeMeasured",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineTool:ProductionPartType:dataType:ProcessIrregularity;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CapabilityUnavailable",
+          "enumValue": 0
+        },
+        {
+          "name": "Detected",
+          "enumValue": 1
+        },
+        {
+          "name": "NotDetected",
+          "enumValue": 2
+        },
+        {
+          "name": "NotYetDetermined",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PartQuality",
+      "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:PartQuality;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessIrregularity",
+      "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:ProcessIrregularity;1",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "State",
+      "target": "dtmi:opcua:MachineTool:ProductionPartStateMachineType"
+    }
+  ]
+}

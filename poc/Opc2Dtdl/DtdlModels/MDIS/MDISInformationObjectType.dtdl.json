@@ -1,0 +1,48 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISInformationObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "MajorVersion",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "MinorVersion",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "Build",
+          "schema": "unsignedByte"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "MDISVersion",
+      "schema": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Signatures"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TimeSynchronization",
+      "target": "dtmi:opcua:MDIS:MDISTimeSyncObjectType"
+    }
+  ]
+}

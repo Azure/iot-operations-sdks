@@ -1,0 +1,190 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PackML:PackMLStatusObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "integer"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Unit",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLProductDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ProductID",
+          "schema": "integer"
+        },
+        {
+          "name": "ProcessVariables",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        },
+        {
+          "name": "Ingredients",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLIngredientsDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLIngredientsDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "IngredientID",
+          "schema": "integer"
+        },
+        {
+          "name": "Parameter",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLRemoteInterfaceDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Number",
+          "schema": "integer"
+        },
+        {
+          "name": "ControlCmdNumber",
+          "schema": "integer"
+        },
+        {
+          "name": "CmdValue",
+          "schema": "integer"
+        },
+        {
+          "name": "Parameter",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CurMachSpeed",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "EquipmentBlocked",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "EquipmentStarved",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MachSpeed",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaterialInterlocked",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Parameter",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Product",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLProductDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RemoteParameter",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLRemoteInterfaceDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StateChangeInProcess",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StateRequested",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnitModeChangeInProcess",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnitModeCurrent",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnitModeRequested",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

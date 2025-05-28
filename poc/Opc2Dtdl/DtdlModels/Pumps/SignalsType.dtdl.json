@@ -1,0 +1,120 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:SignalsType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Acceleration",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleanValveOpen",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Deceleration",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FlushValveOpen",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "GasDilValveOpen",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InletValveOpen",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "NoRotation",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OutletValveOpen",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessIsActive",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpActivation",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpDirection",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpOperation",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpPowerMax",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpSpeedMax",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpSpeedMin",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PurgeValveOpen",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RatedSpeed",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StandBy",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StandBySpeed",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TargetSpeed",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "VentValveOpen",
+      "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
+    }
+  ]
+}

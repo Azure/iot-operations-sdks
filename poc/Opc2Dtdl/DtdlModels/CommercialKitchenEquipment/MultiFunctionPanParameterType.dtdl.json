@@ -1,0 +1,255 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:MultiFunctionPanModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "On",
+          "enumValue": 1
+        },
+        {
+          "name": "Preheat",
+          "enumValue": 2
+        },
+        {
+          "name": "StandBy",
+          "enumValue": 3
+        },
+        {
+          "name": "PressureCooking",
+          "enumValue": 4
+        },
+        {
+          "name": "SoftCooking",
+          "enumValue": 5
+        },
+        {
+          "name": "Cooking",
+          "enumValue": 6
+        },
+        {
+          "name": "Grilling",
+          "enumValue": 7
+        },
+        {
+          "name": "Frying",
+          "enumValue": 8
+        },
+        {
+          "name": "Regenerate",
+          "enumValue": 9
+        },
+        {
+          "name": "DeltaTcooking",
+          "enumValue": 10
+        },
+        {
+          "name": "ZoneGrilling",
+          "enumValue": 11
+        },
+        {
+          "name": "ZoneCooking",
+          "enumValue": 12
+        },
+        {
+          "name": "Cleaning",
+          "enumValue": 13
+        },
+        {
+          "name": "PresetStart",
+          "enumValue": 14
+        },
+        {
+          "name": "Error",
+          "enumValue": 15
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:SpecialFunctionModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "LidUpDown",
+          "enumValue": 0
+        },
+        {
+          "name": "PanTilt",
+          "enumValue": 1
+        },
+        {
+          "name": "WaterSupply",
+          "enumValue": 2
+        },
+        {
+          "name": "DrainOnOff",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualCoreTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPressureAbsolute",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualTemperatureBottom",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualTemperatureCup",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualZoneTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualZoneTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualZoneTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CookingLevel",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsLidLocked",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsLidOpen",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsWithCleaning",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsWithLift",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsWithPressure",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsWithTilting",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MultiFunctionPanMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:MultiFunctionPanModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetCoreTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTimeProgram",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTimeStep",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetZoneTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "SetZoneTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "SetZoneTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SpecialFunctionMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:SpecialFunctionModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeRemainingProgram",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeRemainingStep",
+      "schema": "integer",
+      "writable": false
+    }
+  ]
+}

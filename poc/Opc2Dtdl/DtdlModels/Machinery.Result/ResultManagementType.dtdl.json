@@ -1,0 +1,453 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ResultMetaData",
+          "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultMetaDataType;1"
+        },
+        {
+          "name": "ResultContent",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultMetaDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ResultId",
+          "schema": "string"
+        },
+        {
+          "name": "HasTransferableDataOnFile",
+          "schema": "boolean"
+        },
+        {
+          "name": "IsPartial",
+          "schema": "boolean"
+        },
+        {
+          "name": "IsSimulated",
+          "schema": "boolean"
+        },
+        {
+          "name": "ResultState",
+          "schema": "integer"
+        },
+        {
+          "name": "StepId",
+          "schema": "string"
+        },
+        {
+          "name": "PartId",
+          "schema": "string"
+        },
+        {
+          "name": "ExternalRecipeId",
+          "schema": "string"
+        },
+        {
+          "name": "InternalRecipeId",
+          "schema": "string"
+        },
+        {
+          "name": "ProductId",
+          "schema": "string"
+        },
+        {
+          "name": "ExternalConfigurationId",
+          "schema": "string"
+        },
+        {
+          "name": "InternalConfigurationId",
+          "schema": "string"
+        },
+        {
+          "name": "JobId",
+          "schema": "string"
+        },
+        {
+          "name": "CreationTime",
+          "schema": "time"
+        },
+        {
+          "name": "ProcessingTimes",
+          "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ProcessingTimesDataType;1"
+        },
+        {
+          "name": "ResultUri",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "ResultEvaluation",
+          "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultEvaluationEnum;1"
+        },
+        {
+          "name": "ResultEvaluationCode",
+          "schema": "long"
+        },
+        {
+          "name": "ResultEvaluationDetails",
+          "schema": "string"
+        },
+        {
+          "name": "FileFormat",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ProcessingTimesDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "StartTime",
+          "schema": "time"
+        },
+        {
+          "name": "EndTime",
+          "schema": "time"
+        },
+        {
+          "name": "AcquisitionDuration",
+          "schema": "duration"
+        },
+        {
+          "name": "ProcessingDuration",
+          "schema": "duration"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilter;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Elements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilterElement;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilterElement;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "FilterOperator",
+          "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:FilterOperator;1"
+        },
+        {
+          "name": "FilterOperands",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:FilterOperator;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Equals",
+          "enumValue": 0
+        },
+        {
+          "name": "IsNull",
+          "enumValue": 1
+        },
+        {
+          "name": "GreaterThan",
+          "enumValue": 2
+        },
+        {
+          "name": "LessThan",
+          "enumValue": 3
+        },
+        {
+          "name": "GreaterThanOrEqual",
+          "enumValue": 4
+        },
+        {
+          "name": "LessThanOrEqual",
+          "enumValue": 5
+        },
+        {
+          "name": "Like",
+          "enumValue": 6
+        },
+        {
+          "name": "Not",
+          "enumValue": 7
+        },
+        {
+          "name": "Between",
+          "enumValue": 8
+        },
+        {
+          "name": "InList",
+          "enumValue": 9
+        },
+        {
+          "name": "And",
+          "enumValue": 10
+        },
+        {
+          "name": "Or",
+          "enumValue": 11
+        },
+        {
+          "name": "Cast",
+          "enumValue": 12
+        },
+        {
+          "name": "InView",
+          "enumValue": 13
+        },
+        {
+          "name": "OfType",
+          "enumValue": 14
+        },
+        {
+          "name": "RelatedTo",
+          "enumValue": 15
+        },
+        {
+          "name": "BitwiseAnd",
+          "enumValue": 16
+        },
+        {
+          "name": "BitwiseOr",
+          "enumValue": 17
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultEvaluationEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined",
+          "enumValue": 0
+        },
+        {
+          "name": "OK",
+          "enumValue": 1
+        },
+        {
+          "name": "NotOK",
+          "enumValue": 2
+        },
+        {
+          "name": "NotDecidable",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GetLatestResult",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Result",
+              "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetResultById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultId",
+              "schema": "string"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Result",
+              "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetResultIdListFiltered",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Filter",
+              "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilter;1"
+            },
+            {
+              "name": "OrderedBy",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "MaxResults",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ResultIdList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ReleaseResultHandle",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ResultHandle",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Results"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResultTransfer",
+      "target": "dtmi:opcua:Machinery_Result:ResultTransferType"
+    }
+  ]
+}

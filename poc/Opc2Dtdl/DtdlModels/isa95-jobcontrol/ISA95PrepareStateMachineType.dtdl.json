@@ -1,0 +1,47 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "FromLoadedToReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLoadedToWaiting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromReadyToLoaded"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromReadyToWaiting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromWaitingToReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Loaded"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Ready"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Waiting"
+    }
+  ]
+}

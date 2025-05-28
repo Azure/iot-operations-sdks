@@ -1,0 +1,111 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:FryerModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "Preheat",
+          "enumValue": 1
+        },
+        {
+          "name": "Melting",
+          "enumValue": 2
+        },
+        {
+          "name": "Frying",
+          "enumValue": 3
+        },
+        {
+          "name": "StandBy",
+          "enumValue": 4
+        },
+        {
+          "name": "Filtering",
+          "enumValue": 5
+        },
+        {
+          "name": "Error",
+          "enumValue": 6
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:SignalModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SignalOff",
+          "enumValue": 0
+        },
+        {
+          "name": "SignalOn",
+          "enumValue": 1
+        },
+        {
+          "name": "SignalAck",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsLiftUp",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProgramMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:FryerModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTime",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SignalMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType:dataType:SignalModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeRemaining",
+      "schema": "integer",
+      "writable": false
+    }
+  ]
+}

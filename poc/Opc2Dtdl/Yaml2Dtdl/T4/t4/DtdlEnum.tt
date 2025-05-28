@@ -1,0 +1,15 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+    {
+      "@id": "<#=TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)#>",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+<# int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { #>
+        {
+          "name": "<#=TypeConverter.LegalizeName(intEnum.Key)#>",
+          "enumValue": <#=intEnum.Value#>
+        }<#=ix < this.enumType.Enums.Count ? "," : ""#>
+<# ix++; } #>
+      ]
+    }

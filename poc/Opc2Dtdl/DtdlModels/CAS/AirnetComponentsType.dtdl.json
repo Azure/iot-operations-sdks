@@ -1,0 +1,67 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:AirnetComponentsType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ComponentsGroup"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ChargingSystems"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Compressors"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CondensateDrains"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CondensateSeparators"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Converters"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CoolingSystems"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Dryers"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Filters"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HeatRecoverySystems"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Receivers"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Sensors"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Valves"
+    }
+  ]
+}

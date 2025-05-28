@@ -1,0 +1,404 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JobResponseID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "JobOrderID",
+          "schema": "string"
+        },
+        {
+          "name": "StartTime",
+          "schema": "dateTime"
+        },
+        {
+          "name": "EndTime",
+          "schema": "dateTime"
+        },
+        {
+          "name": "JobState",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95StateDataType;1"
+          }
+        },
+        {
+          "name": "JobResponseData",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95ParameterDataType;1"
+          }
+        },
+        {
+          "name": "PersonnelActuals",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PersonnelDataType;1"
+          }
+        },
+        {
+          "name": "EquipmentActuals",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95EquipmentDataType;1"
+          }
+        },
+        {
+          "name": "PhysicalAssetActuals",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PhysicalAssetDataType;1"
+          }
+        },
+        {
+          "name": "MaterialActuals",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95MaterialDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95StateDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "BrowsePath",
+          "schema": "string"
+        },
+        {
+          "name": "StateText",
+          "schema": "string"
+        },
+        {
+          "name": "StateNumber",
+          "schema": "unsignedInteger"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95ParameterDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subparameters",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95ParameterDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PersonnelDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "PersonnelUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PropertyDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subproperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95EquipmentDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EquipmentUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PhysicalAssetDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "PhysicalAssetUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95MaterialDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "MaterialClassID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialDefinitionID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialLotID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialSublotID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "MaterialUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "JobOrderResponseList",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "RequestJobResponseByJobOrderID",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderID",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobResponse",
+              "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
+            },
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RequestJobResponseByJobOrderState",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobOrderState",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95StateDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobResponses",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
+              }
+            },
+            {
+              "name": "ReturnStatus",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

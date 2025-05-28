@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:OperationalGroupType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "BypassActuation",
+      "target": "dtmi:opcua:Pumps:ActuationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Control",
+      "target": "dtmi:opcua:Pumps:ControlType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Measurements",
+      "target": "dtmi:opcua:Pumps:MeasurementsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MultiPump",
+      "target": "dtmi:opcua:Pumps:MultiPumpType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpActuation",
+      "target": "dtmi:opcua:Pumps:PumpActuationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Signals",
+      "target": "dtmi:opcua:Pumps:SignalsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ThrottleValveActuation",
+      "target": "dtmi:opcua:Pumps:ActuationType"
+    }
+  ]
+}

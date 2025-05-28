@@ -1,0 +1,155 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PnEm:EnergyStandbyManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PauseTime",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StandbyManagementStatus",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "EndPause",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "CurrentTimeToOperate",
+              "schema": "duration"
+            },
+            {
+              "name": "ReturnCode",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartPause",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "PauseTime",
+              "schema": "duration"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ModeID",
+              "schema": "unsignedByte"
+            },
+            {
+              "name": "CurrentTimeToDestination",
+              "schema": "duration"
+            },
+            {
+              "name": "RegularTimeToOperate",
+              "schema": "duration"
+            },
+            {
+              "name": "TimeMinLengthToStay",
+              "schema": "duration"
+            },
+            {
+              "name": "ReturnCode",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SwitchToEnergySavingMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ModeID",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EffectiveModeID",
+              "schema": "unsignedByte"
+            },
+            {
+              "name": "CurrentTimeToDestination",
+              "schema": "duration"
+            },
+            {
+              "name": "RegularTimeToOperate",
+              "schema": "duration"
+            },
+            {
+              "name": "TimeMinLengthOfStay",
+              "schema": "duration"
+            },
+            {
+              "name": "ReturnCode",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "EnergySavingModes",
+      "target": "dtmi:opcua:PNEM:EnergySavingModesContainerType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EnergySavingModeStatus",
+      "target": "dtmi:opcua:PNEM:EnergySavingModeStatusType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Lock",
+      "target": "dtmi:opcua:DI:LockingServicesType"
+    }
+  ]
+}

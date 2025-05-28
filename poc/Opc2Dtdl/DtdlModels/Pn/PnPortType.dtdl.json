@@ -1,0 +1,126 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pn:PnPortType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pn:PnPortType:dataType:PnLinkStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "UP",
+          "enumValue": 1
+        },
+        {
+          "name": "DOWN",
+          "enumValue": 2
+        },
+        {
+          "name": "TESTING",
+          "enumValue": 3
+        },
+        {
+          "name": "UNKNOWN",
+          "enumValue": 4
+        },
+        {
+          "name": "DORMANT",
+          "enumValue": 5
+        },
+        {
+          "name": "NOT_PRESENT",
+          "enumValue": 6
+        },
+        {
+          "name": "LOWER_LAYER_DOWN",
+          "enumValue": 7
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pn:PnPortType:dataType:PnPortStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "UNKNOWN",
+          "enumValue": 0
+        },
+        {
+          "name": "DISABLED_DISCARDING",
+          "enumValue": 1
+        },
+        {
+          "name": "BLOCKING",
+          "enumValue": 2
+        },
+        {
+          "name": "LISTENING",
+          "enumValue": 3
+        },
+        {
+          "name": "LEARNING",
+          "enumValue": 4
+        },
+        {
+          "name": "FORWARDING",
+          "enumValue": 5
+        },
+        {
+          "name": "BROKEN",
+          "enumValue": 6
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CableDelay",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsWireless",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LinkState",
+      "schema": "dtmi:opcua:Pn:PnPortType:dataType:PnLinkStateEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MAUType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PortState",
+      "schema": "dtmi:opcua:Pn:PnPortType:dataType:PnPortStateEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PowerBudget",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Statistic",
+      "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
+    }
+  ]
+}

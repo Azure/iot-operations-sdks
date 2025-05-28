@@ -1,0 +1,171 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales:PieceCountingProductType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales:PieceCountingProductType:dataType:WeightType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Gross",
+          "schema": "double"
+        },
+        {
+          "name": "Net",
+          "schema": "double"
+        },
+        {
+          "name": "Tare",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CurrentItemCount",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FeedRateMeasuringInterval",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FillingTime",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FineFeedCount",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InFlightCount",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "JogFeed",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumDeltaPerFeedRateMeasuringInterval",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NumberOfReferencePieces",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ReferencePieceWeight",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RegisteredPieceCount",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SettlingTime",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TareId",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TargetItemCount",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TargetPieceCount",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TotalizedItemCount",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TotalizedWeight",
+      "schema": "dtmi:opcua:Scales:PieceCountingProductType:dataType:WeightType;1",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "SetTargetItemCount",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TargetItemCount",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetTargetPieceCount",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TargetPieceCount",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "PlusTolerance",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "MinusTolerance",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

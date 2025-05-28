@@ -1,0 +1,98 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:ControlGroupType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "EstablishControl",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LockContext",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LockStatus",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ReassignControl",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LockContext",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LockStatus",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ReleaseControl"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ControlGroup",
+      "target": "dtmi:opcua:FX_AC:ControlGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ListOfRelated"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ListToBlock",
+      "target": "dtmi:opcua:FX_AC:ControlItemFolderType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ListToRestrict",
+      "target": "dtmi:opcua:FX_AC:ControlItemFolderType"
+    }
+  ]
+}

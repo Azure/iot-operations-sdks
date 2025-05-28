@@ -1,0 +1,47 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<# int ix;#>
+    {
+      "@type": "Command",
+      "name": "<#=definedType.BrowseName#>"<#=this.InputArgs != null || this.OutputArgs != null ? "," : ""#>
+<# if (this.InputArgs != null) { #>
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+<# if (this.InputIsOptional) { #>
+        "nullable": true,
+<# } #>
+        "schema": {
+          "@type": "Object",
+          "fields": [
+<# ix = 1; foreach (KeyValuePair<string, (string, int)> inputArg in this.InputArgs) { #>
+            {
+              "name": "<#=inputArg.Key#>",
+              "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, inputArg.Value.Item1, inputArg.Value.Item2, 14)#>
+            }<#=ix < this.InputArgs.Count ? "," : ""#>
+<# ix++; } #>
+          ]
+        }
+      }<#=this.OutputArgs != null ? "," : ""#>
+<# } #>
+<# if (this.OutputArgs != null) { #>
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+<# if (this.OutputIsOptional) { #>
+        "nullable": true,
+<# } #>
+        "schema": {
+          "@type": "Object",
+          "fields": [
+<# ix = 1; foreach (KeyValuePair<string, (string, int)> outputArg in this.OutputArgs) { #>
+            {
+              "name": "<#=outputArg.Key#>",
+              "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, outputArg.Value.Item1, outputArg.Value.Item2, 14)#>
+            }<#=ix < this.OutputArgs.Count ? "," : ""#>
+<# ix++; } #>
+          ]
+        }
+      }
+<# } #>
+    }

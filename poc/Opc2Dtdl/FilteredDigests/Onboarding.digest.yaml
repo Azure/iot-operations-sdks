@@ -1,0 +1,171 @@
+DataTypes:
+- UADataType: [ Onboarding:1164, CertificateAuthorityType ]
+  Fields:
+    AuthorityCertificate: [ ByteString, 0 ]
+    IssuerCertificates: [ ByteString, 1 ]
+- UADataType: [ Onboarding:1165, BaseTicketType ]
+  Fields:
+    ManufacturerName: [ String, 0 ]
+    ModelName: [ String, 0 ]
+    ModelVersion: [ String, 0 ]
+    HardwareRevision: [ String, 0 ]
+    SoftwareRevision: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+    ManufactureDate: [ DateTime, 0 ]
+    Authorities: [ CertificateAuthorityType, 1 ]
+- UADataType: [ Onboarding:1166, DeviceIdentityTicketType ]
+  Fields:
+    ProductInstanceUri: [ UriString, 0 ]
+- UADataType: [ Onboarding:1167, CompositeIdentityTicketType ]
+  Fields:
+    CompositeInstanceUri: [ UriString, 0 ]
+    Devices: [ UriString, 1 ]
+    Composites: [ UriString, 1 ]
+- UADataType: [ Onboarding:1168, TicketListType ]
+  Fields:
+    Devices: [ EncodedTicket, 1 ]
+    Composites: [ EncodedTicket, 1 ]
+- UADataType: [ Onboarding:1495, ManagerDescription ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    IsRequired: [ Boolean, 0 ]
+    PurposeUri: [ UriString, 0 ]
+    ProtocolUri: [ UriString, 0 ]
+    EndpointUrls: [ String, 1 ]
+- UADataType: [ GDS:1, ApplicationRecordDataType ]
+  Fields:
+    ApplicationId: [ NodeId, 0 ]
+    ApplicationUri: [ String, 0 ]
+    ApplicationType: [ ApplicationType, 0 ]
+    ApplicationNames: [ LocalizedText, 1 ]
+    ProductUri: [ String, 0 ]
+    DiscoveryUrls: [ String, 1 ]
+    ServerCapabilities: [ String, 1 ]
+
+DefinedTypes:
+
+  DeviceRegistrarAdminType:
+  - [ UAObjectType, Onboarding:1175, DeviceRegistrarAdminType ]
+  - HasComponent:
+    - [ UAMethod, Onboarding:1176, RegisterTickets ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1177, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Tickets: [ EncodedTicket, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1178, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Onboarding:1179, UnregisterTickets ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1180, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Tickets: [ EncodedTicket, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1181, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Onboarding:1182, TicketAuthorities ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 12522, TrustListType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 12522, TrustListType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  DeviceRegistrarType:
+  - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
+  - HasComponent:
+    - [ UAMethod, Onboarding:1260, ProvideIdentities ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1261, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identities: [ ByteString, 1 ]
+          Issuers: [ ByteString, 1 ]
+          Tickets: [ EncodedTicket, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1262, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SelectedIdentity: [ ByteString, 0 ]
+          MatchingTicket: [ BaseTicketType, 0 ]
+          ApplicationId: [ NodeId, 0 ]
+          SoftwareUpdateManager: [ ManagerDescription, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Onboarding:1503, UpdateSoftwareStatus ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1504, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          Status: [ Boolean, 0 ]
+          SoftwareRevision: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Onboarding:1263, RegisterDeviceEndpoint ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1264, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Application: [ ApplicationDescription, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Onboarding:1505, GetManagers ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1506, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Managers: [ ManagerDescription, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Onboarding:1507, RegisterManagedApplication ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1508, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Application: [ ApplicationRecordDataType, 0 ]
+          ProtocolUri: [ UriString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Onboarding:1509, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ApplicationId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Onboarding:1265, Administration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Onboarding:1175, DeviceRegistrarAdminType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

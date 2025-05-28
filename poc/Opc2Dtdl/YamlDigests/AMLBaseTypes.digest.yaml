@@ -1,0 +1,103 @@
+DataTypes:
+
+DefinedTypes:
+
+  AMLBaseVariableType:
+  - [ UAVariableType, AMLBaseTypes:3001, AMLBaseVariableType ]
+  - HasProperty:
+    - [ UAVariable, AMLBaseTypes:1010, ID, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AMLBaseTypes:1011, Version, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AMLOpcUaConnectionType:
+  - [ UAVariableType, AMLBaseTypes:3002, AMLOpcUaConnectionType ]
+  - HasComponent:
+    - [ UAVariable, AMLBaseTypes:1012, VariableNodeId, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, AMLBaseTypes:1013, VariableName, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AMLBaseTypes:1014, ServerAddress, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, AMLBaseTypes:1015, ServerAlias, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CAEXBasicObjectType:
+  - [ UAObjectType, AMLBaseTypes:1006, CAEXBasicObjectType ]
+  - HasProperty:
+    - [ UAVariable, AMLBaseTypes:6001, Version, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CAEXFileType:
+  - [ UAObjectType, AMLBaseTypes:1005, CAEXFileType ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5001, InstanceHierarchies ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5002, InterfaceClassLibs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5003, RoleClassLibs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5004, SystemUnitClassLibs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  CAEXObjectType:
+  - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+  - HasProperty:
+    - [ UAVariable, AMLBaseTypes:6002, ID, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AutomationMLBaseInterface:
+  - [ UAObjectType, AMLBaseTypes:1002, AutomationMLBaseInterface ]
+
+  AutomationMLBaseRole:
+  - [ UAObjectType, AMLBaseTypes:1003, AutomationMLBaseRole ]
+
+  AutomationMLBaseSystemUnit:
+  - [ UAObjectType, AMLBaseTypes:1004, AutomationMLBaseSystemUnit ]

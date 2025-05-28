@@ -1,0 +1,370 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:HygieneModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "HygieneOperationOFF",
+          "enumValue": 0
+        },
+        {
+          "name": "HygieneA0",
+          "enumValue": 1
+        },
+        {
+          "name": "HygieneHUE",
+          "enumValue": 2
+        },
+        {
+          "name": "HygieneMU",
+          "enumValue": 3
+        },
+        {
+          "name": "HygieneThermolable",
+          "enumValue": 4
+        },
+        {
+          "name": "HygieneA0_TD",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:OperationModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Init",
+          "enumValue": 0
+        },
+        {
+          "name": "MachineOff",
+          "enumValue": 1
+        },
+        {
+          "name": "Filling",
+          "enumValue": 2
+        },
+        {
+          "name": "FillingHeating",
+          "enumValue": 3
+        },
+        {
+          "name": "Heating",
+          "enumValue": 4
+        },
+        {
+          "name": "EnableOperation",
+          "enumValue": 5
+        },
+        {
+          "name": "ReadyForOperation",
+          "enumValue": 6
+        },
+        {
+          "name": "Operation",
+          "enumValue": 7
+        },
+        {
+          "name": "Cycle_pause",
+          "enumValue": 8
+        },
+        {
+          "name": "NotDefined1",
+          "enumValue": 9
+        },
+        {
+          "name": "SelfCleaning",
+          "enumValue": 10
+        },
+        {
+          "name": "NotDefined2",
+          "enumValue": 11
+        },
+        {
+          "name": "RemoteControl",
+          "enumValue": 12
+        },
+        {
+          "name": "ControllingOutputs",
+          "enumValue": 13
+        },
+        {
+          "name": "NotDefined3",
+          "enumValue": 14
+        },
+        {
+          "name": "Error",
+          "enumValue": 15
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:ProgramModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OperationOFF",
+          "enumValue": 0
+        },
+        {
+          "name": "PreWash",
+          "enumValue": 1
+        },
+        {
+          "name": "Cleaning1",
+          "enumValue": 2
+        },
+        {
+          "name": "WashTimeIncreased",
+          "enumValue": 3
+        },
+        {
+          "name": "Cleaning2",
+          "enumValue": 4
+        },
+        {
+          "name": "DrainingPause",
+          "enumValue": 5
+        },
+        {
+          "name": "Draining",
+          "enumValue": 6
+        },
+        {
+          "name": "FinalRinse",
+          "enumValue": 7
+        },
+        {
+          "name": "WaitingTime",
+          "enumValue": 8
+        },
+        {
+          "name": "HeatRecovery",
+          "enumValue": 9
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualFinalRinseTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualFinalRinseTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualFinalRinseTemperature_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualFinalRinseTemperatureNo",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualHygieneValue",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualMainTankTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualMainTankTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualMainTankTemperature_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualMainTankTemperatureNo",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPreTankTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualPreTankTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualPreTankTemperature_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPreTankTemperatureNo",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPumpedFinalRinseTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualPumpedFinalRinseTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualPumpedFinalRinseTemperature_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPumpedFinalRinseTemperatureNo",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FinalRinseTemperatureSetpoint_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "FinalRinseTemperatureSetpoint_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "FinalRinseTemperatureSetpoint_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FinalRinseTemperatureSetpointNo",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "HygieneMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:HygieneModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "HygieneSetpoint",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MainTankTemperatureSetpoint_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "MainTankTemperatureSetpoint_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "MainTankTemperatureSetpoint_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MainTankTemperatureSetpointNo",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperationMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:OperationModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PreTankTemperatureSetpoint_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "PreTankTemperatureSetpoint_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "PreTankTemperatureSetpoint_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PreTankTemperatureSetpointNo",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProgramMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:DishWashingMachineProgramParameterType:dataType:ProgramModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PumpedFinalRinseTemperatureSetpoint_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "PumpedFinalRinseTemperatureSetpoint_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "PumpedFinalRinseTemperatureSetpoint_NoSchema",
+          "schema": "unsignedShort"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PumpedFinalRinseTemperatureSetpointNo",
+      "schema": "unsignedShort",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC:MachineModuleType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ControlModules"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DefectDetectionSensors"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EquipmentModules"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LiveStatus",
+      "target": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaterialBuffers"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaterialLoadingPoints"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaterialLocations"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaterialOutputPoints"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaterialRejectionPoints"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PastSpecificationRecords"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessControlLoops"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessItems"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Production",
+      "target": "dtmi:opcua:TMC_v2:MachineModuleProductionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Setup",
+      "target": "dtmi:opcua:TMC_v2:MachineModuleSetupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Specification",
+      "target": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType"
+    }
+  ]
+}

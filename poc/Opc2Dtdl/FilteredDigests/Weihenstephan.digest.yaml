@@ -1,0 +1,98 @@
+DataTypes:
+- UADataType: [ Weihenstephan:3000, WSOperatingModeEnumerationType ]
+  Enums:
+    Off: 1
+    Manual: 2
+    Semi-automatic: 4
+    Automatic: 8
+- UADataType: [ Weihenstephan:3001, WSProgramEnumerationType ]
+  Enums:
+    Undefined (No Program): 0
+    Production: 1
+    Start Up: 2
+    Run Down: 4
+    Clean: 8
+    Changeover: 16
+    Maintenance: 32
+    Break: 64
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PackML:11, ProductionMaintenanceModeEnum ]
+  Enums:
+    Invalid: 0
+    Produce: 1
+    Maintenance: 2
+    Manual: 3
+- UADataType: [ PackML:15, PackMLAlarmDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Value: [ Int32, 0 ]
+    Message: [ String, 0 ]
+    Category: [ Int32, 0 ]
+    DateTime: [ UtcTime, 0 ]
+    AckDateTime: [ UtcTime, 0 ]
+    Trigger: [ Boolean, 0 ]
+- UADataType: [ PackML:14, PackMLCountDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Count: [ Int32, 0 ]
+    AccCount: [ Int32, 0 ]
+- UADataType: [ PackML:16, PackMLDescriptorDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Value: [ Float, 0 ]
+- UADataType: [ PackML:17, PackMLIngredientsDataType ]
+  Fields:
+    IngredientID: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+- UADataType: [ PackML:18, PackMLProductDataType ]
+  Fields:
+    ProductID: [ Int32, 0 ]
+    ProcessVariables: [ PackMLDescriptorDataType, 1 ]
+    Ingredients: [ PackMLIngredientsDataType, 1 ]
+- UADataType: [ PackML:19, PackMLRemoteInterfaceDataType ]
+  Fields:
+    Number: [ Int32, 0 ]
+    ControlCmdNumber: [ Int32, 0 ]
+    CmdValue: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+
+DefinedTypes:

@@ -1,0 +1,67 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:BACnet:BACnetLoopType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Bias",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Controlled_Variable_Value",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Derivative_Constant",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Integral_Constant",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Present_Value",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Proportional_Constant",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Setpoint",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "EventReporting",
+      "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FaultEvaluation",
+      "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
+    }
+  ]
+}

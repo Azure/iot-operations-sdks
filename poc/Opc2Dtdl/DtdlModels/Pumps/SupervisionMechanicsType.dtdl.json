@@ -1,0 +1,111 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:SupervisionMechanicsType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AxialBearingAbrasion",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AxialBearingFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AxialBearingOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "BearingFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "BrakeChopper",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "BrakeOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ExcessVibration",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "GapWear",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MechanicalFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Misalignment",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "RadialBearingAbrasion",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "RadialBearingFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "RadialBearingOverheat",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "RotorBlocked",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "RotorStationRubbing",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Unbalance",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,329 @@
+DataTypes:
+- UADataType: [ Mining.DevelopmentSupport.Dozer:3002, DozerJobMissionEnum ]
+  Enums:
+    CleanupOperations: 0
+    RippingOperations: 1
+    TopsoilRemoval: 2
+    OverburdenRemoval: 3
+    ConstructionOfRoads: 4
+    ConstructionOfBerms: 5
+    BenchPreparation: 6
+    BlastCleanup: 7
+    DozerPushIntoVoids: 8
+    DozerPushIntoTraps: 9
+    Stockpiles: 10
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ Mining.General:3002, LongwallShieldOffsetDataType ]
+  Fields:
+    ShieldNumber: [ UInt16, 0 ]
+    ShieldOffset: [ Double, 0 ]
+
+DefinedTypes:
+
+  DozerType:
+  - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, DozerType ]
+  - HasComponent:
+    - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7002, Clearway ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6009, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            PassthroughExclusionZone: [ 3DFrame, 1 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6010, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ClearWayResult: [ Boolean, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7003, RequestResumeOperation ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6011, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            RequestResult: [ Boolean, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7004, RequestStopOperation ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6012, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            RequestResult: [ Boolean, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, Mining.DevelopmentSupport.Dozer:7001, SetWorkJob ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6007, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            WorkingArea: [ 3DFrame, 1 ]
+            DumpArea: [ 3DFrame, 1 ]
+            JobMission: [ DozerJobMissionEnum, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6008, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            WorkJobRequestSuccess: [ Boolean, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasAddIn:
+    - [ UAObject, Mining.DevelopmentSupport.Dozer:5001, MiningEquipmentIdentification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6001, AssetId, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6003, DeviceClass, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6032, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6004, ManufacturerUri, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6005, Model, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6006, ProductInstanceUri, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6038, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, Mining.DevelopmentSupport.Dozer:5003, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6013, ExclusionZone, 3DFrame, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 18791, 3DFrameType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6029, BaseFrame, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6014, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6015, X, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6016, Y, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6017, Z, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6030, Constant, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6031, FixedBase, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6018, Orientation, 3DOrientation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 18781, 3DOrientationType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6019, A, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6020, B, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6021, C, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Mining.DevelopmentSupport.Dozer:6039, MachinePose, 3DFrame, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 18791, 3DFrameType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6048, BaseFrame, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6040, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6041, X, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6042, Y, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6043, Z, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6049, Constant, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6050, FixedBase, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, Mining.DevelopmentSupport.Dozer:6044, Orientation, 3DOrientation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 18781, 3DOrientationType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6045, A, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6046, B, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, Mining.DevelopmentSupport.Dozer:6047, C, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]

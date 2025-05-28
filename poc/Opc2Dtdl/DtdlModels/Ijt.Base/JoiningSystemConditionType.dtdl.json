@@ -1,0 +1,120 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Ijt_Base:JoiningSystemConditionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningSystemConditionType:dataType:EntityDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "EntityId",
+          "schema": "string"
+        },
+        {
+          "name": "EntityOriginId",
+          "schema": "string"
+        },
+        {
+          "name": "IsExternal",
+          "schema": "boolean"
+        },
+        {
+          "name": "EntityType",
+          "schema": "short"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningSystemConditionType:dataType:ReportedValueDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "PhysicalQuantity",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "CurrentValue",
+          "schema": "string"
+        },
+        {
+          "name": "PreviousValue",
+          "schema": "string"
+        },
+        {
+          "name": "LowLimit",
+          "schema": "double"
+        },
+        {
+          "name": "HighLimit",
+          "schema": "double"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "JoiningSystemEventContent",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "JoiningSystemEventContent",
+            "schema": "string"
+          },
+          {
+            "name": "AssociatedEntities",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:Ijt_Base:JoiningSystemConditionType:dataType:EntityDataType;1"
+            }
+          },
+          {
+            "name": "EventCode",
+            "schema": "long"
+          },
+          {
+            "name": "EventText",
+            "schema": "string"
+          },
+          {
+            "name": "JoiningTechnology",
+            "schema": "string"
+          },
+          {
+            "name": "ReportedValues",
+            "schema": {
+              "@type": "Array",
+              "elementSchema": "dtmi:opcua:Ijt_Base:JoiningSystemConditionType:dataType:ReportedValueDataType;1"
+            }
+          }
+        ]
+      },
+      "writable": false
+    }
+  ]
+}

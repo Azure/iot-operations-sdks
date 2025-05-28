@@ -1,0 +1,52 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:PortType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pumps:PortType:dataType:PortDirectionEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "In",
+          "enumValue": 0
+        },
+        {
+          "name": "Out",
+          "enumValue": 1
+        },
+        {
+          "name": "InOut",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Category",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Direction",
+      "schema": "dtmi:opcua:Pumps:PortType:dataType:PortDirectionEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "IdCarrier",
+      "schema": "string",
+      "writable": true
+    }
+  ]
+}

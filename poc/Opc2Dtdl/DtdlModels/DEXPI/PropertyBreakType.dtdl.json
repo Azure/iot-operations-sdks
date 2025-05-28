@@ -1,0 +1,104 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:PropertyBreakType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:CompositionBreakClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CompositionBreak",
+          "enumValue": 0
+        },
+        {
+          "name": "NoCompositionBreak",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:InsulationBreakClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "InsulationBreak",
+          "enumValue": 0
+        },
+        {
+          "name": "NoInsulationBreak",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:NominalDiameterBreakClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NoNominalDiameterBreak",
+          "enumValue": 0
+        },
+        {
+          "name": "NominalDiameterBreak",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:PipingClassBreakClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NoPipingClassBreak",
+          "enumValue": 0
+        },
+        {
+          "name": "PipingClassBreak",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CompositionBreakSpecialization",
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:CompositionBreakClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InsulationBreakSpecialization",
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:InsulationBreakClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NominalDiameterBreakSpecialization",
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:NominalDiameterBreakClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PipingClassBreakSpecialization",
+      "schema": "dtmi:opcua:DEXPI:PropertyBreakType:dataType:PipingClassBreakClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "Node",
+      "target": "dtmi:opcua:DEXPI:PipingNodeType"
+    }
+  ]
+}

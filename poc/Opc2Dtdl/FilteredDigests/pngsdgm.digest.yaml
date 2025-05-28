@@ -1,0 +1,192 @@
+DataTypes:
+- UADataType: [ PNGSDGM:3004, GsdGenChannelAccumulativeEnumeration ]
+  Enums:
+    SINGLE: 0
+    ACCUMULATIVE: 256
+- UADataType: [ PNGSDGM:3007, GsdGenChannelDirectionEnumeration ]
+  Enums:
+    MANUFACTURER_SPECIFIC: 0
+    INPUT_CHANNEL: 8192
+    OUTPUT_CHANNEL: 16384
+    BIDIRECTIONAL_CHANNEL: 24576
+- UADataType: [ PNGSDGM:3005, GsdGenChannelMaintenanceEnumeration ]
+  Enums:
+    FAULT: 0
+    MAINTENANCE_REQUIRED: 512
+    MAINTENANCE_DEMANDED: 1024
+    USE_QUALIFIED_CHANNEL_QUALIFIER: 1536
+- UADataType: [ PNGSDGM:3006, GsdGenChannelSpecifierEnumeration ]
+  Enums:
+    ALL_DISAPPEARS: 0
+    APPEARS: 2048
+    DISAPPEARS: 4096
+    DISAPPEARS_OTHER_REMAIN: 6144
+- UADataType: [ PNGSDGM:3012, GsdGenIoCommunicationStatusEnumeration ]
+  Enums:
+    INDATA: 0
+    OFFLINE: 1
+- UADataType: [ PNGSDGM:3015, GsdGenIoConfigurationStatusEnumeration ]
+  Enums:
+    OK: 0
+    SUBSTITUTE: 1
+    WRONG: 2
+    UNKNOWN: 3
+- UADataType: [ PNGSDGM:3002, GsdGenIoConsistencyEnumeration ]
+  Enums:
+    ITEM_CONSISTENCY: 0
+    ALL_ITEMS_CONSISTENCY: 1
+- UADataType: [ PNGSDGM:3003, GsdGenIoQualityFormatEnumeration ]
+  Enums:
+    QUALIFIER: 0
+    EMBEDDED_STATUS: 1
+    STATUS: 2
+- UADataType: [ PNGSDGM:3009, GsdGenIoTimeDataType ]
+  Fields:
+    NumberOfMilliseconds: [ UInt32, 0 ]
+    NumberOfDays: [ UInt16, 0 ]
+- UADataType: [ PNGSDGM:3008, GsdGenIoTimeStampDataType ]
+  Fields:
+    Status: [ UInt16, 0 ]
+    Seconds: [ UInt64, 0 ]
+    Nanoseconds: [ UInt32, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  GsdGenIoChannelType:
+  - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5007, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1004, GsdGenIoChannelDataType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5008, Quality ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1003, GsdGenIoChannelQualityType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  GsdGenIoDataType:
+  - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6047, <DataItemx> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5009, <InputChannelx> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5011, <OutputChannelx> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  GsdGenSubmoduleApplicationType:
+  - [ UAObjectType, PNGSDGM:1007, GsdGenSubmoduleApplicationType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5019, <ArrayFolder> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6089, <EnumerationVariable>, Enumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5016, <FolderName> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6090, <OptionSetVariable> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6086, <UnitRangeVariable>, Number, -3, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6084, <UnitVariable>, Number, -3, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6057, <ValueVariable> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5015, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5013, Input ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5018, Lock ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5014, Output ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PNGSDGM:7001, SetApplicationTag ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6074, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ApplicationTag: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]

@@ -1,0 +1,30 @@
+DataTypes:
+- UADataType: [ Safety:3005, InFlagsType ]
+  Enums:
+    CommunicationError: 0
+    OperatorAckRequested: 1
+    FSV_Activated: 2
+- UADataType: [ Safety:3006, OutFlagsType ]
+  Enums:
+    OperatorAckProvider: 0
+    ActivateFSV: 1
+    TestModeActivated: 2
+- UADataType: [ Safety:3002, NonSafetyDataPlaceholderDataType ]
+  Fields:
+    Dummy: [ Boolean, 0 ]
+- UADataType: [ Safety:3003, RequestSPDUDataType ]
+  Fields:
+    InSafetyConsumerID: [ UInt32, 0 ]
+    InMonitoringNumber: [ UInt32, 0 ]
+    InFlags: [ InFlagsType, 0 ]
+- UADataType: [ Safety:3004, ResponseSPDUDataType ]
+  Fields:
+    OutFlags: [ OutFlagsType, 0 ]
+    OutSPDU_ID_1: [ UInt32, 0 ]
+    OutSPDU_ID_2: [ UInt32, 0 ]
+    OutSPDU_ID_3: [ UInt32, 0 ]
+    OutSafetyConsumerID: [ UInt32, 0 ]
+    OutMonitoringNumber: [ UInt32, 0 ]
+    OutCRC: [ UInt32, 0 ]
+
+DefinedTypes:

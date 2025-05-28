@@ -1,0 +1,107 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableNodeIdentifier;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Node",
+          "schema": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableNodeId;1"
+        },
+        {
+          "name": "Alias",
+          "schema": "string"
+        },
+        {
+          "name": "IdentifierBrowsePath",
+          "schema": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableRelativePath;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableNodeId;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NamespaceUri",
+          "schema": "string"
+        },
+        {
+          "name": "Identifier",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableRelativePath;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Elements",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableRelativePathElement;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableRelativePathElement;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ReferenceTypeId",
+          "schema": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableNodeId;1"
+        },
+        {
+          "name": "IsInverse",
+          "schema": "boolean"
+        },
+        {
+          "name": "IncludeSubtypes",
+          "schema": "boolean"
+        },
+        {
+          "name": "TargetName",
+          "schema": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableQualifiedName;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableQualifiedName;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NamespaceUri",
+          "schema": "string"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AutomationComponentNode",
+      "schema": "dtmi:opcua:fx_cm:AutomationComponentConfigurationType:dataType:PortableNodeIdentifier;1",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "CommunicationModelConfig",
+      "target": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType"
+    }
+  ]
+}

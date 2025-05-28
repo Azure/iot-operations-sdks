@@ -1,0 +1,233 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PackML:PackMLBaseObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLRemoteInterfaceDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Number",
+          "schema": "integer"
+        },
+        {
+          "name": "ControlCmdNumber",
+          "schema": "integer"
+        },
+        {
+          "name": "CmdValue",
+          "schema": "integer"
+        },
+        {
+          "name": "Parameter",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "integer"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Unit",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLProductDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ProductID",
+          "schema": "integer"
+        },
+        {
+          "name": "ProcessVariables",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        },
+        {
+          "name": "Ingredients",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLIngredientsDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLIngredientsDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "IngredientID",
+          "schema": "integer"
+        },
+        {
+          "name": "Parameter",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "RemoteCommand",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RemoteInterface",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLRemoteInterfaceDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetInterlock",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InterlockId",
+              "schema": "integer"
+            },
+            {
+              "name": "State",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetMachSpeed",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RequestedMachineSpeed",
+              "schema": "float"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetParameter",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Parameter",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLDescriptorDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetProduct",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Product",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PackML:PackMLBaseObjectType:dataType:PackMLProductDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetUnitMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RequestedMode",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Admin",
+      "target": "dtmi:opcua:PackML:PackMLAdminObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "BaseStateMachine",
+      "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Status",
+      "target": "dtmi:opcua:PackML:PackMLStatusObjectType"
+    }
+  ]
+}

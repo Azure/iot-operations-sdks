@@ -1,0 +1,87 @@
+DataTypes:
+- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+  Enums:
+    Local: 0
+    Remote: 1
+- UADataType: [ AMB:3003, NameNodeIdDataType ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    NodeId: [ NodeId, 0 ]
+- UADataType: [ AMB:3002, RootCauseDataType ]
+  Fields:
+    RootCauseId: [ NodeId, 0 ]
+    RootCause: [ LocalizedText, 0 ]
+
+DefinedTypes:
+
+  IMaintenanceEventType:
+  - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+  - HasComponent:
+    - [ UAObject, AMB:5014, MaintenanceState ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+
+  DocumentationLinksType:
+  - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+  - HasComponent:
+    - [ UAVariable, AMB:6017, <Link>, UriString, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAMethod, AMB:7004, AddLink ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AMB:6018, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LinkToExternalSource: [ UriString, 0 ]
+          BrowseName: [ QualifiedName, 0 ]
+          DisplayName: [ LocalizedText, 0 ]
+          Description: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, AMB:6019, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LinkVariable: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, AMB:7005, RemoveLink ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AMB:6020, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VariableToBeDeleted: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  MaintenanceEventStateMachineType:
+  - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+  - HasComponent:
+    - [ UAObject, AMB:5007, Executing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, AMB:5008, Finished ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, AMB:5010, FromExecutingToFinished ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, AMB:5011, FromFinishedToPlanned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, AMB:5009, FromPlannedToExecuting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, AMB:5006, Planned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]

@@ -1,0 +1,111 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverSubStatesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Aborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AllowedToStartSubstates",
+      "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Ended"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EndedSubstates",
+      "target": "dtmi:opcua:isa95_jobcontrol:ISA95EndedStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToNotAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromAllowedToStartToRunning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromInterruptedToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromInterruptedToEnded"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromInterruptedToRunning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromNotAllowedToStartToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromNotAllowedToStartToAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromNotAllowedToStartToNotAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromRunningToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromRunningToEnded"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromRunningToInterrupted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Interrupted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InterruptedSubstates",
+      "target": "dtmi:opcua:isa95_jobcontrol:ISA95InterruptedStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "NotAllowedToStart"
+    },
+    {
+      "@type": "Relationship",
+      "name": "NotAllowedToStartSubstates",
+      "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Running"
+    }
+  ]
+}

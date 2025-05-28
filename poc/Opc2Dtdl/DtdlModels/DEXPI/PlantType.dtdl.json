@@ -1,0 +1,45 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:PlantType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ActuatingSystem",
+      "target": "dtmi:opcua:DEXPI:ActuatingSystemType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstrumentationLoopFunction",
+      "target": "dtmi:opcua:DEXPI:InstrumentationLoopFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PipingNetworkSystem",
+      "target": "dtmi:opcua:DEXPI:PipingNetworkSystemType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessInstrumentationFunction",
+      "target": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessSignalGeneratingSystem",
+      "target": "dtmi:opcua:DEXPI:ProcessSignalGeneratingSystemType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TaggedPlantItem",
+      "target": "dtmi:opcua:DEXPI:TaggedPlantItemType"
+    }
+  ]
+}

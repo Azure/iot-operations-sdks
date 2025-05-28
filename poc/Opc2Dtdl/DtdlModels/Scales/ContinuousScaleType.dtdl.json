@@ -1,0 +1,93 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales:ContinuousScaleType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales:ContinuousScaleType:dataType:RateControlMode;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Gravimetric_0",
+          "enumValue": 0
+        },
+        {
+          "name": "Volumetric_1",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ControlMagnitude",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FlowRate",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Load",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MaxFlowRate",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MinFlowRate",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RateControlMode",
+      "schema": "dtmi:opcua:Scales:ContinuousScaleType:dataType:RateControlMode;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Speed",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TargetFlowRate",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "Totalizer",
+      "target": "dtmi:opcua:Scales_V2:TotalizerType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MasterTotalizer",
+      "target": "dtmi:opcua:Scales_V2:TotalizerType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionPreset",
+      "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
+    }
+  ]
+}

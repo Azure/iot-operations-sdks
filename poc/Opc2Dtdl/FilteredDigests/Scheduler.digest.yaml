@@ -1,0 +1,189 @@
+DataTypes:
+- UADataType: [ Scheduler:70, SpecialEventType ]
+  Fields:
+    Period: [ SpecialEventPeriodType, 0 ]
+    ListOfTimeActions: [ TimeActionsType, 1 ]
+    EventPriority: [ Byte, 0 ]
+- UADataType: [ Scheduler:71, SpecialEventPeriodType ]
+  Fields:
+    CalendarEntry: [ CalendarEntryType, 0 ]
+    CalendarReference: [ NodeId, 0 ]
+- UADataType: [ Scheduler:72, CalendarEntryType ]
+  Fields:
+    Date: [ DateType, 0 ]
+    DateRange: [ DateRangeType, 0 ]
+- UADataType: [ Scheduler:73, DateType ]
+  Fields:
+    Year: [ UInt16, 0 ]
+    Month: [ Month, 0 ]
+    DayOfMonth: [ DayOfMonth, 0 ]
+    DayOfWeek: [ DayOfWeek, 0 ]
+- UADataType: [ Scheduler:74, Month ]
+  Enums:
+    Unspecified: 0
+    January: 1
+    February: 2
+    March: 3
+    April: 4
+    May: 5
+    June: 6
+    July: 7
+    August: 8
+    September: 9
+    October: 10
+    November: 11
+    December: 12
+    Odd: 13
+    Even: 14
+- UADataType: [ Scheduler:76, DayOfMonth ]
+  Enums:
+    Unspecified: 0
+    Day1: 1
+    Day2: 2
+    Day3: 3
+    Day4: 4
+    Day5: 5
+    Day6: 6
+    Day7: 7
+    Day8: 8
+    Day9: 9
+    Day10: 10
+    Day11: 11
+    Day12: 12
+    Day13: 13
+    Day14: 14
+    Day15: 15
+    Day16: 16
+    Day17: 17
+    Day18: 18
+    Day19: 19
+    Day20: 20
+    Day21: 21
+    Day22: 22
+    Day23: 23
+    Day24: 24
+    Day25: 25
+    Day26: 26
+    Day27: 27
+    Day28: 28
+    Day29: 29
+    Day30: 30
+    Day31: 31
+    LastDayOfMonth: 32
+    OddDayOfMonth: 33
+    EvenDayOfMonth: 34
+- UADataType: [ Scheduler:78, DayOfWeek ]
+  Enums:
+    Unspecified: 0
+    Monday: 1
+    Tuesday: 2
+    Wednesday: 3
+    Thursday: 4
+    Friday: 5
+    Saturday: 6
+    Sunday: 7
+- UADataType: [ Scheduler:80, DateRangeType ]
+  Fields:
+    StartDate: [ DateType, 0 ]
+    EndDate: [ DateType, 0 ]
+- UADataType: [ Scheduler:81, TimeActionsType ]
+  Fields:
+    Time: [ TimeType, 0 ]
+    Actions: [ BaseActionType, 1 ]
+- UADataType: [ Scheduler:82, BaseActionType ]
+  Fields:
+    LastActionResult: [ StatusCode, 0 ]
+- UADataType: [ Scheduler:83, WriteLocalVariableActionType ]
+  Fields:
+    Variable: [ NodeId, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ Scheduler:84, CallLocalMethodActionType ]
+  Fields:
+    ObjectId: [ NodeId, 0 ]
+    MethodId: [ NodeId, 0 ]
+    InputValues: [ null, 1 ]
+    LastOutputValues: [ null, 1 ]
+- UADataType: [ Scheduler:85, TimeType ]
+  Fields:
+    Hour: [ Byte, 0 ]
+    Minute: [ Byte, 0 ]
+    Second: [ Byte, 0 ]
+- UADataType: [ Scheduler:86, DailyScheduleType ]
+  Fields:
+    DaySchedule: [ TimeActionsType, 1 ]
+
+DefinedTypes:
+
+  CalendarType:
+  - [ UAObjectType, Scheduler:37, CalendarType ]
+  - HasComponent:
+    - [ UAVariable, Scheduler:38, PresentValue, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scheduler:40, AddDateListElements ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:41, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          CalendarEntries: [ CalendarEntryType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:42, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EntryResults: [ Int32, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scheduler:43, RemoveDateListElements ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:44, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          CalendarEntries: [ CalendarEntryType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:45, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EntryResults: [ Int32, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ScheduleType:
+  - [ UAObjectType, Scheduler:52, ScheduleType ]
+  - HasComponent:
+    - [ UAMethod, Scheduler:54, AddExceptionScheduleElements ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:55, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SpecialEvents: [ SpecialEventType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:56, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EntryResults: [ Int32, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scheduler:57, RemoveExceptionScheduleElements ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:58, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SpecialEvents: [ SpecialEventType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scheduler:59, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EntryResults: [ Int32, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

@@ -1,0 +1,405 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "name": "Hash",
+          "schema": "bytes"
+        },
+        {
+          "name": "HashAlgorithm",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "Abort",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Cause",
+              "schema": "integer"
+            },
+            {
+              "name": "CauseDescription",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SimulationMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Activate",
+              "schema": "boolean"
+            },
+            {
+              "name": "Cause",
+              "schema": "integer"
+            },
+            {
+              "name": "CauseDescription",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartContinuous",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "MeasId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1"
+            },
+            {
+              "name": "PartId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1"
+            },
+            {
+              "name": "RecipeId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1"
+            },
+            {
+              "name": "Parameters",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartSingleJob",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "MeasId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1"
+            },
+            {
+              "name": "PartId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1"
+            },
+            {
+              "name": "RecipeId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1"
+            },
+            {
+              "name": "Parameters",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobId",
+              "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Stop",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Cause",
+              "schema": "integer"
+            },
+            {
+              "name": "CauseDescription",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "ContinuousExecution"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ContinuousExecutionStepModel",
+      "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ContinuousExecutionToReadyAbort"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ContinuousExecutionToReadyAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ContinuousExecutionToReadyStop"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Initialized"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InitializedStepModel",
+      "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InitializedToReadyAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InitializedToReadyProduct"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InitializedToReadyRecipe"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Ready"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyStepModel",
+      "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToContinuousExecution"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToContinuousExecutionAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToInitializedAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToInitializedProduct"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToInitializedRecipe"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToSingleExecution"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReadyToSingleExecutionAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SingleExecution"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SingleExecutionStepModel",
+      "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SingleExecutionToReadyAbort"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SingleExecutionToReadyAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SingleExecutionToReadyStop"
+    }
+  ]
+}

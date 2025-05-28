@@ -1,0 +1,822 @@
+DataTypes:
+- UADataType: [ FX.AC:3001, ClampKindEnum ]
+  Enums:
+    Screw: 0
+    Thumb: 1
+- UADataType: [ FX.AC:3007, ConnectionEndpointStatusEnum ]
+  Enums:
+    Initial: 0
+    Ready: 1
+    PreOperational: 2
+    Operational: 3
+    Error: 4
+- UADataType: [ FX.AC:3006, FxTimeUnitsEnum ]
+  Enums:
+    Nanosecond: 0
+    Microsecond: 1
+    Millisecond: 2
+    Second: 3
+- UADataType: [ FX.AC:3002, SocketKindEnum ]
+  Enums:
+    RJ45: 0
+    M12: 1
+- UADataType: [ FX.AC:3004, CommHealthOptionSet ]
+  Enums:
+    CommInitial: 0
+    CommPreOperational: 1
+    CommError: 2
+- UADataType: [ FX.AC:3005, DeviceHealthOptionSet ]
+  Enums:
+    DeviceFailure: 0
+    DeviceCheckFunction: 1
+    DeviceMaintenanceRequired: 2
+    DeviceOffSpec: 3
+- UADataType: [ FX.AC:3010, OperationalHealthOptionSet ]
+  Enums:
+    OperationalWarning: 16
+    OperationalError: 17
+    SubOperationalWarning: 18
+    SubOperationalError: 19
+- UADataType: [ FX.AC:3003, AggregatedHealthDataType ]
+  Fields:
+    AggregatedDeviceHealth: [ DeviceHealthOptionSet, 0 ]
+    AggregatedOperationalHealth: [ OperationalHealthOptionSet, 0 ]
+- UADataType: [ FX.AC:28, ApplicationIdentifierDataType ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    UniqueIdentifier: [ ApplicationId, 0 ]
+- UADataType: [ FX.AC:25, FxVersion ]
+  Fields:
+    Major: [ UInt16, 0 ]
+    Minor: [ UInt16, 0 ]
+    Build: [ UInt16, 0 ]
+    SubBuild: [ UInt16, 0 ]
+- UADataType: [ FX.AC:3008, IntervalRange ]
+  Fields:
+    Min: [ UInt32, 0 ]
+    Max: [ UInt32, 0 ]
+    Increment: [ UInt16, 0 ]
+    Multiplier: [ UInt16, 0 ]
+    Unit: [ FxTimeUnitsEnum, 0 ]
+- UADataType: [ FX.AC:3011, PublisherQosDataType ]
+  Fields:
+    QosCategory: [ String, 0 ]
+    DatagramQos: [ TransmitQosDataType, 1 ]
+- UADataType: [ FX.AC:3012, SubscriberQosDataType ]
+  Fields:
+    QosCategory: [ String, 0 ]
+    DatagramQos: [ ReceiveQosDataType, 1 ]
+- UADataType: [ FX.AC:3013, ApplicationId ]
+  Fields:
+    IdNumeric: [ UInt32, 0 ]
+    IdString: [ String, 0 ]
+    IdGuid: [ Guid, 0 ]
+    IdByteString: [ ByteString, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ FX.Data:1029, AssetVerificationModeEnum ]
+  Enums:
+    AssetCompatibility: 0
+    AssetIdentity: 1
+    AssetIdentityAndCompatibility: 2
+- UADataType: [ FX.Data:1037, AssetVerificationResultEnum ]
+  Enums:
+    NotSet: 0
+    Match: 1
+    Compatible: 2
+    Mismatch: 3
+- UADataType: [ FX.Data:3002, FunctionalEntityVerificationResultEnum ]
+  Enums:
+    NotSet: 0
+    Match: 1
+    Mismatch: 2
+- UADataType: [ FX.Data:31, PubSubConnectionEndpointModeEnum ]
+  Enums:
+    PublisherSubscriber: 1
+    Publisher: 2
+    Subscriber: 3
+- UADataType: [ FX.Data:1024, FxCommandMask ]
+  Enums:
+    VerifyAssetCmd: 0
+    VerifyFunctionalEntityCmd: 1
+    CreateConnectionEndpointCmd: 2
+    EstablishControlCmd: 3
+    SetConfigurationDataCmd: 4
+    ReassignControlCmd: 5
+    ReserveCommunicationIdsCmd: 6
+    SetCommunicationConfigurationCmd: 7
+    EnableCommunicationCmd: 8
+- UADataType: [ FX.Data:1048, AssetVerificationDataType ]
+  Fields:
+    AssetToVerify: [ NodeId, 0 ]
+    VerificationMode: [ AssetVerificationModeEnum, 0 ]
+    ExpectedVerificationResult: [ AssetVerificationResultEnum, 0 ]
+    ExpectedVerificationVariables: [ KeyValuePair, 1 ]
+    ExpectedAdditionalVerificationVariables: [ NodeIdValuePair, 1 ]
+- UADataType: [ FX.Data:1038, AssetVerificationResultDataType ]
+  Fields:
+    VerificationStatus: [ StatusCode, 0 ]
+    VerificationResult: [ AssetVerificationResultEnum, 0 ]
+    VerificationVariablesErrors: [ StatusCode, 1 ]
+    VerificationAdditionalVariablesErrors: [ StatusCode, 1 ]
+- UADataType: [ FX.Data:1046, CommunicationConfigurationDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1045, PubSubCommunicationConfigurationDataType ]
+  Fields:
+    PubSubConfiguration: [ PubSubConfiguration2DataType, 0 ]
+    RequireCompleteUpdate: [ Boolean, 0 ]
+    ConfigurationReferences: [ PubSubConfigurationRefDataType, 1 ]
+- UADataType: [ FX.Data:1033, CommunicationConfigurationResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1039, PubSubCommunicationConfigurationResultDataType ]
+  Fields:
+    Result: [ StatusCode, 0 ]
+    ChangesApplied: [ Boolean, 0 ]
+    ReferenceResults: [ StatusCode, 1 ]
+    ConfigurationValues: [ PubSubConfigurationValueDataType, 1 ]
+    ConfigurationObjects: [ NodeId, 1 ]
+- UADataType: [ FX.Data:3007, CommunicationLinkConfigurationDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1031, PubSubCommunicationLinkConfigurationDataType ]
+  Fields:
+    DataSetReaderRef: [ PubSubConfigurationRefDataType, 0 ]
+    ExpectedSubscribedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
+    DataSetWriterRef: [ PubSubConfigurationRefDataType, 0 ]
+    ExpectedPublishedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
+- UADataType: [ FX.Data:1044, ConnectionEndpointConfigurationDataType ]
+  Fields:
+    FunctionalEntityNode: [ NodeId, 0 ]
+    ConnectionEndpoint: [ ConnectionEndpointDefinitionDataType, 0 ]
+    ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+    ControlGroups: [ NodeId, 1 ]
+    ConfigurationData: [ NodeIdValuePair, 1 ]
+    CommunicationLinks: [ CommunicationLinkConfigurationDataType, 0 ]
+- UADataType: [ FX.Data:3008, ConnectionEndpointConfigurationResultDataType ]
+  Fields:
+    ConnectionEndpointId: [ NodeId, 0 ]
+    FunctionalEntityNodeResult: [ StatusCode, 0 ]
+    ConnectionEndpointResult: [ StatusCode, 0 ]
+    VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+    VerificationStatus: [ StatusCode, 0 ]
+    VerificationVariablesErrors: [ StatusCode, 1 ]
+    EstablishControlResult: [ StatusCode, 1 ]
+    ConfigurationDataResult: [ StatusCode, 1 ]
+    ReassignControlResult: [ StatusCode, 1 ]
+    CommunicationLinksResult: [ StatusCode, 0 ]
+    EnableCommunicationResult: [ StatusCode, 0 ]
+- UADataType: [ FX.Data:3009, ConnectionEndpointParameterDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    ConnectionEndpointTypeId: [ NodeId, 0 ]
+    InputVariableIds: [ NodeId, 1 ]
+    OutputVariableIds: [ NodeId, 1 ]
+    IsPersistent: [ Boolean, 0 ]
+    CleanupTimeout: [ Duration, 0 ]
+    RelatedEndpoint: [ RelatedEndpointDataType, 0 ]
+    IsPreconfigured: [ Boolean, 0 ]
+- UADataType: [ FX.Data:3006, PubSubConnectionEndpointParameterDataType ]
+  Fields:
+    Mode: [ PubSubConnectionEndpointModeEnum, 0 ]
+- UADataType: [ FX.Data:1034, NodeIdArray ]
+  Fields:
+    Node: [ NodeId, 0 ]
+    ArrayIndex: [ UInt32, 1 ]
+- UADataType: [ FX.Data:1028, NodeIdValuePair ]
+  Fields:
+    Key: [ NodeIdArray, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ FX.Data:3003, RelatedEndpointDataType ]
+  Fields:
+    Address: [ UriString, 0 ]
+    ConnectionEndpointPath: [ PortableQualifiedName, 1 ]
+    ConnectionEndpointName: [ String, 0 ]
+- UADataType: [ FX.Data:3017, ReserveCommunicationIdsDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:3018, PubSubReserveCommunicationIdsDataType ]
+  Fields:
+    TransportProfileUri: [ String, 0 ]
+    NumReqWriterGroupIds: [ UInt16, 0 ]
+    NumReqDataSetWriterIds: [ UInt16, 0 ]
+- UADataType: [ FX.Data:3019, ReserveCommunicationIdsResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:3020, PubSubReserveCommunicationIdsResultDataType ]
+  Fields:
+    Result: [ StatusCode, 0 ]
+    DefaultPublisherId: [ null, 0 ]
+    WriterGroupIds: [ UInt16, 1 ]
+    DataSetWriterIds: [ UInt16, 1 ]
+- UADataType: [ FX.Data:3011, ConnectionEndpointDefinitionDataType ]
+  Fields:
+    Parameter: [ ConnectionEndpointParameterDataType, 0 ]
+    Node: [ NodeId, 0 ]
+
+DefinedTypes:
+
+  AcDescriptorType:
+  - [ UAObjectType, FX.AC:1027, AcDescriptorType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5072, DescriptorFile ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ClampBlockType:
+  - [ UAObjectType, FX.AC:7, ClampBlockType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:94, <Clamp> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:10, ClampType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:1250, Kind, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ClampType:
+  - [ UAObjectType, FX.AC:10, ClampType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:215, Kind, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SocketType:
+  - [ UAObjectType, FX.AC:8, SocketType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6008, Kind, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AutomationComponentType:
+  - [ UAObjectType, FX.AC:2, AutomationComponentType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6048, AggregatedHealth, AggregatedHealthDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, FX.AC:6051, AggregatedDeviceHealth, DeviceHealthOptionSet, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, FX.AC:6070, AggregatedOperationalHealth, OperationalHealthOptionSet, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:68, Assets ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:293, CloseConnections ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1305, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ConnectionEndpoints: [ NodeId, 1 ]
+          Remove: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1306, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1066, ComponentCapabilities ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1001, AutomationComponentCapabilitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5073, Descriptors ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:292, EstablishConnections ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1303, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          CommandMask: [ FxCommandMask, 0 ]
+          AssetVerifications: [ AssetVerificationDataType, 1 ]
+          ConnectionEndpointConfigurations: [ ConnectionEndpointConfigurationDataType, 1 ]
+          ReserveCommunicationIds: [ ReserveCommunicationIdsDataType, 1 ]
+          CommunicationConfigurations: [ CommunicationConfigurationDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1304, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AssetVerificationResults: [ AssetVerificationResultDataType, 1 ]
+          ConnectionEndpointConfigurationResults: [ ConnectionEndpointConfigurationResultDataType, 1 ]
+          ReserveCommunicationIdsResults: [ ReserveCommunicationIdsResultDataType, 1 ]
+          CommunicationConfigurationResults: [ CommunicationConfigurationResultDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:67, FunctionalEntities ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5009, PublisherCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5010, SubscriberCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+
+  IAssetExtensionsType:
+  - [ UAObjectType, FX.AC:1009, IAssetExtensionsType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5042, Connectors ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+
+  IAssetRevisionType:
+  - [ UAObjectType, FX.AC:9, IAssetRevisionType ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:1476, VerifyAsset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1422, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VerificationMode: [ AssetVerificationModeEnum, 1 ]
+          ExpectedVerificationVariables: [ KeyValuePair, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1423, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VerificationResult: [ AssetVerificationResultEnum, 0 ]
+          VerificationVariablesErrors: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  IFunctionalEntityType:
+  - [ UAObjectType, FX.AC:11, IFunctionalEntityType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5039, Capabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1008, FunctionalEntityCapabilitiesType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5104, ConfigurationData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:52, ConnectionEndpoints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1064, ControlGroups ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1010, ControlGroupsFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1203, InputData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6101, OperationalHealth, OperationalHealthOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5035, OperationalHealthAlarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1204, OutputData ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5007, PublisherCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5008, SubscriberCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:289, Verify ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1420, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1421, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+          VerificationVariablesErrors: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ConnectionEndpointType:
+  - [ UAObjectType, FX.AC:1002, ConnectionEndpointType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:1316, CleanupTimeout, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6197, InputVariables, NodeId, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:1308, IsPersistent, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6198, OutputVariables, NodeId, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6069, RelatedEndpoint, RelatedEndpointDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:1300, Status, ConnectionEndpointStatusEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PubSubConnectionEndpointType:
+  - [ UAObjectType, FX.AC:1005, PubSubConnectionEndpointType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:1352, Mode, PubSubConnectionEndpointModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ControlGroupType:
+  - [ UAObjectType, FX.AC:15, ControlGroupType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5018, <ControlGroup> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:15, ControlGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:290, EstablishControl ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6093, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LockContext: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6094, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LockStatus: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5075, ListOfRelated ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1069, ListToBlock ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1070, ListToRestrict ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:7011, ReassignControl ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6366, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LockContext: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6367, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LockStatus: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:1493, ReleaseControl ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConnectionEndpointsFolderType:
+  - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6096, CommHealth, CommHealthOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConfigurationDataFolderType:
+  - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:7025, ClearStoredVariables ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6398, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VariablesToClear: [ NodeId, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6399, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:7026, ListStoredVariables ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6401, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          StoredVariables: [ NodeIdValuePair, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:7024, SetStoredVariables ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6396, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VariablesToStore: [ NodeId, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:6397, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ControlItemFolderType:
+  - [ UAObjectType, FX.AC:1011, ControlItemFolderType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5051, Lock ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  InputsFolderType:
+  - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5017, SubscriberCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+
+  OutputsFolderType:
+  - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5015, PublisherCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+
+  FunctionalEntityType:
+  - [ UAObjectType, FX.AC:4, FunctionalEntityType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5040, Capabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1008, FunctionalEntityCapabilitiesType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5031, ConfigurationData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1041, ConfigurationDataFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5032, ConnectionEndpoints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:20, ConnectionEndpointsFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1065, ControlGroups ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1010, ControlGroupsFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1125, InputData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1000, InputsFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6056, OperationalHealth, OperationalHealthOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5041, OperationalHealthAlarms ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:1126, OutputData ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1019, OutputsFolderType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5012, PublisherCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5013, SubscriberCapabilities ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:301, Verify ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1358, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1359, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+          VerificationVariablesErrors: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  FxAssetType:
+  - [ UAObjectType, FX.AC:3, FxAssetType ]
+  - HasComponent:
+    - [ UAObject, FX.AC:72, Connectors ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6081, DeviceHealth, DeviceHealthEnumeration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FX.AC:5023, DeviceHealthAlarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, FX.AC:1502, VerifyAsset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1356, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VerificationMode: [ AssetVerificationModeEnum, 0 ]
+          ExpectedVerificationVariables: [ KeyValuePair, 1 ]
+          ExpectedAdditionalVerificationVariables: [ NodeIdValuePair, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1357, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VerificationResult: [ AssetVerificationResultEnum, 0 ]
+          VerificationVariablesErrors: [ StatusCode, 1 ]
+          VerificationAdditionalVariablesErrors: [ StatusCode, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  PublisherCapabilitiesType:
+  - [ UAObjectType, FX.AC:1003, PublisherCapabilitiesType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6023, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6022, PreconfiguredPublishedDataSets, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6020, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6021, SupportedQos, PublisherQosDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  SubscriberCapabilitiesType:
+  - [ UAObjectType, FX.AC:1004, SubscriberCapabilitiesType ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6028, PreconfiguredDataSetOnly, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6027, PreconfiguredSubscribedDataSets, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6026, SupportedMessageReceiveTimeouts, IntervalRange, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6024, SupportedPublishingIntervals, IntervalRange, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, FX.AC:6025, SupportedQos, SubscriberQosDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

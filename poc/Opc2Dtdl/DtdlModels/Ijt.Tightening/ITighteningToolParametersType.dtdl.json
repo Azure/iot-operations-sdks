@@ -1,0 +1,102 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Ijt_Tightening:ITighteningToolParametersType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DesignType",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DriveMethod",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DriveType",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaxSpeed",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "MaxSpeed",
+            "schema": "double"
+          },
+          {
+            "name": "PhysicalQuantity",
+            "schema": "unsignedByte"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaxTorque",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "MaxTorque",
+            "schema": "double"
+          },
+          {
+            "name": "PhysicalQuantity",
+            "schema": "unsignedByte"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinTorque",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "MinTorque",
+            "schema": "double"
+          },
+          {
+            "name": "PhysicalQuantity",
+            "schema": "unsignedByte"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MotorType",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ShutOffMethod",
+      "schema": "unsignedByte",
+      "writable": false
+    }
+  ]
+}

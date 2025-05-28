@@ -1,0 +1,156 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:AirnetOperationalType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:AirnetOperationalType:dataType:AirnetHealthStateEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OK",
+          "enumValue": 0
+        },
+        {
+          "name": "Warning",
+          "enumValue": 1
+        },
+        {
+          "name": "Error",
+          "enumValue": 2
+        },
+        {
+          "name": "Critical",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CAS:AirnetOperationalType:dataType:AirnetIntegratedStateEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FullyIntegrated",
+          "enumValue": 0
+        },
+        {
+          "name": "PartiallyIntegrated",
+          "enumValue": 1
+        },
+        {
+          "name": "FullyIsolated",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CAS:AirnetOperationalType:dataType:AirnetOperatingStateEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "Stopped",
+          "enumValue": 1
+        },
+        {
+          "name": "Starting",
+          "enumValue": 2
+        },
+        {
+          "name": "Stopping",
+          "enumValue": 3
+        },
+        {
+          "name": "Operational",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AirDeliveryRate",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CompressorsIntegrated",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CompressorsIsolated",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CompressorsNotAvailable",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ControlPressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "HealthState",
+      "schema": "dtmi:opcua:CAS:AirnetOperationalType:dataType:AirnetHealthStateEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IntegratedState",
+      "schema": "dtmi:opcua:CAS:AirnetOperationalType:dataType:AirnetIntegratedStateEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingState",
+      "schema": "dtmi:opcua:CAS:AirnetOperationalType:dataType:AirnetOperatingStateEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SpecificEnergy",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SpecificEnergyCost",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeFlowRateAvailable",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeFlowRateUnavailable",
+      "schema": "double",
+      "writable": false
+    }
+  ]
+}

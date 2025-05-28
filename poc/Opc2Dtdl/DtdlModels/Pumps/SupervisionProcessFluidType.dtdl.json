@@ -1,0 +1,93 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:SupervisionProcessFluidType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Blockage",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Cavitation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Condensation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Dry",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Flow",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Gas",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Liquid",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Pressure",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ProcessFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Solid",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Stall",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Temperature",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Viscosity",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

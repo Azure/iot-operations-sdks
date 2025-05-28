@@ -1,0 +1,85 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Average",
+          "enumValue": 1
+        },
+        {
+          "name": "DefaultA",
+          "enumValue": 2
+        },
+        {
+          "name": "DefaultB",
+          "enumValue": 4
+        },
+        {
+          "name": "ForceA",
+          "enumValue": 8
+        },
+        {
+          "name": "ForceB",
+          "enumValue": 16
+        },
+        {
+          "name": "High",
+          "enumValue": 32
+        },
+        {
+          "name": "Low",
+          "enumValue": 64
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ArbitrationMode",
+      "schema": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SourceA",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SourceB",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SetArbitrationMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ArbitrationMode",
+              "schema": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType:dataType:ArbitrationModeEnum;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:ChannelMonitoringType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Automatic",
+          "enumValue": 0
+        },
+        {
+          "name": "MdaMdi",
+          "enumValue": 1
+        },
+        {
+          "name": "JogManual",
+          "enumValue": 2
+        },
+        {
+          "name": "JogIncrement",
+          "enumValue": 3
+        },
+        {
+          "name": "TeachingHandle",
+          "enumValue": 4
+        },
+        {
+          "name": "Remote",
+          "enumValue": 5
+        },
+        {
+          "name": "Reference",
+          "enumValue": 6
+        },
+        {
+          "name": "Other",
+          "enumValue": 7
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Active",
+          "enumValue": 0
+        },
+        {
+          "name": "Interrupted",
+          "enumValue": 1
+        },
+        {
+          "name": "Reset",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ChannelMode",
+      "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ChannelState",
+      "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FeedOverride",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RapidOverride",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "ChannelModifiers",
+      "target": "dtmi:opcua:MachineTool:ChannelModifierType"
+    }
+  ]
+}

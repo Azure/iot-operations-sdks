@@ -1,0 +1,118 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ Mining.General:3002, LongwallShieldOffsetDataType ]
+  Fields:
+    ShieldNumber: [ UInt16, 0 ]
+    ShieldOffset: [ Double, 0 ]
+
+DefinedTypes:
+
+  FaceAlignmentSystemType:
+  - [ UAObjectType, Mining.PELOServices.FaceAlignmentSystem:1002, FaceAlignmentSystemType ]
+  - HasAddIn:
+    - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6008, DeviceClass, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6010, Manufacturer, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6011, ManufacturerUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6012, Model, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6013, ProductInstanceUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6014, SerialNumber, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5001, ParameterSet ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasComponent:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6009, CurrentSequenceNumber, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6001, Offsets, LongwallShieldOffsetDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, Mining.General:2003, LongwallShieldOffsetArrayItemType ]
+      - HasProperty:
+        - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6002, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6007, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]

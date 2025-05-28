@@ -1,0 +1,596 @@
+DataTypes:
+- UADataType: [ PAEFS:3005, AirConnectionOpenEnum ]
+  Enums:
+    Open: 0
+    Closed: 1
+    Opening: 2
+    Closing: 3
+- UADataType: [ PAEFS:3002, AnalogDigitalEnum ]
+  Enums:
+    Analog: 0
+    Digital: 1
+- UADataType: [ PAEFS:3003, ControlModeEnum ]
+  Enums:
+    Automatic: 0
+    Manual: 1
+    Other: 2
+- UADataType: [ PAEFS:3006, FilterAidDeviceStatusEnum ]
+  Enums:
+    DeviceActive: 0
+    DeviceInactive: 1
+    FillingActive: 2
+    DischargeActive: 3
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PADIM:1156, ResetModeEnum ]
+  Enums:
+    Application: 1
+    Communication: 2712
+    Factory: 2713
+- UADataType: [ PADIM:1158, ExecutionModeEnum ]
+  Enums:
+    Start: 2
+    Abort: 255
+- UADataType: [ PADIM:1276, PatDictionaryEnum ]
+  Enums:
+    CAS: 0
+    PAT: 1
+    User-defined: 2
+- UADataType: [ PADIM:1275, ChemicalSubstanceDataType ]
+  Fields:
+    PatDictionary: [ PatDictionaryEnum, 0 ]
+    Label: [ LocalizedText, 0 ]
+    Id: [ LocalizedText, 0 ]
+
+DefinedTypes:
+
+  AirConnectionType:
+  - [ UAObjectType, PAEFS:1007, AirConnectionType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5012, Airflow ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7009, Close ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5064, GasQuality ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5066, Humidity ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7008, Open ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5014, Pressure ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5067, Temperature ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+
+  CleaningUnitType:
+  - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5049, <Valve> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1016, CleaningUnitValveType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5078, AirConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5077, CleaningInterval ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5048, FilterCleaningEffect ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5114, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7007, RequestCleaning ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5043, ReservoirPressure ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+
+  CollectorType:
+  - [ UAObjectType, PAEFS:1020, CollectorType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5027, CollectorOutput ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+
+  ConsumptionType:
+  - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5015, CurrentConsumption ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAVariable, PAEFS:6016, LifetimeConsumption, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DischargeSystemType:
+  - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5079, AirConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5055, FillingLevel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5115, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+
+  FanType:
+  - [ UAObjectType, PAEFS:1009, FanType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5109, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5065, PowerConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5013, RotationalSpeed ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+
+  FilterAidDeviceType:
+  - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5037, AirConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5031, DosageAmount ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5009, FillingLevel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5112, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5035, PowerConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7006, ResetFillingLevel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7042, TriggerDosing ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  FilterSystemType:
+  - [ UAObjectType, PAEFS:1002, FilterSystemType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5007, <Fan> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1009, FanType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5004, <FilterAidDevice> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5018, <FilterUnit> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5006, <SafetySystem> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1008, SafetySystemType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5106, <TemperatureRegulator> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5002, AirConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5005, AirIntakeConnection ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5008, AirOutletConnection ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5107, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7005, OperationOff ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7004, OperationOn ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5017, PowerConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5016, PressureLoss ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+
+  FilterUnitType:
+  - [ UAObjectType, PAEFS:1012, FilterUnitType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5044, <CleaningUnit> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5022, <DischargeSystem> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5036, <Separator> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5030, AirConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5093, Airflow ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5023, AirIntakeConnection ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5024, AirOutletConnection ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5108, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7002, OperationOff ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7001, OperationOn ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5029, PowerConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5094, Pressure ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5028, PressureLoss ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5095, RotationalSpeed ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7003, SetAndActivateAirflowSetpoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PAEFS:6277, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Value: [ Double, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7071, SetAndActivatePressureSetpoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PAEFS:6278, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Value: [ Double, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PAEFS:7072, SetAndActivateRotationalSpeedSetpoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PAEFS:6279, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Value: [ Double, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  FilterMachineIdentificationType:
+  - [ UAObjectType, PAEFS:1022, FilterMachineIdentificationType ]
+  - HasComponent:
+    - [ UAVariable, PAEFS:6437, NominalAirflow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PAEFS:6441, RatedPower, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  HighVoltageUnitType:
+  - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5041, <Collector> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1020, CollectorType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5039, <Ionizer> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1019, IonizerType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PAEFS:6088, CurrentOutput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IonizerType:
+  - [ UAObjectType, PAEFS:1019, IonizerType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5011, IonizerOutput ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+
+  SafetySystemType:
+  - [ UAObjectType, PAEFS:1008, SafetySystemType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5111, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+
+  SensorMonitoringType:
+  - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5105, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5026, Signal ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+
+  SensorSetpointReadType:
+  - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5099, Signal ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+
+  SensorSetpointWriteType:
+  - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5057, Signal ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+
+  SeparatorType:
+  - [ UAObjectType, PAEFS:1003, SeparatorType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5001, FilterMediumState ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5003, Humidity ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5113, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5025, Temperature ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+
+  ElectrostaticPrecipitatorType:
+  - [ UAObjectType, PAEFS:1018, ElectrostaticPrecipitatorType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5010, <HighVoltageUnit> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+
+  TemperatureRegulatorType:
+  - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5110, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5054, PowerConsumption ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PAEFS:5047, Temperature ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]

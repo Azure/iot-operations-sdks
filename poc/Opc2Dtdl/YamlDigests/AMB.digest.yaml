@@ -1,0 +1,258 @@
+DataTypes:
+- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+  Enums:
+    Local: 0
+    Remote: 1
+- UADataType: [ AMB:3003, NameNodeIdDataType ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    NodeId: [ NodeId, 0 ]
+- UADataType: [ AMB:3002, RootCauseDataType ]
+  Fields:
+    RootCauseId: [ NodeId, 0 ]
+    RootCause: [ LocalizedText, 0 ]
+
+DefinedTypes:
+
+  CalibrationDueConditionClassType:
+  - [ UAObjectType, AMB:1005, CalibrationDueConditionClassType ]
+
+  ExternalCheckConditionClassType:
+  - [ UAObjectType, AMB:1015, ExternalCheckConditionClassType ]
+
+  FlashUpdateInProgressConditionClassType:
+  - [ UAObjectType, AMB:1007, FlashUpdateInProgressConditionClassType ]
+
+  ImprovementConditionClassType:
+  - [ UAObjectType, AMB:1018, ImprovementConditionClassType ]
+
+  InspectionConditionClassType:
+  - [ UAObjectType, AMB:1014, InspectionConditionClassType ]
+
+  RepairConditionClassType:
+  - [ UAObjectType, AMB:1017, RepairConditionClassType ]
+
+  ServicingConditionClassType:
+  - [ UAObjectType, AMB:1016, ServicingConditionClassType ]
+
+  BadConfigurationConditionClassType:
+  - [ UAObjectType, AMB:1008, BadConfigurationConditionClassType ]
+
+  ConnectionFailureConditionClassType:
+  - [ UAObjectType, AMB:1003, ConnectionFailureConditionClassType ]
+
+  FlashUpdateFailedConditionClassType:
+  - [ UAObjectType, AMB:1019, FlashUpdateFailedConditionClassType ]
+
+  OutOfResourcesConditionClassType:
+  - [ UAObjectType, AMB:1009, OutOfResourcesConditionClassType ]
+
+  OutOfMemoryConditionClassType:
+  - [ UAObjectType, AMB:1010, OutOfMemoryConditionClassType ]
+
+  OverTemperatureConditionClassType:
+  - [ UAObjectType, AMB:1004, OverTemperatureConditionClassType ]
+
+  SelfTestFailureConditionClassType:
+  - [ UAObjectType, AMB:1006, SelfTestFailureConditionClassType ]
+
+  IMaintenanceEventType:
+  - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6042, ConfigurationChanged, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6036, EstimatedDowntime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6041, MaintenanceMethod, MaintenanceMethodEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AMB:5014, MaintenanceState ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+    - HasComponent:
+      - [ UAVariable, AMB:6033, CurrentState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, AMB:6034, Id, NodeId, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6037, MaintenanceSupplier, NameNodeIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6039, PartsOfAssetReplaced, NameNodeIdDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6040, PartsOfAssetServiced, NameNodeIdDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6035, PlannedDate, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6038, QualificationOfPersonnel, NameNodeIdDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IRootCauseIndicationType:
+  - [ UAObjectType, AMB:1002, IRootCauseIndicationType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6015, PotentialRootCauses, RootCauseDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  DocumentationLinksType:
+  - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+  - HasComponent:
+    - [ UAVariable, AMB:6017, <Link>, UriString, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAMethod, AMB:7004, AddLink ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AMB:6018, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LinkToExternalSource: [ UriString, 0 ]
+          BrowseName: [ QualifiedName, 0 ]
+          DisplayName: [ LocalizedText, 0 ]
+          Description: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, AMB:6019, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LinkVariable: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AMB:6016, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AMB:7005, RemoveLink ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AMB:6020, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VariableToBeDeleted: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  MaintenanceEventStateMachineType:
+  - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+  - HasComponent:
+    - [ UAObject, AMB:5007, Executing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, AMB:6022, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AMB:5008, Finished ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+    - HasProperty:
+      - [ UAVariable, AMB:6023, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AMB:5010, FromExecutingToFinished ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, AMB:5007, Executing ]
+    - ToState:
+      - [ UAObject, AMB:5008, Finished ]
+    - HasProperty:
+      - [ UAVariable, AMB:6025, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AMB:5011, FromFinishedToPlanned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, AMB:5008, Finished ]
+    - ToState:
+      - [ UAObject, AMB:5006, Planned ]
+    - HasProperty:
+      - [ UAVariable, AMB:6026, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AMB:5009, FromPlannedToExecuting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - ToState:
+      - [ UAObject, AMB:5007, Executing ]
+    - FromState:
+      - [ UAObject, AMB:5006, Planned ]
+    - HasProperty:
+      - [ UAVariable, AMB:6024, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AMB:5006, Planned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+    - HasProperty:
+      - [ UAVariable, AMB:6021, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]

@@ -1,0 +1,225 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:SupervisionAuxiliaryDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ActuatorElement",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AmbientTemperature",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AuxiliaryDeviceFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AuxiliaryMediumAbsence",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AuxiliaryMediumInsufficiency",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AuxiliaryPowerPole",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "AuxiliaryPowerRange",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "CommunicationError",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Corrosion",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Deviation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ElectromagneticInterference",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ElectronicFault",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "EnergySupply",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "EvaluationElectronics",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ExciterError",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Fouling",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "HumidityElectronics",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Installation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Interruption",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "LineLength",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MaterialElectronics",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MeasuredMaterialElectronics",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "MechanicalDamage",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OperatingConditions",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Other",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Overloading",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ParameterSetting",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Peripheral",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ProcessInfluence",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SensorElement",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "StartUp",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "TemperatureShock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Vibration",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "WearReserveOperation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "WearReserveWear",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

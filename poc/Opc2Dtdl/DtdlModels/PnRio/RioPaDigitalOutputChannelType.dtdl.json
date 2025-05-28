@@ -1,0 +1,284 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "SignalType",
+          "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1"
+        },
+        {
+          "name": "WireCheckEnabled",
+          "schema": "boolean"
+        },
+        {
+          "name": "InversionEnabled",
+          "schema": "boolean"
+        },
+        {
+          "name": "SubstitutePolicy",
+          "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
+        },
+        {
+          "name": "SubstituteValue",
+          "schema": "boolean"
+        },
+        {
+          "name": "SubstituteTime",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "AUTO",
+          "enumValue": 0
+        },
+        {
+          "name": "MANUAL",
+          "enumValue": 1
+        },
+        {
+          "name": "OUT_OF_SERVICE",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Quality",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "NE_107",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "Status_full",
+          "schema": "unsignedByte"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Value",
+          "schema": "boolean"
+        },
+        {
+          "name": "Qualifier",
+          "schema": "unsignedByte"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CURRENT_4_20_mA",
+          "enumValue": 0
+        },
+        {
+          "name": "CURRENT_0_20_mA",
+          "enumValue": 1
+        },
+        {
+          "name": "VOLTAGE_0_10_V",
+          "enumValue": 2
+        },
+        {
+          "name": "VOLTAGE_10_10_V",
+          "enumValue": 3
+        },
+        {
+          "name": "HART",
+          "enumValue": 4
+        },
+        {
+          "name": "DIGITAL_0_24V",
+          "enumValue": 5
+        },
+        {
+          "name": "NAMUR",
+          "enumValue": 6
+        },
+        {
+          "name": "MANUFACTURER_SPECIFIC",
+          "enumValue": 7
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "USE_SUBSTITUTE_VALUE",
+          "enumValue": 0
+        },
+        {
+          "name": "USE_LAST_VALID_VALUE",
+          "enumValue": 1
+        },
+        {
+          "name": "USE_ACTUAL_VALUE",
+          "enumValue": 2
+        },
+        {
+          "name": "Unspecified",
+          "enumValue": 255
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Config",
+      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ManualOutValue",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Mode",
+      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessValue",
+      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessValueReadback",
+      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SignalValue",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SignalValueReadback",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SimulationEnabled",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SimulationValue",
+      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SetManualOutValue",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ManualOutValue",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Mode",
+              "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetSimulation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SimulationEnabled",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetSimulationValue",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Value",
+              "schema": "boolean"
+            },
+            {
+              "name": "Qualifier",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

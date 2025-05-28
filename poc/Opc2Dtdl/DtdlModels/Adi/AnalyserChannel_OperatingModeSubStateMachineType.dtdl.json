@@ -1,0 +1,305 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Adi:AnalyserChannel_OperatingModeSubStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "OperatingExecuteSubStateMachine",
+      "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Stopped"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Resetting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Idle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Starting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Execute",
+      "target": "dtmi:opcua:ADI:AnalyserChannelOperatingExecuteStateType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Completing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Complete"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Suspending"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Suspended"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Unsuspending"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Holding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Held"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Unholding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Stopping"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Aborting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Aborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Clearing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StoppedToResettingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResettingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResettingToIdleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IdleToStartingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingToExecuteTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToCompletingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompletingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompletingToCompleteTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompleteToStoppedTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToHoldingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HoldingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HoldingToHeldTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HeldToUnholdingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnholdingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnholdingToHoldingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnholdingToExecuteTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToSuspendingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendingToSuspendedTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendedToUnsuspendingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnsuspendingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnsuspendingToSuspendingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnsuspendingToExecuteTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StoppingToStoppedTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AbortingToAbortedTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AbortedToClearingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ClearingToStoppedTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResettingToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IdleToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompletingToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompleteToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendingToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendedToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnsuspendingToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HoldingToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HeldToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnholdingToStoppingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StoppedToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResettingToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IdleToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompletingToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompleteToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendingToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendedToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnsuspendingToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HoldingToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HeldToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnholdingToAbortingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StoppingToAbortingTransition"
+    }
+  ]
+}

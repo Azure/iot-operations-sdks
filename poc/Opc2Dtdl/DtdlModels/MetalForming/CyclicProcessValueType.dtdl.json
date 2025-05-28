@@ -1,0 +1,43 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MetalForming:CyclicProcessValueType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "AnalogSignal",
+          "schema": "integer"
+        },
+        {
+          "name": "Setpoint",
+          "schema": "integer"
+        },
+        {
+          "name": "CycleCount",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "IsActive",
+          "schema": "boolean"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CyclicProcessValue",
+      "schema": "dtmi:opcua:MetalForming:CyclicProcessValueType:dataType:CyclicProcessValueDataType;1",
+      "writable": true
+    }
+  ]
+}

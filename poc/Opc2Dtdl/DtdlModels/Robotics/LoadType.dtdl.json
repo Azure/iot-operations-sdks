@@ -1,0 +1,139 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Robotics:LoadType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DFrame;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "CartesianCoordinates",
+          "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1"
+        },
+        {
+          "name": "Orientation",
+          "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "X",
+          "schema": "double"
+        },
+        {
+          "name": "Y",
+          "schema": "double"
+        },
+        {
+          "name": "Z",
+          "schema": "double"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "A",
+          "schema": "double"
+        },
+        {
+          "name": "B",
+          "schema": "double"
+        },
+        {
+          "name": "C",
+          "schema": "double"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Robotics:LoadType:dataType:X_3DVector;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "X",
+          "schema": "double"
+        },
+        {
+          "name": "Y",
+          "schema": "double"
+        },
+        {
+          "name": "Z",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Mass",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CenterOfMass",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "CenterOfMass",
+            "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DFrame;1"
+          },
+          {
+            "name": "CartesianCoordinates",
+            "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1"
+          },
+          {
+            "name": "Orientation",
+            "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Inertia",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "Inertia",
+            "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DVector;1"
+          },
+          {
+            "name": "X",
+            "schema": "double"
+          },
+          {
+            "name": "Y",
+            "schema": "double"
+          },
+          {
+            "name": "Z",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": false
+    }
+  ]
+}

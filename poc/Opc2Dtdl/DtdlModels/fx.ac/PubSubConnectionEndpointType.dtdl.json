@@ -1,0 +1,40 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:PubSubConnectionEndpointType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_ac:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "PublisherSubscriber",
+          "enumValue": 1
+        },
+        {
+          "name": "Publisher",
+          "enumValue": 2
+        },
+        {
+          "name": "Subscriber",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Mode",
+      "schema": "dtmi:opcua:fx_ac:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1",
+      "writable": true
+    }
+  ]
+}

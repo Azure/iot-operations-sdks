@@ -1,0 +1,71 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:ECM:EnergySavingModeStatusType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "IDDestination",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "CurrentTimeToDestination",
+          "schema": "duration"
+        },
+        {
+          "name": "CurrentTimeToOperate",
+          "schema": "duration"
+        },
+        {
+          "name": "EnergyConsumptionToDestination",
+          "schema": "float"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "IDSource",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "IDDestination",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "RegularTimeToOperate",
+          "schema": "duration"
+        },
+        {
+          "name": "ModePowerConsumption",
+          "schema": "float"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CurrentTransitionData",
+      "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StateInformation",
+      "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
+      "writable": false
+    }
+  ]
+}

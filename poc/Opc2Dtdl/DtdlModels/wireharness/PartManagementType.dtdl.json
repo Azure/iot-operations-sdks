@@ -1,0 +1,198 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:wireharness:PartManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "MaterialClassID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialDefinitionID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialLotID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialSublotID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "MaterialUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95PropertyDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subproperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Seals",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Sleeves",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Terminals",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Wires",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "ClearPart",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Part",
+              "schema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "FindPartsByType",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TypeNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Parts",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StorePart",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Part",
+              "schema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

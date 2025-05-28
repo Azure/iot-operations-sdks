@@ -1,0 +1,98 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:dataType:BeverageSMLEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Inactive",
+          "enumValue": 0
+        },
+        {
+          "name": "Small",
+          "enumValue": 1
+        },
+        {
+          "name": "Large",
+          "enumValue": 2
+        },
+        {
+          "name": "ExtraLarge",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "BeverageSize",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "BeverageSML",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:dataType:BeverageSMLEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "CoffeeType",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Container",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FoamAmount",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "GroundsAmount",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "GroundsWater",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MilkAmount",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PowderAmount",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RcpType",
+      "schema": "unsignedInteger",
+      "writable": true
+    }
+  ]
+}

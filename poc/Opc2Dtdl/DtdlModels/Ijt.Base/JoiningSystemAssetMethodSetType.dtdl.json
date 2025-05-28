@@ -1,0 +1,775 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:EntityDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "EntityId",
+          "schema": "string"
+        },
+        {
+          "name": "EntityOriginId",
+          "schema": "string"
+        },
+        {
+          "name": "IsExternal",
+          "schema": "boolean"
+        },
+        {
+          "name": "EntityType",
+          "schema": "short"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:SignalDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "SignalId",
+          "schema": "string"
+        },
+        {
+          "name": "SignalValue",
+          "schema": "integer"
+        },
+        {
+          "name": "SignalDescription",
+          "schema": "string"
+        },
+        {
+          "name": "SignalType",
+          "schema": "short"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:CalibrationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "LastCalibration",
+          "schema": "time"
+        },
+        {
+          "name": "CalibrationPlace",
+          "schema": "string"
+        },
+        {
+          "name": "NextCalibration",
+          "schema": "time"
+        },
+        {
+          "name": "CalibrationValue",
+          "schema": "double"
+        },
+        {
+          "name": "SensorScale",
+          "schema": "double"
+        },
+        {
+          "name": "CertificateUri",
+          "schema": "string"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "DisconnectAsset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "Disconnect",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "EnableAsset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "Enable",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ExecuteOperation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "OperationType",
+              "schema": "integer"
+            },
+            {
+              "name": "OperationText",
+              "schema": "string"
+            },
+            {
+              "name": "VendorName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetErrorInformation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "ErrorId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ErrorContent",
+              "schema": "string"
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetFeedbackFileList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FeedbackFileList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetIdentifiers",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "IdentifierNames",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "EntityList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:EntityDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetIOSignals",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "SignalIdList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SignalList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:SignalDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RebootAsset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ResetIdentifiers",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "IdentifierList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "ResetAll",
+              "schema": "boolean"
+            },
+            {
+              "name": "ResetLatest",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendFeedback",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "FeedbackType",
+              "schema": "short"
+            },
+            {
+              "name": "FeedbackText",
+              "schema": "string"
+            },
+            {
+              "name": "FeedbackFile",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendIdentifiers",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "EntityList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:EntityDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendTextIdentifiers",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "IdentifierList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetCalibration",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "CalibrationData",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:CalibrationDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetIOSignals",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "SignalList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningSystemAssetMethodSetType:dataType:SignalDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SignalStatusList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetOfflineTimer",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "OfflineTimer",
+              "schema": "duration"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetTime",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "InputTime",
+              "schema": "time"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

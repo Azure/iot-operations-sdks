@@ -1,0 +1,48 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:IREDES:DisplayToOperatorType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:IREDES:DisplayToOperatorType:dataType:DispFlag;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "MachStart",
+          "enumValue": 0
+        },
+        {
+          "name": "FileLoad",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AckFlag",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DispFlag",
+      "schema": "dtmi:opcua:IREDES:DisplayToOperatorType:dataType:DispFlag;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DispText",
+      "schema": "string",
+      "writable": true
+    }
+  ]
+}

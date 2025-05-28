@@ -1,0 +1,93 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Di:CachedLoadingType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Di:CachedLoadingType:dataType:UpdateBehavior;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "KeepsParameters",
+          "enumValue": 0
+        },
+        {
+          "name": "WillDisconnect",
+          "enumValue": 1
+        },
+        {
+          "name": "RequiresPowerCycle",
+          "enumValue": 2
+        },
+        {
+          "name": "WillReboot",
+          "enumValue": 3
+        },
+        {
+          "name": "NeedsPreparation",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GetUpdateBehavior",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ManufacturerUri",
+              "schema": "string"
+            },
+            {
+              "name": "SoftwareRevision",
+              "schema": "string"
+            },
+            {
+              "name": "PatchIdentifiers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "UpdateBehavior",
+              "schema": "dtmi:opcua:Di:CachedLoadingType:dataType:UpdateBehavior;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "PendingVersion",
+      "target": "dtmi:opcua:DI:SoftwareVersionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FallbackVersion",
+      "target": "dtmi:opcua:DI:SoftwareVersionType"
+    }
+  ]
+}

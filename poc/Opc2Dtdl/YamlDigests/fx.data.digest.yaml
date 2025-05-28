@@ -1,0 +1,158 @@
+DataTypes:
+- UADataType: [ FX.Data:1029, AssetVerificationModeEnum ]
+  Enums:
+    AssetCompatibility: 0
+    AssetIdentity: 1
+    AssetIdentityAndCompatibility: 2
+- UADataType: [ FX.Data:1037, AssetVerificationResultEnum ]
+  Enums:
+    NotSet: 0
+    Match: 1
+    Compatible: 2
+    Mismatch: 3
+- UADataType: [ FX.Data:3002, FunctionalEntityVerificationResultEnum ]
+  Enums:
+    NotSet: 0
+    Match: 1
+    Mismatch: 2
+- UADataType: [ FX.Data:31, PubSubConnectionEndpointModeEnum ]
+  Enums:
+    PublisherSubscriber: 1
+    Publisher: 2
+    Subscriber: 3
+- UADataType: [ FX.Data:1024, FxCommandMask ]
+  Enums:
+    VerifyAssetCmd: 0
+    VerifyFunctionalEntityCmd: 1
+    CreateConnectionEndpointCmd: 2
+    EstablishControlCmd: 3
+    SetConfigurationDataCmd: 4
+    ReassignControlCmd: 5
+    ReserveCommunicationIdsCmd: 6
+    SetCommunicationConfigurationCmd: 7
+    EnableCommunicationCmd: 8
+- UADataType: [ FX.Data:1048, AssetVerificationDataType ]
+  Fields:
+    AssetToVerify: [ NodeId, 0 ]
+    VerificationMode: [ AssetVerificationModeEnum, 0 ]
+    ExpectedVerificationResult: [ AssetVerificationResultEnum, 0 ]
+    ExpectedVerificationVariables: [ KeyValuePair, 1 ]
+    ExpectedAdditionalVerificationVariables: [ NodeIdValuePair, 1 ]
+- UADataType: [ FX.Data:1038, AssetVerificationResultDataType ]
+  Fields:
+    VerificationStatus: [ StatusCode, 0 ]
+    VerificationResult: [ AssetVerificationResultEnum, 0 ]
+    VerificationVariablesErrors: [ StatusCode, 1 ]
+    VerificationAdditionalVariablesErrors: [ StatusCode, 1 ]
+- UADataType: [ FX.Data:1046, CommunicationConfigurationDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1045, PubSubCommunicationConfigurationDataType ]
+  Fields:
+    PubSubConfiguration: [ PubSubConfiguration2DataType, 0 ]
+    RequireCompleteUpdate: [ Boolean, 0 ]
+    ConfigurationReferences: [ PubSubConfigurationRefDataType, 1 ]
+- UADataType: [ FX.Data:1033, CommunicationConfigurationResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1039, PubSubCommunicationConfigurationResultDataType ]
+  Fields:
+    Result: [ StatusCode, 0 ]
+    ChangesApplied: [ Boolean, 0 ]
+    ReferenceResults: [ StatusCode, 1 ]
+    ConfigurationValues: [ PubSubConfigurationValueDataType, 1 ]
+    ConfigurationObjects: [ NodeId, 1 ]
+- UADataType: [ FX.Data:3007, CommunicationLinkConfigurationDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1031, PubSubCommunicationLinkConfigurationDataType ]
+  Fields:
+    DataSetReaderRef: [ PubSubConfigurationRefDataType, 0 ]
+    ExpectedSubscribedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
+    DataSetWriterRef: [ PubSubConfigurationRefDataType, 0 ]
+    ExpectedPublishedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
+- UADataType: [ FX.Data:1044, ConnectionEndpointConfigurationDataType ]
+  Fields:
+    FunctionalEntityNode: [ NodeId, 0 ]
+    ConnectionEndpoint: [ ConnectionEndpointDefinitionDataType, 0 ]
+    ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+    ControlGroups: [ NodeId, 1 ]
+    ConfigurationData: [ NodeIdValuePair, 1 ]
+    CommunicationLinks: [ CommunicationLinkConfigurationDataType, 0 ]
+- UADataType: [ FX.Data:3008, ConnectionEndpointConfigurationResultDataType ]
+  Fields:
+    ConnectionEndpointId: [ NodeId, 0 ]
+    FunctionalEntityNodeResult: [ StatusCode, 0 ]
+    ConnectionEndpointResult: [ StatusCode, 0 ]
+    VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+    VerificationStatus: [ StatusCode, 0 ]
+    VerificationVariablesErrors: [ StatusCode, 1 ]
+    EstablishControlResult: [ StatusCode, 1 ]
+    ConfigurationDataResult: [ StatusCode, 1 ]
+    ReassignControlResult: [ StatusCode, 1 ]
+    CommunicationLinksResult: [ StatusCode, 0 ]
+    EnableCommunicationResult: [ StatusCode, 0 ]
+- UADataType: [ FX.Data:3009, ConnectionEndpointParameterDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    ConnectionEndpointTypeId: [ NodeId, 0 ]
+    InputVariableIds: [ NodeId, 1 ]
+    OutputVariableIds: [ NodeId, 1 ]
+    IsPersistent: [ Boolean, 0 ]
+    CleanupTimeout: [ Duration, 0 ]
+    RelatedEndpoint: [ RelatedEndpointDataType, 0 ]
+    IsPreconfigured: [ Boolean, 0 ]
+- UADataType: [ FX.Data:3006, PubSubConnectionEndpointParameterDataType ]
+  Fields:
+    Mode: [ PubSubConnectionEndpointModeEnum, 0 ]
+- UADataType: [ FX.Data:1034, NodeIdArray ]
+  Fields:
+    Node: [ NodeId, 0 ]
+    ArrayIndex: [ UInt32, 1 ]
+- UADataType: [ FX.Data:1028, NodeIdValuePair ]
+  Fields:
+    Key: [ NodeIdArray, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ FX.Data:3003, RelatedEndpointDataType ]
+  Fields:
+    Address: [ UriString, 0 ]
+    ConnectionEndpointPath: [ PortableQualifiedName, 1 ]
+    ConnectionEndpointName: [ String, 0 ]
+- UADataType: [ FX.Data:3017, ReserveCommunicationIdsDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:3018, PubSubReserveCommunicationIdsDataType ]
+  Fields:
+    TransportProfileUri: [ String, 0 ]
+    NumReqWriterGroupIds: [ UInt16, 0 ]
+    NumReqDataSetWriterIds: [ UInt16, 0 ]
+- UADataType: [ FX.Data:3019, ReserveCommunicationIdsResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:3020, PubSubReserveCommunicationIdsResultDataType ]
+  Fields:
+    Result: [ StatusCode, 0 ]
+    DefaultPublisherId: [ null, 0 ]
+    WriterGroupIds: [ UInt16, 1 ]
+    DataSetWriterIds: [ UInt16, 1 ]
+- UADataType: [ FX.Data:3011, ConnectionEndpointDefinitionDataType ]
+  Fields:
+    Parameter: [ ConnectionEndpointParameterDataType, 0 ]
+    Node: [ NodeId, 0 ]
+
+DefinedTypes:
+
+  AuditUpdateMethodResultEventType:
+  - [ UAObjectType, FX.Data:1025, AuditUpdateMethodResultEventType ]
+  - HasProperty:
+    - [ UAVariable, FX.Data:6325, OutputArguments, Argument, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, FX.Data:6324, StatusCodeId, StatusCode, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]

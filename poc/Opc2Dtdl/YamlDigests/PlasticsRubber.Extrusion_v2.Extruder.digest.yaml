@@ -1,0 +1,3566 @@
+DataTypes:
+- UADataType: [ PlasticsRubber.Extrusion_v2.Extruder:3003, FeedingModeEnumeration ]
+  Enums:
+    ONLY_CONVEYING: 0
+    OTHER: 1
+    GRAVIMETRIC: 2
+    VOLUMETRIC: 3
+    LIQUID: 4
+    BATCH: 5
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+  Enums:
+    NO_PART: 0
+    GOOD_PART: 1
+    BAD_PART: 2
+    REWORK: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+  Enums:
+    OTHER: 0
+    OFF: 1
+    AUTOMATIC: 2
+    TUNING: 3
+    STANDBY: 4
+    OPEN_LOOP: 5
+    ONLY_MEASUREMENT: 6
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+  Enums:
+    GOOD_CYCLE: 0
+    BAD_CYCLE: 1
+    TEST_SAMPLE_CYCLE: 2
+    FAILED_CYCLE: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+  Enums:
+    OFF: 0
+    ACTIVE_OK: 1
+    ACTIVE_ERROR_DETECTED: 2
+    COMPLETE: 3
+    COMPLETE_ERROR_DETECTED: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+  Enums:
+    OTHER: 0
+    MACHINE: 1
+    OPERATOR: 2
+    MES: 3
+    PERIPHERAL_DEVICE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    TRANSFERRED_ASSIGNED: 1
+    SET_UP_ACTIVE: 2
+    SET_UP_INTERRUPTED: 3
+    SET_UP_FINISHED: 4
+    START_UP_ACTIVE: 5
+    JOB_IN_PRODUCTION: 6
+    JOB_INTERRUPTED: 7
+    JOB_FINISHED: 8
+    TEAR_DOWN_ACTIVE: 9
+    TEAR_DOWN_INTERRUPTED: 10
+    TEAR_DOWN_FINISHED: 11
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+  Enums:
+    PARAMETER_CHANGE: 0
+    USER: 1
+    REMOTE_ACCESS: 2
+    SEQUENCE_CHANGE: 3
+    MACHINE_MODE_CHANGE: 4
+    PRODUCTION_STATUS_CHANGE: 5
+    PRODUCTION_DATASET_CHANGE: 6
+    PRODUCTION_DATASET_FROZEN: 7
+    STANDSTILL_REASON: 8
+    MESSAGE: 9
+    USER_FEEDBACK: 10
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+  Enums:
+    OTHER: 0
+    AUTOMATIC: 1
+    SEMI_AUTOMATIC: 2
+    MANUAL: 3
+    SETUP: 4
+    SLEEP: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+  Enums:
+    NOT_DUE: 0
+    WARNING: 1
+    DUE: 2
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    MOULD_NOT_INSTALLED: 1
+    MOULD_CHANGE: 2
+    MOULD_INSTALLED: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    NO_PRODUCTION: 1
+    START_UP: 2
+    READY_FOR_PRODUCTION: 3
+    PRODUCTION: 4
+    DRY_RUN: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+  Enums:
+    UPDATE: 0
+    ADD: 1
+    MODIFY: 2
+    MOVE: 3
+    DELETE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+  Enums:
+    NOT_READY_TO_START: 0
+    START_BLOCKED_BY_CLIENT: 1
+    READY_TO_START: 2
+    START_REQUESTED: 3
+    STARTED: 4
+    STOP_REQUESTED: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+  Enums:
+    PRODUCTION: 1
+    PREPARATION: 2
+    FILE_SYSTEM: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+  Enums:
+    OTHER: 0
+    HEATING: 1
+    COOLING: 2
+    TEMPERATURE_CONTROL: 3
+    HOT_RUNNER: 4
+    MEASURING: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+  Enums:
+    LOG_ON: 0
+    LOG_OFF: 1
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Severity: [ UInt16, 0 ]
+    Message: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+  Fields:
+    SourceNodes: [ NodeId, 1 ]
+    Classification: [ UInt16, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Description: [ LocalizedText, 0 ]
+    DefaultValue: [ null, 0 ]
+    Unit: [ EUInformation, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+  Fields:
+    JobName: [ String, 0 ]
+    JobDescription: [ String, 0 ]
+    JobClassification: [ String, 0 ]
+    CustomerName: [ String, 0 ]
+    ProductionDatasetName: [ String, 0 ]
+    ProductionDatasetDescription: [ String, 0 ]
+    Material: [ String, 1 ]
+    ProductName: [ String, 1 ]
+    ProductDescription: [ String, 1 ]
+    JobPriority: [ String, 0 ]
+    PlannedStart: [ DateTime, 0 ]
+    PlannedProductionTime: [ Duration, 0 ]
+    LatestEnd: [ DateTime, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+  Fields:
+    NominalParts: [ UInt64, 0 ]
+    NominalBoxParts: [ UInt64, 0 ]
+    ExpectedCycleTime: [ Duration, 0 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Title: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+  Fields:
+    P: [ Double, 0 ]
+    I: [ Double, 0 ]
+    D: [ Double, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    MESId: [ String, 0 ]
+    CreationTimestamp: [ DateTime, 0 ]
+    LastModificationTimestamp: [ DateTime, 0 ]
+    LastSaveTimestamp: [ DateTime, 0 ]
+    UserName: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+    Manufacturer: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+    Model: [ String, 0 ]
+    ControllerName: [ String, 0 ]
+    UserMachineName: [ String, 0 ]
+    LocationName: [ String, 0 ]
+    ProductName: [ String, 1 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+  Fields:
+    Id: [ String, 0 ]
+    Text: [ LocalizedText, 0 ]
+    LockedByMES: [ Boolean, 0 ]
+- UADataType: [ PlasticsRubber.Extrusion_v2.GeneralTypes:3001, ExtrusionMessageClassificationEnumeration ]
+  Enums:
+    OTHER: 0
+    LINE_CONTROL: 1
+    MATERIAL_HANDLING: 2
+    PRE_HEATING: 3
+    FEEDING: 4
+    DOSING: 5
+    EXTRUDER: 6
+    VACUUM_STATION: 7
+    FILTER: 8
+    MELT_PUMP: 9
+    DIE: 10
+    COOLING: 11
+    HAUL_OFF: 12
+    CORRUGATOR: 13
+    SAW: 14
+    CALIBRATION: 15
+    ROLL_STACK: 16
+    MDO: 17
+    BIAX: 18
+    CUTTING: 19
+    WINDER: 20
+    PELLETIZING: 21
+    DRYER: 22
+    HANDLING_SYSTEM: 23
+    LAMINATION_SYSTEM: 24
+    MEASURING_SYSTEM: 25
+    QUALITY_SYSTEM: 26
+    MANUAL_INSPECTION: 27
+    MANUAL_OPERATION: 28
+
+DefinedTypes:
+
+  FeederType:
+  - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1063, FeederType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5014, Hopper ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1003, HopperType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6052, Id, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5015, Material ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6174, Density, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6233, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6234, Id, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1002, MaterialType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6235, Name, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6090, MaterialLevel, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6091, MaterialLot, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5020, MaterialTemperature ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6126, ActualValue, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6370, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6127, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6238, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6239, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6240, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6241, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6242, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6243, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6244, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6245, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6344, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6345, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6346, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6347, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6348, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6349, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6350, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6351, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6352, MonitoringSensitivity, UInt16, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6353, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6354, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7014, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6355, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6356, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6357, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6358, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6359, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6360, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6361, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6362, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6363, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6364, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6365, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6366, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6367, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6368, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6369, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6092, Weight, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6173, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6083, Id, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6005, IsControlled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6004, IsPresent, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6040, Mode, FeedingModeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6002, Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6085, Target, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5001, Throughput ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6010, ActualValue, Double, 0, 5 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6011, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6012, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6013, AlarmSuppression, UInt16, 0, 3 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6014, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6015, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6016, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6017, LowerTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6693, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6018, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6019, LowerTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6694, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6020, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6021, MaxValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6695, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6022, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6023, MinValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6696, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6024, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6025, MonitoringSensitivity, UInt16, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6026, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6027, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7020, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6028, SetRampDown, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6697, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6029, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6030, SetRampUp, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6698, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6031, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6032, SetValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6699, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6033, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6034, UpperTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6700, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6035, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6036, UpperTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6701, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6037, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  Extruder_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1015, Extruder_InterfaceType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5037, AdditionalDrives ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1069, DrivesType ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6343, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6521, BarrelId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5036, Feeders ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1002, FeedersType ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6558, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5019, MainDrive ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5021, AdditionalMeasuringDevices ]
+      - GeneratesEvent:
+        - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6088, NodeVersion, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, DriveType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5023, Energy ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6132, ActualPower, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6133, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6134, ActualSpecificEnergy, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6135, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, EnergyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6136, PowerConsumption, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6137, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6138, PowerFactor, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5024, Maintenance ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6139, AdditionalInformation, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6140, Interval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6141, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6142, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6143, RemainingInterval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6144, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6145, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7006, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6089, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6146, TotalOperation, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6147, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6148, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5025, Speed ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6093, ActualValue, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6236, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6128, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6149, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6150, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6151, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6152, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6153, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6154, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6155, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6156, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6157, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6158, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6159, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6160, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6161, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6162, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6163, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6164, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6165, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6166, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6167, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7007, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6168, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6169, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6170, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6171, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6172, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6175, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6176, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6177, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6178, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6179, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6180, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6181, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6182, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6183, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6184, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5027, StartDrive ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6186, StartBlockedByClient, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7008, StartRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6129, Status, StartEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7009, StopRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5028, Torque ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6130, ActualValue, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6237, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6131, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6197, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6198, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6199, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6200, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6201, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6202, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6203, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6204, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6205, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6206, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6207, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6208, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6211, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6212, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6213, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6214, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6215, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6216, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6217, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7010, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6218, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6219, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6220, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6221, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6222, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6223, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6224, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6225, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6226, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6227, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6228, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6229, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6230, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6231, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6232, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5032, MeltPressureZones ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6210, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5031, MeltTemperatureZones ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6209, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6001, ScrewId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5012, ScrewTemperatures ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1017, ExtrusionTemperatureZonesType ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5004, Maintenance ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6060, AdditionalInformation, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6061, Interval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6185, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6062, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6063, RemainingInterval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6187, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6064, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7001, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6056, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6065, TotalOperation, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6188, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6066, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6055, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5005, StartTempering ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6067, StartBlockedByClient, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7003, StartRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6057, Status, StartEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7018, StopRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6525, SpecificOutput, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6406, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5030, TemperatureZones ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1017, ExtrusionTemperatureZonesType ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5035, Maintenance ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6189, AdditionalInformation, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6190, Interval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6445, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6191, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6192, RemainingInterval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6446, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6193, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7002, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6058, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6194, TotalOperation, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6447, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6195, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6045, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5038, StartTempering ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6196, StartBlockedByClient, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7021, StartRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6059, Status, StartEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7022, StopRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5026, Throughput ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6523, ActualValue, Double, 0, 5 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6577, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6524, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6578, AlarmSuppression, UInt16, 0, 3 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6579, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6580, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6581, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6582, LowerTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6684, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6583, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6584, LowerTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6685, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6585, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6586, MaxValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6686, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6587, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6588, MinValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6687, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6589, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6590, MonitoringSensitivity, UInt16, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6591, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6592, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7019, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6593, SetRampDown, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6688, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6594, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6595, SetRampUp, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6689, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6596, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6597, SetValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6690, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6598, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6599, UpperTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6691, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6600, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6601, UpperTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6692, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6602, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5029, Users ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6551, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1048, UsersType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5033, VacuumZones ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6555, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  FeedersType:
+  - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1002, FeedersType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5002, Feeder_<Nr> ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5003, AdditionalMeasuringDevices ]
+      - GeneratesEvent:
+        - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6038, NodeVersion, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5006, Energy ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6246, ActualPower, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6247, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6248, ActualSpecificEnergy, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6249, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, EnergyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6250, PowerConsumption, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6251, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6252, PowerFactor, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1063, FeederType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5007, Hopper ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1003, HopperType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6042, Id, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5009, Material ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6043, Density, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 17497, AnalogUnitType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6044, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6046, Id, String, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1002, MaterialType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6047, Name, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6253, MaterialLevel, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6254, MaterialLot, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5034, MaterialTemperature ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6255, ActualValue, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6435, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6256, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6257, AlarmSuppression, UInt16, 0, 3 ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6258, EnumValues, EnumValueType, 1, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6259, ValueAsText, LocalizedText, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6260, AutomaticMonitoring, Boolean, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6261, LowerTolerance, Double, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6436, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6262, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6263, LowerTolerance2, Double, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6437, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6264, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6265, MaxValue, Double, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6438, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6266, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6267, MinValue, Double, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6439, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6268, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6269, MonitoringSensitivity, UInt16, 0, 0 ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6270, EnumValues, EnumValueType, 1, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6271, ValueAsText, LocalizedText, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7011, ResetMonitoring ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6272, SetRampDown, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6440, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6273, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6274, SetRampUp, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6441, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6275, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6276, SetValue, Double, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6442, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6277, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6278, UpperTolerance, Double, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6443, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6279, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6280, UpperTolerance2, Double, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6444, EngineeringUnits, EUInformation, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 80, Optional ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6281, EURange, Range, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6282, Weight, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6283, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6003, Id, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6048, IsControlled, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6006, IsPresent, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5010, Maintenance ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6284, AdditionalInformation, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6285, Interval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6286, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6287, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6288, RemainingInterval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6289, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6290, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7004, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6050, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6291, TotalOperation, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6292, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6293, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6007, Mode, FeedingModeEnumeration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6008, Name, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5011, Speed ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6051, ActualValue, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6432, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6068, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6294, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6295, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6296, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6297, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6298, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6299, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6300, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6301, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6302, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6303, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6304, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6305, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6306, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6307, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6308, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6309, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6310, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6311, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6312, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7012, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6313, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6314, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6315, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6316, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6317, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6318, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6319, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6320, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6321, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6322, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6323, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6324, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6325, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6326, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6327, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5013, StartDrive ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6328, StartBlockedByClient, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7013, StartRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6081, Status, StartEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7015, StopRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6009, Target, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5016, Throughput ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6082, ActualValue, Double, 0, 5 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6433, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6084, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6329, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6330, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6331, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6332, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6333, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6334, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6335, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6336, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6337, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6338, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6339, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6340, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6341, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6342, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6371, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6372, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6373, MonitoringSensitivity, UInt16, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6374, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6375, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7016, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6376, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6377, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6378, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6379, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6380, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6381, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6382, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6383, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6384, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6385, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6386, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6387, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6388, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6389, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6390, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5017, Torque ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6086, ActualValue, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6434, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6087, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6391, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6392, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6393, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6394, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6395, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6396, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6397, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6398, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6399, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6400, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6401, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6402, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6403, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6404, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6405, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6413, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6414, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6415, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6416, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7017, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6417, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6418, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6419, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6420, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6421, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6422, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6423, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6424, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6425, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6426, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6427, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6428, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6429, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6430, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6431, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+  - GeneratesEvent:
+    - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6041, NodeVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  HopperType:
+  - [ UAObjectType, PlasticsRubber.Extrusion_v2.Extruder:1003, HopperType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6070, Id, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5008, Material ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6054, Density, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6073, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6075, Id, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1002, MaterialType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6076, Name, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6080, MaterialLevel, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6077, MaterialLot, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion_v2.Extruder:5018, MaterialTemperature ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6049, ActualValue, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6069, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6053, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6071, AlarmSuppression, UInt16, 0, 3 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6072, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6094, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6095, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6096, LowerTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6117, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6097, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6098, LowerTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6118, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6099, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6100, MaxValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6119, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6101, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6102, MinValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6120, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6103, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6104, MonitoringSensitivity, UInt16, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6105, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6106, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.Extrusion_v2.Extruder:7005, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6107, SetRampDown, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6121, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6108, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6109, SetRampUp, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6122, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6110, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6111, SetValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6123, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6112, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6113, UpperTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6124, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6114, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6115, UpperTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6125, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6116, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6078, Weight, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion_v2.Extruder:6079, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

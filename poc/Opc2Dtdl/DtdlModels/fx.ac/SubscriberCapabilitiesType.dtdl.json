@@ -1,0 +1,123 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:IntervalRange;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Min",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "Max",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "Increment",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "Multiplier",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "Unit",
+          "schema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "QosCategory",
+          "schema": "string"
+        },
+        {
+          "name": "DatagramQos",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Nanosecond",
+          "enumValue": 0
+        },
+        {
+          "name": "Microsecond",
+          "enumValue": 1
+        },
+        {
+          "name": "Millisecond",
+          "enumValue": 2
+        },
+        {
+          "name": "Second",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PreconfiguredDataSetOnly",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PreconfiguredSubscribedDataSets",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SupportedMessageReceiveTimeouts",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:IntervalRange;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SupportedPublishingIntervals",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:IntervalRange;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SupportedQos",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1"
+      },
+      "writable": true
+    }
+  ]
+}

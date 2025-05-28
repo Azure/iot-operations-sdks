@@ -1,0 +1,93 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:CyclicJobInformationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "SetCyclicJobData",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JobName",
+              "schema": "string"
+            },
+            {
+              "name": "JobDescription",
+              "schema": "string"
+            },
+            {
+              "name": "CustomerName",
+              "schema": "string"
+            },
+            {
+              "name": "ProductionDatasetName",
+              "schema": "string"
+            },
+            {
+              "name": "ProductionDatasetDescription",
+              "schema": "string"
+            },
+            {
+              "name": "Material",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "ProductName",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "ProductDescription",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "ContinueAtJobEnd",
+              "schema": "boolean"
+            },
+            {
+              "name": "NominalParts",
+              "schema": "unsignedLong"
+            },
+            {
+              "name": "NominalBoxParts",
+              "schema": "unsignedLong"
+            },
+            {
+              "name": "ExpectedCycleTime",
+              "schema": "duration"
+            },
+            {
+              "name": "MouldId",
+              "schema": "string"
+            },
+            {
+              "name": "NumCavities",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

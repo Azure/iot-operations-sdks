@@ -1,0 +1,40 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calibrator:CalibrationZonesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "CalibrationZone_Nr",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calibrator:CalibrationZoneType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterFlowIn",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterFlowOut",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterTemperatureIn",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterTemperatureOut",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    }
+  ]
+}

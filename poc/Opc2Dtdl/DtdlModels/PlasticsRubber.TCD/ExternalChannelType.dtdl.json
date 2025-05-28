@@ -1,0 +1,73 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ControlMode",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PressureMainLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PressureReturnLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TemperatureMainLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TemperatureReturnLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SwitchOff"
+    },
+    {
+      "@type": "Command",
+      "name": "SwitchOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FlowRate",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PressureDifference",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Temperature",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TemperatureDifference",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    }
+  ]
+}

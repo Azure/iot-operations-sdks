@@ -1,0 +1,43 @@
+DataTypes:
+
+DefinedTypes:
+
+  SpatialObjectsListType:
+  - [ UAObjectType, RSL:1003, SpatialObjectsListType ]
+  - HasComponent:
+    - [ UAVariable, RSL:6025, WorldFrame ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, RSL:6026, Base, NodeId, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  SpatialObjectType:
+  - [ UAObjectType, RSL:1002, SpatialObjectType ]
+  - HasComponent:
+    - [ UAObject, RSL:5004, AlternativeFrames ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, RSL:5002, AttachPoints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, RSL:5003, InternalFrames ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, RSL:6014, PositionFrame ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, RSL:6015, Base, NodeId, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]

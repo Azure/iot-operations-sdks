@@ -1,0 +1,30 @@
+DataTypes:
+
+DefinedTypes:
+
+  CAEXFileType:
+  - [ UAObjectType, AMLBaseTypes:1005, CAEXFileType ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5001, InstanceHierarchies ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5002, InterfaceClassLibs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5003, RoleClassLibs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AMLBaseTypes:5004, SystemUnitClassLibs ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

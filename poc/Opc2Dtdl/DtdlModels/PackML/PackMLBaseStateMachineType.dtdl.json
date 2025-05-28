@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PackML:PackMLBaseStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AvailableStates",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AvailableTransitions",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Abort"
+    },
+    {
+      "@type": "Command",
+      "name": "Clear"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Aborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AbortedToCleared"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Aborting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AbortingToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Cleared"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ClearedToAborting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineState",
+      "target": "dtmi:opcua:PackML:PackMLMachineStateMachineType"
+    }
+  ]
+}

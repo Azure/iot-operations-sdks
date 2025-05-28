@@ -1,0 +1,26 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "NominalVoltage",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "CookingZone_No",
+      "target": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType"
+    }
+  ]
+}

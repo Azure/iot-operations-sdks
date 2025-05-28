@@ -1,0 +1,1203 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ FX.Data:1029, AssetVerificationModeEnum ]
+  Enums:
+    AssetCompatibility: 0
+    AssetIdentity: 1
+    AssetIdentityAndCompatibility: 2
+- UADataType: [ FX.Data:1037, AssetVerificationResultEnum ]
+  Enums:
+    NotSet: 0
+    Match: 1
+    Compatible: 2
+    Mismatch: 3
+- UADataType: [ FX.Data:3002, FunctionalEntityVerificationResultEnum ]
+  Enums:
+    NotSet: 0
+    Match: 1
+    Mismatch: 2
+- UADataType: [ FX.Data:31, PubSubConnectionEndpointModeEnum ]
+  Enums:
+    PublisherSubscriber: 1
+    Publisher: 2
+    Subscriber: 3
+- UADataType: [ FX.Data:1024, FxCommandMask ]
+  Enums:
+    VerifyAssetCmd: 0
+    VerifyFunctionalEntityCmd: 1
+    CreateConnectionEndpointCmd: 2
+    EstablishControlCmd: 3
+    SetConfigurationDataCmd: 4
+    ReassignControlCmd: 5
+    ReserveCommunicationIdsCmd: 6
+    SetCommunicationConfigurationCmd: 7
+    EnableCommunicationCmd: 8
+- UADataType: [ FX.Data:1048, AssetVerificationDataType ]
+  Fields:
+    AssetToVerify: [ NodeId, 0 ]
+    VerificationMode: [ AssetVerificationModeEnum, 0 ]
+    ExpectedVerificationResult: [ AssetVerificationResultEnum, 0 ]
+    ExpectedVerificationVariables: [ KeyValuePair, 1 ]
+    ExpectedAdditionalVerificationVariables: [ NodeIdValuePair, 1 ]
+- UADataType: [ FX.Data:1038, AssetVerificationResultDataType ]
+  Fields:
+    VerificationStatus: [ StatusCode, 0 ]
+    VerificationResult: [ AssetVerificationResultEnum, 0 ]
+    VerificationVariablesErrors: [ StatusCode, 1 ]
+    VerificationAdditionalVariablesErrors: [ StatusCode, 1 ]
+- UADataType: [ FX.Data:1046, CommunicationConfigurationDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1045, PubSubCommunicationConfigurationDataType ]
+  Fields:
+    PubSubConfiguration: [ PubSubConfiguration2DataType, 0 ]
+    RequireCompleteUpdate: [ Boolean, 0 ]
+    ConfigurationReferences: [ PubSubConfigurationRefDataType, 1 ]
+- UADataType: [ FX.Data:1033, CommunicationConfigurationResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1039, PubSubCommunicationConfigurationResultDataType ]
+  Fields:
+    Result: [ StatusCode, 0 ]
+    ChangesApplied: [ Boolean, 0 ]
+    ReferenceResults: [ StatusCode, 1 ]
+    ConfigurationValues: [ PubSubConfigurationValueDataType, 1 ]
+    ConfigurationObjects: [ NodeId, 1 ]
+- UADataType: [ FX.Data:3007, CommunicationLinkConfigurationDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:1031, PubSubCommunicationLinkConfigurationDataType ]
+  Fields:
+    DataSetReaderRef: [ PubSubConfigurationRefDataType, 0 ]
+    ExpectedSubscribedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
+    DataSetWriterRef: [ PubSubConfigurationRefDataType, 0 ]
+    ExpectedPublishedDataSetVersion: [ ConfigurationVersionDataType, 0 ]
+- UADataType: [ FX.Data:1044, ConnectionEndpointConfigurationDataType ]
+  Fields:
+    FunctionalEntityNode: [ NodeId, 0 ]
+    ConnectionEndpoint: [ ConnectionEndpointDefinitionDataType, 0 ]
+    ExpectedVerificationVariables: [ NodeIdValuePair, 1 ]
+    ControlGroups: [ NodeId, 1 ]
+    ConfigurationData: [ NodeIdValuePair, 1 ]
+    CommunicationLinks: [ CommunicationLinkConfigurationDataType, 0 ]
+- UADataType: [ FX.Data:3008, ConnectionEndpointConfigurationResultDataType ]
+  Fields:
+    ConnectionEndpointId: [ NodeId, 0 ]
+    FunctionalEntityNodeResult: [ StatusCode, 0 ]
+    ConnectionEndpointResult: [ StatusCode, 0 ]
+    VerificationResult: [ FunctionalEntityVerificationResultEnum, 0 ]
+    VerificationStatus: [ StatusCode, 0 ]
+    VerificationVariablesErrors: [ StatusCode, 1 ]
+    EstablishControlResult: [ StatusCode, 1 ]
+    ConfigurationDataResult: [ StatusCode, 1 ]
+    ReassignControlResult: [ StatusCode, 1 ]
+    CommunicationLinksResult: [ StatusCode, 0 ]
+    EnableCommunicationResult: [ StatusCode, 0 ]
+- UADataType: [ FX.Data:3009, ConnectionEndpointParameterDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    ConnectionEndpointTypeId: [ NodeId, 0 ]
+    InputVariableIds: [ NodeId, 1 ]
+    OutputVariableIds: [ NodeId, 1 ]
+    IsPersistent: [ Boolean, 0 ]
+    CleanupTimeout: [ Duration, 0 ]
+    RelatedEndpoint: [ RelatedEndpointDataType, 0 ]
+    IsPreconfigured: [ Boolean, 0 ]
+- UADataType: [ FX.Data:3006, PubSubConnectionEndpointParameterDataType ]
+  Fields:
+    Mode: [ PubSubConnectionEndpointModeEnum, 0 ]
+- UADataType: [ FX.Data:1034, NodeIdArray ]
+  Fields:
+    Node: [ NodeId, 0 ]
+    ArrayIndex: [ UInt32, 1 ]
+- UADataType: [ FX.Data:1028, NodeIdValuePair ]
+  Fields:
+    Key: [ NodeIdArray, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ FX.Data:3003, RelatedEndpointDataType ]
+  Fields:
+    Address: [ UriString, 0 ]
+    ConnectionEndpointPath: [ PortableQualifiedName, 1 ]
+    ConnectionEndpointName: [ String, 0 ]
+- UADataType: [ FX.Data:3017, ReserveCommunicationIdsDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:3018, PubSubReserveCommunicationIdsDataType ]
+  Fields:
+    TransportProfileUri: [ String, 0 ]
+    NumReqWriterGroupIds: [ UInt16, 0 ]
+    NumReqDataSetWriterIds: [ UInt16, 0 ]
+- UADataType: [ FX.Data:3019, ReserveCommunicationIdsResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ FX.Data:3020, PubSubReserveCommunicationIdsResultDataType ]
+  Fields:
+    Result: [ StatusCode, 0 ]
+    DefaultPublisherId: [ null, 0 ]
+    WriterGroupIds: [ UInt16, 1 ]
+    DataSetWriterIds: [ UInt16, 1 ]
+- UADataType: [ FX.Data:3011, ConnectionEndpointDefinitionDataType ]
+  Fields:
+    Parameter: [ ConnectionEndpointParameterDataType, 0 ]
+    Node: [ NodeId, 0 ]
+- UADataType: [ FX.AC:3001, ClampKindEnum ]
+  Enums:
+    Screw: 0
+    Thumb: 1
+- UADataType: [ FX.AC:3007, ConnectionEndpointStatusEnum ]
+  Enums:
+    Initial: 0
+    Ready: 1
+    PreOperational: 2
+    Operational: 3
+    Error: 4
+- UADataType: [ FX.AC:3006, FxTimeUnitsEnum ]
+  Enums:
+    Nanosecond: 0
+    Microsecond: 1
+    Millisecond: 2
+    Second: 3
+- UADataType: [ FX.AC:3002, SocketKindEnum ]
+  Enums:
+    RJ45: 0
+    M12: 1
+- UADataType: [ FX.AC:3004, CommHealthOptionSet ]
+  Enums:
+    CommInitial: 0
+    CommPreOperational: 1
+    CommError: 2
+- UADataType: [ FX.AC:3005, DeviceHealthOptionSet ]
+  Enums:
+    DeviceFailure: 0
+    DeviceCheckFunction: 1
+    DeviceMaintenanceRequired: 2
+    DeviceOffSpec: 3
+- UADataType: [ FX.AC:3010, OperationalHealthOptionSet ]
+  Enums:
+    OperationalWarning: 16
+    OperationalError: 17
+    SubOperationalWarning: 18
+    SubOperationalError: 19
+- UADataType: [ FX.AC:3003, AggregatedHealthDataType ]
+  Fields:
+    AggregatedDeviceHealth: [ DeviceHealthOptionSet, 0 ]
+    AggregatedOperationalHealth: [ OperationalHealthOptionSet, 0 ]
+- UADataType: [ FX.AC:28, ApplicationIdentifierDataType ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    UniqueIdentifier: [ ApplicationId, 0 ]
+- UADataType: [ FX.AC:25, FxVersion ]
+  Fields:
+    Major: [ UInt16, 0 ]
+    Minor: [ UInt16, 0 ]
+    Build: [ UInt16, 0 ]
+    SubBuild: [ UInt16, 0 ]
+- UADataType: [ FX.AC:3008, IntervalRange ]
+  Fields:
+    Min: [ UInt32, 0 ]
+    Max: [ UInt32, 0 ]
+    Increment: [ UInt16, 0 ]
+    Multiplier: [ UInt16, 0 ]
+    Unit: [ FxTimeUnitsEnum, 0 ]
+- UADataType: [ FX.AC:3011, PublisherQosDataType ]
+  Fields:
+    QosCategory: [ String, 0 ]
+    DatagramQos: [ TransmitQosDataType, 1 ]
+- UADataType: [ FX.AC:3012, SubscriberQosDataType ]
+  Fields:
+    QosCategory: [ String, 0 ]
+    DatagramQos: [ ReceiveQosDataType, 1 ]
+- UADataType: [ FX.AC:3013, ApplicationId ]
+  Fields:
+    IdNumeric: [ UInt32, 0 ]
+    IdString: [ String, 0 ]
+    IdGuid: [ Guid, 0 ]
+    IdByteString: [ ByteString, 0 ]
+
+DefinedTypes:
+
+  PtBleedAttributesType:
+  - [ UAObjectType, Powertrain:1008, PtBleedAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6094, <ResistanceValue>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6096, PowerRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtBrakeAttributesType:
+  - [ UAObjectType, Powertrain:16609, PtBrakeAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16613, B10dValue, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16631, BrakeAccelerationVoltage, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6322, BrakeCurrentRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6335, BrakeDesignType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16637, BrakeHoldingVoltage, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16691, BrakeInertia, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6345, BrakePowerRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6347, BrakeSurroundingAirTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6529, BrakeTorqueHolding, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6359, BrakeTorqueRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16661, BrakeTurnOffDelayAC, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16667, BrakeTurnOffDelayDC, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6082, BrakeTurnOffType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16655, BrakeTurnOnDelay, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6085, BrakeType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6086, BrakeVoltageRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16697, BrakeWearMaximum, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16619, BrakingEnergySingleEngagementMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtCapacitanceAttributesType:
+  - [ UAObjectType, Powertrain:1004, PtCapacitanceAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6210, Capacitance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtAmbientAttributesType:
+  - [ UAObjectType, Powertrain:16875, PtAmbientAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6370, AltitudeMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6605, HumidityMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6508, HumidityMin, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6380, PressureMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6303, PressureMin, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6382, TemperatureMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6377, TemperatureMin, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtAnalogInputElectricalAttributesType:
+  - [ UAObjectType, Powertrain:16907, PtAnalogInputElectricalAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6509, AnalogInputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6614, InputCurrentRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6613, InputVoltageRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16912, InternalResistance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtAnalogOutputElectricalAttributesType:
+  - [ UAObjectType, Powertrain:16913, PtAnalogOutputElectricalAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6510, AnalogOutputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6386, FrequencyRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16916, LoadResistance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtAuxiliarySupplyAttributesType:
+  - [ UAObjectType, Powertrain:16928, PtAuxiliarySupplyAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16942, CurrentMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16954, FuseProtectionCurrentMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16948, PowerConsumptionMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16936, SupplyVoltageAc, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16930, SupplyVoltageDc, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtCommunicationInterfaceAttributesType:
+  - [ UAObjectType, Powertrain:16963, PtCommunicationInterfaceAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6511, ProfileTypes, UInt16, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6409, ProtocolTypes, UInt16, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6412, SafetyProtocolTypes, UInt16, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtCoolingAttributesType:
+  - [ UAObjectType, Powertrain:16970, PtCoolingAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6514, CoolingMethod, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtDigitalInputElectricalAttributesType:
+  - [ UAObjectType, Powertrain:17000, PtDigitalInputElectricalAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6515, DigitalInputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtDigitalOutputElectricalAttributesType:
+  - [ UAObjectType, Powertrain:17009, PtDigitalOutputElectricalAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6517, DigitalOutputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6351, OutputCurrentMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtFuseAttributesType:
+  - [ UAObjectType, Powertrain:17024, PtFuseAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6353, BreakingCapacity, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6442, CurrentRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6518, FuseElementSpeedMarking, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6444, VoltageRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtHardwareAttributesType:
+  - [ UAObjectType, Powertrain:16973, PtHardwareAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6425, HeatDissipationPower, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16987, Height, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16975, Length, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6422, NoiseLevel, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16993, Weight, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16981, Width, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtInputInterfaceAttributesType:
+  - [ UAObjectType, Powertrain:17046, PtInputInterfaceAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:17060, InputCurrentMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6388, InputCurrentRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6399, InputFrequencyMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6519, InputFrequencyRangeRated, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:17072, InputPowerMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6401, InputPowerRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6654, InputVoltageMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6656, InputVoltageRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6403, InputVoltageRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtOutputInterfaceAttributesType:
+  - [ UAObjectType, Powertrain:17085, PtOutputInterfaceAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6659, InputCurrentRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6657, InputVoltageRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:17111, OutputCurrentMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6427, OutputCurrentRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:17099, OutputFrequencyMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6429, OutputFrequencyRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:17123, OutputPowerMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6430, OutputPowerRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:17087, OutputVoltageMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6520, OutputVoltageRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6447, OutputVoltageRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtProtectionClassAttributesType:
+  - [ UAObjectType, Powertrain:17140, PtProtectionClassAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6311, IpClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtSafetyFunctionsAttributesType:
+  - [ UAObjectType, Powertrain:17149, PtSafetyFunctionsAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6521, FunctionalSafetyCategory, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6661, FunctionalSafetyPerformanceLevel, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6664, FunctionalSafetySilLevel, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6667, SafetyFunctions, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtDcBusAttributesType:
+  - [ UAObjectType, Powertrain:16798, PtDcBusAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6204, <DcBusVoltageRated>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6206, DcBusVoltageRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtElectronicOverloadRelayAttributesType:
+  - [ UAObjectType, Powertrain:1014, PtElectronicOverloadRelayAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6739, TripClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtEncoderAttributesType:
+  - [ UAObjectType, Powertrain:16553, PtEncoderAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6333, EncoderTechnology, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6485, EncoderType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtEncoderLinearAttributesType:
+  - [ UAObjectType, Powertrain:1024, PtEncoderLinearAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6734, EncoderReadingDistance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6736, EncoderSpeedLinearMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6731, RangeLinear, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6729, ResolutionLinearAbsolute, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtEncoderRotaryAttributesType:
+  - [ UAObjectType, Powertrain:1021, PtEncoderRotaryAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6718, EncoderFlangeSize, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6720, EncoderFlangeType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6710, EncoderRotarySpeedMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6726, EncoderShaftSize, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6723, EncoderShaftType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6707, FeedbackResolverExcitationFrequency, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6705, FeedbackResolverExcitationVoltage, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6716, ResolutionMultiturnAbsolute, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6712, ResolutionRotaryIncremental, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6714, ResolutionSingleturnAbsolute, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtEncoderInterfaceAttributesType:
+  - [ UAObjectType, Powertrain:1003, PtEncoderInterfaceAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6492, EncoderSignal, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtEncoderInterfaceProtocolAttributesType:
+  - [ UAObjectType, Powertrain:16605, PtEncoderInterfaceProtocolAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6495, EncoderProtocol, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtGearAttributesType:
+  - [ UAObjectType, Powertrain:16503, PtGearAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16544, <Efficiency>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16505, <GearRatio>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16538, AxialForceMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16507, Backlash, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16514, GearInertia, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6125, GearType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6461, LubricantType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16526, SpeedRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16520, TorqueRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16508, TorsionalRigidity, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtInputConverterAttributesType:
+  - [ UAObjectType, Powertrain:16806, PtInputConverterAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6220, <PwmSwitchingFrequency>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6218, EfficiencyClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6272, InputConverterType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6219, PowerFactorCorrection, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6223, RegenerativePowerRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtInputFilterAttributesType:
+  - [ UAObjectType, Powertrain:16827, PtInputFilterAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6155, LineFilterEmcCategory, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6156, LineFilterEmcClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6157, LineFilterEmcGroup, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16829, LineFilterPowerLoss, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtMotorAttributesType:
+  - [ UAObjectType, Powertrain:16383, PtMotorAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6110, MotorType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtMotorLinearAttributesType:
+  - [ UAObjectType, Powertrain:1012, PtMotorLinearAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6676, ForcerWeight, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6678, MotorBackEMF, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6674, MotorPolePairPitch, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtMotorRotaryAttributesType:
+  - [ UAObjectType, Powertrain:1009, PtMotorRotaryAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6672, MotorBackEMF, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6670, MotorInertia, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtMotorDutyAttributesType:
+  - [ UAObjectType, Powertrain:16499, PtMotorDutyAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6202, DutyType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtMotorManagementDeviceAttributesType:
+  - [ UAObjectType, Powertrain:1023, PtMotorManagementDeviceAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6753, TripClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtMotorRatedAttributesType:
+  - [ UAObjectType, Powertrain:16399, PtMotorRatedAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16444, MotorCurrentContinuousStall, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6164, MotorEfficiencyClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16492, MotorPowerFactor, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6050, MotorPowerRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6052, MotorWindingType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Powertrain:16401, PtInputInterfaceAttributes ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:17046, PtInputInterfaceAttributesType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Powertrain:16440, PtMotorDutyAttributes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:16499, PtMotorDutyAttributesType ]
+
+  PtMotorLinearRatedAttributesType:
+  - [ UAObjectType, Powertrain:1018, PtMotorLinearRatedAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6702, MotorForceConstant, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6700, MotorForceContinuousStall, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6696, MotorForceMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6698, MotorForceRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6692, MotorSpeedMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6694, MotorSpeedRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtMotorRotaryRatedAttributesType:
+  - [ UAObjectType, Powertrain:1015, PtMotorRotaryRatedAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6680, MotorSpeedMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6682, MotorSpeedRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6690, MotorTorqueConstant, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6688, MotorTorqueContinuousStall, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6684, MotorTorqueMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6686, MotorTorqueRated, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtMotorStarterAttributesType:
+  - [ UAObjectType, Powertrain:16854, PtMotorStarterAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6394, TripClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtOutputConverterAttributesType:
+  - [ UAObjectType, Powertrain:16818, PtOutputConverterAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6151, <PwmSwitchingFrequency>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6150, EfficiencyClass, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtOutputFilterAttributesType:
+  - [ UAObjectType, Powertrain:16838, PtOutputFilterAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16841, OutputFilterPowerLoss, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6241, OutputFilterType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtPrechargeAttributesType:
+  - [ UAObjectType, Powertrain:1010, PtPrechargeAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6302, PreChargeCycleTimeLimit, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6300, PreChargeMaximumCapacitance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6198, PrechargeThreshold, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6194, PreChargeTime, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6196, PreChargeTimeout, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6191, PreChargeType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtReactorAttributesType:
+  - [ UAObjectType, Powertrain:1006, PtReactorAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6245, Inductance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtTemperatureSensorAttributesType:
+  - [ UAObjectType, Powertrain:16708, PtTemperatureSensorAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16723, Accuracy, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16735, TemperatureMax, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16729, TemperatureMin, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6112, TemperatureSensorTechnology, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PtVibrationSensorAttributesType:
+  - [ UAObjectType, Powertrain:16747, PtVibrationSensorAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16766, Accuracy, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6499, AnalogInputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6561, AnalogOutputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6564, DigitalInputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6567, DigitalOutputElectricalType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6102, FrequencyRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:16772, Linearity, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6119, MeasuringRange, Range, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6121, OperatingVoltage, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6570, OutputFunction, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6573, Resolution, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PtAssetType:
+  - [ UAObjectType, Powertrain:15912, PtAssetType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5015, <PtAnalogInputElectricalAttributes> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:16907, PtAnalogInputElectricalAttributesType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5017, <PtAnalogOutputElectricalAttributes> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:16913, PtAnalogOutputElectricalAttributesType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5016, <PtDigitalInputElectricalAttributes> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:17000, PtDigitalInputElectricalAttributesType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5018, <PtDigitalOutputElectricalAttributes> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:17009, PtDigitalOutputElectricalAttributesType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5008, <PtStandardAttributes> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:17156, PtStandardAttributesType ]
+  - HasComponent:
+    - [ UAVariable, Powertrain:6058, DeviceHealth, DeviceHealthEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5000, DeviceHealthAlarms ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5004, DeviceTypeImage ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5005, Documentation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5039, DocumentationFiles ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5006, ImageSet ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5007, ProtocolSupport ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5010, PtAmbientAttributes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:16875, PtAmbientAttributesType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5014, PtAuxiliarySupplyAttributes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:16928, PtAuxiliarySupplyAttributesType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5009, PtCertificateAttributes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:16960, PtCertificateAttributesType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5012, PtHardwareAttributes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:16973, PtHardwareAttributesType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5011, PtMechanicalStrengthAttributes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:17136, PtMechanicalStrengthAttributesType ]
+  - HasComponent:
+    - [ UAObject, Powertrain:5013, PtProtectionClassAttributes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Powertrain:17140, PtProtectionClassAttributesType ]
+  - HasComponent:
+    - [ UAMethod, Powertrain:7000, VerifyAsset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1422, InputArguments ]
+    - HasProperty:
+      - [ UAVariable, FX.AC:1423, OutputArguments ]

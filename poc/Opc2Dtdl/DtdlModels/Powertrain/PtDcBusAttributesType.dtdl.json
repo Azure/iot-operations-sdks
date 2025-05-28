@@ -1,0 +1,51 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtDcBusAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DcBusVoltageRated",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "DcBusVoltageRated",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "DcBusVoltageRatedSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DcBusVoltageRange",
+      "schema": "dtmi:opcua:Powertrain:PtDcBusAttributesType:dataType:Range;1",
+      "writable": false
+    }
+  ]
+}

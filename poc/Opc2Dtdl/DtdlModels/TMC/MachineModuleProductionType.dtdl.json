@@ -1,0 +1,605 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC:MachineModuleProductionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Number",
+          "schema": "string"
+        },
+        {
+          "name": "ProducedMaterial",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialDefinitionType;1"
+        },
+        {
+          "name": "TargetQuantity",
+          "schema": "double"
+        },
+        {
+          "name": "ContinueAtJobEnd",
+          "schema": "boolean"
+        },
+        {
+          "name": "TargetStartTime",
+          "schema": "time"
+        },
+        {
+          "name": "TargetEndTime",
+          "schema": "time"
+        },
+        {
+          "name": "DataSetID",
+          "schema": "string"
+        },
+        {
+          "name": "DataSetDescription",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialListID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialListDescription",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MessageType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Header",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1"
+        },
+        {
+          "name": "MaterialList",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialListType;1"
+        },
+        {
+          "name": "DataSet",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:DataSetType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialListType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Items",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialListItemType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:DataSetType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Values",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:DataSetEntryType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:DataSetEntryType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialListItemType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "AssemblyID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialPointID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialPointMES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialSublot",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialSublotType;1"
+        },
+        {
+          "name": "MaterialStockStatus",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialStockStatusEnumeration;1"
+        },
+        {
+          "name": "FollowUpMaterials",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialSublotType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialSublotType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialLot",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialLotType;1"
+        },
+        {
+          "name": "MaterialStorageLocationID",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "double"
+        },
+        {
+          "name": "CarrierID",
+          "schema": "string"
+        },
+        {
+          "name": "RelativePositionID",
+          "schema": "string"
+        },
+        {
+          "name": "ParentSublotID",
+          "schema": "string"
+        },
+        {
+          "name": "Sublots",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialSublotType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialStockStatusEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unrestricted",
+          "enumValue": 0
+        },
+        {
+          "name": "QualityInspection",
+          "enumValue": 1
+        },
+        {
+          "name": "Blocked",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialLotType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialDefinition",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialDefinitionType;1"
+        },
+        {
+          "name": "Status",
+          "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialStockStatusEnumeration;1"
+        },
+        {
+          "name": "ProductionDate",
+          "schema": "time"
+        },
+        {
+          "name": "BestUsedBeforeDate",
+          "schema": "time"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:DataDescriptionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MaterialDefinitionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "BaseUnitOfMeasure",
+          "schema": "string"
+        },
+        {
+          "name": "BatchManaged",
+          "schema": "boolean"
+        },
+        {
+          "name": "GroupID",
+          "schema": "string"
+        },
+        {
+          "name": "ParentGroupID",
+          "schema": "string"
+        },
+        {
+          "name": "ShelfLife",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "AbortProductionOrder",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "POToAbort",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "AssignProductionOrder",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "POToAssign",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ClearProductionOrder",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "CompleteProductionOrder",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ResetProductionTotals",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartAssignedProductionOrder",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "POHeaderToStart",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1"
+            },
+            {
+              "name": "SourceMaterialLoadingPointIDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "DestinationMaterialOutputPointIDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartProductionOrder",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "POToStart",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderType;1"
+            },
+            {
+              "name": "SourceMaterialLoadingPointIDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "DestinationMaterialOutputPointIDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "UnassignProductionOrder",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "POToUnassign",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:ProductionOrderHeaderType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC:MachineModuleProductionType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Data"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StateMachine",
+      "target": "dtmi:opcua:TMC_v2:MachineModuleProductionStateMachineType"
+    }
+  ]
+}

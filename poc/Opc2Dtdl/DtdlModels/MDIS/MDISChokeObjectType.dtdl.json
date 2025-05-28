@@ -1,0 +1,216 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISChokeObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeMoveEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Moving",
+          "enumValue": 1
+        },
+        {
+          "name": "Stopped",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SetCalculatedPositionEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Initial",
+          "enumValue": 0
+        },
+        {
+          "name": "Inprogress",
+          "enumValue": 1
+        },
+        {
+          "name": "Complete",
+          "enumValue": 2
+        },
+        {
+          "name": "Fault",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SEM_A",
+          "enumValue": 1
+        },
+        {
+          "name": "SEM_B",
+          "enumValue": 2
+        },
+        {
+          "name": "Auto",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeCommandEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Close",
+          "enumValue": 1
+        },
+        {
+          "name": "Open",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CalculatedPosition",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CommandRejected",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DefeatableCloseInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DefeatableOpenInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Moving",
+      "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeMoveEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableCloseInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableOpenInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PositionInSteps",
+      "schema": "short",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetCalculatedPositionStatus",
+      "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SetCalculatedPositionEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Abort"
+    },
+    {
+      "@type": "Command",
+      "name": "Move",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Position",
+              "schema": "float"
+            },
+            {
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            },
+            {
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetCalculatedPosition",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Position",
+              "schema": "float"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Step",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Direction",
+              "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeCommandEnum;1"
+            },
+            {
+              "name": "Steps",
+              "schema": "unsignedShort"
+            },
+            {
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            },
+            {
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

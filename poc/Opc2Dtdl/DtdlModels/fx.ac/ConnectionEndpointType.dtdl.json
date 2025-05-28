@@ -1,0 +1,119 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Address",
+          "schema": "string"
+        },
+        {
+          "name": "ConnectionEndpointPath",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:PortableQualifiedName;1"
+          }
+        },
+        {
+          "name": "ConnectionEndpointName",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Initial",
+          "enumValue": 0
+        },
+        {
+          "name": "Ready",
+          "enumValue": 1
+        },
+        {
+          "name": "PreOperational",
+          "enumValue": 2
+        },
+        {
+          "name": "Operational",
+          "enumValue": 3
+        },
+        {
+          "name": "Error",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:PortableQualifiedName;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NamespaceUri",
+          "schema": "string"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CleanupTimeout",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InputVariables",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "IsPersistent",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "OutputVariables",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RelatedEndpoint",
+      "schema": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Status",
+      "schema": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1",
+      "writable": false
+    }
+  ]
+}

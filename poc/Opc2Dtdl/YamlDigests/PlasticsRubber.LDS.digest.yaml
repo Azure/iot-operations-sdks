@@ -1,0 +1,4663 @@
+DataTypes:
+- UADataType: [ PlasticsRubber.LDS:3002, AdditiveStatusEnumeration ]
+  Enums:
+    GOOD: 0
+    WARNING: 1
+    ADVANCE_WARNING_ADDITIVE_CHANGE: 2
+    ERROR_EMPTY: 3
+    ERROR: 4
+- UADataType: [ PlasticsRubber.LDS:3003, ComponentStatusEnumeration ]
+  Enums:
+    GOOD: 0
+    WARNING: 1
+    WARNING_PRESSURE_TOO_HIGH: 2
+    WARNING_PRESSURE_TOO_LOW: 3
+    ADVANCE_WARNING_DRUM_CHANGE: 4
+    ERROR_DRUM_EMPTY: 5
+    ERROR: 6
+- UADataType: [ PlasticsRubber.LDS:3005, MaterialBalanceSystemTypeEnumeration ]
+  Enums:
+    NOT_AVAILABLE: 0
+    ALWAYS_ACTIVE: 1
+    SELECTABLE: 2
+- UADataType: [ PlasticsRubber.LDS:3004, PurgeStatusEnumeration ]
+  Enums:
+    OFF: 0
+    COMPONENT_A: 1
+    COMPONENT_B: 2
+    COMPONENT_A_AND_B: 3
+    COMPONENT_A_AND_B_CYCLIC: 4
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+  Enums:
+    NO_PART: 0
+    GOOD_PART: 1
+    BAD_PART: 2
+    REWORK: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+  Enums:
+    OTHER: 0
+    OFF: 1
+    AUTOMATIC: 2
+    TUNING: 3
+    STANDBY: 4
+    OPEN_LOOP: 5
+    ONLY_MEASUREMENT: 6
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+  Enums:
+    GOOD_CYCLE: 0
+    BAD_CYCLE: 1
+    TEST_SAMPLE_CYCLE: 2
+    FAILED_CYCLE: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+  Enums:
+    OFF: 0
+    ACTIVE_OK: 1
+    ACTIVE_ERROR_DETECTED: 2
+    COMPLETE: 3
+    COMPLETE_ERROR_DETECTED: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+  Enums:
+    OTHER: 0
+    MACHINE: 1
+    OPERATOR: 2
+    MES: 3
+    PERIPHERAL_DEVICE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    TRANSFERRED_ASSIGNED: 1
+    SET_UP_ACTIVE: 2
+    SET_UP_INTERRUPTED: 3
+    SET_UP_FINISHED: 4
+    START_UP_ACTIVE: 5
+    JOB_IN_PRODUCTION: 6
+    JOB_INTERRUPTED: 7
+    JOB_FINISHED: 8
+    TEAR_DOWN_ACTIVE: 9
+    TEAR_DOWN_INTERRUPTED: 10
+    TEAR_DOWN_FINISHED: 11
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+  Enums:
+    PARAMETER_CHANGE: 0
+    USER: 1
+    REMOTE_ACCESS: 2
+    SEQUENCE_CHANGE: 3
+    MACHINE_MODE_CHANGE: 4
+    PRODUCTION_STATUS_CHANGE: 5
+    PRODUCTION_DATASET_CHANGE: 6
+    PRODUCTION_DATASET_FROZEN: 7
+    STANDSTILL_REASON: 8
+    MESSAGE: 9
+    USER_FEEDBACK: 10
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+  Enums:
+    OTHER: 0
+    AUTOMATIC: 1
+    SEMI_AUTOMATIC: 2
+    MANUAL: 3
+    SETUP: 4
+    SLEEP: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+  Enums:
+    NOT_DUE: 0
+    WARNING: 1
+    DUE: 2
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    MOULD_NOT_INSTALLED: 1
+    MOULD_CHANGE: 2
+    MOULD_INSTALLED: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    NO_PRODUCTION: 1
+    START_UP: 2
+    READY_FOR_PRODUCTION: 3
+    PRODUCTION: 4
+    DRY_RUN: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+  Enums:
+    UPDATE: 0
+    ADD: 1
+    MODIFY: 2
+    MOVE: 3
+    DELETE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+  Enums:
+    NOT_READY_TO_START: 0
+    START_BLOCKED_BY_CLIENT: 1
+    READY_TO_START: 2
+    START_REQUESTED: 3
+    STARTED: 4
+    STOP_REQUESTED: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+  Enums:
+    PRODUCTION: 1
+    PREPARATION: 2
+    FILE_SYSTEM: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+  Enums:
+    OTHER: 0
+    HEATING: 1
+    COOLING: 2
+    TEMPERATURE_CONTROL: 3
+    HOT_RUNNER: 4
+    MEASURING: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+  Enums:
+    LOG_ON: 0
+    LOG_OFF: 1
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Severity: [ UInt16, 0 ]
+    Message: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+  Fields:
+    SourceNodes: [ NodeId, 1 ]
+    Classification: [ UInt16, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Description: [ LocalizedText, 0 ]
+    DefaultValue: [ null, 0 ]
+    Unit: [ EUInformation, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+  Fields:
+    JobName: [ String, 0 ]
+    JobDescription: [ String, 0 ]
+    JobClassification: [ String, 0 ]
+    CustomerName: [ String, 0 ]
+    ProductionDatasetName: [ String, 0 ]
+    ProductionDatasetDescription: [ String, 0 ]
+    Material: [ String, 1 ]
+    ProductName: [ String, 1 ]
+    ProductDescription: [ String, 1 ]
+    JobPriority: [ String, 0 ]
+    PlannedStart: [ DateTime, 0 ]
+    PlannedProductionTime: [ Duration, 0 ]
+    LatestEnd: [ DateTime, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+  Fields:
+    NominalParts: [ UInt64, 0 ]
+    NominalBoxParts: [ UInt64, 0 ]
+    ExpectedCycleTime: [ Duration, 0 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Title: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+  Fields:
+    P: [ Double, 0 ]
+    I: [ Double, 0 ]
+    D: [ Double, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    MESId: [ String, 0 ]
+    CreationTimestamp: [ DateTime, 0 ]
+    LastModificationTimestamp: [ DateTime, 0 ]
+    LastSaveTimestamp: [ DateTime, 0 ]
+    UserName: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+    Manufacturer: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+    Model: [ String, 0 ]
+    ControllerName: [ String, 0 ]
+    UserMachineName: [ String, 0 ]
+    LocationName: [ String, 0 ]
+    ProductName: [ String, 1 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+  Fields:
+    Id: [ String, 0 ]
+    Text: [ LocalizedText, 0 ]
+    LockedByMES: [ Boolean, 0 ]
+
+DefinedTypes:
+
+  AdditiveType:
+  - [ UAObjectType, PlasticsRubber.LDS:1004, AdditiveType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6008, ActivateAdditive, Boolean, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6042, ActivateClosedLoopControl, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6009, AdditiveActivated, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5001, AdditiveFraction ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6011, ActualValue, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6015, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6012, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6016, AlarmSuppression, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6017, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6018, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6019, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5016, ClosedLoopControl ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6317, AutomaticControllerMode, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6316, AutoTuningActive, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7015, AutoTuningOff ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7016, AutoTuningOn ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6318, PIDParameters, PIDParametersDataType, 1, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6020, LowerTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6319, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6021, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6022, LowerTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6320, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6023, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6024, MaxValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6321, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6025, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6026, MinValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6322, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6027, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6028, MonitoringSensitivity, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6029, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6030, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7001, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6031, SetRampDown, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6323, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6032, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6033, SetRampUp, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6324, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6034, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6035, SetValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6325, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6036, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6001, Status, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6002, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6631, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6037, UpperTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6326, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6038, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6092, UpperTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6327, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6093, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5007, AdditiveStrokeVolume ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6013, ActualValue, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6328, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6014, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6329, AlarmSuppression, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6330, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6331, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6332, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5018, ClosedLoopControl ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6355, AutomaticControllerMode, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6354, AutoTuningActive, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7018, AutoTuningOff ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7019, AutoTuningOn ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6356, PIDParameters, PIDParametersDataType, 1, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6333, LowerTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6357, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6334, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6335, LowerTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6358, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6336, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6337, MaxValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6359, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6338, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6339, MinValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6421, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6340, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6341, MonitoringSensitivity, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6342, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6343, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7017, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6344, SetRampDown, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6422, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6345, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6346, SetRampUp, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6440, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6347, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6348, SetValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6441, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6349, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6656, Status, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6660, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6667, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6350, UpperTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6442, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6351, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6352, UpperTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6443, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6353, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6449, ClosedLoopControlActivated, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6636, IsPresent, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6010, Status, AdditiveStatusEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AdditiveAlarmType:
+  - [ UAObjectType, PlasticsRubber.LDS:1002, AdditiveAlarmType ]
+
+  ComponentAlarmType:
+  - [ UAObjectType, PlasticsRubber.LDS:1003, ComponentAlarmType ]
+
+  LDSCycleParametersEventType:
+  - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6483, AdditivesPressure, Double, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6489, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6484, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6461, AdditivesRatioActual, Double, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6490, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6462, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6457, AdditivesRatioTarget, Double, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6491, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6458, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6450, CycleNumber, UInt64, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6451, DosingTime, Duration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6485, FilterPressurePrimary, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6492, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6486, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6487, FilterPressureSecondary, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6493, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6488, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6477, MixingPointPressureA, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6494, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6478, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6479, MixingPointPressureB, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6495, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6480, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6481, MixingPointPressureBlender, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6496, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6482, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6455, MixingRatioActual, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6497, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6456, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6452, MixingRatioTarget, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6454, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6453, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6473, ResidualAmountA, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6499, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6474, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6475, ResidualAmountB, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6500, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6476, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6463, VolumeA, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6501, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6464, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6467, VolumeAB, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6502, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6468, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6469, VolumeAdditives, Double, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6503, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6470, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6465, VolumeB, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6504, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6466, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6471, VolumeTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6505, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6472, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ComponentType:
+  - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6698, ActualFollowerPlatePressure, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6704, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6699, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6044, ActualPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6051, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6045, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6049, AllowsCycles, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6702, DrumCapacity, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6706, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6703, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6048, RemainingMaterialTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6046, ResidualAmount, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6053, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6047, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6700, SetFollowerPlatePressure, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6705, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6701, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PlasticsRubber.LDS:7020, SetSetValueDensity ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6448, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Density: [ Double, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6040, SetValueDensity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6054, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6041, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6050, Status, ComponentStatusEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  LDS_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.LDS:1007, LDS_InterfaceType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6206, DeviceEnabled, Boolean, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6205, DisplayLanguage, LocaleId, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - GeneratesEvent:
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, HelpOffNormalAlarmType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5008, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1058, IdentificationType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6165, AssetId, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6166, ComponentName, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6161, DeviceClass, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6167, DeviceManual, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6168, DeviceRevision, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6169, HardwareRevision, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6162, Manufacturer, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6170, ManufacturerUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6163, Model, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6171, ProductCode, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6172, ProductInstanceUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6173, RevisionCounter, Int32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6164, SerialNumber, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6174, SoftwareRevision, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6175, YearOfConstruction, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5009, MachineConfiguration ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, MachineConfigurationType ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7008, GetCurrentPage ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6209, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            VisualisationUnit: [ UInt32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6210, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Page: [ Image, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7009, GetPage ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6211, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Id: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6212, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Page: [ Image, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6188, LocationName, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6213, PageDirectory, PageEntryDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7007, SetMachineTime ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6189, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            DateTime: [ DateTime, 0 ]
+            TimeZoneOffset: [ TimeZoneDataType, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6190, TimeZoneOffset, TimeZoneDataType, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6191, UserMachineName, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5010, Operation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.LDS:1006, OperationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6214, ActivateMaterialBalanceSystem, Boolean, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - GeneratesEvent:
+        - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6096, ActivateRemoteControl, UInt16, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6099, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6101, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6507, ActiveErrors, ClassifiedActiveErrorDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6423, ActualDeviationMixingRatio, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6428, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6424, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6215, ActualShotWeight, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6312, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6216, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5015, Additive_<Y> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.LDS:1004, AdditiveType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6434, ActivateAdditive, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6305, ActivateClosedLoopControl, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6435, AdditiveActivated, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.LDS:5004, AdditiveFraction ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.LDS:6306, ActualValue, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.LDS:6307, EURange, Range, 0, 0 ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.LDS:5014, AdditiveStrokeVolume ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAVariable, PlasticsRubber.LDS:6308, ActualValue, Double, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2368, AnalogItemType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, PlasticsRubber.LDS:6309, EURange, Range, 0, 0 ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6310, ClosedLoopControlActivated, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6638, IsPresent, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6436, Status, AdditiveStatusEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5029, Component_A ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6719, ActualFollowerPlatePressure, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6297, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6720, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6628, ActualPressure, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6648, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6629, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6630, AllowsCycles, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6721, DrumCapacity, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6298, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6722, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6633, RemainingMaterialTime, Duration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6634, ResidualAmount, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6650, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6635, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6723, SetFollowerPlatePressure, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6299, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6724, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7045, SetSetValueDensity ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6641, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Density: [ Double, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6642, SetValueDensity, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6651, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6643, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6193, Status, ComponentStatusEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5030, Component_B ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6725, ActualFollowerPlatePressure, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6300, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6726, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6664, ActualPressure, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6680, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6665, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6666, AllowsCycles, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6727, DrumCapacity, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6301, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6728, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6669, RemainingMaterialTime, Duration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6670, ResidualAmount, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6682, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6671, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6729, SetFollowerPlatePressure, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6302, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6730, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7049, SetSetValueDensity ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6673, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Density: [ Double, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6674, SetValueDensity, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6683, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6675, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6363, Status, ComponentStatusEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5023, DeliveryFlowrate ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6242, ActualValue, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6388, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6243, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6246, AlarmSuppression, UInt16, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6247, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6248, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6249, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.LDS:5025, ClosedLoopControl ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6430, AutomaticControllerMode, Boolean, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6431, AutoTuningActive, Boolean, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7038, AutoTuningOff ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7039, AutoTuningOn ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6432, PIDParameters, PIDParametersDataType, 1, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6250, LowerTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6444, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6251, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6252, LowerTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6445, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6253, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6254, MaxValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6446, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6255, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6256, MinValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6447, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6257, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6258, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6259, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6260, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7032, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6261, SetRampDown, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6595, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6262, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6263, SetRampUp, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6596, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6264, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6265, SetValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6597, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6266, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6689, Status, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6690, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6691, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6267, UpperTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6598, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6268, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6269, UpperTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6599, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6270, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5024, DeliveryPressure ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6244, ActualValue, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6389, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6245, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6271, AlarmSuppression, UInt16, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6272, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6273, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6274, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.LDS:5026, ClosedLoopControl ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6275, AutomaticControllerMode, Boolean, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6276, AutoTuningActive, Boolean, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7033, AutoTuningOff ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7034, AutoTuningOn ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6277, PIDParameters, PIDParametersDataType, 1, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6278, LowerTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6279, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6280, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6281, LowerTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6282, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6283, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6284, MaxValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6285, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6366, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6367, MinValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6368, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6369, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6370, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6371, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6372, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7035, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6373, SetRampDown, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6374, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6375, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6376, SetRampUp, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6377, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6378, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6379, SetValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6380, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6381, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6695, Status, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6696, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6697, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6382, UpperTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6383, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6384, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6385, UpperTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6386, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6387, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6221, DeliveryPressureMeasuringPoint, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6222, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6223, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6194, DeliveryType, UInt16, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6195, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6196, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6197, DeviceMappingNumber, UInt32, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6207, DosingActive, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6315, HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7011, IdentifyDevice ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - GeneratesEvent:
+      - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6199, MaterialBalanceSystemType, MaterialBalanceSystemTypeEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6157, MaxDeviationMixingRatio, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6159, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6158, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6176, MixingRatioTarget, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6624, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6177, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6208, PurgeCyclicActive, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6224, PurgeCyclicIdleTime, Duration, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6225, PurgeCyclicQuantity, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6304, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6226, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6227, PurgeMode, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6228, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6229, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6286, PurgeQuantity, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6303, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6287, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6420, PurgeStatus, PurgeStatusEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6288, PurgeTimeout, Duration, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6160, RemainingMaterialTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - GeneratesEvent:
+        - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6179, RemoteControlActivated, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6180, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6181, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7031, ResetAllErrors ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7030, ResetErrorById ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6425, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Id: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7014, SetCycleNumber ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6094, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            CycleNumber: [ UInt64, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6230, SetShotWeight, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6313, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6231, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6232, SetValueCompositeDensity, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6314, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6233, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7040, StartDosing ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7041, StopDosing ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6426, TargetDeviationMixingRatio, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6429, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6427, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+
+  OperationType:
+  - [ UAObjectType, PlasticsRubber.LDS:1006, OperationType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6072, ActivateMaterialBalanceSystem, Boolean, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - GeneratesEvent:
+      - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6060, ActivateRemoteControl, UInt16, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6085, EnumValues, EnumValueType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6095, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6506, ActiveErrors, ClassifiedActiveErrorDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6508, ActualDeviationMixingRatio, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6510, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6509, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6073, ActualShotWeight, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6091, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6074, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5006, Additive_<Y> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.LDS:1004, AdditiveType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6088, ActivateAdditive, Boolean, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6043, ActivateClosedLoopControl, Boolean, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6089, AdditiveActivated, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5019, AdditiveFraction ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6511, ActualValue, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6589, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6512, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6515, AlarmSuppression, UInt16, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6516, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6517, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6518, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.LDS:5021, ClosedLoopControl ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6519, AutomaticControllerMode, Boolean, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6520, AutoTuningActive, Boolean, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7022, AutoTuningOff ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7023, AutoTuningOn ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6521, PIDParameters, PIDParametersDataType, 1, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6522, LowerTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6523, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6524, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6525, LowerTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6526, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6527, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6528, MaxValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6529, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6530, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6531, MinValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6532, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6533, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6534, MonitoringSensitivity, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6535, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6536, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7024, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6537, SetRampDown, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6538, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6539, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6540, SetRampUp, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6541, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6542, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6543, SetValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6544, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6545, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6632, Status, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6639, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6640, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6546, UpperTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6547, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6548, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6549, UpperTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6550, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6551, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5020, AdditiveStrokeVolume ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6513, ActualValue, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6590, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6514, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6552, AlarmSuppression, UInt16, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6553, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6554, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6555, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAObject, PlasticsRubber.LDS:5022, ClosedLoopControl ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6556, AutomaticControllerMode, Boolean, 0, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6557, AutoTuningActive, Boolean, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7025, AutoTuningOff ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAMethod, PlasticsRubber.LDS:7026, AutoTuningOn ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6558, PIDParameters, PIDParametersDataType, 1, 3 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6559, LowerTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6560, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6561, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6562, LowerTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6563, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6564, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6565, MaxValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6566, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6567, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6568, MinValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6569, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6570, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6571, MonitoringSensitivity, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6572, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6573, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7027, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6574, SetRampDown, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6575, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6576, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6577, SetRampUp, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6578, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6579, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6580, SetValue, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6581, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6582, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6668, Status, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6672, EnumValues, EnumValueType, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6677, ValueAsText, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6583, UpperTolerance, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6584, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6585, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.LDS:6586, UpperTolerance2, Double, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6587, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.LDS:6588, EURange, Range, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6459, ClosedLoopControlActivated, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6637, IsPresent, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6090, Status, AdditiveStatusEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5005, Component_A ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6707, ActualFollowerPlatePressure, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6291, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6708, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6364, ActualPressure, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6644, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6365, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6591, AllowsCycles, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6709, DrumCapacity, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6292, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6710, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6621, RemainingMaterialTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6622, ResidualAmount, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6646, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6623, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6711, SetFollowerPlatePressure, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6293, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6712, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7029, SetSetValueDensity ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6625, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Density: [ Double, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6626, SetValueDensity, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6647, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6627, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6100, Status, ComponentStatusEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5011, Component_B ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6713, ActualFollowerPlatePressure, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6294, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6714, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6652, ActualPressure, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6676, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6653, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6654, AllowsCycles, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6715, DrumCapacity, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6295, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6716, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6657, RemainingMaterialTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6658, ResidualAmount, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6678, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6659, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6717, SetFollowerPlatePressure, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6296, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6718, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7047, SetSetValueDensity ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6661, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Density: [ Double, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6662, SetValueDensity, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6679, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6663, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6102, Status, ComponentStatusEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5003, DeliveryFlowrate ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6070, ActualValue, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6104, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6071, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6105, AlarmSuppression, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6106, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6107, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6108, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5012, ClosedLoopControl ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6391, AutomaticControllerMode, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6390, AutoTuningActive, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7036, AutoTuningOff ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7037, AutoTuningOn ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6392, PIDParameters, PIDParametersDataType, 1, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6109, LowerTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6393, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6110, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6111, LowerTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6394, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6112, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6113, MaxValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6395, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6114, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6115, MinValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6396, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6116, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6117, MonitoringSensitivity, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6118, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6119, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7004, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6120, SetRampDown, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6397, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6121, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6122, SetRampUp, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6398, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6123, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6124, SetValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6399, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6125, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6686, Status, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6687, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6688, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6126, UpperTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6400, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6127, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6128, UpperTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6401, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6129, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.LDS:5002, DeliveryPressure ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6068, ActualValue, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6130, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6069, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6131, AlarmSuppression, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6132, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6133, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6134, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.LDS:5013, ClosedLoopControl ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6218, AutomaticControllerMode, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6217, AutoTuningActive, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7012, AutoTuningOff ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.LDS:7013, AutoTuningOn ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6219, PIDParameters, PIDParametersDataType, 1, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6135, LowerTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6220, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6136, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6137, LowerTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6234, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6138, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6139, MaxValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6235, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6140, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6141, MinValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6236, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6142, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6143, MonitoringSensitivity, UInt16, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6144, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6145, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.LDS:7005, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6146, SetRampDown, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6237, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6147, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6148, SetRampUp, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6238, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6149, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6150, SetValue, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6239, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6151, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6692, Status, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6693, EnumValues, EnumValueType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6694, ValueAsText, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6152, UpperTolerance, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6240, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6153, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.LDS:6154, UpperTolerance2, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6241, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.LDS:6155, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6065, DeliveryPressureMeasuringPoint, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6066, EnumValues, EnumValueType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6067, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6062, DeliveryType, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6063, EnumValues, EnumValueType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6064, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6058, DeviceMappingNumber, UInt32, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6052, DosingActive, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6057, HighestActiveAlarmSeverity, UInt16, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PlasticsRubber.LDS:7002, IdentifyDevice ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - GeneratesEvent:
+    - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6061, MaterialBalanceSystemType, MaterialBalanceSystemTypeEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6079, MaxDeviationMixingRatio, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6156, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6080, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6097, MixingRatioTarget, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6620, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6098, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6201, PurgeCyclicActive, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6200, PurgeCyclicIdleTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6186, PurgeCyclicQuantity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6290, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6187, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6082, PurgeMode, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6083, EnumValues, EnumValueType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6084, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6184, PurgeQuantity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6289, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6185, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.LDS:6361, PurgeStatus, PurgeStatusEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6192, PurgeTimeout, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6081, RemainingMaterialTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - GeneratesEvent:
+      - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6086, RemoteControlActivated, UInt16, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6103, EnumValues, EnumValueType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6178, ValueAsText, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PlasticsRubber.LDS:7003, ResetAllErrors ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PlasticsRubber.LDS:7010, ResetErrorById ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6059, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Id: [ String, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PlasticsRubber.LDS:7006, SetCycleNumber ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6039, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          CycleNumber: [ UInt64, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6075, SetShotWeight, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6182, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6076, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6077, SetValueCompositeDensity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6183, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6078, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PlasticsRubber.LDS:7021, StartDosing ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PlasticsRubber.LDS:7028, StopDosing ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.LDS:6198, TargetDeviationMixingRatio, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6594, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.LDS:6593, EURange, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]

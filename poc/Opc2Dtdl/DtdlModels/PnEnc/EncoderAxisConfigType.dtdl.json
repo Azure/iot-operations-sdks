@@ -1,0 +1,83 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PnEnc:EncoderAxisConfigType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PnEnc:EncoderAxisConfigType:dataType:KeyValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AccelerationDampingTimeConstant",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VelocityDampingTimeConstant",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VelocityReference",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SetAxisConfig",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "AxisConfigParameters",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PnEnc:EncoderAxisConfigType:dataType:KeyValuePair;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "AxisConfigParametersResult",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PnEnc:EncoderAxisConfigType:dataType:KeyValuePair;1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

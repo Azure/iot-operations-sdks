@@ -1,0 +1,203 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:ttd:RecipeManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "RecipeId",
+          "schema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeIdDataType;1"
+        },
+        {
+          "name": "RecipeContent",
+          "schema": "bytes"
+        },
+        {
+          "name": "ContentEncoding",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Type",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Comment",
+          "schema": "string"
+        },
+        {
+          "name": "ModifiedDate",
+          "schema": "time"
+        },
+        {
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "name": "Validated",
+          "schema": "boolean"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "DeleteRecipe",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RecipeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetRecipe",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RecipeId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Recipe",
+              "schema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetRecipeIds",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RecipeIds",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeIdDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetRecipes",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Recipes",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetRecipe",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Recipe",
+              "schema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+            },
+            {
+              "name": "Overwrite",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetRecipes",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Recipes",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+              }
+            },
+            {
+              "name": "Overwrite",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

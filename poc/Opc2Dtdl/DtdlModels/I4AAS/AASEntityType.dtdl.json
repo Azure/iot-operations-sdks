@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:I4AAS:AASEntityType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "SubmodelElement",
+      "target": "dtmi:opcua:I4AAS:AASSubmodelElementType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Asset",
+      "target": "dtmi:opcua:I4AAS:AASReferenceType"
+    }
+  ]
+}

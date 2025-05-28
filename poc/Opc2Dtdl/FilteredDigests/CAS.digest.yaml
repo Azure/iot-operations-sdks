@@ -1,0 +1,1327 @@
+DataTypes:
+- UADataType: [ CAS:3022, AirnetHealthStateEnum ]
+  Enums:
+    OK: 0
+    Warning: 1
+    Error: 2
+    Critical: 3
+- UADataType: [ CAS:3023, AirnetIntegratedStateEnum ]
+  Enums:
+    FullyIntegrated: 0
+    PartiallyIntegrated: 1
+    FullyIsolated: 2
+- UADataType: [ CAS:3024, AirnetOperatingStateEnum ]
+  Enums:
+    Other: 0
+    Stopped: 1
+    Starting: 2
+    Stopping: 3
+    Operational: 4
+- UADataType: [ CAS:3025, CompressorOperatingStateEnum ]
+  Enums:
+    Other: 0
+    Stopped: 1
+    Starting: 2
+    Stopping: 3
+    Unloaded: 4
+    Loading: 5
+    Unloading: 6
+    Loaded: 7
+- UADataType: [ CAS:3018, CompressorTypeEnum ]
+  Enums:
+    Other: 0
+    AxialTurboCompressor: 1
+    BellowsCompressor: 2
+    DiaphragmCompressor: 3
+    LiquidRingCompressor: 4
+    PistonCompressor: 5
+    RadialTurboCompressor: 6
+    RootsCompressor: 7
+    ScrewCompressor: 8
+    ScrollCompressor: 9
+    SideChannelCompressor: 10
+    StraightLobeCompressor: 11
+    VaneCompressor: 12
+- UADataType: [ CAS:3015, ConverterTypeEnum ]
+  Enums:
+    Other: 0
+    CatalyticHCConverter: 1
+- UADataType: [ CAS:3020, DisplacementTypeEnum ]
+  Enums:
+    PositiveDisplacement: 0
+    DynamicDisplacement: 1
+- UADataType: [ CAS:3012, DrainTypeEnum ]
+  Enums:
+    Other: 0
+    CapacitiveDrain: 1
+    LevelControlledDrain: 2
+    TimedDrain: 3
+- UADataType: [ CAS:3026, DryerOperatingStateEnum ]
+  Enums:
+    Other: 0
+    Stopped: 1
+    Running: 2
+    RefrigerantCompressorStopped: 3
+    RefrigerantCompressorRunning: 4
+    PurgeValveClosed: 5
+    PurgeValveOpen: 6
+    ParallelModeOfBothVessels: 7
+    Depressurizing: 8
+    Desorbing: 9
+    Cooling: 10
+    Pressurizing: 11
+    RegeneratedVesselInStand-by: 12
+- UADataType: [ CAS:3017, DryerTypeEnum ]
+  Enums:
+    Other: 0
+    AbsorptionDryer: 1
+    AdsorptionDryer: 2
+    MembraneDryer: 3
+    RefrigerationDryer: 4
+- UADataType: [ CAS:3008, FilterClassEnum ]
+  Enums:
+    0: 0
+    1: 1
+    2: 2
+    3: 3
+    4: 4
+    5: 5
+    6: 6
+    7: 7
+    8: 8
+    9: 9
+    X: 10
+- UADataType: [ CAS:3005, FilterTypeEnum ]
+  Enums:
+    Other: 0
+    ActivatedCarbonFilter: 1
+    AdsorptionFilter: 2
+    CoalescingFilter: 3
+    ParticulateFilter: 4
+    FabricFilter: 5
+    SterileFilter: 6
+- UADataType: [ CAS:3006, FluidTypeEnum ]
+  Enums:
+    Air: 0
+    Condensate: 1
+    Oil: 2
+    Water: 3
+- UADataType: [ CAS:3003, HealthStateEnum ]
+  Enums:
+    OK: 0
+    Warning: 1
+    Error: 2
+    Critical: 3
+- UADataType: [ CAS:3009, IntegratedStateEnum ]
+  Enums:
+    FullyIntegrated: 0
+    PartiallyIntegrated: 1
+    FullyIsolated: 2
+- UADataType: [ CAS:3016, IpVersionEnum ]
+  Enums:
+    IPv4: 0
+    IPv6: 1
+- UADataType: [ CAS:3019, LubricationTypeEnum ]
+  Enums:
+    NoLubrication: 0
+    OilLubricated: 1
+    WaterLubricated: 2
+- UADataType: [ CAS:3014, OperatingStateEnum ]
+  Enums:
+    Other: 0
+    Stopped: 1
+    Starting: 2
+    Stopping: 3
+    Operational: 4
+- UADataType: [ CAS:3004, ReceiverTypeEnum ]
+  Enums:
+    Other: 0
+    DryReceiver: 1
+    WetReceiver: 2
+- UADataType: [ CAS:3021, SensorTypeEnum ]
+  Enums:
+    Other: 0
+    Ammeter: 1
+    DewPointSensor: 2
+    FlowRateSensor: 3
+    FlowSpeedSensor: 4
+    HumiditySensor: 5
+    OilConcentrationSensor: 6
+    ParticleCounter: 7
+    PressureSensor: 8
+    TemperatureSensor: 9
+    Voltmeter: 10
+    VolumeSensor: 11
+    Wattmeter: 12
+- UADataType: [ CAS:3013, SeparatorTypeEnum ]
+  Enums:
+    Other: 0
+    CentrifugalOilyWaterSeparator: 1
+    EmulsionSplittingSeparator: 2
+    FlotationSeparator: 3
+    GravityPlateSeparator: 4
+    HydrocycloneOilyWaterSeparator: 5
+- UADataType: [ CAS:3011, ValveTypeEnum ]
+  Enums:
+    Other: 0
+    CheckValve: 1
+    ContinuousValve: 2
+    FlowControlValve: 3
+    PressureValve: 4
+    SwitchingValve: 5
+- UADataType: [ CAS:3007, FilterClassDataType ]
+  Fields:
+    A: [ FilterClassEnum, 0 ]
+    B: [ FilterClassEnum, 0 ]
+    C: [ FilterClassEnum, 0 ]
+- UADataType: [ CAS:3010, SensorTechnologyOptionSet ]
+  Enums:
+    CapacitiveSensor: 0
+    ElectronTube: 1
+    InductiveSensor: 2
+    IonizationSensor: 3
+    Magnetometer: 4
+    OpticalSensor: 5
+    PiezoelectricSensor: 6
+    ResistiveSensor: 7
+    ResonantSensor: 8
+    TemperatureSensor: 9
+    ThermalSensor: 10
+    UltrasoundSensor: 11
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ IA:3003, LevelDisplayMode ]
+  Enums:
+    Dimmed: 0
+    Blinking: 1
+    Other: 2
+- UADataType: [ IA:3004, SignalColor ]
+  Enums:
+    Off: 0
+    Red: 1
+    Green: 2
+    Blue: 3
+    Yellow: 4
+    Purple: 5
+    Cyan: 6
+    White: 7
+- UADataType: [ IA:3005, SignalModeLight ]
+  Enums:
+    Continuous: 0
+    Blinking: 1
+    Flashing: 2
+    Other: 3
+- UADataType: [ IA:3002, StacklightOperationMode ]
+  Enums:
+    Segmented: 0
+    Levelmeter: 1
+    Running_Light: 2
+    Other: 3
+
+DefinedTypes:
+
+  AnalysisType:
+  - [ UAObjectType, CAS:1004, AnalysisType ]
+  - HasComponent:
+    - [ UAObject, CAS:5059, OutputFile ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, CAS:7919, Trigger ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CASType:
+  - [ UAObjectType, CAS:1035, CASType ]
+  - HasComponent:
+    - [ UAObject, CAS:5006, Airnets ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1038, AirnetsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5013, Components ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1047, ComponentsGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5003, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1051, CASIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5387, MCS ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1017, MCSType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CommunicationSettingsType:
+  - [ UAObjectType, CAS:1048, CommunicationSettingsType ]
+  - HasComponent:
+    - [ UAVariable, CAS:11298, Dhcp, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6460, MacAddress, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ElectricalCircuitType:
+  - [ UAObjectType, CAS:1014, ElectricalCircuitType ]
+  - HasComponent:
+    - [ UAObject, CAS:5060, <Other> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1011, ElectricalQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CAS:5108, Delta ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1011, ElectricalQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5066, Input ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1011, ElectricalQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5067, Output ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1011, ElectricalQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ElectricalQuantitiesType:
+  - [ UAObjectType, CAS:1011, ElectricalQuantitiesType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6440, ApparentPower, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6093, Current, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6094, Energy, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6099, Power, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, CAS:7814, ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6112, Voltage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  FluidCircuitType:
+  - [ UAObjectType, CAS:1013, FluidCircuitType ]
+  - HasComponent:
+    - [ UAObject, CAS:5179, <Other> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CAS:5202, Delta ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6274, FluidType, FluidTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5217, Inlet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5251, Outlet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  FluidQuantitiesType:
+  - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6159, <Quantity>, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, CAS:7791, AbsolutePressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6161, AccumulatedVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6170, DewPoint, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6171, GaugePressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6178, MassFlowRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6187, OilConcentration, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5007, ParticlesPerSizeRange ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1043, ParticleType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6188, RelativeHumidity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, CAS:7007, ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6189, Temperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6194, Volume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6195, VolumeFlowRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AirnetComponentsType:
+  - [ UAObjectType, CAS:1050, AirnetComponentsType ]
+  - HasComponent:
+    - [ UAObject, CAS:5193, <ComponentsGroup> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CAS:5194, ChargingSystems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5195, Compressors ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5196, CondensateDrains ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5212, CondensateSeparators ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5213, Converters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5214, CoolingSystems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5215, Dryers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5218, Filters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5219, HeatRecoverySystems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5220, Receivers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5221, Sensors ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5222, Valves ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AnalysesType:
+  - [ UAObjectType, CAS:1049, AnalysesType ]
+  - HasComponent:
+    - [ UAObject, CAS:5093, <Analysis> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1004, AnalysisType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CAS:5027, <PrefabAnalysis> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CAS:5092, EnergyReportISO50001 ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1004, AnalysisType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CalibrationType:
+  - [ UAObjectType, CAS:1054, CalibrationType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6715, LastCalibrationDate, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CAS:6716, NextCalibrationDate, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AirnetConfigurationType:
+  - [ UAObjectType, CAS:1016, AirnetConfigurationType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6255, OperatingModes, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6260, OperatingProfiles, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MCSConfigurationType:
+  - [ UAObjectType, CAS:1019, MCSConfigurationType ]
+  - HasComponent:
+    - [ UAObject, CAS:5026, CommunicationSettings ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1048, CommunicationSettingsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5025, ConfigurationFile ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, CAS:9785, LoadConfigurationFile ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, CAS:10123, SaveConfigurationFile ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DesignType:
+  - [ UAObjectType, CAS:1044, DesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6273, ComponentClass, Enumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CompressorDesignType:
+  - [ UAObjectType, CAS:1008, CompressorDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6071, ComponentClass, CompressorTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6316, DisplacementType, DisplacementTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6317, LubricationType, LubricationTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6318, NumberOfStages, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6319, VariableFlow, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConverterDesignType:
+  - [ UAObjectType, CAS:1041, ConverterDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6642, ComponentClass, ConverterTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DrainDesignType:
+  - [ UAObjectType, CAS:1036, DrainDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6632, ComponentClass, DrainTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DryerDesignType:
+  - [ UAObjectType, CAS:1033, DryerDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6624, ComponentClass, DryerTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6625, LowestAmbientTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  FilterDesignType:
+  - [ UAObjectType, CAS:1009, FilterDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6599, ComponentClass, FilterTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6589, FilterClass, FilterClassDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ReceiverDesignType:
+  - [ UAObjectType, CAS:1023, ReceiverDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6603, ComponentClass, ReceiverTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:7890, Volume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SensorDesignType:
+  - [ UAObjectType, CAS:1031, SensorDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6614, ComponentClass, SensorTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6615, SensorTechnology, SensorTechnologyOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6616, SoftSensor, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SeparatorDesignType:
+  - [ UAObjectType, CAS:1040, SeparatorDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6638, ComponentClass, SeparatorTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ValveDesignType:
+  - [ UAObjectType, CAS:1032, ValveDesignType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6620, ComponentClass, ValveTypeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6621, NumberOfPorts, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  EventsType:
+  - [ UAObjectType, CAS:1020, EventsType ]
+  - HasComponent:
+    - [ UAObject, CAS:5080, <Event> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2782, ConditionType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CAS:5082, EmergencyStop ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 10637, OffNormalAlarmType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5083, Service ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 10637, OffNormalAlarmType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5084, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 10637, OffNormalAlarmType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5085, Warning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 10637, OffNormalAlarmType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  MaintenanceType:
+  - [ UAObjectType, CAS:1028, MaintenanceType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6292, RealTimeSinceLastService, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CAS:6714, RealTimeToNextService, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  OperationalType:
+  - [ UAObjectType, CAS:1006, OperationalType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6064, HealthState, Enumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6065, IntegratedState, Enumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6655, OnOff, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6066, OperatingState, Enumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AirnetOperationalType:
+  - [ UAObjectType, CAS:1002, AirnetOperationalType ]
+  - HasComponent:
+    - [ UAVariable, CAS:10532, AirDeliveryRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6017, CompressorsIntegrated, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6019, CompressorsIsolated, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6027, CompressorsNotAvailable, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:8283, ControlPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6771, HealthState, AirnetHealthStateEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:7186, IntegratedState, AirnetIntegratedStateEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:8021, OperatingState, AirnetOperatingStateEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:10534, SpecificEnergy, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:10536, SpecificEnergyCost, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6029, VolumeFlowRateAvailable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6031, VolumeFlowRateUnavailable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CompressorOperationalType:
+  - [ UAObjectType, CAS:1045, CompressorOperationalType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6644, ActivePressureBand, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6646, FlowRateRatio, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6648, IsentropicEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:8217, OperatingState, CompressorOperatingStateEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6659, SpecificEnergyRequirement, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConverterOperationalType:
+  - [ UAObjectType, CAS:1046, ConverterOperationalType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6693, CatalyticMaterialTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DrainOperationalType:
+  - [ UAObjectType, CAS:1003, DrainOperationalType ]
+  - HasComponent:
+    - [ UAMethod, CAS:10530, DrainTest ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DryerOperationalType:
+  - [ UAObjectType, CAS:1052, DryerOperationalType ]
+  - HasComponent:
+    - [ UAVariable, CAS:10670, OnOff, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:10673, OperatingState, DryerOperatingStateEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6701, PressureDewPoint, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ValveOperationalType:
+  - [ UAObjectType, CAS:1053, ValveOperationalType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6712, ContinuousPosition, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:11343, PortUsed, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  StatisticsType:
+  - [ UAObjectType, CAS:1018, StatisticsType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6002, RealTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6005, RealTimeToNextService, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, CAS:7793, ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6006, RunningTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6001, RunningTimeToNextService, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CompressorStatisticsType:
+  - [ UAObjectType, CAS:1027, CompressorStatisticsType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6083, LoadedTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CAS:6122, UnloadedTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AirnetsType:
+  - [ UAObjectType, CAS:1038, AirnetsType ]
+  - HasComponent:
+    - [ UAObject, CAS:5029, <Component> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1007, AirnetType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  ComponentsGroupType:
+  - [ UAObjectType, CAS:1047, ComponentsGroupType ]
+  - HasComponent:
+    - [ UAObject, CAS:5187, <ComponentsGroup> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, CAS:5012, ChargingSystems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5011, Compressors ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5014, CondensateDrains ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5016, CondensateSeparators ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5023, Converters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5024, CoolingSystems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5028, Dryers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5091, Filters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5188, HeatRecoverySystems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5190, Receivers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5191, Sensors ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5192, Valves ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ParticleType:
+  - [ UAObjectType, CAS:1043, ParticleType ]
+  - HasComponent:
+    - [ UAVariable, CAS:6010, Fine, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CAS:6011, Large, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CAS:6012, Medium, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AirnetType:
+  - [ UAObjectType, CAS:1007, AirnetType ]
+  - HasComponent:
+    - [ UAObject, CAS:5051, Ambient ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5001, Components ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1050, AirnetComponentsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5015, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1016, AirnetConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5050, ElectricalCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1014, ElectricalCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5009, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1051, CASIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, CAS:5008, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1002, AirnetOperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5031, ProcessFluidCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1013, FluidCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CASComponentType:
+  - [ UAObjectType, CAS:1021, CASComponentType ]
+  - HasComponent:
+    - [ UAObject, CAS:5140, Ambient ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5038, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1037, ConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5138, CoolantCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1013, FluidCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5010, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1044, DesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5145, ElectricalCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1014, ElectricalCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5035, Events ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1020, EventsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5005, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, CAS:5036, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1006, OperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5135, ProcessFluidCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1013, FluidCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5130, Statistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1018, StatisticsType ]
+
+  CompressorType:
+  - [ UAObjectType, CAS:1039, CompressorType ]
+  - HasComponent:
+    - [ UAObject, CAS:5058, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1008, CompressorDesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5189, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, CAS:5070, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1045, CompressorOperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5072, Statistics ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1027, CompressorStatisticsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConverterType:
+  - [ UAObjectType, CAS:1029, ConverterType ]
+  - HasComponent:
+    - [ UAObject, CAS:5054, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1041, ConverterDesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5159, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1046, ConverterOperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DrainType:
+  - [ UAObjectType, CAS:1025, DrainType ]
+  - HasComponent:
+    - [ UAObject, CAS:5039, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1036, DrainDesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5158, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1003, DrainOperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5185, ProcessFluidCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1013, FluidCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DryerType:
+  - [ UAObjectType, CAS:1030, DryerType ]
+  - HasComponent:
+    - [ UAObject, CAS:5057, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1033, DryerDesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5160, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1052, DryerOperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  FilterType:
+  - [ UAObjectType, CAS:1034, FilterType ]
+  - HasComponent:
+    - [ UAObject, CAS:5061, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1009, FilterDesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ReceiverType:
+  - [ UAObjectType, CAS:1022, ReceiverType ]
+  - HasComponent:
+    - [ UAObject, CAS:5062, Design ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1023, ReceiverDesignType ]
+
+  SensorType:
+  - [ UAObjectType, CAS:1015, SensorType ]
+  - HasComponent:
+    - [ UAObject, CAS:5002, Calibration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1054, CalibrationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5064, Design ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1031, SensorDesignType ]
+  - HasComponent:
+    - [ UAObject, CAS:5149, Maintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1028, MaintenanceType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5137, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1006, OperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SeparatorType:
+  - [ UAObjectType, CAS:1026, SeparatorType ]
+  - HasComponent:
+    - [ UAObject, CAS:5048, Design ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1040, SeparatorDesignType ]
+  - HasComponent:
+    - [ UAObject, CAS:5184, ProcessFluidCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1013, FluidCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ValveType:
+  - [ UAObjectType, CAS:1024, ValveType ]
+  - HasComponent:
+    - [ UAObject, CAS:5065, Design ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1032, ValveDesignType ]
+  - HasComponent:
+    - [ UAObject, CAS:5161, Operational ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1053, ValveOperationalType ]
+
+  MCSType:
+  - [ UAObjectType, CAS:1017, MCSType ]
+  - HasComponent:
+    - [ UAObject, CAS:5022, Analyses ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1049, AnalysesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5019, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1019, MCSConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5055, ElectricalCircuit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1014, ElectricalCircuitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5020, Events ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1020, EventsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5017, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, CAS:5021, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1006, OperationalType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, CAS:5018, Statistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CAS:1018, StatisticsType ]

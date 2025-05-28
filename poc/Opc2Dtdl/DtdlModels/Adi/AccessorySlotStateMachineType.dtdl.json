@@ -1,0 +1,87 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Adi:AccessorySlotStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Powerup"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Empty"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Inserting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Installed"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Removing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Shutdown"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PowerupToEmptyTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EmptyToInsertingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InsertingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InsertingToRemovingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InsertingToInstalledTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstalledToRemovingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RemovingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RemovingToEmptyTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EmptyToShutdownTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InsertingToShutdownTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstalledToShutdownTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RemovingToShutdownTransition"
+    }
+  ]
+}

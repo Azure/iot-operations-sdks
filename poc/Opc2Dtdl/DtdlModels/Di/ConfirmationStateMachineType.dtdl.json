@@ -1,0 +1,41 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Di:ConfirmationStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ConfirmationTimeout",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Confirm"
+    },
+    {
+      "@type": "Relationship",
+      "name": "NotWaitingForConfirm"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitingForConfirm"
+    },
+    {
+      "@type": "Relationship",
+      "name": "NotWaitingForConfirmToWaitingForConfirm"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitingForConfirmToNotWaitingForConfirm"
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:VibrationMeasurementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "X_1XPhase",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "X_1XRelativeShaftVibrationP_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "X_2XPhase",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "X_2XRelativeShaftVibrationP_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "BearingIndex",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "BearingIndexPerG",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "BroadbandCavitationAccelerationPerG_RMS",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "BroadbandCavitationAccelerationRMS",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "GapVoltage",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "Not1XRelativeShaftVibrationP_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationAcceleration0_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationAccelerationP_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationAccelerationPerG0_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationAccelerationPerG_RMS",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationAccelerationPerGP_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationAccelerationRMS",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationDisplacementP_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationDisplacementRMS",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationVelocity0_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationVelocityP_P",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "OverallVibrationVelocityRMS",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ReferenceStandardForVibrationMeasurement",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "RotationalPhase1X",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "RotationalPhase2X",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "SpeedOfRotation",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ThrustPosition",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheBearingDefectFrequencies",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheBearingDefectFrequenciesPerG",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheBladePassFrequency",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheGearMeshingFrequency",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheGearMeshingFrequencyPerG",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheRotationFrequency1X",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequency",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequencyPerG",
+      "schema": "double",
+      "writable": false
+    }
+  ]
+}

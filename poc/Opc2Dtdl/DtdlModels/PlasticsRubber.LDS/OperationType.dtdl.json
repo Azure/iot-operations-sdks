@@ -1,0 +1,230 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:ClassifiedActiveErrorDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "SourceNodes",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "Classification",
+          "schema": "unsignedShort"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActivateRemoteControl",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ActiveErrors",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:ClassifiedActiveErrorDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualDeviationMixingRatio",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualShotWeight",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DeliveryPressureMeasuringPoint",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DeliveryType",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DosingActive",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaxDeviationMixingRatio",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MixingRatioTarget",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PurgeCyclicActive",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PurgeCyclicIdleTime",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PurgeCyclicQuantity",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PurgeMode",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PurgeQuantity",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PurgeTimeout",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RemainingMaterialTime",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RemoteControlActivated",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetShotWeight",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SetValueCompositeDensity",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TargetDeviationMixingRatio",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "IdentifyDevice"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetAllErrors"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetErrorById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Id",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetCycleNumber",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "CycleNumber",
+              "schema": "unsignedLong"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartDosing"
+    },
+    {
+      "@type": "Command",
+      "name": "StopDosing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Additive_Y",
+      "target": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Component_A",
+      "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Component_B",
+      "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DeliveryFlowrate",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DeliveryPressure",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+    }
+  ]
+}

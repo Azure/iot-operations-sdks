@@ -1,0 +1,57 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:PreventiveMaintenanceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActivePreventiveMaintenanceTime",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InstallationDate",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LastInspectionDate",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LastServicingDate",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NextInspectionDate",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NextServicingDate",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PreventiveMaintenanceTime",
+      "schema": "double",
+      "writable": true
+    }
+  ]
+}

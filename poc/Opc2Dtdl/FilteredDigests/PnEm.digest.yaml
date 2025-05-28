@@ -1,0 +1,354 @@
+DataTypes:
+- UADataType: [ PNEM:3009, AccuracyClassEnumeration ]
+  Enums:
+    ACCURACY_CLASS_0: 0
+    ACCURACY_CLASS_1: 1
+    ACCURACY_CLASS_2: 2
+    ACCURACY_CLASS_3: 3
+    ACCURACY_CLASS_4: 4
+    ACCURACY_CLASS_5: 5
+    ACCURACY_CLASS_6: 6
+    ACCURACY_CLASS_7: 7
+    ACCURACY_CLASS_8: 8
+    ACCURACY_CLASS_9: 9
+    ACCURACY_CLASS_10: 10
+    ACCURACY_CLASS_11: 11
+    ACCURACY_CLASS_12: 12
+    ACCURACY_CLASS_13: 13
+    ACCURACY_CLASS_14: 14
+    ACCURACY_CLASS_15: 15
+- UADataType: [ PNEM:3010, AccuracyDomainEnumeration ]
+  Enums:
+    ACCURACY_DOMAIN_RESERVED: 0
+    ACCURACY_DOMAIN_PERCENT_FULL_SCALE: 1
+    ACCURACY_DOMAIN_PERCENT_ACTUAL_READING: 2
+    ACCURACY_DOMAIN_IEC: 3
+    ACCURACY_DOMAIN_EN: 4
+- UADataType: [ PNEM:3007, PeClassEnumeration ]
+  Enums:
+    PE_CLASS1: 0
+    PE_CLASS2: 1
+    PE_CLASS3: 2
+- UADataType: [ PNEM:3008, PeSubclassEnumeration ]
+  Enums:
+    PE_SUBCLASS1: 0
+    PE_SUBCLASS2: 1
+- UADataType: [ PNEM:3005, AcPeDataType ]
+  Fields:
+    A: [ Float, 0 ]
+    B: [ Float, 0 ]
+    C: [ Float, 0 ]
+- UADataType: [ PNEM:3006, AcPpDataType ]
+  Fields:
+    A_b: [ Float, 0 ]
+    B_c: [ Float, 0 ]
+    C_a: [ Float, 0 ]
+- UADataType: [ PNEM:3003, EnergyStateInformationDataType ]
+  Fields:
+    IDSource: [ Byte, 0 ]
+    IDDestination: [ Byte, 0 ]
+    RegularTimeToOperate: [ Duration, 0 ]
+    ModePowerConsumption: [ Float, 0 ]
+- UADataType: [ PNEM:3004, PeVersionDataType ]
+  Fields:
+    MajorVersion: [ Byte, 0 ]
+    MinorVersion: [ Byte, 0 ]
+    Revision: [ Byte, 0 ]
+- UADataType: [ PNEM:3002, StandbyModeTransitionDataType ]
+  Fields:
+    IDDestination: [ Byte, 0 ]
+    CurrentTimeToDestination: [ Duration, 0 ]
+    CurrentTimeToOperate: [ Duration, 0 ]
+    EnergyConsumptionToDestination: [ Float, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  IEnergyProfileD0Type:
+  - [ UAObjectType, PNEM:1011, IEnergyProfileD0Type ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6102, DcCurrent, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  IEnergyProfileE0Type:
+  - [ UAObjectType, PNEM:1007, IEnergyProfileE0Type ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6060, AcCurrent, AcPeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  IEnergyProfileE1Type:
+  - [ UAObjectType, PNEM:1008, IEnergyProfileE1Type ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6064, AcActivePowerTotal, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  IEnergyProfileE2Type:
+  - [ UAObjectType, PNEM:1009, IEnergyProfileE2Type ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6076, AcActiveEnergyTotalExportLp, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6072, AcActiveEnergyTotalImportLp, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6068, AcActivePowerTotal, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  IEnergyProfileE3Type:
+  - [ UAObjectType, PNEM:1010, IEnergyProfileE3Type ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6086, AcActiveEnergyTotalExportHp, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6082, AcActiveEnergyTotalImportHp, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6080, AcActivePower, AcPeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6100, AcCurrent, AcPeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6101, AcPowerFactor, AcPeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6094, AcReactiveEnergyTotalExportHp, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6090, AcReactiveEnergyTotalImportHp, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6081, AcReactivePower, AcPeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6098, AcVoltagePe, AcPeDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6099, AcVoltagePp, AcPpDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  EnergyDevicePowerOffType:
+  - [ UAObjectType, PNEM:1012, EnergyDevicePowerOffType ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6108, ModePowerConsumption, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6106, RegularTimeToOperate, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PNEM:7009, SwitchOffWOL ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6110, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ModeID: [ Byte, 0 ]
+          CurrentTimeToDestination: [ Duration, 0 ]
+          RegularTimeToOperate: [ Duration, 0 ]
+          TimeMinLengthOfStay: [ Duration, 0 ]
+          ReturnCode: [ Byte, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6107, TimeMinPause, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  EnergyMeasurementType:
+  - [ UAObjectType, PNEM:1006, EnergyMeasurementType ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6056, <MeasurementValue>, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasComponent:
+    - [ UAMethod, PNEM:7008, ResetEnergyCounter ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  EnergySavingModesContainerType:
+  - [ UAObjectType, PNEM:1004, EnergySavingModesContainerType ]
+  - HasComponent:
+    - [ UAObject, PNEM:5016, <EnergySavingModes> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+
+  EnergySavingModeStatusType:
+  - [ UAObjectType, PNEM:1002, EnergySavingModeStatusType ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6023, CurrentTransitionData, StandbyModeTransitionDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6024, StateInformation, EnergyStateInformationDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  EnergySavingModeType:
+  - [ UAObjectType, PNEM:1003, EnergySavingModeType ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6036, EnergyConsumptionToOperate, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6034, EnergyConsumptionToPause, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6032, ModePowerConsumption, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6031, RegularTimeToOperate, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6030, TimeMaxLengthOfStay, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6029, TimeMinLengthOfStay, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6027, TimeMinPause, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6028, TimeToPause, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  EnergyStandbyManagementType:
+  - [ UAObjectType, PNEM:1005, EnergyStandbyManagementType ]
+  - HasComponent:
+    - [ UAMethod, PNEM:7006, EndPause ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6054, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          CurrentTimeToOperate: [ Duration, 0 ]
+          ReturnCode: [ Byte, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PNEM:5018, EnergySavingModes ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNEM:1004, EnergySavingModesContainerType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PNEM:5017, EnergySavingModeStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNEM:1002, EnergySavingModeStatusType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PNEM:5020, Lock ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6040, PauseTime, Duration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNEM:6016, StandbyManagementStatus, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PNEM:7005, StartPause ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6050, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          PauseTime: [ Duration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6051, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ModeID: [ Byte, 0 ]
+          CurrentTimeToDestination: [ Duration, 0 ]
+          RegularTimeToOperate: [ Duration, 0 ]
+          TimeMinLengthToStay: [ Duration, 0 ]
+          ReturnCode: [ Byte, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PNEM:7007, SwitchToEnergySavingMode ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6052, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ModeID: [ Byte, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNEM:6053, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EffectiveModeID: [ Byte, 0 ]
+          CurrentTimeToDestination: [ Duration, 0 ]
+          RegularTimeToOperate: [ Duration, 0 ]
+          TimeMinLengthOfStay: [ Duration, 0 ]
+          ReturnCode: [ Byte, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]

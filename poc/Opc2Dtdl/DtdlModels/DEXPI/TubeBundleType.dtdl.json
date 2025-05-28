@@ -1,0 +1,324 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:TubeBundleType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:TubeBundleType:dataType:NominalDiameterStandardClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Din2448ObjectDn100",
+          "enumValue": 0
+        },
+        {
+          "name": "Din2448ObjectDn125",
+          "enumValue": 1
+        },
+        {
+          "name": "Din2448ObjectDn15",
+          "enumValue": 2
+        },
+        {
+          "name": "Din2448ObjectDn150",
+          "enumValue": 3
+        },
+        {
+          "name": "Din2448ObjectDn20",
+          "enumValue": 4
+        },
+        {
+          "name": "Din2448ObjectDn200",
+          "enumValue": 5
+        },
+        {
+          "name": "Din2448ObjectDn25",
+          "enumValue": 6
+        },
+        {
+          "name": "Din2448ObjectDn32",
+          "enumValue": 7
+        },
+        {
+          "name": "Din2448ObjectDn40",
+          "enumValue": 8
+        },
+        {
+          "name": "Din2448ObjectDn50",
+          "enumValue": 9
+        },
+        {
+          "name": "Din2448ObjectDn65",
+          "enumValue": 10
+        },
+        {
+          "name": "Din2448ObjectDn80",
+          "enumValue": 11
+        },
+        {
+          "name": "Iso6708ObjectDn100",
+          "enumValue": 12
+        },
+        {
+          "name": "Iso6708ObjectDn1000",
+          "enumValue": 13
+        },
+        {
+          "name": "Iso6708ObjectDn1200",
+          "enumValue": 14
+        },
+        {
+          "name": "Iso6708ObjectDn125",
+          "enumValue": 15
+        },
+        {
+          "name": "Iso6708ObjectDn1400",
+          "enumValue": 16
+        },
+        {
+          "name": "Iso6708ObjectDn15",
+          "enumValue": 17
+        },
+        {
+          "name": "Iso6708ObjectDn150",
+          "enumValue": 18
+        },
+        {
+          "name": "Iso6708ObjectDn1600",
+          "enumValue": 19
+        },
+        {
+          "name": "Iso6708ObjectDn20",
+          "enumValue": 20
+        },
+        {
+          "name": "Iso6708ObjectDn200",
+          "enumValue": 21
+        },
+        {
+          "name": "Iso6708ObjectDn25",
+          "enumValue": 22
+        },
+        {
+          "name": "Iso6708ObjectDn250",
+          "enumValue": 23
+        },
+        {
+          "name": "Iso6708ObjectDn300",
+          "enumValue": 24
+        },
+        {
+          "name": "Iso6708ObjectDn32",
+          "enumValue": 25
+        },
+        {
+          "name": "Iso6708ObjectDn350",
+          "enumValue": 26
+        },
+        {
+          "name": "Iso6708ObjectDn40",
+          "enumValue": 27
+        },
+        {
+          "name": "Iso6708ObjectDn400",
+          "enumValue": 28
+        },
+        {
+          "name": "Iso6708ObjectDn450",
+          "enumValue": 29
+        },
+        {
+          "name": "Iso6708ObjectDn50",
+          "enumValue": 30
+        },
+        {
+          "name": "Iso6708ObjectDn500",
+          "enumValue": 31
+        },
+        {
+          "name": "Iso6708ObjectDn600",
+          "enumValue": 32
+        },
+        {
+          "name": "Iso6708ObjectDn65",
+          "enumValue": 33
+        },
+        {
+          "name": "Iso6708ObjectDn700",
+          "enumValue": 34
+        },
+        {
+          "name": "Iso6708ObjectDn80",
+          "enumValue": 35
+        },
+        {
+          "name": "Iso6708ObjectDn800",
+          "enumValue": 36
+        },
+        {
+          "name": "Iso6708ObjectDn900",
+          "enumValue": 37
+        },
+        {
+          "name": "Nps1_2Artefact",
+          "enumValue": 38
+        },
+        {
+          "name": "Nps1_4Artefact",
+          "enumValue": 39
+        },
+        {
+          "name": "Nps10Artefact",
+          "enumValue": 40
+        },
+        {
+          "name": "Nps12Artefact",
+          "enumValue": 41
+        },
+        {
+          "name": "Nps14Artefact",
+          "enumValue": 42
+        },
+        {
+          "name": "Nps16Artefact",
+          "enumValue": 43
+        },
+        {
+          "name": "Nps18Artefact",
+          "enumValue": 44
+        },
+        {
+          "name": "Nps1Artefact",
+          "enumValue": 45
+        },
+        {
+          "name": "Nps1_1_2Artefact",
+          "enumValue": 46
+        },
+        {
+          "name": "Nps1_1_4Artefact",
+          "enumValue": 47
+        },
+        {
+          "name": "Nps20Artefact",
+          "enumValue": 48
+        },
+        {
+          "name": "Nps24Artefact",
+          "enumValue": 49
+        },
+        {
+          "name": "Nps2Artefact",
+          "enumValue": 50
+        },
+        {
+          "name": "Nps2_1_2Artefact",
+          "enumValue": 51
+        },
+        {
+          "name": "Nps3_4Artefact",
+          "enumValue": 52
+        },
+        {
+          "name": "Nps30Artefact",
+          "enumValue": 53
+        },
+        {
+          "name": "Nps36Artefact",
+          "enumValue": 54
+        },
+        {
+          "name": "Nps3Artefact",
+          "enumValue": 55
+        },
+        {
+          "name": "Nps3_1_2Artefact",
+          "enumValue": 56
+        },
+        {
+          "name": "Nps42Artefact",
+          "enumValue": 57
+        },
+        {
+          "name": "Nps48Artefact",
+          "enumValue": 58
+        },
+        {
+          "name": "Nps4Artefact",
+          "enumValue": 59
+        },
+        {
+          "name": "Nps54Artefact",
+          "enumValue": 60
+        },
+        {
+          "name": "Nps5Artefact",
+          "enumValue": 61
+        },
+        {
+          "name": "Nps60Artefact",
+          "enumValue": 62
+        },
+        {
+          "name": "Nps6Artefact",
+          "enumValue": 63
+        },
+        {
+          "name": "Nps8Artefact",
+          "enumValue": 64
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "NumberOfTubes",
+      "schema": "long",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TubeLength",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TubeMaterialOfConstructionCodeAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TubeNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TubeNominalDiameterRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TubeNominalDiameterStandardSpecialization",
+      "schema": "dtmi:opcua:DEXPI:TubeBundleType:dataType:NominalDiameterStandardClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TubeNominalDiameterTypeRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    }
+  ]
+}

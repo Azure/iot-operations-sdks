@@ -1,0 +1,25 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Machinery_Jobs:JobManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "JobOrderControl",
+      "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "JobOrderResults",
+      "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType"
+    }
+  ]
+}

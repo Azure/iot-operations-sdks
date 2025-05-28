@@ -1,0 +1,99 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Di:TransferServicesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "TransferToDevice",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TransferID",
+              "schema": "integer"
+            },
+            {
+              "name": "InitTransferStatus",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "TransferFromDevice",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TransferID",
+              "schema": "integer"
+            },
+            {
+              "name": "InitTransferStatus",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "FetchTransferResultData",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TransferID",
+              "schema": "integer"
+            },
+            {
+              "name": "SequenceNumber",
+              "schema": "integer"
+            },
+            {
+              "name": "MaxParameterResultsToReturn",
+              "schema": "integer"
+            },
+            {
+              "name": "OmitGoodResults",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FetchResultData",
+              "schema": "bytes"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

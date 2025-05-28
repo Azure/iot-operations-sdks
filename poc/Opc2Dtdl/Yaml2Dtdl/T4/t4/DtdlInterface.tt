@@ -1,0 +1,30 @@
+﻿<#@ template language="C#" linePragmas="false" #>
+<# int ix; #>
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "<#=this.modelId#>;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+<# ix = 1; foreach (DtdlDataType dtdlDataType in this.dtdlDataTypes) { #>
+<#=dtdlDataType.TransformText()#><#=ix < this.dtdlDataTypes.Count ? "," : ""#>
+<# ix++; } #>
+  ],
+  "contents": [
+<# ix = 1; #>
+<# foreach (DtdlProperty dtdlProperty in this.dtdlProperties) { #>
+<#=dtdlProperty.TransformText()#><#=ix < this.contentCount ? "," : ""#>
+<# ix++; } #>
+<# foreach (DtdlCommand dtdlCommand in this.dtdlCommands) { #>
+<#=dtdlCommand.TransformText()#><#=ix < this.contentCount ? "," : ""#>
+<# ix++; } #>
+<# foreach (DtdlRelationship dtdlRelationship in this.dtdlRelationships) { #>
+<#=dtdlRelationship.TransformText()#><#=ix < this.contentCount ? "," : ""#>
+<# ix++; } #>
+  ]
+}

@@ -1,0 +1,402 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Gds:DirectoryType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ApplicationId",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationType",
+          "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationType;1"
+        },
+        {
+          "name": "ApplicationNames",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "ProductUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "ServerCapabilities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationDescription;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "name": "ProductUri",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationName",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationType",
+          "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationType;1"
+        },
+        {
+          "name": "GatewayServerUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryProfileUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ServerOnNetwork;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "RecordId",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "ServerName",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryUrl",
+          "schema": "string"
+        },
+        {
+          "name": "ServerCapabilities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Server",
+          "enumValue": 0
+        },
+        {
+          "name": "Client",
+          "enumValue": 1
+        },
+        {
+          "name": "ClientAndServer",
+          "enumValue": 2
+        },
+        {
+          "name": "DiscoveryServer",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "FindApplications",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Applications",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RegisterApplication",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Application",
+              "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "UpdateApplication",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Application",
+              "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "UnregisterApplication",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetApplication",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Application",
+              "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "QueryApplications",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "StartingRecordId",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "MaxRecordsToReturn",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ApplicationName",
+              "schema": "string"
+            },
+            {
+              "name": "ApplicationUri",
+              "schema": "string"
+            },
+            {
+              "name": "ApplicationType",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ProductUri",
+              "schema": "string"
+            },
+            {
+              "name": "Capabilities",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LastCounterResetTime",
+              "schema": "time"
+            },
+            {
+              "name": "NextRecordId",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Applications",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationDescription;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "QueryServers",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "StartingRecordId",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "MaxRecordsToReturn",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ApplicationName",
+              "schema": "string"
+            },
+            {
+              "name": "ApplicationUri",
+              "schema": "string"
+            },
+            {
+              "name": "ProductUri",
+              "schema": "string"
+            },
+            {
+              "name": "ServerCapabilities",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LastCounterResetTime",
+              "schema": "time"
+            },
+            {
+              "name": "Servers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Gds:DirectoryType:dataType:ServerOnNetwork;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Applications"
+    }
+  ]
+}

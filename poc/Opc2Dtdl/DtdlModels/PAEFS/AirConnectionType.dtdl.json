@@ -1,0 +1,48 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PAEFS:AirConnectionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "Close"
+    },
+    {
+      "@type": "Command",
+      "name": "Open"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Airflow",
+      "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "GasQuality",
+      "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Humidity",
+      "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Pressure",
+      "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Temperature",
+      "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_cm:ConnectionManagerConfigurationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_cm:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ElementAdd",
+          "enumValue": 0
+        },
+        {
+          "name": "ElementRemove",
+          "enumValue": 1
+        },
+        {
+          "name": "ElementReplace",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "CloseAndUpdate",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FileHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "RequireCompleteUpdate",
+              "schema": "boolean"
+            },
+            {
+              "name": "Operations",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_cm:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ChangesApplied",
+              "schema": "boolean"
+            },
+            {
+              "name": "OperationResults",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            },
+            {
+              "name": "ConfigurationObjects",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

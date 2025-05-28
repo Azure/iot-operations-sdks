@@ -1,0 +1,1345 @@
+DataTypes:
+- UADataType: [ PackML:11, ProductionMaintenanceModeEnum ]
+  Enums:
+    Invalid: 0
+    Produce: 1
+    Maintenance: 2
+    Manual: 3
+- UADataType: [ PackML:15, PackMLAlarmDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Value: [ Int32, 0 ]
+    Message: [ String, 0 ]
+    Category: [ Int32, 0 ]
+    DateTime: [ UtcTime, 0 ]
+    AckDateTime: [ UtcTime, 0 ]
+    Trigger: [ Boolean, 0 ]
+- UADataType: [ PackML:14, PackMLCountDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Count: [ Int32, 0 ]
+    AccCount: [ Int32, 0 ]
+- UADataType: [ PackML:16, PackMLDescriptorDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Value: [ Float, 0 ]
+- UADataType: [ PackML:17, PackMLIngredientsDataType ]
+  Fields:
+    IngredientID: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+- UADataType: [ PackML:18, PackMLProductDataType ]
+  Fields:
+    ProductID: [ Int32, 0 ]
+    ProcessVariables: [ PackMLDescriptorDataType, 1 ]
+    Ingredients: [ PackMLIngredientsDataType, 1 ]
+- UADataType: [ PackML:19, PackMLRemoteInterfaceDataType ]
+  Fields:
+    Number: [ Int32, 0 ]
+    ControlCmdNumber: [ Int32, 0 ]
+    CmdValue: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+
+DefinedTypes:
+
+  PackMLAdminObjectType:
+  - [ UAObjectType, PackML:5, PackMLAdminObjectType ]
+  - HasComponent:
+    - [ UAVariable, PackML:252, AccTimeSinceReset, Int32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasAlarm:
+    - [ UAVariable, PackML:238, Alarm, PackMLAlarmDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:239, AlarmExtent, Int32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasAlarmHistory:
+    - [ UAVariable, PackML:240, AlarmHistory, PackMLAlarmDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:241, AlarmHistoryExtent, Int32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:253, MachDesignSpeed, Float, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:247, ModeCumulativeTime, Int32, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:246, ModeCurrentTime, Int32, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:276, Parameter, PackMLDescriptorDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:124, ProdConsumedCount, PackMLCountDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:119, ProdDefectiveCount, PackMLCountDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:120, ProdProcessedCount, PackMLCountDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:249, StateCumulativeTime, Int32, 2, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:248, StateCurrentTime, Int32, 2, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasStopReason:
+    - [ UAVariable, PackML:244, StopReason, PackMLAlarmDataType, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:245, StopReasonExtent, Int32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasWarning:
+    - [ UAVariable, PackML:242, Warning, PackMLAlarmDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:243, WarningExtent, Int32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PackMLBaseObjectType:
+  - [ UAObjectType, PackML:6, PackMLBaseObjectType ]
+  - HasComponent:
+    - [ UAObject, PackML:73, Admin ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PackML:5, PackMLAdminObjectType ]
+  - HasComponent:
+    - [ UAObject, PackML:88, BaseStateMachine ]
+    - HasComponent:
+      - [ UAVariable, PackML:259, AvailableStates, NodeId, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:202, AvailableTransitions, NodeId, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:272, CurrentState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasProperty:
+        - [ UAVariable, PackML:273, Id, NodeId, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PackML:89, MachineState ]
+      - HasComponent:
+        - [ UAVariable, PackML:214, AvailableStates, NodeId, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PackML:213, AvailableTransitions, NodeId, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PackML:262, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, PackML:263, Id, NodeId, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, PackML:90, ExecuteState ]
+        - HasComponent:
+          - [ UAVariable, PackML:223, AvailableStates, NodeId, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, PackML:222, AvailableTransitions, NodeId, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAVariable, PackML:266, CurrentState, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasProperty:
+            - [ UAVariable, PackML:227, Id, NodeId, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, PackML:1, PackMLExecuteStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PackML:2, PackMLMachineStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+  - HasProperty:
+    - [ UAVariable, PackML:221, PackMLVersion, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, PackML:403, RemoteCommand ]
+    - HasProperty:
+      - [ UAVariable, PackML:350, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RemoteInterface: [ PackMLRemoteInterfaceDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PackML:404, SetInterlock ]
+    - HasProperty:
+      - [ UAVariable, PackML:351, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InterlockId: [ Int32, 0 ]
+          State: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PackML:400, SetMachSpeed ]
+    - HasProperty:
+      - [ UAVariable, PackML:348, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RequestedMachineSpeed: [ Float, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PackML:402, SetParameter ]
+    - HasProperty:
+      - [ UAVariable, PackML:352, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Parameter: [ PackMLDescriptorDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PackML:401, SetProduct ]
+    - HasProperty:
+      - [ UAVariable, PackML:349, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Product: [ PackMLProductDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PackML:362, SetUnitMode ]
+    - HasProperty:
+      - [ UAVariable, PackML:118, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RequestedMode: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PackML:87, Status ]
+    - HasComponent:
+      - [ UAVariable, PackML:255, CurMachSpeed, Float, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PackML:256, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:274, EquipmentBlocked, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:275, EquipmentStarved, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:257, MachSpeed, Float, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PackML:258, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PackML:4, PackMLStatusObjectType ]
+    - HasComponent:
+      - [ UAVariable, PackML:225, UnitModeCurrent, Enumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PackML:290, UnitSupportedModes, NodeId, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PackML:218, TagID, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  PackMLStatusObjectType:
+  - [ UAObjectType, PackML:4, PackMLStatusObjectType ]
+  - HasComponent:
+    - [ UAVariable, PackML:232, CurMachSpeed, Float, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PackML:233, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PackML:211, EquipmentBlocked, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PackML:224, EquipmentStarved, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PackML:219, MachSpeed, Float, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2368, AnalogItemType ]
+    - HasProperty:
+      - [ UAVariable, PackML:220, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasInterlock:
+    - [ UAVariable, PackML:237, MaterialInterlock, Boolean, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:236, MaterialInterlocked, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:121, Parameter, PackMLDescriptorDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:122, Product, PackMLProductDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:123, RemoteParameter, PackMLRemoteInterfaceDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:210, StateChangeInProcess, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:209, StateRequested, Int32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:201, UnitModeChangeInProcess, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PackML:200, UnitModeCurrent, Enumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PackML:192, UnitModeRequested, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PackML:193, UnitSupportedModes, NodeId, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  PackMLBaseStateMachineType:
+  - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+  - HasComponent:
+    - [ UAMethod, PackML:364, Abort ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:62, Aborted ]
+    - HasProperty:
+      - [ UAVariable, PackML:169, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:65, AbortedToCleared ]
+    - FromState:
+      - [ UAObject, PackML:62, Aborted ]
+    - HasCause:
+      - [ UAMethod, PackML:363, Clear ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:71, Cleared ]
+    - HasProperty:
+      - [ UAVariable, PackML:174, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:61, Aborting ]
+    - HasProperty:
+      - [ UAVariable, PackML:168, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:66, AbortingToAborted ]
+    - ToState:
+      - [ UAObject, PackML:62, Aborted ]
+    - FromState:
+      - [ UAObject, PackML:61, Aborting ]
+    - HasProperty:
+      - [ UAVariable, PackML:175, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, PackML:167, AvailableStates, NodeId, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PackML:158, AvailableTransitions, NodeId, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PackML:363, Clear ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:71, Cleared ]
+    - HasSubStateMachine:
+      - [ UAObject, PackML:64, MachineState ]
+      - HasComponent:
+        - [ UAVariable, PackML:212, AvailableStates, NodeId, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PackML:204, AvailableTransitions, NodeId, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PackML:172, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, PackML:173, Id, NodeId, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PackML:2, PackMLMachineStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PackML:178, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:67, ClearedToAborting ]
+    - HasCause:
+      - [ UAMethod, PackML:364, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:61, Aborting ]
+    - FromState:
+      - [ UAObject, PackML:71, Cleared ]
+    - HasProperty:
+      - [ UAVariable, PackML:176, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:64, MachineState ]
+    - HasComponent:
+      - [ UAVariable, PackML:212, AvailableStates, NodeId, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:204, AvailableTransitions, NodeId, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:172, CurrentState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasProperty:
+        - [ UAVariable, PackML:173, Id, NodeId, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PackML:2, PackMLMachineStateMachineType ]
+
+  PackMLExecuteStateMachineType:
+  - [ UAObjectType, PackML:1, PackMLExecuteStateMachineType ]
+  - HasComponent:
+    - [ UAVariable, PackML:125, AvailableStates, NodeId, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PackML:126, AvailableTransitions, NodeId, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PackML:38, Complete ]
+    - HasProperty:
+      - [ UAVariable, PackML:138, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:51, CompleteToResetting ]
+    - FromState:
+      - [ UAObject, PackML:38, Complete ]
+    - HasCause:
+      - [ UAMethod, PackML:361, Reset ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:27, Resetting ]
+    - HasProperty:
+      - [ UAVariable, PackML:151, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:37, Completing ]
+    - HasProperty:
+      - [ UAVariable, PackML:137, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:50, CompletingToComplete ]
+    - ToState:
+      - [ UAObject, PackML:38, Complete ]
+    - FromState:
+      - [ UAObject, PackML:37, Completing ]
+    - HasProperty:
+      - [ UAVariable, PackML:150, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:36, Execute ]
+    - HasProperty:
+      - [ UAVariable, PackML:136, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:49, ExecuteToCompleting ]
+    - ToState:
+      - [ UAObject, PackML:37, Completing ]
+    - FromState:
+      - [ UAObject, PackML:36, Execute ]
+    - HasCause:
+      - [ UAMethod, PackML:365, ToComplete ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PackML:149, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:45, ExecuteToHolding ]
+    - FromState:
+      - [ UAObject, PackML:36, Execute ]
+    - HasCause:
+      - [ UAMethod, PackML:366, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:33, Holding ]
+    - HasProperty:
+      - [ UAVariable, PackML:145, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:42, ExecuteToSuspending ]
+    - FromState:
+      - [ UAObject, PackML:36, Execute ]
+    - HasCause:
+      - [ UAMethod, PackML:367, Suspend ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:30, Suspending ]
+    - HasProperty:
+      - [ UAVariable, PackML:142, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:34, Held ]
+    - HasProperty:
+      - [ UAVariable, PackML:134, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:47, HeldToUnholding ]
+    - FromState:
+      - [ UAObject, PackML:34, Held ]
+    - HasProperty:
+      - [ UAVariable, PackML:147, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - HasCause:
+      - [ UAMethod, PackML:368, Unhold ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:35, Unholding ]
+  - HasComponent:
+    - [ UAMethod, PackML:366, Hold ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:33, Holding ]
+    - HasProperty:
+      - [ UAVariable, PackML:133, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:46, HoldingToHeld ]
+    - ToState:
+      - [ UAObject, PackML:34, Held ]
+    - FromState:
+      - [ UAObject, PackML:33, Holding ]
+    - HasProperty:
+      - [ UAVariable, PackML:146, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:28, Idle ]
+    - HasProperty:
+      - [ UAVariable, PackML:128, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:40, IdleToStarting ]
+    - FromState:
+      - [ UAObject, PackML:28, Idle ]
+    - HasCause:
+      - [ UAMethod, PackML:369, Start ]
+      - HasProperty:
+        - [ UAVariable, PackML:342, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Parameter: [ PackMLDescriptorDataType, 1 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:29, Starting ]
+    - HasProperty:
+      - [ UAVariable, PackML:140, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, PackML:361, Reset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:27, Resetting ]
+    - HasProperty:
+      - [ UAVariable, PackML:127, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:39, ResettingToIdle ]
+    - ToState:
+      - [ UAObject, PackML:28, Idle ]
+    - FromState:
+      - [ UAObject, PackML:27, Resetting ]
+    - HasProperty:
+      - [ UAVariable, PackML:139, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, PackML:369, Start ]
+    - HasProperty:
+      - [ UAVariable, PackML:342, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Parameter: [ PackMLDescriptorDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:29, Starting ]
+    - HasProperty:
+      - [ UAVariable, PackML:129, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:41, StartingToExecute ]
+    - ToState:
+      - [ UAObject, PackML:36, Execute ]
+    - FromState:
+      - [ UAObject, PackML:29, Starting ]
+    - HasProperty:
+      - [ UAVariable, PackML:141, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:99, StartingToHolding ]
+    - HasCause:
+      - [ UAMethod, PackML:366, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:33, Holding ]
+    - FromState:
+      - [ UAObject, PackML:29, Starting ]
+    - HasProperty:
+      - [ UAVariable, PackML:179, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, PackML:367, Suspend ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:31, Suspended ]
+    - HasProperty:
+      - [ UAVariable, PackML:131, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:101, SuspendedToHolding ]
+    - HasCause:
+      - [ UAMethod, PackML:366, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:33, Holding ]
+    - FromState:
+      - [ UAObject, PackML:31, Suspended ]
+    - HasProperty:
+      - [ UAVariable, PackML:215, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:52, SuspendedToUnsuspending ]
+    - FromState:
+      - [ UAObject, PackML:31, Suspended ]
+    - HasProperty:
+      - [ UAVariable, PackML:152, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - HasCause:
+      - [ UAMethod, PackML:372, Unsuspend ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:32, Unsuspending ]
+  - HasComponent:
+    - [ UAObject, PackML:30, Suspending ]
+    - HasProperty:
+      - [ UAVariable, PackML:130, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:102, SuspendingToHolding ]
+    - HasCause:
+      - [ UAMethod, PackML:366, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:33, Holding ]
+    - FromState:
+      - [ UAObject, PackML:30, Suspending ]
+    - HasProperty:
+      - [ UAVariable, PackML:216, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:43, SuspendingToSuspended ]
+    - ToState:
+      - [ UAObject, PackML:31, Suspended ]
+    - FromState:
+      - [ UAObject, PackML:30, Suspending ]
+    - HasProperty:
+      - [ UAVariable, PackML:143, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, PackML:365, ToComplete ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PackML:368, Unhold ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:35, Unholding ]
+    - HasProperty:
+      - [ UAVariable, PackML:135, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:48, UnholdingToExecute ]
+    - ToState:
+      - [ UAObject, PackML:36, Execute ]
+    - HasProperty:
+      - [ UAVariable, PackML:148, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, PackML:35, Unholding ]
+  - HasComponent:
+    - [ UAObject, PackML:103, UnholdingToHolding ]
+    - HasCause:
+      - [ UAMethod, PackML:366, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:33, Holding ]
+    - HasProperty:
+      - [ UAVariable, PackML:217, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, PackML:35, Unholding ]
+  - HasComponent:
+    - [ UAMethod, PackML:372, Unsuspend ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:32, Unsuspending ]
+    - HasProperty:
+      - [ UAVariable, PackML:132, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:44, UnsuspendingToExecute ]
+    - ToState:
+      - [ UAObject, PackML:36, Execute ]
+    - HasProperty:
+      - [ UAVariable, PackML:144, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, PackML:32, Unsuspending ]
+  - HasComponent:
+    - [ UAObject, PackML:100, UnsuspendingToHolding ]
+    - HasCause:
+      - [ UAMethod, PackML:366, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:33, Holding ]
+    - HasProperty:
+      - [ UAVariable, PackML:208, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+    - FromState:
+      - [ UAObject, PackML:32, Unsuspending ]
+
+  PackMLMachineStateMachineType:
+  - [ UAObjectType, PackML:2, PackMLMachineStateMachineType ]
+  - HasComponent:
+    - [ UAVariable, PackML:153, AvailableStates, NodeId, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PackML:154, AvailableTransitions, NodeId, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PackML:55, Clearing ]
+    - HasProperty:
+      - [ UAVariable, PackML:157, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:58, ClearingToStopped ]
+    - FromState:
+      - [ UAObject, PackML:55, Clearing ]
+    - ToState:
+      - [ UAObject, PackML:53, Stopped ]
+    - HasProperty:
+      - [ UAVariable, PackML:164, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:56, ExecuteState ]
+    - HasComponent:
+      - [ UAVariable, PackML:177, AvailableStates, NodeId, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:160, AvailableTransitions, NodeId, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PackML:161, CurrentState, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasProperty:
+        - [ UAVariable, PackML:162, Id, NodeId, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PackML:1, PackMLExecuteStateMachineType ]
+  - HasComponent:
+    - [ UAMethod, PackML:376, Reset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:75, Running ]
+    - HasSubStateMachine:
+      - [ UAObject, PackML:56, ExecuteState ]
+      - HasComponent:
+        - [ UAVariable, PackML:177, AvailableStates, NodeId, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PackML:160, AvailableTransitions, NodeId, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PackML:161, CurrentState, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, PackML:162, Id, NodeId, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PackML:1, PackMLExecuteStateMachineType ]
+    - HasProperty:
+      - [ UAVariable, PackML:171, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:60, RunningToStopping ]
+    - FromState:
+      - [ UAObject, PackML:75, Running ]
+    - HasCause:
+      - [ UAMethod, PackML:375, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:54, Stopping ]
+    - HasProperty:
+      - [ UAVariable, PackML:166, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, PackML:375, Stop ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PackML:53, Stopped ]
+    - HasProperty:
+      - [ UAVariable, PackML:155, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:59, StoppedToRunning ]
+    - HasCause:
+      - [ UAMethod, PackML:376, Reset ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - ToState:
+      - [ UAObject, PackML:75, Running ]
+    - FromState:
+      - [ UAObject, PackML:53, Stopped ]
+    - HasProperty:
+      - [ UAVariable, PackML:165, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, PackML:54, Stopping ]
+    - HasProperty:
+      - [ UAVariable, PackML:156, StateNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, PackML:57, StoppingToStopped ]
+    - ToState:
+      - [ UAObject, PackML:53, Stopped ]
+    - FromState:
+      - [ UAObject, PackML:54, Stopping ]
+    - HasProperty:
+      - [ UAVariable, PackML:163, TransitionNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]

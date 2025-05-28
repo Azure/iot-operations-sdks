@@ -1,0 +1,53 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pn:PnApplicationRelationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pn:PnApplicationRelationType:dataType:PnARStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CONNECTED",
+          "enumValue": 0
+        },
+        {
+          "name": "UNCONNECTED",
+          "enumValue": 1
+        },
+        {
+          "name": "UNCONNECTED_ERR_DEVICE_NOT_FOUND",
+          "enumValue": 2
+        },
+        {
+          "name": "UNCONNECTED_ERR_DUPLICATE_IP",
+          "enumValue": 3
+        },
+        {
+          "name": "UNCONNECTED_ERR_DUPLICATE_NOS",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "State",
+      "schema": "dtmi:opcua:Pn:PnApplicationRelationType:dataType:PnARStateEnumeration;1",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "Modules",
+      "target": "dtmi:opcua:PROFINET:PnExpectedModuleContainerType"
+    }
+  ]
+}

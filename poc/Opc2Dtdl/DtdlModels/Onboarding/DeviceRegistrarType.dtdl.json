@@ -1,0 +1,365 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:BaseTicketType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ManufacturerName",
+          "schema": "string"
+        },
+        {
+          "name": "ModelName",
+          "schema": "string"
+        },
+        {
+          "name": "ModelVersion",
+          "schema": "string"
+        },
+        {
+          "name": "HardwareRevision",
+          "schema": "string"
+        },
+        {
+          "name": "SoftwareRevision",
+          "schema": "string"
+        },
+        {
+          "name": "SerialNumber",
+          "schema": "string"
+        },
+        {
+          "name": "ManufactureDate",
+          "schema": "dateTime"
+        },
+        {
+          "name": "Authorities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:CertificateAuthorityType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:CertificateAuthorityType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "AuthorityCertificate",
+          "schema": "bytes"
+        },
+        {
+          "name": "IssuerCertificates",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "bytes"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ManagerDescription;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "IsRequired",
+          "schema": "boolean"
+        },
+        {
+          "name": "PurposeUri",
+          "schema": "string"
+        },
+        {
+          "name": "ProtocolUri",
+          "schema": "string"
+        },
+        {
+          "name": "EndpointUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationDescription;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "name": "ProductUri",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationName",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationType",
+          "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationType;1"
+        },
+        {
+          "name": "GatewayServerUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryProfileUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Server",
+          "enumValue": 0
+        },
+        {
+          "name": "Client",
+          "enumValue": 1
+        },
+        {
+          "name": "ClientAndServer",
+          "enumValue": 2
+        },
+        {
+          "name": "DiscoveryServer",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationRecordDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ApplicationId",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationUri",
+          "schema": "string"
+        },
+        {
+          "name": "ApplicationType",
+          "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationType;1"
+        },
+        {
+          "name": "ApplicationNames",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "ProductUri",
+          "schema": "string"
+        },
+        {
+          "name": "DiscoveryUrls",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "ServerCapabilities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "ProvideIdentities",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Identities",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            },
+            {
+              "name": "Issuers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            },
+            {
+              "name": "Tickets",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SelectedIdentity",
+              "schema": "bytes"
+            },
+            {
+              "name": "MatchingTicket",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:BaseTicketType;1"
+            },
+            {
+              "name": "ApplicationId",
+              "schema": "string"
+            },
+            {
+              "name": "SoftwareUpdateManager",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ManagerDescription;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "UpdateSoftwareStatus",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "Status",
+              "schema": "boolean"
+            },
+            {
+              "name": "SoftwareRevision",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RegisterDeviceEndpoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Application",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationDescription;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetManagers",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Managers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ManagerDescription;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RegisterManagedApplication",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Application",
+              "schema": "dtmi:opcua:Onboarding:DeviceRegistrarType:dataType:ApplicationRecordDataType;1"
+            },
+            {
+              "name": "ProtocolUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Administration",
+      "target": "dtmi:opcua:Onboarding:DeviceRegistrarAdminType"
+    }
+  ]
+}

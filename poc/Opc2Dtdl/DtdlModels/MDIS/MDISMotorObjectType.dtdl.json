@@ -1,0 +1,121 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISMotorObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 1
+        },
+        {
+          "name": "Auto",
+          "enumValue": 2
+        },
+        {
+          "name": "Manual",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DefeatableStartInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DefeatableStopInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableStartInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableStopInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Operation",
+      "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Running",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SetOperation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Mode",
+              "schema": "dtmi:opcua:MDIS:MDISMotorObjectType:dataType:MotorOperationEnum;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Start",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Stop",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

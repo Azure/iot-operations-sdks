@@ -1,0 +1,26 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Filter:FilterPackageType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Area",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "ScreenPackage_Nr",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_Filter:ScreenPackageType"
+    }
+  ]
+}

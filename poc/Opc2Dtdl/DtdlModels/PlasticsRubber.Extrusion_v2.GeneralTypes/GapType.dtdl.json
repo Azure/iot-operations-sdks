@@ -1,0 +1,36 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:GapType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "IsClosed",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "ContactForce",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DistanceLeft",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DistanceRight",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    }
+  ]
+}

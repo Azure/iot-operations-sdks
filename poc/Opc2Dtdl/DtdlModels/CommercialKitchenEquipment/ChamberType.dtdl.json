@@ -1,0 +1,288 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:ChamberType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NoSpecialMode",
+          "enumValue": 0
+        },
+        {
+          "name": "Off",
+          "enumValue": 1
+        },
+        {
+          "name": "Autostart",
+          "enumValue": 2
+        },
+        {
+          "name": "Standby",
+          "enumValue": 3
+        },
+        {
+          "name": "PreHeat",
+          "enumValue": 4
+        },
+        {
+          "name": "CoolDown",
+          "enumValue": 5
+        },
+        {
+          "name": "Working",
+          "enumValue": 6
+        },
+        {
+          "name": "Cleaning",
+          "enumValue": 7
+        },
+        {
+          "name": "EnergySave",
+          "enumValue": 8
+        },
+        {
+          "name": "ServiceMode",
+          "enumValue": 9
+        },
+        {
+          "name": "QuickCool",
+          "enumValue": 10
+        },
+        {
+          "name": "FlashFreeze",
+          "enumValue": 11
+        },
+        {
+          "name": "ProofingInterruption",
+          "enumValue": 12
+        },
+        {
+          "name": "ProofingDelay",
+          "enumValue": 13
+        },
+        {
+          "name": "Proofing",
+          "enumValue": 14
+        },
+        {
+          "name": "Setting",
+          "enumValue": 15
+        },
+        {
+          "name": "Defrost",
+          "enumValue": 16
+        },
+        {
+          "name": "Baking",
+          "enumValue": 17
+        },
+        {
+          "name": "Steaming",
+          "enumValue": 18
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualBoilerTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualBoilerTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualBoilerTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualBottomTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualBottomTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualBottomTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualChamberTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualChamberTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualChamberTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualCoreTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualCoreTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualCoreTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualFanSpeed_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualFanSpeed_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualFanSpeed_NoSchema",
+          "schema": "integer"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualHumidity_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualHumidity_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualHumidity_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualTopTemperature_No",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ActualTopTemperature_No",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ActualTopTemperature_NoSchema",
+          "schema": "float"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsDoorOpen",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsProgramEnd",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsReadyToStart",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperationMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetBoilerTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetBottomTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetChamberTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetCoreTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetFanSpeed",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetHumidity",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTimeProgram",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetTopTemperature",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeRemaining",
+      "schema": "integer",
+      "writable": false
+    }
+  ]
+}

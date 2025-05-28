@@ -1,0 +1,287 @@
+DataTypes:
+- UADataType: [ FDI5:194, WindowModeType ]
+  Enums:
+    ModalWindow: 1
+    NonModalWindow: 2
+    UIP: 3
+- UADataType: [ FDI5:196, StyleType ]
+  Enums:
+    Window: 1
+    Dialog: 2
+- UADataType: [ FDI5:37, RegistrationParameters ]
+  Fields:
+    Path: [ RelativePath, 0 ]
+    SelectionFlags: [ UInt32, 0 ]
+- UADataType: [ FDI5:38, RegisteredNode ]
+  Fields:
+    NodeStatus: [ Int32, 0 ]
+    OnlineContextNodeId: [ NodeId, 0 ]
+    OnlineDeviceNodeId: [ NodeId, 0 ]
+    OfflineContextNodeId: [ NodeId, 0 ]
+    OfflineDeviceNodeId: [ NodeId, 0 ]
+- UADataType: [ FDI5:39, RegisterNodesResult ]
+  Fields:
+    Status: [ Int32, 0 ]
+    RegisteredNodes: [ RegisteredNode, 1 ]
+- UADataType: [ FDI5:43, TransferIncident ]
+  Fields:
+    ContextNodeId: [ NodeId, 0 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ FDI5:44, ApplyResult ]
+  Fields:
+    Status: [ Int32, 0 ]
+    TransferIncidents: [ TransferIncident, 1 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  ActionServiceType:
+  - [ UAObjectType, FDI5:21, ActionServiceType ]
+  - HasComponent:
+    - [ UAMethod, FDI5:22, InvokeAction ]
+    - HasProperty:
+      - [ UAVariable, FDI5:23, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ActionName: [ String, 0 ]
+          MethodArguments: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:24, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ActionNodeId: [ NodeId, 0 ]
+          InvokeActionError: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:25, RespondAction ]
+    - HasProperty:
+      - [ UAVariable, FDI5:26, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ActionNodeId: [ NodeId, 0 ]
+          Response: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:27, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RespondActionError: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:28, AbortAction ]
+    - HasProperty:
+      - [ UAVariable, FDI5:29, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ActionNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:30, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AbortActionError: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FDI5:181, <ActionIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI5:11, ActionType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  EditContextType:
+  - [ UAObjectType, FDI5:54, EditContextType ]
+  - HasComponent:
+    - [ UAMethod, FDI5:55, GetEditContext ]
+    - HasProperty:
+      - [ UAVariable, FDI5:56, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ParentId: [ String, 0 ]
+          TargetWindowMode: [ WindowModeType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:57, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EditContextId: [ String, 0 ]
+          GetEditContextStatus: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:58, RegisterNodesById ]
+    - HasProperty:
+      - [ UAVariable, FDI5:59, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EditContextId: [ String, 0 ]
+          NodesToRegister: [ RegistrationParameters, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:60, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RegisterNodesStatus: [ RegisterNodesResult, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:61, RegisterNodesByRelativePath ]
+    - HasProperty:
+      - [ UAVariable, FDI5:62, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EditContextId: [ String, 0 ]
+          NodesToRegister: [ RegistrationParameters, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:63, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RegisterNodesStatus: [ RegisterNodesResult, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:64, Apply ]
+    - HasProperty:
+      - [ UAVariable, FDI5:65, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EditContextId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:66, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ApplyStatus: [ ApplyResult, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:67, Reset ]
+    - HasProperty:
+      - [ UAVariable, FDI5:68, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EditContextId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:69, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResetStatus: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:70, Discard ]
+    - HasProperty:
+      - [ UAVariable, FDI5:71, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EditContextId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:72, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DiscardStatus: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  DirectDeviceAccessType:
+  - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
+  - HasComponent:
+    - [ UAMethod, FDI5:83, InitDirectAccess ]
+    - HasProperty:
+      - [ UAVariable, FDI5:84, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Context: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:85, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InitDirectAccessError: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:86, Transfer ]
+    - HasProperty:
+      - [ UAVariable, FDI5:87, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SendData: [ String, 0 ]
+          ReceiveData: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:88, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          TransferError: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, FDI5:89, EndDirectAccess ]
+    - HasProperty:
+      - [ UAVariable, FDI5:90, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InvalidateCache: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, FDI5:91, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EndDirectAccessError: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

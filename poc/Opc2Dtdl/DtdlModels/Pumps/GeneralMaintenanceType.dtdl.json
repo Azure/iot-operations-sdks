@@ -1,0 +1,189 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:GeneralMaintenanceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pumps:GeneralMaintenanceType:dataType:MaintenanceLevelEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Level1",
+          "enumValue": 0
+        },
+        {
+          "name": "Level2",
+          "enumValue": 1
+        },
+        {
+          "name": "Level3",
+          "enumValue": 2
+        },
+        {
+          "name": "Level4",
+          "enumValue": 3
+        },
+        {
+          "name": "Level5",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:GeneralMaintenanceType:dataType:StateOfTheItemEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "IdleState",
+          "enumValue": 0
+        },
+        {
+          "name": "StandByState",
+          "enumValue": 1
+        },
+        {
+          "name": "OperatingState",
+          "enumValue": 2
+        },
+        {
+          "name": "ExternalDisabledState",
+          "enumValue": 3
+        },
+        {
+          "name": "DownState",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActiveMaintenanceTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DownTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ExternalDisabledTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FailureRate",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IdleTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaintenanceLevel",
+      "schema": "dtmi:opcua:Pumps:GeneralMaintenanceType:dataType:MaintenanceLevelEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaintenanceTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MeanOperatingTimeBetweenFailures",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MeanRepairTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MeanTimeToRestauration",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Obsolescence",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingTimeBetweenFailures",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingTimeToFailure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RepairTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StandbyTime",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StateOfTheItem",
+      "schema": "dtmi:opcua:Pumps:GeneralMaintenanceType:dataType:StateOfTheItemEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeBetweenFailures",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeToRestoration",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UpTime",
+      "schema": "double",
+      "writable": false
+    }
+  ]
+}

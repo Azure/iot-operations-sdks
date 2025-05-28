@@ -1,0 +1,878 @@
+DataTypes:
+- UADataType: [ WireHarness:3033, ForceCurveDataType ]
+  Fields:
+    Points: [ ForceCurvePointDataType, 1 ]
+    EngineeringUnitsX: [ EUInformation, 0 ]
+    EngineeringUnitsValue: [ EUInformation, 0 ]
+- UADataType: [ WireHarness:3008, ForceCurvePointDataType ]
+  Fields:
+    X: [ UInt32, 1 ]
+    Value: [ UInt32, 1 ]
+- UADataType: [ WireHarness:3000, ProcessInputDataType ]
+  Fields:
+    ToolType: [ String, 1 ]
+    ProcessDescription: [ String, 1 ]
+    Id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness:3018, CrimpInputDataType ]
+  Fields:
+    ReferencedElement: [ WireMountingIdDataType, 0 ]
+    VerifyCrimpHeight: [ Boolean, 1 ]
+    VerifyCrimpWidth: [ Boolean, 1 ]
+    VerifyInsulationCrimpHeight: [ Boolean, 1 ]
+    VerifyInsulationCrimpWidth: [ Boolean, 1 ]
+    VerifyPullOutForce: [ Boolean, 1 ]
+    CrimpForceMonitoring: [ Boolean, 1 ]
+- UADataType: [ WireHarness:3001, CutInputDataType ]
+  Fields:
+    ReferencedElement: [ WireElementReferenceIdDataType, 0 ]
+    VerifyWireLength: [ Boolean, 1 ]
+- UADataType: [ WireHarness:3049, SealInputDataType ]
+  Fields:
+    ReferencedElement: [ WireMountingIdDataType, 0 ]
+    MonitorSealPosition: [ Boolean, 1 ]
+- UADataType: [ WireHarness:3022, StripInputDataType ]
+  Fields:
+    ReferencedElement: [ WireEndIdDataType, 0 ]
+    StrippingLengthMonitoring: [ Boolean, 1 ]
+- UADataType: [ WireHarness:3002, ProcessOutputDataType ]
+  Fields:
+    ToolInstance: [ String, 0 ]
+- UADataType: [ WireHarness:3035, CrimpOutputDataType ]
+  Fields:
+    ActualCrimpHeight: [ NumericalValue, 1 ]
+    ActualCrimpWidth: [ NumericalValue, 1 ]
+    ActualInsulationCrimpHeight: [ NumericalValue, 1 ]
+    ActualCrimpForceCurve: [ ForceCurveDataType, 1 ]
+    ActualCrimpPullOutForce: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness:3003, CutOutputDataType ]
+  Fields:
+    ActualLength: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness:3052, SealOutputDataType ]
+  Fields:
+    ActualPosition: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness:3026, StripOutputDataType ]
+  Fields:
+    ActualStrippingLength: [ NumericalValue, 1 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+  Enums:
+    Undefined: 0
+    OK: 1
+    NotOK: 2
+    NotDecidable: 3
+- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+  Bases:
+  - BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    AcquisitionDuration: [ Duration, 0 ]
+    ProcessingDuration: [ Duration, 0 ]
+- UADataType: [ Machinery.Result:3008, ResultDataType ]
+  Fields:
+    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultContent: [ null, 1 ]
+- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    IsPartial: [ Boolean, 0 ]
+    IsSimulated: [ Boolean, 0 ]
+    ResultState: [ Int32, 0 ]
+    StepId: [ TrimmedString, 0 ]
+    PartId: [ TrimmedString, 0 ]
+    ExternalRecipeId: [ TrimmedString, 0 ]
+    InternalRecipeId: [ TrimmedString, 0 ]
+    ProductId: [ TrimmedString, 0 ]
+    ExternalConfigurationId: [ TrimmedString, 0 ]
+    InternalConfigurationId: [ TrimmedString, 0 ]
+    JobId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ResultUri: [ UriString, 1 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluationCode: [ Int64, 0 ]
+    ResultEvaluationDetails: [ LocalizedText, 0 ]
+    FileFormat: [ String, 1 ]
+- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EquipmentUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+  Fields:
+    JobOrder: [ ISA95JobOrderDataType, 0 ]
+    State: [ ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+  Fields:
+    JobOrderID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Priority: [ Int16, 0 ]
+    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+  Fields:
+    JobResponseID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JobOrderID: [ String, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    JobState: [ ISA95StateDataType, 1 ]
+    JobResponseData: [ ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+  Fields:
+    MaterialClassID: [ String, 0 ]
+    MaterialDefinitionID: [ String, 0 ]
+    MaterialLotID: [ String, 0 ]
+    MaterialSublotID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    MaterialUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subparameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PersonnelUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PhysicalAssetUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subproperties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+  Fields:
+    BrowsePath: [ RelativePath, 0 ]
+    StateText: [ LocalizedText, 0 ]
+    StateNumber: [ UInt32, 0 ]
+- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+  Enums:
+    SimulationMode: 0
+    TestMode: 1
+    ProductionMode: 2
+- UADataType: [ Machinery.Jobs:3006, JobResult ]
+  Enums:
+    Unknown: 0
+    Successful: 1
+    Unsuccessful: 2
+- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+  Enums:
+    OrderNumber: 0
+    LotNumber: 1
+    SerialNumber: 2
+- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    Quantity: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+  Fields:
+    ItemNumber: [ String, 0 ]
+    OutputInfo: [ OutputInfoType, 0 ]
+    OrderNumber: [ String, 0 ]
+    LotNumber: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ WireHarness.VEC:3500, ConductorType ]
+  Enums:
+    Rigid: 0
+    Stranded: 1
+    Foil: 2
+    Braided: 3
+- UADataType: [ WireHarness.VEC:1003, CrimpBarrelType ]
+  Enums:
+    Open: 0
+    Closed: 1
+- UADataType: [ WireHarness.VEC:3160, PrimaryPartType ]
+  Enums:
+    Antenna: 0
+    Battery: 1
+    BoltMountedFixing: 2
+    BoltTerminal: 3
+    BridgeTerminal: 4
+    CableDuct: 5
+    CableTie: 6
+    Capacitor: 7
+    CavityAccessory: 8
+    CavityPlug: 9
+    CavitySeal: 10
+    ConnectorHousing: 11
+    ConnectorHousingCap: 12
+    ConnectorHousingCover: 13
+    CorrugatedPipe: 14
+    Diode: 15
+    EdgeMountedFixing: 16
+    EEComponent: 17
+    Ferrite: 18
+    Fitting: 19
+    Fixing: 20
+    Fuse: 21
+    Grommet: 22
+    HoleMountedFixing: 23
+    MultiCavityPlug: 24
+    MultiCavitySeal: 25
+    MultiFuse: 26
+    Other: 27
+    OpenWireEndTerminal: 28
+    OpenWireEnd: 29
+    PartStructure: 30
+    PluggableTerminal: 31
+    PotentialDistributor: 32
+    Relay: 33
+    RingTerminal: 34
+    ShrinkableTube: 35
+    SpliceTerminal: 36
+    Stripe: 37
+    Tape: 38
+    Terminal: 39
+    Tube: 40
+    Wire: 41
+    WireEndAccessory: 42
+    WireProtection: 43
+- UADataType: [ WireHarness.VEC:1001, ARGB32ColorType ]
+  Fields:
+    Value: [ UInt32, 0 ]
+    Name: [ String, 1 ]
+- UADataType: [ WireHarness.VEC:3012, ExtendableElement ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:4126, BoundingBox ]
+  Fields:
+    X: [ NumericalValue, 0 ]
+    Y: [ NumericalValue, 0 ]
+    Z: [ NumericalValue, 0 ]
+- UADataType: [ WireHarness.VEC:3010, ConfigurableElement ]
+  Bases:
+  - ExtendableElement
+- UADataType: [ WireHarness.VEC:3005, ContactPoint ]
+  Fields:
+    Identification: [ String, 1 ]
+    MountedTerminal: [ TerminalRoleIdDataType, 1 ]
+    WireMounting: [ WireMounting, 1 ]
+- UADataType: [ WireHarness.VEC:3703, OccurrenceOrUsage ]
+  Fields:
+    Identification: [ String, 0 ]
+    Role: [ Role, 1 ]
+- UADataType: [ WireHarness.VEC:3942, PartOccurrence ]
+  Fields:
+    Part: [ PartVersion, 1 ]
+- UADataType: [ WireHarness.VEC:3205, RoutableElement ]
+  Bases:
+  - ConfigurableElement
+- UADataType: [ WireHarness.VEC:3730, WireElementReference ]
+  Fields:
+    Identification: [ String, 1 ]
+    ReferencedWireElement: [ WireElementIdDataType, 0 ]
+    WireEnd: [ WireEnd, 1 ]
+    WireLength: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness.VEC:3655, CrimpDetail ]
+  Fields:
+    Size: [ Size, 1 ]
+- UADataType: [ WireHarness.VEC:3654, CoreCrimpDetail ]
+  Fields:
+    AppliesTo: [ ConductorSpecification, 0 ]
+    InsulationCrimpDetails: [ InsulationCrimpDetail, 1 ]
+    PullOffForce: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness.VEC:3653, InsulationCrimpDetail ]
+  Fields:
+    PullOffForce: [ NumericalValue, 1 ]
+    AppliesTo: [ InsulationSpecification, 0 ]
+- UADataType: [ WireHarness.VEC:3013, ItemVersion ]
+  Fields:
+    CompanyName: [ String, 1 ]
+- UADataType: [ WireHarness.VEC:3011, DocumentVersion ]
+  Fields:
+    DocumentNumber: [ String, 1 ]
+    DocumentVersion: [ String, 1 ]
+    DigitalRepresentationIndex: [ String, 1 ]
+    Specification: [ Specification, 1 ]
+- UADataType: [ WireHarness.VEC:3159, PartVersion ]
+  Fields:
+    PartNumber: [ String, 0 ]
+- UADataType: [ WireHarness.VEC:3277, ResourceVersion ]
+  Fields:
+    ResourceNumber: [ String, 0 ]
+    ResourceVersion: [ String, 0 ]
+- UADataType: [ WireHarness.VEC:3705, Role ]
+  Fields:
+    Identification: [ String, 1 ]
+- UADataType: [ WireHarness.VEC:3757, CavityPartRole ]
+  Bases:
+  - Role
+- UADataType: [ WireHarness.VEC:3710, CavitySealRole ]
+  Fields:
+    CavitySealSpecification: [ CavitySealSpecificationIdDataType, 0 ]
+- UADataType: [ WireHarness.VEC:3729, TerminalRole ]
+  Fields:
+    TerminalSpecification: [ TerminalSpecificationIdDataType, 0 ]
+    WireReceptionReference: [ WireReceptionReference, 1 ]
+- UADataType: [ WireHarness.VEC:3719, PluggableTerminalRole ]
+  Bases:
+  - TerminalRole
+- UADataType: [ WireHarness.VEC:3735, WireRole ]
+  Fields:
+    WireSpecification: [ WireSpecificationIdDataType, 0 ]
+    WireElementReference: [ WireElementReference, 1 ]
+- UADataType: [ WireHarness.VEC:3207, Specification ]
+  Fields:
+    Identification: [ String, 1 ]
+- UADataType: [ WireHarness.VEC:3941, CompositionSpecification ]
+  Fields:
+    Component: [ PartOccurrence, 1 ]
+- UADataType: [ WireHarness.VEC:3300, ConductorSpecification ]
+  Fields:
+    CrossSectionArea: [ NumericalValue, 1 ]
+    Type: [ ConductorType, 1 ]
+- UADataType: [ WireHarness.VEC:3302, CoreSpecification ]
+  Fields:
+    OutsideDiameter: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness.VEC:3006, ContactingSpecification ]
+  Fields:
+    ContactPoint: [ ContactPoint, 1 ]
+- UADataType: [ WireHarness.VEC:3308, InsulationSpecification ]
+  Fields:
+    BaseColor: [ ARGB32ColorType, 0 ]
+    FirstIdentificationColor: [ ARGB32ColorType, 1 ]
+    SecondIdentificationColor: [ ARGB32ColorType, 1 ]
+    Thickness: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness.VEC:3158, PartOrUsageRelatedSpecification ]
+  Fields:
+    SpecialPartType: [ String, 1 ]
+    DescribedPart: [ PartVersion, 1 ]
+- UADataType: [ WireHarness.VEC:3433, CavityPartSpecification ]
+  Bases:
+  - PartOrUsageRelatedSpecification
+- UADataType: [ WireHarness.VEC:3296, CavitySealSpecification ]
+  Bases:
+  - CavityPartSpecification
+- UADataType: [ WireHarness.VEC:3306, GeneralTechnicalPartSpecification ]
+  Fields:
+    ColorInformation: [ ARGB32ColorType, 1 ]
+    BoundingBox: [ BoundingBox, 1 ]
+- UADataType: [ WireHarness.VEC:3374, TerminalSpecification ]
+  Fields:
+    ConnectionALength: [ NumericalValue, 1 ]
+    OverallLength: [ NumericalValue, 0 ]
+    WireReception: [ WireReception, 1 ]
+- UADataType: [ WireHarness.VEC:3361, PluggableTerminalSpecification ]
+  Bases:
+  - TerminalSpecification
+- UADataType: [ WireHarness.VEC:3381, WireSpecification ]
+  Fields:
+    WireElement: [ WireElement, 0 ]
+- UADataType: [ WireHarness.VEC:3377, WireElementSpecification ]
+  Fields:
+    OutsideDiameter: [ NumericalValue, 1 ]
+    ConductorSpecification: [ ConductorSpecification, 1 ]
+    InsulationSpecification: [ InsulationSpecification, 1 ]
+- UADataType: [ WireHarness.VEC:3380, WireReceptionSpecification ]
+  Fields:
+    InsulationDisplacementLength: [ NumericalValue, 0 ]
+    ConductorCrimpLength: [ NumericalValue, 1 ]
+    CrimpConnectionLength: [ NumericalValue, 0 ]
+    InsulationCrimpLength: [ NumericalValue, 1 ]
+    WireTipProtrusion: [ ValueRange, 1 ]
+    CoreCrimpDetails: [ CoreCrimpDetail, 1 ]
+    CrimpBarrelType: [ CrimpBarrelType, 0 ]
+- UADataType: [ WireHarness.VEC:4091, Tolerance ]
+  Fields:
+    LowerBoundary: [ Double, 0 ]
+    UpperBoundary: [ Double, 0 ]
+- UADataType: [ WireHarness.VEC:3376, WireElement ]
+  Fields:
+    Identification: [ String, 1 ]
+    WireElementSpecification: [ WireElementSpecification, 0 ]
+    SubWireElement: [ WireElement, 1 ]
+- UADataType: [ WireHarness.VEC:3731, WireEnd ]
+  Fields:
+    Identification: [ String, 1 ]
+    PositionOnWire: [ Double, 0 ]
+    StrippingLength: [ NumericalValue, 1 ]
+    InsulationPullbackLength: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness.VEC:3007, WireMounting ]
+  Fields:
+    MountedCavitySeal: [ CavitySealRoleIdDataType, 1 ]
+    ReferencedWireEnd: [ WireEndIdDataType, 1 ]
+    WireMountingDetail: [ WireMountingDetail, 1 ]
+- UADataType: [ WireHarness.VEC:3008, WireMountingDetail ]
+  Fields:
+    CoreCrimpSize: [ Size, 1 ]
+    InsulationCrimpSize: [ Size, 1 ]
+    WireTipProtrusion: [ ValueRange, 1 ]
+    ContactedWireReception: [ WireReceptionReferenceIdDataType, 0 ]
+    ReferencedWireEnd: [ WireEndIdDataType, 1 ]
+    AbsoluteSealPosition: [ NumericalValue, 0 ]
+    CorePullOffForce: [ NumericalValue, 1 ]
+- UADataType: [ WireHarness.VEC:3379, WireReception ]
+  Fields:
+    Identification: [ String, 1 ]
+    Rotation: [ NumericalValue, 1 ]
+    WireReceptionSpecification: [ WireReceptionSpecification, 0 ]
+- UADataType: [ WireHarness.VEC:3736, WireReceptionReference ]
+  Fields:
+    Identification: [ String, 1 ]
+    WireReception: [ WireReceptionIdDataType, 0 ]
+- UADataType: [ WireHarness.VEC:1002, IdBaseDataType ]
+  Bases:
+  - Structure
+- UADataType: [ WireHarness.VEC:6757, CavityPartRoleIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6433, CavityPartSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6710, CavitySealRoleIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6296, CavitySealSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6941, CompositionSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6300, ConductorSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6010, ConfigurableElementIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6006, ContactingSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6005, ContactPointIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6654, CoreCrimpDetailIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6302, CoreSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6655, CrimpDetailIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6011, DocumentVersionIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6012, ExtendableElementIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6306, GeneralTechnicalPartSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6653, InsulationCrimpDetailIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6308, InsulationSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6013, ItemVersionIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6703, OccurrenceOrUsageIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6942, PartOccurrenceIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6158, PartOrUsageRelatedSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6159, PartVersionIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6719, PluggableTerminalRoleIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6361, PluggableTerminalSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6277, ResourceVersionIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6705, RoleIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6205, RoutableElementIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6207, SpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6729, TerminalRoleIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6374, TerminalSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6376, WireElementIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6730, WireElementReferenceIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6377, WireElementSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6731, WireEndIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6008, WireMountingDetailIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6007, WireMountingIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6379, WireReceptionIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6736, WireReceptionReferenceIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6380, WireReceptionSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6735, WireRoleIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:6381, WireSpecificationIdDataType ]
+  Fields:
+    id: [ TrimmedString, 0 ]
+- UADataType: [ WireHarness.VEC:4026, Material ]
+  Fields:
+    Key: [ String, 0 ]
+    ReferenceSystem: [ String, 0 ]
+- UADataType: [ WireHarness.VEC:4088, Size ]
+  Fields:
+    Width: [ NumericalValue, 0 ]
+    Height: [ NumericalValue, 0 ]
+- UADataType: [ WireHarness.VEC:4098, ValueWithUnit ]
+  Fields:
+    UnitComponent: [ EUInformation, 0 ]
+- UADataType: [ WireHarness.VEC:4027, NumericalValue ]
+  Fields:
+    ValueComponent: [ Double, 0 ]
+    Tolerance: [ Tolerance, 1 ]
+- UADataType: [ WireHarness.VEC:4097, ValueRange ]
+  Fields:
+    Minimum: [ Double, 0 ]
+    Maximum: [ Double, 0 ]
+
+DefinedTypes:
+
+  ArticleSpecManagementType:
+  - [ UAObjectType, WireHarness:1007, ArticleSpecManagementType ]
+  - HasComponent:
+    - [ UAVariable, WireHarness:6023, ArticleSpecList, ISA95MaterialDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7018, ClearArticleSpec ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6058, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ArticleSpec: [ ISA95MaterialDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7017, StoreArticleSpec ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6057, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ArticleSpec: [ ISA95MaterialDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  PartManagementType:
+  - [ UAObjectType, WireHarness:1004, PartManagementType ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7016, ClearPart ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6055, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Part: [ ISA95MaterialDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7009, FindPartsByType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6028, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          TypeNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6034, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Parts: [ ISA95MaterialDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, WireHarness:6022, Seals, ISA95MaterialDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, WireHarness:6026, Sleeves, ISA95MaterialDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7015, StorePart ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6054, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Part: [ ISA95MaterialDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, WireHarness:6017, Terminals, ISA95MaterialDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, WireHarness:6027, Wires, ISA95MaterialDataType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  WireHarnessJobOrderReceiverSubStatesType:
+  - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7003, Abort ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6021, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobOrderID: [ String, 0 ]
+          Comment: [ LocalizedText, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6024, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReturnStatus: [ UInt64, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7002, Cancel ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6018, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobOrderID: [ String, 0 ]
+          Comment: [ LocalizedText, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6020, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReturnStatus: [ UInt64, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7005, Clear ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6101, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobOrderID: [ String, 0 ]
+          Comment: [ LocalizedText, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6102, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReturnStatus: [ UInt64, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7006, Pause ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6103, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobOrderID: [ String, 0 ]
+          Comment: [ LocalizedText, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6104, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReturnStatus: [ UInt64, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7004, Start ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6025, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobOrderID: [ String, 0 ]
+          Comment: [ LocalizedText, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6100, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReturnStatus: [ UInt64, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7007, Stop ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6105, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobOrderID: [ String, 0 ]
+          Comment: [ LocalizedText, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6106, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReturnStatus: [ UInt64, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WireHarness:7008, Store ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6107, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobOrder: [ ISA95JobOrderDataType, 0 ]
+          Comment: [ LocalizedText, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WireHarness:6108, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReturnStatus: [ UInt64, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  WireHarnessMachineType:
+  - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
+  - HasComponent:
+    - [ UAObject, WireHarness:5010, ArticleSpecManagement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, WireHarness:1007, ArticleSpecManagementType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, WireHarness:5002, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, WireHarness:5045, PartManagement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]

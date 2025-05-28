@@ -1,0 +1,103 @@
+DataTypes:
+- UADataType: [ IOLink:3000, EncodingEnum ]
+  Enums:
+    ASCII_0: 0
+    UTF8_1: 1
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  ProcessDataVariableType:
+  - [ UAVariableType, IOLink:2002, ProcessDataVariableType ]
+
+  IOLinkAlarmType:
+  - [ UAObjectType, IOLink:1007, IOLinkAlarmType ]
+
+  IOLinkDeviceAlarmType:
+  - [ UAObjectType, IOLink:1008, IOLinkDeviceAlarmType ]
+
+  IOLinkIODDDeviceAlarmType:
+  - [ UAObjectType, IOLink:1009, IOLinkIODDDeviceAlarmType ]
+
+  IOLinkMasterAlarmType:
+  - [ UAObjectType, IOLink:1011, IOLinkMasterAlarmType ]
+
+  IOLinkPortAlarmType:
+  - [ UAObjectType, IOLink:1010, IOLinkPortAlarmType ]
+
+  IOLinkEventType:
+  - [ UAObjectType, IOLink:1003, IOLinkEventType ]
+
+  IOLinkDeviceEventType:
+  - [ UAObjectType, IOLink:1004, IOLinkDeviceEventType ]
+
+  IOLinkIODDDeviceEventType:
+  - [ UAObjectType, IOLink:1021, IOLinkIODDDeviceEventType ]
+
+  IOLinkMasterEventType:
+  - [ UAObjectType, IOLink:1006, IOLinkMasterEventType ]
+
+  IOLinkPortEventType:
+  - [ UAObjectType, IOLink:1005, IOLinkPortEventType ]
+
+  DeviceVariantType:
+  - [ UAObjectType, IOLink:1013, DeviceVariantType ]
+
+  IOLinkDeviceType:
+  - [ UAObjectType, IOLink:1002, IOLinkDeviceType ]
+  - GeneratesEvent:
+    - [ UAObjectType, IOLink:1008, IOLinkDeviceAlarmType ]
+  - GeneratesEvent:
+    - [ UAObjectType, IOLink:1004, IOLinkDeviceEventType ]
+
+  IOLinkIODDDeviceType:
+  - [ UAObjectType, IOLink:1012, IOLinkIODDDeviceType ]
+
+  IOLinkMasterType:
+  - [ UAObjectType, IOLink:1014, IOLinkMasterType ]
+  - GeneratesEvent:
+    - [ UAObjectType, IOLink:1011, IOLinkMasterAlarmType ]
+  - GeneratesEvent:
+    - [ UAObjectType, IOLink:1006, IOLinkMasterEventType ]
+
+  IOLinkPortType:
+  - [ UAObjectType, IOLink:1015, IOLinkPortType ]
+  - GeneratesEvent:
+    - [ UAObjectType, IOLink:1010, IOLinkPortAlarmType ]
+  - GeneratesEvent:
+    - [ UAObjectType, IOLink:1005, IOLinkPortEventType ]

@@ -1,0 +1,41 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:pngsdgm:GsdGenIoDataType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DataItemx",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "DataItemx",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "DataItemxSchema",
+          "schema": "string"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "InputChannelx",
+      "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OutputChannelx",
+      "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
+    }
+  ]
+}

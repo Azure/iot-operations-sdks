@@ -1,0 +1,80 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AlarmSuppression",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AnalogSignal",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AnalogSignal",
+            "schema": "integer"
+          },
+          {
+            "name": "HighHighLimit",
+            "schema": "integer"
+          },
+          {
+            "name": "HighLimit",
+            "schema": "integer"
+          },
+          {
+            "name": "LowLimit",
+            "schema": "integer"
+          },
+          {
+            "name": "LowLowLimit",
+            "schema": "integer"
+          },
+          {
+            "name": "PercentageValue",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessValueSetpoint",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Status",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "ZeroPointAdjustment"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DeviationAlarm"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LimitAlarm"
+    }
+  ]
+}

@@ -1,0 +1,1399 @@
+DataTypes:
+- UADataType: [ Scales.V2:65, DraftShieldType ]
+  Enums:
+    Right_0: 0
+    Left_1: 1
+    Top_2: 2
+    All_3: 3
+- UADataType: [ Scales.V2:62, EdgeOperator ]
+  Enums:
+    Rising_0: 0
+    Falling_1: 1
+- UADataType: [ Scales.V2:61, EqualityAndRelationalOperator ]
+  Enums:
+    Equal_0: 0
+    NotEqual_1: 1
+    LessOrEqualThan_2: 2
+    GreaterOrEqualThan_3: 3
+    LessThan_4: 4
+    GreaterThan_5: 5
+- UADataType: [ Scales.V2:30003, RateControlMode ]
+  Enums:
+    Gravimetric_0: 0
+    Volumetric_1: 1
+- UADataType: [ Scales.V2:54, TareMode ]
+  Enums:
+    None_0: 0
+    MeasuredTare_1: 1
+    PresetTare_2: 2
+    ProportionalTare_3: 3
+- UADataType: [ Scales.V2:60, ToleranceState ]
+  Enums:
+    In_0: 0
+    Under_1: 1
+    Over_2: 2
+    UnderOrOver_3: 3
+- UADataType: [ Scales.V2:63, AbstractWeightType ]
+  Bases:
+  - Structure
+- UADataType: [ Scales.V2:56, PrintableWeightType ]
+  Fields:
+    Gross: [ String, 0 ]
+    Net: [ String, 0 ]
+    Tare: [ String, 0 ]
+- UADataType: [ Scales.V2:55, WeightType ]
+  Fields:
+    Gross: [ Double, 0 ]
+    Net: [ Double, 0 ]
+    Tare: [ Double, 0 ]
+- UADataType: [ Scales.V2:59, RecipeReportElementType ]
+  Fields:
+    ReportMessage: [ LocalizedText, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+- UADataType: [ Scales.V2:58, RecipeTargetValueType ]
+  Fields:
+    TargetValueId: [ UInt32, 0 ]
+    TargetValueNodeId: [ NodeId, 0 ]
+    TargetValueName: [ LocalizedText, 0 ]
+- UADataType: [ Scales.V2:57, RecipeThresholdType ]
+  Fields:
+    ThresholdId: [ UInt32, 0 ]
+    ThresholdNodeId: [ NodeId, 0 ]
+    ThresholdName: [ LocalizedText, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ IA:3003, LevelDisplayMode ]
+  Enums:
+    Dimmed: 0
+    Blinking: 1
+    Other: 2
+- UADataType: [ IA:3004, SignalColor ]
+  Enums:
+    Off: 0
+    Red: 1
+    Green: 2
+    Blue: 3
+    Yellow: 4
+    Purple: 5
+    Cyan: 6
+    White: 7
+- UADataType: [ IA:3005, SignalModeLight ]
+  Enums:
+    Continuous: 0
+    Blinking: 1
+    Flashing: 2
+    Other: 3
+- UADataType: [ IA:3002, StacklightOperationMode ]
+  Enums:
+    Segmented: 0
+    Levelmeter: 1
+    Running_Light: 2
+    Other: 3
+- UADataType: [ PackML:11, ProductionMaintenanceModeEnum ]
+  Enums:
+    Invalid: 0
+    Produce: 1
+    Maintenance: 2
+    Manual: 3
+- UADataType: [ PackML:15, PackMLAlarmDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Value: [ Int32, 0 ]
+    Message: [ String, 0 ]
+    Category: [ Int32, 0 ]
+    DateTime: [ UtcTime, 0 ]
+    AckDateTime: [ UtcTime, 0 ]
+    Trigger: [ Boolean, 0 ]
+- UADataType: [ PackML:14, PackMLCountDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Count: [ Int32, 0 ]
+    AccCount: [ Int32, 0 ]
+- UADataType: [ PackML:16, PackMLDescriptorDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Value: [ Float, 0 ]
+- UADataType: [ PackML:17, PackMLIngredientsDataType ]
+  Fields:
+    IngredientID: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+- UADataType: [ PackML:18, PackMLProductDataType ]
+  Fields:
+    ProductID: [ Int32, 0 ]
+    ProcessVariables: [ PackMLDescriptorDataType, 1 ]
+    Ingredients: [ PackMLIngredientsDataType, 1 ]
+- UADataType: [ PackML:19, PackMLRemoteInterfaceDataType ]
+  Fields:
+    Number: [ Int32, 0 ]
+    ControlCmdNumber: [ Int32, 0 ]
+    CmdValue: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+
+DefinedTypes:
+
+  ScaleAlarmType:
+  - [ UAObjectType, Scales.V2:21, ScaleAlarmType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:328, NotificationCategory, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:353, NotificationId, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:1020, VendorNotificationId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ScaleEventType:
+  - [ UAObjectType, Scales.V2:13, ScaleEventType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:325, NotificationCategory, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:134, NotificationId, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:948, VendorNotificationId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  MaterialType:
+  - [ UAObjectType, Scales.V2:35, MaterialType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:309, MaterialId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:308, MaterialName, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MaterialAutomaticType:
+  - [ UAObjectType, Scales.V2:41, MaterialAutomaticType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:113, FillingProductInformation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:16, AutomaticFillingProductType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ProductionPresetType:
+  - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:638, AddProduct ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:246, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductName: [ String, 0 ]
+          ProductId: [ String, 0 ]
+          ProductType: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:177, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:436, CurrentProducts, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:576, DeselectProduct ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:176, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:75, Products ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:646, RemoveProduct ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:647, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:464, SelectProduct ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:175, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1021, SwitchProduct ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:988, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ProductType:
+  - [ UAObjectType, Scales.V2:11, ProductType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:1181, Lock ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60169, PresetTare, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:963, ProductId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:360, ProductMode, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:95, Statistic ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:25, StatisticType ]
+
+  AutomaticFillingProductType:
+  - [ UAObjectType, Scales.V2:16, AutomaticFillingProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:552, FeedRateMeasuringInterval, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:551, FillingTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:546, FineFeedWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:545, InFlightWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:549, JogFeed, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:553, MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:547, SettlingTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:544, TargetWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  CatchweigherProductType:
+  - [ UAObjectType, Scales.V2:17, CatchweigherProductType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:68, <Zones> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:42, ZoneType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:525, AddZone ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:145, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ZoneName: [ LocalizedText, 0 ]
+          LowerLimit: [ Double, 0 ]
+          UpperLimit: [ Double, 0 ]
+          EngineeringUnits: [ EUInformation, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:146, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ZoneNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:87, LastItem ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:24, WeighingItemType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60171, PresetHeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60173, PresetLength, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60175, PresetWidth, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:526, RemoveZone ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:147, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ZoneNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:472, TargetThroughput, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AutomaticWeightPriceLabelerProductType:
+  - [ UAObjectType, Scales.V2:47, AutomaticWeightPriceLabelerProductType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:836, LastItem ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:833, PriceItemType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:1357, UnitPrice, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CheckweigherProductType:
+  - [ UAObjectType, Scales.V2:46, CheckweigherProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60138, LowerToleranceLimit1, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60140, LowerToleranceLimit2, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:378, NominalWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:71, Statistic ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:48, CheckweigherStatisticType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ContinuousProductType:
+  - [ UAObjectType, Scales.V2:18, ContinuousProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60217, MaterialDensity, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:235, TargetFlowRate, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:531, TargetWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PieceCountingProductType:
+  - [ UAObjectType, Scales.V2:12, PieceCountingProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:261, CurrentItemCount, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:597, FeedRateMeasuringInterval, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:274, FillingTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:376, FineFeedCount, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:578, InFlightCount, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:589, JogFeed, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:590, MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:167, NumberOfReferencePieces, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:173, ReferencePieceWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:579, RegisteredPieceCount, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:460, SetTargetItemCount ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:398, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          TargetItemCount: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:577, SetTargetPieceCount ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:184, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          TargetPieceCount: [ UInt32, 0 ]
+          PlusTolerance: [ UInt32, 0 ]
+          MinusTolerance: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:580, SettlingTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:592, TareId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:587, TargetItemCount, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:178, TargetPieceCount, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:581, TotalizedItemCount, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:582, TotalizedWeight, WeightType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  RecipeProductType:
+  - [ UAObjectType, Scales.V2:19, RecipeProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:633, RecipeNodeId, NodeId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:632, Report, RecipeReportElementType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:131, ReportFile ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SimpleProductType:
+  - [ UAObjectType, Scales.V2:20, SimpleProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:1318, UnitPrice, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  TotalizingHopperProductType:
+  - [ UAObjectType, Scales.V2:22, TotalizingHopperProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:637, TipCounter, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:634, VolumeTargetValue, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  VehicleProductType:
+  - [ UAObjectType, Scales.V2:832, VehicleProductType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:861, DeltaWeight, WeightType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1396, GetVehicleInformation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:1208, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VehicleId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:887, InboundWeight, WeightType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:835, Material ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:35, MaterialType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:878, OutboundWeight, WeightType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ActivationType:
+  - [ UAObjectType, Scales.V2:40, ActivationType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60219, TargetValue, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ConditionSleepType:
+  - [ UAObjectType, Scales.V2:37, ConditionSleepType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:299, TargetThresholdValue ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:943, ThresholdValueId, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60240, ThresholdValueNodeId, NodeId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:945, Timeout, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AnalogConditionSleepType:
+  - [ UAObjectType, Scales.V2:38, AnalogConditionSleepType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:300, TargetThresholdValue, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  EdgeTriggeredSleepType:
+  - [ UAObjectType, Scales.V2:39, EdgeTriggeredSleepType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:301, TargetThresholdValue, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  TimerType:
+  - [ UAObjectType, Scales.V2:36, TimerType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:298, Duration, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  UserInstructionType:
+  - [ UAObjectType, Scales.V2:33, UserInstructionType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:292, DisplayText, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:293, InstructionId, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  WeighingType:
+  - [ UAObjectType, Scales.V2:34, WeighingType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:86, Material ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:35, MaterialType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:294, TargetWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:297, WeighingModuleNodeId, NodeId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  RecipeManagementType:
+  - [ UAObjectType, Scales.V2:30, RecipeManagementType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:112, <Recipe_No> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:31, RecipeType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:456, AddRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:181, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeId: [ String, 0 ]
+          RecipeName: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:182, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:459, RemoveRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:180, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  RecipeType:
+  - [ UAObjectType, Scales.V2:31, RecipeType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:465, AddRecipeElement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:437, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ElementType: [ NodeId, 0 ]
+          ElementName: [ String, 0 ]
+          PreviousElements: [ NodeId, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:438, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ElementNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:82, RecipeElements ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50006, RecipeFile ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:466, RemoveRecipeElement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:439, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeElementNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  StatisticType:
+  - [ UAObjectType, Scales.V2:25, StatisticType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:1182, LastItem ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:24, WeighingItemType ]
+
+  FeederModuleType:
+  - [ UAObjectType, Scales.V2:28, FeederModuleType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:338, FeederLoad, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:334, FeederSpeed, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50019, MachineryBuildingBlocks ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60143, MaximumFeederSpeed, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60160, MinimalFeederSpeed, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:453, SetFeederSpeed ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:337, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FeederSpeed: [ Float, 0 ]
+          EngineeringUnits: [ EUInformation, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  PrinterModuleType:
+  - [ UAObjectType, Scales.V2:29, PrinterModuleType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60056, LabelLength, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:343, LabelStock, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:351, LabelTypeId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60163, LabelWidth, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50020, MachineryBuildingBlocks ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:349, PrintMediaStock, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ScaleDeviceType:
+  - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:94, <ListOfWeighingRanges> ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:23, WeighingRangeElementType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1406, ClearTare ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:203, CurrentWeight, WeightType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50021, MachineryBuildingBlocks ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60053, MinimalWeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50031, ProductionOutput ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:25, StatisticType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:85, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:211, RegisteredWeight, WeightType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:471, RegisterWeight ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1407, SetPresetTare ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:1353, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          PresetTare: [ Double, 0 ]
+          EngineeringUnits: [ EUInformation, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1409, SetTare ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1408, SetZero ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50005, State ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:67, SubDevices ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AutomaticFillingScaleType:
+  - [ UAObjectType, Scales.V2:5, AutomaticFillingScaleType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60189, Deviation, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:848, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+
+  CatchweigherType:
+  - [ UAObjectType, Scales.V2:4, CatchweigherType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:849, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+
+  AutomaticWeightPriceLabelerType:
+  - [ UAObjectType, Scales.V2:49, AutomaticWeightPriceLabelerType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:851, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+
+  CheckweigherType:
+  - [ UAObjectType, Scales.V2:45, CheckweigherType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:850, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:447, TU1Percent, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ContinuousScaleType:
+  - [ UAObjectType, Scales.V2:10, ContinuousScaleType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:72, <Totalizer> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:27, TotalizerType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60153, ControlMagnitude, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:517, FlowRate ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60232, Load, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:73, MasterTotalizer ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:27, TotalizerType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60213, MaxFlowRate, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60215, MinFlowRate, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:852, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60152, RateControlMode, RateControlMode, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60154, Speed, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60148, TargetFlowRate, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  LossInWeightScaleType:
+  - [ UAObjectType, Scales.V2:50, LossInWeightScaleType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60150, BinWeight ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:539, DischargeStart ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:540, DischargeStop ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60157, HopperFillLevel, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60144, HopperWeight ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:537, RefillStart ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:538, RefillStop ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  PieceCountingScaleType:
+  - [ UAObjectType, Scales.V2:6, PieceCountingScaleType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:607, CurrentPieceCount, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:853, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:605, ReferenceOptimisationRange, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1026, SetNumberOfReferencePieces ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:990, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          NumberOfReferencePieces: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:603, SetReferencePieceWeight ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:604, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReferencePieceWeight: [ UInt32, 0 ]
+          EngineeringUnits: [ EUInformation, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:602, StartReference ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:1013, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          NumberOfReferencePieces: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  RecipeScaleType:
+  - [ UAObjectType, Scales.V2:7, RecipeScaleType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:786, AbortRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:1017, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:784, ContinueRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:1015, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:854, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:127, Recipes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:30, RecipeManagementType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:785, SkipCurrentRecipeElement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:1016, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:458, StartRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:373, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:783, StopRecipe ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:1014, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeNodeId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:69, SupportedMaterial ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:35, MaterialType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:612, SupportedTargetValues, RecipeTargetValueType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:611, SupportedThresholdValues, RecipeThresholdType, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SimpleScaleType:
+  - [ UAObjectType, Scales.V2:3, SimpleScaleType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:855, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+
+  HopperScaleType:
+  - [ UAObjectType, Scales.V2:9, HopperScaleType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60221, LevelMax, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60223, LevelMin, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  LaboratoryScaleType:
+  - [ UAObjectType, Scales.V2:15, LaboratoryScaleType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:761, CloseDraftShields ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:762, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Shield: [ DraftShieldType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:758, OpenDraftShields ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:759, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Shield: [ DraftShieldType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:455, StartCalibration ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:457, StartIonisator ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:454, StartLeveling ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:463, StopIonisator ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  TotalizingHopperScaleType:
+  - [ UAObjectType, Scales.V2:8, TotalizingHopperScaleType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:856, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+
+  VehicleScaleType:
+  - [ UAObjectType, Scales.V2:834, VehicleScaleType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1022, InboundWeighing ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:946, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VehicleId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1024, OnePassWeighing ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:949, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VehicleId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1023, OutboundWeighing ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Scales.V2:947, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          VehicleId: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:857, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+
+  ScaleSystemType:
+  - [ UAObjectType, Scales.V2:44, ScaleSystemType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50022, MachineryBuildingBlocks ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:79, ProductionOutput ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:25, StatisticType ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:70, ProductionPreset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:1025, ResetGlobalStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:837, SubDevices ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:50008, SystemState ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+
+  TotalizerType:
+  - [ UAObjectType, Scales.V2:27, TotalizerType ]
+  - HasComponent:
+    - [ UAMethod, Scales.V2:451, ResetTotalizer ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:329, TotalizedValue, AbstractWeightType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  WeighingItemType:
+  - [ UAObjectType, Scales.V2:24, WeighingItemType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60177, MeasuredHeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60179, MeasuredLength, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60181, MeasuredVolume, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:247, MeasuredWeight, WeightType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60183, MeasuredWidth, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PriceItemType:
+  - [ UAObjectType, Scales.V2:833, PriceItemType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:1354, ItemPrice, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  WeighingRangeElementType:
+  - [ UAObjectType, Scales.V2:23, WeighingRangeElementType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:262, ActualScaleInterval, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:291, Range, Range, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:417, VerificationScaleInterval, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ZoneType:
+  - [ UAObjectType, Scales.V2:42, ZoneType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60201, LowerLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:311, Name, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60203, UpperLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:115, ZoneStatistic ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Scales.V2:43, StatisticCounterType ]

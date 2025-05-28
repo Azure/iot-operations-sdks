@@ -1,0 +1,69 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Di:PrepareForUpdateStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PercentComplete",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Prepare"
+    },
+    {
+      "@type": "Command",
+      "name": "Abort"
+    },
+    {
+      "@type": "Command",
+      "name": "Resume"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Idle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Preparing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreparedForUpdate"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Resuming"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IdleToPreparing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreparingToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreparingToPreparedForUpdate"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreparedForUpdateToResuming"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResumingToIdle"
+    }
+  ]
+}

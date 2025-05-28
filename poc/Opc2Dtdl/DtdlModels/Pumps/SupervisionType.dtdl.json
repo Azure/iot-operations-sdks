@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:SupervisionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "SupervisionAuxiliaryDevice",
+      "target": "dtmi:opcua:Pumps:SupervisionAuxiliaryDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SupervisionElectronics",
+      "target": "dtmi:opcua:Pumps:SupervisionElectronicsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SupervisionHardware",
+      "target": "dtmi:opcua:Pumps:SupervisionHardwareType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SupervisionMechanics",
+      "target": "dtmi:opcua:Pumps:SupervisionMechanicsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SupervisionProcessFluid",
+      "target": "dtmi:opcua:Pumps:SupervisionProcessFluidType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SupervisionPumpOperation",
+      "target": "dtmi:opcua:Pumps:SupervisionPumpOperationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SupervisionSoftware",
+      "target": "dtmi:opcua:Pumps:SupervisionSoftwareType"
+    }
+  ]
+}

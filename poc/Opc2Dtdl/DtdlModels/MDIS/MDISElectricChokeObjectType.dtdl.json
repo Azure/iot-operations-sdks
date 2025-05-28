@@ -1,0 +1,120 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISElectricChokeObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:ChokeMoveEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Moving",
+          "enumValue": 1
+        },
+        {
+          "name": "Stopped",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:SEMEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SEM_A",
+          "enumValue": 1
+        },
+        {
+          "name": "SEM_B",
+          "enumValue": 2
+        },
+        {
+          "name": "Auto",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualPosition",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CommandRejected",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DefeatableCloseInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DefeatableOpenInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Moving",
+      "schema": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:ChokeMoveEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableCloseInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableOpenInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Abort"
+    },
+    {
+      "@type": "Command",
+      "name": "Move",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Position",
+              "schema": "float"
+            },
+            {
+              "name": "OverrideInterlocks",
+              "schema": "boolean"
+            },
+            {
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISElectricChokeObjectType:dataType:SEMEnum;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

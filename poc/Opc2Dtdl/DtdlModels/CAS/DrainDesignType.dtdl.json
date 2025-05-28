@@ -1,0 +1,44 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:DrainDesignType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:DrainDesignType:dataType:DrainTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "CapacitiveDrain",
+          "enumValue": 1
+        },
+        {
+          "name": "LevelControlledDrain",
+          "enumValue": 2
+        },
+        {
+          "name": "TimedDrain",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ComponentClass",
+      "schema": "dtmi:opcua:CAS:DrainDesignType:dataType:DrainTypeEnum;1",
+      "writable": false
+    }
+  ]
+}

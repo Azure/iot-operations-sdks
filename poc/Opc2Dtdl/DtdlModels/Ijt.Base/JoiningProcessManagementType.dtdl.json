@@ -1,0 +1,778 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JoiningProcessId",
+          "schema": "string"
+        },
+        {
+          "name": "JoiningProcessOriginId",
+          "schema": "string"
+        },
+        {
+          "name": "SelectionName",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JoiningProcessMetaData",
+          "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
+        },
+        {
+          "name": "JoiningProcessContent",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JoiningProcessId",
+          "schema": "string"
+        },
+        {
+          "name": "JoiningProcessOriginId",
+          "schema": "string"
+        },
+        {
+          "name": "CreationTime",
+          "schema": "time"
+        },
+        {
+          "name": "LastUpdatedTime",
+          "schema": "time"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "JoiningTechnology",
+          "schema": "string"
+        },
+        {
+          "name": "Classification",
+          "schema": "short"
+        },
+        {
+          "name": "AssociatedEntities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:EntityDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:EntityDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "EntityId",
+          "schema": "string"
+        },
+        {
+          "name": "EntityOriginId",
+          "schema": "string"
+        },
+        {
+          "name": "IsExternal",
+          "schema": "boolean"
+        },
+        {
+          "name": "EntityType",
+          "schema": "short"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "AbortJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            },
+            {
+              "name": "AbortMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "DecrementJoiningProcessCounter",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            },
+            {
+              "name": "DecrementCount",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "DeleteJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "DeselectJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JoiningProcess",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
+            },
+            {
+              "name": "SelectionName",
+              "schema": "string"
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJoiningProcessList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JoiningProcessList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJoiningProcessRevisionList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessOriginId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JoiningProcessList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "IncrementJoiningProcessCounter",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            },
+            {
+              "name": "IncrementCount",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ResetJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SelectJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcess",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
+            },
+            {
+              "name": "SelectionName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetJoiningProcessCounter",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            },
+            {
+              "name": "CounterValue",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetJoiningProcessMapping",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetJoiningProcessSize",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            },
+            {
+              "name": "MaxCounterSize",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartJoiningProcess",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JoiningProcessIdentification",
+              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+            },
+            {
+              "name": "AssociatedEntities",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:EntityDataType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartSelectedJoining",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "DeselectAfterJoining",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

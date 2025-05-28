@@ -1,0 +1,1378 @@
+DataTypes:
+- UADataType: [ AutoID:3013, AutoIdOperationStatusEnumeration ]
+  Enums:
+    SUCCESS: 0
+    MISC_ERROR_TOTAL: 1
+    MISC_ERROR_PARTIAL: 2
+    PERMISSON_ERROR: 3
+    PASSWORD_ERROR: 4
+    REGION_NOT_FOUND_ERROR: 5
+    OP_NOT_POSSIBLE_ERROR: 6
+    OUT_OF_RANGE_ERROR: 7
+    NO_IDENTIFIER: 8
+    MULTIPLE_IDENTIFIERS: 9
+    READ_ERROR: 10
+    DECODING_ERROR: 11
+    MATCH_ERROR: 12
+    CODE_NOT_SUPPORTED: 13
+    WRITE_ERROR: 14
+    NOT_SUPPORTED_BY_DEVICE: 15
+    NOT_SUPPORTED_BY_TAG: 16
+    DEVICE_NOT_READY: 17
+    INVALID_CONFIGURATION: 18
+    RF_COMMUNICATION_ERROR: 19
+    DEVICE_FAULT: 20
+    TAG_HAS_LOW_BATTERY: 21
+- UADataType: [ AutoID:3003, DeviceStatusEnumeration ]
+  Enums:
+    Idle: 0
+    Error: 1
+    Scanning: 2
+    Busy: 3
+- UADataType: [ AutoID:3009, LocationTypeEnumeration ]
+  Enums:
+    NMEA: 0
+    LOCAL: 1
+    WGS84: 2
+    NAME: 3
+- UADataType: [ AutoID:3016, RfidLockOperationEnumeration ]
+  Enums:
+    Lock: 0
+    Unlock: 1
+    PermanentLock: 2
+    PermanentUnlock: 3
+- UADataType: [ AutoID:3015, RfidLockRegionEnumeration ]
+  Enums:
+    Kill: 0
+    Access: 1
+    EPC: 2
+    TID: 3
+    User: 4
+- UADataType: [ AutoID:3014, RfidPasswordTypeEnumeration ]
+  Enums:
+    Access: 0
+    Kill: 1
+    Read: 2
+    Write: 3
+- UADataType: [ AutoID:3031, CodeTypeDataType ]
+  Bases:
+  - String
+- UADataType: [ AutoID:3021, LocationName ]
+  Bases:
+  - String
+- UADataType: [ AutoID:3012, NmeaCoordinateString ]
+  Bases:
+  - String
+- UADataType: [ AutoID:3017, AccessResult ]
+  Fields:
+    CodeType: [ CodeTypeDataType, 0 ]
+    Identifier: [ ScanData, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+- UADataType: [ AutoID:3018, RfidAccessResult ]
+  Fields:
+    CodeTypeRWData: [ CodeTypeDataType, 0 ]
+    RWData: [ ScanData, 0 ]
+    Antenna: [ Int32, 0 ]
+    CurrentPowerLevel: [ Int32, 0 ]
+    PC: [ UInt16, 0 ]
+    Polarization: [ String, 0 ]
+    Strength: [ Int32, 0 ]
+- UADataType: [ AutoID:3011, AntennaNameIdPair ]
+  Fields:
+    AntennaId: [ Int32, 0 ]
+    AntennaName: [ String, 0 ]
+- UADataType: [ AutoID:3023, DhcpGeoConfCoordinate ]
+  Fields:
+    LaRes: [ Byte, 0 ]
+    LatitudeInteger: [ Int16, 0 ]
+    LatitudeFraction: [ Int32, 0 ]
+    LoRes: [ Byte, 0 ]
+    LongitudeInteger: [ Int16, 0 ]
+    LongitudeFraction: [ Int32, 0 ]
+    AT: [ Byte, 0 ]
+    AltRes: [ Byte, 0 ]
+    AltitudeInteger: [ Int32, 0 ]
+    AltitudeFraction: [ Int16, 0 ]
+    Datum: [ Byte, 0 ]
+- UADataType: [ AutoID:3019, LocalCoordinate ]
+  Fields:
+    X: [ Double, 0 ]
+    Y: [ Double, 0 ]
+    Z: [ Double, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    DilutionOfPrecision: [ Double, 0 ]
+    UsefulPrecision: [ Int32, 0 ]
+- UADataType: [ AutoID:3004, Position ]
+  Fields:
+    PositionX: [ Int32, 0 ]
+    PositionY: [ Int32, 0 ]
+    SizeX: [ Int32, 0 ]
+    SizeY: [ Int32, 0 ]
+    Rotation: [ Int32, 0 ]
+- UADataType: [ AutoID:3006, RfidSighting ]
+  Fields:
+    Antenna: [ Int32, 0 ]
+    Strength: [ Int32, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    CurrentPowerLevel: [ Int32, 0 ]
+- UADataType: [ AutoID:3029, Rotation ]
+  Fields:
+    Yaw: [ Double, 0 ]
+    Pitch: [ Double, 0 ]
+    Roll: [ Double, 0 ]
+- UADataType: [ AutoID:3024, ScanDataEpc ]
+  Fields:
+    PC: [ UInt16, 0 ]
+    UId: [ ByteString, 0 ]
+    XPC_W1: [ UInt16, 0 ]
+    XPC_W2: [ UInt16, 0 ]
+- UADataType: [ AutoID:3001, ScanResult ]
+  Fields:
+    CodeType: [ CodeTypeDataType, 0 ]
+    ScanData: [ ScanData, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    Location: [ Location, 0 ]
+- UADataType: [ AutoID:3002, OcrScanResult ]
+  Fields:
+    ImageId: [ NodeId, 0 ]
+    Quality: [ Byte, 0 ]
+    Position: [ Position, 0 ]
+    Font: [ String, 0 ]
+    DecodingTime: [ UtcTime, 0 ]
+- UADataType: [ AutoID:3026, OpticalScanResult ]
+  Fields:
+    Grade: [ Float, 0 ]
+    Position: [ Position, 0 ]
+    Symbology: [ String, 0 ]
+    ImageId: [ NodeId, 0 ]
+- UADataType: [ AutoID:3030, OpticalVerifierScanResult ]
+  Fields:
+    IsoGrade: [ String, 0 ]
+    RMin: [ Int16, 0 ]
+    SymbolContrast: [ Int16, 0 ]
+    ECMin: [ Int16, 0 ]
+    Modulation: [ Int16, 0 ]
+    Defects: [ Int16, 0 ]
+    Decodability: [ Int16, 0 ]
+    Decode: [ Int16, 0 ]
+    PrintGain: [ Int16, 0 ]
+- UADataType: [ AutoID:3007, RfidScanResult ]
+  Fields:
+    Sighting: [ RfidSighting, 1 ]
+- UADataType: [ AutoID:3028, RtlsLocationResult ]
+  Fields:
+    Speed: [ Double, 0 ]
+    Heading: [ Double, 0 ]
+    Rotation: [ Rotation, 0 ]
+    ReceiveTime: [ UtcTime, 0 ]
+- UADataType: [ AutoID:3010, ScanSettings ]
+  Fields:
+    Duration: [ Duration, 0 ]
+    Cycles: [ Int32, 0 ]
+    DataAvailable: [ Boolean, 0 ]
+    LocationType: [ LocationTypeEnumeration, 0 ]
+- UADataType: [ AutoID:3008, Location ]
+  Fields:
+    NMEA: [ NmeaCoordinateString, 0 ]
+    Local: [ LocalCoordinate, 0 ]
+    WGS84: [ WGS84Coordinate, 0 ]
+    Name: [ LocationName, 0 ]
+- UADataType: [ AutoID:3020, ScanData ]
+  Fields:
+    ByteString: [ ByteString, 0 ]
+    String: [ String, 0 ]
+    Epc: [ ScanDataEpc, 0 ]
+    Custom: [ null, 0 ]
+- UADataType: [ AutoID:3027, WGS84Coordinate ]
+  Fields:
+    N/S Hemisphere: [ String, 0 ]
+    Latitude: [ Double, 0 ]
+    E/W Hemisphere: [ String, 0 ]
+    Longitude: [ Double, 0 ]
+    Altitude: [ Double, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    DilutionOfPrecision: [ Double, 0 ]
+    UsefulPrecisionLatLon: [ Int32, 0 ]
+    UsefulPrecisionAlt: [ Int32, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  LocationVariableType:
+  - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6199, GeographicalUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6197, LengthUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6198, RotationalUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6200, SpeedUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AutoIdDiagnosticsEventType:
+  - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6090, DeviceName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AutoIdAccessEventType:
+  - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6091, AccessResult, AccessResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6092, Client, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6093, Command, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  RfidAccessEventType:
+  - [ UAObjectType, AutoID:1016, RfidAccessEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6094, AccessResult, RfidAccessResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AutoIdLogEntryEventType:
+  - [ UAObjectType, AutoID:1017, AutoIdLogEntryEventType ]
+
+  AutoIdPresenceEventType:
+  - [ UAObjectType, AutoID:1018, AutoIdPresenceEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6095, Presence, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AutoIdScanEventType:
+  - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6049, DeviceName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6024, ScanResult, ScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  OcrScanEventType:
+  - [ UAObjectType, AutoID:1005, OcrScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6041, ScanResult, OcrScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  OpticalScanEventType:
+  - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6147, ScanResult, OpticalScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  OpticalVerifierScanEventType:
+  - [ UAObjectType, AutoID:1013, OpticalVerifierScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6227, ScanResult, OpticalVerifierScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  RfidScanEventType:
+  - [ UAObjectType, AutoID:1006, RfidScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6042, ScanResult, RfidScanResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  RtlsLocationEventType:
+  - [ UAObjectType, AutoID:1014, RtlsLocationEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6228, ScanResult, RtlsLocationResult, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AutoIdDeviceType:
+  - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1017, AutoIdLogEntryEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6193, AutoIdModelVersion, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1018, AutoIdPresenceEventType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6026, DeviceInfo, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6128, DeviceLocation, Location, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6127, DeviceLocationName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6124, DeviceName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6030, DeviceStatus, DeviceStatusEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AutoID:5026, Diagnostics ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasComponent:
+      - [ UAObject, AutoID:5027, LastAccess ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6103, Client, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6104, Command, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6105, Identifier ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6106, Timestamp, UtcTime, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, AutoID:5032, Logbook ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6102, LastLogEntry, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6101, LogColumns, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6100, Presence, UInt16, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7042, GetDeviceLocation ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6130, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LocationType: [ LocationTypeEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6129, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Location: [ Location, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5054, IOData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6055, LastScanData ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6096, LastScanTimestamp, UtcTime, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, AutoID:5044, RuntimeParameters ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6107, CodeTypes, UInt32, 1, 3 ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6108, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, AutoID:5033, ScanSettings ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6109, CodeType, CodeTypeDataType, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6111, Cycles, Int32, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6110, DataAvailable, Boolean, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6112, Duration, Duration, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7008, Scan ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6050, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6001, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ ScanResult, 1 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6099, ScanActive, Boolean, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7009, ScanStart ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6051, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6208, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7010, ScanStop ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OcrReaderDeviceType:
+  - [ UAObjectType, AutoID:1002, OcrReaderDeviceType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5006, Images ]
+    - Organizes:
+      - [ UAObject, AutoID:5021, <ImageName> ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7011, Close ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6072, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 11575, FileType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7012, GetPosition ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6073, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6074, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Position: [ UInt64, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7019, Open ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6075, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Mode: [ Byte, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6077, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6078, OpenCount, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7020, Read ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6079, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Length: [ Int32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6080, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Data: [ ByteString, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7021, SetPosition ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6081, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Position: [ UInt64, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6082, Size, UInt64, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6083, UserWritable, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6084, Writable, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7022, Write ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6085, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Data: [ ByteString, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1005, OcrScanEventType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5043, RuntimeParameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6134, MatchCode, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6133, TemplateName, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7001, Scan ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6027, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6015, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ OcrScanResult, 1 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  OpticalReaderDeviceType:
+  - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5001, Images ]
+    - Organizes:
+      - [ UAObject, AutoID:5020, <ImageName> ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7002, Close ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6002, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 11575, FileType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7003, GetPosition ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6003, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6004, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Position: [ UInt64, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7004, Open ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6005, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Mode: [ Byte, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6006, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6007, OpenCount, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7005, Read ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6008, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Length: [ Int32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6009, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Data: [ ByteString, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7006, SetPosition ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6010, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Position: [ UInt64, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6011, Size, UInt64, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6012, UserWritable, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6013, Writable, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, AutoID:7007, Write ]
+        - HasProperty:
+          - [ UAVariable, AutoID:6014, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Data: [ ByteString, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5045, RuntimeParameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6136, MatchCode, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6135, TemplateName, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7043, Scan ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6144, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6145, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ OpticalScanResult, 1 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  OpticalVerifierDeviceType:
+  - [ UAObjectType, AutoID:1011, OpticalVerifierDeviceType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1013, OpticalVerifierScanEventType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7054, Scan ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6031, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6076, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ WGS84Coordinate, 1 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  RfidReaderDeviceType:
+  - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6048, AntennaNames, AntennaNameIdPair, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5038, Diagnostics ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasComponent:
+      - [ UAObject, AutoID:5039, LastAccess ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6114, Antenna, Int32, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6115, CurrentPowerLevel, Int32, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6116, PC, UInt16, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6117, Polarization, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6113, RWData ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, AutoID:6118, Strength, Int32, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7017, KillTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6062, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          KillPassword: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6063, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6097, LastScanAntenna, Int32, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6098, LastScanRSSI, Int32, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7018, LockTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6064, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          Password: [ ByteString, 0 ]
+          Region: [ RfidLockRegionEnumeration, 0 ]
+          Lock: [ RfidLockOperationEnumeration, 0 ]
+          Offset: [ UInt32, 0 ]
+          Length: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6065, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7014, ReadTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6054, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          Region: [ UInt16, 0 ]
+          Offset: [ UInt32, 0 ]
+          Length: [ UInt32, 0 ]
+          Password: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6056, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultData: [ ByteString, 0 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1016, RfidAccessEventType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1006, RfidScanEventType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5042, RuntimeParameters ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6119, CodeTypesRWData, UInt32, 1, 3 ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6120, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6126, EnableAntennas, UInt32, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6146, MinRssi, Int32, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6141, RfPower, SByte, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, AutoID:6121, TagTypes, UInt32, 1, 3 ]
+      - HasProperty:
+        - [ UAVariable, AutoID:6125, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7013, Scan ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6052, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Setting: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6043, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ RfidScanResult, 1 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7016, SetTagPassword ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6059, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          PasswordType: [ RfidPasswordTypeEnumeration, 0 ]
+          AccessPassword: [ ByteString, 0 ]
+          NewPassword: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6060, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7015, WriteTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6057, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          Region: [ UInt16, 0 ]
+          Offset: [ UInt32, 0 ]
+          Data: [ ByteString, 0 ]
+          Password: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6058, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7023, WriteTagID ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6137, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          NewUId: [ ByteString, 0 ]
+          AFI: [ Byte, 0 ]
+          Toggle: [ Boolean, 0 ]
+          Password: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6140, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  RtlsDeviceType:
+  - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6214, GeographicalUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7056, GetLocation ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6224, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          LocationType: [ LocationTypeEnumeration, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6225, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Result: [ RtlsLocationResult, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7058, GetSupportedLocationTypes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6226, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SupportedLocationTypes: [ LocationTypeEnumeration, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7057, GetUnits ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6217, LengthUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6216, RotationalUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent:
+    - [ UAObjectType, AutoID:1014, RtlsLocationEventType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7055, Scan ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6218, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6219, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ RtlsLocationResult, 1 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, AutoID:6215, SpeedUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]

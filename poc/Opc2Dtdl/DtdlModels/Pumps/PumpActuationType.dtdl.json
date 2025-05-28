@@ -1,0 +1,214 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:PumpActuationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ConstantPressureControl",
+          "enumValue": 0
+        },
+        {
+          "name": "ConstantTemperatureControl",
+          "enumValue": 1
+        },
+        {
+          "name": "DifferentialPressureControl",
+          "enumValue": 2
+        },
+        {
+          "name": "ConstantDifferentialPressureControl",
+          "enumValue": 3
+        },
+        {
+          "name": "VariableDifferentialPressureControl",
+          "enumValue": 4
+        },
+        {
+          "name": "FlowDependentDifferentialPressureControl",
+          "enumValue": 5
+        },
+        {
+          "name": "ReturnFlowTemperatureControl",
+          "enumValue": 6
+        },
+        {
+          "name": "FlowTemperatureControl",
+          "enumValue": 7
+        },
+        {
+          "name": "FlowRateControl",
+          "enumValue": 8
+        },
+        {
+          "name": "SpeedControl",
+          "enumValue": 9
+        },
+        {
+          "name": "Automatic",
+          "enumValue": 10
+        },
+        {
+          "name": "Uncontrolled",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "AutoControl",
+          "enumValue": 0
+        },
+        {
+          "name": "ClosedLoopStandardPID",
+          "enumValue": 1
+        },
+        {
+          "name": "Advanced",
+          "enumValue": 2
+        },
+        {
+          "name": "StandBy",
+          "enumValue": 3
+        },
+        {
+          "name": "OpenLoopMin",
+          "enumValue": 4
+        },
+        {
+          "name": "OpenLoopValue",
+          "enumValue": 5
+        },
+        {
+          "name": "OpenLoopMax",
+          "enumValue": 6
+        },
+        {
+          "name": "ClosedLoopMin",
+          "enumValue": 7
+        },
+        {
+          "name": "ClosedLoopMax",
+          "enumValue": 8
+        },
+        {
+          "name": "Test",
+          "enumValue": 9
+        },
+        {
+          "name": "Calibration",
+          "enumValue": 10
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualControlMode",
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualOperationMode",
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ControlInversion",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Enable",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ExternalSignal",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ReverseRotatingDirection",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetControlMode",
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SetOperationMode",
+      "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleanValveRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FlushValveRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "GasDilValveRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InletValveRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OutletValveRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpKick",
+      "target": "dtmi:opcua:Pumps:PumpKickObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpStandByRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PurgeValveRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "VentValveRequest",
+      "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
+    }
+  ]
+}

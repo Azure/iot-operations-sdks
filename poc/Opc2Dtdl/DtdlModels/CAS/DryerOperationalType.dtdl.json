@@ -1,0 +1,92 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:DryerOperationalType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:DryerOperationalType:dataType:DryerOperatingStateEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "Stopped",
+          "enumValue": 1
+        },
+        {
+          "name": "Running",
+          "enumValue": 2
+        },
+        {
+          "name": "RefrigerantCompressorStopped",
+          "enumValue": 3
+        },
+        {
+          "name": "RefrigerantCompressorRunning",
+          "enumValue": 4
+        },
+        {
+          "name": "PurgeValveClosed",
+          "enumValue": 5
+        },
+        {
+          "name": "PurgeValveOpen",
+          "enumValue": 6
+        },
+        {
+          "name": "ParallelModeOfBothVessels",
+          "enumValue": 7
+        },
+        {
+          "name": "Depressurizing",
+          "enumValue": 8
+        },
+        {
+          "name": "Desorbing",
+          "enumValue": 9
+        },
+        {
+          "name": "Cooling",
+          "enumValue": 10
+        },
+        {
+          "name": "Pressurizing",
+          "enumValue": 11
+        },
+        {
+          "name": "RegeneratedVesselInStand_by",
+          "enumValue": 12
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "OnOff",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingState",
+      "schema": "dtmi:opcua:CAS:DryerOperationalType:dataType:DryerOperatingStateEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PressureDewPoint",
+      "schema": "double",
+      "writable": false
+    }
+  ]
+}

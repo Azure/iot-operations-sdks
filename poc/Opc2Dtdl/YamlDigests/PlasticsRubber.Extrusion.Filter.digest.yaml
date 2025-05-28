@@ -1,0 +1,2130 @@
+DataTypes:
+- UADataType: [ PlasticsRubber.Extrusion.Filter:3002, FilterPackageStatusEnumeration ]
+  Enums:
+    NOT_ACTIVE: 0
+    ACTIVE: 1
+    CHANGE_REQUIRED: 2
+    IN_CHANGE_POSITION: 3
+    BACKFLUSH_ACTIVE: 4
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+  Enums:
+    NO_PART: 0
+    GOOD_PART: 1
+    BAD_PART: 2
+    REWORK: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+  Enums:
+    OTHER: 0
+    OFF: 1
+    AUTOMATIC: 2
+    TUNING: 3
+    STANDBY: 4
+    OPEN_LOOP: 5
+    ONLY_MEASUREMENT: 6
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+  Enums:
+    GOOD_CYCLE: 0
+    BAD_CYCLE: 1
+    TEST_SAMPLE_CYCLE: 2
+    FAILED_CYCLE: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+  Enums:
+    OFF: 0
+    ACTIVE_OK: 1
+    ACTIVE_ERROR_DETECTED: 2
+    COMPLETE: 3
+    COMPLETE_ERROR_DETECTED: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+  Enums:
+    OTHER: 0
+    MACHINE: 1
+    OPERATOR: 2
+    MES: 3
+    PERIPHERAL_DEVICE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    TRANSFERRED_ASSIGNED: 1
+    SET_UP_ACTIVE: 2
+    SET_UP_INTERRUPTED: 3
+    SET_UP_FINISHED: 4
+    START_UP_ACTIVE: 5
+    JOB_IN_PRODUCTION: 6
+    JOB_INTERRUPTED: 7
+    JOB_FINISHED: 8
+    TEAR_DOWN_ACTIVE: 9
+    TEAR_DOWN_INTERRUPTED: 10
+    TEAR_DOWN_FINISHED: 11
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+  Enums:
+    PARAMETER_CHANGE: 0
+    USER: 1
+    REMOTE_ACCESS: 2
+    SEQUENCE_CHANGE: 3
+    MACHINE_MODE_CHANGE: 4
+    PRODUCTION_STATUS_CHANGE: 5
+    PRODUCTION_DATASET_CHANGE: 6
+    PRODUCTION_DATASET_FROZEN: 7
+    STANDSTILL_REASON: 8
+    MESSAGE: 9
+    USER_FEEDBACK: 10
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+  Enums:
+    OTHER: 0
+    AUTOMATIC: 1
+    SEMI_AUTOMATIC: 2
+    MANUAL: 3
+    SETUP: 4
+    SLEEP: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+  Enums:
+    NOT_DUE: 0
+    WARNING: 1
+    DUE: 2
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    MOULD_NOT_INSTALLED: 1
+    MOULD_CHANGE: 2
+    MOULD_INSTALLED: 3
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+  Enums:
+    OTHER: 0
+    NO_PRODUCTION: 1
+    START_UP: 2
+    READY_FOR_PRODUCTION: 3
+    PRODUCTION: 4
+    DRY_RUN: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+  Enums:
+    UPDATE: 0
+    ADD: 1
+    MODIFY: 2
+    MOVE: 3
+    DELETE: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+  Enums:
+    NOT_READY_TO_START: 0
+    START_BLOCKED_BY_CLIENT: 1
+    READY_TO_START: 2
+    START_REQUESTED: 3
+    STARTED: 4
+    STOP_REQUESTED: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+  Enums:
+    PRODUCTION: 1
+    PREPARATION: 2
+    FILE_SYSTEM: 4
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+  Enums:
+    OTHER: 0
+    HEATING: 1
+    COOLING: 2
+    TEMPERATURE_CONTROL: 3
+    HOT_RUNNER: 4
+    MEASURING: 5
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+  Enums:
+    LOG_ON: 0
+    LOG_OFF: 1
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Severity: [ UInt16, 0 ]
+    Message: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+  Fields:
+    SourceNodes: [ NodeId, 1 ]
+    Classification: [ UInt16, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Description: [ LocalizedText, 0 ]
+    DefaultValue: [ null, 0 ]
+    Unit: [ EUInformation, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+  Fields:
+    JobName: [ String, 0 ]
+    JobDescription: [ String, 0 ]
+    JobClassification: [ String, 0 ]
+    CustomerName: [ String, 0 ]
+    ProductionDatasetName: [ String, 0 ]
+    ProductionDatasetDescription: [ String, 0 ]
+    Material: [ String, 1 ]
+    ProductName: [ String, 1 ]
+    ProductDescription: [ String, 1 ]
+    JobPriority: [ String, 0 ]
+    PlannedStart: [ DateTime, 0 ]
+    PlannedProductionTime: [ Duration, 0 ]
+    LatestEnd: [ DateTime, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+  Fields:
+    NominalParts: [ UInt64, 0 ]
+    NominalBoxParts: [ UInt64, 0 ]
+    ExpectedCycleTime: [ Duration, 0 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+  Fields:
+    Id: [ String, 0 ]
+    Title: [ LocalizedText, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+  Fields:
+    Id: [ UInt32, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+  Fields:
+    P: [ Double, 0 ]
+    I: [ Double, 0 ]
+    D: [ Double, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    MESId: [ String, 0 ]
+    CreationTimestamp: [ DateTime, 0 ]
+    LastModificationTimestamp: [ DateTime, 0 ]
+    LastSaveTimestamp: [ DateTime, 0 ]
+    UserName: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+    Manufacturer: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+    Model: [ String, 0 ]
+    ControllerName: [ String, 0 ]
+    UserMachineName: [ String, 0 ]
+    LocationName: [ String, 0 ]
+    ProductName: [ String, 1 ]
+    MouldId: [ String, 0 ]
+    NumCavities: [ UInt32, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+  Fields:
+    Storage: [ StorageEnumeration, 0 ]
+    Name: [ String, 0 ]
+    Components: [ UInt16, 1 ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+  Fields:
+    Id: [ String, 0 ]
+    Text: [ LocalizedText, 0 ]
+    LockedByMES: [ Boolean, 0 ]
+- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3003, ComponentStatusEnumeration ]
+  Enums:
+    OFFLINE: 0
+    IDLE: 1
+    PREPARING: 2
+    READY_TO_RUN: 3
+    MANUAL_RUN: 4
+    CONTROLLED_RUN: 5
+    MALFUNCTION: 6
+    MAINTENANCE: 7
+- UADataType: [ PlasticsRubber.Extrusion.GeneralTypes:3001, ExtrusionMessageClassificationEnumeration ]
+  Enums:
+    OTHER: 0
+    LINE_CONTROL: 1
+    MATERIAL_HANDLING: 2
+    PRE_HEATING: 3
+    FEEDING: 4
+    DOSING: 5
+    EXTRUDER: 6
+    VACUUM_STATION: 7
+    FILTER: 8
+    MELT_PUMP: 9
+    DIE: 10
+    COOLING: 11
+    HAUL_OFF: 12
+    CORRUGATOR: 13
+    SAW: 14
+    CALIBRATION: 15
+    ROLL_STACK: 16
+    MDO: 17
+    BIAX: 18
+    CUTTING: 19
+    WINDER: 20
+    PELLETIZING: 21
+    DRYER: 22
+    HANDLING_SYSTEM: 23
+    LAMINATION_SYSTEM: 24
+    MEASURING_SYSTEM: 25
+    QUALITY_SYSTEM: 26
+    MANUAL_INSPECTION: 27
+    MANUAL_OPERATION: 28
+
+DefinedTypes:
+
+  Filter_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1002, Filter_InterfaceType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5012, AdditionalMeasuringDevices ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6150, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6011, Area, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6006, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6139, BackflushPressure, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6012, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5002, Drive ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5004, AdditionalMeasuringDevices ]
+      - GeneratesEvent:
+        - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6002, NodeVersion, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, DriveType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5017, Energy ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6074, ActualPower, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6075, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6076, ActualSpecificEnergy, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6078, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, EnergyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6079, PowerConsumption, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6081, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6082, PowerFactor, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5018, Maintenance ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6083, AdditionalInformation, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6084, Interval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6085, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6086, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6087, RemainingInterval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6088, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6089, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7006, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6003, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6090, TotalOperation, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6091, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6092, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5019, Speed ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6009, ActualValue, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6275, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6010, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6093, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6094, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6095, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6096, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6097, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6098, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6099, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6100, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6101, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6102, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6103, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6104, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6105, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6106, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6107, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6108, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6109, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6110, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6111, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7010, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6112, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6113, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6114, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6115, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6116, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6117, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6118, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6119, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6120, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6121, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6122, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6123, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6124, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6125, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6126, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5020, StartDrive ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6127, StartBlockedByClient, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7012, StartRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6071, Status, StartEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7013, StopRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5021, Torque ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6072, ActualValue, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6282, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6073, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6128, AlarmSuppression, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6129, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6130, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6131, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6231, LowerTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6232, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6233, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6234, LowerTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6235, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6236, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6237, MaxValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6238, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6239, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6253, MinValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6254, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6255, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6256, MonitoringSensitivity, UInt16, 0, 3 ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6257, EnumValues, EnumValueType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6258, ValueAsText, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7014, ResetMonitoring ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6259, SetRampDown, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6260, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6261, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6262, SetRampUp, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6263, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6264, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6265, SetValue, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6266, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6267, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6268, UpperTolerance, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6269, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6270, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6271, UpperTolerance2, Double, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6272, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6274, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, FilterPackage_<Nr> ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6140, Area, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6141, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6182, BackflushCounter, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6183, BackflushTime, Duration, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, FilterPackageType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6277, Name, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6179, Status, FilterPackageStatusEnumeration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6004, FiltrationFineness, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6005, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5007, HydraulicPressure ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6143, ActualValue, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6204, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6144, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6145, AlarmSuppression, UInt16, 0, 3 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6146, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6147, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6148, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5008, ClosedLoopControl ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6206, AutomaticControllerMode, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6205, AutoTuningActive, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7007, AutoTuningOff ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7008, AutoTuningOn ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6207, PIDParameters, PIDParametersDataType, 1, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6077, ControlMode, ControlModeEnumeration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6080, Id, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6142, IsPresent, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6163, LowerTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6208, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6164, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6170, LowerTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6209, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6171, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5015, Maintenance ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6210, AdditionalInformation, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6211, Interval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6212, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6213, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6214, RemainingInterval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6215, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6216, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7002, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6177, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6217, TotalOperation, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6218, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6219, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6178, MaxValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6220, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6185, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1064, MeasuringDeviceType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6186, MinValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6221, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6187, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6188, MonitoringSensitivity, UInt16, 0, 3 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6189, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6190, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6191, Name, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6192, Position, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.Extrusion.Filter:7005, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6193, SetRampDown, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6273, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6194, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6195, SetRampUp, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6278, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6196, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6197, SetValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6279, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6198, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5016, StartDevice ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6283, StartBlockedByClient, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7009, StartRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6199, Status, StartEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7011, StopRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6200, UpperTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6280, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6201, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6202, UpperTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6281, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6203, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5001, MeltPressureZones ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6001, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5011, MeltTemperatureZones ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6149, NodeVersion, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5006, SpecificWasteOutput ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6016, ActualValue, Double, 0, 5 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6045, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6018, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6046, AlarmSuppression, UInt16, 0, 3 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6047, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6048, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6049, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6050, LowerTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6222, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6051, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6052, LowerTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6223, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6053, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6054, MaxValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6224, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6055, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6056, MinValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6225, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6057, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6058, MonitoringSensitivity, UInt16, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6059, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6060, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.Extrusion.Filter:7004, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6061, SetRampDown, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6226, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6062, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6063, SetRampUp, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6227, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6064, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6065, SetValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6228, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6066, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6067, UpperTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6229, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6068, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6069, UpperTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6230, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6070, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5005, TemperatureZones ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1017, ExtrusionTemperatureZonesType ]
+    - GeneratesEvent:
+      - [ UAObjectType, 2133, GeneralModelChangeEventType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5009, Maintenance ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6132, AdditionalInformation, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6133, Interval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6134, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6135, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6136, RemainingInterval, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6137, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6138, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7001, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6015, Status, MaintenanceStatusEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6240, TotalOperation, Double, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2368, AnalogItemType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6241, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, PlasticsRubber.Extrusion.Filter:6242, EURange, Range, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6014, NodeVersion, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PlasticsRubber.Extrusion.Filter:5010, StartTempering ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6284, StartBlockedByClient, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7015, StartRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6017, Status, StartEnumeration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, PlasticsRubber.Extrusion.Filter:7016, StopRequest ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5003, WasteOutput ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6007, ActualValue, Double, 0, 5 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6019, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6008, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6020, AlarmSuppression, UInt16, 0, 3 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6021, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6022, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6023, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6024, LowerTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6243, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6025, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6026, LowerTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6244, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6027, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6028, MaxValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6245, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6029, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6030, MinValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6246, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6031, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6032, MonitoringSensitivity, UInt16, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6033, EnumValues, EnumValueType, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6034, ValueAsText, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PlasticsRubber.Extrusion.Filter:7003, ResetMonitoring ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6035, SetRampDown, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6247, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6036, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6037, SetRampUp, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6248, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6038, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6039, SetValue, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6249, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6040, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6041, UpperTolerance, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6250, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6042, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6043, UpperTolerance2, Double, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6251, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6044, EURange, Range, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  FilterPackageType:
+  - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1004, FilterPackageType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6166, Area, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6013, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6169, BackflushCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6168, BackflushTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6276, Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PlasticsRubber.Extrusion.Filter:5013, ScreenPackage_<Nr> ]
+    - HasComponent:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6157, Area, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 17497, AnalogUnitType ]
+      - HasProperty:
+        - [ UAVariable, PlasticsRubber.Extrusion.Filter:6167, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6152, Name, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6175, PackageSetup, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1003, ScreenPackageType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6176, SerialNr, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6165, Status, FilterPackageStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  ScreenPackageType:
+  - [ UAObjectType, PlasticsRubber.Extrusion.Filter:1003, ScreenPackageType ]
+  - HasComponent:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6155, Area, Double, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasProperty:
+      - [ UAVariable, PlasticsRubber.Extrusion.Filter:6156, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6151, Name, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6153, PackageSetup, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PlasticsRubber.Extrusion.Filter:6154, SerialNr, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]

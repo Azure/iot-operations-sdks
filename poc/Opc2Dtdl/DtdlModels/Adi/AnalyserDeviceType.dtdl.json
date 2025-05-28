@@ -1,0 +1,58 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Adi:AnalyserDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ParameterSet"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MethodSet"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Identification",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Status",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FactorySettings",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyserStateMachine",
+      "target": "dtmi:opcua:ADI:AnalyserDeviceStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ChannelIdentifier",
+      "target": "dtmi:opcua:ADI:AnalyserChannelType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AccessorySlotIdentifier",
+      "target": "dtmi:opcua:ADI:AccessorySlotType"
+    }
+  ]
+}

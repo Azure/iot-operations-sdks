@@ -1,0 +1,75 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PNDRV:DriveAxisType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "SetApplicationTag",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationTag",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Monitoring"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Lock",
+      "target": "dtmi:opcua:DI:LockingServicesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PNSignals"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Maintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LimitSupervision"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Logbook",
+      "target": "dtmi:opcua:PNENC:LogbookType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CharacteristicsConverter"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Safety",
+      "target": "dtmi:opcua:PDRV:SafetyType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CharacteristicsMotorAndControl"
+    },
+    {
+      "@type": "Relationship",
+      "name": "VelocityProfile"
+    }
+  ]
+}

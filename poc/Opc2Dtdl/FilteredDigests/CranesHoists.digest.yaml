@@ -1,0 +1,98 @@
+DataTypes:
+- UADataType: [ CranesHoists:3000, CraneOperationalModeEnum ]
+  Enums:
+    OTHER: 0
+    MANUAL: 1
+    SEMIAUTOMATIC: 2
+    FULLAUTOMATIC: 3
+    BYPASS_ON: 4
+    MAINTENANCE: 5
+- UADataType: [ CranesHoists:3001, ExternalControlRequestEnum ]
+  Enums:
+    NOT_REQUESTED: 0
+    REQUESTED_AND_CONTROL_ACTIVE: 1
+    REQUESTED_AND_CONTROL_INACTIVE: 2
+    REQUESTED_AND_CONTROL_BYPASSED: 3
+- UADataType: [ CranesHoists:3002, ProtectiveFunctionEnum ]
+  Enums:
+    OTHER: 0
+    FORCE_LIMITER: 1
+    OVERSPEED_CONTROL: 2
+    MOTION_LIMITER: 3
+    ANTICOLLISION: 4
+- UADataType: [ CranesHoists:3003, CraneMotionDeviceCategoryEnum ]
+  Enums:
+    HOIST: 0
+    TROLLEY_TRAVERSE: 1
+    BRIDGE_OR_GANTRY_TRAVEL: 2
+    LOAD_LIFTING_ATTACHMENT: 3
+    ROTATING_OR_SLEWING: 4
+    LUFFING: 5
+    POWER_SUPPLY_MACHINERY: 6
+    OTHER: 7
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ Robotics:18191, ExecutionModeEnumeration ]
+  Enums:
+    CYCLE: 0
+    CONTINUOUS: 1
+    STEP: 2
+- UADataType: [ Robotics:18193, MotionDeviceCategoryEnumeration ]
+  Enums:
+    OTHER: 0
+    ARTICULATED_ROBOT: 1
+    SCARA_ROBOT: 2
+    CARTESIAN_ROBOT: 3
+    SPHERICAL_ROBOT: 4
+    PARALLEL_ROBOT: 5
+    CYLINDRICAL_ROBOT: 6
+- UADataType: [ Robotics:3008, AxisMotionProfileEnumeration ]
+  Enums:
+    OTHER: 0
+    ROTARY: 1
+    ROTARY_ENDLESS: 2
+    LINEAR: 3
+    LINEAR_ENDLESS: 4
+- UADataType: [ Robotics:3006, OperationalModeEnumeration ]
+  Enums:
+    OTHER: 0
+    MANUAL_REDUCED_SPEED: 1
+    MANUAL_HIGH_SPEED: 2
+    AUTOMATIC: 3
+    AUTOMATIC_EXTERNAL: 4
+
+DefinedTypes:

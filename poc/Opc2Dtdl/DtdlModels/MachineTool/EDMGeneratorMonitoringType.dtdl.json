@@ -1,0 +1,54 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType:dataType:EDMGeneratorState;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined",
+          "enumValue": 0
+        },
+        {
+          "name": "Ready",
+          "enumValue": 1
+        },
+        {
+          "name": "Active_Low_Voltage",
+          "enumValue": 2
+        },
+        {
+          "name": "Active_High_Voltage",
+          "enumValue": 3
+        },
+        {
+          "name": "Error",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "EDMGeneratorState",
+      "schema": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType:dataType:EDMGeneratorState;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsOn",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

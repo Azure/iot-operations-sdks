@@ -1,0 +1,89 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_TCD:OperationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Severity",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "Message",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActiveErrors",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "HoursOfOperation",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "IdentifyDevice"
+    },
+    {
+      "@type": "Command",
+      "name": "ReduceToStandByOff"
+    },
+    {
+      "@type": "Command",
+      "name": "ReduceToStandByOn"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetAllErrors"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetErrorById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Id",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SwitchOff"
+    },
+    {
+      "@type": "Command",
+      "name": "SwitchOn"
+    }
+  ]
+}

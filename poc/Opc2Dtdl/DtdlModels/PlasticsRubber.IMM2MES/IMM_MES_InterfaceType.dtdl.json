@@ -1,0 +1,65 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_IMM2MES:IMM_MES_InterfaceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "InjectionUnits",
+      "target": "dtmi:opcua:PlasticsRubber_IMM2MES:InjectionUnitsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Jobs",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineConfiguration",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineInformation",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineInformationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineMESConfiguration",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineMESStatus",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESStatusType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineStatus",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineStatusType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Moulds",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MouldsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PowerUnits",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:PowerUnitsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionDatasetManagement",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "Sync",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Cause",
+              "schema": "integer"
+            },
+            {
+              "name": "CauseDescription",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Entry"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EntryToExitAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EntryToWaitAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Exit"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Step"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StepToExitAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StepToWaitAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Wait"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitToStep"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitToStepAuto"
+    }
+  ]
+}

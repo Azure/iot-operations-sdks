@@ -1,0 +1,233 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:NozzleType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:NozzleType:dataType:NominalPressureStandardClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Class10000PsiArtefact",
+          "enumValue": 0
+        },
+        {
+          "name": "Class1000KpaArtefact",
+          "enumValue": 1
+        },
+        {
+          "name": "Class125LbsArtefact",
+          "enumValue": 2
+        },
+        {
+          "name": "Class15000PsiArtefact",
+          "enumValue": 3
+        },
+        {
+          "name": "Class1500LbsArtefact",
+          "enumValue": 4
+        },
+        {
+          "name": "Class150LbsArtefact",
+          "enumValue": 5
+        },
+        {
+          "name": "Class16BarArtefact",
+          "enumValue": 6
+        },
+        {
+          "name": "Class20000PsiArtefact",
+          "enumValue": 7
+        },
+        {
+          "name": "Class2000PsiArtefact",
+          "enumValue": 8
+        },
+        {
+          "name": "Class2500LbsArtefact",
+          "enumValue": 9
+        },
+        {
+          "name": "Class250PsiArtefact",
+          "enumValue": 10
+        },
+        {
+          "name": "Class3000PsiArtefact",
+          "enumValue": 11
+        },
+        {
+          "name": "Class300LbsArtefact",
+          "enumValue": 12
+        },
+        {
+          "name": "Class300PsiArtefact",
+          "enumValue": 13
+        },
+        {
+          "name": "Class315BarArtefact",
+          "enumValue": 14
+        },
+        {
+          "name": "Class345BarArtefact",
+          "enumValue": 15
+        },
+        {
+          "name": "Class350BarArtefact",
+          "enumValue": 16
+        },
+        {
+          "name": "Class4000PsiArtefact",
+          "enumValue": 17
+        },
+        {
+          "name": "Class400LbsArtefact",
+          "enumValue": 18
+        },
+        {
+          "name": "Class4500LbsArtefact",
+          "enumValue": 19
+        },
+        {
+          "name": "Class4500PsiArtefact",
+          "enumValue": 20
+        },
+        {
+          "name": "Class5000PsiArtefact",
+          "enumValue": 21
+        },
+        {
+          "name": "Class50BarArtefact",
+          "enumValue": 22
+        },
+        {
+          "name": "Class517BarArtefact",
+          "enumValue": 23
+        },
+        {
+          "name": "Class6000PsiArtefact",
+          "enumValue": 24
+        },
+        {
+          "name": "Class600LbsArtefact",
+          "enumValue": 25
+        },
+        {
+          "name": "Class690BarArtefact",
+          "enumValue": 26
+        },
+        {
+          "name": "Class800LbsArtefact",
+          "enumValue": 27
+        },
+        {
+          "name": "Class800PsiArtefact",
+          "enumValue": 28
+        },
+        {
+          "name": "Class850KpaArtefact",
+          "enumValue": 29
+        },
+        {
+          "name": "Class9000LbsArtefact",
+          "enumValue": 30
+        },
+        {
+          "name": "Class900LbsArtefact",
+          "enumValue": 31
+        },
+        {
+          "name": "En1333Pn100Artefact",
+          "enumValue": 32
+        },
+        {
+          "name": "En1333Pn10Artefact",
+          "enumValue": 33
+        },
+        {
+          "name": "En1333Pn160Artefact",
+          "enumValue": 34
+        },
+        {
+          "name": "En1333Pn16Artefact",
+          "enumValue": 35
+        },
+        {
+          "name": "En1333Pn2_5Artefact",
+          "enumValue": 36
+        },
+        {
+          "name": "En1333Pn250Artefact",
+          "enumValue": 37
+        },
+        {
+          "name": "En1333Pn25Artefact",
+          "enumValue": 38
+        },
+        {
+          "name": "En1333Pn320Artefact",
+          "enumValue": 39
+        },
+        {
+          "name": "En1333Pn400Artefact",
+          "enumValue": 40
+        },
+        {
+          "name": "En1333Pn40Artefact",
+          "enumValue": 41
+        },
+        {
+          "name": "En1333Pn63Artefact",
+          "enumValue": 42
+        },
+        {
+          "name": "En1333Pn6Artefact",
+          "enumValue": 43
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "SubTagNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NominalPressureNumericalValueRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NominalPressureRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NominalPressureStandardSpecialization",
+      "schema": "dtmi:opcua:DEXPI:NozzleType:dataType:NominalPressureStandardClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NominalPressureTypeRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "Node",
+      "target": "dtmi:opcua:DEXPI:PipingNodeType"
+    }
+  ]
+}

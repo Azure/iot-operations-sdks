@@ -1,0 +1,319 @@
+DataTypes:
+- UADataType: [ Robotics:18191, ExecutionModeEnumeration ]
+  Enums:
+    CYCLE: 0
+    CONTINUOUS: 1
+    STEP: 2
+- UADataType: [ Robotics:18193, MotionDeviceCategoryEnumeration ]
+  Enums:
+    OTHER: 0
+    ARTICULATED_ROBOT: 1
+    SCARA_ROBOT: 2
+    CARTESIAN_ROBOT: 3
+    SPHERICAL_ROBOT: 4
+    PARALLEL_ROBOT: 5
+    CYLINDRICAL_ROBOT: 6
+- UADataType: [ Robotics:3008, AxisMotionProfileEnumeration ]
+  Enums:
+    OTHER: 0
+    ROTARY: 1
+    ROTARY_ENDLESS: 2
+    LINEAR: 3
+    LINEAR_ENDLESS: 4
+- UADataType: [ Robotics:3006, OperationalModeEnumeration ]
+  Enums:
+    OTHER: 0
+    MANUAL_REDUCED_SPEED: 1
+    MANUAL_HIGH_SPEED: 2
+    AUTOMATIC: 3
+    AUTOMATIC_EXTERNAL: 4
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  MotionDeviceSystemType:
+  - [ UAObjectType, Robotics:1002, MotionDeviceSystemType ]
+  - HasComponent:
+    - [ UAObject, Robotics:5002, MotionDevices ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:5001, Controllers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:5010, SafetyStates ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MotionDeviceType:
+  - [ UAObjectType, Robotics:1004, MotionDeviceType ]
+  - HasComponent:
+    - [ UAObject, Robotics:5029, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:15305, Axes ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:16443, PowerTrains ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:5091, FlangeLoad ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Robotics:1018, LoadType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Robotics:16566, AdditionalComponents ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AxisType:
+  - [ UAObjectType, Robotics:16601, AxisType ]
+  - HasComponent:
+    - [ UAObject, Robotics:16602, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:16638, AdditionalLoad ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Robotics:1018, LoadType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PowerTrainType:
+  - [ UAObjectType, Robotics:16794, PowerTrainType ]
+  - HasComponent:
+    - [ UAObject, Robotics:15998, <MotorIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Robotics:1019, MotorType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasComponent:
+    - [ UAObject, Robotics:16041, <GearIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Robotics:1022, GearType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  MotorType:
+  - [ UAObjectType, Robotics:1019, MotorType ]
+  - HasComponent:
+    - [ UAObject, Robotics:5105, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  GearType:
+  - [ UAObjectType, Robotics:1022, GearType ]
+  - HasComponent:
+    - [ UAVariable, Robotics:15941, GearRatio, RationalNumber, 0, 0 ]
+    - HasComponent:
+      - [ UAVariable, Robotics:15615, Numerator, Int32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Robotics:15616, Denominator, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Robotics:17165, Pitch, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SafetyStateType:
+  - [ UAObjectType, Robotics:1013, SafetyStateType ]
+  - HasComponent:
+    - [ UAObject, Robotics:5016, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:17221, EmergencyStopFunctions ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Robotics:17225, ProtectiveStopFunctions ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  EmergencyStopFunctionType:
+  - [ UAObjectType, Robotics:17230, EmergencyStopFunctionType ]
+  - HasComponent:
+    - [ UAVariable, Robotics:17232, Active, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ProtectiveStopFunctionType:
+  - [ UAObjectType, Robotics:17233, ProtectiveStopFunctionType ]
+  - HasComponent:
+    - [ UAVariable, Robotics:17235, Enabled, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Robotics:17236, Active, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ControllerType:
+  - [ UAObjectType, Robotics:1003, ControllerType ]
+  - HasComponent:
+    - [ UAObject, Robotics:5004, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Robotics:17249, CurrentUser ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Robotics:18175, UserType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:17252, Components ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Robotics:15800, Software ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Robotics:15826, TaskControls ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  TaskControlType:
+  - [ UAObjectType, Robotics:1011, TaskControlType ]
+  - HasComponent:
+    - [ UAObject, Robotics:15883, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  LoadType:
+  - [ UAObjectType, Robotics:1018, LoadType ]
+  - HasComponent:
+    - [ UAVariable, Robotics:6723, Mass, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Robotics:6013, CenterOfMass, 3DFrame, 0, 0 ]
+    - HasComponent:
+      - [ UAVariable, Robotics:16130, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
+      - HasComponent:
+        - [ UAVariable, Robotics:16134, X, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, Robotics:16135, Y, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, Robotics:16136, Z, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Robotics:16132, Orientation, 3DOrientation, 0, 0 ]
+      - HasComponent:
+        - [ UAVariable, Robotics:16137, A, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, Robotics:16138, B, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAVariable, Robotics:16139, C, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Robotics:18170, Inertia, 3DVector, 0, 0 ]
+    - HasComponent:
+      - [ UAVariable, Robotics:18171, X, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Robotics:18172, Y, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, Robotics:18173, Z, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

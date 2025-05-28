@@ -1,0 +1,55 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Calender:Calender_InterfaceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "CouplingProductForces",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_Calender:CouplingProductForcesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CouplingProductTensions",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_Calender:CouplingProductTensionsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Gaps",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:GapsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HorizontalPosition",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductForce",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductTension",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Rolls",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "VerticalPosition",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    }
+  ]
+}

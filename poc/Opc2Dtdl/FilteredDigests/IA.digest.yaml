@@ -1,0 +1,199 @@
+DataTypes:
+- UADataType: [ IA:3003, LevelDisplayMode ]
+  Enums:
+    Dimmed: 0
+    Blinking: 1
+    Other: 2
+- UADataType: [ IA:3004, SignalColor ]
+  Enums:
+    Off: 0
+    Red: 1
+    Green: 2
+    Blue: 3
+    Yellow: 4
+    Purple: 5
+    Cyan: 6
+    White: 7
+- UADataType: [ IA:3005, SignalModeLight ]
+  Enums:
+    Continuous: 0
+    Blinking: 1
+    Flashing: 2
+    Other: 3
+- UADataType: [ IA:3002, StacklightOperationMode ]
+  Enums:
+    Segmented: 0
+    Levelmeter: 1
+    Running_Light: 2
+    Other: 3
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  AcousticSignalType:
+  - [ UAObjectType, IA:1009, AcousticSignalType ]
+  - HasComponent:
+    - [ UAVariable, IA:6029, AudioSample, AudioDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IStatisticsType:
+  - [ UAObjectType, IA:1011, IStatisticsType ]
+  - HasComponent:
+    - [ UAMethod, IA:7001, ResetStatistics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CalibrationTargetType:
+  - [ UAObjectType, IA:1019, CalibrationTargetType ]
+  - HasComponent:
+    - [ UAObject, IA:5011, CalibrationTargetCategory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IA:1014, BaseCalibrationTargetCategoryType ]
+  - HasComponent:
+    - [ UAObject, IA:5013, CalibrationTargetFeatures ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, IA:5010, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAObject, IA:5012, OperationalConditions ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+
+  ControlChannelType:
+  - [ UAObjectType, IA:1008, ControlChannelType ]
+  - HasComponent:
+    - [ UAVariable, IA:6024, ChannelColor, SignalColor, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, IA:6026, Intensity, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IA:6025, SignalMode, SignalModeLight, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BasicStacklightType:
+  - [ UAObjectType, IA:1002, BasicStacklightType ]
+  - HasComponent:
+    - [ UAObject, IA:5001, StackLevel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IA:1003, StackLevelType ]
+  - HasComponent:
+    - [ UAObject, IA:5005, StackRunning ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IA:1004, StackRunningType ]
+
+  StacklightType:
+  - [ UAObjectType, IA:1010, StacklightType ]
+  - HasComponent:
+    - [ UAVariable, IA:6038, DeviceHealth, DeviceHealthEnumeration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, IA:5007, DeviceHealthAlarms ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+
+  StackElementAcousticType:
+  - [ UAObjectType, IA:1007, StackElementAcousticType ]
+  - HasComponent:
+    - [ UAObject, IA:5003, AcousticSignals ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 23518, OrderedListType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, IA:6021, Intensity, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IA:6020, OperationMode, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  StackElementLightType:
+  - [ UAObjectType, IA:1006, StackElementLightType ]
+  - HasComponent:
+    - [ UAObject, IA:5002, <ControlChannel> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IA:1008, ControlChannelType ]
+  - HasComponent:
+    - [ UAVariable, IA:6018, Intensity, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IA:6016, SignalColor, SignalColor, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IA:6017, SignalMode, SignalModeLight, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  StackLevelType:
+  - [ UAObjectType, IA:1003, StackLevelType ]
+  - HasComponent:
+    - [ UAVariable, IA:6012, DisplayMode, LevelDisplayMode, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, IA:6010, LevelPercent, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

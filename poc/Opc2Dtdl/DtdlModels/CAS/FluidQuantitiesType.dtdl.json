@@ -1,0 +1,100 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:FluidQuantitiesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Quantity",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "Quantity",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "QuantitySchema",
+          "schema": "integer"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsolutePressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AccumulatedVolume",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DewPoint",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "GaugePressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MassFlowRate",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OilConcentration",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeHumidity",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Temperature",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Volume",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeFlowRate",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "ResetStatistics"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ParticlesPerSizeRange",
+      "target": "dtmi:opcua:CAS:ParticleType"
+    }
+  ]
+}

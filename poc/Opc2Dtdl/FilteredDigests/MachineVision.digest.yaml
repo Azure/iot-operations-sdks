@@ -1,0 +1,1253 @@
+DataTypes:
+- UADataType: [ MachineVision:3023, SystemStateDataType ]
+  Enums:
+    PRD_1: 1
+    SBY_2: 2
+    ENG_3: 3
+    SDT_4: 4
+    UDT_5: 5
+    NST_6: 6
+- UADataType: [ MachineVision:3014, TriStateBooleanDataType ]
+  Enums:
+    FALSE_0: 0
+    TRUE_1: 1
+    DONTCARE_2: 2
+- UADataType: [ MachineVision:3009, ResultStateDataType ]
+  Bases:
+  - Int32
+- UADataType: [ MachineVision:3018, Handle ]
+  Bases:
+  - UInt32
+- UADataType: [ MachineVision:3017, TrimmedString ]
+  Bases:
+  - String
+- UADataType: [ MachineVision:3019, BinaryIdBaseDataType ]
+  Fields:
+    Id: [ TrimmedString, 0 ]
+    Version: [ TrimmedString, 0 ]
+    Hash: [ ByteString, 0 ]
+    HashAlgorithm: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ MachineVision:3008, ConfigurationIdDataType ]
+  Bases:
+  - BinaryIdBaseDataType
+- UADataType: [ MachineVision:3002, RecipeIdExternalDataType ]
+  Bases:
+  - BinaryIdBaseDataType
+- UADataType: [ MachineVision:3013, RecipeIdInternalDataType ]
+  Bases:
+  - BinaryIdBaseDataType
+- UADataType: [ MachineVision:3007, ConfigurationDataType ]
+  Fields:
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    ExternalId: [ ConfigurationIdDataType, 0 ]
+    InternalId: [ ConfigurationIdDataType, 0 ]
+    LastModified: [ UtcTime, 0 ]
+- UADataType: [ MachineVision:3011, ConfigurationTransferOptions ]
+  Fields:
+    InternalId: [ ConfigurationIdDataType, 0 ]
+- UADataType: [ MachineVision:3016, JobIdDataType ]
+  Fields:
+    Id: [ TrimmedString, 0 ]
+- UADataType: [ MachineVision:3015, MeasIdDataType ]
+  Fields:
+    Id: [ TrimmedString, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ MachineVision:3004, PartIdDataType ]
+  Fields:
+    Id: [ TrimmedString, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ MachineVision:3005, ProcessingTimesDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    AcquisitionDuration: [ Duration, 0 ]
+    ProcessingDuration: [ Duration, 0 ]
+- UADataType: [ MachineVision:3020, ProductDataType ]
+  Fields:
+    ExternalId: [ ProductIdDataType, 0 ]
+- UADataType: [ MachineVision:3003, ProductIdDataType ]
+  Fields:
+    Id: [ TrimmedString, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ MachineVision:3012, RecipeTransferOptions ]
+  Fields:
+    InternalId: [ RecipeIdInternalDataType, 0 ]
+- UADataType: [ MachineVision:3006, ResultDataType ]
+  Fields:
+    ResultId: [ ResultIdDataType, 0 ]
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    IsPartial: [ Boolean, 0 ]
+    IsSimulated: [ Boolean, 0 ]
+    ResultState: [ ResultStateDataType, 0 ]
+    MeasId: [ MeasIdDataType, 0 ]
+    PartId: [ PartIdDataType, 0 ]
+    ExternalRecipeId: [ RecipeIdExternalDataType, 0 ]
+    InternalRecipeId: [ RecipeIdInternalDataType, 0 ]
+    ProductId: [ ProductIdDataType, 0 ]
+    ExternalConfigurationId: [ ConfigurationIdDataType, 0 ]
+    InternalConfigurationId: [ ConfigurationIdDataType, 0 ]
+    JobId: [ JobIdDataType, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ResultContent: [ null, 1 ]
+- UADataType: [ MachineVision:3021, ResultIdDataType ]
+  Fields:
+    Id: [ TrimmedString, 0 ]
+- UADataType: [ MachineVision:3022, ResultTransferOptions ]
+  Fields:
+    Id: [ ResultIdDataType, 0 ]
+- UADataType: [ MachineVision:3024, SystemStateDescriptionDataType ]
+  Fields:
+    State: [ SystemStateDataType, 0 ]
+    StateDescription: [ TrimmedString, 0 ]
+
+DefinedTypes:
+
+  ConfigurationManagementType:
+  - [ UAObjectType, MachineVision:1006, ConfigurationManagementType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7048, ActivateConfiguration ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6116, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ ConfigurationIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6117, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6132, ActiveConfiguration, ConfigurationDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7025, AddConfiguration ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6096, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExternalId: [ ConfigurationIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6097, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ ConfigurationIdDataType, 0 ]
+          Configuration: [ NodeId, 0 ]
+          TransferRequired: [ Boolean, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5010, Configurations ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1011, ConfigurationFolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5266, ConfigurationTransfer ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1012, ConfigurationTransferType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7041, GetConfigurationById ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6100, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ ConfigurationIdDataType, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6101, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ConfigurationHandle: [ Handle, 0 ]
+          Configuration: [ ConfigurationDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7045, GetConfigurationList ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6104, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          MaxResults: [ UInt32, 0 ]
+          StartIndex: [ UInt32, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6105, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          IsComplete: [ Boolean, 0 ]
+          ResultCount: [ UInt32, 0 ]
+          ConfigurationHandle: [ Handle, 0 ]
+          ConfigurationList: [ ConfigurationDataType, 1 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7046, ReleaseConfigurationHandle ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6108, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ConfigurationHandle: [ Handle, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6109, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7047, RemoveConfiguration ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6112, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ ConfigurationIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6113, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ConfigurationFolderType:
+  - [ UAObjectType, MachineVision:1011, ConfigurationFolderType ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6120, <Configuration>, ConfigurationDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  ProductFolderType:
+  - [ UAObjectType, MachineVision:1010, ProductFolderType ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6621, <Product>, ProductDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  RecipeFolderType:
+  - [ UAObjectType, MachineVision:1008, RecipeFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5270, <Recipe> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1002, RecipeType ]
+
+  ResultFolderType:
+  - [ UAObjectType, MachineVision:1016, ResultFolderType ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6168, <ResultVariable>, ResultDataType, 0, 3 ]
+    - HasComponent:
+      - [ UAVariable, MachineVision:6334, CreationTime, UtcTime, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, MachineVision:6335, InternalConfigurationId, ConfigurationIdDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, MachineVision:6336, InternalRecipeId, RecipeIdInternalDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, MachineVision:6356, IsPartial, Boolean, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, MachineVision:6357, JobId, JobIdDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAVariable, MachineVision:6379, ResultId, ResultIdDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, MachineVision:6548, ResultState, ResultStateDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  RecipeManagementType:
+  - [ UAObjectType, MachineVision:1004, RecipeManagementType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7013, AddRecipe ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6144, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExternalId: [ RecipeIdExternalDataType, 0 ]
+          ProductId: [ ProductIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6145, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ RecipeIdInternalDataType, 0 ]
+          Recipe: [ NodeId, 0 ]
+          Product: [ NodeId, 0 ]
+          TransferRequired: [ Boolean, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7014, GetRecipeListFiltered ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6156, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExternalId: [ RecipeIdExternalDataType, 0 ]
+          ProductId: [ ProductIdDataType, 0 ]
+          IsPrepared: [ TriStateBooleanDataType, 0 ]
+          MaxResults: [ UInt32, 0 ]
+          StartIndex: [ UInt32, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6157, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          IsComplete: [ Boolean, 0 ]
+          ResultCount: [ UInt32, 0 ]
+          RecipeHandle: [ Handle, 0 ]
+          RecipeList: [ RecipeIdInternalDataType, 1 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7060, PrepareProduct ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6172, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ ProductIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6173, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ RecipeIdInternalDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7015, PrepareRecipe ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6148, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExternalId: [ RecipeIdExternalDataType, 0 ]
+          InternalIdIn: [ RecipeIdInternalDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6149, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalIdOut: [ RecipeIdInternalDataType, 0 ]
+          IsCompleted: [ Boolean, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5022, Products ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1010, ProductFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5005, Recipes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1008, RecipeFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5264, RecipeTransfer ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1014, RecipeTransferType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7056, ReleaseRecipeHandle ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6160, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RecipeHandle: [ Handle, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6161, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7057, RemoveRecipe ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6164, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExternalId: [ RecipeIdExternalDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6165, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7061, UnlinkProduct ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6180, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ RecipeIdInternalDataType, 0 ]
+          ProductId: [ ProductIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6181, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7059, UnprepareProduct ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6176, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ ProductIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6177, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalId: [ RecipeIdInternalDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7055, UnprepareRecipe ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6152, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExternalId: [ RecipeIdExternalDataType, 0 ]
+          InternalIdIn: [ RecipeIdInternalDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6153, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          InternalIdOut: [ RecipeIdInternalDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  RecipeType:
+  - [ UAObjectType, MachineVision:1002, RecipeType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5001, Handle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7062, LinkProduct ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6190, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ ProductIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6191, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7064, Prepare ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6202, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          IsCompleted: [ Boolean, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7063, UnlinkProduct ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6196, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductId: [ ProductIdDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6197, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7065, Unprepare ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6205, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ResultManagementType:
+  - [ UAObjectType, MachineVision:1007, ResultManagementType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7026, GetResultById ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6209, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultId: [ ResultIdDataType, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6210, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultHandle: [ Handle, 0 ]
+          Result: [ ResultDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7007, GetResultComponentsById ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6024, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultId: [ ResultIdDataType, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6025, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          HasTransferableDataOnFile: [ Boolean, 0 ]
+          ResultHandle: [ Handle, 0 ]
+          IsPartial: [ Boolean, 0 ]
+          IsSimulated: [ Boolean, 0 ]
+          ResultState: [ ResultStateDataType, 0 ]
+          MeasId: [ MeasIdDataType, 0 ]
+          PartId: [ PartIdDataType, 0 ]
+          ExternalRecipeId: [ RecipeIdExternalDataType, 0 ]
+          InternalRecipeId: [ RecipeIdInternalDataType, 0 ]
+          ProductId: [ ProductIdDataType, 0 ]
+          ExternalConfigurationId: [ ConfigurationIdDataType, 0 ]
+          InternalConfigurationId: [ ConfigurationIdDataType, 0 ]
+          JobId: [ JobIdDataType, 0 ]
+          CreationTime: [ UtcTime, 0 ]
+          ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+          ResultContent: [ BaseDataType, 1 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7089, GetResultListFiltered ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6213, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultState: [ ResultStateDataType, 0 ]
+          MeasId: [ MeasIdDataType, 0 ]
+          PartId: [ PartIdDataType, 0 ]
+          ExternalRecipeId: [ RecipeIdExternalDataType, 0 ]
+          InternalRecipeId: [ RecipeIdInternalDataType, 0 ]
+          ExternalConfigurationId: [ ConfigurationIdDataType, 0 ]
+          InternalConfigurationId: [ ConfigurationIdDataType, 0 ]
+          ProductId: [ ProductIdDataType, 0 ]
+          JobId: [ JobIdDataType, 0 ]
+          MaxResults: [ UInt32, 0 ]
+          StartIndex: [ UInt32, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6214, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          IsComplete: [ Boolean, 0 ]
+          ResultCount: [ UInt32, 0 ]
+          ResultHandle: [ Handle, 0 ]
+          ResultList: [ ResultDataType, 1 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7090, ReleaseResultHandle ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6217, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultHandle: [ Handle, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6218, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5245, Results ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1016, ResultFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5251, ResultTransfer ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1039, ResultTransferType ]
+
+  SafetyStateManagementType:
+  - [ UAObjectType, MachineVision:1009, SafetyStateManagementType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7043, ReportSafetyState ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6222, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SafetyTriggered: [ Boolean, 0 ]
+          SafetyInformation: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6223, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6042, VisionSafetyInformation, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6041, VisionSafetyTriggered, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  VisionAutomaticModeStateMachineType:
+  - [ UAObjectType, MachineVision:1021, VisionAutomaticModeStateMachineType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7097, Abort ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6285, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Cause: [ Int32, 0 ]
+          CauseDescription: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6286, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5059, ContinuousExecution ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5021, ContinuousExecutionStepModel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5072, ContinuousExecutionToReadyAbort ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5073, ContinuousExecutionToReadyAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5071, ContinuousExecutionToReadyStop ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5056, Initialized ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5043, InitializedStepModel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5061, InitializedToReadyAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5045, InitializedToReadyProduct ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5060, InitializedToReadyRecipe ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5057, Ready ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5046, ReadyStepModel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5066, ReadyToContinuousExecution ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5067, ReadyToContinuousExecutionAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5063, ReadyToInitializedAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5044, ReadyToInitializedProduct ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5062, ReadyToInitializedRecipe ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5064, ReadyToSingleExecution ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5065, ReadyToSingleExecutionAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7100, SimulationMode ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6289, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Activate: [ Boolean, 0 ]
+          Cause: [ Int32, 0 ]
+          CauseDescription: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6290, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5058, SingleExecution ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5052, SingleExecutionStepModel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5069, SingleExecutionToReadyAbort ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5070, SingleExecutionToReadyAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5068, SingleExecutionToReadyStop ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7009, StartContinuous ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6086, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          MeasId: [ MeasIdDataType, 0 ]
+          PartId: [ PartIdDataType, 0 ]
+          RecipeId: [ RecipeIdExternalDataType, 0 ]
+          ProductId: [ ProductIdDataType, 0 ]
+          Parameters: [ BaseDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6087, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobId: [ JobIdDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7098, StartSingleJob ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6281, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          MeasId: [ MeasIdDataType, 0 ]
+          PartId: [ PartIdDataType, 0 ]
+          RecipeId: [ RecipeIdExternalDataType, 0 ]
+          ProductId: [ ProductIdDataType, 0 ]
+          Parameters: [ BaseDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6282, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JobId: [ JobIdDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7096, Stop ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6287, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Cause: [ Int32, 0 ]
+          CauseDescription: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6288, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  VisionStateMachineType:
+  - [ UAObjectType, MachineVision:1017, VisionStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5024, AutomaticModeStateMachine ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1021, VisionAutomaticModeStateMachineType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7066, ConfirmAll ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6241, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Comment: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5030, Error ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5054, ErrorStepModel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5041, ErrorToHalted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5042, ErrorToHaltedAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5255, ErrorToOperationalAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5039, ErrorToPreoperational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5040, ErrorToPreoperationalAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7094, Halt ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6254, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Cause: [ Int32, 0 ]
+          CauseDescription: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6255, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5029, Halted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5011, HaltedStepModel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5037, HaltedToPreoperational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5038, HaltedToPreoperationalAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5031, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5051, OperationalToErrorAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5049, OperationalToHalted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5050, OperationalToHaltedAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5047, OperationalToPreoperational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5048, OperationalToPreoperationalAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5028, Preoperational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5012, PreoperationalStepModel ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5034, PreoperationalToErrorAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5032, PreoperationalToHalted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5033, PreoperationalToHaltedAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5035, PreoperationalToInitialized ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5036, PreoperationalToInitializedAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5253, PreoperationalToOperational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5254, PreoperationalToOperationalAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7093, Reset ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6256, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Cause: [ Int32, 0 ]
+          CauseDescription: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6257, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7095, SelectModeAutomatic ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6258, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  VisionStepModelStateMachineType:
+  - [ UAObjectType, MachineVision:1026, VisionStepModelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5078, Entry ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5082, EntryToExitAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5083, EntryToWaitAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5079, Exit ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5081, Step ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5087, StepToExitAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5086, StepToWaitAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7101, Sync ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6319, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Cause: [ Int32, 0 ]
+          CauseDescription: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6320, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5080, Wait ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5084, WaitToStep ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5085, WaitToStepAuto ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+
+  ConfigurationTransferType:
+  - [ UAObjectType, MachineVision:1012, ConfigurationTransferType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7129, GenerateFileForRead ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6617, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          GenerateOptions: [ ConfigurationTransferOptions, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6618, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FileNodeId: [ NodeId, 0 ]
+          FileHandle: [ UInt32, 0 ]
+          CompletionStateMachine: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7130, GenerateFileForWrite ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6121, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          GenerateOptions: [ ConfigurationTransferOptions, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6122, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FileNodeId: [ NodeId, 0 ]
+          FileHandle: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  RecipeTransferType:
+  - [ UAObjectType, MachineVision:1014, RecipeTransferType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7123, GenerateFileForRead ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6184, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          generateOptions: [ RecipeTransferOptions, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6185, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          fileNodeId: [ NodeId, 0 ]
+          fileHandle: [ UInt32, 0 ]
+          completionStateMachine: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7124, GenerateFileForWrite ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6583, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          GenerateOptions: [ RecipeTransferOptions, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6584, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FileNodeId: [ NodeId, 0 ]
+          FileHandle: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ResultTransferType:
+  - [ UAObjectType, MachineVision:1039, ResultTransferType ]
+  - HasComponent:
+    - [ UAMethod, MachineVision:7058, GenerateFileForRead ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6169, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          GenerateOptions: [ ResultTransferOptions, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, MachineVision:6170, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FileNodeId: [ NodeId, 0 ]
+          FileHandle: [ UInt32, 0 ]
+          CompletionStateMachine: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  VisionSystemType:
+  - [ UAObjectType, MachineVision:1003, VisionSystemType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5004, ConfigurationManagement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1006, ConfigurationManagementType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6048, DiagnosticLevel, UInt16, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5015, RecipeManagement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1004, RecipeManagementType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5020, ResultManagement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1007, ResultManagementType ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5023, SafetyStateManagement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1009, SafetyStateManagementType ]
+  - HasComponent:
+    - [ UAVariable, MachineVision:6049, SystemState, SystemStateDescriptionDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, MachineVision:5053, VisionStateMachine ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision:1017, VisionStateMachineType ]

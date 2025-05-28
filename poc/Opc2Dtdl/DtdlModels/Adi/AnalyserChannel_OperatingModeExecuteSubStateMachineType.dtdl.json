@@ -1,0 +1,247 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Adi:AnalyserChannel_OperatingModeExecuteSubStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "SelectExecutionCycle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForCalibrationTrigger"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractCalibrationSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareCalibrationSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseCalibrationSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForValidationTrigger"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractValidationSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareValidationSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseValidationSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForSampleTrigger"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForDiagnosticTrigger"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Diagnostic"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForCleaningTrigger"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Cleaning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PublishResults"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EjectGrabSample"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleanupSamplingSystem"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SelectExecutionCycleToWaitForCalibrationTriggerTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractCalibrationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareCalibrationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseCalibrationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseCalibrationSampleToPublishResultsTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SelectExecutionCycleToWaitForValidationTriggerTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForValidationTriggerToExtractValidationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractValidationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractValidationSampleToPrepareValidationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareValidationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareValidationSampleToAnalyseValidationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseValidationSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseValidationSampleToPublishResultsTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SelectExecutionCycleToWaitForSampleTriggerTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForSampleTriggerToExtractSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExtractSampleToPrepareSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareSampleToAnalyseSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AnalyseSampleToPublishResultsTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForDiagnosticTriggerToDiagnosticTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DiagnosticTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DiagnosticToPublishResultsTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SelectExecutionCycleToWaitForCleaningTriggerTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaitForCleaningTriggerToCleaningTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleaningTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleaningToPublishResultsTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PublishResultsToCleanupSamplingSystemTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PublishResultsToEjectGrabSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EjectGrabSampleTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EjectGrabSampleToCleanupSamplingSystemTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleanupSamplingSystemTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CleanupSamplingSystemToSelectExecutionCycleTransition"
+    }
+  ]
+}

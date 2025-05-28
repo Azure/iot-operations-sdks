@@ -1,0 +1,80 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:ComponentsGroupType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ComponentsGroup",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ChargingSystems",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Compressors",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CondensateDrains",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CondensateSeparators",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Converters",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CoolingSystems",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Dryers",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Filters",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HeatRecoverySystems",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Receivers",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Sensors",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Valves",
+      "target": "dtmi:opcua:Machinery:MachineComponentsType"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:ECM:IEnergyProfileD1Type;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DcActivePower",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "DcActivePower",
+            "schema": "float"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DcCurrent",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "DcCurrent",
+            "schema": "float"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DcVoltage",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "DcVoltage",
+            "schema": "float"
+          },
+          {
+            "name": "AccuracyClass",
+            "schema": "unsignedInteger"
+          },
+          {
+            "name": "Resource",
+            "schema": "unsignedInteger"
+          }
+        ]
+      },
+      "writable": true
+    }
+  ]
+}

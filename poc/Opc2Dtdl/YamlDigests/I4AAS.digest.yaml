@@ -1,0 +1,2004 @@
+DataTypes:
+- UADataType: [ I4AAS:3003, AASAssetKindDataType ]
+  Enums:
+    Type: 0
+    Instance: 1
+- UADataType: [ I4AAS:3007, AASCategoryDataType ]
+  Enums:
+    CONSTANT: 0
+    PARAMETER: 1
+    VARIABLE: 2
+    RELATIONSHIP: 3
+- UADataType: [ I4AAS:3008, AASDataTypeIEC61360DataType ]
+  Enums:
+    BOOLEAN: 0
+    DATE: 1
+    RATIONAL: 2
+    RATIONAL_MEASURE: 3
+    REAL_COUNT: 4
+    REAL_CURRENCY: 5
+    REAL_MEASURE: 6
+    STRING: 7
+    STRING_TRANSLATABLE: 8
+    TIME: 9
+    TIME_STAMP: 10
+    URL: 11
+    INTEGER: 12
+    INTEGER_COUNT: 13
+    INTEGER_CURRENCY: 14
+- UADataType: [ I4AAS:3006, AASEntityTypeDataType ]
+  Enums:
+    CoManagedEntity: 0
+    SelfManagedEntity: 1
+- UADataType: [ I4AAS:3010, AASIdentifierTypeDataType ]
+  Enums:
+    IRDI: 0
+    IRI: 1
+    Custom: 2
+- UADataType: [ I4AAS:3012, AASKeyElementsDataType ]
+  Enums:
+    AccessPermissionRule: 0
+    AnnotatedRelationshipElement: 1
+    Asset: 2
+    AssetAdministrationShell: 3
+    Blob: 4
+    Capability: 5
+    ConceptDescription: 6
+    ConceptDictionary: 7
+    DataElement: 8
+    Entity: 9
+    Event: 10
+    File: 11
+    FragmentReference: 12
+    GlobalReference: 13
+    MultiLanguageProperty: 14
+    Operation: 15
+    Property: 16
+    Range: 17
+    ReferenceElement: 18
+    RelationshipElement: 19
+    Submodel: 20
+    SubmodelElement: 21
+    SubmodelElementCollection: 22
+    View: 23
+- UADataType: [ I4AAS:3002, AASKeyTypeDataType ]
+  Enums:
+    IdShort: 0
+    FragmentId: 1
+    Custom: 2
+    IRDI: 3
+    IRI: 4
+- UADataType: [ I4AAS:3009, AASLevelTypeDataType ]
+  Enums:
+    Min: 0
+    Max: 1
+    Num: 2
+    Type: 3
+- UADataType: [ I4AAS:3015, AASModelingKindDataType ]
+  Enums:
+    Template: 0
+    Instance: 1
+- UADataType: [ I4AAS:3004, AASValueTypeDataType ]
+  Enums:
+    Boolean: 0
+    SByte: 1
+    Byte: 2
+    Int16: 3
+    UInt16: 4
+    Int32: 5
+    UInt32: 6
+    Int64: 7
+    UInt64: 8
+    Float: 9
+    Double: 10
+    String: 11
+    DateTime: 12
+    ByteString: 13
+    LocalizedText: 14
+    UtcTime: 15
+- UADataType: [ I4AAS:3016, AASMimeDataType ]
+  Bases:
+  - String
+- UADataType: [ I4AAS:3005, AASPathDataType ]
+  Bases:
+  - String
+- UADataType: [ I4AAS:3014, AASPropertyValueDataType ]
+  Bases:
+  - String
+- UADataType: [ I4AAS:3013, AASQualifierDataType ]
+  Bases:
+  - String
+- UADataType: [ I4AAS:3011, AASKeyDataType ]
+  Fields:
+    Type: [ AASKeyElementsDataType, 0 ]
+    Local: [ Boolean, 0 ]
+    Value: [ String, 0 ]
+    IdType: [ AASKeyTypeDataType, 0 ]
+
+DefinedTypes:
+
+  AASAdministrativeInformationType:
+  - [ UAObjectType, I4AAS:1030, AASAdministrativeInformationType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5047, Admin-shell.io/aas/2/0/AdministrativeInformation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6084, Revision, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5045, Admin-shell.io/aas/2/0/AdministrativeInformation/revision ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6083, Version, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5051, Admin-shell.io/aas/2/0/AdministrativeInformation/version ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASAssetAdministrationShellType:
+  - [ UAObjectType, I4AAS:1002, AASAssetAdministrationShellType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5005, <ConceptDictionary> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1007, AASConceptDictionaryType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5061, Admin-shell.io/aas/2/0/AssetAdministrationShell/conceptDictionaries ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5001, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5103, Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 17600, UriDictionaryEntryType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6003, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6003, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5003, <Submodel> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1006, AASSubmodelType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5064, Admin-shell.io/aas/2/0/AssetAdministrationShell/submodels ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6011, ModelingKind, AASModelingKindDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5081, Admin-shell.io/aas/2/0/HasKind/kind ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5095, Admin-shell.io/aas/2/0/Property ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5004, <SubmodelReference> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5064, Admin-shell.io/aas/2/0/AssetAdministrationShell/submodels ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6002, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6002, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5006, <View> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1003, AASViewType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5065, Admin-shell.io/aas/2/0/AssetAdministrationShell/views ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5002, Asset ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1005, AASAssetType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6008, AssetKind, AASAssetKindDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5054, Admin-shell.io/aas/2/0/Asset/assetKind ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5052, Admin-shell.io/aas/2/0/Asset ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5007, DerivedFrom ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5063, Admin-shell.io/aas/2/0/AssetAdministrationShell/derivedFrom ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6004, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6004, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5059, Admin-shell.io/aas/2/0/AssetAdministrationShell ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+
+  AASAssetType:
+  - [ UAObjectType, I4AAS:1005, AASAssetType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5008, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5058, Admin-shell.io/aas/2/0/Asset/dataSpecifications ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6005, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6005, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5049, AssetIdentificationModel ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5053, Admin-shell.io/aas/2/0/Asset/assetIdentificationModel ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6112, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6006, AssetKind, AASAssetKindDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5054, Admin-shell.io/aas/2/0/Asset/assetKind ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5050, BillOfMaterial ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5057, Admin-shell.io/aas/2/0/Asset/billOfMaterial ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6113, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5052, Admin-shell.io/aas/2/0/Asset ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+
+  AASConceptDictionaryType:
+  - [ UAObjectType, I4AAS:1007, AASConceptDictionaryType ]
+
+  AASDataSpecificationType:
+  - [ UAObjectType, I4AAS:1027, AASDataSpecificationType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5073, Admin-shell.io/aas/2/0/DataSpecification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+
+  AASDataSpecificationIEC61360Type:
+  - [ UAObjectType, I4AAS:1028, AASDataSpecificationIEC61360Type ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5027, Administration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1030, AASAdministrativeInformationType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5132, Admin-shell.io/DataSpecification/administration ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6065, Category, AASCategoryDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5133, Admin-shell.io/DataSpecification/category ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6072, DataType, AASDataTypeIEC61360DataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5137, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/dataType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6063, DefaultInstanceBrowseName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6073, Definition, LocalizedText, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5138, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/definition ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5136, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0 ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5026, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1029, AASIdentifierType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5134, Admin-shell.io/DataSpecification/identification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6088, Id, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5086, Admin-shell.io/aas/2/0/Identifier/id ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6087, IdType, AASIdentifierTypeDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5087, Admin-shell.io/aas/2/0/Identifier/idType ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6075, LevelType, AASLevelTypeDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5139, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/levelType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6074, PreferredName, LocalizedText, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5140, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/preferredName ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6066, ShortName, LocalizedText, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5141, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/shortName ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6067, SourceOfDefinition, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5142, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/sourceOfDefinition ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6068, Symbol, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5143, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/symbol ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6069, Unit, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5144, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/unit ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5028, UnitId ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5145, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/unitId ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6076, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6076, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6071, Value ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5146, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/value ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6070, ValueFormat, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5147, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/valueFormat ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5030, ValueId ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5148, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0//DataSpecificationIEC61360/valueId ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6077, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6077, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5029, ValueList ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5149, Admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0/valueList ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1031, ValueListType ]
+
+  AASIdentifierType:
+  - [ UAObjectType, I4AAS:1029, AASIdentifierType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5085, Admin-shell.io/aas/2/0/Identifier ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6086, Id, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5086, Admin-shell.io/aas/2/0/Identifier/id ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6085, IdType, AASIdentifierTypeDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5087, Admin-shell.io/aas/2/0/Identifier/idType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASQualifierType:
+  - [ UAObjectType, I4AAS:1032, AASQualifierType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5099, Admin-shell.io/aas/2/0/Qualifier ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6010, Type, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5100, Admin-shell.io/aas/2/0/Qualifier/type ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6078, Value ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5102, Admin-shell.io/aas/2/0/Qualifier/value ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5033, ValueId ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6079, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6079, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6015, ValueType, AASValueTypeDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5104, Admin-shell.io/aas/2/0/Qualifier/valueType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASReferenceType:
+  - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5041, <Referable> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - AASReference:
+    - [ UAObject, I4AAS:5041, <Referable> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5111, Admin-shell.io/aas/2/0/Reference ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6001, Keys, AASKeyDataType, 1, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASSubmodelElementType:
+  - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5011, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5103, Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 17600, UriDictionaryEntryType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6012, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6012, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5101, <IRDI_or_IRI_or_Custom_concept_description_entry> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5031, <Qualifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1032, AASQualifierType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5125, Admin-shell.io/aas/2/0/SubmodelElement/qualifiers ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6080, Type, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5100, Admin-shell.io/aas/2/0/Qualifier/type ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6135, ValueType, AASValueTypeDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6126, Category, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5121, Admin-shell.io/aas/2/0/SubmodelElement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1033, IAASReferableType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6013, ModelingKind, AASModelingKindDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5124, Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASBlobType:
+  - [ UAObjectType, I4AAS:1016, AASBlobType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5015, File ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7002, Close ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6023, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7003, GetPosition ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6024, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6025, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Position: [ UInt64, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5069, Admin-shell.io/aas/2/0/Blob/value ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7004, Open ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6026, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Mode: [ Byte, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6027, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6028, OpenCount, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7005, Read ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6029, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Length: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6030, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Data: [ ByteString, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7006, SetPosition ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6031, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Position: [ UInt64, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6032, Size, UInt64, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6033, UserWritable, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6034, Writable, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7007, Write ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6035, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Data: [ ByteString, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5067, Admin-shell.io/aas/2/0/Blob ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASCapabilityType:
+  - [ UAObjectType, I4AAS:1014, AASCapabilityType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5095, Admin-shell.io/aas/2/0/Property ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASEntityType:
+  - [ UAObjectType, I4AAS:1022, AASEntityType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5021, <SubmodelElement> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6130, Category, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5077, Admin-shell.io/aas/2/0/Entity/statements ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6123, IdShort, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5123, Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6054, ModelingKind, AASModelingKindDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5124, Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5022, Asset ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5075, Admin-shell.io/aas/2/0/Entity/asset ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6055, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6055, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6056, EntityType, AASEntityTypeDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5076, Admin-shell.io/aas/2/0/Entity/entityType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5074, Admin-shell.io/aas/2/0/Entity ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASEventType:
+  - [ UAObjectType, I4AAS:1021, AASEventType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5066, Admin-shell.io/aas/2/0/BasicEvent ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASFileType:
+  - [ UAObjectType, I4AAS:1017, AASFileType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5016, File ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7008, Close ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6038, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7009, GetPosition ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6039, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6040, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Position: [ UInt64, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5080, Admin-shell.io/aas/2/0/File/value ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7010, Open ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6041, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Mode: [ Byte, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6042, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6043, OpenCount, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7011, Read ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6044, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Length: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6045, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Data: [ ByteString, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7012, SetPosition ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6046, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Position: [ UInt64, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6047, Size, UInt64, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6048, UserWritable, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6049, Writable, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, I4AAS:7013, Write ]
+      - HasProperty:
+        - [ UAVariable, I4AAS:6050, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Data: [ ByteString, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5078, Admin-shell.io/aas/2/0/File ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6037, MimeType, AASMimeDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5079, Admin-shell.io/aas/2/0/File/mimeType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6132, Value, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASMultiLanguagePropertyType:
+  - [ UAObjectType, I4AAS:1012, AASMultiLanguagePropertyType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5091, Admin-shell.io/aas/2/0/MultiLanguageProperty ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6019, Value, LocalizedText, 1, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5092, Admin-shell.io/aas/2/0/MultiLanguageProperty/value ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5013, ValueId ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5093, Admin-shell.io/aas/2/0/MultiLanguageProperty/valueId ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6018, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6018, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AASOperationType:
+  - [ UAObjectType, I4AAS:1015, AASOperationType ]
+  - HasComponent:
+    - [ UAMethod, I4AAS:7001, Operation ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5094, Admin-shell.io/aas/2/0/Operation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASPropertyType:
+  - [ UAObjectType, I4AAS:1013, AASPropertyType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5095, Admin-shell.io/aas/2/0/Property ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6020, Value ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5096, Admin-shell.io/aas/2/0/Property/value ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5014, ValueId ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5097, Admin-shell.io/aas/2/0/Property/valueId ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6022, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6022, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6021, ValueType, AASValueTypeDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5098, Admin-shell.io/aas/2/0/Property/valueType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASRangeType:
+  - [ UAObjectType, I4AAS:1023, AASRangeType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5105, Admin-shell.io/aas/2/0/Range ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6059, Max ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5106, Admin-shell.io/aas/2/0/Range/max ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6058, Min ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5107, Admin-shell.io/aas/2/0/Range/min ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6057, ValueType, AASValueTypeDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5108, Admin-shell.io/aas/2/0/Range/valueType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  AASReferenceElementType:
+  - [ UAObjectType, I4AAS:1020, AASReferenceElementType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5113, Admin-shell.io/aas/2/0/ReferenceElement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5020, Value ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5114, Admin-shell.io/aas/2/0/ReferenceElement/value ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6053, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6053, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AASRelationshipElementType:
+  - [ UAObjectType, I4AAS:1018, AASRelationshipElementType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5017, First ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5116, Admin-shell.io/aas/2/0/RelationshipElement/first ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6051, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6051, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5115, Admin-shell.io/aas/2/0/RelationshipElement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5018, Second ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5117, Admin-shell.io/aas/2/0/RelationshipElement/second ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6052, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6052, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AASAnnotatedRelationshipElementType:
+  - [ UAObjectType, I4AAS:1019, AASAnnotatedRelationshipElementType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5019, <DataElement> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6129, Category, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5056, Admin-shell.io/aas/2/0/AnnotatedRelationshipElement/annotations ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6122, IdShort, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5123, Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6114, ModelingKind, AASModelingKindDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5124, Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5055, Admin-shell.io/aas/2/0/AnnotatedRelationshipElement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASSubmodelElementCollectionType:
+  - [ UAObjectType, I4AAS:1010, AASSubmodelElementCollectionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5012, <SubmodelElement> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6128, Category, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5128, Admin-shell.io/aas/2/0/SubmodelElementCollection/values ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6121, IdShort, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5123, Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6016, ModelingKind, AASModelingKindDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5124, Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6017, AllowDuplicates, Boolean, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5127, Admin-shell.io/aas/2/0/SubmodelElementCollection/allowDuplicates ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5126, Admin-shell.io/aas/2/0/SubmodelElementCollection ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASOrderedSubmodelElementCollectionType:
+  - [ UAObjectType, I4AAS:1011, AASOrderedSubmodelElementCollectionType ]
+  - HasOrderedComponent:
+    - [ UAObject, I4AAS:5042, <SubmodelElement> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6131, Category, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5128, Admin-shell.io/aas/2/0/SubmodelElementCollection/values ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6124, IdShort, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5123, Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6104, ModelingKind, AASModelingKindDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5124, Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5126, Admin-shell.io/aas/2/0/SubmodelElementCollection ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  AASSubmodelType:
+  - [ UAObjectType, I4AAS:1006, AASSubmodelType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5009, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5058, Admin-shell.io/aas/2/0/Asset/dataSpecifications ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6007, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5032, <Qualifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1032, AASQualifierType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5119, Admin-shell.io/aas/2/0/Submodel/qualifiers ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6081, Type, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5100, Admin-shell.io/aas/2/0/Qualifier/type ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6136, ValueType, AASValueTypeDataType, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5010, <SubmodelElement> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6127, Category, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5120, Admin-shell.io/aas/2/0/Submodel/submodelElements ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6120, IdShort, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5123, Admin-shell.io/aas/2/0/SubmodelElement/idShort ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6014, ModelingKind, AASModelingKindDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5124, Admin-shell.io/aas/2/0/SubmodelElement/kind ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5118, Admin-shell.io/aas/2/0/Submodel ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6009, ModelingKind, AASModelingKindDataType, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5081, Admin-shell.io/aas/2/0/HasKind/kind ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IAASReferableType:
+  - [ UAObjectType, I4AAS:1033, IAASReferableType ]
+  - HasProperty:
+    - [ UAVariable, I4AAS:6082, Category, String, 0, 3 ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5110, Admin-shell.io/aas/2/0/Referable/category ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5109, Admin-shell.io/aas/2/0/Referable ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  IAASIdentifiableType:
+  - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5035, Administration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1030, AASAdministrativeInformationType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5083, Admin-shell.io/aas/2/0/Identifiable/administration ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5082, Admin-shell.io/aas/2/0/Identifiable ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5034, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1029, AASIdentifierType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5084, Admin-shell.io/aas/2/0/Identifiable/identification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6090, Id, String, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5086, Admin-shell.io/aas/2/0/Identifier/id ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6089, IdType, AASIdentifierTypeDataType, 0, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5087, Admin-shell.io/aas/2/0/Identifier/idType ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AASCustomConceptDescriptionType:
+  - [ UAObjectType, I4AAS:1026, AASCustomConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5048, <ConceptDescription> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5072, Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6107, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5043, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6134, Keys, AASKeyDataType, 1, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5103, Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 17600, UriDictionaryEntryType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5070, Admin-shell.io/aas/2/0/ConceptDescription ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+
+  AASIrdiConceptDescriptionType:
+  - [ UAObjectType, I4AAS:1024, AASIrdiConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5024, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6036, Keys, AASKeyDataType, 1, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5103, Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 17600, UriDictionaryEntryType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5044, <ConceptDescription> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5072, Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6105, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5070, Admin-shell.io/aas/2/0/ConceptDescription ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+
+  AASIriConceptDescriptionType:
+  - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5046, <ConceptDescription> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5072, Admin-shell.io/aas/2/0/ConceptDescription/IsCaseOf ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6106, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5025, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6133, Keys, AASKeyDataType, 1, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5103, Admin-shell.io/aas/2/0/hasDataSpecification/dataSpecification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 17600, UriDictionaryEntryType ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5070, Admin-shell.io/aas/2/0/ConceptDescription ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  - HasInterface:
+    - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+
+  AASViewType:
+  - [ UAObjectType, I4AAS:1003, AASViewType ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5037, <DataSpecification> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5131, Admin-shell.io/aas/2/0/View/dataSpecifications ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6092, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6092, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, I4AAS:5036, <Referable> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+    - HasDictionaryEntry:
+      - [ UAObject, I4AAS:5130, Admin-shell.io/aas/2/0/View/containedElements ]
+      - HasTypeDefinition:
+        - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+    - HasProperty:
+      - [ UAVariable, I4AAS:6091, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - AASReference:
+      - [ UAVariable, I4AAS:6091, Keys, AASKeyDataType, 1, 3 ]
+      - HasDictionaryEntry:
+        - [ UAObject, I4AAS:5112, Admin-shell.io/aas/2/0/Reference/keys ]
+        - HasTypeDefinition:
+          - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasDictionaryEntry:
+    - [ UAObject, I4AAS:5129, Admin-shell.io/aas/2/0/View ]
+    - HasTypeDefinition:
+      - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+
+  ValueListType:
+  - [ UAObjectType, I4AAS:1031, ValueListType ]

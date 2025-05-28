@@ -1,0 +1,78 @@
+DataTypes:
+- UADataType: [ Mining.Extraction.ShearerLoader:3002, ShearerDirectionEnum ]
+  Enums:
+    STOP: 0
+    LEFT: 1
+    RIGHT: 2
+- UADataType: [ Mining.Extraction.ShearerLoader:3004, ShearerDrumMountingPositionEnum ]
+  Enums:
+    MountingPositionLeft: 0
+    MountingPositionRight: 1
+    MountingPositionLeftLumpBreaker: 2
+    MountingPositionRightLumpBreaker: 3
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ Mining.General:3002, LongwallShieldOffsetDataType ]
+  Fields:
+    ShieldNumber: [ UInt16, 0 ]
+    ShieldOffset: [ Double, 0 ]
+
+DefinedTypes:
+
+  ShearerLoaderDrumType:
+  - [ UAObjectType, Mining.Extraction.ShearerLoader:1003, ShearerLoaderDrumType ]
+  - HasComponent:
+    - [ UAObject, Mining.Extraction.ShearerLoader:5007, ParameterSet ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+
+  ShearerLoaderType:
+  - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, ShearerLoaderType ]
+  - HasComponent:
+    - [ UAObject, Mining.Extraction.ShearerLoader:5006, MethodSet ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAObject, Mining.Extraction.ShearerLoader:5008, ParameterSet ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]

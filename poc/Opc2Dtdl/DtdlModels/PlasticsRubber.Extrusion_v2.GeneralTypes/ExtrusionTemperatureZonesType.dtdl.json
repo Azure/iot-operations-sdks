@@ -1,0 +1,30 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Maintenance",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartTempering",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TemperatureZone_Nr",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZoneType"
+    }
+  ]
+}

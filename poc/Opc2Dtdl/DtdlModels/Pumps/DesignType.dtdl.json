@@ -1,0 +1,862 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:DesignType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pumps:DesignType:dataType:DeclarationOfConformityOptionSet;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "X_2006_42_EC",
+          "enumValue": 0
+        },
+        {
+          "name": "X_2009_125_EC",
+          "enumValue": 1
+        },
+        {
+          "name": "X_2011_65_EU",
+          "enumValue": 2
+        },
+        {
+          "name": "X_2014_35_EU",
+          "enumValue": 3
+        },
+        {
+          "name": "X_2014_34_EU",
+          "enumValue": 4
+        },
+        {
+          "name": "X_2014_30_EU",
+          "enumValue": 5
+        },
+        {
+          "name": "X_2014_68_EU",
+          "enumValue": 6
+        },
+        {
+          "name": "X_2014_29_EU",
+          "enumValue": 7
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:DesignType:dataType:ExplosionProtectionOptionSet;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "M1",
+          "enumValue": 0
+        },
+        {
+          "name": "M2",
+          "enumValue": 1
+        },
+        {
+          "name": "X_1G",
+          "enumValue": 2
+        },
+        {
+          "name": "X_2G",
+          "enumValue": 3
+        },
+        {
+          "name": "X_3G",
+          "enumValue": 4
+        },
+        {
+          "name": "X_1D",
+          "enumValue": 5
+        },
+        {
+          "name": "X_2D",
+          "enumValue": 6
+        },
+        {
+          "name": "X_3D",
+          "enumValue": 7
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:DesignType:dataType:OfferedControlModesOptionSet;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Constant_pressure_control",
+          "enumValue": 0
+        },
+        {
+          "name": "Constant_temperature_control",
+          "enumValue": 1
+        },
+        {
+          "name": "Differential_pressure_control",
+          "enumValue": 2
+        },
+        {
+          "name": "Constant_differential_pressure_control",
+          "enumValue": 3
+        },
+        {
+          "name": "Variable_differential_pressure_control",
+          "enumValue": 4
+        },
+        {
+          "name": "Flow_dependent_differential_pressure_control",
+          "enumValue": 5
+        },
+        {
+          "name": "Return_flow_temperature_control",
+          "enumValue": 6
+        },
+        {
+          "name": "Flow_temperature_control",
+          "enumValue": 7
+        },
+        {
+          "name": "Flow_rate_control",
+          "enumValue": 8
+        },
+        {
+          "name": "Automatic",
+          "enumValue": 9
+        },
+        {
+          "name": "Uncontrolled",
+          "enumValue": 10
+        },
+        {
+          "name": "Speed_control",
+          "enumValue": 11
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:DesignType:dataType:OfferedFieldbusesOptionSet;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "ARCNET",
+          "enumValue": 1
+        },
+        {
+          "name": "AS_Interface",
+          "enumValue": 2
+        },
+        {
+          "name": "BACnet_IP",
+          "enumValue": 3
+        },
+        {
+          "name": "BACnet_MSTP",
+          "enumValue": 4
+        },
+        {
+          "name": "Bluetooth",
+          "enumValue": 5
+        },
+        {
+          "name": "Bluetooth_Low_Energy",
+          "enumValue": 6
+        },
+        {
+          "name": "CAN",
+          "enumValue": 7
+        },
+        {
+          "name": "CANopen",
+          "enumValue": 8
+        },
+        {
+          "name": "CC_Link",
+          "enumValue": 9
+        },
+        {
+          "name": "ControlNet",
+          "enumValue": 10
+        },
+        {
+          "name": "DALI",
+          "enumValue": 11
+        },
+        {
+          "name": "DECT_ULE",
+          "enumValue": 12
+        },
+        {
+          "name": "DeviceNet",
+          "enumValue": 13
+        },
+        {
+          "name": "DMX",
+          "enumValue": 14
+        },
+        {
+          "name": "KNX",
+          "enumValue": 15
+        },
+        {
+          "name": "EnOcean",
+          "enumValue": 16
+        },
+        {
+          "name": "EtherCAT",
+          "enumValue": 17
+        },
+        {
+          "name": "Ethernet_IP",
+          "enumValue": 18
+        },
+        {
+          "name": "Ethernet_TCP_IP",
+          "enumValue": 19
+        },
+        {
+          "name": "IEEE1588",
+          "enumValue": 20
+        },
+        {
+          "name": "GSM",
+          "enumValue": 21
+        },
+        {
+          "name": "Interbus",
+          "enumValue": 22
+        },
+        {
+          "name": "IO_Link",
+          "enumValue": 23
+        },
+        {
+          "name": "HART",
+          "enumValue": 24
+        },
+        {
+          "name": "LON",
+          "enumValue": 25
+        },
+        {
+          "name": "LoRaWAN",
+          "enumValue": 26
+        },
+        {
+          "name": "LIN_Bus",
+          "enumValue": 27
+        },
+        {
+          "name": "LTE",
+          "enumValue": 28
+        },
+        {
+          "name": "LTE_M",
+          "enumValue": 29
+        },
+        {
+          "name": "M_Bus",
+          "enumValue": 30
+        },
+        {
+          "name": "Modbus_TCP",
+          "enumValue": 31
+        },
+        {
+          "name": "Modbus_RTU",
+          "enumValue": 32
+        },
+        {
+          "name": "MP_Bus",
+          "enumValue": 33
+        },
+        {
+          "name": "NB_IOT",
+          "enumValue": 34
+        },
+        {
+          "name": "NFC",
+          "enumValue": 35
+        },
+        {
+          "name": "OPC_UA",
+          "enumValue": 36
+        },
+        {
+          "name": "OPC_DA",
+          "enumValue": 37
+        },
+        {
+          "name": "PROFIBUS_DP",
+          "enumValue": 38
+        },
+        {
+          "name": "PROFINET_RT",
+          "enumValue": 39
+        },
+        {
+          "name": "Powerlink",
+          "enumValue": 40
+        },
+        {
+          "name": "SERCOS",
+          "enumValue": 41
+        },
+        {
+          "name": "SMI",
+          "enumValue": 42
+        },
+        {
+          "name": "Thread",
+          "enumValue": 43
+        },
+        {
+          "name": "UMTS",
+          "enumValue": 44
+        },
+        {
+          "name": "WIFI",
+          "enumValue": 45
+        },
+        {
+          "name": "X2X_Link",
+          "enumValue": 46
+        },
+        {
+          "name": "VARAN",
+          "enumValue": 47
+        },
+        {
+          "name": "ZigBee",
+          "enumValue": 48
+        },
+        {
+          "name": "Z_Wave",
+          "enumValue": 49
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pumps:DesignType:dataType:PumpClassEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "RotodynamicPump",
+          "enumValue": 0
+        },
+        {
+          "name": "PositiveDisplacementPump",
+          "enumValue": 1
+        },
+        {
+          "name": "ProcessVacuumPump",
+          "enumValue": 2
+        },
+        {
+          "name": "TurboVacuumPump",
+          "enumValue": 3
+        },
+        {
+          "name": "VacuumPump",
+          "enumValue": 4
+        },
+        {
+          "name": "LiquidPump",
+          "enumValue": 5
+        },
+        {
+          "name": "Pump",
+          "enumValue": 6
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AdditionalFieldbuses",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BalancingRateOfFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "BasePressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ClearanceVolume",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ClockwiseRotation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Controllable",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Cool_DownTimeForAVaporJetPumpOrADiffusionPump",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Counter_ClockwiseRotation",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CriticalSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DeclarationOfConformity",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DeclarationOfConformityAvailable",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DesignAxialLoad",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DesignRadialLoad",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DirectivesOfEUDeclarationOfConformity",
+      "schema": "dtmi:opcua:Pumps:DesignType:dataType:DeclarationOfConformityOptionSet;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DryCriticalSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ExplosionProtection",
+      "schema": "dtmi:opcua:Pumps:DesignType:dataType:ExplosionProtectionOptionSet;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "GeometricalFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "GeometricDisplacementVolume",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "HeadAtPeakPoint",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LeakageRateOfFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableAmbientTemperature",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableCasingWorkingPressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableContinuousSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableHead",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableRelativeHumidity",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableTemperature",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableThroughput",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAllowableWorkingPressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumAxialLoad",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumPumpPowerInput",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumRadialLoad",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaximumStaticSealingPressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MeanTimebetweenFailures",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumAllowableAmbientTemperature",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumAllowableContinuousSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumAllowableHead",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumAllowableRelativeHumidity",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumAllowableTemperature",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumAllowableThermalFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumContinuousStableFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MinimumContinuousThermalFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NetPositiveSuctionHeadRequired",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NetPositiveSuctionHeadRequiredForADropOf3Percent",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OfferedControlModes",
+      "schema": "dtmi:opcua:Pumps:DesignType:dataType:OfferedControlModesOptionSet;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OfferedFieldbuses",
+      "schema": "dtmi:opcua:Pumps:DesignType:dataType:OfferedFieldbusesOptionSet;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OptimumHead",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OptimumPumpPowerInput",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OptimumRateOfFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PistonVelocity",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PossibleFluids",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Pre_ChargePressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PumpClass",
+      "schema": "dtmi:opcua:Pumps:DesignType:dataType:PumpClassEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Shut_OffHead",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Shut_OffPumpPowerInput",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SlipFlow",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SoundEnergy",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SoundEnergyLevel",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SoundPower",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SoundPowerLevel",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SoundPressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SoundPressureLevel",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SpecificSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StandardGasFlowrate",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StartingPressure",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Suction_SpecificSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SweptVolume",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TripSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TypeNumber",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeFlowRate",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VolumeFlowRateOfBackingPump",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "WarmUpTimeForAVaporJetPumpOrADiffusionPump",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "WaterVaporTolerableLoad",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "WetCriticalSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstallationNpshCurve"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpCurve"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpEfficiencyCurve"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpH_Q_Curve"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpNpshCurve"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpPowerInputCurve"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StablePumpH_Q_Curve"
+    }
+  ]
+}

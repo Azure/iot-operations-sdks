@@ -1,0 +1,86 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:PipingComponentType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:PipingComponentType:dataType:OnHoldClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NotOnHold",
+          "enumValue": 0
+        },
+        {
+          "name": "OnHold",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:PipingComponentType:dataType:PipingClassArtefactClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NonPipingClassArtefact",
+          "enumValue": 0
+        },
+        {
+          "name": "PipingClassArtefact",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "BasfLineClassAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FluidCodeAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "NominalDiametersRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "OnHoldSpecialization",
+      "schema": "dtmi:opcua:DEXPI:PipingComponentType:dataType:OnHoldClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PipingClassArtefactSpecialization",
+      "schema": "dtmi:opcua:DEXPI:PipingComponentType:dataType:PipingClassArtefactClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PressureTestCircuitNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "Node",
+      "target": "dtmi:opcua:DEXPI:PipingNodeType"
+    }
+  ]
+}

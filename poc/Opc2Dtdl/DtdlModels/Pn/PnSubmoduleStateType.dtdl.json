@@ -1,0 +1,122 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pn:PnSubmoduleStateType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pn:PnSubmoduleStateType:dataType:PnSubmoduleAddInfoEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NO_ADD_INFO",
+          "enumValue": 0
+        },
+        {
+          "name": "TAKEOVER_NOT_ALLOWED",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pn:PnSubmoduleStateType:dataType:PnSubmoduleARInfoEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OWN",
+          "enumValue": 0
+        },
+        {
+          "name": "APPLICATION_READY_PENDING",
+          "enumValue": 128
+        },
+        {
+          "name": "SUPERORDINATED_LOCKED",
+          "enumValue": 256
+        },
+        {
+          "name": "LOCKED_BY_IO_CONTROLLER",
+          "enumValue": 384
+        },
+        {
+          "name": "LOCKED_BY_IO_SUPERVISOR",
+          "enumValue": 512
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Pn:PnSubmoduleStateType:dataType:PnSubmoduleIdentInfoEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OK",
+          "enumValue": 0
+        },
+        {
+          "name": "SUBSTITUTE",
+          "enumValue": 2048
+        },
+        {
+          "name": "WRONG",
+          "enumValue": 4096
+        },
+        {
+          "name": "NO_SUBMODULE",
+          "enumValue": 6144
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AddInfo",
+      "schema": "dtmi:opcua:Pn:PnSubmoduleStateType:dataType:PnSubmoduleAddInfoEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ARInfo",
+      "schema": "dtmi:opcua:Pn:PnSubmoduleStateType:dataType:PnSubmoduleARInfoEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DiagInfo",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IdentInfo",
+      "schema": "dtmi:opcua:Pn:PnSubmoduleStateType:dataType:PnSubmoduleIdentInfoEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaintenanceDemanded",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MaintenanceRequired",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "QualifiedInfo",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

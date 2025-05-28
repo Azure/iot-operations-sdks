@@ -1,0 +1,337 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC:TMCExecuteStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC:TMCExecuteStateMachineType:dataType:PackMLDescriptorDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "integer"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Unit",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "float"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CompleteToResettingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CompletingToCompleteGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ExecuteToCompletingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ExecuteToHoldingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ExecuteToSuspendingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "HeldToUnholdingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "HoldingToHeldGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IdleToStartingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LastTransition",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ResettingToIdleGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StartingToExecuteGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StartingToHoldingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SuspendedToHoldingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SuspendedToUnsuspendingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SuspendingToHoldingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SuspendingToSuspendedGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnholdingToExecuteGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnholdingToHoldingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnsuspendingToExecuteGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnsuspendingToHoldingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Hold"
+    },
+    {
+      "@type": "Command",
+      "name": "Reset"
+    },
+    {
+      "@type": "Command",
+      "name": "Start",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Parameter",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC:TMCExecuteStateMachineType:dataType:PackMLDescriptorDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Suspend"
+    },
+    {
+      "@type": "Command",
+      "name": "ToComplete"
+    },
+    {
+      "@type": "Command",
+      "name": "Unhold"
+    },
+    {
+      "@type": "Command",
+      "name": "Unsuspend"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Complete"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompleteSubstate"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompleteToResetting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Completing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompletingToComplete"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Execute"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteSubstate"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToCompleting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToHolding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToSuspending"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Held"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HeldToUnholding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Holding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HoldingToHeld"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Idle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IdleSubstate"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IdleToStarting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Resetting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ResettingToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Starting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingToExecute"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingToHolding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Suspended"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendedToHolding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendedToUnsuspending"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Suspending"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendingToHolding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SuspendingToSuspended"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Unholding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnholdingToExecute"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnholdingToHolding"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Unsuspending"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnsuspendingToExecute"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnsuspendingToHolding"
+    }
+  ]
+}

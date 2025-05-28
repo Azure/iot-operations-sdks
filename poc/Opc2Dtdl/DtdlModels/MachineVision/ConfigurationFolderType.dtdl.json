@@ -1,0 +1,79 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:ConfigurationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "HasTransferableDataOnFile",
+          "schema": "boolean"
+        },
+        {
+          "name": "ExternalId",
+          "schema": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "InternalId",
+          "schema": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "LastModified",
+          "schema": "time"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:BinaryIdBaseDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "name": "Hash",
+          "schema": "bytes"
+        },
+        {
+          "name": "HashAlgorithm",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Configuration",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "Configuration",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ConfigurationSchema",
+          "schema": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:ConfigurationDataType;1"
+        }
+      },
+      "writable": true
+    }
+  ]
+}

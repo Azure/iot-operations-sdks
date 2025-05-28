@@ -1,0 +1,90 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISAggregateObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ChokePlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISChokeObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CIMVPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISCIMVObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CounterPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DigitalArbitrationPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DigitalOutPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISDigitalOutObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DigitalPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DiscreteArbitrationPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DiscreteOutPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISDiscreteOutObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DiscretePlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ElectricChokePlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISElectricChokeObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstrumentArbitrationPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstrumentOutPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISInstrumentOutObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstrumentPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISInstrumentObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MotorPlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISMotorObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ValvePlaceholder",
+      "target": "dtmi:opcua:MDIS:MDISValveObjectType"
+    }
+  ]
+}

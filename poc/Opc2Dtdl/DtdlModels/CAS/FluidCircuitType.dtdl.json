@@ -1,0 +1,64 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:FluidCircuitType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Air",
+          "enumValue": 0
+        },
+        {
+          "name": "Condensate",
+          "enumValue": 1
+        },
+        {
+          "name": "Oil",
+          "enumValue": 2
+        },
+        {
+          "name": "Water",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "FluidType",
+      "schema": "dtmi:opcua:CAS:FluidCircuitType:dataType:FluidTypeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Other",
+      "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Delta",
+      "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Inlet",
+      "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Outlet",
+      "target": "dtmi:opcua:CAS:FluidQuantitiesType"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:wireharness:ArticleSpecManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:wireharness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "MaterialClassID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialDefinitionID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialLotID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialSublotID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "MaterialUse",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "decimal"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:ArticleSpecManagementType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:wireharness:ArticleSpecManagementType:dataType:ISA95PropertyDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "Subproperties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:wireharness:ArticleSpecManagementType:dataType:ISA95PropertyDataType;1"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ArticleSpecList",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:wireharness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "ClearArticleSpec",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ArticleSpec",
+              "schema": "dtmi:opcua:wireharness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StoreArticleSpec",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ArticleSpec",
+              "schema": "dtmi:opcua:wireharness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

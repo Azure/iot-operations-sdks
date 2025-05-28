@@ -1,0 +1,111 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Di:InstallationStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PercentComplete",
+      "schema": "unsignedByte",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InstallationDelay",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "InstallSoftwarePackage",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ManufacturerUri",
+              "schema": "string"
+            },
+            {
+              "name": "SoftwareRevision",
+              "schema": "string"
+            },
+            {
+              "name": "PatchIdentifiers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "Hash",
+              "schema": "bytes"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "InstallFiles",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "NodeIds",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Resume"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Idle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Installing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Error"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IdleToInstalling"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstallingToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InstallingToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorToIdle"
+    }
+  ]
+}

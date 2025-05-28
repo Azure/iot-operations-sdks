@@ -1,0 +1,63 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Machinery_Result:ResultTransferType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Machinery_Result:ResultTransferType:dataType:BaseResultTransferOptionsDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ResultId",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GenerateFileForRead",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "GenerateOptions",
+              "schema": "dtmi:opcua:Machinery_Result:ResultTransferType:dataType:BaseResultTransferOptionsDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FileNodeId",
+              "schema": "string"
+            },
+            {
+              "name": "FileHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "CompletionStateMachine",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:SignalLineFunctionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:SignalLineFunctionType:dataType:PortStatusClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "StatusHighHighHighPort",
+          "enumValue": 0
+        },
+        {
+          "name": "StatusHighHighPort",
+          "enumValue": 1
+        },
+        {
+          "name": "StatusHighPort",
+          "enumValue": 2
+        },
+        {
+          "name": "StatusLowLowLowPort",
+          "enumValue": 3
+        },
+        {
+          "name": "StatusLowLowPort",
+          "enumValue": 4
+        },
+        {
+          "name": "StatusLowPort",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:SignalLineFunctionType:dataType:SignalConveyingTypeClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CapillarySignalConveying",
+          "enumValue": 0
+        },
+        {
+          "name": "ConductedRadiationSignalConveying",
+          "enumValue": 1
+        },
+        {
+          "name": "ElectricalSignalConveying",
+          "enumValue": 2
+        },
+        {
+          "name": "HydraulicSignalConveying",
+          "enumValue": 3
+        },
+        {
+          "name": "PneumaticSignalConveying",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PortStatusSpecialization",
+      "schema": "dtmi:opcua:DEXPI:SignalLineFunctionType:dataType:PortStatusClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SignalConveyingTypeSpecialization",
+      "schema": "dtmi:opcua:DEXPI:SignalLineFunctionType:dataType:SignalConveyingTypeClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SignalPointNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SignalProcessControlFunctionsAssignmentClass",
+      "schema": "string",
+      "writable": true
+    }
+  ]
+}

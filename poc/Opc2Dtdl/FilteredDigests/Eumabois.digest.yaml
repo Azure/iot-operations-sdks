@@ -1,0 +1,83 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ Woodworking:3004, WwEventCategoryEnumeration ]
+  Enums:
+    OTHER: 0
+    DIAGNOSTIC: 1
+    INFORMATION: 2
+    WARNING: 3
+    ALARM: 4
+    ERROR: 5
+- UADataType: [ Woodworking:20, WwUnitModeEnumeration ]
+  Enums:
+    OTHER: 0
+    AUTOMATIC: 1
+    SEMIAUTOMATIC: 2
+    MANUAL: 3
+    SETUP: 4
+    SLEEP: 5
+- UADataType: [ Woodworking:21, WwUnitStateEnumeration ]
+  Enums:
+    OFFLINE: 0
+    STANDBY: 1
+    READY: 2
+    WORKING: 3
+    ERROR: 4
+- UADataType: [ Woodworking:3003, WwMessageArgumentDataType ]
+  Fields:
+    Value: [ WwMessageArgumentValueDataType, 0 ]
+- UADataType: [ Woodworking:3002, WwMessageArgumentValueDataType ]
+  Fields:
+    Array: [ WwMessageArgumentValueDataType, 1 ]
+    Boolean: [ Boolean, 0 ]
+    Int16: [ Int16, 0 ]
+    Int32: [ Int32, 0 ]
+    Int64: [ Int64, 0 ]
+    SByte: [ SByte, 0 ]
+    UInt16: [ UInt16, 0 ]
+    UInt32: [ UInt32, 0 ]
+    UInt64: [ UInt64, 0 ]
+    Byte: [ Byte, 0 ]
+    DateTime: [ DateTime, 0 ]
+    Guid: [ Guid, 0 ]
+    LocalizedText: [ LocalizedText, 0 ]
+    Double: [ Double, 0 ]
+    Float: [ Float, 0 ]
+    String: [ String, 0 ]
+    Other: [ String, 0 ]
+

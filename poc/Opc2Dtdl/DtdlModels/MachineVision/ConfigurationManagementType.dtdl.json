@@ -1,0 +1,310 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "HasTransferableDataOnFile",
+          "schema": "boolean"
+        },
+        {
+          "name": "ExternalId",
+          "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "InternalId",
+          "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
+        },
+        {
+          "name": "LastModified",
+          "schema": "time"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "name": "Hash",
+          "schema": "bytes"
+        },
+        {
+          "name": "HashAlgorithm",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActiveConfiguration",
+      "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "ActivateConfiguration",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "AddConfiguration",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExternalId",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "Configuration",
+              "schema": "string"
+            },
+            {
+              "name": "TransferRequired",
+              "schema": "boolean"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetConfigurationById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ConfigurationHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Configuration",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetConfigurationList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "MaxResults",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "StartIndex",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "IsComplete",
+              "schema": "boolean"
+            },
+            {
+              "name": "ResultCount",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ConfigurationHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ConfigurationList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:ConfigurationDataType;1"
+              }
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ReleaseConfigurationHandle",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ConfigurationHandle",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RemoveConfiguration",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationManagementType:dataType:BinaryIdBaseDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configurations",
+      "target": "dtmi:opcua:MachineVision:ConfigurationFolderType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ConfigurationTransfer",
+      "target": "dtmi:opcua:MachineVision:ConfigurationTransferType"
+    }
+  ]
+}

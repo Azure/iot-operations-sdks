@@ -1,0 +1,62 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:AdditiveManufacturing:FeedstockType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:AdditiveManufacturing:FeedstockType:dataType:FeedstockFunction;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Undefined",
+          "enumValue": 0
+        },
+        {
+          "name": "Main",
+          "enumValue": 1
+        },
+        {
+          "name": "Ancillary",
+          "enumValue": 2
+        },
+        {
+          "name": "Consumable",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Cycle",
+      "schema": "unsignedInteger",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Function",
+      "schema": "dtmi:opcua:AdditiveManufacturing:FeedstockType:dataType:FeedstockFunction;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ReadyForProduction",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RemainingQuantity",
+      "schema": "integer",
+      "writable": true
+    }
+  ]
+}

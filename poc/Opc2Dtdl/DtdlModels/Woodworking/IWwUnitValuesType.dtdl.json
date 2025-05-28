@@ -1,0 +1,225 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Woodworking:IWwUnitValuesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AbsoluteErrorTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteLength",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteMachineOffTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteMachineOnTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsolutePiecesIn",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsolutePiecesOut",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsolutePowerPresentTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteProductionTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteProductionWaitWorkpieceTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteProductionWithoutWorkpieceTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteReadyTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteRunsAborted",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteRunsGood",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteRunsTotal",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteStandbyTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AbsoluteWorkingTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualCycle",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AxisOverride",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FeedSpeed",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeErrorTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeLength",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeMachineOnTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativePiecesIn",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativePiecesOut",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativePowerPresentTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeProductionTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeProductionWaitWorkpieceTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeProductionWithoutWorkpieceTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeReadyTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeRunsAborted",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeRunsGood",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeRunsTotal",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeStandbyTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RelativeWorkingTime",
+      "schema": "unsignedLong",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SpindleOverride",
+      "schema": "unsignedInteger",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:OrificePlateType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:OrificePlateType:dataType:HeatTracingTypeClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ElectricalHeatTracingSystem",
+          "enumValue": 0
+        },
+        {
+          "name": "HeatTracingSystem",
+          "enumValue": 1
+        },
+        {
+          "name": "NoHeatTracingSystem",
+          "enumValue": 2
+        },
+        {
+          "name": "SteamHeatTracingSystem",
+          "enumValue": 3
+        },
+        {
+          "name": "TubularHeatTracingSystem",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PipingComponentNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LowerLimitHeatTracingTemperature",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "HeatTracingTypeAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "HeatTracingTypeSpecialization",
+      "schema": "dtmi:opcua:DEXPI:OrificePlateType:dataType:HeatTracingTypeClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InsulationThickness",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InsulationTypeAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PipingClassCodeAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PipingComponentNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    }
+  ]
+}

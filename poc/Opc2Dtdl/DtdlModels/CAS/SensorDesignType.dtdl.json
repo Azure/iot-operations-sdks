@@ -1,0 +1,147 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:SensorDesignType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "Ammeter",
+          "enumValue": 1
+        },
+        {
+          "name": "DewPointSensor",
+          "enumValue": 2
+        },
+        {
+          "name": "FlowRateSensor",
+          "enumValue": 3
+        },
+        {
+          "name": "FlowSpeedSensor",
+          "enumValue": 4
+        },
+        {
+          "name": "HumiditySensor",
+          "enumValue": 5
+        },
+        {
+          "name": "OilConcentrationSensor",
+          "enumValue": 6
+        },
+        {
+          "name": "ParticleCounter",
+          "enumValue": 7
+        },
+        {
+          "name": "PressureSensor",
+          "enumValue": 8
+        },
+        {
+          "name": "TemperatureSensor",
+          "enumValue": 9
+        },
+        {
+          "name": "Voltmeter",
+          "enumValue": 10
+        },
+        {
+          "name": "VolumeSensor",
+          "enumValue": 11
+        },
+        {
+          "name": "Wattmeter",
+          "enumValue": 12
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTechnologyOptionSet;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CapacitiveSensor",
+          "enumValue": 0
+        },
+        {
+          "name": "ElectronTube",
+          "enumValue": 1
+        },
+        {
+          "name": "InductiveSensor",
+          "enumValue": 2
+        },
+        {
+          "name": "IonizationSensor",
+          "enumValue": 3
+        },
+        {
+          "name": "Magnetometer",
+          "enumValue": 4
+        },
+        {
+          "name": "OpticalSensor",
+          "enumValue": 5
+        },
+        {
+          "name": "PiezoelectricSensor",
+          "enumValue": 6
+        },
+        {
+          "name": "ResistiveSensor",
+          "enumValue": 7
+        },
+        {
+          "name": "ResonantSensor",
+          "enumValue": 8
+        },
+        {
+          "name": "TemperatureSensor",
+          "enumValue": 9
+        },
+        {
+          "name": "ThermalSensor",
+          "enumValue": 10
+        },
+        {
+          "name": "UltrasoundSensor",
+          "enumValue": 11
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ComponentClass",
+      "schema": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTypeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SensorTechnology",
+      "schema": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTechnologyOptionSet;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SoftSensor",
+      "schema": "boolean",
+      "writable": false
+    }
+  ]
+}

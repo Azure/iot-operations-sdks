@@ -1,0 +1,142 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:pngsdgm:GsdGenSubmoduleApplicationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "EnumerationVariable",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "EnumerationVariable",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "EnumerationVariableSchema",
+          "schema": "string"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OptionSetVariable",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "OptionSetVariable",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "OptionSetVariableSchema",
+          "schema": "string"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnitRangeVariable",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "UnitRangeVariable",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "UnitRangeVariableSchema",
+          "schema": "integer"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnitVariable",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "UnitVariable",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "UnitVariableSchema",
+          "schema": "integer"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ValueVariable",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "ValueVariable",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ValueVariableSchema",
+          "schema": "string"
+        }
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SetApplicationTag",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ApplicationTag",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "ArrayFolder",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FolderName",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Input",
+      "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Lock",
+      "target": "dtmi:opcua:DI:LockingServicesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Output",
+      "target": "dtmi:opcua:PNGSDGM:GsdGenIoDataType"
+    }
+  ]
+}

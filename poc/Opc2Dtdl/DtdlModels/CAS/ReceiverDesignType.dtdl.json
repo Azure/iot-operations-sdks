@@ -1,0 +1,46 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:ReceiverDesignType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:ReceiverDesignType:dataType:ReceiverTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "DryReceiver",
+          "enumValue": 1
+        },
+        {
+          "name": "WetReceiver",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ComponentClass",
+      "schema": "dtmi:opcua:CAS:ReceiverDesignType:dataType:ReceiverTypeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Volume",
+      "schema": "double",
+      "writable": false
+    }
+  ]
+}

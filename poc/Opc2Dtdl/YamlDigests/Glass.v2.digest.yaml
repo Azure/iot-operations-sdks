@@ -1,0 +1,779 @@
+DataTypes:
+- UADataType: [ Glass.Flat.v2:3009, CoatingClassEnumeration ]
+  Enums:
+    HardCoating: 0
+    SoftCoating: 1
+    CoatedWithFoilProtection: 2
+    UserDefined: 3
+- UADataType: [ Glass.Flat.v2:3008, CoordinateSystemEnumeration ]
+  Enums:
+    Unknown: 0
+    System1: 1
+    System2: 2
+    System3: 3
+    System4: 4
+    System5: 5
+    System6: 6
+    System7: 7
+    System8: 8
+- UADataType: [ Glass.Flat.v2:3003, SignificantSideEnumeration ]
+  Enums:
+    Indifferent: 0
+    Top: 1
+    Down: 2
+- UADataType: [ Glass.Flat.v2:3005, SpacerMaterialClass ]
+  Enums:
+    Other: 0
+    Metallic: 1
+    TPS: 2
+    Plastic: 3
+    Elastic: 4
+- UADataType: [ Glass.Flat.v2:3004, StructureAlignmentEnumeration ]
+  Enums:
+    Indifferent: 0
+    Longitudinal: 1
+    Transverse: 2
+- UADataType: [ Glass.Flat.v2:3017, EClassTermDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ String, 0 ]
+    EClass: [ String, 0 ]
+- UADataType: [ Glass.Flat.v2:3007, FileFormatDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    FileExtension: [ String, 0 ]
+    Version: [ SemanticVersionString, 0 ]
+- UADataType: [ Glass.Flat.v2:3014, ProcessingCategoryDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ String, 0 ]
+    SupportedParameter: [ ProcessingParameterDataType, 1 ]
+    SupportedAssignment: [ String, 1 ]
+    SupportedVariable: [ ProcessingParameterDataType, 1 ]
+    SupportsTransformation: [ Int32, 0 ]
+    SupportsSubProcessing: [ Int32, 0 ]
+- UADataType: [ Glass.Flat.v2:3011, ProcessingParameterDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    ValueType: [ ValueDataType, 0 ]
+    TypicalValue: [ String, 0 ]
+    Mandatory: [ Boolean, 0 ]
+    EClass: [ EClassTermDataType, 0 ]
+- UADataType: [ Glass.Flat.v2:3012, ReasonDescriptionType ]
+  Fields:
+    Description: [ LocalizedText, 0 ]
+    Reference: [ String, 0 ]
+    Category: [ String, 0 ]
+    VendorCode: [ String, 0 ]
+- UADataType: [ Glass.Flat.v2:3006, UserProfileDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    LoginTime: [ DateTime, 0 ]
+    Language: [ LocaleId, 0 ]
+    MeasurementFormat: [ String, 0 ]
+    AccessLevel: [ String, 0 ]
+    OpcUaUser: [ Boolean, 0 ]
+- UADataType: [ Glass.Flat.v2:3020, ValueDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    BaseUnit: [ String, 0 ]
+    PossibleValue: [ String, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EquipmentUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+  Fields:
+    JobOrder: [ ISA95JobOrderDataType, 0 ]
+    State: [ ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+  Fields:
+    JobOrderID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Priority: [ Int16, 0 ]
+    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+  Fields:
+    JobResponseID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JobOrderID: [ String, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    JobState: [ ISA95StateDataType, 1 ]
+    JobResponseData: [ ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+  Fields:
+    MaterialClassID: [ String, 0 ]
+    MaterialDefinitionID: [ String, 0 ]
+    MaterialLotID: [ String, 0 ]
+    MaterialSublotID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    MaterialUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subparameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PersonnelUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PhysicalAssetUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subproperties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+  Fields:
+    BrowsePath: [ RelativePath, 0 ]
+    StateText: [ LocalizedText, 0 ]
+    StateNumber: [ UInt32, 0 ]
+- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+  Enums:
+    SimulationMode: 0
+    TestMode: 1
+    ProductionMode: 2
+- UADataType: [ Machinery.Jobs:3006, JobResult ]
+  Enums:
+    Unknown: 0
+    Successful: 1
+    Unsuccessful: 2
+- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+  Enums:
+    OrderNumber: 0
+    LotNumber: 1
+    SerialNumber: 2
+- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    Quantity: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+  Fields:
+    ItemNumber: [ String, 0 ]
+    OutputInfo: [ OutputInfoType, 0 ]
+    OrderNumber: [ String, 0 ]
+    LotNumber: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+
+DefinedTypes:
+
+  GlassEventType:
+  - [ UAObjectType, Glass.Flat.v2:1030, GlassEventType ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6405, Identifier ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6410, JobdIdentifier ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6406, Location ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6411, MaterialIdentifier ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConfigurationRulesType:
+  - [ UAObjectType, Glass.Flat.v2:1063, ConfigurationRulesType ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6186, AllowedEngineeringUnits, EUInformation, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6174, AllowedFileFormats, FileFormatDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6188, MachineProcessingCoordinateSystem, CoordinateSystemEnumeration, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  GlassMachineIdentificationType:
+  - [ UAObjectType, Glass.Flat.v2:1020, GlassMachineIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6414, LoggedInProfiles, UserProfileDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6029, ProcessingCategories, ProcessingCategoryDataType, 1, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ManualFolderType:
+  - [ UAObjectType, Glass.Flat.v2:1041, ManualFolderType ]
+  - HasComponent:
+    - [ UAObject, Glass.Flat.v2:5017, <LocalManuals> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7001, Close ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6081, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7002, GetPosition ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6082, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6083, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Position: [ UInt64, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7005, Open ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6084, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Mode: [ Byte, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6085, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6086, OpenCount, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7012, Read ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6124, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Length: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6139, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Data: [ ByteString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7013, SetPosition ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6140, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Position: [ UInt64, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6157, Size, UInt64, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6158, UserWritable, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6172, Writable, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7014, Write ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6175, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileHandle: [ UInt32, 0 ]
+            Data: [ ByteString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, Glass.Flat.v2:6176, ExternalManuals, UriString, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  GlassMachineType:
+  - [ UAObjectType, Glass.Flat.v2:1015, GlassMachineType ]
+  - HasAddIn:
+    - [ UAObject, Glass.Flat.v2:5002, Components ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+  - HasComponent:
+    - [ UAObject, Glass.Flat.v2:5029, ConfigurationRules ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Glass.Flat.v2:1063, ConfigurationRulesType ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6067, MachineProcessingCoordinateSystem, CoordinateSystemEnumeration, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Glass.Flat.v2:5016, FileSystem ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 13353, FileDirectoryType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7024, CreateDirectory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6112, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            DirectoryName: [ String, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6113, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            DirectoryNodeId: [ NodeId, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7025, CreateFile ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6153, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileName: [ String, 0 ]
+            RequestFileOpen: [ Boolean, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6179, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            FileNodeId: [ NodeId, 0 ]
+            FileHandle: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7026, Delete ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6180, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ObjectToDelete: [ NodeId, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, Glass.Flat.v2:7031, MoveOrCopy ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6187, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ObjectToMoveOrCopy: [ NodeId, 0 ]
+            TargetDirectory: [ NodeId, 0 ]
+            CreateCopy: [ Boolean, 0 ]
+            NewName: [ String, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, Glass.Flat.v2:6190, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            NewNodeId: [ NodeId, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasAddIn:
+    - [ UAObject, Glass.Flat.v2:5001, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Glass.Flat.v2:1020, GlassMachineIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6057, LoggedInProfiles, UserProfileDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6058, Manufacturer, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6030, ProcessingCategories, ProcessingCategoryDataType, 1, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6061, ProductInstanceUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Glass.Flat.v2:6062, SerialNumber, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Glass.Flat.v2:5030, MachineryBuildingBlocks ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasAddIn:
+      - [ UAObject, Glass.Flat.v2:5015, JobManagement ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
+      - HasComponent:
+        - [ UAObject, Glass.Flat.v2:5024, JobOrderControl ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6018, CurrentState, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasProperty:
+            - [ UAVariable, Glass.Flat.v2:6019, Id, NodeId, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6020, EquipmentID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6021, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6022, MaterialClassID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6023, MaterialDefinitionID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasProperty:
+          - [ UAVariable, Glass.Flat.v2:6025, MaxDownloadableJobOrders, UInt16, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6026, PersonnelID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6027, PhysicalAssetID, String, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent:
+          - [ UAVariable, Glass.Flat.v2:6028, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAObject, Glass.Flat.v2:5025, JobOrderResults ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+        - HasComponent:
+          - [ UAMethod, Glass.Flat.v2:7003, RequestJobResponseByJobOrderID ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, Glass.Flat.v2:6047, InputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobOrderID: [ String, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, Glass.Flat.v2:6048, OutputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobResponse: [ ISA95JobResponseDataType, 0 ]
+                ReturnStatus: [ UInt64, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+        - HasComponent:
+          - [ UAMethod, Glass.Flat.v2:7004, RequestJobResponseByJobOrderState ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, Glass.Flat.v2:6049, InputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobOrderState: [ ISA95StateDataType, 1 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, Glass.Flat.v2:6050, OutputArguments, Argument, 1, 0 ]
+            - Arguments:
+                JobResponses: [ ISA95JobResponseDataType, 1 ]
+                ReturnStatus: [ UInt64, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, Glass.Flat.v2:5022, MachineryItemState ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+      - HasComponent:
+        - [ UAVariable, Glass.Flat.v2:6001, CurrentState, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, Glass.Flat.v2:6002, Id, NodeId, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, Glass.Flat.v2:5023, MachineryOperationMode ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+      - HasComponent:
+        - [ UAVariable, Glass.Flat.v2:6003, CurrentState, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasProperty:
+          - [ UAVariable, Glass.Flat.v2:6017, Id, NodeId, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, Glass.Flat.v2:5026, OperationCounters ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Glass.Flat.v2:5009, MaintenanceManuals ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Glass.Flat.v2:1041, ManualFolderType ]
+  - HasAddIn:
+    - [ UAObject, Glass.Flat.v2:5026, OperationCounters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Glass.Flat.v2:5011, OperationManuals ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Glass.Flat.v2:1041, ManualFolderType ]

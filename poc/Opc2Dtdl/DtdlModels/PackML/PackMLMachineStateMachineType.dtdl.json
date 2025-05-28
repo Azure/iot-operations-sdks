@@ -1,0 +1,78 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PackML:PackMLMachineStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AvailableStates",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AvailableTransitions",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Reset"
+    },
+    {
+      "@type": "Command",
+      "name": "Stop"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Clearing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ClearingToStopped"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteState",
+      "target": "dtmi:opcua:PackML:PackMLExecuteStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Running"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RunningToStopping"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Stopped"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StoppedToRunning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Stopping"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StoppingToStopped"
+    }
+  ]
+}

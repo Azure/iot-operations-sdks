@@ -1,0 +1,95 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Accuracy",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AnalogInputElectricalType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AnalogOutputElectricalType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DigitalInputElectricalType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DigitalOutputElectricalType",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FrequencyRange",
+      "schema": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Linearity",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "MeasuringRange",
+      "schema": "dtmi:opcua:Powertrain:PtVibrationSensorAttributesType:dataType:Range;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingVoltage",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OutputFunction",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Resolution",
+      "schema": "float",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:ExtrusionLine_InterfaceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "ClearMESMessage"
+    },
+    {
+      "@type": "Command",
+      "name": "SetMESMessage",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Id",
+              "schema": "string"
+            },
+            {
+              "name": "Message",
+              "schema": "string"
+            },
+            {
+              "name": "Message2",
+              "schema": "unsignedShort"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "JobGroups",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobGroupsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineMESConfiguration",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaterialList",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialListType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MESMessage",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionParameters",
+      "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:ProductionParametersType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Users",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
+    }
+  ]
+}

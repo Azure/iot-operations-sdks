@@ -1,0 +1,450 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:RecipeManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:TriStateBooleanDataType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FALSE_0",
+          "enumValue": 0
+        },
+        {
+          "name": "TRUE_1",
+          "enumValue": 1
+        },
+        {
+          "name": "DONTCARE_2",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "name": "Hash",
+          "schema": "bytes"
+        },
+        {
+          "name": "HashAlgorithm",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "AddRecipe",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "Recipe",
+              "schema": "string"
+            },
+            {
+              "name": "Product",
+              "schema": "string"
+            },
+            {
+              "name": "TransferRequired",
+              "schema": "boolean"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetRecipeListFiltered",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
+            },
+            {
+              "name": "IsPrepared",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:TriStateBooleanDataType;1"
+            },
+            {
+              "name": "MaxResults",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "StartIndex",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "Timeout",
+              "schema": "integer"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "IsComplete",
+              "schema": "boolean"
+            },
+            {
+              "name": "ResultCount",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "RecipeHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "RecipeList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+              }
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "PrepareProduct",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "PrepareRecipe",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "InternalIdIn",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalIdOut",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "IsCompleted",
+              "schema": "boolean"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ReleaseRecipeHandle",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RecipeHandle",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RemoveRecipe",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "UnlinkProduct",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "UnprepareProduct",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "UnprepareRecipe",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExternalId",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "InternalIdIn",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "InternalIdOut",
+              "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
+            },
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Products",
+      "target": "dtmi:opcua:MachineVision:ProductFolderType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Recipes",
+      "target": "dtmi:opcua:MachineVision:RecipeFolderType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RecipeTransfer",
+      "target": "dtmi:opcua:MachineVision:RecipeTransferType"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:ConfigurationDataFolderType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdArray;1"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdArray;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Node",
+          "schema": "string"
+        },
+        {
+          "name": "ArrayIndex",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "unsignedInteger"
+          }
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "ClearStoredVariables",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VariablesToClear",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ListStoredVariables",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "StoredVariables",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdValuePair;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetStoredVariables",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VariablesToStore",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

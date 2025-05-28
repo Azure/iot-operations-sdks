@@ -1,0 +1,303 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "EnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Error"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromEnergySavingToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromErrorToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromIdleToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserOnToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromLaserReadyToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromMaintenanceToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromOffToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToEnergySaving"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToError"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToIdle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToLaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToLaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToMaintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToOff"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FromSetUpToSetUp"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Idle"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LaserOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LaserReady"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Maintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Off"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SetUp"
+    }
+  ]
+}

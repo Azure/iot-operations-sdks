@@ -1,0 +1,58 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:ValveDesignType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:ValveDesignType:dataType:ValveTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "CheckValve",
+          "enumValue": 1
+        },
+        {
+          "name": "ContinuousValve",
+          "enumValue": 2
+        },
+        {
+          "name": "FlowControlValve",
+          "enumValue": 3
+        },
+        {
+          "name": "PressureValve",
+          "enumValue": 4
+        },
+        {
+          "name": "SwitchingValve",
+          "enumValue": 5
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ComponentClass",
+      "schema": "dtmi:opcua:CAS:ValveDesignType:dataType:ValveTypeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NumberOfPorts",
+      "schema": "unsignedShort",
+      "writable": false
+    }
+  ]
+}

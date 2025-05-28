@@ -1,0 +1,207 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PnEnc:LogbookType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "FaultSituationNumber",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "EventNumber",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "EventType",
+          "schema": "dtmi:opcua:PnEnc:LogbookType:dataType:EventTypeEnumeration;1"
+        },
+        {
+          "name": "EventCode",
+          "schema": "integer"
+        },
+        {
+          "name": "EventText",
+          "schema": "string"
+        },
+        {
+          "name": "EventComing",
+          "schema": "time"
+        },
+        {
+          "name": "EventGoing",
+          "schema": "time"
+        },
+        {
+          "name": "EventAcknowledged",
+          "schema": "time"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PnEnc:LogbookType:dataType:EventTypeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FAULT",
+          "enumValue": 0
+        },
+        {
+          "name": "WARNING",
+          "enumValue": 1
+        },
+        {
+          "name": "UNSPECIFIED",
+          "enumValue": 255
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "LogEntries",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "DeleteLogbook"
+    },
+    {
+      "@type": "Command",
+      "name": "GetActiveDiagnosis",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ActiveDiagnosis",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetCurrentFaultSituation",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "CurrentLogEntries",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetFilteredLogbookEntries",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LogbookFilterOptions",
+              "schema": "unsignedByte"
+            },
+            {
+              "name": "FaultSituationNumber",
+              "schema": "unsignedByte"
+            },
+            {
+              "name": "EventType",
+              "schema": "dtmi:opcua:PnEnc:LogbookType:dataType:EventTypeEnumeration;1"
+            },
+            {
+              "name": "EventCode",
+              "schema": "integer"
+            },
+            {
+              "name": "EventAppearanceInterval",
+              "schema": "duration"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FilteredLogEntries",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetHistoricFaultSituation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FaultSituationNumber",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "HistoricLogEntries",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

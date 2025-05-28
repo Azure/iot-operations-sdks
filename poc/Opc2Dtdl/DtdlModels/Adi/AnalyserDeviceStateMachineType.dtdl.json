@@ -1,0 +1,75 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Adi:AnalyserDeviceStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Powerup"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operating"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Local"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Maintenance"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Shutdown"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PowerupToOperatingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperatingToLocalTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperatingToMaintenanceTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LocalToOperatingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LocalToMaintenanceTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceToOperatingTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceToLocalTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperatingToShutdownTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LocalToShutdownTransition"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceToShutdownTransition"
+    }
+  ]
+}

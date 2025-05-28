@@ -1,0 +1,55 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Calibrator:CalibrationZoneType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "AdditionalMeasuringDevices",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirShowerPressure",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Vacuum",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "VacuumPumps",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterFlow",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterLevel",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterPumps",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "WaterTemperature",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
+    }
+  ]
+}

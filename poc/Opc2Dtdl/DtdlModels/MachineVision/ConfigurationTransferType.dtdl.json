@@ -1,0 +1,123 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:ConfigurationTransferType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:ConfigurationTransferOptions;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "InternalId",
+          "schema": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:BinaryIdBaseDataType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:BinaryIdBaseDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Version",
+          "schema": "string"
+        },
+        {
+          "name": "Hash",
+          "schema": "bytes"
+        },
+        {
+          "name": "HashAlgorithm",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GenerateFileForRead",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "GenerateOptions",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:ConfigurationTransferOptions;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FileNodeId",
+              "schema": "string"
+            },
+            {
+              "name": "FileHandle",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "CompletionStateMachine",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GenerateFileForWrite",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "GenerateOptions",
+              "schema": "dtmi:opcua:MachineVision:ConfigurationTransferType:dataType:ConfigurationTransferOptions;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FileNodeId",
+              "schema": "string"
+            },
+            {
+              "name": "FileHandle",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

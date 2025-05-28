@@ -1,0 +1,4977 @@
+DataTypes:
+- UADataType: [ ADI:9378, ExecutionCycleEnumeration ]
+  Enums:
+    IDLE: 0
+    DIAGNOSTIC: 1
+    CLEANING: 2
+    CALIBRATION: 4
+    VALIDATION: 8
+    SAMPLING: 16
+    DIAGNOSTIC_WITH_GRAB_SAMPLE: 32769
+    CLEANING_WITH_GRAB_SAMPLE: 32770
+    CALIBRATION_WITH_GRAB_SAMPLE: 32772
+    VALIDATION_WITH_GRAB_SAMPLE: 32776
+    SAMPLING_WITH_GRAB_SAMPLE: 32784
+- UADataType: [ ADI:3003, AcquisitionResultStatusEnumeration ]
+  Enums:
+    NOT_USED: 0
+    GOOD: 1
+    BAD: 2
+    UNKNOWN: 3
+    PARTIAL: 4
+- UADataType: [ ADI:3009, AlarmStateEnumeration ]
+  Enums:
+    NORMAL_0: 0
+    WARNING_LOW_1: 1
+    WARNING_HIGH_2: 2
+    WARNING_4: 4
+    ALARM_LOW_8: 8
+    ALARM_HIGH_16: 16
+    ALARM_32: 32
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  EngineeringValueType:
+  - [ UAVariableType, ADI:9380, EngineeringValueType ]
+  - HasComponent:
+    - [ UAVariable, ADI:13030, <Identifier> ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2365, DataItemType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  ChemometricModelType:
+  - [ UAVariableType, ADI:2007, ChemometricModelType, ByteString, -2, 0 ]
+  - HasProperty:
+    - [ UAVariable, ADI:13033, Name, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:13034, CreationDate, DateTime, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:13035, ModelDescription, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - ADI:4002:
+    - [ UAVariable, ADI:13036, <User defined Input#> ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 62, BaseVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - ADI:4003:
+    - [ UAVariable, ADI:13037, <User defined Output#> ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 62, BaseVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+
+  ProcessVariableType:
+  - [ UAVariableType, ADI:2008, ProcessVariableType ]
+  - ADI:4001:
+    - [ UAVariable, ADI:13040, <Source> ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 62, BaseVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+
+  MVAModelType:
+  - [ UAVariableType, ADI:2009, MVAModelType, ByteString, -2, 0 ]
+  - ADI:4003:
+    - [ UAVariable, ADI:13045, <User defined Output#> ]
+    - HasProperty:
+      - [ UAVariable, ADI:13049, AlarmState, AlarmStateEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, ADI:2010, MVAOutputParameterType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, ADI:13046, MainDataIndex, Int32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MVAOutputParameterType:
+  - [ UAVariableType, ADI:2010, MVAOutputParameterType ]
+  - HasProperty:
+    - [ UAVariable, ADI:13054, WarningLimits, Range, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, ADI:13055, AlarmLimits, Range, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, ADI:13056, AlarmState, AlarmStateEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:13057, VendorSpecificError, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, ADI:13058, Statistics ]
+    - HasProperty:
+      - [ UAVariable, ADI:13059, WarningLimits, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, ADI:13060, AlarmLimits, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, ADI:13061, AlarmState, AlarmStateEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ADI:13062, VendorSpecificError, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, ADI:2010, MVAOutputParameterType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  AnalyserDeviceType:
+  - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+  - HasComponent:
+    - [ UAObject, ADI:5001, ParameterSet ]
+    - HasComponent:
+      - [ UAVariable, ADI:9459, DiagnosticStatus, DeviceHealthEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9462, ConfigData ]
+      - HasProperty:
+        - [ UAVariable, ADI:9463, Size, UInt64, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:13070, Writable, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:13071, UserWritable, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:9466, OpenCount, UInt16, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9467, Open ]
+        - HasProperty:
+          - [ UAVariable, ADI:9468, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Mode: [ Byte, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, ADI:9469, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9470, Close ]
+        - HasProperty:
+          - [ UAVariable, ADI:9471, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9472, Read ]
+        - HasProperty:
+          - [ UAVariable, ADI:9473, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Length: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, ADI:9474, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Data: [ ByteString, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9475, Write ]
+        - HasProperty:
+          - [ UAVariable, ADI:9476, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Data: [ ByteString, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9477, GetPosition ]
+        - HasProperty:
+          - [ UAVariable, ADI:9478, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, ADI:9479, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Position: [ UInt64, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9480, SetPosition ]
+        - HasProperty:
+          - [ UAVariable, ADI:9481, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Position: [ UInt64, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 11575, FileType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:9382, MethodSet ]
+    - HasComponent:
+      - [ UAMethod, ADI:9443, GetConfiguration ]
+      - HasProperty:
+        - [ UAVariable, ADI:9444, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ConfigData: [ ByteString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9445, SetConfiguration ]
+      - HasProperty:
+        - [ UAVariable, ADI:9446, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ConfigData: [ ByteString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:9447, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ConfigDataDigest: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9448, GetConfigDataDigest ]
+      - HasProperty:
+        - [ UAVariable, ADI:9449, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ConfigDataDigest: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9450, CompareConfigDataDigest ]
+      - HasProperty:
+        - [ UAVariable, ADI:9451, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ConfigDataDigest: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:9452, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            IsEqual: [ Boolean, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9453, ResetAllChannels ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9454, StartAllChannels ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9455, StopAllChannels ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9456, AbortAllChannels ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9457, GotoOperating ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9458, GotoMaintenance ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9386, Identification ]
+    - Organizes:
+      - [ UAVariable, DI:6003, Manufacturer ]
+    - Organizes:
+      - [ UAVariable, DI:6004, Model ]
+    - Organizes:
+      - [ UAVariable, DI:6001, SerialNumber ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9482, Configuration ]
+    - Organizes:
+      - [ UAObject, ADI:9462, ConfigData ]
+      - HasProperty:
+        - [ UAVariable, ADI:9463, Size, UInt64, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:13070, Writable, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:13071, UserWritable, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:9466, OpenCount, UInt16, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9467, Open ]
+        - HasProperty:
+          - [ UAVariable, ADI:9468, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Mode: [ Byte, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, ADI:9469, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9470, Close ]
+        - HasProperty:
+          - [ UAVariable, ADI:9471, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9472, Read ]
+        - HasProperty:
+          - [ UAVariable, ADI:9473, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Length: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, ADI:9474, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Data: [ ByteString, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9475, Write ]
+        - HasProperty:
+          - [ UAVariable, ADI:9476, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Data: [ ByteString, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9477, GetPosition ]
+        - HasProperty:
+          - [ UAVariable, ADI:9478, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, ADI:9479, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Position: [ UInt64, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9480, SetPosition ]
+        - HasProperty:
+          - [ UAVariable, ADI:9481, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+              Position: [ UInt64, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 11575, FileType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9484, Status ]
+    - Organizes:
+      - [ UAVariable, ADI:9459, DiagnosticStatus, DeviceHealthEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9486, FactorySettings ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9488, AnalyserStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:9489, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:9490, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1002, AnalyserDeviceStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9500, <ChannelIdentifier> ]
+    - HasComponent:
+      - [ UAObject, ADI:9503, MethodSet ]
+      - HasComponent:
+        - [ UAMethod, ADI:9521, GotoOperating ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9522, GotoMaintenance ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9523, StartSingleAcquisition ]
+        - HasProperty:
+          - [ UAVariable, ADI:9524, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ExecutionCycle: [ ExecutionCycleEnumeration, 0 ]
+              ExecutionCycleSubcode: [ UInt32, 0 ]
+              SelectedStream: [ String, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9525, Reset ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9526, Start ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9527, Stop ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9528, Hold ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9529, Unhold ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9530, Suspend ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9531, Unsuspend ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9532, Abort ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, ADI:9533, Clear ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 58, BaseObjectType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9546, Configuration ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9548, Status ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9550, ChannelStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9551, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9552, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, ADI:9562, OperatingSubStateMachine ]
+        - HasComponent:
+          - [ UAVariable, ADI:9563, CurrentState, LocalizedText, 0, 0 ]
+          - HasProperty:
+            - [ UAVariable, ADI:9564, Id, NodeId, 0, 0 ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAObject, ADI:9574, OperatingExecuteSubStateMachine ]
+          - HasComponent:
+            - [ UAVariable, ADI:9575, CurrentState, LocalizedText, 0, 0 ]
+            - HasProperty:
+              - [ UAVariable, ADI:9576, Id, NodeId, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 2760, FiniteStateVariableType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1007, AnalyserChannelStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1003, AnalyserChannelType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, ADI:9610, <AccessorySlotIdentifier> ]
+    - HasComponent:
+      - [ UAObject, ADI:9611, SupportedTypes ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ADI:9612, IsHotSwappable, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ADI:9613, IsEnabled, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9614, AccessorySlotStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9615, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9616, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1018, AccessorySlotStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1017, AccessorySlotType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  AnalyserDeviceStateMachineType:
+  - [ UAObjectType, ADI:1002, AnalyserDeviceStateMachineType ]
+  - HasComponent:
+    - [ UAObject, ADI:9647, Powerup ]
+    - HasProperty:
+      - [ UAVariable, ADI:9648, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:9649, Operating ]
+    - HasProperty:
+      - [ UAVariable, ADI:9650, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:9651, Local ]
+    - HasProperty:
+      - [ UAVariable, ADI:9652, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:9653, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, ADI:9654, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:9655, Shutdown ]
+    - HasProperty:
+      - [ UAVariable, ADI:9656, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:9657, PowerupToOperatingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9658, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9647, Powerup ]
+    - ToState:
+      - [ UAObject, ADI:9649, Operating ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9659, OperatingToLocalTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9660, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9649, Operating ]
+    - ToState:
+      - [ UAObject, ADI:9651, Local ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9661, OperatingToMaintenanceTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9662, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9649, Operating ]
+    - ToState:
+      - [ UAObject, ADI:9653, Maintenance ]
+    - HasCause:
+      - [ UAMethod, ADI:9458, GotoMaintenance ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9663, LocalToOperatingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9664, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9651, Local ]
+    - ToState:
+      - [ UAObject, ADI:9649, Operating ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9665, LocalToMaintenanceTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9666, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9651, Local ]
+    - ToState:
+      - [ UAObject, ADI:9653, Maintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9667, MaintenanceToOperatingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9668, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9653, Maintenance ]
+    - ToState:
+      - [ UAObject, ADI:9649, Operating ]
+    - HasCause:
+      - [ UAMethod, ADI:9457, GotoOperating ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9669, MaintenanceToLocalTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9670, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9653, Maintenance ]
+    - ToState:
+      - [ UAObject, ADI:9651, Local ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9671, OperatingToShutdownTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9672, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9649, Operating ]
+    - ToState:
+      - [ UAObject, ADI:9655, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9673, LocalToShutdownTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9674, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9651, Local ]
+    - ToState:
+      - [ UAObject, ADI:9655, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:9675, MaintenanceToShutdownTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:9676, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9653, Maintenance ]
+    - ToState:
+      - [ UAObject, ADI:9655, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+
+  AnalyserChannelType:
+  - [ UAObjectType, ADI:1003, AnalyserChannelType ]
+  - HasComponent:
+    - [ UAObject, ADI:9677, ParameterSet ]
+    - HasComponent:
+      - [ UAVariable, ADI:9712, ChannelId, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:9715, IsEnabled, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:9718, DiagnosticStatus, DeviceHealthEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:9721, ActiveStream, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:9679, MethodSet ]
+    - HasComponent:
+      - [ UAMethod, ADI:9699, GotoOperating ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9700, GotoMaintenance ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9701, StartSingleAcquisition ]
+      - HasProperty:
+        - [ UAVariable, ADI:9702, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ExecutionCycle: [ ExecutionCycleEnumeration, 0 ]
+            ExecutionCycleSubcode: [ UInt32, 0 ]
+            SelectedStream: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9703, Reset ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9704, Start ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9706, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9707, Unhold ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9708, Suspend ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9709, Unsuspend ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, ADI:9711, Clear ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9788, <GroupIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, ADI:9724, Configuration ]
+    - Organizes:
+      - [ UAVariable, ADI:9715, IsEnabled, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9726, Status ]
+    - Organizes:
+      - [ UAVariable, ADI:9718, DiagnosticStatus, DeviceHealthEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:9721, ActiveStream, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9728, ChannelStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:9729, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:9730, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9740, OperatingSubStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9741, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9742, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, ADI:9752, OperatingExecuteSubStateMachine ]
+        - HasComponent:
+          - [ UAVariable, ADI:9753, CurrentState, LocalizedText, 0, 0 ]
+          - HasProperty:
+            - [ UAVariable, ADI:9754, Id, NodeId, 0, 0 ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1007, AnalyserChannelStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9790, <StreamIdentifier> ]
+    - HasComponent:
+      - [ UAObject, ADI:9902, Configuration ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9904, Status ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9906, AcquisitionSettings ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9908, AcquisitionStatus ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9910, AcquisitionData ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9912, ChemometricModelSettings ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9914, Context ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1010, StreamType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, ADI:9916, <AccessorySlotIdentifier> ]
+    - HasComponent:
+      - [ UAObject, ADI:9917, SupportedTypes ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ADI:9918, IsHotSwappable, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ADI:9919, IsEnabled, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9920, AccessorySlotStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9921, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9922, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1018, AccessorySlotStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1017, AccessorySlotType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  AnalyserChannelOperatingStateType:
+  - [ UAObjectType, ADI:1004, AnalyserChannelOperatingStateType ]
+  - 117:
+    - [ UAObject, ADI:9948, OperatingSubStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:9949, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:9950, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9960, OperatingExecuteSubStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9961, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9962, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AnalyserChannelLocalStateType:
+  - [ UAObjectType, ADI:1005, AnalyserChannelLocalStateType ]
+
+  AnalyserChannelMaintenanceStateType:
+  - [ UAObjectType, ADI:1006, AnalyserChannelMaintenanceStateType ]
+
+  AnalyserChannelStateMachineType:
+  - [ UAObjectType, ADI:1007, AnalyserChannelStateMachineType ]
+  - HasComponent:
+    - [ UAObject, ADI:9948, OperatingSubStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:9949, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:9950, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:9960, OperatingExecuteSubStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9961, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9962, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:9972, LocalSubStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:9973, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:9974, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2771, FiniteStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:9984, MaintenanceSubStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:9985, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:9986, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2771, FiniteStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:9996, SlaveMode ]
+    - HasProperty:
+      - [ UAVariable, ADI:9997, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:9998, Operating ]
+    - HasProperty:
+      - [ UAVariable, ADI:9999, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - 117:
+      - [ UAObject, ADI:9948, OperatingSubStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9949, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9950, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, ADI:9960, OperatingExecuteSubStateMachine ]
+        - HasComponent:
+          - [ UAVariable, ADI:9961, CurrentState, LocalizedText, 0, 0 ]
+          - HasProperty:
+            - [ UAVariable, ADI:9962, Id, NodeId, 0, 0 ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1004, AnalyserChannelOperatingStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10000, Local ]
+    - HasProperty:
+      - [ UAVariable, ADI:10001, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - 117:
+      - [ UAObject, ADI:9972, LocalSubStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9973, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9974, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 2771, FiniteStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1005, AnalyserChannelLocalStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10002, Maintenance ]
+    - HasProperty:
+      - [ UAVariable, ADI:10003, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - 117:
+      - [ UAObject, ADI:9984, MaintenanceSubStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:9985, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:9986, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 2771, FiniteStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1006, AnalyserChannelMaintenanceStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10004, SlaveModeToOperatingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10005, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9996, SlaveMode ]
+    - ToState:
+      - [ UAObject, ADI:9998, Operating ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10006, OperatingToLocalTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10007, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9998, Operating ]
+    - ToState:
+      - [ UAObject, ADI:10000, Local ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10008, OperatingToMaintenanceTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10009, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9998, Operating ]
+    - ToState:
+      - [ UAObject, ADI:10002, Maintenance ]
+    - HasCause:
+      - [ UAMethod, ADI:9700, GotoMaintenance ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10010, LocalToOperatingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10011, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10000, Local ]
+    - ToState:
+      - [ UAObject, ADI:9998, Operating ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10012, LocalToMaintenanceTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10013, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10000, Local ]
+    - ToState:
+      - [ UAObject, ADI:10002, Maintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10014, MaintenanceToOperatingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10015, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10002, Maintenance ]
+    - ToState:
+      - [ UAObject, ADI:9998, Operating ]
+    - HasCause:
+      - [ UAMethod, ADI:9699, GotoOperating ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10016, MaintenanceToLocalTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10017, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10002, Maintenance ]
+    - ToState:
+      - [ UAObject, ADI:10000, Local ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10018, OperatingToSlaveModeTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10019, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:9998, Operating ]
+    - ToState:
+      - [ UAObject, ADI:9996, SlaveMode ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10020, LocalToSlaveModeTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10021, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10000, Local ]
+    - ToState:
+      - [ UAObject, ADI:9996, SlaveMode ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10022, MaintenanceToSlaveModeTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10023, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10002, Maintenance ]
+    - ToState:
+      - [ UAObject, ADI:9996, SlaveMode ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+
+  AnalyserChannelOperatingExecuteStateType:
+  - [ UAObjectType, ADI:8964, AnalyserChannelOperatingExecuteStateType ]
+  - 117:
+    - [ UAObject, ADI:10036, OperatingExecuteSubStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:10037, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10038, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AnalyserChannel_OperatingModeSubStateMachineType:
+  - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+  - HasComponent:
+    - [ UAObject, ADI:10036, OperatingExecuteSubStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:10037, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10038, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10048, Stopped ]
+    - HasProperty:
+      - [ UAVariable, ADI:10049, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10050, Resetting ]
+    - HasProperty:
+      - [ UAVariable, ADI:10051, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10052, Idle ]
+    - HasProperty:
+      - [ UAVariable, ADI:10053, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10054, Starting ]
+    - HasProperty:
+      - [ UAVariable, ADI:10055, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10056, Execute ]
+    - HasProperty:
+      - [ UAVariable, ADI:10057, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - 117:
+      - [ UAObject, ADI:10036, OperatingExecuteSubStateMachine ]
+      - HasComponent:
+        - [ UAVariable, ADI:10037, CurrentState, LocalizedText, 0, 0 ]
+        - HasProperty:
+          - [ UAVariable, ADI:10038, Id, NodeId, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:8964, AnalyserChannelOperatingExecuteStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10058, Completing ]
+    - HasProperty:
+      - [ UAVariable, ADI:10059, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10060, Complete ]
+    - HasProperty:
+      - [ UAVariable, ADI:10061, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10062, Suspending ]
+    - HasProperty:
+      - [ UAVariable, ADI:10063, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10064, Suspended ]
+    - HasProperty:
+      - [ UAVariable, ADI:10065, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10066, Unsuspending ]
+    - HasProperty:
+      - [ UAVariable, ADI:10067, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10068, Holding ]
+    - HasProperty:
+      - [ UAVariable, ADI:10069, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10070, Held ]
+    - HasProperty:
+      - [ UAVariable, ADI:10071, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10072, Unholding ]
+    - HasProperty:
+      - [ UAVariable, ADI:10073, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10074, Stopping ]
+    - HasProperty:
+      - [ UAVariable, ADI:10075, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10076, Aborting ]
+    - HasProperty:
+      - [ UAVariable, ADI:10077, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10078, Aborted ]
+    - HasProperty:
+      - [ UAVariable, ADI:10079, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10080, Clearing ]
+    - HasProperty:
+      - [ UAVariable, ADI:10081, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10082, StoppedToResettingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10083, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10048, Stopped ]
+    - ToState:
+      - [ UAObject, ADI:10050, Resetting ]
+    - HasCause:
+      - [ UAMethod, ADI:9703, Reset ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasCause:
+      - [ UAMethod, ADI:9445, SetConfiguration ]
+      - HasProperty:
+        - [ UAVariable, ADI:9446, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ConfigData: [ ByteString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:9447, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ConfigDataDigest: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10084, ResettingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10085, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10050, Resetting ]
+    - ToState:
+      - [ UAObject, ADI:10050, Resetting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10086, ResettingToIdleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10087, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10050, Resetting ]
+    - ToState:
+      - [ UAObject, ADI:10052, Idle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10088, IdleToStartingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10089, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10052, Idle ]
+    - ToState:
+      - [ UAObject, ADI:10054, Starting ]
+    - HasCause:
+      - [ UAMethod, ADI:9704, Start ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasCause:
+      - [ UAMethod, ADI:9701, StartSingleAcquisition ]
+      - HasProperty:
+        - [ UAVariable, ADI:9702, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ExecutionCycle: [ ExecutionCycleEnumeration, 0 ]
+            ExecutionCycleSubcode: [ UInt32, 0 ]
+            SelectedStream: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10090, StartingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10091, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10054, Starting ]
+    - ToState:
+      - [ UAObject, ADI:10054, Starting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10092, StartingToExecuteTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10093, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10054, Starting ]
+    - ToState:
+      - [ UAObject, ADI:10056, Execute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10094, ExecuteToCompletingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10095, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10056, Execute ]
+    - ToState:
+      - [ UAObject, ADI:10058, Completing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10096, CompletingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10097, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10058, Completing ]
+    - ToState:
+      - [ UAObject, ADI:10058, Completing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10098, CompletingToCompleteTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10099, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10058, Completing ]
+    - ToState:
+      - [ UAObject, ADI:10060, Complete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10100, CompleteToStoppedTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10101, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10060, Complete ]
+    - ToState:
+      - [ UAObject, ADI:10048, Stopped ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10102, ExecuteToHoldingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10103, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10056, Execute ]
+    - ToState:
+      - [ UAObject, ADI:10068, Holding ]
+    - HasCause:
+      - [ UAMethod, ADI:9706, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10104, HoldingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10105, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10068, Holding ]
+    - ToState:
+      - [ UAObject, ADI:10068, Holding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10106, HoldingToHeldTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10107, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10068, Holding ]
+    - ToState:
+      - [ UAObject, ADI:10070, Held ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10108, HeldToUnholdingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10109, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10070, Held ]
+    - ToState:
+      - [ UAObject, ADI:10072, Unholding ]
+    - HasCause:
+      - [ UAMethod, ADI:9707, Unhold ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10110, UnholdingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10111, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10072, Unholding ]
+    - ToState:
+      - [ UAObject, ADI:10072, Unholding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10112, UnholdingToHoldingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10113, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10072, Unholding ]
+    - ToState:
+      - [ UAObject, ADI:10068, Holding ]
+    - HasCause:
+      - [ UAMethod, ADI:9706, Hold ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10114, UnholdingToExecuteTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10115, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10072, Unholding ]
+    - ToState:
+      - [ UAObject, ADI:10056, Execute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10116, ExecuteToSuspendingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10117, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10056, Execute ]
+    - ToState:
+      - [ UAObject, ADI:10062, Suspending ]
+    - HasCause:
+      - [ UAMethod, ADI:9708, Suspend ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10118, SuspendingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10119, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10062, Suspending ]
+    - ToState:
+      - [ UAObject, ADI:10062, Suspending ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10120, SuspendingToSuspendedTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10121, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10062, Suspending ]
+    - ToState:
+      - [ UAObject, ADI:10064, Suspended ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10122, SuspendedToUnsuspendingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10123, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10064, Suspended ]
+    - ToState:
+      - [ UAObject, ADI:10066, Unsuspending ]
+    - HasCause:
+      - [ UAMethod, ADI:9709, Unsuspend ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10124, UnsuspendingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10125, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10066, Unsuspending ]
+    - ToState:
+      - [ UAObject, ADI:10066, Unsuspending ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10126, UnsuspendingToSuspendingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10127, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10066, Unsuspending ]
+    - ToState:
+      - [ UAObject, ADI:10062, Suspending ]
+    - HasCause:
+      - [ UAMethod, ADI:9708, Suspend ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10128, UnsuspendingToExecuteTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10129, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10066, Unsuspending ]
+    - ToState:
+      - [ UAObject, ADI:10056, Execute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10130, StoppingToStoppedTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10131, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - ToState:
+      - [ UAObject, ADI:10048, Stopped ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10132, AbortingToAbortedTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10133, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - ToState:
+      - [ UAObject, ADI:10078, Aborted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10134, AbortedToClearingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10135, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10078, Aborted ]
+    - ToState:
+      - [ UAObject, ADI:10080, Clearing ]
+    - HasCause:
+      - [ UAMethod, ADI:9711, Clear ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10136, ClearingToStoppedTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10137, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10080, Clearing ]
+    - ToState:
+      - [ UAObject, ADI:10048, Stopped ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10138, ResettingToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10139, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10050, Resetting ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10140, IdleToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10141, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10052, Idle ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10142, StartingToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10143, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10054, Starting ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10144, ExecuteToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10145, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10056, Execute ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10146, CompletingToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10147, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10058, Completing ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10148, CompleteToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10149, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10060, Complete ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10150, SuspendingToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10151, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10062, Suspending ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10152, SuspendedToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10153, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10064, Suspended ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10154, UnsuspendingToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10155, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10066, Unsuspending ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10156, HoldingToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10157, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10068, Holding ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10158, HeldToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10159, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10070, Held ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10160, UnholdingToStoppingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10161, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10072, Unholding ]
+    - ToState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - HasCause:
+      - [ UAMethod, ADI:9705, Stop ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10162, StoppedToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10163, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10048, Stopped ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10164, ResettingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10165, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10050, Resetting ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10166, IdleToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10167, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10052, Idle ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10168, StartingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10169, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10054, Starting ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10170, ExecuteToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10171, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10056, Execute ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10172, CompletingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10173, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10058, Completing ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10174, CompleteToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10175, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10060, Complete ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10176, SuspendingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10177, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10062, Suspending ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10178, SuspendedToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10179, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10064, Suspended ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10180, UnsuspendingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10181, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10066, Unsuspending ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10182, HoldingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10183, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10068, Holding ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10184, HeldToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10185, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10070, Held ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10186, UnholdingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10187, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10072, Unholding ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10188, StoppingToAbortingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10189, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10074, Stopping ]
+    - ToState:
+      - [ UAObject, ADI:10076, Aborting ]
+    - HasCause:
+      - [ UAMethod, ADI:9710, Abort ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+
+  AnalyserChannel_OperatingModeExecuteSubStateMachineType:
+  - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+  - HasComponent:
+    - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - HasProperty:
+      - [ UAVariable, ADI:10202, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10203, WaitForCalibrationTrigger ]
+    - HasProperty:
+      - [ UAVariable, ADI:10204, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10205, ExtractCalibrationSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10206, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10207, PrepareCalibrationSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10208, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10209, AnalyseCalibrationSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10210, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10211, WaitForValidationTrigger ]
+    - HasProperty:
+      - [ UAVariable, ADI:10212, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10213, ExtractValidationSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10214, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10215, PrepareValidationSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10216, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10217, AnalyseValidationSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10218, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10219, WaitForSampleTrigger ]
+    - HasProperty:
+      - [ UAVariable, ADI:10220, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10221, ExtractSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10222, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10223, PrepareSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10224, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10225, AnalyseSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10226, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10227, WaitForDiagnosticTrigger ]
+    - HasProperty:
+      - [ UAVariable, ADI:10228, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10229, Diagnostic ]
+    - HasProperty:
+      - [ UAVariable, ADI:10230, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10231, WaitForCleaningTrigger ]
+    - HasProperty:
+      - [ UAVariable, ADI:10232, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10233, Cleaning ]
+    - HasProperty:
+      - [ UAVariable, ADI:10234, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10235, PublishResults ]
+    - HasProperty:
+      - [ UAVariable, ADI:10236, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10237, EjectGrabSample ]
+    - HasProperty:
+      - [ UAVariable, ADI:10238, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10239, CleanupSamplingSystem ]
+    - HasProperty:
+      - [ UAVariable, ADI:10240, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10241, SelectExecutionCycleToWaitForCalibrationTriggerTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10242, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - ToState:
+      - [ UAObject, ADI:10203, WaitForCalibrationTrigger ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10243, WaitForCalibrationTriggerToExtractCalibrationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10244, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10203, WaitForCalibrationTrigger ]
+    - ToState:
+      - [ UAObject, ADI:10205, ExtractCalibrationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10245, ExtractCalibrationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10246, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10205, ExtractCalibrationSample ]
+    - ToState:
+      - [ UAObject, ADI:10205, ExtractCalibrationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10247, ExtractCalibrationSampleToPrepareCalibrationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10248, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10205, ExtractCalibrationSample ]
+    - ToState:
+      - [ UAObject, ADI:10207, PrepareCalibrationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10249, PrepareCalibrationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10250, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10207, PrepareCalibrationSample ]
+    - ToState:
+      - [ UAObject, ADI:10207, PrepareCalibrationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10251, PrepareCalibrationSampleToAnalyseCalibrationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10252, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10207, PrepareCalibrationSample ]
+    - ToState:
+      - [ UAObject, ADI:10209, AnalyseCalibrationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10253, AnalyseCalibrationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10254, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10209, AnalyseCalibrationSample ]
+    - ToState:
+      - [ UAObject, ADI:10209, AnalyseCalibrationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10255, AnalyseCalibrationSampleToPublishResultsTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10256, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10209, AnalyseCalibrationSample ]
+    - ToState:
+      - [ UAObject, ADI:10235, PublishResults ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10257, SelectExecutionCycleToWaitForValidationTriggerTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10258, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - ToState:
+      - [ UAObject, ADI:10211, WaitForValidationTrigger ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10259, WaitForValidationTriggerToExtractValidationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10260, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10211, WaitForValidationTrigger ]
+    - ToState:
+      - [ UAObject, ADI:10213, ExtractValidationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10261, ExtractValidationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10262, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10213, ExtractValidationSample ]
+    - ToState:
+      - [ UAObject, ADI:10213, ExtractValidationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10263, ExtractValidationSampleToPrepareValidationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10264, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10213, ExtractValidationSample ]
+    - ToState:
+      - [ UAObject, ADI:10215, PrepareValidationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10265, PrepareValidationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10266, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10215, PrepareValidationSample ]
+    - ToState:
+      - [ UAObject, ADI:10215, PrepareValidationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10267, PrepareValidationSampleToAnalyseValidationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10268, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10215, PrepareValidationSample ]
+    - ToState:
+      - [ UAObject, ADI:10217, AnalyseValidationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10269, AnalyseValidationSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10270, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10217, AnalyseValidationSample ]
+    - ToState:
+      - [ UAObject, ADI:10217, AnalyseValidationSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10271, AnalyseValidationSampleToPublishResultsTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10272, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10217, AnalyseValidationSample ]
+    - ToState:
+      - [ UAObject, ADI:10235, PublishResults ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10273, SelectExecutionCycleToWaitForSampleTriggerTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10274, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - ToState:
+      - [ UAObject, ADI:10219, WaitForSampleTrigger ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10275, WaitForSampleTriggerToExtractSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10276, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10219, WaitForSampleTrigger ]
+    - ToState:
+      - [ UAObject, ADI:10221, ExtractSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10277, ExtractSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10278, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10221, ExtractSample ]
+    - ToState:
+      - [ UAObject, ADI:10221, ExtractSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10279, ExtractSampleToPrepareSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10280, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10221, ExtractSample ]
+    - ToState:
+      - [ UAObject, ADI:10223, PrepareSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10281, PrepareSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10282, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10223, PrepareSample ]
+    - ToState:
+      - [ UAObject, ADI:10223, PrepareSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10283, PrepareSampleToAnalyseSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10284, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10223, PrepareSample ]
+    - ToState:
+      - [ UAObject, ADI:10225, AnalyseSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10285, AnalyseSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10286, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10225, AnalyseSample ]
+    - ToState:
+      - [ UAObject, ADI:10225, AnalyseSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10287, AnalyseSampleToPublishResultsTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10288, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10225, AnalyseSample ]
+    - ToState:
+      - [ UAObject, ADI:10235, PublishResults ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10289, SelectExecutionCycleToWaitForDiagnosticTriggerTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10290, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - ToState:
+      - [ UAObject, ADI:10227, WaitForDiagnosticTrigger ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10291, WaitForDiagnosticTriggerToDiagnosticTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10292, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10227, WaitForDiagnosticTrigger ]
+    - ToState:
+      - [ UAObject, ADI:10229, Diagnostic ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10293, DiagnosticTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10294, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10229, Diagnostic ]
+    - ToState:
+      - [ UAObject, ADI:10229, Diagnostic ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10295, DiagnosticToPublishResultsTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10296, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10229, Diagnostic ]
+    - ToState:
+      - [ UAObject, ADI:10235, PublishResults ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10297, SelectExecutionCycleToWaitForCleaningTriggerTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10298, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - ToState:
+      - [ UAObject, ADI:10231, WaitForCleaningTrigger ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10299, WaitForCleaningTriggerToCleaningTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10300, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10231, WaitForCleaningTrigger ]
+    - ToState:
+      - [ UAObject, ADI:10233, Cleaning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10301, CleaningTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10302, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10233, Cleaning ]
+    - ToState:
+      - [ UAObject, ADI:10233, Cleaning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10303, CleaningToPublishResultsTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10304, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10233, Cleaning ]
+    - ToState:
+      - [ UAObject, ADI:10235, PublishResults ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10305, PublishResultsToCleanupSamplingSystemTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10306, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10235, PublishResults ]
+    - ToState:
+      - [ UAObject, ADI:10239, CleanupSamplingSystem ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10307, PublishResultsToEjectGrabSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10308, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10235, PublishResults ]
+    - ToState:
+      - [ UAObject, ADI:10237, EjectGrabSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10309, EjectGrabSampleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10310, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10237, EjectGrabSample ]
+    - ToState:
+      - [ UAObject, ADI:10237, EjectGrabSample ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10311, EjectGrabSampleToCleanupSamplingSystemTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10312, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10237, EjectGrabSample ]
+    - ToState:
+      - [ UAObject, ADI:10239, CleanupSamplingSystem ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10313, CleanupSamplingSystemTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10314, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10239, CleanupSamplingSystem ]
+    - ToState:
+      - [ UAObject, ADI:10239, CleanupSamplingSystem ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10315, CleanupSamplingSystemToSelectExecutionCycleTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:10316, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:10239, CleanupSamplingSystem ]
+    - ToState:
+      - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+
+  StreamType:
+  - [ UAObjectType, ADI:1010, StreamType ]
+  - HasComponent:
+    - [ UAObject, ADI:10317, ParameterSet ]
+    - HasComponent:
+      - [ UAVariable, ADI:10339, IsEnabled, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10342, IsForced, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10345, DiagnosticStatus, DeviceHealthEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10348, LastCalibrationTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10351, LastValidationTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10354, LastSampleTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10357, TimeBetweenSamples, Duration, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10361, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10363, IsActive, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10366, ExecutionCycle, ExecutionCycleEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10369, ExecutionCycleSubcode, UInteger, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10372, EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10373, Progress, Float, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10376, AcquisitionCounter, Counter, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10380, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10382, AcquisitionResultStatus, AcquisitionResultStatusEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10385, RawData ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10388, ScaledData ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10391, Offset, Duration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10394, AcquisitionEndTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10397, CampaignId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10400, BatchId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10403, SubBatchId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10406, LotId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10409, MaterialId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10412, Process, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10415, Unit, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10418, Operation, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10421, Phase, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10424, UserId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10427, SampleId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:10444, <GroupIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, ADI:10430, Configuration ]
+    - Organizes:
+      - [ UAVariable, ADI:10339, IsEnabled, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10342, IsForced, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10432, Status ]
+    - Organizes:
+      - [ UAVariable, ADI:10345, DiagnosticStatus, DeviceHealthEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10348, LastCalibrationTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10351, LastValidationTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10354, LastSampleTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10434, AcquisitionSettings ]
+    - Organizes:
+      - [ UAVariable, ADI:10357, TimeBetweenSamples, Duration, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10361, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10436, AcquisitionStatus ]
+    - Organizes:
+      - [ UAVariable, ADI:10363, IsActive, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10366, ExecutionCycle, ExecutionCycleEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10369, ExecutionCycleSubcode, UInteger, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10372, EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10373, Progress, Float, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10438, AcquisitionData ]
+    - Organizes:
+      - [ UAVariable, ADI:10376, AcquisitionCounter, Counter, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10380, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2368, AnalogItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10382, AcquisitionResultStatus, AcquisitionResultStatusEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10385, RawData ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10388, ScaledData ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10391, Offset, Duration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10394, AcquisitionEndTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10440, ChemometricModelSettings ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10442, Context ]
+    - Organizes:
+      - [ UAVariable, ADI:10397, CampaignId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10400, BatchId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10403, SubBatchId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10406, LotId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10409, MaterialId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10412, Process, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10415, Unit, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10418, Operation, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10421, Phase, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10424, UserId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10427, SampleId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  SpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1030, SpectrometerDeviceStreamType ]
+  - HasComponent:
+    - [ UAObject, ADI:10446, ParameterSet ]
+    - HasComponent:
+      - [ UAVariable, ADI:10575, ActiveBackground, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10579, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10580, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10581, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10582, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10583, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10584, ActiveBackground1, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10588, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10589, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10590, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10591, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10592, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10593, SpectralRange, Range, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10596, Resolution ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10599, RequestedNumberOfScans, Int32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10602, Gain ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10605, TransmittanceCutoff, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10608, AbsorbanceCutoff, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10611, NumberOfScansDone, Int32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10614, TotalNumberOfScansDone, Int32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10617, BackgroundAcquisitionTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10620, PendingBackground, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10624, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10625, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10626, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10627, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10628, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10629, PendingBackground1, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10633, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10634, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10635, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10636, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10637, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:10559, Configuration ]
+    - Organizes:
+      - [ UAVariable, ADI:10575, ActiveBackground, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10579, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10580, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10581, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10582, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10583, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10584, ActiveBackground1, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10588, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10589, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10590, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10591, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10592, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10563, AcquisitionSettings ]
+    - Organizes:
+      - [ UAVariable, ADI:10593, SpectralRange, Range, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10596, Resolution ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10599, RequestedNumberOfScans, Int32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10602, Gain ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10605, TransmittanceCutoff, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10608, AbsorbanceCutoff, Range, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10565, AcquisitionStatus ]
+    - Organizes:
+      - [ UAVariable, ADI:10611, NumberOfScansDone, Int32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10567, AcquisitionData ]
+    - Organizes:
+      - [ UAVariable, ADI:10614, TotalNumberOfScansDone, Int32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10617, BackgroundAcquisitionTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10620, PendingBackground, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10624, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10625, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10626, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10627, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10628, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10629, PendingBackground1, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10633, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10634, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10635, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10636, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10637, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:10638, FactorySettings ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MassSpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1031, MassSpectrometerDeviceStreamType ]
+
+  ParticleSizeMonitorDeviceStreamType:
+  - [ UAObjectType, ADI:1032, ParticleSizeMonitorDeviceStreamType ]
+  - HasComponent:
+    - [ UAObject, ADI:10768, ParameterSet ]
+    - HasComponent:
+      - [ UAVariable, ADI:10897, Background, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10901, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10902, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10903, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10904, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10905, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, ADI:10906, SizeDistribution, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10910, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10911, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10912, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10913, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10914, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, ADI:10915, BackgroundAcquisitionTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:10889, AcquisitionData ]
+    - Organizes:
+      - [ UAVariable, ADI:10897, Background, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10901, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10902, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10903, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10904, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10905, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - Organizes:
+      - [ UAVariable, ADI:10906, SizeDistribution, Float, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:10910, EURange, Range, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10911, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10912, Title, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10913, AxisScaleType, AxisScaleEnumeration, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, ADI:10914, XAxisDefinition, AxisInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 12029, YArrayItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - Organizes:
+      - [ UAVariable, ADI:10915, BackgroundAcquisitionTime, DateTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  AcousticSpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1033, AcousticSpectrometerDeviceStreamType ]
+
+  ChromatographDeviceStreamType:
+  - [ UAObjectType, ADI:1034, ChromatographDeviceStreamType ]
+
+  MNRDeviceStreamType:
+  - [ UAObjectType, ADI:1035, MNRDeviceStreamType ]
+
+  SpectrometerDeviceType:
+  - [ UAObjectType, ADI:1011, SpectrometerDeviceType ]
+  - HasComponent:
+    - [ UAObject, ADI:11305, ParameterSet ]
+    - HasComponent:
+      - [ UAVariable, ADI:11551, SpectralRange, Range, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2365, DataItemType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, ADI:11411, FactorySettings ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ParticleSizeMonitorDeviceType:
+  - [ UAObjectType, ADI:1012, ParticleSizeMonitorDeviceType ]
+
+  ChromatographDeviceType:
+  - [ UAObjectType, ADI:1013, ChromatographDeviceType ]
+
+  MassSpectrometerDeviceType:
+  - [ UAObjectType, ADI:1014, MassSpectrometerDeviceType ]
+
+  AcousticSpectrometerDeviceType:
+  - [ UAObjectType, ADI:1015, AcousticSpectrometerDeviceType ]
+
+  NMRDeviceType:
+  - [ UAObjectType, ADI:1016, NMRDeviceType ]
+
+  AccessorySlotType:
+  - [ UAObjectType, ADI:1017, AccessorySlotType ]
+  - HasProperty:
+    - [ UAVariable, ADI:12786, IsHotSwappable, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:12787, IsEnabled, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:12788, AccessorySlotStateMachine ]
+    - HasComponent:
+      - [ UAVariable, ADI:12789, CurrentState, LocalizedText, 0, 0 ]
+      - HasProperty:
+        - [ UAVariable, ADI:12790, Id, NodeId, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1018, AccessorySlotStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:12800, <AccessoryIdentifier> ]
+    - HasComponent:
+      - [ UAObject, ADI:12821, Configuration ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:12823, Status ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, ADI:12825, FactorySettings ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ADI:12827, IsHotSwappable, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, ADI:12828, IsReady, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, ADI:1019, AccessoryType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  AccessorySlotStateMachineType:
+  - [ UAObjectType, ADI:1018, AccessorySlotStateMachineType ]
+  - HasComponent:
+    - [ UAObject, ADI:12840, Powerup ]
+    - HasProperty:
+      - [ UAVariable, ADI:12841, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, ADI:12842, Empty ]
+    - HasProperty:
+      - [ UAVariable, ADI:12843, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:12844, Inserting ]
+    - HasProperty:
+      - [ UAVariable, ADI:12845, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:12846, Installed ]
+    - HasProperty:
+      - [ UAVariable, ADI:12847, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:12848, Removing ]
+    - HasProperty:
+      - [ UAVariable, ADI:12849, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:12850, Shutdown ]
+    - HasProperty:
+      - [ UAVariable, ADI:12851, StateNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:12852, PowerupToEmptyTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12853, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12840, Powerup ]
+    - ToState:
+      - [ UAObject, ADI:12842, Empty ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12854, EmptyToInsertingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12855, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12842, Empty ]
+    - ToState:
+      - [ UAObject, ADI:12844, Inserting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12856, InsertingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12857, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12844, Inserting ]
+    - ToState:
+      - [ UAObject, ADI:12844, Inserting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12858, InsertingToRemovingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12859, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12844, Inserting ]
+    - ToState:
+      - [ UAObject, ADI:12848, Removing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12860, InsertingToInstalledTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12861, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12844, Inserting ]
+    - ToState:
+      - [ UAObject, ADI:12846, Installed ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12862, InstalledToRemovingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12863, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12846, Installed ]
+    - ToState:
+      - [ UAObject, ADI:12848, Removing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12864, RemovingTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12865, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12848, Removing ]
+    - ToState:
+      - [ UAObject, ADI:12848, Removing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12866, RemovingToEmptyTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12867, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12848, Removing ]
+    - ToState:
+      - [ UAObject, ADI:12842, Empty ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12868, EmptyToShutdownTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12869, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12842, Empty ]
+    - ToState:
+      - [ UAObject, ADI:12850, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12870, InsertingToShutdownTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12871, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12844, Inserting ]
+    - ToState:
+      - [ UAObject, ADI:12850, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12872, InstalledToShutdownTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12873, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12846, Installed ]
+    - ToState:
+      - [ UAObject, ADI:12850, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:12874, RemovingToShutdownTransition ]
+    - HasProperty:
+      - [ UAVariable, ADI:12875, TransitionNumber, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - FromState:
+      - [ UAObject, ADI:12848, Removing ]
+    - ToState:
+      - [ UAObject, ADI:12850, Shutdown ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+
+  AccessoryType:
+  - [ UAObjectType, ADI:1019, AccessoryType ]
+  - HasComponent:
+    - [ UAObject, ADI:12898, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:12900, Status ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, ADI:12902, FactorySettings ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:12904, IsHotSwappable, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, ADI:12905, IsReady, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  DetectorType:
+  - [ UAObjectType, ADI:9350, DetectorType ]
+
+  SmartSamplingSystemType:
+  - [ UAObjectType, ADI:9359, SmartSamplingSystemType ]
+
+  SourceType:
+  - [ UAObjectType, ADI:9368, SourceType ]
+
+  GcOvenType:
+  - [ UAObjectType, ADI:1020, GcOvenType ]

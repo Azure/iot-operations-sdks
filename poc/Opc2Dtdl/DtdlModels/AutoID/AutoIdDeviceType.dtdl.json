@@ -1,0 +1,484 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NMEA",
+          "schema": "string"
+        },
+        {
+          "name": "Local",
+          "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocalCoordinate;1"
+        },
+        {
+          "name": "WGS84",
+          "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:WGS84Coordinate;1"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:DeviceStatusEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Idle",
+          "enumValue": 0
+        },
+        {
+          "name": "Error",
+          "enumValue": 1
+        },
+        {
+          "name": "Scanning",
+          "enumValue": 2
+        },
+        {
+          "name": "Busy",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocationTypeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NMEA",
+          "enumValue": 0
+        },
+        {
+          "name": "LOCAL",
+          "enumValue": 1
+        },
+        {
+          "name": "WGS84",
+          "enumValue": 2
+        },
+        {
+          "name": "NAME",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanSettings;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Duration",
+          "schema": "duration"
+        },
+        {
+          "name": "Cycles",
+          "schema": "integer"
+        },
+        {
+          "name": "DataAvailable",
+          "schema": "boolean"
+        },
+        {
+          "name": "LocationType",
+          "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocationTypeEnumeration;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanResult;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "CodeType",
+          "schema": "string"
+        },
+        {
+          "name": "ScanData",
+          "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanData;1"
+        },
+        {
+          "name": "Timestamp",
+          "schema": "time"
+        },
+        {
+          "name": "Location",
+          "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanData;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ByteString",
+          "schema": "bytes"
+        },
+        {
+          "name": "String",
+          "schema": "string"
+        },
+        {
+          "name": "Epc",
+          "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanDataEpc;1"
+        },
+        {
+          "name": "Custom",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanDataEpc;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "PC",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "UId",
+          "schema": "bytes"
+        },
+        {
+          "name": "XPC_W1",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "XPC_W2",
+          "schema": "unsignedShort"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:AutoIdOperationStatusEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SUCCESS",
+          "enumValue": 0
+        },
+        {
+          "name": "MISC_ERROR_TOTAL",
+          "enumValue": 1
+        },
+        {
+          "name": "MISC_ERROR_PARTIAL",
+          "enumValue": 2
+        },
+        {
+          "name": "PERMISSON_ERROR",
+          "enumValue": 3
+        },
+        {
+          "name": "PASSWORD_ERROR",
+          "enumValue": 4
+        },
+        {
+          "name": "REGION_NOT_FOUND_ERROR",
+          "enumValue": 5
+        },
+        {
+          "name": "OP_NOT_POSSIBLE_ERROR",
+          "enumValue": 6
+        },
+        {
+          "name": "OUT_OF_RANGE_ERROR",
+          "enumValue": 7
+        },
+        {
+          "name": "NO_IDENTIFIER",
+          "enumValue": 8
+        },
+        {
+          "name": "MULTIPLE_IDENTIFIERS",
+          "enumValue": 9
+        },
+        {
+          "name": "READ_ERROR",
+          "enumValue": 10
+        },
+        {
+          "name": "DECODING_ERROR",
+          "enumValue": 11
+        },
+        {
+          "name": "MATCH_ERROR",
+          "enumValue": 12
+        },
+        {
+          "name": "CODE_NOT_SUPPORTED",
+          "enumValue": 13
+        },
+        {
+          "name": "WRITE_ERROR",
+          "enumValue": 14
+        },
+        {
+          "name": "NOT_SUPPORTED_BY_DEVICE",
+          "enumValue": 15
+        },
+        {
+          "name": "NOT_SUPPORTED_BY_TAG",
+          "enumValue": 16
+        },
+        {
+          "name": "DEVICE_NOT_READY",
+          "enumValue": 17
+        },
+        {
+          "name": "INVALID_CONFIGURATION",
+          "enumValue": 18
+        },
+        {
+          "name": "RF_COMMUNICATION_ERROR",
+          "enumValue": 19
+        },
+        {
+          "name": "DEVICE_FAULT",
+          "enumValue": 20
+        },
+        {
+          "name": "TAG_HAS_LOW_BATTERY",
+          "enumValue": 21
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocalCoordinate;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "X",
+          "schema": "double"
+        },
+        {
+          "name": "Y",
+          "schema": "double"
+        },
+        {
+          "name": "Z",
+          "schema": "double"
+        },
+        {
+          "name": "Timestamp",
+          "schema": "time"
+        },
+        {
+          "name": "DilutionOfPrecision",
+          "schema": "double"
+        },
+        {
+          "name": "UsefulPrecision",
+          "schema": "integer"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:WGS84Coordinate;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "N_S_Hemisphere",
+          "schema": "string"
+        },
+        {
+          "name": "Latitude",
+          "schema": "double"
+        },
+        {
+          "name": "E_W_Hemisphere",
+          "schema": "string"
+        },
+        {
+          "name": "Longitude",
+          "schema": "double"
+        },
+        {
+          "name": "Altitude",
+          "schema": "double"
+        },
+        {
+          "name": "Timestamp",
+          "schema": "time"
+        },
+        {
+          "name": "DilutionOfPrecision",
+          "schema": "double"
+        },
+        {
+          "name": "UsefulPrecisionLatLon",
+          "schema": "integer"
+        },
+        {
+          "name": "UsefulPrecisionAlt",
+          "schema": "integer"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DeviceLocation",
+      "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DeviceStatus",
+      "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:DeviceStatusEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LastScanData",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LastScanTimestamp",
+      "schema": "time",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ScanActive",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "GetDeviceLocation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "LocationType",
+              "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocationTypeEnumeration;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Location",
+              "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Scan",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Settings",
+              "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanSettings;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanResult;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ScanStart",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Settings",
+              "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanSettings;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ScanStop"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Diagnostics",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IOData",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "RuntimeParameters",
+      "target": "dtmi:opcua:DI:FunctionalGroupType"
+    }
+  ]
+}

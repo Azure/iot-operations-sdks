@@ -1,0 +1,149 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_TCD:DeviceZoneType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualProcessPower",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPumpPower",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualPumpSpeedRPM",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActualRegulationRatio",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DelayTimeAfterCooling",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InternalMeasuringPoint",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PressureMainLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PressureReturnLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PumpControlMode",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "StandbyTemperature",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SwitchingOffTemperature",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TemperatureLimitation",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TemperatureMainLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TemperatureReturnLine",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExternalChannels",
+      "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExternalSensor",
+      "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalSensorType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FlowRate",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LeakStopper",
+      "target": "dtmi:opcua:PlasticsRubber_TCD:LeakStopperType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MaintenanceInformation",
+      "target": "dtmi:opcua:PlasticsRubber_TCD:MaintenanceInformationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MouldEvacuation",
+      "target": "dtmi:opcua:PlasticsRubber_TCD:MouldEvacuationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PressureDifference",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PumpSpeed",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Temperature",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TemperatureDifference",
+      "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
+    }
+  ]
+}

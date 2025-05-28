@@ -1,0 +1,88 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales:LaboratoryScaleType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales:LaboratoryScaleType:dataType:DraftShieldType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Right_0",
+          "enumValue": 0
+        },
+        {
+          "name": "Left_1",
+          "enumValue": 1
+        },
+        {
+          "name": "Top_2",
+          "enumValue": 2
+        },
+        {
+          "name": "All_3",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "CloseDraftShields",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Shield",
+              "schema": "dtmi:opcua:Scales:LaboratoryScaleType:dataType:DraftShieldType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "OpenDraftShields",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Shield",
+              "schema": "dtmi:opcua:Scales:LaboratoryScaleType:dataType:DraftShieldType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "StartCalibration"
+    },
+    {
+      "@type": "Command",
+      "name": "StartIonisator"
+    },
+    {
+      "@type": "Command",
+      "name": "StartLeveling"
+    },
+    {
+      "@type": "Command",
+      "name": "StopIonisator"
+    }
+  ]
+}

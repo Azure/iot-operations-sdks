@@ -1,0 +1,66 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PnEm:EnergyDevicePowerOffType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ModePowerConsumption",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RegularTimeToOperate",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TimeMinPause",
+      "schema": "duration",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "SwitchOffWOL",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ModeID",
+              "schema": "unsignedByte"
+            },
+            {
+              "name": "CurrentTimeToDestination",
+              "schema": "duration"
+            },
+            {
+              "name": "RegularTimeToOperate",
+              "schema": "duration"
+            },
+            {
+              "name": "TimeMinLengthOfStay",
+              "schema": "duration"
+            },
+            {
+              "name": "ReturnCode",
+              "schema": "unsignedByte"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

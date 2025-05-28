@@ -1,0 +1,164 @@
+DataTypes:
+- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+  Enums:
+    Undefined: 0
+    OK: 1
+    NotOK: 2
+    NotDecidable: 3
+- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+  Bases:
+  - BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    AcquisitionDuration: [ Duration, 0 ]
+    ProcessingDuration: [ Duration, 0 ]
+- UADataType: [ Machinery.Result:3008, ResultDataType ]
+  Fields:
+    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultContent: [ null, 1 ]
+- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    IsPartial: [ Boolean, 0 ]
+    IsSimulated: [ Boolean, 0 ]
+    ResultState: [ Int32, 0 ]
+    StepId: [ TrimmedString, 0 ]
+    PartId: [ TrimmedString, 0 ]
+    ExternalRecipeId: [ TrimmedString, 0 ]
+    InternalRecipeId: [ TrimmedString, 0 ]
+    ProductId: [ TrimmedString, 0 ]
+    ExternalConfigurationId: [ TrimmedString, 0 ]
+    InternalConfigurationId: [ TrimmedString, 0 ]
+    JobId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ResultUri: [ UriString, 1 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluationCode: [ Int64, 0 ]
+    ResultEvaluationDetails: [ LocalizedText, 0 ]
+    FileFormat: [ String, 1 ]
+
+DefinedTypes:
+
+  ResultReadyEventType:
+  - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
+  - HasComponent:
+    - [ UAVariable, Machinery.Result:6032, Result, ResultDataType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ResultManagementType:
+  - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
+  - HasComponent:
+    - [ UAMethod, Machinery.Result:7008, GetLatestResult ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6054, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6055, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultHandle: [ Handle, 0 ]
+          Result: [ ResultDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Machinery.Result:7005, GetResultById ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6048, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultId: [ TrimmedString, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6049, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultHandle: [ Handle, 0 ]
+          Result: [ ResultDataType, 0 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Machinery.Result:7006, GetResultIdListFiltered ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6050, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Filter: [ ContentFilter, 0 ]
+          OrderedBy: [ RelativePath, 1 ]
+          MaxResults: [ UInt32, 0 ]
+          Timeout: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6051, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultHandle: [ Handle, 0 ]
+          ResultIdList: [ TrimmedString, 1 ]
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, Machinery.Result:7007, ReleaseResultHandle ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6052, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultHandle: [ Handle, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6053, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Error: [ Int32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Machinery.Result:5011, Results ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+  - HasComponent:
+    - [ UAObject, Machinery.Result:5010, ResultTransfer ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ResultTransferType:
+  - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
+  - HasComponent:
+    - [ UAMethod, Machinery.Result:7001, GenerateFileForRead ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6035, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          GenerateOptions: [ BaseResultTransferOptionsDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, Machinery.Result:6036, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FileNodeId: [ NodeId, 0 ]
+          FileHandle: [ UInt32, 0 ]
+          CompletionStateMachine: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]

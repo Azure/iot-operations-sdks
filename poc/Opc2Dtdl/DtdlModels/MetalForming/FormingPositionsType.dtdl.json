@@ -1,0 +1,40 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MetalForming:FormingPositionsType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "BDC",
+      "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Retract",
+      "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Start",
+      "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TDC",
+      "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Touch",
+      "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
+    }
+  ]
+}

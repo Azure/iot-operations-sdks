@@ -1,0 +1,297 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "MoveClose",
+          "enumValue": 1
+        },
+        {
+          "name": "MoveOpen",
+          "enumValue": 2
+        },
+        {
+          "name": "Stop",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Position",
+          "enumValue": 1
+        },
+        {
+          "name": "Flow",
+          "enumValue": 2
+        },
+        {
+          "name": "Manual",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SEM_A",
+          "enumValue": 1
+        },
+        {
+          "name": "SEM_B",
+          "enumValue": 2
+        },
+        {
+          "name": "Auto",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CommandRejected",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "DeviceCurrent",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FlowRate",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InletPressure",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "InternalPressure",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Moving",
+      "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableCloseInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableCommandInProgressInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NonDefeatableOpenInterlock",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperationMode",
+      "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OutletPressure",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Position",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TargetFlowRate",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TargetPosition",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "TotalFlow",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "Abort"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetTotalFlow",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Initial",
+              "schema": "float"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetFlowRate",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FlowRate",
+              "schema": "float"
+            },
+            {
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+            },
+            {
+              "name": "ShutdownRequest",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetManual",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Direction",
+              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1"
+            },
+            {
+              "name": "Delta",
+              "schema": "float"
+            },
+            {
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+            },
+            {
+              "name": "ShutdownRequest",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetOperationMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Mode",
+              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1"
+            },
+            {
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+            },
+            {
+              "name": "ShutdownRequest",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetPosition",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Position",
+              "schema": "float"
+            },
+            {
+              "name": "SEM",
+              "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
+            },
+            {
+              "name": "ShutdownRequest",
+              "schema": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "MotorOperationsCount",
+      "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TotalMotorRuntime",
+      "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
+    }
+  ]
+}

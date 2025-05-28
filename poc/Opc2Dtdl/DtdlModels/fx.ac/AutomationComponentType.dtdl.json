@@ -1,0 +1,650 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:fx_ac:AutomationComponentType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AggregatedHealthDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "AggregatedDeviceHealth",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
+        },
+        {
+          "name": "AggregatedOperationalHealth",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:DeviceHealthOptionSet;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "DeviceFailure",
+          "enumValue": 0
+        },
+        {
+          "name": "DeviceCheckFunction",
+          "enumValue": 1
+        },
+        {
+          "name": "DeviceMaintenanceRequired",
+          "enumValue": 2
+        },
+        {
+          "name": "DeviceOffSpec",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:OperationalHealthOptionSet;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OperationalWarning",
+          "enumValue": 16
+        },
+        {
+          "name": "OperationalError",
+          "enumValue": 17
+        },
+        {
+          "name": "SubOperationalWarning",
+          "enumValue": 18
+        },
+        {
+          "name": "SubOperationalError",
+          "enumValue": 19
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FxCommandMask;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "VerifyAssetCmd",
+          "enumValue": 0
+        },
+        {
+          "name": "VerifyFunctionalEntityCmd",
+          "enumValue": 1
+        },
+        {
+          "name": "CreateConnectionEndpointCmd",
+          "enumValue": 2
+        },
+        {
+          "name": "EstablishControlCmd",
+          "enumValue": 3
+        },
+        {
+          "name": "SetConfigurationDataCmd",
+          "enumValue": 4
+        },
+        {
+          "name": "ReassignControlCmd",
+          "enumValue": 5
+        },
+        {
+          "name": "ReserveCommunicationIdsCmd",
+          "enumValue": 6
+        },
+        {
+          "name": "SetCommunicationConfigurationCmd",
+          "enumValue": 7
+        },
+        {
+          "name": "EnableCommunicationCmd",
+          "enumValue": 8
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "AssetToVerify",
+          "schema": "string"
+        },
+        {
+          "name": "VerificationMode",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationModeEnum;1"
+        },
+        {
+          "name": "ExpectedVerificationResult",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
+        },
+        {
+          "name": "ExpectedVerificationVariables",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:KeyValuePair;1"
+          }
+        },
+        {
+          "name": "ExpectedAdditionalVerificationVariables",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdArray;1"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:KeyValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NotSet",
+          "enumValue": 0
+        },
+        {
+          "name": "Match",
+          "enumValue": 1
+        },
+        {
+          "name": "Compatible",
+          "enumValue": 2
+        },
+        {
+          "name": "Mismatch",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "AssetCompatibility",
+          "enumValue": 0
+        },
+        {
+          "name": "AssetIdentity",
+          "enumValue": 1
+        },
+        {
+          "name": "AssetIdentityAndCompatibility",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdArray;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Node",
+          "schema": "string"
+        },
+        {
+          "name": "ArrayIndex",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "unsignedInteger"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "FunctionalEntityNode",
+          "schema": "string"
+        },
+        {
+          "name": "ConnectionEndpoint",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1"
+        },
+        {
+          "name": "ExpectedVerificationVariables",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1"
+          }
+        },
+        {
+          "name": "ControlGroups",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "ConfigurationData",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1"
+          }
+        },
+        {
+          "name": "CommunicationLinks",
+          "schema": "bytes"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Parameter",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1"
+        },
+        {
+          "name": "Node",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "ConnectionEndpointTypeId",
+          "schema": "string"
+        },
+        {
+          "name": "InputVariableIds",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "OutputVariableIds",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "IsPersistent",
+          "schema": "boolean"
+        },
+        {
+          "name": "CleanupTimeout",
+          "schema": "duration"
+        },
+        {
+          "name": "RelatedEndpoint",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:RelatedEndpointDataType;1"
+        },
+        {
+          "name": "IsPreconfigured",
+          "schema": "boolean"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:RelatedEndpointDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Address",
+          "schema": "string"
+        },
+        {
+          "name": "ConnectionEndpointPath",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:PortableQualifiedName;1"
+          }
+        },
+        {
+          "name": "ConnectionEndpointName",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:PortableQualifiedName;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NamespaceUri",
+          "schema": "string"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "VerificationStatus",
+          "schema": "integer"
+        },
+        {
+          "name": "VerificationResult",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
+        },
+        {
+          "name": "VerificationVariablesErrors",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "integer"
+          }
+        },
+        {
+          "name": "VerificationAdditionalVariablesErrors",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "integer"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ConnectionEndpointId",
+          "schema": "string"
+        },
+        {
+          "name": "FunctionalEntityNodeResult",
+          "schema": "integer"
+        },
+        {
+          "name": "ConnectionEndpointResult",
+          "schema": "integer"
+        },
+        {
+          "name": "VerificationResult",
+          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1"
+        },
+        {
+          "name": "VerificationStatus",
+          "schema": "integer"
+        },
+        {
+          "name": "VerificationVariablesErrors",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "integer"
+          }
+        },
+        {
+          "name": "EstablishControlResult",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "integer"
+          }
+        },
+        {
+          "name": "ConfigurationDataResult",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "integer"
+          }
+        },
+        {
+          "name": "ReassignControlResult",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "integer"
+          }
+        },
+        {
+          "name": "CommunicationLinksResult",
+          "schema": "integer"
+        },
+        {
+          "name": "EnableCommunicationResult",
+          "schema": "integer"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NotSet",
+          "enumValue": 0
+        },
+        {
+          "name": "Match",
+          "enumValue": 1
+        },
+        {
+          "name": "Mismatch",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AggregatedHealth",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "AggregatedHealth",
+            "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AggregatedHealthDataType;1"
+          },
+          {
+            "name": "AggregatedDeviceHealth",
+            "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
+          },
+          {
+            "name": "AggregatedOperationalHealth",
+            "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
+          }
+        ]
+      },
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "CloseConnections",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ConnectionEndpoints",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "Remove",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Results",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "integer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "EstablishConnections",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "CommandMask",
+              "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FxCommandMask;1"
+            },
+            {
+              "name": "AssetVerifications",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationDataType;1"
+              }
+            },
+            {
+              "name": "ConnectionEndpointConfigurations",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1"
+              }
+            },
+            {
+              "name": "ReserveCommunicationIds",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            },
+            {
+              "name": "CommunicationConfigurations",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "AssetVerificationResults",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultDataType;1"
+              }
+            },
+            {
+              "name": "ConnectionEndpointConfigurationResults",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1"
+              }
+            },
+            {
+              "name": "ReserveCommunicationIdsResults",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            },
+            {
+              "name": "CommunicationConfigurationResults",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "bytes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Assets"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ComponentCapabilities",
+      "target": "dtmi:opcua:FX_AC:AutomationComponentCapabilitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Descriptors"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FunctionalEntities"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PublisherCapabilities",
+      "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SubscriberCapabilities",
+      "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PAEFS:FilterSystemType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "OperationOff"
+    },
+    {
+      "@type": "Command",
+      "name": "OperationOn"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Fan",
+      "target": "dtmi:opcua:PAEFS:FanType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FilterAidDevice",
+      "target": "dtmi:opcua:PAEFS:FilterAidDeviceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FilterUnit",
+      "target": "dtmi:opcua:PAEFS:FilterUnitType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SafetySystem",
+      "target": "dtmi:opcua:PAEFS:SafetySystemType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TemperatureRegulator",
+      "target": "dtmi:opcua:PAEFS:TemperatureRegulatorType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirConsumption",
+      "target": "dtmi:opcua:PAEFS:ConsumptionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirIntakeConnection",
+      "target": "dtmi:opcua:PAEFS:AirConnectionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AirOutletConnection",
+      "target": "dtmi:opcua:PAEFS:AirConnectionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineryBuildingBlocks"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PowerConsumption",
+      "target": "dtmi:opcua:PAEFS:ConsumptionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PressureLoss",
+      "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
+    }
+  ]
+}

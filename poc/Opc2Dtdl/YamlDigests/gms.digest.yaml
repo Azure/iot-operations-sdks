@@ -1,0 +1,1752 @@
+DataTypes:
+- UADataType: [ GMS:3009, MeasurementReasonEnum ]
+  Enums:
+    ContinuousMeasurements: 0
+    SpecialMeasurement: 1
+    AuditMeasurement: 2
+    MinMastering: 3
+    MedMastering: 4
+    MaxMastering: 5
+- UADataType: [ GMS:3010, ToleranceLimitEnum ]
+  Enums:
+    NoLimit: 0
+    LimitValue: 1
+    NaturalLimit: 2
+- UADataType: [ GMS:3004, ToolAlignmentState ]
+  Enums:
+    Fixed: 0
+    Indexed: 1
+    Continuous: 2
+- UADataType: [ GMS:3002, ToolIsQualifiedStatus ]
+  Enums:
+    Qualified: 0
+    Imprecise: 1
+    NotQualified: 2
+- UADataType: [ GMS:3006, WorkspaceType ]
+  Bases:
+  - Structure
+- UADataType: [ GMS:3007, CartesianWorkspaceType ]
+  Fields:
+    Length: [ Double, 0 ]
+    Width: [ Double, 0 ]
+    Height: [ Double, 0 ]
+- UADataType: [ GMS:3008, CylindricalWorkspaceType ]
+  Fields:
+    Length: [ Double, 0 ]
+    Radius: [ Double, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ IA:3003, LevelDisplayMode ]
+  Enums:
+    Dimmed: 0
+    Blinking: 1
+    Other: 2
+- UADataType: [ IA:3004, SignalColor ]
+  Enums:
+    Off: 0
+    Red: 1
+    Green: 2
+    Blue: 3
+    Yellow: 4
+    Purple: 5
+    Cyan: 6
+    White: 7
+- UADataType: [ IA:3005, SignalModeLight ]
+  Enums:
+    Continuous: 0
+    Blinking: 1
+    Flashing: 2
+    Other: 3
+- UADataType: [ IA:3002, StacklightOperationMode ]
+  Enums:
+    Segmented: 0
+    Levelmeter: 1
+    Running_Light: 2
+    Other: 3
+- UADataType: [ MachineTool:67, ChannelMode ]
+  Enums:
+    Automatic: 0
+    MdaMdi: 1
+    JogManual: 2
+    JogIncrement: 3
+    TeachingHandle: 4
+    Remote: 5
+    Reference: 6
+    Other: 7
+- UADataType: [ MachineTool:64, ChannelState ]
+  Enums:
+    Active: 0
+    Interrupted: 1
+    Reset: 2
+- UADataType: [ MachineTool:71, EDMGeneratorState ]
+  Enums:
+    Undefined: 0
+    Ready: 1
+    Active_Low_Voltage: 2
+    Active_High_Voltage: 3
+    Error: 4
+- UADataType: [ MachineTool:70, LaserState ]
+  Enums:
+    Undefined: 0
+    Ready: 1
+    Active: 2
+    Error: 3
+- UADataType: [ MachineTool:65, MachineOperationMode ]
+  Enums:
+    Manual: 0
+    Automatic: 1
+    Setup: 2
+    AutoWithManualIntervention: 3
+    Service: 4
+    Other: 5
+- UADataType: [ MachineTool:63, PartQuality ]
+  Enums:
+    CapabilityUnavailable: 0
+    Good: 1
+    Bad: 2
+    NotYetMeasured: 3
+    WillNotBeMeasured: 4
+- UADataType: [ MachineTool:62, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ MachineTool:68, ToolLifeIndication ]
+  Enums:
+    Time: 0
+    NumberOfParts: 1
+    NumberOfUsages: 2
+    Feed_Distance: 3
+    Cutting_Distance: 4
+    Length: 5
+    Diameter: 6
+    Other: 7
+- UADataType: [ MachineTool:66, ToolLocked ]
+  Enums:
+    CapabilityUnavailable: 0
+    ByOperator: 1
+    ToolBreak: 2
+    ToolLife: 3
+    MeasurementError: 4
+    Other: 5
+- UADataType: [ MachineTool:69, ToolManagement ]
+  Enums:
+    NumberBased: 0
+    GroupBased: 1
+    Other: 2
+- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EquipmentUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+  Fields:
+    JobOrder: [ ISA95JobOrderDataType, 0 ]
+    State: [ ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+  Fields:
+    JobOrderID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Priority: [ Int16, 0 ]
+    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+  Fields:
+    JobResponseID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JobOrderID: [ String, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    JobState: [ ISA95StateDataType, 1 ]
+    JobResponseData: [ ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+  Fields:
+    MaterialClassID: [ String, 0 ]
+    MaterialDefinitionID: [ String, 0 ]
+    MaterialLotID: [ String, 0 ]
+    MaterialSublotID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    MaterialUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subparameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PersonnelUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 1 ]
+    PhysicalAssetUse: [ String, 0 ]
+    Quantity: [ DecimalString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Properties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+    Description: [ LocalizedText, 1 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    Subproperties: [ ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+  Fields:
+    BrowsePath: [ RelativePath, 0 ]
+    StateText: [ LocalizedText, 0 ]
+    StateNumber: [ UInt32, 0 ]
+- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+  Enums:
+    SimulationMode: 0
+    TestMode: 1
+    ProductionMode: 2
+- UADataType: [ Machinery.Jobs:3006, JobResult ]
+  Enums:
+    Unknown: 0
+    Successful: 1
+    Unsuccessful: 2
+- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+  Enums:
+    CapabilityUnavailable: 0
+    Detected: 1
+    NotDetected: 2
+    NotYetDetermined: 3
+- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+  Enums:
+    OrderNumber: 0
+    LotNumber: 1
+    SerialNumber: 2
+- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    Quantity: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+  Fields:
+    ItemNumber: [ String, 0 ]
+    OutputInfo: [ OutputInfoType, 0 ]
+    OrderNumber: [ String, 0 ]
+    LotNumber: [ String, 0 ]
+    SerialNumber: [ String, 0 ]
+- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+  Fields:
+    Identification: [ OutputInformationDataType, 0 ]
+    StartTime: [ DateTime, 0 ]
+    EndTime: [ DateTime, 0 ]
+    Parameters: [ ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+  Enums:
+    Undefined: 0
+    OK: 1
+    NotOK: 2
+    NotDecidable: 3
+- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+  Bases:
+  - BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    AcquisitionDuration: [ Duration, 0 ]
+    ProcessingDuration: [ Duration, 0 ]
+- UADataType: [ Machinery.Result:3008, ResultDataType ]
+  Fields:
+    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultContent: [ null, 1 ]
+- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    IsPartial: [ Boolean, 0 ]
+    IsSimulated: [ Boolean, 0 ]
+    ResultState: [ Int32, 0 ]
+    StepId: [ TrimmedString, 0 ]
+    PartId: [ TrimmedString, 0 ]
+    ExternalRecipeId: [ TrimmedString, 0 ]
+    InternalRecipeId: [ TrimmedString, 0 ]
+    ProductId: [ TrimmedString, 0 ]
+    ExternalConfigurationId: [ TrimmedString, 0 ]
+    InternalConfigurationId: [ TrimmedString, 0 ]
+    JobId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ResultUri: [ UriString, 1 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluationCode: [ Int64, 0 ]
+    ResultEvaluationDetails: [ LocalizedText, 0 ]
+    FileFormat: [ String, 1 ]
+
+DefinedTypes:
+
+  AdditionalSensorType:
+  - [ UAVariableType, GMS:2002, AdditionalSensorType, Number, 0, 0 ]
+  - HasComponent:
+    - [ UAVariable, GMS:6027, Class, UInteger, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6104, EnumStrings, LocalizedText, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6030, Identifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6031, Name, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  CatalogType:
+  - [ UAVariableType, GMS:2003, CatalogType, Number, -2, 0 ]
+  - HasProperty:
+    - [ UAVariable, GMS:6282, CatalogEntry, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6281, CatalogName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GMSResultType:
+  - [ UAVariableType, GMS:2004, GMSResultType, ResultDataType, 0, 0 ]
+  - HasProperty:
+    - [ UAVariable, GMS:6047, UsedTools, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  SensorWarningAlarmType:
+  - [ UAObjectType, GMS:1010, SensorWarningAlarmType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6029, ErrorCode, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IntermediateResultEventType:
+  - [ UAObjectType, GMS:1001, IntermediateResultEventType ]
+  - HasComponent:
+    - [ UAObject, GMS:5033, <Characteristics> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1009, CharacteristicType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, GMS:6121, ProgramName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  MultiSensorType:
+  - [ UAObjectType, GMS:1012, MultiSensorType ]
+  - HasComponent:
+    - [ UAObject, GMS:5023, <Tool> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1007, SensorType ]
+    - HasComponent:
+      - [ UAVariable, GMS:6048, Class, UInteger, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6049, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, GMS:6052, ControlIdentifier1, UInt32, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, GMS:6053, ControlIdentifierInterpretation, ToolManagement, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, GMS:6054, Locked, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, GMS:6055, ReasonForLocking, ToolLocked, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, GMS:5045, ToolLife ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6018, Alignment, ToolAlignmentState, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6016, Axes, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  SensorType:
+  - [ UAObjectType, GMS:1007, SensorType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6127, AbsoluteProbe, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6021, Alignment, ToolAlignmentState, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6084, Axes, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6019, Capabilities, UInteger, 1, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6083, EnumStrings, LocalizedText, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, GMS:6056, Class, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6057, EnumStrings, LocalizedText, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GMS:6126, EngineeringUnit, EUInformation, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6020, IsQualifiedStatus, ToolIsQualifiedStatus, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6123, MeasuringRange, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6125, Resolution, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, GMS:5065, ToolLife ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, GMS:6341, Qualified, Double, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, MachineTool:61, ToolLifeType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6342, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6343, Indication, ToolLifeIndication, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6344, IsCountingUp, Boolean, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6345, LimitValue, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6346, StartValue, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6347, WarningValue, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6124, WorkingRange, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  CharacteristicType:
+  - [ UAObjectType, GMS:1009, CharacteristicType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6028, CharacteristicIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6046, CharacteristicsClass, Byte, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6122, Formula, String, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, GMS:6111, IsValid, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6042, LowerToleranceLimit, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6043, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, GMS:6145, ToleranceForm, ToleranceLimitEnum, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, GMS:6044, Nominal, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6045, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GMS:6038, ResultEvaluation, ResultEvaluationEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6039, ResultValue, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6059, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, GMS:6040, UpperToleranceLimit, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6041, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, GMS:6150, ToleranceForm, ToleranceLimitEnum, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  CorrectionType:
+  - [ UAObjectType, GMS:1005, CorrectionType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6009, CharacteristicIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6074, CorrectionValueAbsolute, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6075, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, GMS:6010, CorrectionValueRelative, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6072, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GMS:6082, Description, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6002, Identifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6080, LowerControlLimit, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6081, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, GMS:6050, ProgramName, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6076, UpperControlLimit, Double, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6077, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  LoadingMonitoringType:
+  - [ UAObjectType, GMS:1014, LoadingMonitoringType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6073, IsInLoadingPosition, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2373, TwoStateDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6116, FalseState, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6117, TrueState, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6060, LoadStatus, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6112, EnumStrings, LocalizedText, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ToolMonitoringType:
+  - [ UAObjectType, GMS:1006, ToolMonitoringType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6068, ActiveTool, NodeId, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GMSEquipmentType:
+  - [ UAObjectType, GMS:1003, GMSEquipmentType ]
+  - HasComponent:
+    - [ UAObject, GMS:5034, Accessories ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasComponent:
+      - [ UAObject, GMS:5035, <RotaryTable> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, GMS:1018, RotaryTableType ]
+      - HasAddIn:
+        - [ UAObject, GMS:5037, Identification ]
+        - HasTypeDefinition:
+          - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, GMS:6130, Manufacturer, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, GMS:6131, SerialNumber, String, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, GMS:6108, IsIntegrated, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6109, NumberOfAxes, Byte, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, GMS:5040, <SensorExchangeRack> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, GMS:1015, SensorExchangeRackType ]
+      - HasAddIn:
+        - [ UAObject, GMS:5041, Identification ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6138, Manufacturer, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6139, SerialNumber, String, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6140, IsAvailable, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, GMS:5042, <TipExchangeRack> ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, GMS:1022, TipExchangeRackType ]
+      - HasAddIn:
+        - [ UAObject, GMS:5043, Identification ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6141, Manufacturer, LocalizedText, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6142, SerialNumber, String, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6143, IsAvailable, Boolean, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, GMS:5015, AdditionalSensor ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, GMS:6087, <AdditionalSensor>, Number, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, GMS:2002, AdditionalSensorType, Number, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent:
+        - [ UAVariable, GMS:6088, Class, UInteger, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2376, MultiStateDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, GMS:6105, EnumStrings, LocalizedText, 1, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6091, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6089, Identifier, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6090, Name, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, GMS:5017, Tools ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineTool:44, ToolListType ]
+
+  GMSIdentificationType:
+  - [ UAObjectType, GMS:1011, GMSIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6012, SubDeviceClass, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6001, Workspace, WorkspaceType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GMSType:
+  - [ UAObjectType, GMS:1002, GMSType ]
+  - HasComponent:
+    - [ UAObject, GMS:5010, Equipment ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1003, GMSEquipmentType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, GMS:5022, Tools ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, MachineTool:44, ToolListType ]
+  - HasAddIn:
+    - [ UAObject, GMS:5044, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1011, GMSIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, GMS:6148, Manufacturer, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, GMS:6147, ProductInstanceUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, GMS:6149, SerialNumber, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, GMS:5026, Monitoring ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1004, GMSMonitoringType ]
+    - HasComponent:
+      - [ UAObject, GMS:5027, MachineTool ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, MachineTool:26, MachineOperationMonitoringType ]
+      - HasComponent:
+        - [ UAVariable, GMS:6017, OperationMode, MachineOperationMode, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAObject, GMS:5029, Notification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineTool:7, NotificationType ]
+    - HasComponent:
+      - [ UAObject, GMS:5030, Prognoses ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, MachineTool:2, PrognosisListType ]
+      - HasComponent:
+        - [ UAObject, GMS:5001, Calibration ]
+        - HasTypeDefinition:
+          - [ UAObjectType, GMS:1019, CalibrationPrognosisType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, GMS:6003, Calibrated, Boolean, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6110, CalibrationCertificate, String, 1, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6013, CalibrationInterval, Duration, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6011, CalibrationPreptime, Duration, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 80, Optional ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6014, DateOfCalibration, UtcTime, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6015, PredictedTime, UtcTime, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, GMS:5012, Production ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineTool:21, ProductionType ]
+    - HasComponent:
+      - [ UAObject, GMS:5005, ActiveProgram ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, MachineTool:32, ProductionActiveProgramType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6004, Name, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6005, NumberInList, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAObject, GMS:5006, State ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAObjectType, MachineTool:15, ProductionProgramStateMachineType ]
+        - HasComponent:
+          - [ UAVariable, GMS:6006, CurrentState, LocalizedText, 0, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasProperty:
+            - [ UAVariable, GMS:6007, Id, NodeId, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+          - HasProperty:
+            - [ UAVariable, GMS:6008, Number, UInt32, 0, 0 ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasTypeDefinition:
+              - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, GMS:5019, ResultManagement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1008, GMSResultManagementType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, GMS:5021, CorrectionsFolder ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAObject, GMS:5028, <Corrections> ]
+        - HasTypeDefinition:
+          - [ UAObjectType, GMS:1005, CorrectionType ]
+        - HasModellingRule:
+          - [ UAObject, 11508, OptionalPlaceholder ]
+        - HasProperty:
+          - [ UAVariable, GMS:6120, CharacteristicIdentifier, String, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6051, Identifier, String, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, GMS:7001, GetLatestResult ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, GMS:6032, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Timeout: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6033, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+            Result: [ ResultDataType, 0 ]
+            Error: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, GMS:7002, GetResultById ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, GMS:6034, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultId: [ TrimmedString, 0 ]
+            Timeout: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6037, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+            Result: [ ResultDataType, 0 ]
+            Error: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, GMS:7003, GetResultIdListFiltered ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, GMS:6092, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Filter: [ ContentFilter, 0 ]
+            OrderedBy: [ RelativePath, 1 ]
+            MaxResults: [ UInt32, 0 ]
+            Timeout: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6093, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+            ResultIdList: [ TrimmedString, 1 ]
+            Error: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, GMS:7004, ReleaseResultHandle ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, GMS:6094, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6095, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Error: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, GMS:5025, Results ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, GMS:6058, ResultVariable, ResultDataType, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 11508, OptionalPlaceholder ]
+        - HasTypeDefinition:
+          - [ UAVariableType, Machinery.Result:2001, ResultType ]
+        - HasStructuredComponent:
+          - [ UAVariable, GMS:6146, ResultMetaData, ResultMetaDataType, 0, 3 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAObject, GMS:5024, ResultTransfer ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6096, ClientProcessingTimeout, Duration, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, GMS:7005, CloseAndCommit ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, GMS:6097, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6098, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              CompletionStateMachine: [ NodeId, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, GMS:7006, GenerateFileForRead ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, GMS:6099, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              GenerateOptions: [ BaseResultTransferOptionsDataType, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6100, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileNodeId: [ NodeId, 0 ]
+              FileHandle: [ UInt32, 0 ]
+              CompletionStateMachine: [ NodeId, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, GMS:7007, GenerateFileForWrite ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, GMS:6101, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              GenerateOptions: [ BaseDataType, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, GMS:6102, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FileNodeId: [ NodeId, 0 ]
+              FileHandle: [ UInt32, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+
+  GMSMonitoringType:
+  - [ UAObjectType, GMS:1004, GMSMonitoringType ]
+  - HasComponent:
+    - [ UAObject, GMS:5031, LoadingMonitoring ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1014, LoadingMonitoringType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, GMS:6113, LoadStatus, UInteger, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6115, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6070, Name, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, GMS:5032, ToolMonitoring ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, GMS:1006, ToolMonitoringType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6106, Name, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  GMSJobType:
+  - [ UAObjectType, GMS:1016, GMSJobType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6312, BatchIdentifier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6114, Duration, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6085, MeasurementReason, MeasurementReasonEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6119, RemainingTime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GMSPartType:
+  - [ UAObjectType, GMS:1017, GMSPartType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6316, NestIdentifier, Number, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, GMS:2003, CatalogType, Number, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6317, CatalogEntry, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6318, CatalogName, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6319, EnumValues, EnumValueType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6320, ValueAsText, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6321, Operator, Number, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, GMS:2003, CatalogType, Number, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6322, CatalogEntry, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6323, CatalogName, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6324, EnumValues, EnumValueType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6325, ValueAsText, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6314, PartAmendmentStatus, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6331, PartCarrierIdentifier, Number, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, GMS:2003, CatalogType, Number, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6332, CatalogEntry, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6333, CatalogName, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6334, EnumValues, EnumValueType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6335, ValueAsText, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6313, PartDescription, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6336, ProcessingMachineIdentifier, Number, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, GMS:2003, CatalogType, Number, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6337, CatalogEntry, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6338, CatalogName, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6339, EnumValues, EnumValueType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6340, ValueAsText, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, GMS:6326, ProcessParameter, Number, 1, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, GMS:2003, CatalogType, Number, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, GMS:6327, CatalogEntry, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6328, CatalogName, String, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6329, EnumValues, EnumValueType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6330, ValueAsText, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6315, ProductionNumber, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  CalibrationPrognosisType:
+  - [ UAObjectType, GMS:1019, CalibrationPrognosisType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6352, Calibrated, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6107, CalibrationCertificate, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6354, CalibrationInterval, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6355, CalibrationPreptime, Duration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6353, DateOfCalibration, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GMSResultManagementType:
+  - [ UAObjectType, GMS:1008, GMSResultManagementType ]
+  - HasComponent:
+    - [ UAObject, GMS:5016, CorrectionsFolder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, GMS:5018, <Corrections> ]
+      - HasTypeDefinition:
+        - [ UAObjectType, GMS:1005, CorrectionType ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasProperty:
+        - [ UAVariable, GMS:6118, CharacteristicIdentifier, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, GMS:6036, Identifier, String, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, GMS:6144, CorrectionCount, Integer, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+  - GeneratesEvent:
+    - [ UAObjectType, GMS:1001, IntermediateResultEventType ]
+
+  RotaryTableType:
+  - [ UAObjectType, GMS:1018, RotaryTableType ]
+  - HasAddIn:
+    - [ UAObject, GMS:5036, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6128, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6129, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6350, IsIntegrated, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6351, NumberOfAxes, Byte, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  SensorExchangeRackType:
+  - [ UAObjectType, GMS:1015, SensorExchangeRackType ]
+  - HasAddIn:
+    - [ UAObject, GMS:5038, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6132, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6133, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6134, IsAvailable, Boolean, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  TipExchangeRackType:
+  - [ UAObjectType, GMS:1022, TipExchangeRackType ]
+  - HasAddIn:
+    - [ UAObject, GMS:5039, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6135, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, GMS:6136, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, GMS:6137, IsAvailable, Boolean, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

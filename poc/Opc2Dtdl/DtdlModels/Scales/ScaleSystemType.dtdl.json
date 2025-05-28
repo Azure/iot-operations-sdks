@@ -1,0 +1,43 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales:ScaleSystemType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "ResetGlobalStatistics"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineryBuildingBlocks"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionOutput",
+      "target": "dtmi:opcua:Scales_V2:StatisticType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionPreset",
+      "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SubDevices",
+      "target": "dtmi:opcua:DI:ConfigurableObjectType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SystemState",
+      "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
+    }
+  ]
+}

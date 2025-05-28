@@ -1,0 +1,1822 @@
+DataTypes:
+- UADataType: [ PROFINET:3021, IMTagSelectorEnumeration ]
+  Enums:
+    FUNCTION: 0
+    LOCATION: 1
+    BOTH: 2
+- UADataType: [ PROFINET:3004, PnARStateEnumeration ]
+  Enums:
+    CONNECTED: 0
+    UNCONNECTED: 1
+    UNCONNECTED_ERR_DEVICE_NOT_FOUND: 2
+    UNCONNECTED_ERR_DUPLICATE_IP: 3
+    UNCONNECTED_ERR_DUPLICATE_NOS: 4
+- UADataType: [ PROFINET:3005, PnARTypeEnumeration ]
+  Enums:
+    IOCARSingle: 0
+    IOSAR: 6
+    IOCARSingleUsingRT_CLASS_3: 16
+    IOCARSR: 32
+- UADataType: [ PROFINET:3016, PnAssetChangeEnumeration ]
+  Enums:
+    INSERTED: 0
+    REMOVED: 1
+    CHANGED: 2
+- UADataType: [ PROFINET:3015, PnAssetTypeEnumeration ]
+  Enums:
+    DEVICE: 0
+    MODULE: 1
+    SUBMODULE: 2
+    ASSET: 3
+- UADataType: [ PROFINET:3011, PnChannelAccumulativeEnumeration ]
+  Enums:
+    SINGLE: 0
+    ACCUMULATIVE: 256
+- UADataType: [ PROFINET:3014, PnChannelDirectionEnumeration ]
+  Enums:
+    MANUFACTURER_SPECIFIC: 0
+    INPUT_CHANNEL: 8192
+    OUTPUT_CHANNEL: 16384
+    BIDIRECTIONAL_CHANNEL: 24576
+- UADataType: [ PROFINET:3012, PnChannelMaintenanceEnumeration ]
+  Enums:
+    FAULT: 0
+    MAINTENANCE_REQUIRED: 512
+    MAINTENANCE_DEMANDED: 1024
+    USE_QUALIFIED_CHANNEL_QUALIFIER: 1536
+- UADataType: [ PROFINET:3013, PnChannelSpecifierEnumeration ]
+  Enums:
+    ALL_DISAPPEARS: 0
+    APPEARS: 2048
+    DISAPPEARS: 4096
+    DISAPPEARS_OTHER_REMAIN: 6144
+- UADataType: [ PROFINET:3010, PnChannelTypeEnumeration ]
+  Enums:
+    UNSPECIFIC: 0
+    1BIT: 1
+    2BIT: 2
+    4BIT: 3
+    8BIT: 4
+    16BIT: 5
+    32BIT: 6
+    64BIT: 7
+- UADataType: [ PROFINET:3003, PnDeviceStateEnumeration ]
+  Enums:
+    OFFLINE: 0
+    OFFLINE_DOCKING: 1
+    ONLINE: 2
+    ONLINE_DOCKING: 3
+- UADataType: [ PROFINET:3017, PnLinkStateEnumeration ]
+  Enums:
+    UP: 1
+    DOWN: 2
+    TESTING: 3
+    UNKNOWN: 4
+    DORMANT: 5
+    NOT_PRESENT: 6
+    LOWER_LAYER_DOWN: 7
+- UADataType: [ PROFINET:3006, PnModuleStateEnumeration ]
+  Enums:
+    NO_MODULE: 0
+    WRONG_MODULE: 1
+    PROPER_MODULE: 2
+    SUBSTITUTE: 3
+    OK: 4
+- UADataType: [ PROFINET:3018, PnPortStateEnumeration ]
+  Enums:
+    UNKNOWN: 0
+    DISABLED_DISCARDING: 1
+    BLOCKING: 2
+    LISTENING: 3
+    LEARNING: 4
+    FORWARDING: 5
+    BROKEN: 6
+- UADataType: [ PROFINET:3007, PnSubmoduleAddInfoEnumeration ]
+  Enums:
+    NO_ADD_INFO: 0
+    TAKEOVER_NOT_ALLOWED: 1
+- UADataType: [ PROFINET:3008, PnSubmoduleARInfoEnumeration ]
+  Enums:
+    OWN: 0
+    APPLICATION_READY_PENDING: 128
+    SUPERORDINATED_LOCKED: 256
+    LOCKED_BY_IO_CONTROLLER: 384
+    LOCKED_BY_IO_SUPERVISOR: 512
+- UADataType: [ PROFINET:3009, PnSubmoduleIdentInfoEnumeration ]
+  Enums:
+    OK: 0
+    SUBSTITUTE: 2048
+    WRONG: 4096
+    NO_SUBMODULE: 6144
+- UADataType: [ PROFINET:3002, PnDeviceRoleOptionSet ]
+  Enums:
+    IO_DEVICE: 0
+    IO_CONTROLLER: 1
+    IO_MULTIDEVICE: 2
+    IO_SUPERVISOR: 3
+    IO_CIM: 4
+- UADataType: [ PROFINET:3019, PnDeviceDiagnosisDataType ]
+  Fields:
+    API: [ UInt32, 0 ]
+    Slot: [ UInt16, 0 ]
+    Subslot: [ UInt16, 0 ]
+    ChannelNumber: [ UInt16, 0 ]
+    Type: [ PnChannelTypeEnumeration, 0 ]
+    Accumulative: [ PnChannelAccumulativeEnumeration, 0 ]
+    Maintenance: [ PnChannelMaintenanceEnumeration, 0 ]
+    Specifier: [ PnChannelSpecifierEnumeration, 0 ]
+    Direction: [ PnChannelDirectionEnumeration, 0 ]
+    UserStructureIdentifier: [ UInt16, 0 ]
+    ChannelErrorType: [ UInt16, 0 ]
+    ExtChannelErrorType: [ UInt16, 0 ]
+    ExtChannelAddValue: [ UInt32, 0 ]
+    QualifiedChannelQualifier: [ UInt32, 0 ]
+    ManufacturerData: [ ByteString, 0 ]
+    Message: [ LocalizedText, 0 ]
+    HelpText: [ LocalizedText, 0 ]
+- UADataType: [ PROFINET:3020, PnIM5DataType ]
+  Fields:
+    Annotation: [ String, 0 ]
+    OrderId: [ String, 0 ]
+    VendorId: [ UInt16, 0 ]
+    SerialNumber: [ String, 0 ]
+    HardwareRevision: [ String, 0 ]
+    SoftwareRevision: [ String, 0 ]
+
+DefinedTypes:
+
+  PnDiagnosisAlarmType:
+  - [ UAObjectType, PROFINET:1002, PnDiagnosisAlarmType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6029, Accumulative, PnChannelAccumulativeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6024, API, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6034, ChannelErrorType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6027, ChannelNumber, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6032, Direction, PnChannelDirectionEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6036, ExtChannelAddValue, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6035, ExtChannelErrorType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6039, HelpText, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6030, Maintenance, PnChannelMaintenanceEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6038, ManufacturerData, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6037, QualifiedChannelQualifier, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6025, Slot, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6031, Specifier, PnChannelSpecifierEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6026, Subslot, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6028, Type, PnChannelTypeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6033, UserStructureIdentifier, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  PnAssetChangedEventType:
+  - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6041, AssetChange, PnAssetChangeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6040, AssetType, PnAssetTypeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  PnTopologyChangedEventType:
+  - [ UAObjectType, PROFINET:1004, PnTopologyChangedEventType ]
+
+  IPnDomainType:
+  - [ UAObjectType, PROFINET:1031, IPnDomainType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5036, Nodes ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1033, PnEquipmentContainerType ]
+
+  IPnEquipmentType:
+  - [ UAObjectType, PROFINET:1032, IPnEquipmentType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5041, Alarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5039, Assets ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1007, PnAssetContainerType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6176, Diagnosis, PnDeviceDiagnosisDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5040, IM ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6167, HardwareRevision, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6168, OrderId, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1005, PnIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6169, ProfileId, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6170, ProfileSpecificType, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6171, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6172, SoftwareRevision, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6173, VendorId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6174, Version, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5037, Interfaces ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1009, PnInterfaceContainerType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5038, Modules ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1026, PnRealModuleContainerType ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1002, PnDiagnosisAlarmType ]
+  - HasComponent:
+    - [ UAMethod, PROFINET:7005, ShowLocation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6175, Vendor, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IPnControllerType:
+  - [ UAObjectType, PROFINET:1035, IPnControllerType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5043, ARs ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1030, PnApplicationRelationContainerType ]
+
+  IPnDeviceType:
+  - [ UAObjectType, PROFINET:1034, IPnDeviceType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6177, GSDDescription, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6178, State, PnDeviceStateEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IPnInterfaceType:
+  - [ UAObjectType, PROFINET:1008, IPnInterfaceType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6091, DeviceId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6092, DeviceInstance, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6088, DeviceRole, PnDeviceRoleOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6089, DeviceVendor, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - CommLinkTo:
+    - [ UAObject, PROFINET:5011, EthernetInterface ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1014, EthernetInterfaceType ]
+    - HasComponent:
+      - [ UAVariable, PROFINET:6115, MacAddress, Byte, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6087, NameOfStation, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6094, OEMDeviceId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6093, OEMVendorId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5020, Ports ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1011, PnPortContainerType ]
+  - HasComponent:
+    - [ UAMethod, PROFINET:7004, SetNameOfStation ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6095, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          NameOfStation: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5021, Statistic ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1012, PnPortStatisticType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6090, VendorId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IPnModuleType:
+  - [ UAObjectType, PROFINET:1024, IPnModuleType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6147, GSDDescription, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6146, GSDName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6145, IdentNumber, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6144, Slot, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IPnExpectedModuleType:
+  - [ UAObjectType, PROFINET:1027, IPnExpectedModuleType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6157, State, PnModuleStateEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5032, Submodules ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1023, PnExpectedSubmoduleContainerType ]
+
+  IPnRealModuleType:
+  - [ UAObjectType, PROFINET:1025, IPnRealModuleType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5030, Alarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6156, Diagnosis, PnDeviceDiagnosisDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5029, IM ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6148, HardwareRevision, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6149, OrderId, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1005, PnIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6150, ProfileId, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6151, ProfileSpecificType, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6152, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6153, SoftwareRevision, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6154, VendorId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6155, Version, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1002, PnDiagnosisAlarmType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5028, Submodules ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1021, PnRealSubmoduleContainerType ]
+
+  IPnSubmoduleType:
+  - [ UAObjectType, PROFINET:1019, IPnSubmoduleType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6130, API, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6134, GSDDescription, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6133, GSDName, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6132, IdentNumber, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6131, Subslot, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IPnExpectedSubmoduleType:
+  - [ UAObjectType, PROFINET:1022, IPnExpectedSubmoduleType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5026, State ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1018, PnSubmoduleStateType ]
+
+  IPnRealSubmoduleType:
+  - [ UAObjectType, PROFINET:1020, IPnRealSubmoduleType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5024, Alarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6143, Diagnosis, PnDeviceDiagnosisDataType, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5023, IM ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6135, HardwareRevision, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6136, OrderId, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1005, PnIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6137, ProfileId, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6138, ProfileSpecificType, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6139, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6140, SoftwareRevision, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6141, VendorId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6142, Version, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1002, PnDiagnosisAlarmType ]
+
+  NetworkComponentFeatureType:
+  - [ UAObjectType, PROFINET:1016, NetworkComponentFeatureType ]
+
+  IPv4FeatureType:
+  - [ UAObjectType, PROFINET:1017, IPv4FeatureType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6113, DefaultGateway, Byte, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6114, DhcpEnabled, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6111, IpAddress, Byte, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6112, SubnetMask, Byte, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  NetworkComponentType:
+  - [ UAObjectType, PROFINET:1013, NetworkComponentType ]
+  - CommLinkTo:
+    - [ UAObject, PROFINET:5015, <ComponentName> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1013, NetworkComponentType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5014, <FeatureName> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1016, NetworkComponentFeatureType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6109, Enabled, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  EthernetInterfaceType:
+  - [ UAObjectType, PROFINET:1014, EthernetInterfaceType ]
+  - CommLinkTo:
+    - [ UAObject, PROFINET:5017, <PortName> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1015, EthernetPortType ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6110, MacAddress, Byte, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  EthernetPortType:
+  - [ UAObjectType, PROFINET:1015, EthernetPortType ]
+  - CommLinkTo:
+    - [ UAObject, PROFINET:5016, <EthernetPort> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1015, EthernetPortType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6179, PhysAddress, Byte, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PnApplicationRelationContainerType:
+  - [ UAObjectType, PROFINET:1030, PnApplicationRelationContainerType ]
+  - HasPnApplicationRelation:
+    - [ UAObject, PROFINET:5035, <ARs> ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6164, Id, Guid, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1029, PnApplicationRelationType ]
+    - HasComponent:
+      - [ UAVariable, PROFINET:6165, State, PnARStateEnumeration, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6166, Type, PnARTypeEnumeration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  PnApplicationRelationType:
+  - [ UAObjectType, PROFINET:1029, PnApplicationRelationType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6163, DataHoldFactor, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6159, Id, Guid, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5034, Modules ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1028, PnExpectedModuleContainerType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6162, ReductionRatio, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6161, SendClockFactor, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6158, State, PnARStateEnumeration, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6160, Type, PnARTypeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  PnAssetContainerType:
+  - [ UAObjectType, PROFINET:1007, PnAssetContainerType ]
+  - HasPnAsset:
+    - [ UAObject, PROFINET:5010, <Assets> ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6077, Annotation, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6078, DeviceId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6079, DeviceSubId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6080, Location, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6081, OrderId, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6082, Organization, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1006, PnAssetType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6083, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6084, TypeIdentification, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6085, UniqueIdentifier, Guid, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6086, VendorId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  PnAssetType:
+  - [ UAObjectType, PROFINET:1006, PnAssetType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6067, Annotation, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6075, DeviceId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6076, DeviceSubId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6070, HardwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6066, Location, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6068, OrderId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6073, Organization, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6071, SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6069, SoftwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6072, TypeIdentification, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6065, UniqueIdentifier, Guid, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6074, VendorId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  PnEquipmentContainerType:
+  - [ UAObjectType, PROFINET:1033, PnEquipmentContainerType ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5042, <PnEquipments> ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5049, Alarms ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5047, Assets ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1007, PnAssetContainerType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasComponent:
+      - [ UAVariable, PROFINET:6204, Diagnosis, PnDeviceDiagnosisDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5048, IM ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6195, HardwareRevision, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6196, OrderId, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1005, PnIdentificationType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6197, ProfileId, UInt32, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6198, ProfileSpecificType, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6199, SerialNumber, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6200, SoftwareRevision, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6201, VendorId, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6202, Version, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5044, Interfaces ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1009, PnInterfaceContainerType ]
+    - HasInterface:
+      - [ UAObjectType, PROFINET:1032, IPnEquipmentType ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5046, Modules ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1026, PnRealModuleContainerType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - GeneratesEvent:
+      - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+    - GeneratesEvent:
+      - [ UAObjectType, PROFINET:1002, PnDiagnosisAlarmType ]
+    - HasComponent:
+      - [ UAMethod, PROFINET:7006, ShowLocation ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6203, Vendor, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  PnExpectedModuleContainerType:
+  - [ UAObjectType, PROFINET:1028, PnExpectedModuleContainerType ]
+  - HasPnExpectedModule:
+    - [ UAObject, PROFINET:5033, <Modules> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6217, GSDDescription, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6216, GSDName, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6182, IdentNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasInterface:
+      - [ UAObjectType, PROFINET:1027, IPnExpectedModuleType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6181, Slot, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PROFINET:6183, State, PnModuleStateEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5053, Submodules ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1023, PnExpectedSubmoduleContainerType ]
+
+  PnExpectedSubmoduleContainerType:
+  - [ UAObjectType, PROFINET:1023, PnExpectedSubmoduleContainerType ]
+  - HasPnExpectedSubmodule:
+    - [ UAObject, PROFINET:5027, <Submodules> ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6187, API, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6230, GSDDescription, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6229, GSDName, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6189, IdentNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasInterface:
+      - [ UAObjectType, PROFINET:1022, IPnExpectedSubmoduleType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5056, State ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1018, PnSubmoduleStateType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6188, Subslot, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  PnIdentificationType:
+  - [ UAObjectType, PROFINET:1005, PnIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6058, Date, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6059, Descriptor, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6050, HardwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6061, IM5, PnIM5DataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6055, IMSupported, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6047, OrderId, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6051, ProfileId, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6052, ProfileSpecificType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6054, RevisionCounter, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6048, SerialNumber, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, PROFINET:7002, SetDate ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6063, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Date: [ DateTime, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PROFINET:7003, SetDescriptor ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6064, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Descriptor: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PROFINET:7001, SetTags ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6062, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Tag_Selector: [ IMTagSelectorEnumeration, 0 ]
+          Tag_Function: [ String, 0 ]
+          Tag_Location: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6060, Signature, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6049, SoftwareRevision, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6056, TagFunction, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6057, TagLocation, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6046, VendorId, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PROFINET:6053, Version, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  PnInterfaceContainerType:
+  - [ UAObjectType, PROFINET:1009, PnInterfaceContainerType ]
+  - HasPnInterface:
+    - [ UAObject, PROFINET:5012, <Interfaces> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6193, DeviceId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6232, DeviceInstance, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6191, DeviceRole, PnDeviceRoleOptionSet, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6231, DeviceVendor, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - CommLinkTo:
+      - [ UAObject, PROFINET:5057, EthernetInterface ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1014, EthernetInterfaceType ]
+      - HasComponent:
+        - [ UAVariable, PROFINET:6235, MacAddress, Byte, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasInterface:
+      - [ UAObjectType, PROFINET:1008, IPnInterfaceType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6190, NameOfStation, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6234, OEMDeviceId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6233, OEMVendorId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5045, Ports ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1011, PnPortContainerType ]
+    - HasComponent:
+      - [ UAMethod, PROFINET:7007, SetNameOfStation ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6236, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            NameOfStation: [ String, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5058, Statistic ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1012, PnPortStatisticType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6192, VendorId, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  PnPortContainerType:
+  - [ UAObjectType, PROFINET:1011, PnPortContainerType ]
+  - HasPnPort:
+    - [ UAObject, PROFINET:5013, <Ports> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1010, PnPortType ]
+
+  PnPortStatisticType:
+  - [ UAObjectType, PROFINET:1012, PnPortStatisticType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6105, InDiscards, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6107, InErrors, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6103, InOctets, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6106, OutDiscards, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6108, OutErrors, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6104, OutOctets, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PnPortType:
+  - [ UAObjectType, PROFINET:1010, PnPortType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6100, CableDelay, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - CommLinkTo:
+    - [ UAObject, PROFINET:5018, EthernetPort ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1015, EthernetPortType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6102, IsWireless, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6096, LinkState, PnLinkStateEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6099, MAUType, UInt16, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - GeneratesEvent:
+    - [ UAObjectType, PROFINET:1004, PnTopologyChangedEventType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6097, PortState, PnPortStateEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6101, PowerBudget, UInt32, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PROFINET:5019, Statistic ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PROFINET:1012, PnPortStatisticType ]
+
+  PnRealModuleContainerType:
+  - [ UAObjectType, PROFINET:1026, PnRealModuleContainerType ]
+  - HasPnRealModule:
+    - [ UAObject, PROFINET:5031, <Modules> ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5052, Alarms ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasComponent:
+      - [ UAVariable, PROFINET:6215, Diagnosis, PnDeviceDiagnosisDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6206, GSDDescription, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6205, GSDName, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6180, IdentNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5051, IM ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6207, HardwareRevision, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6208, OrderId, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1005, PnIdentificationType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6209, ProfileId, UInt32, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6210, ProfileSpecificType, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6211, SerialNumber, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6212, SoftwareRevision, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6213, VendorId, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6214, Version, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasInterface:
+      - [ UAObjectType, PROFINET:1025, IPnRealModuleType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - GeneratesEvent:
+      - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+    - GeneratesEvent:
+      - [ UAObjectType, PROFINET:1002, PnDiagnosisAlarmType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6098, Slot, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5050, Submodules ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1021, PnRealSubmoduleContainerType ]
+
+  PnRealSubmoduleContainerType:
+  - [ UAObjectType, PROFINET:1021, PnRealSubmoduleContainerType ]
+  - HasPnRealSubmodule:
+    - [ UAObject, PROFINET:5025, <Submodules> ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5055, Alarms ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6184, API, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasComponent:
+      - [ UAVariable, PROFINET:6228, Diagnosis, PnDeviceDiagnosisDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6219, GSDDescription, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6218, GSDName, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6186, IdentNumber, UInt32, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAObject, PROFINET:5054, IM ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6220, HardwareRevision, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6221, OrderId, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PROFINET:1005, PnIdentificationType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6222, ProfileId, UInt32, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6223, ProfileSpecificType, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6224, SerialNumber, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6225, SoftwareRevision, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6226, VendorId, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PROFINET:6227, Version, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasInterface:
+      - [ UAObjectType, PROFINET:1020, IPnRealSubmoduleType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - GeneratesEvent:
+      - [ UAObjectType, PROFINET:1003, PnAssetChangedEventType ]
+    - GeneratesEvent:
+      - [ UAObjectType, PROFINET:1002, PnDiagnosisAlarmType ]
+    - HasProperty:
+      - [ UAVariable, PROFINET:6185, Subslot, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  PnSubmoduleStateType:
+  - [ UAObjectType, PROFINET:1018, PnSubmoduleStateType ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6123, AddInfo, PnSubmoduleAddInfoEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6128, ARInfo, PnSubmoduleARInfoEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6127, DiagInfo, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6129, IdentInfo, PnSubmoduleIdentInfoEnumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6126, MaintenanceDemanded, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6125, MaintenanceRequired, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PROFINET:6124, QualifiedInfo, Boolean, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

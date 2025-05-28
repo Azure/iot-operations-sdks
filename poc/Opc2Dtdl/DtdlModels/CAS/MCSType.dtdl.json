@@ -1,0 +1,50 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:MCSType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Analyses",
+      "target": "dtmi:opcua:CAS:AnalysesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:CAS:MCSConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ElectricalCircuit",
+      "target": "dtmi:opcua:CAS:ElectricalCircuitType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Events",
+      "target": "dtmi:opcua:CAS:EventsType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Identification",
+      "target": "dtmi:opcua:Machinery:MachineryComponentIdentificationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operational",
+      "target": "dtmi:opcua:CAS:OperationalType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Statistics",
+      "target": "dtmi:opcua:CAS:StatisticsType"
+    }
+  ]
+}

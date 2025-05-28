@@ -1,0 +1,35 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:SensorType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Calibration",
+      "target": "dtmi:opcua:CAS:CalibrationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Design",
+      "target": "dtmi:opcua:CAS:SensorDesignType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Maintenance",
+      "target": "dtmi:opcua:CAS:MaintenanceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operational",
+      "target": "dtmi:opcua:CAS:OperationalType"
+    }
+  ]
+}

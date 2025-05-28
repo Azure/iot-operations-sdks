@@ -1,0 +1,55 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:ProductFolderType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ExternalId",
+          "schema": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductIdDataType;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductIdDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Id",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Product",
+      "schema": {
+        "@type": "Map",
+        "mapKey": {
+          "name": "Product",
+          "schema": "string"
+        },
+        "mapValue": {
+          "name": "ProductSchema",
+          "schema": "dtmi:opcua:MachineVision:ProductFolderType:dataType:ProductDataType;1"
+        }
+      },
+      "writable": true
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineVision:VisionStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "ConfirmAll",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Comment",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Halt",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Cause",
+              "schema": "integer"
+            },
+            {
+              "name": "CauseDescription",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "Reset",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Cause",
+              "schema": "integer"
+            },
+            {
+              "name": "CauseDescription",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SelectModeAutomatic",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Error",
+              "schema": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "AutomaticModeStateMachine",
+      "target": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Error"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorStepModel",
+      "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorToHalted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorToHaltedAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorToOperationalAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorToPreoperational"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ErrorToPreoperationalAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Halted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HaltedStepModel",
+      "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HaltedToPreoperational"
+    },
+    {
+      "@type": "Relationship",
+      "name": "HaltedToPreoperationalAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Operational"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperationalToErrorAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperationalToHalted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperationalToHaltedAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperationalToPreoperational"
+    },
+    {
+      "@type": "Relationship",
+      "name": "OperationalToPreoperationalAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Preoperational"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalStepModel",
+      "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalToErrorAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalToHalted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalToHaltedAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalToInitialized"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalToInitializedAuto"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalToOperational"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreoperationalToOperationalAuto"
+    }
+  ]
+}

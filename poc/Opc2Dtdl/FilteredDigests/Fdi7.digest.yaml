@@ -1,0 +1,265 @@
+DataTypes:
+- UADataType: [ FDI7:2048, EddDataTypeEnum ]
+  Enums:
+    BOOLEAN: 1
+    DOUBLE: 2
+    FLOAT: 3
+    INTEGER: 4
+    UNSIGNED_INTEGER: 5
+    DATE: 6
+    DATE_AND_TIME: 7
+    DURATION: 8
+    TIME: 9
+    TIME_VALUE: 10
+    BIT_ENUMERATED: 11
+    ENUMERATED: 12
+    ASCII: 13
+    BITSTRING: 14
+    EUC: 15
+    OCTET: 16
+    PACKED_ASCII: 17
+    PASSWORD: 18
+    VISIBLE: 19
+- UADataType: [ FDI7:2050, EddDataTypeInfo ]
+  Fields:
+    EddDataType: [ EddDataTypeEnum, 0 ]
+    Size: [ UInt32, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  CommunicationServerType:
+  - [ UAObjectType, FDI7:11, CommunicationServerType ]
+  - HasComponent:
+    - [ UAObject, FDI7:12, ParameterSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FDI7:14, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, FDI7:85, SubDevices ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationDeviceType:
+  - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:96, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ServerCommunicationFFH1DeviceType:
+  - [ UAObjectType, FDI7:324, ServerCommunicationFFH1DeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:327, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FDI7:401, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:997, ServerCommunicationFFH1ServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationFFHSEDeviceType:
+  - [ UAObjectType, FDI7:452, ServerCommunicationFFHSEDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:455, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FDI7:529, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1073, ServerCommunicationFFHSEServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationPROFIBUSDeviceType:
+  - [ UAObjectType, FDI7:580, ServerCommunicationPROFIBUSDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:583, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FDI7:657, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1149, ServerCommunicationPROFIBUSServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationPROFINETDeviceType:
+  - [ UAObjectType, FDI7:705, ServerCommunicationPROFINETDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:708, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FDI7:782, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1222, ServerCommunicationPROFINETServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationHARType:
+  - [ UAObjectType, FDI7:830, ServerCommunicationHARType ]
+  - HasComponent:
+    - [ UAObject, FDI7:833, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FDI7:907, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1295, ServerCommunicationHARTServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationISA100_WirelessDeviceType:
+  - [ UAObjectType, FDI7:1788, ServerCommunicationISA100_WirelessDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1862, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:2057, ServerCommunicationISA100_WirelessServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationGENERICDeviceType:
+  - [ UAObjectType, FDI7:1913, ServerCommunicationGENERICDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1916, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, FDI7:1991, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:2133, ServerCommunicationGENERICServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationServiceType:
+  - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:236, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationFFH1ServiceType:
+  - [ UAObjectType, FDI7:997, ServerCommunicationFFH1ServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1000, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationFFHSEServiceType:
+  - [ UAObjectType, FDI7:1073, ServerCommunicationFFHSEServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1076, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationPROFIBUSServiceType:
+  - [ UAObjectType, FDI7:1149, ServerCommunicationPROFIBUSServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1152, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationPROFINETServiceType:
+  - [ UAObjectType, FDI7:1222, ServerCommunicationPROFINETServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1225, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationHARTServiceType:
+  - [ UAObjectType, FDI7:1295, ServerCommunicationHARTServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1298, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationISA100_WirelessServiceType:
+  - [ UAObjectType, FDI7:2057, ServerCommunicationISA100_WirelessServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:2060, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ServerCommunicationGENERICServiceType:
+  - [ UAObjectType, FDI7:2133, ServerCommunicationGENERICServiceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:2136, MethodSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]

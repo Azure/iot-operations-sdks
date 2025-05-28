@@ -1,0 +1,78 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:FlameArrestorType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:DetonationProofArtefactClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "DetonationProofArtefact",
+          "enumValue": 0
+        },
+        {
+          "name": "NonDetonationProofArtefact",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:ExplosionProofArtefactClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ExplosionProofArtefact",
+          "enumValue": 0
+        },
+        {
+          "name": "NonExplosionProofArtefact",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:FireResistantArtefactClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FireResistantArtefact",
+          "enumValue": 0
+        },
+        {
+          "name": "NonFireResistantArtefact",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DetonationProofArtefactSpecialization",
+      "schema": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:DetonationProofArtefactClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ExplosionProofArtefactSpecialization",
+      "schema": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:ExplosionProofArtefactClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "FireResistantArtefactSpecialization",
+      "schema": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:FireResistantArtefactClassification;1",
+      "writable": true
+    }
+  ]
+}

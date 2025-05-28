@@ -1,0 +1,122 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC:MaterialStorageBufferType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ActualLoadingRate",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "ActualLoadingRate",
+            "schema": "double"
+          },
+          {
+            "name": "ValueInBUoM",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "ActualUnloadingRate",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "ActualUnloadingRate",
+            "schema": "double"
+          },
+          {
+            "name": "ValueInBUoM",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "LoadingRateState",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NominalLoadingRate",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "NominalLoadingRate",
+            "schema": "double"
+          },
+          {
+            "name": "ValueInBUoM",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "NominalUnloadingRate",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "NominalUnloadingRate",
+            "schema": "double"
+          },
+          {
+            "name": "ValueInBUoM",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "StoredLot",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "StoredLot",
+            "schema": "double"
+          },
+          {
+            "name": "ValueInBUoM",
+            "schema": "double"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": [ "Property", "Historized" ],
+      "name": "UnloadingRateState",
+      "schema": "string",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:PumpKickObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Pumps:PumpKickObjectType:dataType:PumpKickModeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ManufacturerSpecific",
+          "enumValue": 0
+        },
+        {
+          "name": "Disabled",
+          "enumValue": 1
+        },
+        {
+          "name": "OperatorSpecific",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PumpKickMode",
+      "schema": "dtmi:opcua:Pumps:PumpKickObjectType:dataType:PumpKickModeEnum;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PumpKickTime",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PumpKickTimeDifference",
+      "schema": "double",
+      "writable": true
+    }
+  ]
+}

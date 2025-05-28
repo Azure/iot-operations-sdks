@@ -1,0 +1,24 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Fdi7:ServerCommunicationGENERICDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "MethodSet"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ServiceProvider",
+      "target": "dtmi:opcua:FDI7:ServerCommunicationGENERICServiceType"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Gds:AuthorizationServiceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Gds:AuthorizationServiceType:dataType:UserTokenPolicy;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "PolicyId",
+          "schema": "string"
+        },
+        {
+          "name": "TokenType",
+          "schema": "dtmi:opcua:Gds:AuthorizationServiceType:dataType:UserTokenType;1"
+        },
+        {
+          "name": "IssuedTokenType",
+          "schema": "string"
+        },
+        {
+          "name": "IssuerEndpointUrl",
+          "schema": "string"
+        },
+        {
+          "name": "SecurityPolicyUri",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Gds:AuthorizationServiceType:dataType:UserIdentityToken;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "PolicyId",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Gds:AuthorizationServiceType:dataType:UserTokenType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Anonymous",
+          "enumValue": 0
+        },
+        {
+          "name": "UserName",
+          "enumValue": 1
+        },
+        {
+          "name": "Certificate",
+          "enumValue": 2
+        },
+        {
+          "name": "IssuedToken",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GetServiceDescription",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ServiceUri",
+              "schema": "string"
+            },
+            {
+              "name": "ServiceCertificate",
+              "schema": "bytes"
+            },
+            {
+              "name": "UserTokenPolicies",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Gds:AuthorizationServiceType:dataType:UserTokenPolicy;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RequestAccessToken",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "IdentityToken",
+              "schema": "dtmi:opcua:Gds:AuthorizationServiceType:dataType:UserIdentityToken;1"
+            },
+            {
+              "name": "ResourceId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "AccessToken",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Pumps:MaintenanceGroupType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "BreakdownMaintenance",
+      "target": "dtmi:opcua:Pumps:BreakdownMaintenanceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ConditionBasedMaintenance",
+      "target": "dtmi:opcua:Pumps:ConditionBasedMaintenanceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "GeneralMaintenance",
+      "target": "dtmi:opcua:Pumps:GeneralMaintenanceType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PreventiveMaintenance",
+      "target": "dtmi:opcua:Pumps:PreventiveMaintenanceType"
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:GmpRelevanceClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "GmpRelevantFunction",
+          "enumValue": 0
+        },
+        {
+          "name": "NonGmpRelevantFunction",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:GuaranteedSupplyFunctionClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "GuaranteedSupplyFunction",
+          "enumValue": 0
+        },
+        {
+          "name": "NonGuaranteedSupplyFunction",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:LocationClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "CentralLocation",
+          "enumValue": 0
+        },
+        {
+          "name": "ControlPanel",
+          "enumValue": 1
+        },
+        {
+          "name": "Field",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:QualityRelevanceClassification;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NonQualityRelevantFunction",
+          "enumValue": 0
+        },
+        {
+          "name": "QualityRelevantFunction",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ProcessInstrumentationFunctionNumberAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "DeviceInformationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "GmpRelevanceSpecialization",
+      "schema": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:GmpRelevanceClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "GuaranteedSupplyFunctionSpecialization",
+      "schema": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:GuaranteedSupplyFunctionClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LocationSpecialization",
+      "schema": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:LocationClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PanelIdentificationCodeAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessInstrumentationFunctionsAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessInstrumentationFunctionCategoryAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ProcessInstrumentationFunctionModifierAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "QualityRelevanceSpecialization",
+      "schema": "dtmi:opcua:DEXPI:ProcessInstrumentationFunctionType:dataType:QualityRelevanceClassification;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SafetyRelevanceClassAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TypicalInformationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "VendorCompanyNameAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "VotingSystemRepresentationAssignmentClass",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "ActuatingFunction",
+      "target": "dtmi:opcua:DEXPI:ActuatingFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessSignalGeneratingFunction",
+      "target": "dtmi:opcua:DEXPI:ProcessSignalGeneratingFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SignalConveyingFunction",
+      "target": "dtmi:opcua:DEXPI:SignalConveyingFunctionType"
+    }
+  ]
+}

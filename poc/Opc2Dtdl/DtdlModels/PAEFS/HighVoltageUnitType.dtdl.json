@@ -1,0 +1,31 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PAEFS:HighVoltageUnitType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CurrentOutput",
+      "schema": "double",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Collector",
+      "target": "dtmi:opcua:PAEFS:CollectorType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Ionizer",
+      "target": "dtmi:opcua:PAEFS:IonizerType"
+    }
+  ]
+}

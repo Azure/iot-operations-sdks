@@ -1,0 +1,726 @@
+DataTypes:
+- UADataType: [ PNGSDGM:3004, GsdGenChannelAccumulativeEnumeration ]
+  Enums:
+    SINGLE: 0
+    ACCUMULATIVE: 256
+- UADataType: [ PNGSDGM:3007, GsdGenChannelDirectionEnumeration ]
+  Enums:
+    MANUFACTURER_SPECIFIC: 0
+    INPUT_CHANNEL: 8192
+    OUTPUT_CHANNEL: 16384
+    BIDIRECTIONAL_CHANNEL: 24576
+- UADataType: [ PNGSDGM:3005, GsdGenChannelMaintenanceEnumeration ]
+  Enums:
+    FAULT: 0
+    MAINTENANCE_REQUIRED: 512
+    MAINTENANCE_DEMANDED: 1024
+    USE_QUALIFIED_CHANNEL_QUALIFIER: 1536
+- UADataType: [ PNGSDGM:3006, GsdGenChannelSpecifierEnumeration ]
+  Enums:
+    ALL_DISAPPEARS: 0
+    APPEARS: 2048
+    DISAPPEARS: 4096
+    DISAPPEARS_OTHER_REMAIN: 6144
+- UADataType: [ PNGSDGM:3012, GsdGenIoCommunicationStatusEnumeration ]
+  Enums:
+    INDATA: 0
+    OFFLINE: 1
+- UADataType: [ PNGSDGM:3015, GsdGenIoConfigurationStatusEnumeration ]
+  Enums:
+    OK: 0
+    SUBSTITUTE: 1
+    WRONG: 2
+    UNKNOWN: 3
+- UADataType: [ PNGSDGM:3002, GsdGenIoConsistencyEnumeration ]
+  Enums:
+    ITEM_CONSISTENCY: 0
+    ALL_ITEMS_CONSISTENCY: 1
+- UADataType: [ PNGSDGM:3003, GsdGenIoQualityFormatEnumeration ]
+  Enums:
+    QUALIFIER: 0
+    EMBEDDED_STATUS: 1
+    STATUS: 2
+- UADataType: [ PNGSDGM:3009, GsdGenIoTimeDataType ]
+  Fields:
+    NumberOfMilliseconds: [ UInt32, 0 ]
+    NumberOfDays: [ UInt16, 0 ]
+- UADataType: [ PNGSDGM:3008, GsdGenIoTimeStampDataType ]
+  Fields:
+    Status: [ UInt16, 0 ]
+    Seconds: [ UInt64, 0 ]
+    Nanoseconds: [ UInt32, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  GsdGenIoBitDataItemVariableType:
+  - [ UAVariableType, PNGSDGM:2003, GsdGenIoBitDataItemVariableType, Byte, 0, 0 ]
+
+  GsdGenIoDataItemVariableType:
+  - [ UAVariableType, PNGSDGM:2004, GsdGenIoDataItemVariableType ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6021, <BitDataItem>, Byte, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, PNGSDGM:2003, GsdGenIoBitDataItemVariableType, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6020, UseAsBits, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GsdGenParameterVariableType:
+  - [ UAVariableType, PNGSDGM:2002, GsdGenParameterVariableType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6019, BitLength, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6018, BitOffset, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6017, ByteOffset, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6015, DefaultValue ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6016, Index, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GsdGenAlarmEventType:
+  - [ UAObjectType, PNGSDGM:1002, GsdGenAlarmEventType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6026, Accumulative, GsdGenChannelAccumulativeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6022, API, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6031, ChannelErrorType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6025, ChannelNumber, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6029, Direction, GsdGenChannelDirectionEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6033, ExtChannelAddValue, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6032, ExtChannelErrorType, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6036, HelpText, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6027, Maintenance, GsdGenChannelMaintenanceEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6035, ManufacturerData, ByteString, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6034, QualifiedChannelQualifier, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6023, Slot, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6028, Specifier, GsdGenChannelSpecifierEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6024, Subslot, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6030, UserStructureIdentifier, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GsdGenIoChannelDataType:
+  - [ UAObjectType, PNGSDGM:1004, GsdGenIoChannelDataType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6040, BitLength, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6039, BitOffset, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GsdGenIoChannelQualityType:
+  - [ UAObjectType, PNGSDGM:1003, GsdGenIoChannelQualityType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6037, BitOffset, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6038, Format, GsdGenIoQualityFormatEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GsdGenIoChannelType:
+  - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5007, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1004, GsdGenIoChannelDataType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6042, BitLength, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6043, BitOffset, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6041, Number, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5008, Quality ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1003, GsdGenIoChannelQualityType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6044, BitOffset, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6045, Format, GsdGenIoQualityFormatEnumeration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  GsdGenIoDataType:
+  - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6047, <DataItemx> ]
+    - HasTypeDefinition:
+      - [ UAVariableType, PNGSDGM:2004, GsdGenIoDataItemVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6048, UseAsBits, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5009, <InputChannelx> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAObject, PNGSDGM:5010, Data ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PNGSDGM:1004, GsdGenIoChannelDataType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6049, BitLength, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6050, BitOffset, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6051, Number, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5011, <OutputChannelx> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent:
+      - [ UAObject, PNGSDGM:5012, Data ]
+      - HasTypeDefinition:
+        - [ UAObjectType, PNGSDGM:1004, GsdGenIoChannelDataType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6052, BitLength, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6053, BitOffset, UInt16, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6054, Number, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6046, Consistency, GsdGenIoConsistencyEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  GsdGenSubmoduleApplicationType:
+  - [ UAObjectType, PNGSDGM:1007, GsdGenSubmoduleApplicationType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5019, <ArrayFolder> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6095, BMPNumber, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAVariable, PNGSDGM:6100, Element ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6098, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6099, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6089, <EnumerationVariable>, Enumeration, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6093, BMPNumber, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6096, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6097, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5016, <FolderName> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6090, <OptionSetVariable> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 11487, OptionSetType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6101, BitMask, Boolean, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6094, BMPNumber, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6091, OptionSetValues, LocalizedText, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6086, <UnitRangeVariable>, Number, -3, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17570, AnalogUnitRangeType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6092, BMPNumber, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6087, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6088, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6084, <UnitVariable>, Number, -3, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 17497, AnalogUnitType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6070, BMPNumber, UInt16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6085, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6058, <ValueProperty> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, PNGSDGM:6057, <ValueVariable> ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6010, BMPNumber, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6069, Dimension, UInt16, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6067, EngineeringUnit, EUInformation, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6068, EURange, Range, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6071, Text, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6072, TextArray, String, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6006, ApplicationTag, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6106, ARIdentifier, Guid, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6104, CommunicationStatus, GsdGenIoCommunicationStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5015, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6105, ConfigurationStatus, GsdGenIoConfigurationStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, PNGSDGM:6107, ControllerName, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - GeneratesEvent:
+    - [ UAObjectType, PNGSDGM:1002, GsdGenAlarmEventType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5013, Input ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6055, Consistency, GsdGenIoConsistencyEnumeration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5018, Lock ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, PNGSDGM:7002, BreakLock ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6075, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            BreakLockStatus: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, PNGSDGM:7003, ExitLock ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6076, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ExitLockStatus: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, PNGSDGM:7004, InitLock ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6077, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Context: [ String, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6078, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            InitLockStatus: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6079, Locked, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6080, LockingClient, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6081, LockingUser, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6082, RemainingLockTime, Duration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, PNGSDGM:7005, RenewLock ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, PNGSDGM:6083, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            RenewLockStatus: [ Int32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, PNGSDGM:5014, Output ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6056, Consistency, GsdGenIoConsistencyEnumeration, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, PNGSDGM:7001, SetApplicationTag ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PNGSDGM:6074, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ApplicationTag: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]

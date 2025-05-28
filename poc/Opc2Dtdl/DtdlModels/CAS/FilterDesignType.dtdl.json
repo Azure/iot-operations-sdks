@@ -1,0 +1,131 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CAS:FilterDesignType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "ActivatedCarbonFilter",
+          "enumValue": 1
+        },
+        {
+          "name": "AdsorptionFilter",
+          "enumValue": 2
+        },
+        {
+          "name": "CoalescingFilter",
+          "enumValue": 3
+        },
+        {
+          "name": "ParticulateFilter",
+          "enumValue": 4
+        },
+        {
+          "name": "FabricFilter",
+          "enumValue": 5
+        },
+        {
+          "name": "SterileFilter",
+          "enumValue": 6
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "A",
+          "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1"
+        },
+        {
+          "name": "B",
+          "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1"
+        },
+        {
+          "name": "C",
+          "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "X_0",
+          "enumValue": 0
+        },
+        {
+          "name": "X_1",
+          "enumValue": 1
+        },
+        {
+          "name": "X_2",
+          "enumValue": 2
+        },
+        {
+          "name": "X_3",
+          "enumValue": 3
+        },
+        {
+          "name": "X_4",
+          "enumValue": 4
+        },
+        {
+          "name": "X_5",
+          "enumValue": 5
+        },
+        {
+          "name": "X_6",
+          "enumValue": 6
+        },
+        {
+          "name": "X_7",
+          "enumValue": 7
+        },
+        {
+          "name": "X_8",
+          "enumValue": 8
+        },
+        {
+          "name": "X_9",
+          "enumValue": 9
+        },
+        {
+          "name": "X",
+          "enumValue": 10
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ComponentClass",
+      "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterTypeEnum;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FilterClass",
+      "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1",
+      "writable": false
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Di:SoftwareUpdateType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "UpdateStatus",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "VendorErrorCode",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Loading",
+      "target": "dtmi:opcua:DI:SoftwareLoadingType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PrepareForUpdate",
+      "target": "dtmi:opcua:DI:PrepareForUpdateStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Installation",
+      "target": "dtmi:opcua:DI:InstallationStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PowerCycle",
+      "target": "dtmi:opcua:DI:PowerCycleStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Confirmation",
+      "target": "dtmi:opcua:DI:ConfirmationStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Parameters"
+    }
+  ]
+}

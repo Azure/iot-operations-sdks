@@ -1,0 +1,118 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType:dataType:OperatingModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Preheat",
+          "enumValue": 0
+        },
+        {
+          "name": "CoolDown",
+          "enumValue": 1
+        },
+        {
+          "name": "Process",
+          "enumValue": 2
+        },
+        {
+          "name": "PowerSaving",
+          "enumValue": 3
+        },
+        {
+          "name": "Standby",
+          "enumValue": 4
+        },
+        {
+          "name": "Service",
+          "enumValue": 5
+        },
+        {
+          "name": "Cleaning",
+          "enumValue": 6
+        },
+        {
+          "name": "Off",
+          "enumValue": 7
+        },
+        {
+          "name": "Error",
+          "enumValue": 8
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActualTemperatureChamber",
+      "schema": "float",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CookingStep",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "FanSpeed",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "IsDoorOpen",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MicrowaveEnergy",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "OperatingMode",
+      "schema": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType:dataType:OperatingModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RemainingProcessTime",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "RemainingProcessTimeStep",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetProcessTime",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "SetTemperature",
+      "schema": "float",
+      "writable": false
+    }
+  ]
+}

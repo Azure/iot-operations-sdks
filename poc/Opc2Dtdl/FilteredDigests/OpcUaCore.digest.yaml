@@ -1,0 +1,2684 @@
+DataTypes:
+- UADataType: [ 26, Number ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 27, Integer ]
+  Bases:
+  - Number
+- UADataType: [ 28, UInteger ]
+  Bases:
+  - Number
+- UADataType: [ 29, Enumeration ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 1, Boolean ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 2, SByte ]
+  Bases:
+  - Integer
+- UADataType: [ 3, Byte ]
+  Bases:
+  - UInteger
+- UADataType: [ 4, Int16 ]
+  Bases:
+  - Integer
+- UADataType: [ 5, UInt16 ]
+  Bases:
+  - UInteger
+- UADataType: [ 6, Int32 ]
+  Bases:
+  - Integer
+- UADataType: [ 7, UInt32 ]
+  Bases:
+  - UInteger
+- UADataType: [ 8, Int64 ]
+  Bases:
+  - Integer
+- UADataType: [ 9, UInt64 ]
+  Bases:
+  - UInteger
+- UADataType: [ 10, Float ]
+  Bases:
+  - Number
+- UADataType: [ 11, Double ]
+  Bases:
+  - Number
+- UADataType: [ 12, String ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 13, DateTime ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 14, Guid ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 15, ByteString ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 16, XmlElement ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 17, NodeId ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 18, ExpandedNodeId ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 19, StatusCode ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 20, QualifiedName ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 21, LocalizedText ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 22, Structure ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 23, DataValue ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 25, DiagnosticInfo ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 30, Image ]
+  Bases:
+  - ByteString
+- UADataType: [ 50, Decimal ]
+  Bases:
+  - Number
+- UADataType: [ 120, NamingRuleType ]
+  Enums:
+    Mandatory: 1
+    Optional: 2
+    Constraint: 3
+- UADataType: [ 2000, ImageBMP ]
+  Bases:
+  - Image
+- UADataType: [ 2001, ImageGIF ]
+  Bases:
+  - Image
+- UADataType: [ 2002, ImageJPG ]
+  Bases:
+  - Image
+- UADataType: [ 2003, ImagePNG ]
+  Bases:
+  - Image
+- UADataType: [ 16307, AudioDataType ]
+  Bases:
+  - ByteString
+- UADataType: [ 12756, Union ]
+  Bases:
+  - Structure
+- UADataType: [ 23751, UriString ]
+  Bases:
+  - String
+- UADataType: [ 32417, RedundantServerMode ]
+  Enums:
+    PrimaryWithBackup: 0
+    PrimaryOnly: 1
+    BackupReady: 2
+    BackupNotReady: 3
+- UADataType: [ 11737, BitFieldMaskDataType ]
+  Bases:
+  - UInt64
+- UADataType: [ 24263, SemanticVersionString ]
+  Bases:
+  - String
+- UADataType: [ 14533, KeyValuePair ]
+  Fields:
+    Key: [ QualifiedName, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ 16313, AdditionalParametersType ]
+  Fields:
+    Parameters: [ KeyValuePair, 1 ]
+- UADataType: [ 17548, EphemeralKeyType ]
+  Fields:
+    PublicKey: [ ByteString, 0 ]
+    Signature: [ ByteString, 0 ]
+- UADataType: [ 15528, EndpointType ]
+  Fields:
+    EndpointUrl: [ String, 0 ]
+    SecurityMode: [ MessageSecurityMode, 0 ]
+    SecurityPolicyUri: [ String, 0 ]
+    TransportProfileUri: [ String, 0 ]
+- UADataType: [ 31917, Handle ]
+  Bases:
+  - UInt32
+- UADataType: [ 31918, TrimmedString ]
+  Bases:
+  - String
+- UADataType: [ 32421, BitFieldDefinition ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Reserved: [ Boolean, 0 ]
+    StartingBitPosition: [ UInt32, 0 ]
+    EndingBitPosition: [ UInt32, 0 ]
+- UADataType: [ 18806, RationalNumber ]
+  Fields:
+    Numerator: [ Int32, 0 ]
+    Denominator: [ UInt32, 0 ]
+- UADataType: [ 18807, Vector ]
+  Bases:
+  - Structure
+- UADataType: [ 18808, 3DVector ]
+  Fields:
+    X: [ Double, 0 ]
+    Y: [ Double, 0 ]
+    Z: [ Double, 0 ]
+- UADataType: [ 18809, CartesianCoordinates ]
+  Bases:
+  - Structure
+- UADataType: [ 18810, 3DCartesianCoordinates ]
+  Fields:
+    X: [ Double, 0 ]
+    Y: [ Double, 0 ]
+    Z: [ Double, 0 ]
+- UADataType: [ 18811, Orientation ]
+  Bases:
+  - Structure
+- UADataType: [ 18812, 3DOrientation ]
+  Fields:
+    A: [ Double, 0 ]
+    B: [ Double, 0 ]
+    C: [ Double, 0 ]
+- UADataType: [ 18813, Frame ]
+  Bases:
+  - Structure
+- UADataType: [ 18814, 3DFrame ]
+  Fields:
+    CartesianCoordinates: [ 3DCartesianCoordinates, 0 ]
+    Orientation: [ 3DOrientation, 0 ]
+- UADataType: [ 11939, OpenFileMode ]
+  Enums:
+    Read: 1
+    Write: 2
+    EraseExisting: 4
+    Append: 8
+- UADataType: [ 15632, IdentityCriteriaType ]
+  Enums:
+    UserName: 1
+    Thumbprint: 2
+    Role: 3
+    GroupId: 4
+    Anonymous: 5
+    AuthenticatedUser: 6
+    Application: 7
+    X509Subject: 8
+    TrustedApplication: 9
+- UADataType: [ 15634, IdentityMappingRuleType ]
+  Fields:
+    CriteriaType: [ IdentityCriteriaType, 0 ]
+    Criteria: [ String, 0 ]
+- UADataType: [ 23498, CurrencyUnitType ]
+  Fields:
+    NumericCode: [ Int16, 0 ]
+    Exponent: [ SByte, 0 ]
+    AlphabeticCode: [ String, 0 ]
+    Currency: [ LocalizedText, 0 ]
+- UADataType: [ 32434, AnnotationDataType ]
+  Fields:
+    Annotation: [ String, 0 ]
+    Discipline: [ String, 0 ]
+    Uri: [ String, 0 ]
+- UADataType: [ 32435, LinearConversionDataType ]
+  Fields:
+    InitialAddend: [ Float, 0 ]
+    Multiplicand: [ Float, 0 ]
+    Divisor: [ Float, 0 ]
+    FinalAddend: [ Float, 0 ]
+- UADataType: [ 32436, ConversionLimitEnum ]
+  Enums:
+    NoConversion: 0
+    Limited: 1
+    Unlimited: 2
+- UADataType: [ 32438, QuantityDimension ]
+  Fields:
+    MassExponent: [ SByte, 0 ]
+    LengthExponent: [ SByte, 0 ]
+    TimeExponent: [ SByte, 0 ]
+    ElectricCurrentExponent: [ SByte, 0 ]
+    AmountOfSubstanceExponent: [ SByte, 0 ]
+    LuminousIntensityExponent: [ SByte, 0 ]
+    AbsoluteTemperatureExponent: [ SByte, 0 ]
+    DimensionlessExponent: [ SByte, 0 ]
+- UADataType: [ 32251, AlarmMask ]
+  Enums:
+    Active: 0
+    Unacknowledged: 1
+    Unconfirmed: 2
+- UADataType: [ 23564, TrustListValidationOptions ]
+  Enums:
+    SuppressCertificateExpired: 0
+    SuppressHostNameInvalid: 1
+    SuppressRevocationStatusUnknown: 2
+    SuppressIssuerCertificateExpired: 3
+    SuppressIssuerRevocationStatusUnknown: 4
+    CheckRevocationStatusOnline: 5
+    CheckRevocationStatusOffline: 6
+- UADataType: [ 12552, TrustListMasks ]
+  Enums:
+    None: 0
+    TrustedCertificates: 1
+    TrustedCrls: 2
+    IssuerCertificates: 4
+    IssuerCrls: 8
+    All: 15
+- UADataType: [ 12554, TrustListDataType ]
+  Fields:
+    SpecifiedLists: [ UInt32, 0 ]
+    TrustedCertificates: [ ByteString, 1 ]
+    TrustedCrls: [ ByteString, 1 ]
+    IssuerCertificates: [ ByteString, 1 ]
+    IssuerCrls: [ ByteString, 1 ]
+- UADataType: [ 32285, TransactionErrorType ]
+  Fields:
+    TargetId: [ NodeId, 0 ]
+    Error: [ StatusCode, 0 ]
+    Message: [ LocalizedText, 0 ]
+- UADataType: [ 17861, DecimalDataType ]
+  Fields:
+    Scale: [ Int16, 0 ]
+    Value: [ ByteString, 0 ]
+- UADataType: [ 15534, DataTypeSchemaHeader ]
+  Fields:
+    Namespaces: [ String, 1 ]
+    StructureDataTypes: [ StructureDescription, 1 ]
+    EnumDataTypes: [ EnumDescription, 1 ]
+    SimpleDataTypes: [ SimpleTypeDescription, 1 ]
+- UADataType: [ 14525, DataTypeDescription ]
+  Fields:
+    DataTypeId: [ NodeId, 0 ]
+    Name: [ QualifiedName, 0 ]
+- UADataType: [ 15487, StructureDescription ]
+  Fields:
+    StructureDefinition: [ StructureDefinition, 0 ]
+- UADataType: [ 15488, EnumDescription ]
+  Fields:
+    EnumDefinition: [ EnumDefinition, 0 ]
+    BuiltInType: [ Byte, 0 ]
+- UADataType: [ 15005, SimpleTypeDescription ]
+  Fields:
+    BaseDataType: [ NodeId, 0 ]
+    BuiltInType: [ Byte, 0 ]
+- UADataType: [ 15006, UABinaryFileDataType ]
+  Fields:
+    SchemaLocation: [ String, 0 ]
+    FileHeader: [ KeyValuePair, 1 ]
+    Body: [ null, 0 ]
+- UADataType: [ 24105, PortableQualifiedName ]
+  Fields:
+    NamespaceUri: [ String, 0 ]
+    Name: [ String, 0 ]
+- UADataType: [ 24106, PortableNodeId ]
+  Fields:
+    NamespaceUri: [ String, 0 ]
+    Identifier: [ NodeId, 0 ]
+- UADataType: [ 24107, UnsignedRationalNumber ]
+  Fields:
+    Numerator: [ UInt32, 0 ]
+    Denominator: [ UInt32, 0 ]
+- UADataType: [ 14647, PubSubState ]
+  Enums:
+    Disabled: 0
+    Paused: 1
+    Operational: 2
+    Error: 3
+    PreOperational: 4
+- UADataType: [ 14523, DataSetMetaDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Fields: [ FieldMetaData, 1 ]
+    DataSetClassId: [ Guid, 0 ]
+    ConfigurationVersion: [ ConfigurationVersionDataType, 0 ]
+- UADataType: [ 14524, FieldMetaData ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    FieldFlags: [ DataSetFieldFlags, 0 ]
+    BuiltInType: [ Byte, 0 ]
+    DataType: [ NodeId, 0 ]
+    ValueRank: [ Int32, 0 ]
+    ArrayDimensions: [ UInt32, 1 ]
+    MaxStringLength: [ UInt32, 0 ]
+    DataSetFieldId: [ Guid, 0 ]
+    Properties: [ KeyValuePair, 1 ]
+- UADataType: [ 15904, DataSetFieldFlags ]
+  Enums:
+    PromotedField: 0
+- UADataType: [ 14593, ConfigurationVersionDataType ]
+  Fields:
+    MajorVersion: [ VersionTime, 0 ]
+    MinorVersion: [ VersionTime, 0 ]
+- UADataType: [ 15578, PublishedDataSetDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    DataSetFolder: [ String, 1 ]
+    DataSetMetaData: [ DataSetMetaDataType, 0 ]
+    ExtensionFields: [ KeyValuePair, 1 ]
+    DataSetSource: [ PublishedDataSetSourceDataType, 0 ]
+- UADataType: [ 15580, PublishedDataSetSourceDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 14273, PublishedVariableDataType ]
+  Fields:
+    PublishedVariable: [ NodeId, 0 ]
+    AttributeId: [ IntegerId, 0 ]
+    SamplingIntervalHint: [ Duration, 0 ]
+    DeadbandType: [ UInt32, 0 ]
+    DeadbandValue: [ Double, 0 ]
+    IndexRange: [ NumericRange, 0 ]
+    SubstituteValue: [ null, 0 ]
+    MetaDataProperties: [ QualifiedName, 1 ]
+- UADataType: [ 15581, PublishedDataItemsDataType ]
+  Fields:
+    PublishedData: [ PublishedVariableDataType, 1 ]
+- UADataType: [ 15582, PublishedEventsDataType ]
+  Fields:
+    EventNotifier: [ NodeId, 0 ]
+    SelectedFields: [ SimpleAttributeOperand, 1 ]
+    Filter: [ ContentFilter, 0 ]
+- UADataType: [ 25269, PublishedDataSetCustomSourceDataType ]
+  Fields:
+    CyclicDataSet: [ Boolean, 0 ]
+- UADataType: [ 18593, ActionTargetDataType ]
+  Fields:
+    ActionTargetId: [ UInt16, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ 18594, PublishedActionDataType ]
+  Fields:
+    RequestDataSetMetaData: [ DataSetMetaDataType, 0 ]
+    ActionTargets: [ ActionTargetDataType, 1 ]
+- UADataType: [ 18595, ActionState ]
+  Enums:
+    Idle: 0
+    Executing: 1
+    Done: 2
+- UADataType: [ 18597, ActionMethodDataType ]
+  Fields:
+    ObjectId: [ NodeId, 0 ]
+    MethodId: [ NodeId, 0 ]
+- UADataType: [ 18793, PublishedActionMethodDataType ]
+  Fields:
+    ActionMethods: [ ActionMethodDataType, 1 ]
+- UADataType: [ 15583, DataSetFieldContentMask ]
+  Enums:
+    StatusCode: 0
+    SourceTimestamp: 1
+    ServerTimestamp: 2
+    SourcePicoSeconds: 3
+    ServerPicoSeconds: 4
+    RawData: 5
+- UADataType: [ 15597, DataSetWriterDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Enabled: [ Boolean, 0 ]
+    DataSetWriterId: [ UInt16, 0 ]
+    DataSetFieldContentMask: [ DataSetFieldContentMask, 0 ]
+    KeyFrameCount: [ UInt32, 0 ]
+    DataSetName: [ String, 0 ]
+    DataSetWriterProperties: [ KeyValuePair, 1 ]
+    TransportSettings: [ DataSetWriterTransportDataType, 0 ]
+    MessageSettings: [ DataSetWriterMessageDataType, 0 ]
+- UADataType: [ 15598, DataSetWriterTransportDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15605, DataSetWriterMessageDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15609, PubSubGroupDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Enabled: [ Boolean, 0 ]
+    SecurityMode: [ MessageSecurityMode, 0 ]
+    SecurityGroupId: [ String, 0 ]
+    SecurityKeyServices: [ EndpointDescription, 1 ]
+    MaxNetworkMessageSize: [ UInt32, 0 ]
+    GroupProperties: [ KeyValuePair, 1 ]
+- UADataType: [ 15480, WriterGroupDataType ]
+  Fields:
+    WriterGroupId: [ UInt16, 0 ]
+    PublishingInterval: [ Duration, 0 ]
+    KeepAliveTime: [ Duration, 0 ]
+    Priority: [ Byte, 0 ]
+    LocaleIds: [ LocaleId, 1 ]
+    HeaderLayoutUri: [ String, 0 ]
+    TransportSettings: [ WriterGroupTransportDataType, 0 ]
+    MessageSettings: [ WriterGroupMessageDataType, 0 ]
+    DataSetWriters: [ DataSetWriterDataType, 1 ]
+- UADataType: [ 15611, WriterGroupTransportDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15616, WriterGroupMessageDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15617, PubSubConnectionDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Enabled: [ Boolean, 0 ]
+    PublisherId: [ null, 0 ]
+    TransportProfileUri: [ String, 0 ]
+    Address: [ NetworkAddressDataType, 0 ]
+    ConnectionProperties: [ KeyValuePair, 1 ]
+    TransportSettings: [ ConnectionTransportDataType, 0 ]
+    WriterGroups: [ WriterGroupDataType, 1 ]
+    ReaderGroups: [ ReaderGroupDataType, 1 ]
+- UADataType: [ 15618, ConnectionTransportDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15502, NetworkAddressDataType ]
+  Fields:
+    NetworkInterface: [ String, 0 ]
+- UADataType: [ 15510, NetworkAddressUrlDataType ]
+  Fields:
+    Url: [ String, 0 ]
+- UADataType: [ 15520, ReaderGroupDataType ]
+  Fields:
+    TransportSettings: [ ReaderGroupTransportDataType, 0 ]
+    MessageSettings: [ ReaderGroupMessageDataType, 0 ]
+    DataSetReaders: [ DataSetReaderDataType, 1 ]
+- UADataType: [ 15621, ReaderGroupTransportDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15622, ReaderGroupMessageDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15623, DataSetReaderDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Enabled: [ Boolean, 0 ]
+    PublisherId: [ null, 0 ]
+    WriterGroupId: [ UInt16, 0 ]
+    DataSetWriterId: [ UInt16, 0 ]
+    DataSetMetaData: [ DataSetMetaDataType, 0 ]
+    DataSetFieldContentMask: [ DataSetFieldContentMask, 0 ]
+    MessageReceiveTimeout: [ Duration, 0 ]
+    KeyFrameCount: [ UInt32, 0 ]
+    HeaderLayoutUri: [ String, 0 ]
+    SecurityMode: [ MessageSecurityMode, 0 ]
+    SecurityGroupId: [ String, 0 ]
+    SecurityKeyServices: [ EndpointDescription, 1 ]
+    DataSetReaderProperties: [ KeyValuePair, 1 ]
+    TransportSettings: [ DataSetReaderTransportDataType, 0 ]
+    MessageSettings: [ DataSetReaderMessageDataType, 0 ]
+    SubscribedDataSet: [ SubscribedDataSetDataType, 0 ]
+- UADataType: [ 15628, DataSetReaderTransportDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15629, DataSetReaderMessageDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15630, SubscribedDataSetDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 15631, TargetVariablesDataType ]
+  Fields:
+    TargetVariables: [ FieldTargetDataType, 1 ]
+- UADataType: [ 14744, FieldTargetDataType ]
+  Fields:
+    DataSetFieldId: [ Guid, 0 ]
+    ReceiverIndexRange: [ NumericRange, 0 ]
+    TargetNodeId: [ NodeId, 0 ]
+    AttributeId: [ IntegerId, 0 ]
+    WriteIndexRange: [ NumericRange, 0 ]
+    OverrideValueHandling: [ OverrideValueHandling, 0 ]
+    OverrideValue: [ null, 0 ]
+- UADataType: [ 15874, OverrideValueHandling ]
+  Enums:
+    Disabled: 0
+    LastUsableValue: 1
+    OverrideValue: 2
+- UADataType: [ 15635, SubscribedDataSetMirrorDataType ]
+  Fields:
+    ParentNodeName: [ String, 0 ]
+    RolePermissions: [ RolePermissionType, 1 ]
+- UADataType: [ 15530, PubSubConfigurationDataType ]
+  Fields:
+    PublishedDataSets: [ PublishedDataSetDataType, 1 ]
+    Connections: [ PubSubConnectionDataType, 1 ]
+    Enabled: [ Boolean, 0 ]
+- UADataType: [ 23599, StandaloneSubscribedDataSetRefDataType ]
+  Fields:
+    DataSetName: [ String, 0 ]
+- UADataType: [ 23600, StandaloneSubscribedDataSetDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    DataSetFolder: [ String, 1 ]
+    DataSetMetaData: [ DataSetMetaDataType, 0 ]
+    SubscribedDataSet: [ SubscribedDataSetDataType, 0 ]
+- UADataType: [ 23601, SecurityGroupDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    SecurityGroupFolder: [ String, 1 ]
+    KeyLifetime: [ Duration, 0 ]
+    SecurityPolicyUri: [ String, 0 ]
+    MaxFutureKeyCount: [ UInt32, 0 ]
+    MaxPastKeyCount: [ UInt32, 0 ]
+    SecurityGroupId: [ String, 0 ]
+    RolePermissions: [ RolePermissionType, 1 ]
+    GroupProperties: [ KeyValuePair, 1 ]
+- UADataType: [ 25270, PubSubKeyPushTargetDataType ]
+  Fields:
+    ApplicationUri: [ String, 0 ]
+    PushTargetFolder: [ String, 1 ]
+    EndpointUrl: [ String, 0 ]
+    SecurityPolicyUri: [ String, 0 ]
+    UserTokenType: [ UserTokenPolicy, 0 ]
+    RequestedKeyCount: [ UInt16, 0 ]
+    RetryInterval: [ Duration, 0 ]
+    PushTargetProperties: [ KeyValuePair, 1 ]
+    SecurityGroups: [ String, 1 ]
+- UADataType: [ 23602, PubSubConfiguration2DataType ]
+  Fields:
+    SubscribedDataSets: [ StandaloneSubscribedDataSetDataType, 1 ]
+    DataSetClasses: [ DataSetMetaDataType, 1 ]
+    DefaultSecurityKeyServices: [ EndpointDescription, 1 ]
+    SecurityGroups: [ SecurityGroupDataType, 1 ]
+    PubSubKeyPushTargets: [ PubSubKeyPushTargetDataType, 1 ]
+    ConfigurationVersion: [ VersionTime, 0 ]
+    ConfigurationProperties: [ KeyValuePair, 1 ]
+- UADataType: [ 20408, DataSetOrderingType ]
+  Enums:
+    Undefined: 0
+    AscendingWriterId: 1
+    AscendingWriterIdSingle: 2
+- UADataType: [ 15642, UadpNetworkMessageContentMask ]
+  Enums:
+    PublisherId: 0
+    GroupHeader: 1
+    WriterGroupId: 2
+    GroupVersion: 3
+    NetworkMessageNumber: 4
+    SequenceNumber: 5
+    PayloadHeader: 6
+    Timestamp: 7
+    PicoSeconds: 8
+    DataSetClassId: 9
+    PromotedFields: 10
+- UADataType: [ 15645, UadpWriterGroupMessageDataType ]
+  Fields:
+    GroupVersion: [ VersionTime, 0 ]
+    DataSetOrdering: [ DataSetOrderingType, 0 ]
+    NetworkMessageContentMask: [ UadpNetworkMessageContentMask, 0 ]
+    SamplingOffset: [ Duration, 0 ]
+    PublishingOffset: [ Duration, 1 ]
+- UADataType: [ 15646, UadpDataSetMessageContentMask ]
+  Enums:
+    Timestamp: 0
+    PicoSeconds: 1
+    Status: 2
+    MajorVersion: 3
+    MinorVersion: 4
+    SequenceNumber: 5
+- UADataType: [ 15652, UadpDataSetWriterMessageDataType ]
+  Fields:
+    DataSetMessageContentMask: [ UadpDataSetMessageContentMask, 0 ]
+    ConfiguredSize: [ UInt16, 0 ]
+    NetworkMessageNumber: [ UInt16, 0 ]
+    DataSetOffset: [ UInt16, 0 ]
+- UADataType: [ 15653, UadpDataSetReaderMessageDataType ]
+  Fields:
+    GroupVersion: [ VersionTime, 0 ]
+    NetworkMessageNumber: [ UInt16, 0 ]
+    DataSetOffset: [ UInt16, 0 ]
+    DataSetClassId: [ Guid, 0 ]
+    NetworkMessageContentMask: [ UadpNetworkMessageContentMask, 0 ]
+    DataSetMessageContentMask: [ UadpDataSetMessageContentMask, 0 ]
+    PublishingInterval: [ Duration, 0 ]
+    ReceiveOffset: [ Duration, 0 ]
+    ProcessingOffset: [ Duration, 0 ]
+- UADataType: [ 15654, JsonNetworkMessageContentMask ]
+  Enums:
+    NetworkMessageHeader: 0
+    DataSetMessageHeader: 1
+    SingleDataSetMessage: 2
+    PublisherId: 3
+    DataSetClassId: 4
+    ReplyTo: 5
+    WriterGroupName: 6
+- UADataType: [ 15657, JsonWriterGroupMessageDataType ]
+  Fields:
+    NetworkMessageContentMask: [ JsonNetworkMessageContentMask, 0 ]
+- UADataType: [ 15658, JsonDataSetMessageContentMask ]
+  Enums:
+    DataSetWriterId: 0
+    MetaDataVersion: 1
+    SequenceNumber: 2
+    Timestamp: 3
+    Status: 4
+    MessageType: 5
+    DataSetWriterName: 6
+    FieldEncoding1: 7
+    PublisherId: 8
+    WriterGroupName: 9
+    MinorVersion: 10
+    FieldEncoding2: 11
+- UADataType: [ 15664, JsonDataSetWriterMessageDataType ]
+  Fields:
+    DataSetMessageContentMask: [ JsonDataSetMessageContentMask, 0 ]
+- UADataType: [ 15665, JsonDataSetReaderMessageDataType ]
+  Fields:
+    NetworkMessageContentMask: [ JsonNetworkMessageContentMask, 0 ]
+    DataSetMessageContentMask: [ JsonDataSetMessageContentMask, 0 ]
+- UADataType: [ 23603, QosDataType ]
+  Bases:
+  - Structure
+- UADataType: [ 23604, TransmitQosDataType ]
+  Bases:
+  - QosDataType
+- UADataType: [ 23605, TransmitQosPriorityDataType ]
+  Fields:
+    PriorityLabel: [ String, 0 ]
+- UADataType: [ 23608, ReceiveQosDataType ]
+  Bases:
+  - QosDataType
+- UADataType: [ 23609, ReceiveQosPriorityDataType ]
+  Fields:
+    PriorityLabel: [ String, 0 ]
+- UADataType: [ 17467, DatagramConnectionTransportDataType ]
+  Fields:
+    DiscoveryAddress: [ NetworkAddressDataType, 0 ]
+- UADataType: [ 23612, DatagramConnectionTransport2DataType ]
+  Fields:
+    DiscoveryAnnounceRate: [ UInt32, 0 ]
+    DiscoveryMaxMessageSize: [ UInt32, 0 ]
+    QosCategory: [ String, 0 ]
+    DatagramQos: [ QosDataType, 1 ]
+- UADataType: [ 15532, DatagramWriterGroupTransportDataType ]
+  Fields:
+    MessageRepeatCount: [ Byte, 0 ]
+    MessageRepeatDelay: [ Duration, 0 ]
+- UADataType: [ 23613, DatagramWriterGroupTransport2DataType ]
+  Fields:
+    Address: [ NetworkAddressDataType, 0 ]
+    QosCategory: [ String, 0 ]
+    DatagramQos: [ TransmitQosDataType, 1 ]
+    DiscoveryAnnounceRate: [ UInt32, 0 ]
+    Topic: [ String, 0 ]
+- UADataType: [ 23614, DatagramDataSetReaderTransportDataType ]
+  Fields:
+    Address: [ NetworkAddressDataType, 0 ]
+    QosCategory: [ String, 0 ]
+    DatagramQos: [ ReceiveQosDataType, 1 ]
+    Topic: [ String, 0 ]
+- UADataType: [ 18794, DtlsPubSubConnectionDataType ]
+  Fields:
+    ClientCipherSuite: [ String, 0 ]
+    ServerCipherSuites: [ String, 1 ]
+    ZeroRTT: [ Boolean, 0 ]
+    CertificateGroupId: [ NodeId, 0 ]
+    VerifyClientCertificate: [ Boolean, 0 ]
+- UADataType: [ 15007, BrokerConnectionTransportDataType ]
+  Fields:
+    ResourceUri: [ String, 0 ]
+    AuthenticationProfileUri: [ String, 0 ]
+- UADataType: [ 15008, BrokerTransportQualityOfService ]
+  Enums:
+    NotSpecified: 0
+    BestEffort: 1
+    AtLeastOnce: 2
+    AtMostOnce: 3
+    ExactlyOnce: 4
+- UADataType: [ 15667, BrokerWriterGroupTransportDataType ]
+  Fields:
+    QueueName: [ String, 0 ]
+    ResourceUri: [ String, 0 ]
+    AuthenticationProfileUri: [ String, 0 ]
+    RequestedDeliveryGuarantee: [ BrokerTransportQualityOfService, 0 ]
+- UADataType: [ 15669, BrokerDataSetWriterTransportDataType ]
+  Fields:
+    QueueName: [ String, 0 ]
+    ResourceUri: [ String, 0 ]
+    AuthenticationProfileUri: [ String, 0 ]
+    RequestedDeliveryGuarantee: [ BrokerTransportQualityOfService, 0 ]
+    MetaDataQueueName: [ String, 0 ]
+    MetaDataUpdateTime: [ Duration, 0 ]
+- UADataType: [ 15670, BrokerDataSetReaderTransportDataType ]
+  Fields:
+    QueueName: [ String, 0 ]
+    ResourceUri: [ String, 0 ]
+    AuthenticationProfileUri: [ String, 0 ]
+    RequestedDeliveryGuarantee: [ BrokerTransportQualityOfService, 0 ]
+    MetaDataQueueName: [ String, 0 ]
+- UADataType: [ 25517, PubSubConfigurationRefMask ]
+  Enums:
+    ElementAdd: 0
+    ElementMatch: 1
+    ElementModify: 2
+    ElementRemove: 3
+    ReferenceWriter: 4
+    ReferenceReader: 5
+    ReferenceWriterGroup: 6
+    ReferenceReaderGroup: 7
+    ReferenceConnection: 8
+    ReferencePubDataset: 9
+    ReferenceSubDataset: 10
+    ReferenceSecurityGroup: 11
+    ReferencePushTarget: 12
+- UADataType: [ 25519, PubSubConfigurationRefDataType ]
+  Fields:
+    ConfigurationMask: [ PubSubConfigurationRefMask, 0 ]
+    ElementIndex: [ UInt16, 0 ]
+    ConnectionIndex: [ UInt16, 0 ]
+    GroupIndex: [ UInt16, 0 ]
+- UADataType: [ 25520, PubSubConfigurationValueDataType ]
+  Fields:
+    ConfigurationElement: [ PubSubConfigurationRefDataType, 0 ]
+    Name: [ String, 0 ]
+    Identifier: [ null, 0 ]
+- UADataType: [ 19723, DiagnosticsLevel ]
+  Enums:
+    Basic: 0
+    Advanced: 1
+    Info: 2
+    Log: 3
+    Debug: 4
+- UADataType: [ 19730, PubSubDiagnosticsCounterClassification ]
+  Enums:
+    Information: 0
+    Error: 1
+- UADataType: [ 19311, JsonNetworkMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    WriterGroupName: [ String, 0 ]
+    DataSetClassId: [ String, 0 ]
+    Messages: [ Structure, -2 ]
+- UADataType: [ 19312, JsonDataSetMessage ]
+  Fields:
+    DataSetWriterId: [ UInt16, 0 ]
+    DataSetWriterName: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    WriterGroupName: [ String, 0 ]
+    SequenceNumber: [ UInt32, 0 ]
+    MetaDataVersion: [ ConfigurationVersionDataType, 0 ]
+    MinorVersion: [ VersionTime, 0 ]
+    Timestamp: [ DateTime, 0 ]
+    Status: [ StatusCode, 0 ]
+    MessageType: [ String, 0 ]
+    Payload: [ Structure, 0 ]
+- UADataType: [ 19313, JsonDataSetMetaDataMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    DataSetWriterId: [ UInt16, 0 ]
+    WriterGroupName: [ String, 0 ]
+    DataSetWriterName: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    MetaData: [ DataSetMetaDataType, 0 ]
+- UADataType: [ 19314, JsonApplicationDescriptionMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    Description: [ ApplicationDescription, 0 ]
+    ServerCapabilities: [ String, 1 ]
+- UADataType: [ 19315, JsonServerEndpointsMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    Description: [ ApplicationDescription, 0 ]
+    Endpoints: [ EndpointDescription, 1 ]
+- UADataType: [ 19316, JsonStatusMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    IsCyclic: [ Boolean, 0 ]
+    Status: [ PubSubState, 0 ]
+    NextReportTime: [ UtcTime, 0 ]
+- UADataType: [ 19317, JsonPubSubConnectionMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    Connection: [ PubSubConnectionDataType, 0 ]
+- UADataType: [ 19318, JsonActionMetaDataMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    DataSetWriterId: [ UInt16, 0 ]
+    DataSetWriterName: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    ActionTargets: [ ActionTargetDataType, 1 ]
+    Request: [ DataSetMetaDataType, 0 ]
+    Response: [ DataSetMetaDataType, 0 ]
+    ActionMethods: [ ActionMethodDataType, 1 ]
+- UADataType: [ 19319, JsonActionResponderMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    Connection: [ PubSubConnectionDataType, 0 ]
+- UADataType: [ 19320, JsonActionNetworkMessage ]
+  Fields:
+    MessageId: [ String, 0 ]
+    MessageType: [ String, 0 ]
+    PublisherId: [ String, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    ResponseAddress: [ String, 0 ]
+    CorrelationData: [ ByteString, 0 ]
+    RequestorId: [ String, 0 ]
+    TimeoutHint: [ Duration, 0 ]
+    Messages: [ Structure, 1 ]
+- UADataType: [ 19321, JsonActionRequestMessage ]
+  Fields:
+    DataSetWriterId: [ UInt16, 0 ]
+    ActionTargetId: [ UInt16, 0 ]
+    DataSetWriterName: [ String, 0 ]
+    WriterGroupName: [ String, 0 ]
+    MetaDataVersion: [ ConfigurationVersionDataType, 0 ]
+    MinorVersion: [ VersionTime, 0 ]
+    Timestamp: [ DateTime, 0 ]
+    MessageType: [ String, 0 ]
+    RequestId: [ UInt16, 0 ]
+    ActionState: [ ActionState, 0 ]
+    Payload: [ Structure, 0 ]
+- UADataType: [ 19322, JsonActionResponseMessage ]
+  Fields:
+    DataSetWriterId: [ UInt16, 0 ]
+    ActionTargetId: [ UInt16, 0 ]
+    DataSetWriterName: [ String, 0 ]
+    WriterGroupName: [ String, 0 ]
+    MetaDataVersion: [ ConfigurationVersionDataType, 0 ]
+    MinorVersion: [ VersionTime, 0 ]
+    Timestamp: [ DateTime, 0 ]
+    Status: [ StatusCode, 0 ]
+    MessageType: [ String, 0 ]
+    RequestId: [ UInt16, 0 ]
+    ActionState: [ ActionState, 0 ]
+    Payload: [ Structure, 0 ]
+- UADataType: [ 23468, AliasNameDataType ]
+  Fields:
+    AliasName: [ QualifiedName, 0 ]
+    ReferencedNodes: [ ExpandedNodeId, 1 ]
+- UADataType: [ 24277, PasswordOptionsMask ]
+  Enums:
+    SupportInitialPasswordChange: 0
+    SupportDisableUser: 1
+    SupportDisableDeleteForUser: 2
+    SupportNoChangeForUser: 3
+    SupportDescriptionForUser: 4
+    RequiresUpperCaseCharacters: 5
+    RequiresLowerCaseCharacters: 6
+    RequiresDigitCharacters: 7
+    RequiresSpecialCharacters: 8
+- UADataType: [ 24279, UserConfigurationMask ]
+  Enums:
+    NoDelete: 0
+    Disabled: 1
+    NoChangeByUser: 2
+    MustChangePassword: 3
+- UADataType: [ 24281, UserManagementDataType ]
+  Fields:
+    UserName: [ String, 0 ]
+    UserConfiguration: [ UserConfigurationMask, 0 ]
+    Description: [ String, 0 ]
+- UADataType: [ 25726, EncodedTicket ]
+  Bases:
+  - String
+- UADataType: [ 24210, Duplex ]
+  Enums:
+    Full: 0
+    Half: 1
+    Unknown: 2
+- UADataType: [ 24212, InterfaceAdminStatus ]
+  Enums:
+    Up: 0
+    Down: 1
+    Testing: 2
+- UADataType: [ 24214, InterfaceOperStatus ]
+  Enums:
+    Up: 0
+    Down: 1
+    Testing: 2
+    Unknown: 3
+    Dormant: 4
+    NotPresent: 5
+    LowerLayerDown: 6
+- UADataType: [ 24216, NegotiationStatus ]
+  Enums:
+    InProgress: 0
+    Complete: 1
+    Failed: 2
+    Unknown: 3
+    NoNegotiation: 4
+- UADataType: [ 24218, TsnFailureCode ]
+  Enums:
+    NoFailure: 0
+    InsufficientBandwidth: 1
+    InsufficientResources: 2
+    InsufficientTrafficClassBandwidth: 3
+    StreamIdInUse: 4
+    StreamDestinationAddressInUse: 5
+    StreamPreemptedByHigherRank: 6
+    LatencyHasChanged: 7
+    EgressPortNotAvbCapable: 8
+    UseDifferentDestinationAddress: 9
+    OutOfMsrpResources: 10
+    OutOfMmrpResources: 11
+    CannotStoreDestinationAddress: 12
+    PriorityIsNotAnSrcClass: 13
+    MaxFrameSizeTooLarge: 14
+    MaxFanInPortsLimitReached: 15
+    FirstValueChangedForStreamId: 16
+    VlanBlockedOnEgress: 17
+    VlanTaggingDisabledOnEgress: 18
+    SrClassPriorityMismatch: 19
+    FeatureNotPropagated: 20
+    MaxLatencyExceeded: 21
+    BridgeDoesNotProvideNetworkId: 22
+    StreamTransformNotSupported: 23
+    StreamIdTypeNotSupported: 24
+    FeatureNotSupported: 25
+- UADataType: [ 24220, TsnStreamState ]
+  Enums:
+    Disabled: 0
+    Configuring: 1
+    Ready: 2
+    Operational: 3
+    Error: 4
+- UADataType: [ 24222, TsnTalkerStatus ]
+  Enums:
+    None: 0
+    Ready: 1
+    Failed: 2
+- UADataType: [ 24224, TsnListenerStatus ]
+  Enums:
+    None: 0
+    Ready: 1
+    PartialFailed: 2
+    Failed: 3
+- UADataType: [ 18947, ChassisIdSubtype ]
+  Enums:
+    ChassisComponent: 1
+    InterfaceAlias: 2
+    PortComponent: 3
+    MacAddress: 4
+    NetworkAddress: 5
+    InterfaceName: 6
+    Local: 7
+- UADataType: [ 18949, PortIdSubtype ]
+  Enums:
+    InterfaceAlias: 1
+    PortComponent: 2
+    MacAddress: 3
+    NetworkAddress: 4
+    InterfaceName: 5
+    AgentCircuitId: 6
+    Local: 7
+- UADataType: [ 18951, ManAddrIfSubtype ]
+  Enums:
+    None: 0
+    Unknown: 1
+    PortRef: 2
+    SystemPortNumber: 3
+- UADataType: [ 25220, PriorityMappingEntryType ]
+  Fields:
+    MappingUri: [ String, 0 ]
+    PriorityLabel: [ String, 0 ]
+    PriorityValue_PCP: [ Byte, 0 ]
+    PriorityValue_DSCP: [ UInt32, 0 ]
+- UADataType: [ 18953, LldpManagementAddressTxPortType ]
+  Fields:
+    AddressSubtype: [ UInt32, 0 ]
+    ManAddress: [ String, 0 ]
+    TxEnable: [ Boolean, 0 ]
+    AddrLen: [ UInt32, 0 ]
+    IfSubtype: [ ManAddrIfSubtype, 0 ]
+    IfId: [ UInt32, 0 ]
+- UADataType: [ 18954, LldpManagementAddressType ]
+  Fields:
+    AddressSubtype: [ UInt32, 0 ]
+    Address: [ String, 0 ]
+    IfSubtype: [ ManAddrIfSubtype, 0 ]
+    IfId: [ UInt32, 0 ]
+- UADataType: [ 18955, LldpTlvType ]
+  Fields:
+    TlvType: [ UInt32, 0 ]
+    TlvInfo: [ ByteString, 0 ]
+- UADataType: [ 18956, LldpSystemCapabilitiesMap ]
+  Enums:
+    Other: 0
+    Repeater: 1
+    Bridge: 2
+    WlanAccessPoint: 3
+    Router: 4
+    Telephone: 5
+    DocsisCableDevice: 6
+    StationOnly: 7
+    CvlanComponent: 8
+    SvlanComponent: 9
+    TwoPortMacRelay: 10
+- UADataType: [ 32659, ReferenceDescriptionDataType ]
+  Fields:
+    SourceNode: [ NodeId, 0 ]
+    ReferenceType: [ NodeId, 0 ]
+    IsForward: [ Boolean, 0 ]
+    TargetNode: [ ExpandedNodeId, 0 ]
+- UADataType: [ 32660, ReferenceListEntryDataType ]
+  Fields:
+    ReferenceType: [ NodeId, 0 ]
+    IsForward: [ Boolean, 0 ]
+    TargetNode: [ ExpandedNodeId, 0 ]
+- UADataType: [ 256, IdType ]
+  Enums:
+    Numeric: 0
+    String: 1
+    Guid: 2
+    Opaque: 3
+- UADataType: [ 257, NodeClass ]
+  Enums:
+    Unspecified: 0
+    Object: 1
+    Variable: 2
+    Method: 4
+    ObjectType: 8
+    VariableType: 16
+    ReferenceType: 32
+    DataType: 64
+    View: 128
+- UADataType: [ 94, PermissionType ]
+  Enums:
+    Browse: 0
+    ReadRolePermissions: 1
+    WriteAttribute: 2
+    WriteRolePermissions: 3
+    WriteHistorizing: 4
+    Read: 5
+    Write: 6
+    ReadHistory: 7
+    InsertHistory: 8
+    ModifyHistory: 9
+    DeleteHistory: 10
+    ReceiveEvents: 11
+    Call: 12
+    AddReference: 13
+    RemoveReference: 14
+    DeleteNode: 15
+    AddNode: 16
+- UADataType: [ 15031, AccessLevelType ]
+  Enums:
+    CurrentRead: 0
+    CurrentWrite: 1
+    HistoryRead: 2
+    HistoryWrite: 3
+    SemanticChange: 4
+    StatusWrite: 5
+    TimestampWrite: 6
+- UADataType: [ 15406, AccessLevelExType ]
+  Enums:
+    CurrentRead: 0
+    CurrentWrite: 1
+    HistoryRead: 2
+    HistoryWrite: 3
+    SemanticChange: 4
+    StatusWrite: 5
+    TimestampWrite: 6
+    NonatomicRead: 8
+    NonatomicWrite: 9
+    WriteFullArrayOnly: 10
+    NoSubDataTypes: 11
+    NonVolatile: 12
+    Constant: 13
+- UADataType: [ 15033, EventNotifierType ]
+  Enums:
+    SubscribeToEvents: 0
+    HistoryRead: 2
+    HistoryWrite: 3
+- UADataType: [ 95, AccessRestrictionType ]
+  Enums:
+    SigningRequired: 0
+    EncryptionRequired: 1
+    SessionRequired: 2
+    ApplyRestrictionsToBrowse: 3
+- UADataType: [ 96, RolePermissionType ]
+  Fields:
+    RoleId: [ NodeId, 0 ]
+    Permissions: [ PermissionType, 0 ]
+- UADataType: [ 97, DataTypeDefinition ]
+  Bases:
+  - Structure
+- UADataType: [ 98, StructureType ]
+  Enums:
+    Structure: 0
+    StructureWithOptionalFields: 1
+    Union: 2
+    StructureWithSubtypedValues: 3
+    UnionWithSubtypedValues: 4
+- UADataType: [ 101, StructureField ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    DataType: [ NodeId, 0 ]
+    ValueRank: [ Int32, 0 ]
+    ArrayDimensions: [ UInt32, 1 ]
+    MaxStringLength: [ UInt32, 0 ]
+    IsOptional: [ Boolean, 0 ]
+- UADataType: [ 99, StructureDefinition ]
+  Fields:
+    DefaultEncodingId: [ NodeId, 0 ]
+    BaseDataType: [ NodeId, 0 ]
+    StructureType: [ StructureType, 0 ]
+    Fields: [ StructureField, 1 ]
+- UADataType: [ 100, EnumDefinition ]
+  Fields:
+    Fields: [ EnumField, 1 ]
+- UADataType: [ 258, Node ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    NodeClass: [ NodeClass, 0 ]
+    BrowseName: [ QualifiedName, 0 ]
+    DisplayName: [ LocalizedText, 0 ]
+    Description: [ LocalizedText, 0 ]
+    WriteMask: [ UInt32, 0 ]
+    UserWriteMask: [ UInt32, 0 ]
+    RolePermissions: [ RolePermissionType, 1 ]
+    UserRolePermissions: [ RolePermissionType, 1 ]
+    AccessRestrictions: [ UInt16, 0 ]
+    References: [ ReferenceNode, 1 ]
+- UADataType: [ 11879, InstanceNode ]
+  Bases:
+  - Node
+- UADataType: [ 11880, TypeNode ]
+  Bases:
+  - Node
+- UADataType: [ 261, ObjectNode ]
+  Fields:
+    EventNotifier: [ Byte, 0 ]
+- UADataType: [ 264, ObjectTypeNode ]
+  Fields:
+    IsAbstract: [ Boolean, 0 ]
+- UADataType: [ 267, VariableNode ]
+  Bases:
+  - InstanceNode
+- UADataType: [ 270, VariableTypeNode ]
+  Bases:
+  - TypeNode
+- UADataType: [ 273, ReferenceTypeNode ]
+  Fields:
+    IsAbstract: [ Boolean, 0 ]
+    Symmetric: [ Boolean, 0 ]
+    InverseName: [ LocalizedText, 0 ]
+- UADataType: [ 276, MethodNode ]
+  Fields:
+    Executable: [ Boolean, 0 ]
+    UserExecutable: [ Boolean, 0 ]
+- UADataType: [ 279, ViewNode ]
+  Fields:
+    ContainsNoLoops: [ Boolean, 0 ]
+    EventNotifier: [ Byte, 0 ]
+- UADataType: [ 282, DataTypeNode ]
+  Fields:
+    IsAbstract: [ Boolean, 0 ]
+    DataTypeDefinition: [ Structure, 0 ]
+- UADataType: [ 285, ReferenceNode ]
+  Fields:
+    ReferenceTypeId: [ NodeId, 0 ]
+    IsInverse: [ Boolean, 0 ]
+    TargetId: [ ExpandedNodeId, 0 ]
+- UADataType: [ 296, Argument ]
+  Fields:
+    Name: [ String, 0 ]
+    DataType: [ NodeId, 0 ]
+    ValueRank: [ Int32, 0 ]
+    ArrayDimensions: [ UInt32, 1 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ 7594, EnumValueType ]
+  Fields:
+    Value: [ Int64, 0 ]
+    DisplayName: [ LocalizedText, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ 102, EnumField ]
+  Fields:
+    Name: [ String, 0 ]
+- UADataType: [ 12755, OptionSet ]
+  Fields:
+    Value: [ ByteString, 0 ]
+    ValidBits: [ ByteString, 0 ]
+- UADataType: [ 12877, NormalizedString ]
+  Bases:
+  - String
+- UADataType: [ 12878, DecimalString ]
+  Bases:
+  - String
+- UADataType: [ 12879, DurationString ]
+  Bases:
+  - String
+- UADataType: [ 12880, TimeString ]
+  Bases:
+  - String
+- UADataType: [ 12881, DateString ]
+  Bases:
+  - String
+- UADataType: [ 290, Duration ]
+  Bases:
+  - Double
+- UADataType: [ 294, UtcTime ]
+  Bases:
+  - DateTime
+- UADataType: [ 295, LocaleId ]
+  Bases:
+  - String
+- UADataType: [ 8912, TimeZoneDataType ]
+  Fields:
+    Offset: [ Int16, 0 ]
+    DaylightSavingInOffset: [ Boolean, 0 ]
+- UADataType: [ 17588, Index ]
+  Bases:
+  - UInt32
+- UADataType: [ 288, IntegerId ]
+  Bases:
+  - UInt32
+- UADataType: [ 307, ApplicationType ]
+  Enums:
+    Server: 0
+    Client: 1
+    ClientAndServer: 2
+    DiscoveryServer: 3
+- UADataType: [ 308, ApplicationDescription ]
+  Fields:
+    ApplicationUri: [ String, 0 ]
+    ProductUri: [ String, 0 ]
+    ApplicationName: [ LocalizedText, 0 ]
+    ApplicationType: [ ApplicationType, 0 ]
+    GatewayServerUri: [ String, 0 ]
+    DiscoveryProfileUri: [ String, 0 ]
+    DiscoveryUrls: [ String, 1 ]
+- UADataType: [ 389, RequestHeader ]
+  Fields:
+    AuthenticationToken: [ SessionAuthenticationToken, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    RequestHandle: [ IntegerId, 0 ]
+    ReturnDiagnostics: [ UInt32, 0 ]
+    AuditEntryId: [ String, 0 ]
+    TimeoutHint: [ UInt32, 0 ]
+    AdditionalHeader: [ Structure, 0 ]
+- UADataType: [ 392, ResponseHeader ]
+  Fields:
+    Timestamp: [ UtcTime, 0 ]
+    RequestHandle: [ IntegerId, 0 ]
+    ServiceResult: [ StatusCode, 0 ]
+    ServiceDiagnostics: [ DiagnosticInfo, 0 ]
+    StringTable: [ String, 1 ]
+    AdditionalHeader: [ Structure, 0 ]
+- UADataType: [ 20998, VersionTime ]
+  Bases:
+  - UInt32
+- UADataType: [ 395, ServiceFault ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+- UADataType: [ 15901, SessionlessInvokeRequestType ]
+  Fields:
+    UrisVersion: [ VersionTime, 0 ]
+    NamespaceUris: [ String, 1 ]
+    ServerUris: [ String, 1 ]
+    LocaleIds: [ LocaleId, 1 ]
+    ServiceId: [ UInt32, 0 ]
+- UADataType: [ 20999, SessionlessInvokeResponseType ]
+  Fields:
+    NamespaceUris: [ String, 1 ]
+    ServerUris: [ String, 1 ]
+    ServiceId: [ UInt32, 0 ]
+- UADataType: [ 420, FindServersRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    EndpointUrl: [ String, 0 ]
+    LocaleIds: [ LocaleId, 1 ]
+    ServerUris: [ String, 1 ]
+- UADataType: [ 423, FindServersResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Servers: [ ApplicationDescription, 1 ]
+- UADataType: [ 12189, ServerOnNetwork ]
+  Fields:
+    RecordId: [ UInt32, 0 ]
+    ServerName: [ String, 0 ]
+    DiscoveryUrl: [ String, 0 ]
+    ServerCapabilities: [ String, 1 ]
+- UADataType: [ 12190, FindServersOnNetworkRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    StartingRecordId: [ Counter, 0 ]
+    MaxRecordsToReturn: [ UInt32, 0 ]
+    ServerCapabilityFilter: [ String, 1 ]
+- UADataType: [ 12191, FindServersOnNetworkResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    LastCounterResetTime: [ UtcTime, 0 ]
+    Servers: [ ServerOnNetwork, 1 ]
+- UADataType: [ 311, ApplicationInstanceCertificate ]
+  Bases:
+  - ByteString
+- UADataType: [ 302, MessageSecurityMode ]
+  Enums:
+    Invalid: 0
+    None: 1
+    Sign: 2
+    SignAndEncrypt: 3
+- UADataType: [ 303, UserTokenType ]
+  Enums:
+    Anonymous: 0
+    UserName: 1
+    Certificate: 2
+    IssuedToken: 3
+- UADataType: [ 304, UserTokenPolicy ]
+  Fields:
+    PolicyId: [ String, 0 ]
+    TokenType: [ UserTokenType, 0 ]
+    IssuedTokenType: [ String, 0 ]
+    IssuerEndpointUrl: [ String, 0 ]
+    SecurityPolicyUri: [ String, 0 ]
+- UADataType: [ 312, EndpointDescription ]
+  Fields:
+    EndpointUrl: [ String, 0 ]
+    Server: [ ApplicationDescription, 0 ]
+    ServerCertificate: [ ApplicationInstanceCertificate, 0 ]
+    SecurityMode: [ MessageSecurityMode, 0 ]
+    SecurityPolicyUri: [ String, 0 ]
+    UserIdentityTokens: [ UserTokenPolicy, 1 ]
+    TransportProfileUri: [ String, 0 ]
+    SecurityLevel: [ Byte, 0 ]
+- UADataType: [ 426, GetEndpointsRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    EndpointUrl: [ String, 0 ]
+    LocaleIds: [ LocaleId, 1 ]
+    ProfileUris: [ String, 1 ]
+- UADataType: [ 429, GetEndpointsResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Endpoints: [ EndpointDescription, 1 ]
+- UADataType: [ 432, RegisteredServer ]
+  Fields:
+    ServerUri: [ String, 0 ]
+    ProductUri: [ String, 0 ]
+    ServerNames: [ LocalizedText, 1 ]
+    ServerType: [ ApplicationType, 0 ]
+    GatewayServerUri: [ String, 0 ]
+    DiscoveryUrls: [ String, 1 ]
+    SemaphoreFilePath: [ String, 0 ]
+    IsOnline: [ Boolean, 0 ]
+- UADataType: [ 435, RegisterServerRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    Server: [ RegisteredServer, 0 ]
+- UADataType: [ 438, RegisterServerResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+- UADataType: [ 12890, DiscoveryConfiguration ]
+  Bases:
+  - Structure
+- UADataType: [ 12891, MdnsDiscoveryConfiguration ]
+  Fields:
+    MdnsServerName: [ String, 0 ]
+    ServerCapabilities: [ String, 1 ]
+- UADataType: [ 12193, RegisterServer2Request ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    Server: [ RegisteredServer, 0 ]
+    DiscoveryConfiguration: [ Structure, 1 ]
+- UADataType: [ 12194, RegisterServer2Response ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    ConfigurationResults: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 315, SecurityTokenRequestType ]
+  Enums:
+    Issue: 0
+    Renew: 1
+- UADataType: [ 441, ChannelSecurityToken ]
+  Fields:
+    ChannelId: [ UInt32, 0 ]
+    TokenId: [ UInt32, 0 ]
+    CreatedAt: [ UtcTime, 0 ]
+    RevisedLifetime: [ UInt32, 0 ]
+- UADataType: [ 444, OpenSecureChannelRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    ClientProtocolVersion: [ UInt32, 0 ]
+    RequestType: [ SecurityTokenRequestType, 0 ]
+    SecurityMode: [ MessageSecurityMode, 0 ]
+    ClientNonce: [ ByteString, 0 ]
+    RequestedLifetime: [ UInt32, 0 ]
+- UADataType: [ 447, OpenSecureChannelResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    ServerProtocolVersion: [ UInt32, 0 ]
+    SecurityToken: [ ChannelSecurityToken, 0 ]
+    ServerNonce: [ ByteString, 0 ]
+- UADataType: [ 450, CloseSecureChannelRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+- UADataType: [ 453, CloseSecureChannelResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+- UADataType: [ 344, SignedSoftwareCertificate ]
+  Fields:
+    CertificateData: [ ByteString, 0 ]
+    Signature: [ ByteString, 0 ]
+- UADataType: [ 388, SessionAuthenticationToken ]
+  Bases:
+  - NodeId
+- UADataType: [ 456, SignatureData ]
+  Fields:
+    Algorithm: [ String, 0 ]
+    Signature: [ ByteString, 0 ]
+- UADataType: [ 459, CreateSessionRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    ClientDescription: [ ApplicationDescription, 0 ]
+    ServerUri: [ String, 0 ]
+    EndpointUrl: [ String, 0 ]
+    SessionName: [ String, 0 ]
+    ClientNonce: [ ByteString, 0 ]
+    ClientCertificate: [ ApplicationInstanceCertificate, 0 ]
+    RequestedSessionTimeout: [ Duration, 0 ]
+    MaxResponseMessageSize: [ UInt32, 0 ]
+- UADataType: [ 462, CreateSessionResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    SessionId: [ NodeId, 0 ]
+    AuthenticationToken: [ SessionAuthenticationToken, 0 ]
+    RevisedSessionTimeout: [ Duration, 0 ]
+    ServerNonce: [ ByteString, 0 ]
+    ServerCertificate: [ ApplicationInstanceCertificate, 0 ]
+    ServerEndpoints: [ EndpointDescription, 1 ]
+    ServerSoftwareCertificates: [ SignedSoftwareCertificate, 1 ]
+    ServerSignature: [ SignatureData, 0 ]
+    MaxRequestMessageSize: [ UInt32, 0 ]
+- UADataType: [ 316, UserIdentityToken ]
+  Fields:
+    PolicyId: [ String, 0 ]
+- UADataType: [ 319, AnonymousIdentityToken ]
+  Bases:
+  - UserIdentityToken
+- UADataType: [ 322, UserNameIdentityToken ]
+  Fields:
+    UserName: [ String, 0 ]
+    Password: [ ByteString, 0 ]
+    EncryptionAlgorithm: [ String, 0 ]
+- UADataType: [ 325, X509IdentityToken ]
+  Fields:
+    CertificateData: [ ByteString, 0 ]
+- UADataType: [ 938, IssuedIdentityToken ]
+  Fields:
+    TokenData: [ ByteString, 0 ]
+    EncryptionAlgorithm: [ String, 0 ]
+- UADataType: [ 17545, RsaEncryptedSecret ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 17546, EccEncryptedSecret ]
+  Bases:
+  - BaseDataType
+- UADataType: [ 465, ActivateSessionRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    ClientSignature: [ SignatureData, 0 ]
+    ClientSoftwareCertificates: [ SignedSoftwareCertificate, 1 ]
+    LocaleIds: [ LocaleId, 1 ]
+    UserIdentityToken: [ Structure, 0 ]
+    UserTokenSignature: [ SignatureData, 0 ]
+- UADataType: [ 468, ActivateSessionResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    ServerNonce: [ ByteString, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 471, CloseSessionRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    DeleteSubscriptions: [ Boolean, 0 ]
+- UADataType: [ 474, CloseSessionResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+- UADataType: [ 477, CancelRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    RequestHandle: [ IntegerId, 0 ]
+- UADataType: [ 480, CancelResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    CancelCount: [ UInt32, 0 ]
+- UADataType: [ 348, NodeAttributesMask ]
+  Enums:
+    None: 0
+    AccessLevel: 1
+    ArrayDimensions: 2
+    BrowseName: 4
+    ContainsNoLoops: 8
+    DataType: 16
+    Description: 32
+    DisplayName: 64
+    EventNotifier: 128
+    Executable: 256
+    Historizing: 512
+    InverseName: 1024
+    IsAbstract: 2048
+    MinimumSamplingInterval: 4096
+    NodeClass: 8192
+    NodeId: 16384
+    Symmetric: 32768
+    UserAccessLevel: 65536
+    UserExecutable: 131072
+    UserWriteMask: 262144
+    ValueRank: 524288
+    WriteMask: 1048576
+    Value: 2097152
+    DataTypeDefinition: 4194304
+    RolePermissions: 8388608
+    AccessRestrictions: 16777216
+    All: 33554431
+    BaseNode: 26501220
+    Object: 26501348
+    ObjectType: 26503268
+    Variable: 26571383
+    VariableType: 28600438
+    Method: 26632548
+    ReferenceType: 26537060
+    View: 26501356
+- UADataType: [ 349, NodeAttributes ]
+  Fields:
+    SpecifiedAttributes: [ UInt32, 0 ]
+    DisplayName: [ LocalizedText, 0 ]
+    Description: [ LocalizedText, 0 ]
+    WriteMask: [ UInt32, 0 ]
+    UserWriteMask: [ UInt32, 0 ]
+- UADataType: [ 352, ObjectAttributes ]
+  Fields:
+    EventNotifier: [ Byte, 0 ]
+- UADataType: [ 355, VariableAttributes ]
+  Bases:
+  - NodeAttributes
+- UADataType: [ 358, MethodAttributes ]
+  Fields:
+    Executable: [ Boolean, 0 ]
+    UserExecutable: [ Boolean, 0 ]
+- UADataType: [ 361, ObjectTypeAttributes ]
+  Fields:
+    IsAbstract: [ Boolean, 0 ]
+- UADataType: [ 364, VariableTypeAttributes ]
+  Bases:
+  - NodeAttributes
+- UADataType: [ 367, ReferenceTypeAttributes ]
+  Fields:
+    IsAbstract: [ Boolean, 0 ]
+    Symmetric: [ Boolean, 0 ]
+    InverseName: [ LocalizedText, 0 ]
+- UADataType: [ 370, DataTypeAttributes ]
+  Fields:
+    IsAbstract: [ Boolean, 0 ]
+- UADataType: [ 373, ViewAttributes ]
+  Fields:
+    ContainsNoLoops: [ Boolean, 0 ]
+    EventNotifier: [ Byte, 0 ]
+- UADataType: [ 17606, GenericAttributeValue ]
+  Fields:
+    AttributeId: [ IntegerId, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ 17607, GenericAttributes ]
+  Fields:
+    AttributeValues: [ GenericAttributeValue, 1 ]
+- UADataType: [ 376, AddNodesItem ]
+  Fields:
+    ParentNodeId: [ ExpandedNodeId, 0 ]
+    ReferenceTypeId: [ NodeId, 0 ]
+    RequestedNewNodeId: [ ExpandedNodeId, 0 ]
+    BrowseName: [ QualifiedName, 0 ]
+    NodeClass: [ NodeClass, 0 ]
+    NodeAttributes: [ Structure, 0 ]
+    TypeDefinition: [ ExpandedNodeId, 0 ]
+- UADataType: [ 483, AddNodesResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    AddedNodeId: [ NodeId, 0 ]
+- UADataType: [ 486, AddNodesRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    NodesToAdd: [ AddNodesItem, 1 ]
+- UADataType: [ 489, AddNodesResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ AddNodesResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 379, AddReferencesItem ]
+  Fields:
+    SourceNodeId: [ NodeId, 0 ]
+    ReferenceTypeId: [ NodeId, 0 ]
+    IsForward: [ Boolean, 0 ]
+    TargetServerUri: [ String, 0 ]
+    TargetNodeId: [ ExpandedNodeId, 0 ]
+    TargetNodeClass: [ NodeClass, 0 ]
+- UADataType: [ 492, AddReferencesRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    ReferencesToAdd: [ AddReferencesItem, 1 ]
+- UADataType: [ 495, AddReferencesResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 382, DeleteNodesItem ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    DeleteTargetReferences: [ Boolean, 0 ]
+- UADataType: [ 498, DeleteNodesRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    NodesToDelete: [ DeleteNodesItem, 1 ]
+- UADataType: [ 501, DeleteNodesResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 385, DeleteReferencesItem ]
+  Fields:
+    SourceNodeId: [ NodeId, 0 ]
+    ReferenceTypeId: [ NodeId, 0 ]
+    IsForward: [ Boolean, 0 ]
+    TargetNodeId: [ ExpandedNodeId, 0 ]
+    DeleteBidirectional: [ Boolean, 0 ]
+- UADataType: [ 504, DeleteReferencesRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    ReferencesToDelete: [ DeleteReferencesItem, 1 ]
+- UADataType: [ 507, DeleteReferencesResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 347, AttributeWriteMask ]
+  Enums:
+    AccessLevel: 0
+    ArrayDimensions: 1
+    BrowseName: 2
+    ContainsNoLoops: 3
+    DataType: 4
+    Description: 5
+    DisplayName: 6
+    EventNotifier: 7
+    Executable: 8
+    Historizing: 9
+    InverseName: 10
+    IsAbstract: 11
+    MinimumSamplingInterval: 12
+    NodeClass: 13
+    NodeId: 14
+    Symmetric: 15
+    UserAccessLevel: 16
+    UserExecutable: 17
+    UserWriteMask: 18
+    ValueRank: 19
+    WriteMask: 20
+    ValueForVariableType: 21
+    DataTypeDefinition: 22
+    RolePermissions: 23
+    AccessRestrictions: 24
+    AccessLevelEx: 25
+- UADataType: [ 510, BrowseDirection ]
+  Enums:
+    Forward: 0
+    Inverse: 1
+    Both: 2
+    Invalid: 3
+- UADataType: [ 511, ViewDescription ]
+  Fields:
+    ViewId: [ NodeId, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    ViewVersion: [ UInt32, 0 ]
+- UADataType: [ 514, BrowseDescription ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    BrowseDirection: [ BrowseDirection, 0 ]
+    ReferenceTypeId: [ NodeId, 0 ]
+    IncludeSubtypes: [ Boolean, 0 ]
+    NodeClassMask: [ UInt32, 0 ]
+    ResultMask: [ UInt32, 0 ]
+- UADataType: [ 517, BrowseResultMask ]
+  Enums:
+    None: 0
+    ReferenceTypeId: 1
+    IsForward: 2
+    NodeClass: 4
+    BrowseName: 8
+    DisplayName: 16
+    TypeDefinition: 32
+    All: 63
+    ReferenceTypeInfo: 3
+    TargetInfo: 60
+- UADataType: [ 518, ReferenceDescription ]
+  Fields:
+    ReferenceTypeId: [ NodeId, 0 ]
+    IsForward: [ Boolean, 0 ]
+    NodeId: [ ExpandedNodeId, 0 ]
+    BrowseName: [ QualifiedName, 0 ]
+    DisplayName: [ LocalizedText, 0 ]
+    NodeClass: [ NodeClass, 0 ]
+    TypeDefinition: [ ExpandedNodeId, 0 ]
+- UADataType: [ 521, ContinuationPoint ]
+  Bases:
+  - ByteString
+- UADataType: [ 522, BrowseResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    ContinuationPoint: [ ContinuationPoint, 0 ]
+    References: [ ReferenceDescription, 1 ]
+- UADataType: [ 525, BrowseRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    View: [ ViewDescription, 0 ]
+    RequestedMaxReferencesPerNode: [ Counter, 0 ]
+    NodesToBrowse: [ BrowseDescription, 1 ]
+- UADataType: [ 528, BrowseResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ BrowseResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 531, BrowseNextRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    ReleaseContinuationPoints: [ Boolean, 0 ]
+    ContinuationPoints: [ ContinuationPoint, 1 ]
+- UADataType: [ 534, BrowseNextResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ BrowseResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 537, RelativePathElement ]
+  Fields:
+    ReferenceTypeId: [ NodeId, 0 ]
+    IsInverse: [ Boolean, 0 ]
+    IncludeSubtypes: [ Boolean, 0 ]
+    TargetName: [ QualifiedName, 0 ]
+- UADataType: [ 540, RelativePath ]
+  Fields:
+    Elements: [ RelativePathElement, 1 ]
+- UADataType: [ 543, BrowsePath ]
+  Fields:
+    StartingNode: [ NodeId, 0 ]
+    RelativePath: [ RelativePath, 0 ]
+- UADataType: [ 546, BrowsePathTarget ]
+  Fields:
+    TargetId: [ ExpandedNodeId, 0 ]
+    RemainingPathIndex: [ Index, 0 ]
+- UADataType: [ 549, BrowsePathResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    Targets: [ BrowsePathTarget, 1 ]
+- UADataType: [ 552, TranslateBrowsePathsToNodeIdsRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    BrowsePaths: [ BrowsePath, 1 ]
+- UADataType: [ 555, TranslateBrowsePathsToNodeIdsResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ BrowsePathResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 558, RegisterNodesRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    NodesToRegister: [ NodeId, 1 ]
+- UADataType: [ 561, RegisterNodesResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    RegisteredNodeIds: [ NodeId, 1 ]
+- UADataType: [ 564, UnregisterNodesRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    NodesToUnregister: [ NodeId, 1 ]
+- UADataType: [ 567, UnregisterNodesResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+- UADataType: [ 289, Counter ]
+  Bases:
+  - UInt32
+- UADataType: [ 291, NumericRange ]
+  Bases:
+  - String
+- UADataType: [ 331, EndpointConfiguration ]
+  Fields:
+    OperationTimeout: [ Int32, 0 ]
+    UseBinaryEncoding: [ Boolean, 0 ]
+    MaxStringLength: [ Int32, 0 ]
+    MaxByteStringLength: [ Int32, 0 ]
+    MaxArrayLength: [ Int32, 0 ]
+    MaxMessageSize: [ Int32, 0 ]
+    MaxBufferSize: [ Int32, 0 ]
+    ChannelLifetime: [ Int32, 0 ]
+    SecurityTokenLifetime: [ Int32, 0 ]
+- UADataType: [ 570, QueryDataDescription ]
+  Fields:
+    RelativePath: [ RelativePath, 0 ]
+    AttributeId: [ IntegerId, 0 ]
+    IndexRange: [ NumericRange, 0 ]
+- UADataType: [ 573, NodeTypeDescription ]
+  Fields:
+    TypeDefinitionNode: [ ExpandedNodeId, 0 ]
+    IncludeSubTypes: [ Boolean, 0 ]
+    DataToReturn: [ QueryDataDescription, 1 ]
+- UADataType: [ 576, FilterOperator ]
+  Enums:
+    Equals: 0
+    IsNull: 1
+    GreaterThan: 2
+    LessThan: 3
+    GreaterThanOrEqual: 4
+    LessThanOrEqual: 5
+    Like: 6
+    Not: 7
+    Between: 8
+    InList: 9
+    And: 10
+    Or: 11
+    Cast: 12
+    InView: 13
+    OfType: 14
+    RelatedTo: 15
+    BitwiseAnd: 16
+    BitwiseOr: 17
+- UADataType: [ 577, QueryDataSet ]
+  Fields:
+    NodeId: [ ExpandedNodeId, 0 ]
+    TypeDefinitionNode: [ ExpandedNodeId, 0 ]
+    Values: [ null, 1 ]
+- UADataType: [ 580, NodeReference ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    ReferenceTypeId: [ NodeId, 0 ]
+    IsForward: [ Boolean, 0 ]
+    ReferencedNodeIds: [ NodeId, 1 ]
+- UADataType: [ 583, ContentFilterElement ]
+  Fields:
+    FilterOperator: [ FilterOperator, 0 ]
+    FilterOperands: [ Structure, 1 ]
+- UADataType: [ 586, ContentFilter ]
+  Fields:
+    Elements: [ ContentFilterElement, 1 ]
+- UADataType: [ 589, FilterOperand ]
+  Bases:
+  - Structure
+- UADataType: [ 592, ElementOperand ]
+  Fields:
+    Index: [ UInt32, 0 ]
+- UADataType: [ 595, LiteralOperand ]
+  Bases:
+  - FilterOperand
+- UADataType: [ 598, AttributeOperand ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    Alias: [ String, 0 ]
+    BrowsePath: [ RelativePath, 0 ]
+    AttributeId: [ IntegerId, 0 ]
+    IndexRange: [ NumericRange, 0 ]
+- UADataType: [ 601, SimpleAttributeOperand ]
+  Fields:
+    TypeDefinitionId: [ NodeId, 0 ]
+    BrowsePath: [ QualifiedName, 1 ]
+    AttributeId: [ IntegerId, 0 ]
+    IndexRange: [ NumericRange, 0 ]
+- UADataType: [ 604, ContentFilterElementResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    OperandStatusCodes: [ StatusCode, 1 ]
+    OperandDiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 607, ContentFilterResult ]
+  Fields:
+    ElementResults: [ ContentFilterElementResult, 1 ]
+    ElementDiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 610, ParsingResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    DataStatusCodes: [ StatusCode, 1 ]
+    DataDiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 613, QueryFirstRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    View: [ ViewDescription, 0 ]
+    NodeTypes: [ NodeTypeDescription, 1 ]
+    Filter: [ ContentFilter, 0 ]
+    MaxDataSetsToReturn: [ Counter, 0 ]
+    MaxReferencesToReturn: [ Counter, 0 ]
+- UADataType: [ 616, QueryFirstResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    QueryDataSets: [ QueryDataSet, 1 ]
+    ContinuationPoint: [ ContinuationPoint, 0 ]
+    ParsingResults: [ ParsingResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+    FilterResult: [ ContentFilterResult, 0 ]
+- UADataType: [ 619, QueryNextRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    ReleaseContinuationPoint: [ Boolean, 0 ]
+    ContinuationPoint: [ ContinuationPoint, 0 ]
+- UADataType: [ 622, QueryNextResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    QueryDataSets: [ QueryDataSet, 1 ]
+    RevisedContinuationPoint: [ ContinuationPoint, 0 ]
+- UADataType: [ 625, TimestampsToReturn ]
+  Enums:
+    Source: 0
+    Server: 1
+    Both: 2
+    Neither: 3
+    Invalid: 4
+- UADataType: [ 626, ReadValueId ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    AttributeId: [ IntegerId, 0 ]
+    IndexRange: [ NumericRange, 0 ]
+    DataEncoding: [ QualifiedName, 0 ]
+- UADataType: [ 629, ReadRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    MaxAge: [ Duration, 0 ]
+    TimestampsToReturn: [ TimestampsToReturn, 0 ]
+    NodesToRead: [ ReadValueId, 1 ]
+- UADataType: [ 632, ReadResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ DataValue, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 635, HistoryReadValueId ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    IndexRange: [ NumericRange, 0 ]
+    DataEncoding: [ QualifiedName, 0 ]
+    ContinuationPoint: [ ContinuationPoint, 0 ]
+- UADataType: [ 638, HistoryReadResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    ContinuationPoint: [ ContinuationPoint, 0 ]
+    HistoryData: [ Structure, 0 ]
+- UADataType: [ 641, HistoryReadDetails ]
+  Bases:
+  - Structure
+- UADataType: [ 644, ReadEventDetails ]
+  Fields:
+    NumValuesPerNode: [ Counter, 0 ]
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    Filter: [ EventFilter, 0 ]
+- UADataType: [ 32799, ReadEventDetails2 ]
+  Fields:
+    ReadModified: [ Boolean, 0 ]
+- UADataType: [ 18646, SortOrderType ]
+  Enums:
+    Ascending: 0
+    Descending: 1
+- UADataType: [ 18648, SortRuleElement ]
+  Fields:
+    SortOrder: [ SortOrderType, 0 ]
+    EventField: [ SimpleAttributeOperand, 0 ]
+- UADataType: [ 18649, ReadEventDetailsSorted ]
+  Fields:
+    SortClause: [ SortRuleElement, 1 ]
+- UADataType: [ 647, ReadRawModifiedDetails ]
+  Fields:
+    IsReadModified: [ Boolean, 0 ]
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    NumValuesPerNode: [ Counter, 0 ]
+    ReturnBounds: [ Boolean, 0 ]
+- UADataType: [ 650, ReadProcessedDetails ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    ProcessingInterval: [ Duration, 0 ]
+    AggregateType: [ NodeId, 1 ]
+    AggregateConfiguration: [ AggregateConfiguration, 0 ]
+- UADataType: [ 653, ReadAtTimeDetails ]
+  Fields:
+    ReqTimes: [ UtcTime, 1 ]
+    UseSimpleBounds: [ Boolean, 0 ]
+- UADataType: [ 23497, ReadAnnotationDataDetails ]
+  Fields:
+    ReqTimes: [ UtcTime, 1 ]
+- UADataType: [ 656, HistoryData ]
+  Fields:
+    DataValues: [ DataValue, 1 ]
+- UADataType: [ 11216, ModificationInfo ]
+  Fields:
+    ModificationTime: [ UtcTime, 0 ]
+    UpdateType: [ HistoryUpdateType, 0 ]
+    UserName: [ String, 0 ]
+- UADataType: [ 11217, HistoryModifiedData ]
+  Fields:
+    ModificationInfos: [ ModificationInfo, 1 ]
+- UADataType: [ 659, HistoryEvent ]
+  Fields:
+    Events: [ HistoryEventFieldList, 1 ]
+- UADataType: [ 32824, HistoryModifiedEvent ]
+  Fields:
+    ModificationInfos: [ ModificationInfo, 1 ]
+- UADataType: [ 662, HistoryReadRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    HistoryReadDetails: [ Structure, 0 ]
+    TimestampsToReturn: [ TimestampsToReturn, 0 ]
+    ReleaseContinuationPoints: [ Boolean, 0 ]
+    NodesToRead: [ HistoryReadValueId, 1 ]
+- UADataType: [ 665, HistoryReadResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ HistoryReadResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 668, WriteValue ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    AttributeId: [ IntegerId, 0 ]
+    IndexRange: [ NumericRange, 0 ]
+    Value: [ DataValue, 0 ]
+- UADataType: [ 671, WriteRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    NodesToWrite: [ WriteValue, 1 ]
+- UADataType: [ 674, WriteResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 677, HistoryUpdateDetails ]
+  Bases:
+  - Structure
+- UADataType: [ 11234, HistoryUpdateType ]
+  Enums:
+    Insert: 1
+    Replace: 2
+    Update: 3
+    Delete: 4
+- UADataType: [ 11293, PerformUpdateType ]
+  Enums:
+    Insert: 1
+    Replace: 2
+    Update: 3
+    Remove: 4
+- UADataType: [ 680, UpdateDataDetails ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    PerformInsertReplace: [ PerformUpdateType, 0 ]
+    UpdateValues: [ DataValue, 1 ]
+- UADataType: [ 11295, UpdateStructureDataDetails ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    PerformInsertReplace: [ PerformUpdateType, 0 ]
+    UpdateValues: [ DataValue, 1 ]
+- UADataType: [ 683, UpdateEventDetails ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    PerformInsertReplace: [ PerformUpdateType, 0 ]
+    Filter: [ EventFilter, 0 ]
+    EventData: [ HistoryEventFieldList, 1 ]
+- UADataType: [ 686, DeleteRawModifiedDetails ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    IsDeleteModified: [ Boolean, 0 ]
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+- UADataType: [ 689, DeleteAtTimeDetails ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    ReqTimes: [ UtcTime, 1 ]
+- UADataType: [ 692, DeleteEventDetails ]
+  Fields:
+    NodeId: [ NodeId, 0 ]
+    EventIds: [ ByteString, 1 ]
+- UADataType: [ 695, HistoryUpdateResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    OperationResults: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 698, HistoryUpdateRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    HistoryUpdateDetails: [ Structure, 1 ]
+- UADataType: [ 701, HistoryUpdateResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ HistoryUpdateResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 704, CallMethodRequest ]
+  Fields:
+    ObjectId: [ NodeId, 0 ]
+    MethodId: [ NodeId, 0 ]
+    InputArguments: [ null, 1 ]
+- UADataType: [ 707, CallMethodResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    InputArgumentResults: [ StatusCode, 1 ]
+    InputArgumentDiagnosticInfos: [ DiagnosticInfo, 1 ]
+    OutputArguments: [ null, 1 ]
+- UADataType: [ 710, CallRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    MethodsToCall: [ CallMethodRequest, 1 ]
+- UADataType: [ 713, CallResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ CallMethodResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 716, MonitoringMode ]
+  Enums:
+    Disabled: 0
+    Sampling: 1
+    Reporting: 2
+- UADataType: [ 717, DataChangeTrigger ]
+  Enums:
+    Status: 0
+    StatusValue: 1
+    StatusValueTimestamp: 2
+- UADataType: [ 718, DeadbandType ]
+  Enums:
+    None: 0
+    Absolute: 1
+    Percent: 2
+- UADataType: [ 719, MonitoringFilter ]
+  Bases:
+  - Structure
+- UADataType: [ 722, DataChangeFilter ]
+  Fields:
+    Trigger: [ DataChangeTrigger, 0 ]
+    DeadbandType: [ UInt32, 0 ]
+    DeadbandValue: [ Double, 0 ]
+- UADataType: [ 725, EventFilter ]
+  Fields:
+    SelectClauses: [ SimpleAttributeOperand, 1 ]
+    WhereClause: [ ContentFilter, 0 ]
+- UADataType: [ 948, AggregateConfiguration ]
+  Fields:
+    UseServerCapabilitiesDefaults: [ Boolean, 0 ]
+    TreatUncertainAsBad: [ Boolean, 0 ]
+    PercentDataBad: [ Byte, 0 ]
+    PercentDataGood: [ Byte, 0 ]
+    UseSlopedExtrapolation: [ Boolean, 0 ]
+- UADataType: [ 728, AggregateFilter ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    AggregateType: [ NodeId, 0 ]
+    ProcessingInterval: [ Duration, 0 ]
+    AggregateConfiguration: [ AggregateConfiguration, 0 ]
+- UADataType: [ 731, MonitoringFilterResult ]
+  Bases:
+  - Structure
+- UADataType: [ 734, EventFilterResult ]
+  Fields:
+    SelectClauseResults: [ StatusCode, 1 ]
+    SelectClauseDiagnosticInfos: [ DiagnosticInfo, 1 ]
+    WhereClauseResult: [ ContentFilterResult, 0 ]
+- UADataType: [ 737, AggregateFilterResult ]
+  Fields:
+    RevisedStartTime: [ UtcTime, 0 ]
+    RevisedProcessingInterval: [ Duration, 0 ]
+    RevisedAggregateConfiguration: [ AggregateConfiguration, 0 ]
+- UADataType: [ 740, MonitoringParameters ]
+  Fields:
+    ClientHandle: [ IntegerId, 0 ]
+    SamplingInterval: [ Duration, 0 ]
+    Filter: [ Structure, 0 ]
+    QueueSize: [ Counter, 0 ]
+    DiscardOldest: [ Boolean, 0 ]
+- UADataType: [ 743, MonitoredItemCreateRequest ]
+  Fields:
+    ItemToMonitor: [ ReadValueId, 0 ]
+    MonitoringMode: [ MonitoringMode, 0 ]
+    RequestedParameters: [ MonitoringParameters, 0 ]
+- UADataType: [ 746, MonitoredItemCreateResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    MonitoredItemId: [ IntegerId, 0 ]
+    RevisedSamplingInterval: [ Duration, 0 ]
+    RevisedQueueSize: [ Counter, 0 ]
+    FilterResult: [ Structure, 0 ]
+- UADataType: [ 749, CreateMonitoredItemsRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    TimestampsToReturn: [ TimestampsToReturn, 0 ]
+    ItemsToCreate: [ MonitoredItemCreateRequest, 1 ]
+- UADataType: [ 752, CreateMonitoredItemsResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ MonitoredItemCreateResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 755, MonitoredItemModifyRequest ]
+  Fields:
+    MonitoredItemId: [ IntegerId, 0 ]
+    RequestedParameters: [ MonitoringParameters, 0 ]
+- UADataType: [ 758, MonitoredItemModifyResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    RevisedSamplingInterval: [ Duration, 0 ]
+    RevisedQueueSize: [ Counter, 0 ]
+    FilterResult: [ Structure, 0 ]
+- UADataType: [ 761, ModifyMonitoredItemsRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    TimestampsToReturn: [ TimestampsToReturn, 0 ]
+    ItemsToModify: [ MonitoredItemModifyRequest, 1 ]
+- UADataType: [ 764, ModifyMonitoredItemsResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ MonitoredItemModifyResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 767, SetMonitoringModeRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    MonitoringMode: [ MonitoringMode, 0 ]
+    MonitoredItemIds: [ IntegerId, 1 ]
+- UADataType: [ 770, SetMonitoringModeResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 773, SetTriggeringRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    TriggeringItemId: [ IntegerId, 0 ]
+    LinksToAdd: [ IntegerId, 1 ]
+    LinksToRemove: [ IntegerId, 1 ]
+- UADataType: [ 776, SetTriggeringResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    AddResults: [ StatusCode, 1 ]
+    AddDiagnosticInfos: [ DiagnosticInfo, 1 ]
+    RemoveResults: [ StatusCode, 1 ]
+    RemoveDiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 779, DeleteMonitoredItemsRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    MonitoredItemIds: [ IntegerId, 1 ]
+- UADataType: [ 782, DeleteMonitoredItemsResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 785, CreateSubscriptionRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    RequestedPublishingInterval: [ Duration, 0 ]
+    RequestedLifetimeCount: [ Counter, 0 ]
+    RequestedMaxKeepAliveCount: [ Counter, 0 ]
+    MaxNotificationsPerPublish: [ Counter, 0 ]
+    PublishingEnabled: [ Boolean, 0 ]
+    Priority: [ Byte, 0 ]
+- UADataType: [ 788, CreateSubscriptionResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    RevisedPublishingInterval: [ Duration, 0 ]
+    RevisedLifetimeCount: [ Counter, 0 ]
+    RevisedMaxKeepAliveCount: [ Counter, 0 ]
+- UADataType: [ 791, ModifySubscriptionRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    RequestedPublishingInterval: [ Duration, 0 ]
+    RequestedLifetimeCount: [ Counter, 0 ]
+    RequestedMaxKeepAliveCount: [ Counter, 0 ]
+    MaxNotificationsPerPublish: [ Counter, 0 ]
+    Priority: [ Byte, 0 ]
+- UADataType: [ 794, ModifySubscriptionResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    RevisedPublishingInterval: [ Duration, 0 ]
+    RevisedLifetimeCount: [ Counter, 0 ]
+    RevisedMaxKeepAliveCount: [ Counter, 0 ]
+- UADataType: [ 797, SetPublishingModeRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    PublishingEnabled: [ Boolean, 0 ]
+    SubscriptionIds: [ IntegerId, 1 ]
+- UADataType: [ 800, SetPublishingModeResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 803, NotificationMessage ]
+  Fields:
+    SequenceNumber: [ Counter, 0 ]
+    PublishTime: [ UtcTime, 0 ]
+    NotificationData: [ Structure, 1 ]
+- UADataType: [ 945, NotificationData ]
+  Bases:
+  - Structure
+- UADataType: [ 809, DataChangeNotification ]
+  Fields:
+    MonitoredItems: [ MonitoredItemNotification, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 806, MonitoredItemNotification ]
+  Fields:
+    ClientHandle: [ IntegerId, 0 ]
+    Value: [ DataValue, 0 ]
+- UADataType: [ 914, EventNotificationList ]
+  Fields:
+    Events: [ EventFieldList, 1 ]
+- UADataType: [ 917, EventFieldList ]
+  Fields:
+    ClientHandle: [ IntegerId, 0 ]
+    EventFields: [ null, 1 ]
+- UADataType: [ 920, HistoryEventFieldList ]
+  Bases:
+  - Structure
+- UADataType: [ 818, StatusChangeNotification ]
+  Fields:
+    Status: [ StatusCode, 0 ]
+    DiagnosticInfo: [ DiagnosticInfo, 0 ]
+- UADataType: [ 821, SubscriptionAcknowledgement ]
+  Fields:
+    SubscriptionId: [ IntegerId, 0 ]
+    SequenceNumber: [ Counter, 0 ]
+- UADataType: [ 824, PublishRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionAcknowledgements: [ SubscriptionAcknowledgement, 1 ]
+- UADataType: [ 827, PublishResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    AvailableSequenceNumbers: [ Counter, 1 ]
+    MoreNotifications: [ Boolean, 0 ]
+    NotificationMessage: [ NotificationMessage, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 830, RepublishRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionId: [ IntegerId, 0 ]
+    RetransmitSequenceNumber: [ Counter, 0 ]
+- UADataType: [ 833, RepublishResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    NotificationMessage: [ NotificationMessage, 0 ]
+- UADataType: [ 836, TransferResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    AvailableSequenceNumbers: [ Counter, 1 ]
+- UADataType: [ 839, TransferSubscriptionsRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionIds: [ IntegerId, 1 ]
+    SendInitialValues: [ Boolean, 0 ]
+- UADataType: [ 842, TransferSubscriptionsResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ TransferResult, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 845, DeleteSubscriptionsRequest ]
+  Fields:
+    RequestHeader: [ RequestHeader, 0 ]
+    SubscriptionIds: [ IntegerId, 1 ]
+- UADataType: [ 848, DeleteSubscriptionsResponse ]
+  Fields:
+    ResponseHeader: [ ResponseHeader, 0 ]
+    Results: [ StatusCode, 1 ]
+    DiagnosticInfos: [ DiagnosticInfo, 1 ]
+- UADataType: [ 338, BuildInfo ]
+  Fields:
+    ProductUri: [ String, 0 ]
+    ManufacturerName: [ String, 0 ]
+    ProductName: [ String, 0 ]
+    SoftwareVersion: [ String, 0 ]
+    BuildNumber: [ String, 0 ]
+    BuildDate: [ UtcTime, 0 ]
+- UADataType: [ 851, RedundancySupport ]
+  Enums:
+    None: 0
+    Cold: 1
+    Warm: 2
+    Hot: 3
+    Transparent: 4
+    HotAndMirrored: 5
+- UADataType: [ 852, ServerState ]
+  Enums:
+    Running: 0
+    Failed: 1
+    NoConfiguration: 2
+    Suspended: 3
+    Shutdown: 4
+    Test: 5
+    CommunicationFault: 6
+    Unknown: 7
+- UADataType: [ 853, RedundantServerDataType ]
+  Fields:
+    ServerId: [ String, 0 ]
+    ServiceLevel: [ Byte, 0 ]
+    ServerState: [ ServerState, 0 ]
+- UADataType: [ 11943, EndpointUrlListDataType ]
+  Fields:
+    EndpointUrlList: [ String, 1 ]
+- UADataType: [ 11944, NetworkGroupDataType ]
+  Fields:
+    ServerUri: [ String, 0 ]
+    NetworkPaths: [ EndpointUrlListDataType, 1 ]
+- UADataType: [ 856, SamplingIntervalDiagnosticsDataType ]
+  Fields:
+    SamplingInterval: [ Duration, 0 ]
+    MonitoredItemCount: [ UInt32, 0 ]
+    MaxMonitoredItemCount: [ UInt32, 0 ]
+    DisabledMonitoredItemCount: [ UInt32, 0 ]
+- UADataType: [ 859, ServerDiagnosticsSummaryDataType ]
+  Fields:
+    ServerViewCount: [ UInt32, 0 ]
+    CurrentSessionCount: [ UInt32, 0 ]
+    CumulatedSessionCount: [ UInt32, 0 ]
+    SecurityRejectedSessionCount: [ UInt32, 0 ]
+    RejectedSessionCount: [ UInt32, 0 ]
+    SessionTimeoutCount: [ UInt32, 0 ]
+    SessionAbortCount: [ UInt32, 0 ]
+    CurrentSubscriptionCount: [ UInt32, 0 ]
+    CumulatedSubscriptionCount: [ UInt32, 0 ]
+    PublishingIntervalCount: [ UInt32, 0 ]
+    SecurityRejectedRequestsCount: [ UInt32, 0 ]
+    RejectedRequestsCount: [ UInt32, 0 ]
+- UADataType: [ 862, ServerStatusDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    CurrentTime: [ UtcTime, 0 ]
+    State: [ ServerState, 0 ]
+    BuildInfo: [ BuildInfo, 0 ]
+    SecondsTillShutdown: [ UInt32, 0 ]
+    ShutdownReason: [ LocalizedText, 0 ]
+- UADataType: [ 865, SessionDiagnosticsDataType ]
+  Fields:
+    SessionId: [ NodeId, 0 ]
+    SessionName: [ String, 0 ]
+    ClientDescription: [ ApplicationDescription, 0 ]
+    ServerUri: [ String, 0 ]
+    EndpointUrl: [ String, 0 ]
+    LocaleIds: [ LocaleId, 1 ]
+    ActualSessionTimeout: [ Duration, 0 ]
+    MaxResponseMessageSize: [ UInt32, 0 ]
+    ClientConnectionTime: [ UtcTime, 0 ]
+    ClientLastContactTime: [ UtcTime, 0 ]
+    CurrentSubscriptionsCount: [ UInt32, 0 ]
+    CurrentMonitoredItemsCount: [ UInt32, 0 ]
+    CurrentPublishRequestsInQueue: [ UInt32, 0 ]
+    TotalRequestCount: [ ServiceCounterDataType, 0 ]
+    UnauthorizedRequestCount: [ UInt32, 0 ]
+    ReadCount: [ ServiceCounterDataType, 0 ]
+    HistoryReadCount: [ ServiceCounterDataType, 0 ]
+    WriteCount: [ ServiceCounterDataType, 0 ]
+    HistoryUpdateCount: [ ServiceCounterDataType, 0 ]
+    CallCount: [ ServiceCounterDataType, 0 ]
+    CreateMonitoredItemsCount: [ ServiceCounterDataType, 0 ]
+    ModifyMonitoredItemsCount: [ ServiceCounterDataType, 0 ]
+    SetMonitoringModeCount: [ ServiceCounterDataType, 0 ]
+    SetTriggeringCount: [ ServiceCounterDataType, 0 ]
+    DeleteMonitoredItemsCount: [ ServiceCounterDataType, 0 ]
+    CreateSubscriptionCount: [ ServiceCounterDataType, 0 ]
+    ModifySubscriptionCount: [ ServiceCounterDataType, 0 ]
+    SetPublishingModeCount: [ ServiceCounterDataType, 0 ]
+    PublishCount: [ ServiceCounterDataType, 0 ]
+    RepublishCount: [ ServiceCounterDataType, 0 ]
+    TransferSubscriptionsCount: [ ServiceCounterDataType, 0 ]
+    DeleteSubscriptionsCount: [ ServiceCounterDataType, 0 ]
+    AddNodesCount: [ ServiceCounterDataType, 0 ]
+    AddReferencesCount: [ ServiceCounterDataType, 0 ]
+    DeleteNodesCount: [ ServiceCounterDataType, 0 ]
+    DeleteReferencesCount: [ ServiceCounterDataType, 0 ]
+    BrowseCount: [ ServiceCounterDataType, 0 ]
+    BrowseNextCount: [ ServiceCounterDataType, 0 ]
+    TranslateBrowsePathsToNodeIdsCount: [ ServiceCounterDataType, 0 ]
+    QueryFirstCount: [ ServiceCounterDataType, 0 ]
+    QueryNextCount: [ ServiceCounterDataType, 0 ]
+    RegisterNodesCount: [ ServiceCounterDataType, 0 ]
+    UnregisterNodesCount: [ ServiceCounterDataType, 0 ]
+- UADataType: [ 868, SessionSecurityDiagnosticsDataType ]
+  Fields:
+    SessionId: [ NodeId, 0 ]
+    ClientUserIdOfSession: [ String, 0 ]
+    ClientUserIdHistory: [ String, 1 ]
+    AuthenticationMechanism: [ String, 0 ]
+    Encoding: [ String, 0 ]
+    TransportProtocol: [ String, 0 ]
+    SecurityMode: [ MessageSecurityMode, 0 ]
+    SecurityPolicyUri: [ String, 0 ]
+    ClientCertificate: [ ByteString, 0 ]
+- UADataType: [ 871, ServiceCounterDataType ]
+  Fields:
+    TotalCount: [ UInt32, 0 ]
+    ErrorCount: [ UInt32, 0 ]
+- UADataType: [ 299, StatusResult ]
+  Fields:
+    StatusCode: [ StatusCode, 0 ]
+    DiagnosticInfo: [ DiagnosticInfo, 0 ]
+- UADataType: [ 874, SubscriptionDiagnosticsDataType ]
+  Fields:
+    SessionId: [ NodeId, 0 ]
+    SubscriptionId: [ UInt32, 0 ]
+    Priority: [ Byte, 0 ]
+    PublishingInterval: [ Duration, 0 ]
+    MaxKeepAliveCount: [ UInt32, 0 ]
+    MaxLifetimeCount: [ UInt32, 0 ]
+    MaxNotificationsPerPublish: [ UInt32, 0 ]
+    PublishingEnabled: [ Boolean, 0 ]
+    ModifyCount: [ UInt32, 0 ]
+    EnableCount: [ UInt32, 0 ]
+    DisableCount: [ UInt32, 0 ]
+    RepublishRequestCount: [ UInt32, 0 ]
+    RepublishMessageRequestCount: [ UInt32, 0 ]
+    RepublishMessageCount: [ UInt32, 0 ]
+    TransferRequestCount: [ UInt32, 0 ]
+    TransferredToAltClientCount: [ UInt32, 0 ]
+    TransferredToSameClientCount: [ UInt32, 0 ]
+    PublishRequestCount: [ UInt32, 0 ]
+    DataChangeNotificationsCount: [ UInt32, 0 ]
+    EventNotificationsCount: [ UInt32, 0 ]
+    NotificationsCount: [ UInt32, 0 ]
+    LatePublishRequestCount: [ UInt32, 0 ]
+    CurrentKeepAliveCount: [ UInt32, 0 ]
+    CurrentLifetimeCount: [ UInt32, 0 ]
+    UnacknowledgedMessageCount: [ UInt32, 0 ]
+    DiscardedMessageCount: [ UInt32, 0 ]
+    MonitoredItemCount: [ UInt32, 0 ]
+    DisabledMonitoredItemCount: [ UInt32, 0 ]
+    MonitoringQueueOverflowCount: [ UInt32, 0 ]
+    NextSequenceNumber: [ UInt32, 0 ]
+    EventQueueOverflowCount: [ UInt32, 0 ]
+- UADataType: [ 11941, ModelChangeStructureVerbMask ]
+  Enums:
+    NodeAdded: 1
+    NodeDeleted: 2
+    ReferenceAdded: 4
+    ReferenceDeleted: 8
+    DataTypeChanged: 16
+- UADataType: [ 877, ModelChangeStructureDataType ]
+  Fields:
+    Affected: [ NodeId, 0 ]
+    AffectedType: [ NodeId, 0 ]
+    Verb: [ Byte, 0 ]
+- UADataType: [ 897, SemanticChangeStructureDataType ]
+  Fields:
+    Affected: [ NodeId, 0 ]
+    AffectedType: [ NodeId, 0 ]
+- UADataType: [ 884, Range ]
+  Fields:
+    Low: [ Double, 0 ]
+    High: [ Double, 0 ]
+- UADataType: [ 887, EUInformation ]
+  Fields:
+    NamespaceUri: [ String, 0 ]
+    UnitId: [ Int32, 0 ]
+    DisplayName: [ LocalizedText, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ 12077, AxisScaleEnumeration ]
+  Enums:
+    Linear: 0
+    Log: 1
+    Ln: 2
+- UADataType: [ 12171, ComplexNumberType ]
+  Fields:
+    Real: [ Float, 0 ]
+    Imaginary: [ Float, 0 ]
+- UADataType: [ 12172, DoubleComplexNumberType ]
+  Fields:
+    Real: [ Double, 0 ]
+    Imaginary: [ Double, 0 ]
+- UADataType: [ 12079, AxisInformation ]
+  Fields:
+    EngineeringUnits: [ EUInformation, 0 ]
+    EURange: [ Range, 0 ]
+    Title: [ LocalizedText, 0 ]
+    AxisScaleType: [ AxisScaleEnumeration, 0 ]
+    AxisSteps: [ Double, 1 ]
+- UADataType: [ 12080, XVType ]
+  Fields:
+    X: [ Double, 0 ]
+    Value: [ Float, 0 ]
+- UADataType: [ 894, ProgramDiagnosticDataType ]
+  Fields:
+    CreateSessionId: [ NodeId, 0 ]
+    CreateClientName: [ String, 0 ]
+    InvocationCreationTime: [ UtcTime, 0 ]
+    LastTransitionTime: [ UtcTime, 0 ]
+    LastMethodCall: [ String, 0 ]
+    LastMethodSessionId: [ NodeId, 0 ]
+    LastMethodInputArguments: [ Argument, 1 ]
+    LastMethodOutputArguments: [ Argument, 1 ]
+    LastMethodCallTime: [ UtcTime, 0 ]
+    LastMethodReturnStatus: [ StatusResult, 0 ]
+- UADataType: [ 24033, ProgramDiagnostic2DataType ]
+  Fields:
+    CreateSessionId: [ NodeId, 0 ]
+    CreateClientName: [ String, 0 ]
+    InvocationCreationTime: [ UtcTime, 0 ]
+    LastTransitionTime: [ UtcTime, 0 ]
+    LastMethodCall: [ String, 0 ]
+    LastMethodSessionId: [ NodeId, 0 ]
+    LastMethodInputArguments: [ Argument, 1 ]
+    LastMethodOutputArguments: [ Argument, 1 ]
+    LastMethodInputValues: [ null, 1 ]
+    LastMethodOutputValues: [ null, 1 ]
+    LastMethodCallTime: [ UtcTime, 0 ]
+    LastMethodReturnStatus: [ StatusCode, 0 ]
+- UADataType: [ 891, Annotation ]
+  Fields:
+    Message: [ String, 0 ]
+    UserName: [ String, 0 ]
+    AnnotationTime: [ UtcTime, 0 ]
+- UADataType: [ 890, ExceptionDeviationFormat ]
+  Enums:
+    AbsoluteValue: 0
+    PercentOfValue: 1
+    PercentOfRange: 2
+    PercentOfEURange: 3
+    Unknown: 4

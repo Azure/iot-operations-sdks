@@ -1,0 +1,101 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType:dataType:ClassifiedActiveErrorDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "SourceNodes",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        },
+        {
+          "name": "Classification",
+          "schema": "unsignedShort"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ActiveErrors",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType:dataType:ClassifiedActiveErrorDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ActiveSetValues",
+      "schema": "unsignedShort",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "EvenHeatUpMaxTemperatureDifference",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ReactionOnDisconnect",
+      "schema": "unsignedShort",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "IdentifyDevice"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetAllErrors"
+    },
+    {
+      "@type": "Command",
+      "name": "ResetErrorById",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Id",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetReactionOnDisconnect",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReactionOnDisconnect",
+              "schema": "unsignedShort"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

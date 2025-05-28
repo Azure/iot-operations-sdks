@@ -1,0 +1,46 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:RSL:SpatialObjectType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PositionFrame",
+      "schema": {
+        "@type": [ "Object", "Detail" ],
+        "fields": [
+          {
+            "@type": [ "Field", "Subject" ],
+            "name": "PositionFrame",
+            "schema": "string"
+          },
+          {
+            "name": "Base",
+            "schema": "string"
+          }
+        ]
+      },
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "AlternativeFrames"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AttachPoints"
+    },
+    {
+      "@type": "Relationship",
+      "name": "InternalFrames"
+    }
+  ]
+}

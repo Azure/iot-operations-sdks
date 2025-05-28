@@ -1,0 +1,4662 @@
+DataTypes:
+- UADataType: [ IJT.Base:3003, CalibrationDataType ]
+  Fields:
+    LastCalibration: [ UtcTime, 0 ]
+    CalibrationPlace: [ String, 0 ]
+    NextCalibration: [ UtcTime, 0 ]
+    CalibrationValue: [ Double, 0 ]
+    SensorScale: [ Double, 0 ]
+    CertificateUri: [ UriString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3015, DesignValueDataType ]
+  Fields:
+    PhysicalQuantity: [ Byte, 0 ]
+    Name: [ String, 0 ]
+    DesignValue: [ null, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3010, EntityDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    EntityId: [ TrimmedString, 0 ]
+    EntityOriginId: [ TrimmedString, 0 ]
+    IsExternal: [ Boolean, 0 ]
+    EntityType: [ Int16, 0 ]
+- UADataType: [ IJT.Base:3006, ErrorInformationDataType ]
+  Fields:
+    ErrorType: [ Byte, 0 ]
+    ErrorId: [ TrimmedString, 0 ]
+    LegacyError: [ String, 0 ]
+    ErrorMessage: [ LocalizedText, 0 ]
+- UADataType: [ IJT.Base:3016, JoiningProcessDataType ]
+  Fields:
+    JoiningProcessMetaData: [ JoiningProcessMetaDataType, 0 ]
+    JoiningProcessContent: [ null, 1 ]
+- UADataType: [ IJT.Base:3029, JoiningProcessIdentificationDataType ]
+  Fields:
+    JoiningProcessId: [ TrimmedString, 0 ]
+    JoiningProcessOriginId: [ TrimmedString, 0 ]
+    SelectionName: [ TrimmedString, 0 ]
+- UADataType: [ IJT.Base:3024, JoiningProcessMetaDataType ]
+  Fields:
+    JoiningProcessId: [ TrimmedString, 0 ]
+    JoiningProcessOriginId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    LastUpdatedTime: [ UtcTime, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JoiningTechnology: [ LocalizedText, 0 ]
+    Classification: [ Int16, 0 ]
+    AssociatedEntities: [ EntityDataType, 1 ]
+- UADataType: [ IJT.Base:3005, JoiningResultDataType ]
+  Fields:
+    FailureReason: [ Byte, 0 ]
+    OverallResultValues: [ ResultValueDataType, 1 ]
+    StepResults: [ StepResultDataType, 1 ]
+    Errors: [ ErrorInformationDataType, 1 ]
+    FailingStepResultId: [ TrimmedString, 0 ]
+    Trace: [ JoiningTraceDataType, 0 ]
+- UADataType: [ IJT.Base:3021, JointComponentDataType ]
+  Fields:
+    JointComponentId: [ TrimmedString, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Manufacturer: [ LocalizedText, 0 ]
+    ManufacturerUri: [ String, 0 ]
+    JointComponentContent: [ null, 0 ]
+- UADataType: [ IJT.Base:3028, JointDataType ]
+  Fields:
+    JointId: [ TrimmedString, 0 ]
+    JointOriginId: [ TrimmedString, 0 ]
+    JointDesignId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    LastUpdatedTime: [ UtcTime, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Classification: [ Int16, 0 ]
+    ClassificationDetails: [ LocalizedText, 0 ]
+    JointStatus: [ TrimmedString, 0 ]
+    AssociatedEntities: [ EntityDataType, 1 ]
+    JoiningTechnology: [ LocalizedText, 0 ]
+- UADataType: [ IJT.Base:3025, JointDesignDataType ]
+  Fields:
+    JointDesignId: [ TrimmedString, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JointDesignContent: [ DesignValueDataType, 1 ]
+    JointComponentIdList: [ TrimmedString, 1 ]
+- UADataType: [ IJT.Base:3008, KeyValueDataType ]
+  Fields:
+    Key: [ TrimmedString, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ IJT.Base:3022, ReportedValueDataType ]
+  Fields:
+    PhysicalQuantity: [ Byte, 0 ]
+    Name: [ String, 0 ]
+    CurrentValue: [ null, 0 ]
+    PreviousValue: [ null, 0 ]
+    LowLimit: [ Double, 0 ]
+    HighLimit: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3004, ResultCounterDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    CounterValue: [ UInt32, 0 ]
+    CounterType: [ Int16, 0 ]
+- UADataType: [ IJT.Base:3020, JoiningResultMetaDataType ]
+  Fields:
+    JoiningTechnology: [ LocalizedText, 0 ]
+    SequenceNumber: [ UInt64, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Classification: [ Byte, 0 ]
+    OperationMode: [ Byte, 0 ]
+    AssemblyType: [ Byte, 0 ]
+    AssociatedEntities: [ EntityDataType, 1 ]
+    ResultCounters: [ ResultCounterDataType, 1 ]
+    InterventionType: [ Byte, 0 ]
+    IsGeneratedOffline: [ Boolean, 0 ]
+    ExtendedMetaData: [ KeyValueDataType, 1 ]
+- UADataType: [ IJT.Base:3007, ResultValueDataType ]
+  Fields:
+    MeasuredValue: [ Double, 0 ]
+    Name: [ String, 0 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ValueId: [ TrimmedString, 0 ]
+    ValueTag: [ Int16, 0 ]
+    TracePointIndex: [ Int32, 0 ]
+    TracePointTimeOffset: [ Duration, 0 ]
+    ParameterIdList: [ TrimmedString, 1 ]
+    ViolationType: [ Byte, 0 ]
+    ViolationConsequence: [ Byte, 0 ]
+    SensorId: [ TrimmedString, 0 ]
+    LowLimit: [ Double, 0 ]
+    HighLimit: [ Double, 0 ]
+    TargetValue: [ Double, 0 ]
+    ResultStep: [ String, 0 ]
+    PhysicalQuantity: [ Byte, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3019, SignalDataType ]
+  Fields:
+    SignalId: [ TrimmedString, 0 ]
+    SignalValue: [ Number, 0 ]
+    SignalDescription: [ String, 0 ]
+    SignalType: [ Int16, 0 ]
+- UADataType: [ IJT.Base:3009, StepResultDataType ]
+  Fields:
+    StepResultId: [ TrimmedString, 0 ]
+    ProgramStepId: [ TrimmedString, 0 ]
+    ProgramStep: [ String, 0 ]
+    Name: [ String, 0 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    StartTimeOffset: [ Duration, 0 ]
+    StepTraceId: [ TrimmedString, 0 ]
+    StepResultValues: [ ResultValueDataType, 1 ]
+- UADataType: [ IJT.Base:3013, StepTraceDataType ]
+  Fields:
+    StepTraceId: [ TrimmedString, 0 ]
+    StepResultId: [ TrimmedString, 0 ]
+    NumberOfTracePoints: [ UInt32, 0 ]
+    SamplingInterval: [ Duration, 0 ]
+    StartTimeOffset: [ Duration, 0 ]
+    StepTraceContent: [ TraceContentDataType, 1 ]
+- UADataType: [ IJT.Base:3014, TraceContentDataType ]
+  Fields:
+    Values: [ Double, 1 ]
+    SensorId: [ TrimmedString, 0 ]
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    PhysicalQuantity: [ Byte, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3011, TraceDataType ]
+  Fields:
+    TraceId: [ TrimmedString, 0 ]
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ IJT.Base:3012, JoiningTraceDataType ]
+  Fields:
+    StepTraces: [ StepTraceDataType, 1 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+  Enums:
+    Local: 0
+    Remote: 1
+- UADataType: [ AMB:3003, NameNodeIdDataType ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    NodeId: [ NodeId, 0 ]
+- UADataType: [ AMB:3002, RootCauseDataType ]
+  Fields:
+    RootCauseId: [ NodeId, 0 ]
+    RootCause: [ LocalizedText, 0 ]
+- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+  Enums:
+    Undefined: 0
+    OK: 1
+    NotOK: 2
+    NotDecidable: 3
+- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+  Bases:
+  - BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    AcquisitionDuration: [ Duration, 0 ]
+    ProcessingDuration: [ Duration, 0 ]
+- UADataType: [ Machinery.Result:3008, ResultDataType ]
+  Fields:
+    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultContent: [ null, 1 ]
+- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    IsPartial: [ Boolean, 0 ]
+    IsSimulated: [ Boolean, 0 ]
+    ResultState: [ Int32, 0 ]
+    StepId: [ TrimmedString, 0 ]
+    PartId: [ TrimmedString, 0 ]
+    ExternalRecipeId: [ TrimmedString, 0 ]
+    InternalRecipeId: [ TrimmedString, 0 ]
+    ProductId: [ TrimmedString, 0 ]
+    ExternalConfigurationId: [ TrimmedString, 0 ]
+    InternalConfigurationId: [ TrimmedString, 0 ]
+    JobId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ResultUri: [ UriString, 1 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluationCode: [ Int64, 0 ]
+    ResultEvaluationDetails: [ LocalizedText, 0 ]
+    FileFormat: [ String, 1 ]
+
+DefinedTypes:
+
+  JoiningDataVariableType:
+  - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6042, EngineeringUnits, EUInformation, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6084, PhysicalQuantity, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6294, EnumStrings, LocalizedText, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  JoiningSystemEventContentType:
+  - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6026, AssociatedEntities, EntityDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6030, EventCode, Int64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6029, EventText, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6025, JoiningTechnology, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6279, ReportedValues, ReportedValueDataType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+
+  JoiningSystemResultType:
+  - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
+  - HasStructuredComponent:
+    - [ UAVariable, IJT.Base:6159, ResultContent ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasStructuredComponent:
+    - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6139, AssemblyType, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6137, AssociatedEntities, EntityDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6124, Classification, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6101, Description, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6173, ExtendedMetaData, KeyValueDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6135, InterventionType, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6136, IsGeneratedOffline, Boolean, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6098, JoiningTechnology, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6100, Name, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6010, OperationMode, Byte, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6138, ResultCounters, ResultCounterDataType, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6160, ResultId, TrimmedString, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6099, SequenceNumber, Int64, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  AcceptedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1090, AcceptedEntityConditionClassType ]
+
+  AddedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1096, AddedEntityConditionClassType ]
+
+  AssetConnectedConditionClassType:
+  - [ UAObjectType, IJT.Base:1018, AssetConnectedConditionClassType ]
+
+  AssetDisabledConditionClassType:
+  - [ UAObjectType, IJT.Base:1027, AssetDisabledConditionClassType ]
+
+  AssetDisconnectedConditionClassType:
+  - [ UAObjectType, IJT.Base:1021, AssetDisconnectedConditionClassType ]
+
+  AssetEnabledConditionClassType:
+  - [ UAObjectType, IJT.Base:1024, AssetEnabledConditionClassType ]
+
+  AssetLocationConditionClassType:
+  - [ UAObjectType, IJT.Base:1048, AssetLocationConditionClassType ]
+
+  CertificateConditionClassType:
+  - [ UAObjectType, IJT.Base:1072, CertificateConditionClassType ]
+
+  ConfigurationChangeConditionClassType:
+  - [ UAObjectType, IJT.Base:1030, ConfigurationChangeConditionClassType ]
+
+  DataValidationFailureConditionClassType:
+  - [ UAObjectType, IJT.Base:1057, DataValidationFailureConditionClassType ]
+
+  ErrorConditionClassType:
+  - [ UAObjectType, IJT.Base:1063, ErrorConditionClassType ]
+
+  ExpiredEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1081, ExpiredEntityConditionClassType ]
+
+  HardwareConditionClassType:
+  - [ UAObjectType, IJT.Base:1069, HardwareConditionClassType ]
+
+  IncompatibleEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1087, IncompatibleEntityConditionClassType ]
+
+  InputValidationFailureConditionClassType:
+  - [ UAObjectType, IJT.Base:1060, InputValidationFailureConditionClassType ]
+
+  InvalidEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1084, InvalidEntityConditionClassType ]
+
+  JoiningSystemUserLoggedInConditionClassType:
+  - [ UAObjectType, IJT.Base:1039, JoiningSystemUserLoggedInConditionClassType ]
+
+  JoiningSystemUserLoggedOutConditionClassType:
+  - [ UAObjectType, IJT.Base:1042, JoiningSystemUserLoggedOutConditionClassType ]
+
+  LicenseConditionClassType:
+  - [ UAObjectType, IJT.Base:1075, LicenseConditionClassType ]
+
+  LocationInZoneConditionClassType:
+  - [ UAObjectType, IJT.Base:1051, LocationInZoneConditionClassType ]
+
+  LocationOutOfZoneConditionClassType:
+  - [ UAObjectType, IJT.Base:1054, LocationOutOfZoneConditionClassType ]
+
+  MissingEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1078, MissingEntityConditionClassType ]
+
+  ReceivedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1105, ReceivedEntityConditionClassType ]
+
+  RejectedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1093, RejectedEntityConditionClassType ]
+
+  RemovedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1102, RemovedEntityConditionClassType ]
+
+  SoftwareConditionClassType:
+  - [ UAObjectType, IJT.Base:1066, SoftwareConditionClassType ]
+
+  ThresholdViolationConditionClassType:
+  - [ UAObjectType, IJT.Base:1033, ThresholdViolationConditionClassType ]
+
+  ThresholdViolationResolvedConditionClassType:
+  - [ UAObjectType, IJT.Base:1036, ThresholdViolationResolvedConditionClassType ]
+
+  UpdatedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1099, UpdatedEntityConditionClassType ]
+
+  JoiningSystemConditionType:
+  - [ UAObjectType, IJT.Base:1020, JoiningSystemConditionType ]
+  - HasInterface:
+    - [ UAObjectType, AMB:1002, IRootCauseIndicationType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6177, JoiningSystemEventContent ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6281, AssociatedEntities, EntityDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6282, EventCode, Int64, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6283, EventText, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6284, JoiningTechnology, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6285, ReportedValues, ReportedValueDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+
+  JoiningSystemEventType:
+  - [ UAObjectType, IJT.Base:1006, JoiningSystemEventType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6039, JoiningSystemEventContent ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6275, AssociatedEntities, EntityDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6276, EventCode, Int64, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6277, EventText, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6278, JoiningTechnology, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6280, ReportedValues, ReportedValueDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+
+  JoiningSystemResultReadyEventType:
+  - [ UAObjectType, IJT.Base:1007, JoiningSystemResultReadyEventType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Base:6001, Result, ResultDataType, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6210, ResultContent ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent:
+      - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6004, AssemblyType, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6007, AssociatedEntities, EntityDataType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6009, Classification, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6011, Description, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6023, InterventionType, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6032, IsGeneratedOffline, Boolean, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6048, JoiningTechnology, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6052, Name, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6071, ResultCounters, ResultCounterDataType, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6207, ResultId, TrimmedString, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6152, SequenceNumber, Int64, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+
+  IJoiningAdditionalInformationType:
+  - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6175, Description, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6176, JoiningTechnology, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6452, SupplierCode, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+
+  IJoiningSystemAssetType:
+  - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5045, Health ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6005, DeviceHealth, DeviceHealthEnumeration, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, IJT.Base:5114, DeviceHealthAlarms ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6083, ErrorCode, Int64, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6077, ErrorMessage, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6082, ErrorTimestamp, UtcTime, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasInterface:
+      - [ UAObjectType, DI:15051, IDeviceHealthType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6090, Temperature, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5052, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6006, Description, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasInterface:
+      - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6016, JoiningTechnology, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6142, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6143, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6018, SupplierCode, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5147, LifetimeCounters ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1015, MachineryLifetimeCounterType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAVariableType, DI:468, LifetimeVariableType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6165, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6166, LimitValue, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6167, StartValue, Number, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasAddIn:
+      - [ UAObject, IJT.Base:5052, Identification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6006, Description, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasInterface:
+        - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6016, JoiningTechnology, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6142, Manufacturer, LocalizedText, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6143, SerialNumber, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6018, SupplierCode, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasAddIn:
+      - [ UAObject, IJT.Base:5147, LifetimeCounters ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1015, MachineryLifetimeCounterType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 11510, MandatoryPlaceholder ]
+        - HasTypeDefinition:
+          - [ UAVariableType, DI:468, LifetimeVariableType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6165, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6166, LimitValue, Number, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6167, StartValue, Number, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+    - HasAddIn:
+      - [ UAObject, IJT.Base:5002, OperationCounters ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
+      - HasInterface:
+        - [ UAObjectType, DI:480, IOperationCounterType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6017, OperationCycleCounter, UInteger, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6108, OperationDuration, Duration, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6120, PowerOnDuration, Duration, 0, 3 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5027, Maintenance ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasComponent:
+      - [ UAObject, IJT.Base:5003, Calibration ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6037, CalibrationPlace, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6028, CalibrationValue, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6038, CertificateUri, UriString, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6019, LastCalibration, UtcTime, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6020, NextCalibration, UtcTime, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6036, SensorScale, Double, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAObject, IJT.Base:5020, Service ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6075, LastService, UtcTime, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6089, NextService, UtcTime, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6094, NumberOfServices, Int32, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6110, RemainingCycles, Int32, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6093, ServiceCycleCount, Int32, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6092, ServiceCycleSpan, Int32, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6050, ServiceOperationCycles, UInt64, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6076, ServicePlace, String, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6049, ServiceReminderCycles, Int32, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6109, ServiceReminderDays, Int16, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5002, OperationCounters ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
+    - HasInterface:
+      - [ UAObjectType, DI:480, IOperationCounterType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6017, OperationCycleCounter, UInteger, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6108, OperationDuration, Duration, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6120, PowerOnDuration, Duration, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5015, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6091, Connected, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6008, Enabled, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6044, IOSignals, SignalDataType, 1, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+
+  IAccessoryType:
+  - [ UAObjectType, IJT.Base:1015, IAccessoryType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5099, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6031, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6034, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5024, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6117, Type, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  IBatteryType:
+  - [ UAObjectType, IJT.Base:1010, IBatteryType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5151, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6144, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6174, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5009, Parameters ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6121, Capacity, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6012, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6013, PhysicalQuantity, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2376, MultiStateDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6014, EnumStrings, LocalizedText, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6122, ChargeCycleCount, Int64, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6119, NominalVoltage, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6015, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6021, PhysicalQuantity, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2376, MultiStateDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6022, EnumStrings, LocalizedText, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6123, StateOfCharge, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6125, StateOfHealth, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6126, Type, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  ICableType:
+  - [ UAObjectType, IJT.Base:1014, ICableType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5152, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6178, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6179, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5010, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6132, CableLength, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6130, Type, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6131, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+
+  IControllerType:
+  - [ UAObjectType, IJT.Base:1003, IControllerType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5086, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6024, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6027, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5006, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6128, Type, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6129, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+
+  IFeederType:
+  - [ UAObjectType, IJT.Base:1012, IFeederType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5153, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6180, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6181, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5011, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6149, FeedingSpeed, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6033, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6035, PhysicalQuantity, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2376, MultiStateDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6045, EnumStrings, LocalizedText, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6148, FillLevel, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6145, Material, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6146, Type, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6147, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+
+  IMemoryDeviceType:
+  - [ UAObjectType, IJT.Base:1013, IMemoryDeviceType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5154, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6182, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6187, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5013, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6154, StorageCapacity, UInt64, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6150, Type, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6155, UsedSpace, UInt64, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  IPowerSupplyType:
+  - [ UAObjectType, IJT.Base:1009, IPowerSupplyType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5155, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6188, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6189, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5012, Parameters ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6158, ActualPower, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6054, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6060, PhysicalQuantity, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2376, MultiStateDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6065, EnumStrings, LocalizedText, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6156, InputSpecification, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6157, NominalPower, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6066, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAVariable, IJT.Base:6073, PhysicalQuantity, Byte, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 2376, MultiStateDiscreteType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6074, EnumStrings, LocalizedText, 1, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6249, OutputSpecification, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+
+  ISensorType:
+  - [ UAObjectType, IJT.Base:1011, ISensorType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5156, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6190, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6198, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5014, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6231, MeasuredValue, Double, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6171, OverloadCount, Int64, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6169, Type, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6170, EnumStrings, LocalizedText, 1, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+
+  IServoType:
+  - [ UAObjectType, IJT.Base:1008, IServoType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5157, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6199, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6200, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5007, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6118, NodeNumber, Int16, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  ISoftwareType:
+  - [ UAObjectType, IJT.Base:1019, ISoftwareType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5158, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6201, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6202, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  ISubComponentType:
+  - [ UAObjectType, IJT.Base:1016, ISubComponentType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5159, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6203, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6204, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5019, Parameters ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6185, Type, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+
+  IToolType:
+  - [ UAObjectType, IJT.Base:1004, IToolType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5160, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6205, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6206, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5008, Parameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6133, Type, Byte, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 2376, MultiStateDiscreteType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6134, EnumStrings, LocalizedText, 1, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+
+  IVirtualStationType:
+  - [ UAObjectType, IJT.Base:1031, IVirtualStationType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5161, Identification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6209, Manufacturer, LocalizedText, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6233, SerialNumber, String, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  JoiningSystemIdentificationType:
+  - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6234, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6242, Description, LocalizedText, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6241, IntegratorName, String, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6244, JoiningTechnology, LocalizedText, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6458, Location, String, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6245, Manufacturer, LocalizedText, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6246, ManufacturerUri, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6247, Model, LocalizedText, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6240, Name, String, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6236, ProductInstanceUri, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6248, SystemId, String, 0, 3 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  JoiningProcessManagementType:
+  - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7053, AbortJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6368, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+          AbortMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6369, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7049, DecrementJoiningProcessCounter ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6360, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+          DecrementCount: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6361, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6338, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7054, DeleteJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6127, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6140, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7047, DeselectJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6356, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6357, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7093, GetJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6448, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessId: [ TrimmedString, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6449, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JoiningProcess: [ JoiningProcessDataType, 0 ]
+          SelectionName: [ TrimmedString, 0 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7043, GetJoiningProcessList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6348, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6349, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JoiningProcessList: [ JoiningProcessMetaDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7044, GetJoiningProcessRevisionList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6350, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessOriginId: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6351, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JoiningProcessList: [ JoiningProcessMetaDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7048, IncrementJoiningProcessCounter ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6358, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+          IncrementCount: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6359, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7052, ResetJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6366, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6367, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7046, SelectJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6354, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6355, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7042, SendJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6340, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcess: [ JoiningProcessDataType, 0 ]
+          SelectionName: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6347, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7050, SetJoiningProcessCounter ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6362, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+          CounterValue: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6363, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7045, SetJoiningProcessMapping ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6352, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6353, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7051, SetJoiningProcessSize ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6364, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+          MaxCounterSize: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6365, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7056, StartJoiningProcess ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6374, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+          AssociatedEntities: [ EntityDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6375, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7073, StartSelectedJoining ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6408, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          DeselectAfterJoining: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6409, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  JoiningSystemAssetMethodSetType:
+  - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6295, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7007, DisconnectAsset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6047, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          Disconnect: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6051, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7006, EnableAsset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6043, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          Enable: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6046, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7018, ExecuteOperation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6086, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          OperationType: [ Int32, 0 ]
+          OperationText: [ String, 0 ]
+          VendorName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6087, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7019, GetErrorInformation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6088, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          ErrorId: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6102, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ErrorContent: [ BaseDataType, 0 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7011, GetFeedbackFileList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6061, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6062, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FeedbackFileList: [ String, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7014, GetIdentifiers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6069, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          IdentifierNames: [ TrimmedString, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6070, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EntityList: [ EntityDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7013, GetIOSignals ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6067, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          SignalIdList: [ TrimmedString, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6068, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SignalList: [ SignalDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7008, RebootAsset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6053, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6055, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7017, ResetIdentifiers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6081, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          IdentifierList: [ TrimmedString, 1 ]
+          ResetAll: [ Boolean, 0 ]
+          ResetLatest: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6085, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7010, SendFeedback ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6058, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          FeedbackType: [ Int16, 0 ]
+          FeedbackText: [ String, 0 ]
+          FeedbackFile: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6059, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7015, SendIdentifiers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6072, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          EntityList: [ EntityDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6078, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7016, SendTextIdentifiers ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6079, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          IdentifierList: [ TrimmedString, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6080, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7005, SetCalibration ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6040, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          CalibrationData: [ CalibrationDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6041, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7012, SetIOSignals ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6063, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          SignalList: [ SignalDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6064, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SignalStatusList: [ Int32, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7009, SetOfflineTimer ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6056, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          OfflineTimer: [ Duration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6057, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7072, SetTime ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6406, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          InputTime: [ UtcTime, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6407, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  JoiningSystemType:
+  - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5004, AssetManagement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAObject, IJT.Base:5016, Assets ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5032, Accessories ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5034, <Accessory> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1015, IAccessoryType ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5093, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6298, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6299, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5094, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5029, Batteries ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5035, <Battery> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1010, IBatteryType ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5127, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6300, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6301, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5128, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasComponent:
+              - [ UAVariable, IJT.Base:6371, Capacity, Double, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasComponent:
+              - [ UAVariable, IJT.Base:6370, NominalVoltage, Double, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5028, Cables ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5036, <Cable> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1014, ICableType ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5129, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6302, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6341, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5130, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5018, Controllers ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5037, <Controller> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11510, MandatoryPlaceholder ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1003, IControllerType ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5077, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6296, Manufacturer, LocalizedText, 0, 0 ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6297, SerialNumber, String, 0, 0 ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5092, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5031, Feeders ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5038, <Feeder> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5131, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6342, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6343, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1012, IFeederType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5132, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasComponent:
+              - [ UAVariable, IJT.Base:6346, Material, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 63, BaseDataVariableType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5023, MemoryDevices ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5039, <MemoryDevice> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5133, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6344, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6345, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1013, IMemoryDeviceType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5134, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5030, PowerSupplies ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5040, <PowerSupply> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5135, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6372, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6373, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1009, IPowerSupplyType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5136, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasComponent:
+              - [ UAVariable, IJT.Base:6390, InputSpecification, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 63, BaseDataVariableType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5025, Sensors ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5041, <Sensor> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5137, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6391, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6404, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1011, ISensorType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5138, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5022, Servos ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5042, <Servo> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5139, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6405, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6410, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1008, IServoType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5140, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6411, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6444, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5001, SoftwareComponents ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5101, <Software> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5143, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6447, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6450, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1019, ISoftwareType ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5033, SubComponents ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5043, <SubComponent> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5141, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6445, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6446, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1016, ISubComponentType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5142, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5021, Tools ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5044, <Tool> ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5145, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6454, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6455, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1004, IToolType ]
+          - HasComponent:
+            - [ UAObject, IJT.Base:5146, Parameters ]
+            - HasTypeDefinition:
+              - [ UAObjectType, 61, FolderType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasComponent:
+              - [ UAVariable, IJT.Base:6456, Type, Byte, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 2376, MultiStateDiscreteType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+              - HasProperty:
+                - [ UAVariable, IJT.Base:6457, EnumStrings, LocalizedText, 1, 0 ]
+                - HasTypeDefinition:
+                  - [ UAVariableType, 68, PropertyType ]
+                - HasModellingRule:
+                  - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5087, VirtualStations ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasComponent:
+          - [ UAObject, IJT.Base:5088, <VirtualStation> ]
+          - HasTypeDefinition:
+            - [ UAObjectType, 58, BaseObjectType ]
+          - HasModellingRule:
+            - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasAddIn:
+            - [ UAObject, IJT.Base:5144, Identification ]
+            - HasTypeDefinition:
+              - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+            - HasModellingRule:
+              - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6451, Manufacturer, LocalizedText, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+            - HasProperty:
+              - [ UAVariable, IJT.Base:6453, SerialNumber, String, 0, 0 ]
+              - HasTypeDefinition:
+                - [ UAVariableType, 68, PropertyType ]
+              - HasModellingRule:
+                - [ UAObject, 78, Mandatory ]
+          - HasInterface:
+            - [ UAObjectType, IJT.Base:1031, IVirtualStationType ]
+    - HasAddIn:
+      - [ UAObject, IJT.Base:5124, MethodSet ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7075, DisconnectAsset ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6412, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              Disconnect: [ Boolean, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6413, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7076, EnableAsset ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6414, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              Enable: [ Boolean, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6415, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7077, ExecuteOperation ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6416, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              OperationType: [ Int32, 0 ]
+              OperationText: [ String, 0 ]
+              VendorName: [ String, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6417, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7078, GetErrorInformation ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6418, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              ErrorId: [ TrimmedString, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6419, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ErrorContent: [ BaseDataType, 0 ]
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7079, GetFeedbackFileList ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6420, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6421, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              FeedbackFileList: [ String, 1 ]
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7081, GetIdentifiers ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6424, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              IdentifierNames: [ TrimmedString, 1 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6425, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              EntityList: [ EntityDataType, 1 ]
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7080, GetIOSignals ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6422, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              SignalIdList: [ TrimmedString, 1 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6423, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              SignalList: [ SignalDataType, 1 ]
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7082, RebootAsset ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6426, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6427, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7083, ResetIdentifiers ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6428, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              IdentifierList: [ TrimmedString, 1 ]
+              ResetAll: [ Boolean, 0 ]
+              ResetLatest: [ Boolean, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6429, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7084, SendFeedback ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6430, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              FeedbackType: [ Int16, 0 ]
+              FeedbackText: [ String, 0 ]
+              FeedbackFile: [ String, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6431, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7085, SendIdentifiers ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6432, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              EntityList: [ EntityDataType, 1 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6433, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7086, SendTextIdentifiers ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6434, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              IdentifierList: [ TrimmedString, 1 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6435, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7087, SetCalibration ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6436, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              CalibrationData: [ CalibrationDataType, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6437, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7088, SetIOSignals ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6438, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              SignalList: [ SignalDataType, 1 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6439, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              SignalStatusList: [ Int32, 1 ]
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7089, SetOfflineTimer ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6440, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              OfflineTimer: [ Duration, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6441, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7090, SetTime ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6442, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ProductInstanceUri: [ String, 0 ]
+              InputTime: [ UtcTime, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6443, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Status: [ Int64, 0 ]
+              StatusMessage: [ LocalizedText, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5026, Identification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6194, Description, LocalizedText, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6195, IntegratorName, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasInterface:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6196, JoiningTechnology, LocalizedText, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6197, Location, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6223, Manufacturer, LocalizedText, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6224, ManufacturerUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6237, Model, LocalizedText, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6193, Name, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6238, ProductInstanceUri, String, 0, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6239, SystemId, String, 0, 3 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7057, AbortJoiningProcess ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6376, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+            AbortMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6377, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7058, DecrementJoiningProcessCounter ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6378, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+            DecrementCount: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6379, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7059, DeselectJoiningProcess ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6380, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6381, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7060, GetJoiningProcessList ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6382, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6383, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JoiningProcessList: [ JoiningProcessMetaDataType, 1 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7061, GetJoiningProcessRevisionList ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6384, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessOriginId: [ TrimmedString, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6385, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JoiningProcessList: [ JoiningProcessMetaDataType, 1 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7062, IncrementJoiningProcessCounter ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6386, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+            IncrementCount: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6387, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7063, ResetJoiningProcess ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6388, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6389, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7065, SelectJoiningProcess ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6392, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6393, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7066, SendJoiningProcess ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6394, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcess: [ JoiningProcessDataType, 0 ]
+            SelectionName: [ TrimmedString, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6395, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7067, SetJoiningProcessCounter ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6396, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+            CounterValue: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6397, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7068, SetJoiningProcessMapping ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6398, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6399, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7069, SetJoiningProcessSize ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6400, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+            MaxCounterSize: [ UInt32, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6401, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7070, StartJoiningProcess ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6402, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JoiningProcessIdentification: [ JoiningProcessIdentificationDataType, 0 ]
+            AssociatedEntities: [ EntityDataType, 1 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6403, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5100, JointManagement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7031, GetJoint ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6316, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JointId: [ TrimmedString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6317, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Joint: [ JointDataType, 0 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7032, GetJointComponent ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6318, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JointComponentId: [ TrimmedString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6319, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JointComponent: [ JointComponentDataType, 0 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7033, GetJointComponentList ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6320, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6321, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JointComponentList: [ JointComponentDataType, 1 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7034, GetJointDesign ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6322, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JointDesignId: [ TrimmedString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6323, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JointDesign: [ JointDesignDataType, 0 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7035, GetJointDesignList ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6324, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6325, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JointDesignList: [ JointDesignDataType, 1 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7036, GetJointList ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6326, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6327, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JointList: [ JointDataType, 1 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7037, GetJointRevisionList ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6328, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JointOriginId: [ TrimmedString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6329, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            JointList: [ JointDataType, 1 ]
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7038, SelectJoint ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6330, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JointId: [ TrimmedString, 0 ]
+            JointOriginId: [ TrimmedString, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6331, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7039, SendJoint ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6332, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            Joint: [ JointDataType, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6333, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7040, SendJointComponent ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6334, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JointComponent: [ JointComponentDataType, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6335, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7041, SendJointDesign ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6336, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ProductInstanceUri: [ String, 0 ]
+            JointDesign: [ JointDesignDataType, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6337, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Status: [ Int64, 0 ]
+            StatusMessage: [ LocalizedText, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5074, MachineryBuildingBlocks ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasAddIn:
+      - [ UAObject, IJT.Base:5026, Identification ]
+      - HasTypeDefinition:
+        - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6194, Description, LocalizedText, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6195, IntegratorName, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasInterface:
+        - [ UAObjectType, DI:15035, IVendorNameplateType ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6196, JoiningTechnology, LocalizedText, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6197, Location, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6223, Manufacturer, LocalizedText, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6224, ManufacturerUri, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6237, Model, LocalizedText, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6193, Name, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6238, ProductInstanceUri, String, 0, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6239, SystemId, String, 0, 3 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+    - HasAddIn:
+      - [ UAObject, IJT.Base:5005, ResultManagement ]
+      - HasTypeDefinition:
+        - [ UAObjectType, IJT.Base:1022, JoiningSystemResultManagementType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7001, GetLatestResult ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6106, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Timeout: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6107, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ResultHandle: [ Handle, 0 ]
+              Result: [ ResultDataType, 0 ]
+              Error: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7002, GetResultById ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6095, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ResultId: [ TrimmedString, 0 ]
+              Timeout: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6096, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ResultHandle: [ Handle, 0 ]
+              Result: [ ResultDataType, 0 ]
+              Error: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6097, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Filter: [ ContentFilter, 0 ]
+              OrderedBy: [ RelativePath, 1 ]
+              MaxResults: [ UInt32, 0 ]
+              Timeout: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6103, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ResultHandle: [ Handle, 0 ]
+              ResultIdList: [ TrimmedString, 1 ]
+              Error: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6104, InputArguments, Argument, 1, 0 ]
+          - Arguments:
+              ResultHandle: [ Handle, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+        - HasProperty:
+          - [ UAVariable, IJT.Base:6105, OutputArguments, Argument, 1, 0 ]
+          - Arguments:
+              Error: [ Int32, 0 ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 68, PropertyType ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+      - HasComponent:
+        - [ UAObject, IJT.Base:5078, Results ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAObjectType, 61, FolderType ]
+  - HasAddIn:
+    - [ UAObject, IJT.Base:5005, ResultManagement ]
+    - HasTypeDefinition:
+      - [ UAObjectType, IJT.Base:1022, JoiningSystemResultManagementType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7001, GetLatestResult ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6106, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Timeout: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6107, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+            Result: [ ResultDataType, 0 ]
+            Error: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7002, GetResultById ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6095, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultId: [ TrimmedString, 0 ]
+            Timeout: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6096, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+            Result: [ ResultDataType, 0 ]
+            Error: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6097, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Filter: [ ContentFilter, 0 ]
+            OrderedBy: [ RelativePath, 1 ]
+            MaxResults: [ UInt32, 0 ]
+            Timeout: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6103, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+            ResultIdList: [ TrimmedString, 1 ]
+            Error: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6104, InputArguments, Argument, 1, 0 ]
+        - Arguments:
+            ResultHandle: [ Handle, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+      - HasProperty:
+        - [ UAVariable, IJT.Base:6105, OutputArguments, Argument, 1, 0 ]
+        - Arguments:
+            Error: [ Int32, 0 ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 68, PropertyType ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAObject, IJT.Base:5078, Results ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasTypeDefinition:
+        - [ UAObjectType, 61, FolderType ]
+
+  JointManagementType:
+  - [ UAObjectType, IJT.Base:1023, JointManagementType ]
+  - HasProperty:
+    - [ UAVariable, IJT.Base:6339, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7055, DeleteJoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6141, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointId: [ TrimmedString, 0 ]
+          JointOriginId: [ TrimmedString, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6151, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7071, DeleteJointComponent ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6162, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointComponentId: [ TrimmedString, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6163, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7064, DeleteJointDesign ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6153, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointDesignId: [ TrimmedString, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6161, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7028, GetJoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6310, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointId: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6311, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Joint: [ JointDataType, 0 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7030, GetJointComponent ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6314, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointComponentId: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6315, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JointComponent: [ JointComponentDataType, 0 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7026, GetJointComponentList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6306, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6307, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JointComponentList: [ JointComponentDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7029, GetJointDesign ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6312, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointDesignId: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6313, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JointDesign: [ JointDesignDataType, 0 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7025, GetJointDesignList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6304, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6305, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JointDesignList: [ JointDesignDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7024, GetJointList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6235, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6303, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JointList: [ JointDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7027, GetJointRevisionList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6308, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointOriginId: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6309, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          JointList: [ JointDataType, 1 ]
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7023, SelectJoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6229, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointId: [ TrimmedString, 0 ]
+          JointOriginId: [ TrimmedString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6230, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7020, SendJoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6183, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          Joint: [ JointDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6184, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7022, SendJointComponent ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6192, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointComponent: [ JointComponentDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6228, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+  - HasComponent:
+    - [ UAMethod, IJT.Base:7021, SendJointDesign ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6186, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductInstanceUri: [ String, 0 ]
+          JointDesign: [ JointDesignDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+    - HasProperty:
+      - [ UAVariable, IJT.Base:6191, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ Int64, 0 ]
+          StatusMessage: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+
+  JoiningSystemResultManagementType:
+  - [ UAObjectType, IJT.Base:1022, JoiningSystemResultManagementType ]
+  - GeneratesEvent:
+    - [ UAObjectType, IJT.Base:1007, JoiningSystemResultReadyEventType ]
+  - HasComponent:
+    - [ UAObject, IJT.Base:5098, Results ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasComponent:
+      - [ UAVariable, IJT.Base:6225, <ResultVariable>, ResultDataType, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasTypeDefinition:
+        - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6211, ResultContent ]
+        - HasModellingRule:
+          - [ UAObject, 80, Optional ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent:
+        - [ UAVariable, IJT.Base:6226, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+        - HasModellingRule:
+          - [ UAObject, 78, Mandatory ]
+        - HasTypeDefinition:
+          - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent:
+          - [ UAVariable, IJT.Base:6208, ResultId, TrimmedString, 0, 0 ]
+          - HasModellingRule:
+            - [ UAObject, 78, Mandatory ]
+          - HasTypeDefinition:
+            - [ UAVariableType, 63, BaseDataVariableType ]

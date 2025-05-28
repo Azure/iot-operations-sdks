@@ -1,0 +1,754 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Ijt_Base:JointManagementType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JointId",
+          "schema": "string"
+        },
+        {
+          "name": "JointOriginId",
+          "schema": "string"
+        },
+        {
+          "name": "JointDesignId",
+          "schema": "string"
+        },
+        {
+          "name": "CreationTime",
+          "schema": "time"
+        },
+        {
+          "name": "LastUpdatedTime",
+          "schema": "time"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Classification",
+          "schema": "short"
+        },
+        {
+          "name": "ClassificationDetails",
+          "schema": "string"
+        },
+        {
+          "name": "JointStatus",
+          "schema": "string"
+        },
+        {
+          "name": "AssociatedEntities",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:EntityDataType;1"
+          }
+        },
+        {
+          "name": "JoiningTechnology",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:EntityDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "EntityId",
+          "schema": "string"
+        },
+        {
+          "name": "EntityOriginId",
+          "schema": "string"
+        },
+        {
+          "name": "IsExternal",
+          "schema": "boolean"
+        },
+        {
+          "name": "EntityType",
+          "schema": "short"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JointComponentId",
+          "schema": "string"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Manufacturer",
+          "schema": "string"
+        },
+        {
+          "name": "ManufacturerUri",
+          "schema": "string"
+        },
+        {
+          "name": "JointComponentContent",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "JointDesignId",
+          "schema": "string"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "JointDesignContent",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:DesignValueDataType;1"
+          }
+        },
+        {
+          "name": "JointComponentIdList",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "string"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:DesignValueDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "PhysicalQuantity",
+          "schema": "unsignedByte"
+        },
+        {
+          "name": "Name",
+          "schema": "string"
+        },
+        {
+          "name": "DesignValue",
+          "schema": "string"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "DeleteJoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointId",
+              "schema": "string"
+            },
+            {
+              "name": "JointOriginId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "DeleteJointComponent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointComponentId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "DeleteJointDesign",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointDesignId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Joint",
+              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJointComponent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointComponentId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JointComponent",
+              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1"
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJointComponentList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JointComponentList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJointDesign",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointDesignId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JointDesign",
+              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1"
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJointDesignList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JointDesignList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJointList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JointList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetJointRevisionList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointOriginId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "JointList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+              }
+            },
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SelectJoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointId",
+              "schema": "string"
+            },
+            {
+              "name": "JointOriginId",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendJoint",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "Joint",
+              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendJointComponent",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointComponent",
+              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendJointDesign",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ProductInstanceUri",
+              "schema": "string"
+            },
+            {
+              "name": "JointDesign",
+              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Status",
+              "schema": "long"
+            },
+            {
+              "name": "StatusMessage",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

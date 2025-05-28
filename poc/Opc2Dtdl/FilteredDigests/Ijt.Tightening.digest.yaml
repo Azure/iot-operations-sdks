@@ -1,0 +1,318 @@
+DataTypes:
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+  Enums:
+    Local: 0
+    Remote: 1
+- UADataType: [ AMB:3003, NameNodeIdDataType ]
+  Fields:
+    Name: [ LocalizedText, 0 ]
+    NodeId: [ NodeId, 0 ]
+- UADataType: [ AMB:3002, RootCauseDataType ]
+  Fields:
+    RootCauseId: [ NodeId, 0 ]
+    RootCause: [ LocalizedText, 0 ]
+- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+  Enums:
+    Undefined: 0
+    OK: 1
+    NotOK: 2
+    NotDecidable: 3
+- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+  Bases:
+  - BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  Fields:
+    StartTime: [ UtcTime, 0 ]
+    EndTime: [ UtcTime, 0 ]
+    AcquisitionDuration: [ Duration, 0 ]
+    ProcessingDuration: [ Duration, 0 ]
+- UADataType: [ Machinery.Result:3008, ResultDataType ]
+  Fields:
+    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultContent: [ null, 1 ]
+- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+  Fields:
+    ResultId: [ TrimmedString, 0 ]
+    HasTransferableDataOnFile: [ Boolean, 0 ]
+    IsPartial: [ Boolean, 0 ]
+    IsSimulated: [ Boolean, 0 ]
+    ResultState: [ Int32, 0 ]
+    StepId: [ TrimmedString, 0 ]
+    PartId: [ TrimmedString, 0 ]
+    ExternalRecipeId: [ TrimmedString, 0 ]
+    InternalRecipeId: [ TrimmedString, 0 ]
+    ProductId: [ TrimmedString, 0 ]
+    ExternalConfigurationId: [ TrimmedString, 0 ]
+    InternalConfigurationId: [ TrimmedString, 0 ]
+    JobId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ResultUri: [ UriString, 1 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluationCode: [ Int64, 0 ]
+    ResultEvaluationDetails: [ LocalizedText, 0 ]
+    FileFormat: [ String, 1 ]
+- UADataType: [ IJT.Base:3003, CalibrationDataType ]
+  Fields:
+    LastCalibration: [ UtcTime, 0 ]
+    CalibrationPlace: [ String, 0 ]
+    NextCalibration: [ UtcTime, 0 ]
+    CalibrationValue: [ Double, 0 ]
+    SensorScale: [ Double, 0 ]
+    CertificateUri: [ UriString, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3015, DesignValueDataType ]
+  Fields:
+    PhysicalQuantity: [ Byte, 0 ]
+    Name: [ String, 0 ]
+    DesignValue: [ null, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3010, EntityDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    EntityId: [ TrimmedString, 0 ]
+    EntityOriginId: [ TrimmedString, 0 ]
+    IsExternal: [ Boolean, 0 ]
+    EntityType: [ Int16, 0 ]
+- UADataType: [ IJT.Base:3006, ErrorInformationDataType ]
+  Fields:
+    ErrorType: [ Byte, 0 ]
+    ErrorId: [ TrimmedString, 0 ]
+    LegacyError: [ String, 0 ]
+    ErrorMessage: [ LocalizedText, 0 ]
+- UADataType: [ IJT.Base:3016, JoiningProcessDataType ]
+  Fields:
+    JoiningProcessMetaData: [ JoiningProcessMetaDataType, 0 ]
+    JoiningProcessContent: [ null, 1 ]
+- UADataType: [ IJT.Base:3029, JoiningProcessIdentificationDataType ]
+  Fields:
+    JoiningProcessId: [ TrimmedString, 0 ]
+    JoiningProcessOriginId: [ TrimmedString, 0 ]
+    SelectionName: [ TrimmedString, 0 ]
+- UADataType: [ IJT.Base:3024, JoiningProcessMetaDataType ]
+  Fields:
+    JoiningProcessId: [ TrimmedString, 0 ]
+    JoiningProcessOriginId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    LastUpdatedTime: [ UtcTime, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JoiningTechnology: [ LocalizedText, 0 ]
+    Classification: [ Int16, 0 ]
+    AssociatedEntities: [ EntityDataType, 1 ]
+- UADataType: [ IJT.Base:3005, JoiningResultDataType ]
+  Fields:
+    FailureReason: [ Byte, 0 ]
+    OverallResultValues: [ ResultValueDataType, 1 ]
+    StepResults: [ StepResultDataType, 1 ]
+    Errors: [ ErrorInformationDataType, 1 ]
+    FailingStepResultId: [ TrimmedString, 0 ]
+    Trace: [ JoiningTraceDataType, 0 ]
+- UADataType: [ IJT.Base:3021, JointComponentDataType ]
+  Fields:
+    JointComponentId: [ TrimmedString, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Manufacturer: [ LocalizedText, 0 ]
+    ManufacturerUri: [ String, 0 ]
+    JointComponentContent: [ null, 0 ]
+- UADataType: [ IJT.Base:3028, JointDataType ]
+  Fields:
+    JointId: [ TrimmedString, 0 ]
+    JointOriginId: [ TrimmedString, 0 ]
+    JointDesignId: [ TrimmedString, 0 ]
+    CreationTime: [ UtcTime, 0 ]
+    LastUpdatedTime: [ UtcTime, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Classification: [ Int16, 0 ]
+    ClassificationDetails: [ LocalizedText, 0 ]
+    JointStatus: [ TrimmedString, 0 ]
+    AssociatedEntities: [ EntityDataType, 1 ]
+    JoiningTechnology: [ LocalizedText, 0 ]
+- UADataType: [ IJT.Base:3025, JointDesignDataType ]
+  Fields:
+    JointDesignId: [ TrimmedString, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    JointDesignContent: [ DesignValueDataType, 1 ]
+    JointComponentIdList: [ TrimmedString, 1 ]
+- UADataType: [ IJT.Base:3008, KeyValueDataType ]
+  Fields:
+    Key: [ TrimmedString, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ IJT.Base:3022, ReportedValueDataType ]
+  Fields:
+    PhysicalQuantity: [ Byte, 0 ]
+    Name: [ String, 0 ]
+    CurrentValue: [ null, 0 ]
+    PreviousValue: [ null, 0 ]
+    LowLimit: [ Double, 0 ]
+    HighLimit: [ Double, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3004, ResultCounterDataType ]
+  Fields:
+    Name: [ String, 0 ]
+    CounterValue: [ UInt32, 0 ]
+    CounterType: [ Int16, 0 ]
+- UADataType: [ IJT.Base:3020, JoiningResultMetaDataType ]
+  Fields:
+    JoiningTechnology: [ LocalizedText, 0 ]
+    SequenceNumber: [ UInt64, 0 ]
+    Name: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Classification: [ Byte, 0 ]
+    OperationMode: [ Byte, 0 ]
+    AssemblyType: [ Byte, 0 ]
+    AssociatedEntities: [ EntityDataType, 1 ]
+    ResultCounters: [ ResultCounterDataType, 1 ]
+    InterventionType: [ Byte, 0 ]
+    IsGeneratedOffline: [ Boolean, 0 ]
+    ExtendedMetaData: [ KeyValueDataType, 1 ]
+- UADataType: [ IJT.Base:3007, ResultValueDataType ]
+  Fields:
+    MeasuredValue: [ Double, 0 ]
+    Name: [ String, 0 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ValueId: [ TrimmedString, 0 ]
+    ValueTag: [ Int16, 0 ]
+    TracePointIndex: [ Int32, 0 ]
+    TracePointTimeOffset: [ Duration, 0 ]
+    ParameterIdList: [ TrimmedString, 1 ]
+    ViolationType: [ Byte, 0 ]
+    ViolationConsequence: [ Byte, 0 ]
+    SensorId: [ TrimmedString, 0 ]
+    LowLimit: [ Double, 0 ]
+    HighLimit: [ Double, 0 ]
+    TargetValue: [ Double, 0 ]
+    ResultStep: [ String, 0 ]
+    PhysicalQuantity: [ Byte, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3019, SignalDataType ]
+  Fields:
+    SignalId: [ TrimmedString, 0 ]
+    SignalValue: [ Number, 0 ]
+    SignalDescription: [ String, 0 ]
+    SignalType: [ Int16, 0 ]
+- UADataType: [ IJT.Base:3009, StepResultDataType ]
+  Fields:
+    StepResultId: [ TrimmedString, 0 ]
+    ProgramStepId: [ TrimmedString, 0 ]
+    ProgramStep: [ String, 0 ]
+    Name: [ String, 0 ]
+    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    StartTimeOffset: [ Duration, 0 ]
+    StepTraceId: [ TrimmedString, 0 ]
+    StepResultValues: [ ResultValueDataType, 1 ]
+- UADataType: [ IJT.Base:3013, StepTraceDataType ]
+  Fields:
+    StepTraceId: [ TrimmedString, 0 ]
+    StepResultId: [ TrimmedString, 0 ]
+    NumberOfTracePoints: [ UInt32, 0 ]
+    SamplingInterval: [ Duration, 0 ]
+    StartTimeOffset: [ Duration, 0 ]
+    StepTraceContent: [ TraceContentDataType, 1 ]
+- UADataType: [ IJT.Base:3014, TraceContentDataType ]
+  Fields:
+    Values: [ Double, 1 ]
+    SensorId: [ TrimmedString, 0 ]
+    Name: [ String, 0 ]
+    Description: [ String, 0 ]
+    PhysicalQuantity: [ Byte, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+- UADataType: [ IJT.Base:3011, TraceDataType ]
+  Fields:
+    TraceId: [ TrimmedString, 0 ]
+    ResultId: [ TrimmedString, 0 ]
+- UADataType: [ IJT.Base:3012, JoiningTraceDataType ]
+  Fields:
+    StepTraces: [ StepTraceDataType, 1 ]
+
+DefinedTypes:
+
+  ITighteningToolParametersType:
+  - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6005, DesignType, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6014, DriveMethod, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6016, DriveType, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6022, MaxSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Tightening:6026, PhysicalQuantity, Byte, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6020, MaxTorque, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Tightening:6029, PhysicalQuantity, Byte, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6021, MinTorque, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent:
+      - [ UAVariable, IJT.Tightening:6025, PhysicalQuantity, Byte, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6023, MotorType, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, IJT.Tightening:6018, ShutOffMethod, Byte, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]

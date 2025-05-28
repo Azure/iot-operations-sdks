@@ -1,0 +1,74 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:MachineTool:ToolType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "NumberBased",
+          "enumValue": 0
+        },
+        {
+          "name": "GroupBased",
+          "enumValue": 1
+        },
+        {
+          "name": "Other",
+          "enumValue": 2
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "ControlIdentifier1",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ControlIdentifier2",
+      "schema": "unsignedInteger",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ControlIdentifierInterpretation",
+      "schema": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LastUsage",
+      "schema": "time",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Locked",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "PlannedForOperating",
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "ToolLife"
+    }
+  ]
+}

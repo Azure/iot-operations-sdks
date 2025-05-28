@@ -1,0 +1,85 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OTHER",
+          "enumValue": 0
+        },
+        {
+          "name": "AUTOMATIC",
+          "enumValue": 1
+        },
+        {
+          "name": "SEMIAUTOMATIC",
+          "enumValue": 2
+        },
+        {
+          "name": "MANUAL",
+          "enumValue": 3
+        },
+        {
+          "name": "SETUP",
+          "enumValue": 4
+        },
+        {
+          "name": "SLEEP",
+          "enumValue": 5
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OFFLINE",
+          "enumValue": 0
+        },
+        {
+          "name": "STANDBY",
+          "enumValue": 1
+        },
+        {
+          "name": "READY",
+          "enumValue": 2
+        },
+        {
+          "name": "WORKING",
+          "enumValue": 3
+        },
+        {
+          "name": "ERROR",
+          "enumValue": 4
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CurrentMode",
+      "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CurrentState",
+      "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1",
+      "writable": false
+    }
+  ]
+}

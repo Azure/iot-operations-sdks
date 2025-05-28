@@ -1,0 +1,100 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:IA:StackElementLightType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Off",
+          "enumValue": 0
+        },
+        {
+          "name": "Red",
+          "enumValue": 1
+        },
+        {
+          "name": "Green",
+          "enumValue": 2
+        },
+        {
+          "name": "Blue",
+          "enumValue": 3
+        },
+        {
+          "name": "Yellow",
+          "enumValue": 4
+        },
+        {
+          "name": "Purple",
+          "enumValue": 5
+        },
+        {
+          "name": "Cyan",
+          "enumValue": 6
+        },
+        {
+          "name": "White",
+          "enumValue": 7
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Continuous",
+          "enumValue": 0
+        },
+        {
+          "name": "Blinking",
+          "enumValue": 1
+        },
+        {
+          "name": "Flashing",
+          "enumValue": 2
+        },
+        {
+          "name": "Other",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Intensity",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SignalColor",
+      "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "SignalMode",
+      "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "ControlChannel",
+      "target": "dtmi:opcua:IA:ControlChannelType"
+    }
+  ]
+}
