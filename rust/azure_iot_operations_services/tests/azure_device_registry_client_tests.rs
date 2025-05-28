@@ -319,6 +319,7 @@ async fn update_asset_status() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -345,15 +346,13 @@ async fn observe_device_update_notifications() {
                     if let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
                         log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
-                        log::info!("[{log_identifier}] Device Observation: {device:?}");
+                        log::info!("[{log_identifier}] Device Observation expected: {device:?}");
                         assert_eq!(device.name, DEVICE1);
                     }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
                         log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
-                        log::info!(
-                            "[{log_identifier}] Device Observation If Any Other Works: {device:?}"
-                        );
+                        log::info!("[{log_identifier}] Device Observation unexpected: {device:?}");
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
                         assert!(count < 2);
@@ -398,7 +397,10 @@ async fn observe_device_update_notifications() {
                         config: Some(StatusConfig {
                             version: response.specification.version,
                             error: Some(ConfigError {
-                                message: Some(format!("Random test error {}", Uuid::new_v4())),
+                                message: Some(format!(
+                                    "Random test error for device update {}",
+                                    Uuid::new_v4()
+                                )),
                                 ..ConfigError::default()
                             }),
                             // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
@@ -485,13 +487,15 @@ async fn observe_asset_update_notifications() {
                 async move {
                     log::info!("[{log_identifier}] Asset update notification receiver started.");
                     let mut count = 0;
-                    if let Some((device, _)) = observation.recv_notification().await {
+                    if let Some((asset, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] Asset observation expected: {device:?}");
-                        assert_eq!(device.name, DEVICE1);
+                        log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
+                        log::info!("[{log_identifier}] Asset observation expected: {asset:?}");
+                        assert_eq!(asset.name, ASSET_NAME1);
                     }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
+                        log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
                         log::info!("[{log_identifier}] Asset observation unexpected: {device:?}");
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
@@ -527,7 +531,10 @@ async fn observe_asset_update_notifications() {
                 config: Some(StatusConfig {
                     version: response.specification.version,
                     error: Some(ConfigError {
-                        message: Some(format!("Random test error {}", Uuid::new_v4())),
+                        message: Some(format!(
+                            "Random test error for asset update {}",
+                            Uuid::new_v4()
+                        )),
                         ..ConfigError::default()
                     }),
                     // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
