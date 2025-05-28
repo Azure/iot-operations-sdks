@@ -365,25 +365,25 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Get device to update the status: {response:?}",);
-            let mut endpoint_statuses = HashMap::new();
-            for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
-                if endpoint.endpoint_type == ENDPOINT_TYPE {
-                    log::info!("Endpoint '{endpoint_name}' accepted");
-                    endpoint_statuses.insert(endpoint_name, None);
-                } else {
-                    log::warn!(
-                        "Endpoint '{endpoint_name}' not accepted. Endpoint type '{}' not supported.",
-                        endpoint.endpoint_type
-                    );
-                    endpoint_statuses.insert(
-                        endpoint_name,
-                        Some(azure_device_registry::ConfigError {
-                            message: Some("endpoint type is not supported".to_string()),
-                            ..azure_device_registry::ConfigError::default()
-                        }),
-                    );
-                }
-            }
+            // let mut endpoint_statuses = HashMap::new();
+            // for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
+            //     if endpoint.endpoint_type == ENDPOINT_TYPE {
+            //         log::info!("Endpoint '{endpoint_name}' accepted");
+            //         endpoint_statuses.insert(endpoint_name, None);
+            //     } else {
+            //         log::warn!(
+            //             "Endpoint '{endpoint_name}' not accepted. Endpoint type '{}' not supported.",
+            //             endpoint.endpoint_type
+            //         );
+            //         endpoint_statuses.insert(
+            //             endpoint_name,
+            //             Some(azure_device_registry::ConfigError {
+            //                 message: Some("endpoint type is not supported".to_string()),
+            //                 ..azure_device_registry::ConfigError::default()
+            //             }),
+            //         );
+            //     }
+            // }
 
             let response_during_obs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
@@ -402,7 +402,7 @@ async fn observe_device_update_notifications() {
                             // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
                             ..StatusConfig::default()
                         }),
-                        endpoints: endpoint_statuses,
+                        endpoints: std::collections::HashMap::new(),
                     },
                     TIMEOUT,
                 )
