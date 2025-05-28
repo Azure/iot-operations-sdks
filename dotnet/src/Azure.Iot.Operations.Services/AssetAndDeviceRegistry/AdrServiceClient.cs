@@ -4,6 +4,7 @@
 using System.Collections.Concurrent;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
@@ -21,8 +22,8 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     private const string _aepTypeTokenKey = "aepType";
     private const byte _dummyByte = 1;
     private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(10);
-    private readonly AssetServiceClientStub _assetServiceClient = new(applicationContext, mqttClient);
-    private readonly DeviceServiceClientStub _deviceServiceClient = new(applicationContext, mqttClient);
+    private readonly AdrBaseServiceClientStub _adrBaseServiceClient = new(applicationContext, mqttClient);
+    private readonly DeviceDiscoveryServiceClientStub _deviceDiscoveryServiceClient = new(applicationContext, mqttClient);
     private readonly ConcurrentDictionary<string, byte> _observedAssets = new();
     private readonly ConcurrentDictionary<string, byte> _observedEndpoints = new();
     private bool _disposed;
@@ -35,8 +36,8 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             return;
         }
 
-        await _assetServiceClient.DisposeAsync().ConfigureAwait(false);
-        await _deviceServiceClient.DisposeAsync().ConfigureAwait(false);
+        await _adrBaseServiceClient.DisposeAsync().ConfigureAwait(false);
+        await _deviceDiscoveryServiceClient.DisposeAsync().ConfigureAwait(false);
         GC.SuppressFinalize(this);
         _disposed = true;
     }
@@ -49,7 +50,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         _observedEndpoints[$"{deviceName}_{inboundEndpointName}"] = _dummyByte;
-        await _assetServiceClient.DeviceUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
+        await _adrBaseServiceClient.DeviceUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
@@ -62,7 +63,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             NotificationPreferenceRequest = NotificationPreference.On
         };
 
-        var result = await _assetServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
+        var result = await _adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
             notificationRequest,
             null,
             additionalTopicTokenMap,
@@ -80,7 +81,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         if (_observedEndpoints.TryRemove($"{deviceName}_{inboundEndpointName}", out _) && _observedEndpoints.IsEmpty)
         {
-            await _assetServiceClient.DeviceUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
+            await _adrBaseServiceClient.DeviceUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
         }
 
         Dictionary<string, string> additionalTopicTokenMap = new()
@@ -94,7 +95,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             NotificationPreferenceRequest = NotificationPreference.Off
         };
 
-        var result = await _assetServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
+        var result = await _adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
             notificationRequest,
             null,
             additionalTopicTokenMap,
@@ -117,7 +118,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _endpointNameTokenKey, inboundEndpointName }
         };
 
-        var result = await _assetServiceClient.GetDeviceAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
+        var result = await _adrBaseServiceClient.GetDeviceAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
             cancellationToken);
         return result.Device.ToModel();
     }
@@ -141,7 +142,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             DeviceStatusUpdate = status.ToProtocol()
         };
 
-        var result = await _assetServiceClient.UpdateDeviceStatusAsync(
+        var result = await _adrBaseServiceClient.UpdateDeviceStatusAsync(
             request,
             null,
             additionalTopicTokenMap,
@@ -159,7 +160,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         _observedAssets[$"{deviceName}_{inboundEndpointName}_{assetName}"] = _dummyByte;
-        await _assetServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
+        await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
@@ -176,7 +177,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             }
         };
 
-        var result = await _assetServiceClient.SetNotificationPreferenceForAssetUpdatesAsync(
+        var result = await _adrBaseServiceClient.SetNotificationPreferenceForAssetUpdatesAsync(
             notificationRequest,
             null,
             additionalTopicTokenMap,
@@ -195,7 +196,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         if (_observedAssets.TryRemove($"{deviceName}_{inboundEndpointName}_{assetName}", out _) && _observedAssets.IsEmpty)
         {
-            await _assetServiceClient.AssetUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
+            await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
         }
 
         Dictionary<string, string> additionalTopicTokenMap = new()
@@ -213,7 +214,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             }
         };
 
-        var result = await _assetServiceClient.SetNotificationPreferenceForAssetUpdatesAsync(
+        var result = await _adrBaseServiceClient.SetNotificationPreferenceForAssetUpdatesAsync(
             notificationRequest,
             null,
             additionalTopicTokenMap,
@@ -236,7 +237,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _endpointNameTokenKey, inboundEndpointName }
         };
 
-        var result = await _assetServiceClient.GetAssetAsync(
+        var result = await _adrBaseServiceClient.GetAssetAsync(
             request.ToProtocol(),
             null,
             additionalTopicTokenMap,
@@ -260,7 +261,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _endpointNameTokenKey, inboundEndpointName }
         };
 
-        var result = await _assetServiceClient.UpdateAssetStatusAsync(request.ToProtocol(),
+        var result = await _adrBaseServiceClient.UpdateAssetStatusAsync(request.ToProtocol(),
             null,
             additionalTopicTokenMap,
             commandTimeout ?? _defaultTimeout,
@@ -269,7 +270,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(string deviceName, string inboundEndpointName, DiscoveredAsset request,
+    public async Task<CreateDetectedAssetResponse> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request,
         TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -282,18 +283,17 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _endpointNameTokenKey, inboundEndpointName }
         };
 
-        /*var result = await _assetServiceClient.CreateOrUpdateDiscoveredAssetAsync(
+        var result = await _adrBaseServiceClient.CreateOrUpdateDiscoveredAssetAsync(
             request.ToProtocol(),
             null,
             additionalTopicTokenMap,
             commandTimeout ?? _defaultTimeout,
             cancellationToken);
-        return result.CreateDetectedAssetResponse.ToModel();*/
-        return Task.FromResult(new CreateDetectedAssetResponse() { });
+        return result.DiscoveredAssetResponse.ToModel();
     }
 
     /// <inheritdoc />
-    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(
+    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(
         CreateDiscoveredAssetEndpointProfileRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -305,26 +305,35 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _aepTypeTokenKey, request.EndpointProfileType },
         };
 
-        var result = await _deviceServiceClient.CreateDiscoveredAssetEndpointProfileAsync(
-            request.ToProtocol(),
+        var req = new CreateOrUpdateDiscoveredDeviceRequestPayload
+        {
+            DiscoveredDeviceRequest = new CreateOrUpdateDiscoveredDeviceRequestSchema
+            {
+                DiscoveredDevice = request.ToProtocol(), // stopped here
+                DiscoveredDeviceName = request.Name,
+            }
+        };
+
+        var result = await _deviceDiscoveryServiceClient.CreateOrUpdateDiscoveredDeviceAsync(
+            req,
             null,
             additionalTopicTokenMap,
             commandTimeout ?? _defaultTimeout,
             cancellationToken);
-        return result.CreateDiscoveredAssetEndpointProfileResponse.ToModel();
+        return result.DiscoveredDeviceResponse.ToModel();
     }
 
     /// <inheritdoc />
     public event Func<string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry
     {
-        add => _assetServiceClient.OnReceiveDeviceUpdateEventTelemetry += value;
-        remove => _assetServiceClient.OnReceiveDeviceUpdateEventTelemetry -= value;
+        add => _adrBaseServiceClient.OnReceiveDeviceUpdateEventTelemetry += value;
+        remove => _adrBaseServiceClient.OnReceiveDeviceUpdateEventTelemetry -= value;
     }
 
     /// <inheritdoc />
     public event Func<string, Asset, Task>? OnReceiveAssetUpdateEventTelemetry
     {
-        add => _assetServiceClient.OnReceiveAssetUpdateEventTelemetry += value;
-        remove => _assetServiceClient.OnReceiveAssetUpdateEventTelemetry -= value;
+        add => _adrBaseServiceClient.OnReceiveAssetUpdateEventTelemetry += value;
+        remove => _adrBaseServiceClient.OnReceiveAssetUpdateEventTelemetry -= value;
     }
 }

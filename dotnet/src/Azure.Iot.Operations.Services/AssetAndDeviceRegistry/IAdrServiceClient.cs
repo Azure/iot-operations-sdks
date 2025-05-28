@@ -138,10 +138,9 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response for the created detected asset.</returns>
-    Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(
-        string deviceName,
+    Task<CreateDetectedAssetResponse> CreateOrUpdateDiscoveredAssetAsync(string deviceName,
         string inboundEndpointName,
-        DiscoveredAsset request,
+        CreateOrUpdateDiscoveredAssetRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
@@ -152,7 +151,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered asset endpoint profile.</returns>
-    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(
+    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(
         CreateDiscoveredAssetEndpointProfileRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);

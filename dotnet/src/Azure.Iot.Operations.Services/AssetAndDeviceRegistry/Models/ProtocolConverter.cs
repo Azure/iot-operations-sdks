@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
+using DeviceDiscoveryService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -69,9 +70,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static DiscoveredAssetEvent ToProtocol(this DetectedAssetEventSchemaElement source)
+    internal static AdrBaseService.DiscoveredAssetEvent ToProtocol(this DetectedAssetEventSchemaElement source)
     {
-        return new DiscoveredAssetEvent
+        return new AdrBaseService.DiscoveredAssetEvent
         {
             DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
             Destinations = source.Destinations?.Select(x => x.ToProtocol()).ToList(),
@@ -215,21 +216,55 @@ internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef sou
     };
 }
 
-    public static CreateDiscoveredAssetEndpointProfileRequestPayload ToProtocol(this CreateDiscoveredAssetEndpointProfileRequest source)
+    internal static DiscoveredDevice ToProtocol(this CreateDiscoveredAssetEndpointProfileRequest source)
     {
-        return new CreateDiscoveredAssetEndpointProfileRequestPayload
+        return new  DiscoveredDevice
         {
-            DiscoveredAssetEndpointProfile = new DiscoveredAssetEndpointProfile
-            {
-                AdditionalConfiguration = source.AdditionalConfiguration,
-                EndpointProfileType = source.EndpointProfileType,
-                TargetAddress = source.TargetAddress,
-                DaepName = source.Name,
-                SupportedAuthenticationMethods = source.SupportedAuthenticationMethods?.Select(x => x.ToProtocol()).ToList()
-            }
+            Attributes = source.Attributes,
+            Endpoints = source.Endpoints?.ToProtocol(),
+            Manufacturer = source.Manufacturer,
+            Model = source.Model,
+            ExternalDeviceId = source.ExternalDeviceId,
+            OperatingSystem = source.OperatingSystem,
+            OperatingSystemVersion = source.OperatingSystemVersion
+        };
+    }
+    internal static DeviceDiscoveryService.DiscoveredDeviceEndpoint ToProtocol(this Models.DiscoveredDeviceEndpoint source)
+    {
+        return new DeviceDiscoveryService.DiscoveredDeviceEndpoint
+        {
+            Inbound = source.Inbound?.ToDictionary(x => x.Key, x => x.Value.ToProtocol()),
+            Outbound = source.Outbound?.ToProtocol(),
         };
     }
 
+    internal static  DiscoveredDeviceOutboundEndpointsSchema ToProtocol(this Models.DiscoveredDeviceOutboundEndpoints source)
+    {
+        return new DiscoveredDeviceOutboundEndpointsSchema
+        {
+            Assigned = source.Assigned.ToDictionary(x => x.Key, x => x.Value.ToProtocol())
+        };
+    }
+
+    internal static DeviceDiscoveryService.DeviceOutboundEndpoint ToProtocol(this Models.DeviceOutboundEndpoint source)
+    {
+        return new DeviceDiscoveryService.DeviceOutboundEndpoint
+        {
+            Address = source.Address,
+            EndpointType = source.EndpointType,
+        };
+    }
+    internal static DiscoveredDeviceInboundEndpointSchema ToProtocol(this DiscoveredDeviceInboundEndpoint source)
+    {
+        return new DiscoveredDeviceInboundEndpointSchema
+        {
+            AdditionalConfiguration = source.AdditionalConfiguration,
+            Address = source.Address,
+            EndpointType = source.EndpointType,
+            SupportedAuthenticationMethods = source.SupportedAuthenticationMethods,
+            Version = source.Version
+        };
+    }
     public static AdrBaseService.DeviceStatus ToProtocol(this DeviceStatus source)
     {
         return new AdrBaseService.DeviceStatus
@@ -313,11 +348,6 @@ internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef sou
     internal static AdrBaseService.Retain ToProtocol(this Retain source)
     {
         return (AdrBaseService.Retain)(int)source;
-    }
-
-    internal static SupportedAuthenticationMethodsSchemaElementSchema ToProtocol(this SupportedAuthenticationMethodsSchemaElement source)
-    {
-        return (SupportedAuthenticationMethodsSchemaElementSchema)(int)source;
     }
 
     internal static DeviceStatusConfigSchema ToProtocol(this DeviceStatusConfig source)

@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService
 {
     using System;
     using System.Collections.Generic;
@@ -15,15 +15,15 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
     using Azure.Iot.Operations.Protocol.Telemetry;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-    [CommandTopic("akri/connector/resources/{ex:connectorClientId}/{ex:aepType}/{commandName}")]
+    [CommandTopic("akri/discovery/resources/{ex:discoveryClientId}/{ex:inboundEndpointType}/{commandName}")]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public static partial class AepTypeService
+    public static partial class DeviceDiscoveryService
     {
         public abstract partial class Service : IAsyncDisposable
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-            private readonly CreateDiscoveredAssetEndpointProfileCommandExecutor createDiscoveredAssetEndpointProfileCommandExecutor;
+            private readonly CreateOrUpdateDiscoveredDeviceCommandExecutor createOrUpdateDiscoveredDeviceCommandExecutor;
 
             /// <summary>
             /// Construct a new instance of this service.
@@ -46,22 +46,22 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
                     throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
                 }
 
-                this.createDiscoveredAssetEndpointProfileCommandExecutor = new CreateDiscoveredAssetEndpointProfileCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDiscoveredAssetEndpointProfileInt };
+                this.createOrUpdateDiscoveredDeviceCommandExecutor = new CreateOrUpdateDiscoveredDeviceCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateOrUpdateDiscoveredDeviceInt };
 
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createOrUpdateDiscoveredDeviceCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
 
-                this.createDiscoveredAssetEndpointProfileCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.createOrUpdateDiscoveredDeviceCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
-            public CreateDiscoveredAssetEndpointProfileCommandExecutor CreateDiscoveredAssetEndpointProfileCommandExecutor { get => this.createDiscoveredAssetEndpointProfileCommandExecutor; }
+            public CreateOrUpdateDiscoveredDeviceCommandExecutor CreateOrUpdateDiscoveredDeviceCommandExecutor { get => this.createOrUpdateDiscoveredDeviceCommandExecutor; }
 
-            public abstract Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             /// <summary>
             /// Begin accepting command invocations for all command executors.
@@ -77,29 +77,41 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
                 }
 
                 await Task.WhenAll(
-                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.createOrUpdateDiscoveredDeviceCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.createDiscoveredAssetEndpointProfileCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.createOrUpdateDiscoveredDeviceCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
-            private async Task<ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload>> CreateDiscoveredAssetEndpointProfileInt(ExtendedRequest<CreateDiscoveredAssetEndpointProfileRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>> CreateOrUpdateDiscoveredDeviceInt(ExtendedRequest<CreateOrUpdateDiscoveredDeviceRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> extended = await this.CreateDiscoveredAssetEndpointProfileAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<CreateDiscoveredAssetEndpointProfileResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload> extended = await this.CreateOrUpdateDiscoveredDeviceAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>
+                    {
+                        Response = new CreateOrUpdateDiscoveredDeviceResponseSchema { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>.CreateFromResponse(new CreateOrUpdateDiscoveredDeviceResponseSchema { CreateOrUpdateDiscoveredDeviceError = intEx.AkriServiceError });
+                }
             }
 
             public async ValueTask DisposeAsync()
             {
-                await this.createDiscoveredAssetEndpointProfileCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-                await this.createDiscoveredAssetEndpointProfileCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredDeviceCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
 
@@ -107,7 +119,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
         {
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
-            private readonly CreateDiscoveredAssetEndpointProfileCommandInvoker createDiscoveredAssetEndpointProfileCommandInvoker;
+            private readonly CreateOrUpdateDiscoveredDeviceCommandInvoker createOrUpdateDiscoveredDeviceCommandInvoker;
 
             /// <summary>
             /// Construct a new instance of this client.
@@ -123,17 +135,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
                 this.applicationContext = applicationContext;
                 this.mqttClient = mqttClient;
 
-                this.createDiscoveredAssetEndpointProfileCommandInvoker = new CreateDiscoveredAssetEndpointProfileCommandInvoker(applicationContext, mqttClient);
+                this.createOrUpdateDiscoveredDeviceCommandInvoker = new CreateOrUpdateDiscoveredDeviceCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDiscoveredAssetEndpointProfileCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createOrUpdateDiscoveredDeviceCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
             }
 
-            public CreateDiscoveredAssetEndpointProfileCommandInvoker CreateDiscoveredAssetEndpointProfileCommandInvoker { get => this.createDiscoveredAssetEndpointProfileCommandInvoker; }
+            public CreateOrUpdateDiscoveredDeviceCommandInvoker CreateOrUpdateDiscoveredDeviceCommandInvoker { get => this.createOrUpdateDiscoveredDeviceCommandInvoker; }
 
             /// <summary>
             /// Invoke a command.
@@ -147,7 +159,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload> CreateDiscoveredAssetEndpointProfileAsync(CreateDiscoveredAssetEndpointProfileRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -166,17 +178,43 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<CreateDiscoveredAssetEndpointProfileResponsePayload>(this.createDiscoveredAssetEndpointProfileCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<CreateOrUpdateDiscoveredDeviceResponsePayload>(this.CreateOrUpdateDiscoveredDeviceInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+            }
+
+            private async Task<ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>> CreateOrUpdateDiscoveredDeviceInt(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extended = await this.createOrUpdateDiscoveredDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.CreateOrUpdateDiscoveredDeviceError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredDeviceError);
+                }
+                else if (extended.Response.DiscoveredDeviceResponse == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>
+                    {
+                        Response = new CreateOrUpdateDiscoveredDeviceResponsePayload { DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
             }
 
             public async ValueTask DisposeAsync()
             {
-                await this.createDiscoveredAssetEndpointProfileCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync(bool disposing)
             {
-                await this.createDiscoveredAssetEndpointProfileCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService
 {
     using System;
     using System.Collections.Generic;
@@ -10,29 +10,29 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class CreateDiscoveredAssetEndpointProfileRequestPayload : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class CreateOrUpdateDiscoveredDeviceRequestPayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The Command request argument.
         /// </summary>
-        [JsonPropertyName("discoveredAssetEndpointProfile")]
+        [JsonPropertyName("discoveredDeviceRequest")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public DiscoveredAssetEndpointProfile DiscoveredAssetEndpointProfile { get; set; } = default!;
+        public CreateOrUpdateDiscoveredDeviceRequestSchema DiscoveredDeviceRequest { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (DiscoveredAssetEndpointProfile is null)
+            if (DiscoveredDeviceRequest is null)
             {
-                throw new ArgumentNullException("discoveredAssetEndpointProfile field cannot be null");
+                throw new ArgumentNullException("discoveredDeviceRequest field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (DiscoveredAssetEndpointProfile is null)
+            if (DiscoveredDeviceRequest is null)
             {
-                throw new ArgumentNullException("discoveredAssetEndpointProfile field cannot be null");
+                throw new ArgumentNullException("discoveredDeviceRequest field cannot be null");
             }
         }
     }
