@@ -156,7 +156,7 @@ async fn run_asset(
             }
             // Listen for a dataset creation notifications
             res = dataset_creation_observation.recv_notification() => {
-                if let Some((dataset_client, _dataset_deletion_token)) = res {
+                if let Some(dataset_client) = res {
                     tokio::task::spawn(run_dataset(dataset_client));
                 } else {
                     log::error!("asset_creation_observer has been dropped");

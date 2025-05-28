@@ -6,7 +6,6 @@
 use std::{
     collections::HashMap,
     sync::{Arc, RwLock},
-    task::Context,
 };
 
 use azure_iot_operations_services::{
@@ -16,10 +15,7 @@ use azure_iot_operations_services::{
     },
     schema_registry,
 };
-use tokio::sync::{
-    mpsc::{self, UnboundedReceiver, UnboundedSender},
-    oneshot,
-};
+use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio_retry2::{Retry, RetryError};
 
 use crate::{
@@ -604,24 +600,11 @@ pub struct AssetClient {
     #[getter(skip)]
     dataset_creation_tx: UnboundedSender<(
         DatasetClient,
-        DatasetDeletionToken,
         tokio::sync::watch::Receiver<()>, // watch receiver for when the creation notification should be released to the application
     )>,
-    /// hashmap of current dataset names to their current definition, the deletion token tx, and a sender to send dataset updates
+    /// hashmap of current dataset names to their current definition and a sender to send dataset updates
     #[getter(skip)]
-    #[allow(clippy::type_complexity)]
-    dataset_hashmap: HashMap<
-        String,
-        (
-            Dataset,
-            oneshot::Sender<()>, // dataset deletion token
-            UnboundedSender<(
-                Dataset,                                     // new Dataset definition
-                Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
-                tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
-            )>,
-        ),
-    >,
+    dataset_hashmap: HashMap<String, (Dataset, UnboundedSender<DatasetUpdateNotification>)>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
     /// The last definition of the asset that was received so we can filter out updates that only report status changes. Temporary
@@ -639,11 +622,7 @@ impl AssetClient {
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
         asset_update_observation: AssetUpdateObservation,
-        dataset_creation_tx: UnboundedSender<(
-            DatasetClient,
-            DatasetDeletionToken,
-            tokio::sync::watch::Receiver<()>,
-        )>,
+        dataset_creation_tx: UnboundedSender<(DatasetClient, tokio::sync::watch::Receiver<()>)>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
@@ -733,21 +712,16 @@ impl AssetClient {
                     continue;
                 }
             };
-            // only create all of these and put it in the hashmap if creating the DatasetClient was successful
-            // create the dataset deletion token
-            let (dataset_deletion_tx, dataset_deletion_rx) = oneshot::channel();
-            let dataset_deletion_token = DatasetDeletionToken(dataset_deletion_rx);
 
             // insert the dataset client into the hashmap so we can handle updates
             dataset_hashmap.insert(
                 dataset_definition.name.clone(),
-                (dataset_definition, dataset_deletion_tx, dataset_update_tx),
+                (dataset_definition, dataset_update_tx),
             );
 
             if dataset_creation_tx
                 .send((
                     new_dataset_client,
-                    dataset_deletion_token,
                     release_dataset_notifications_tx.subscribe(),
                 ))
                 .is_err()
@@ -917,7 +891,7 @@ impl AssetClient {
             // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
             for received_dataset in &updated_asset.specification.datasets {
                 // it already exists
-                if let Some((dataset, _deletion_token, dataset_update_tx)) =
+                if let Some((dataset, dataset_update_tx)) =
                     self.dataset_hashmap.get_mut(&received_dataset.name)
                 {
                     // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
@@ -1010,24 +984,17 @@ impl AssetClient {
                             continue;
                         }
                     };
-                    // only create all of these and put it in the hashmap if creating the DatasetClient was successful
-                    let (dataset_deletion_tx, dataset_deletion_rx) = oneshot::channel();
-                    let dataset_deletion_token = DatasetDeletionToken(dataset_deletion_rx);
 
+                    // insert the dataset client into the hashmap so we can handle updates
                     self.dataset_hashmap.insert(
                         received_dataset.name.clone(),
-                        (
-                            received_dataset.clone(),
-                            dataset_deletion_tx,
-                            dataset_update_tx,
-                        ),
+                        (received_dataset.clone(), dataset_update_tx),
                     );
 
                     if self
                         .dataset_creation_tx
                         .send((
                             new_dataset_client,
-                            dataset_deletion_token,
                             self.release_dataset_notifications_tx.subscribe(),
                         ))
                         .is_err()
@@ -1164,37 +1131,27 @@ pub struct DatasetClientCreationObservation {
     /// Internal channel for receiving notifications about dataset creation events.
     dataset_creation_rx: UnboundedReceiver<(
         DatasetClient,
-        DatasetDeletionToken,
         tokio::sync::watch::Receiver<()>, // watch receiver for when the creation notification should be released to the application
     )>,
 }
 impl DatasetClientCreationObservation {
-    /// Receives a notification for a newly created dataset or [`None`] if there
-    /// will be no more notifications. This notification includes the [`DatasetClient`],
-    /// and a [`DatasetDeletionToken`] to observe for deletion of this Dataset
-    pub async fn recv_notification(&mut self) -> Option<(DatasetClient, DatasetDeletionToken)> {
-        let (dataset_client, dataset_deletion_token, mut watch_receiver) =
-            self.dataset_creation_rx.recv().await?;
-        // wait until the message has been released. If the watch sender has been dropped, this means the Asset has been deleted
+    /// Receives a notification for a newly created dataset with the
+    /// [`DatasetClient`] or [`None`] if there will be no more notifications.
+    /// Receiving [`None`] indicates that the Asset has been deleted or the
+    /// [`AssetClient`] has been dropped.
+    pub async fn recv_notification(&mut self) -> Option<DatasetClient> {
+        let (dataset_client, mut watch_receiver) = self.dataset_creation_rx.recv().await?;
+        // wait until the message has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         watch_receiver.changed().await.ok()?;
-        Some((dataset_client, dataset_deletion_token))
+        Some(dataset_client)
     }
 }
 
-/// Represents a token that can be used to wait for the deletion of a Dataset. TODO: merge this with [`AssetDeletionToken`] to just `DeletionToken`?
-#[derive(Debug)]
-pub struct DatasetDeletionToken(oneshot::Receiver<()>);
-
-impl std::future::Future for DatasetDeletionToken {
-    type Output = ();
-
-    fn poll(self: std::pin::Pin<&mut Self>, cx: &mut Context<'_>) -> std::task::Poll<Self::Output> {
-        match std::pin::Pin::new(&mut self.get_mut().0).poll(cx) {
-            std::task::Poll::Ready(Err(_) | Ok(())) => std::task::Poll::Ready(()),
-            std::task::Poll::Pending => std::task::Poll::Pending,
-        }
-    }
-}
+type DatasetUpdateNotification = (
+    Dataset,                                     // new Dataset definition
+    Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
+    tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
+);
 
 /// Azure Device Registry Dataset that includes additional functionality
 /// to report status, translate data, and send data to the destination
@@ -1226,11 +1183,7 @@ pub struct DatasetClient {
     asset_ref: AssetRef,
     /// Internal channel for receiving notifications about dataset updates.
     #[getter(skip)]
-    dataset_update_rx: UnboundedReceiver<(
-        Dataset,                                     // new dataset definition
-        Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
-        tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
-    )>,
+    dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
 }
 
 impl DatasetClient {
@@ -1243,11 +1196,7 @@ impl DatasetClient {
         asset_specification: Arc<RwLock<AssetSpecification>>,
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
-        dataset_update_rx: UnboundedReceiver<(
-            Dataset,
-            Vec<Arc<destination_endpoint::Destination>>,
-            tokio::sync::watch::Receiver<()>,
-        )>,
+        dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
@@ -1459,12 +1408,14 @@ impl DatasetClient {
 
     /// Used to receive updates for the Dataset from the Azure Device Registry Service.
     /// This function returning `Some(())` indicates that the dataset definition has been
-    /// updated in place. The function returns [`None`] if there will be no more notifications.
+    /// updated in place. The function returns [`None`] if there will be no more
+    /// notifications. This can occur if the Dataset has been deleted or the
+    /// [`AssetClient`] that this [`DatasetClient`] is related to has been dropped.
     pub async fn recv_update(&mut self) -> Option<()> {
         loop {
             let (updated_dataset, default_destinations, mut watch_receiver) =
                 self.dataset_update_rx.recv().await?;
-            // wait until the udpate has been released. If the watch sender has been dropped, this means the Asset has been deleted
+            // wait until the udpate has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
             watch_receiver.changed().await.ok()?;
             // create new forwarder, in case destination has changed
             self.forwarder = match Forwarder::new_dataset_forwarder(
