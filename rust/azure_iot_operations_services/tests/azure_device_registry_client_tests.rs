@@ -263,7 +263,7 @@ async fn update_asset_status() {
         config: Some(StatusConfig {
             error: None,
             version: Some(new_version),
-            last_transition_time: Some(String::from("2025-11-11T00:00:00Z")),
+            ..StatusConfig::default()
         }),
         datasets: None,
         events: None,
