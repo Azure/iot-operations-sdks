@@ -45,7 +45,7 @@ pub struct DeviceSpecificationSchema {
     #[serde(rename = "lastTransitionTime")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub last_transition_time: Option<String>,
+    pub last_transition_time: Option<DateTime<Utc>>,
 
     /// The 'manufacturer' Field.
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -4,6 +4,8 @@
 //! Device/Endpoint models for Azure Device Registry operations.
 use std::collections::HashMap;
 
+use chrono::{DateTime, Utc};
+
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::azure_device_registry::{ConfigError, StatusConfig};
 
@@ -34,7 +36,7 @@ pub struct DeviceSpecification {
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
-    pub last_transition_time: Option<String>, // TODO DateTime?
+    pub last_transition_time: Option<DateTime<Utc>>,
     /// The 'manufacturer' Field.
     pub manufacturer: Option<String>,
     /// The 'model' Field.

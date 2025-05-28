@@ -10,11 +10,13 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::discovered_device_response_schema::DiscoveredDeviceResponseSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct CreateOrUpdateDiscoveredDeviceResponsePayload {
-    /// The Command response argument.
-    #[serde(rename = "discoveredDeviceResponse")]
-    pub discovered_device_response: DiscoveredDeviceResponseSchema,
+pub struct DiscoveredAssetResponseSchema {
+    /// The 'discoveryId' Field.
+    #[serde(rename = "discoveryId")]
+    pub discovery_id: String,
+
+    /// The 'version' Field.
+    pub version: u64,
 }
