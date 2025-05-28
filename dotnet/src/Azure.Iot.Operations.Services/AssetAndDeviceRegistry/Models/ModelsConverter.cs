@@ -37,135 +37,12 @@ internal static class ModelsConverter
         };
     }
 
-    public static CreateDetectedAssetResponse ToModel(this AdrBaseService.DiscoveredAssetResponse source)
+    public static CreateDetectedAssetResponse ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
     {
         return new CreateDetectedAssetResponse
         {
-            Name = source.Name,
-            Specification = source.Specification.ToModel()
-        };
-    }
-
-    internal static DiscoveredAssetResponseSpecification ToModel(this DiscoveredAssetResponseSpecificationSchema source)
-    {
-        return new DiscoveredAssetResponseSpecification
-        {
-            AssetTypeRefs = source.AssetTypeRefs,
-            Attributes = source.Attributes ?? new Dictionary<string, string>(),
-            Datasets = source.Datasets?.Select(x => x.ToModel()).ToList(),
-            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration != null ? JsonDocument.Parse(source.DefaultDatasetsConfiguration, _jsonDocumentOptions) : null,
-            DefaultDatasetsDestinations = source.DefaultDatasetsDestinations?.Select(x => x.ToModel()).ToList(),
-            DefaultEventsConfiguration = source.DefaultEventsConfiguration != null ? JsonDocument.Parse(source.DefaultEventsConfiguration, _jsonDocumentOptions) : null,
-            DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToModel()).ToList(),
-            DefaultManagementGroupsConfiguration = source.DefaultManagementGroupsConfiguration != null ? JsonDocument.Parse(source.DefaultManagementGroupsConfiguration, _jsonDocumentOptions) : null,
-            DefaultStreamsConfiguration = source.DefaultStreamsConfiguration != null ? JsonDocument.Parse(source.DefaultStreamsConfiguration, _jsonDocumentOptions) : null,
-            DefaultStreamsDestinations = source.DefaultStreamsDestinations?.Select(x => x.ToModel()).ToList(),
-            DeviceRef = source.DeviceRef.ToModel(),
             DiscoveryId = source.DiscoveryId,
-            DocumentationUri = source.DocumentationUri,
-            Events = source.Events?.Select(x => x.ToModel()).ToList(),
-            HardwareRevision = source.HardwareRevision,
-            ManagementGroups = source.ManagementGroups?.Select(x => x.ToModel()).ToList(),
-            Manufacturer = source.Manufacturer,
-            ManufacturerUri = source.ManufacturerUri,
-            Model = source.Model,
-            ProductCode = source.ProductCode,
-            SerialNumber = source.SerialNumber,
-            SoftwareRevision = source.SoftwareRevision,
-            Streams = source.Streams?.Select(x => x.ToModel()).ToList(),
-        };
-    }
-
-    internal static DiscoveredAssetStream ToModel(this AdrBaseService.DiscoveredAssetStream source)
-    {
-        return new DiscoveredAssetStream
-        {
-            Name = source.Name,
-            Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
-            StreamConfiguration = source.StreamConfiguration != null ? JsonDocument.Parse(source.StreamConfiguration, _jsonDocumentOptions) : null,
-            TypeRef = source.TypeRef,
-            LastUpdatedOn = source.LastUpdatedOn
-        };
-    }
-
-    internal static DiscoveredAssetManagementGroup ToModel(this AdrBaseService.DiscoveredAssetManagementGroup source)
-    {
-        return new DiscoveredAssetManagementGroup
-        {
-            Name = source.Name,
-            Actions = source.Actions?.Select(x => x.ToModel()).ToList(),
-            DefaultTimeOutInSeconds = source.DefaultTimeOutInSeconds,
-            DefaultTopic = source.DefaultTopic,
-            ManagementGroupConfiguration = source.ManagementGroupConfiguration != null ? JsonDocument.Parse(source.ManagementGroupConfiguration, _jsonDocumentOptions) : null,
-            TypeRef = source.TypeRef,
-            LastUpdatedOn = source.LastUpdatedOn
-        };
-    }
-
-    internal static DiscoveredAssetManagementGroupAction ToModel(this AdrBaseService.DiscoveredAssetManagementGroupAction source)
-    {
-        return new DiscoveredAssetManagementGroupAction
-        {
-            Name = source.Name,
-            TargetUri = source.TargetUri,
-            TimeOutInSeconds = source.TimeOutInSeconds,
-            Topic = source.Topic,
-            TypeRef = source.TypeRef,
-            ActionConfiguration = source.ActionConfiguration != null ? JsonDocument.Parse(source.ActionConfiguration, _jsonDocumentOptions) : null,
-            ActionType = source.ActionType.ToModel(),
-            LastUpdatedOn = source.LastUpdatedOn
-        };
-    }
-
-    internal static DiscoveredAssetEvent ToModel(this AdrBaseService.DiscoveredAssetEvent source)
-    {
-        return new DiscoveredAssetEvent
-        {
-            Name = source.Name,
-            Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
-            EventConfiguration = source.EventConfiguration != null ? JsonDocument.Parse(source.EventConfiguration, _jsonDocumentOptions) : null,
-            EventNotifier = source.EventNotifier,
-            DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
-            TypeRef = source.TypeRef,
-            LastUpdatedOn = source.LastUpdatedOn
-        };
-    }
-
-    internal static DiscoveredAssetEventDataPoint ToModel(this AdrBaseService.DiscoveredAssetEventDataPoint source)
-    {
-        return new DiscoveredAssetEventDataPoint
-        {
-            DataSource = source.DataSource,
-            DataPointConfiguration = source.DataPointConfiguration != null ? JsonDocument.Parse(source.DataPointConfiguration, _jsonDocumentOptions) : null,
-            Name = source.Name,
-            LastUpdatedOn = source.LastUpdatedOn
-        };
-    }
-
-    internal static DiscoveredAssetDataset ToModel(this AdrBaseService.DiscoveredAssetDataset source)
-    {
-        return new DiscoveredAssetDataset
-        {
-            DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
-            DataSetConfiguration = source.DatasetConfiguration != null ? JsonDocument.Parse(source.DatasetConfiguration, _jsonDocumentOptions) : null,
-            DataSource = source.DataSource,
-            Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
-            LastUpdatedOn = source.LastUpdatedOn,
-            Name = source.Name,
-            TypeRef = source.TypeRef,
-
-        };
-    }
-
-    internal static DiscoveredAssetDatasetDataPoint ToModel(this AdrBaseService.DiscoveredAssetDatasetDataPoint source)
-    {
-        return new DiscoveredAssetDatasetDataPoint
-        {
-            DataPointConfiguration = source.DataPointConfiguration != null ? JsonDocument.Parse(source.DataPointConfiguration, _jsonDocumentOptions) : null,
-            DataSource = source.DataSource,
-            Name = source.Name,
-            TypeRef = source.TypeRef,
-            LastUpdatedOn = source.LastUpdatedOn,
+            Version = source.Version
         };
     }
 
@@ -582,66 +459,12 @@ internal static class ModelsConverter
         };
     }
 
-    internal static  CreateDiscoveredAssetEndpointProfileResponse ToModel(this DiscoveredDeviceResponse source)
+    internal static  CreateDiscoveredAssetEndpointProfileResponse ToModel(this DiscoveredDeviceResponseSchema source)
     {
         return new CreateDiscoveredAssetEndpointProfileResponse
         {
-            Name = source.Name,
-            Spec = source.Spec?.ToModel()
-        };
-    }
-
-    internal static SpecSchema ToModel(this DeviceDiscoveryService.SpecSchema source)
-    {
-        return new SpecSchema
-        {
-            Attributes = source.Attributes,
             DiscoveryId = source.DiscoveryId,
-            Endpoints = source.Endpoints?.ToModel(),
-            ExternalDeviceId = source.ExternalDeviceId,
-            Manufacturer = source.Manufacturer,
-            OperatingSystem = source.OperatingSystem,
-            OperatingSystemVersion = source.OperatingSystemVersion,
-            Model = source.Model,
-            Version = source.Version,
-        };
-    }
-
-    internal static DiscoveredDeviceEndpoint ToModel(this DeviceDiscoveryService.DiscoveredDeviceEndpoint source)
-    {
-        return new DiscoveredDeviceEndpoint
-        {
-            Inbound = source.Inbound?.ToDictionary(x => x.Key, x => x.Value.ToModel()),
-            Outbound = source.Outbound?.ToModel()
-        };
-    }
-
-    internal static DiscoveredDeviceInboundEndpoint ToModel(this DiscoveredDeviceInboundEndpointSchema source)
-    {
-        return new DiscoveredDeviceInboundEndpoint
-        {
-            Address = source.Address,
-            AdditionalConfiguration = source.AdditionalConfiguration,
-            EndpointType = source.EndpointType,
-            SupportedAuthenticationMethods = source.SupportedAuthenticationMethods,
-            Version = source.Version,
-        };
-    }
-
-    internal static DiscoveredDeviceOutboundEndpoints ToModel(this DiscoveredDeviceOutboundEndpointsSchema source)
-    {
-        return new DiscoveredDeviceOutboundEndpoints
-        {
-            Assigned = source.Assigned.ToDictionary(x => x.Key, x => x.Value.ToModel()),
-        };
-    }
-
-    internal static DeviceOutboundEndpoint ToModel(this DeviceDiscoveryService.DeviceOutboundEndpoint source)
-    {
-        return new DeviceOutboundEndpoint
-        {
-            Address = source.Address,
-            EndpointType = source.EndpointType
+            Version = source.Version
         };
     }
 }

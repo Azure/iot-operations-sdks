@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonPropertyName("discoveredAssetResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public DiscoveredAssetResponse DiscoveredAssetResponse { get; set; } = default!;
+        public DiscoveredAssetResponseSchema DiscoveredAssetResponse { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {

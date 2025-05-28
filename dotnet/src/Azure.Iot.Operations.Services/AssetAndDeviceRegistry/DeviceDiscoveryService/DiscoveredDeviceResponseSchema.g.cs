@@ -10,29 +10,37 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class CreateOrUpdateDiscoveredDeviceResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class DiscoveredDeviceResponseSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The Command response argument.
+        /// The 'discoveryId' Field.
         /// </summary>
-        [JsonPropertyName("discoveredDeviceResponse")]
+        [JsonPropertyName("discoveryId")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public DiscoveredDeviceResponseSchema DiscoveredDeviceResponse { get; set; } = default!;
+        public string DiscoveryId { get; set; } = default!;
+
+        /// <summary>
+        /// The 'version' Field.
+        /// </summary>
+        [JsonPropertyName("version")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public ulong Version { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (DiscoveredDeviceResponse is null)
+            if (DiscoveryId is null)
             {
-                throw new ArgumentNullException("discoveredDeviceResponse field cannot be null");
+                throw new ArgumentNullException("discoveryId field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (DiscoveredDeviceResponse is null)
+            if (DiscoveryId is null)
             {
-                throw new ArgumentNullException("discoveredDeviceResponse field cannot be null");
+                throw new ArgumentNullException("discoveryId field cannot be null");
             }
         }
     }

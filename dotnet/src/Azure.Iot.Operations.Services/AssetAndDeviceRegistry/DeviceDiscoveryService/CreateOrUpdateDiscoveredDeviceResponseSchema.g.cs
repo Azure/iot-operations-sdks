@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         /// </summary>
         [JsonPropertyName("discoveredDeviceResponse")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DiscoveredDeviceResponse? DiscoveredDeviceResponse { get; set; } = default;
+        public DiscoveredDeviceResponseSchema? DiscoveredDeviceResponse { get; set; } = default;
 
     }
 }
