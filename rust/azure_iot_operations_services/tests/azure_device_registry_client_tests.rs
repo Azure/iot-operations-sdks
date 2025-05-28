@@ -135,7 +135,6 @@ async fn get_device() {
 }
 
 #[tokio::test]
-#[ignore]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -250,7 +249,6 @@ async fn get_asset() {
 }
 
 #[tokio::test]
-#[ignore]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -319,7 +317,6 @@ async fn update_asset_status() {
 }
 
 #[tokio::test]
-#[ignore]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -463,6 +460,7 @@ async fn observe_device_update_notifications() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn observe_asset_update_notifications() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -493,10 +491,10 @@ async fn observe_asset_update_notifications() {
                         log::info!("[{log_identifier}] Asset observation expected: {asset:?}");
                         assert_eq!(asset.name, ASSET_NAME1);
                     }
-                    while let Some((device, _)) = observation.recv_notification().await {
+                    while let Some((asset, _)) = observation.recv_notification().await {
                         count += 1;
                         log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
-                        log::info!("[{log_identifier}] Asset observation unexpected: {device:?}");
+                        log::info!("[{log_identifier}] Asset observation unexpected: {asset:?}");
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
                         assert!(count < 2);
