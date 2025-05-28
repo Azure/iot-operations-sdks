@@ -108,7 +108,7 @@ internal static class ProtocolConverter
         };
     }
 
-internal static AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this DiscoveredAssetDatasetDataPoint source)
+    internal static AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this DiscoveredAssetDatasetDataPoint source)
     {
         return new AdrBaseService.DiscoveredAssetDatasetDataPoint
         {
@@ -119,6 +119,7 @@ internal static AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this D
             DataSource = source.DataSource
         };
     }
+
     internal static AdrBaseService.DiscoveredAssetStream ToProtocol(this DiscoveredAssetStream source)
     {
         return new AdrBaseService.DiscoveredAssetStream
@@ -130,7 +131,8 @@ internal static AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this D
             StreamConfiguration = source.StreamConfiguration?.RootElement.ToString(),
         };
     }
-internal static AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this DiscoveredAssetManagementGroup source)
+
+    internal static AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this DiscoveredAssetManagementGroup source)
 {
     return new AdrBaseService.DiscoveredAssetManagementGroup
     {
@@ -145,7 +147,7 @@ internal static AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this Di
     };
 }
 
-internal static AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(this DiscoveredAssetManagementGroupAction source)
+    internal static AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(this DiscoveredAssetManagementGroupAction source)
 {
     return new AdrBaseService.DiscoveredAssetManagementGroupAction
     {
@@ -159,11 +161,13 @@ internal static AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(t
         Topic = source.Topic,
     };
 }
-internal static AdrBaseService. AssetManagementGroupActionType ToProtocol(this AssetManagementGroupActionType source)
+
+    internal static AdrBaseService. AssetManagementGroupActionType ToProtocol(this AssetManagementGroupActionType source)
 {
     return (AdrBaseService.AssetManagementGroupActionType)(int)source;
 }
-internal static AdrBaseService.DatasetDestination ToProtocol(this DatasetDestination source)
+
+    internal static AdrBaseService.DatasetDestination ToProtocol(this DatasetDestination source)
 {
     return new AdrBaseService.DatasetDestination
     {
@@ -171,13 +175,13 @@ internal static AdrBaseService.DatasetDestination ToProtocol(this DatasetDestina
         Configuration = source.Configuration.ToProtocol()
     };
 }
-internal static AdrBaseService.DatasetTarget ToProtocol(this DatasetTarget source)
+
+    internal static AdrBaseService.DatasetTarget ToProtocol(this DatasetTarget source)
 {
     return (AdrBaseService.DatasetTarget)(int)source;
 }
 
-
-internal static AdrBaseService.EventStreamDestination ToProtocol(this EventStreamDestination source)
+    internal static AdrBaseService.EventStreamDestination ToProtocol(this EventStreamDestination source)
 {
     return new AdrBaseService.EventStreamDestination
     {
@@ -186,11 +190,12 @@ internal static AdrBaseService.EventStreamDestination ToProtocol(this EventStrea
     };
 }
 
-internal static AdrBaseService.EventStreamTarget ToProtocol(this EventStreamTarget source)
+    internal static AdrBaseService.EventStreamTarget ToProtocol(this EventStreamTarget source)
 {
     return (AdrBaseService.EventStreamTarget)(int)source;
 }
-internal static AdrBaseService.DestinationConfiguration ToProtocol(this DestinationConfiguration source)
+
+    internal static AdrBaseService.DestinationConfiguration ToProtocol(this DestinationConfiguration source)
 {
     return new AdrBaseService.DestinationConfiguration
     {
@@ -203,11 +208,12 @@ internal static AdrBaseService.DestinationConfiguration ToProtocol(this Destinat
     };
 }
 
-internal static AdrBaseService.Qos ToProtocol(this QoS source)
+    internal static AdrBaseService.Qos ToProtocol(this QoS source)
 {
     return (AdrBaseService.Qos)(int)source;
 }
-internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef source)
+
+    internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef source)
 {
     return new AdrBaseService.AssetDeviceRef
     {
@@ -229,6 +235,7 @@ internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef sou
             OperatingSystemVersion = source.OperatingSystemVersion
         };
     }
+
     internal static DeviceDiscoveryService.DiscoveredDeviceEndpoint ToProtocol(this Models.DiscoveredDeviceEndpoint source)
     {
         return new DeviceDiscoveryService.DiscoveredDeviceEndpoint
@@ -254,6 +261,7 @@ internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef sou
             EndpointType = source.EndpointType,
         };
     }
+
     internal static DiscoveredDeviceInboundEndpointSchema ToProtocol(this DiscoveredDeviceInboundEndpoint source)
     {
         return new DiscoveredDeviceInboundEndpointSchema
@@ -265,6 +273,7 @@ internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef sou
             Version = source.Version
         };
     }
+
     public static AdrBaseService.DeviceStatus ToProtocol(this DeviceStatus source)
     {
         return new AdrBaseService.DeviceStatus

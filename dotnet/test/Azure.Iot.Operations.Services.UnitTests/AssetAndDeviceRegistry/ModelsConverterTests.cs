@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Xunit;
 using AdrBaseService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;

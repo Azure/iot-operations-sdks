@@ -5,7 +5,7 @@ using System.Diagnostics;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Xunit;
 using AdrBaseService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using AepTypeService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+using AepTypeService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry;
 

@@ -19,7 +19,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     private const string _connectorClientIdTokenKey = "connectorClientId";
     private const string _endpointNameTokenKey = "inboundEndpointName";
     private const string _deviceNameTokenKey = "deviceName";
-    private const string _aepTypeTokenKey = "aepType";
+    private const string _inboundEpTypeTokenKey = "inboundEndpointType";
     private const byte _dummyByte = 1;
     private static readonly TimeSpan _defaultTimeout = TimeSpan.FromSeconds(10);
     private readonly AdrBaseServiceClientStub _adrBaseServiceClient = new(applicationContext, mqttClient);
@@ -302,14 +302,14 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
             { _connectorClientIdTokenKey, connectorClientId },
-            { _aepTypeTokenKey, request.EndpointProfileType },
+            { _inboundEpTypeTokenKey, request.EndpointProfileType },
         };
 
         var req = new CreateOrUpdateDiscoveredDeviceRequestPayload
         {
             DiscoveredDeviceRequest = new CreateOrUpdateDiscoveredDeviceRequestSchema
             {
-                DiscoveredDevice = request.ToProtocol(), // stopped here
+                DiscoveredDevice = request.ToProtocol(),
                 DiscoveredDeviceName = request.Name,
             }
         };
