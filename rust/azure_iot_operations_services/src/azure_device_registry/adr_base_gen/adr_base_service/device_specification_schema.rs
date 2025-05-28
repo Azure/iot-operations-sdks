@@ -9,8 +9,8 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::device_endpoint_schema::DeviceEndpointSchema;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::device_endpoint_schema::DeviceEndpointSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceSpecificationSchema {

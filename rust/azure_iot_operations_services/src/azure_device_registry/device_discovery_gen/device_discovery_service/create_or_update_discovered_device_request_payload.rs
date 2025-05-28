@@ -9,8 +9,8 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::create_or_update_discovered_device_request_schema::CreateOrUpdateDiscoveredDeviceRequestSchema;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::create_or_update_discovered_device_request_schema::CreateOrUpdateDiscoveredDeviceRequestSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredDeviceRequestPayload {

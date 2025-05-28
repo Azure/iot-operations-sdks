@@ -3,7 +3,7 @@
 use std::ops::{Deref, DerefMut};
 
 use base64::prelude::*;
-use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 
 #[derive(Clone, Debug)]
 pub struct Bytes(pub Vec<u8>);
@@ -37,6 +37,8 @@ impl<'de> Deserialize<'de> for Bytes {
         D: Deserializer<'de>,
     {
         let s: String = String::deserialize(deserializer)?;
-        Ok(Bytes(BASE64_STANDARD.decode(&s).map_err(de::Error::custom)?))
+        Ok(Bytes(
+            BASE64_STANDARD.decode(&s).map_err(de::Error::custom)?,
+        ))
     }
 }

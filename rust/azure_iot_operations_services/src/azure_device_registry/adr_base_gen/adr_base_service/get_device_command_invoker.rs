@@ -5,20 +5,19 @@ use std::error::Error;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
-    AIOProtocolError,
-    AIOProtocolErrorKind,
+    AIOProtocolError, AIOProtocolErrorKind,
 };
 use azure_iot_operations_protocol::rpc_command;
-use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::get_device_response_schema::GetDeviceResponseSchema;
-use super::get_device_response_payload::GetDeviceResponsePayload;
-use super::akri_service_error::AkriServiceError;
+use super::super::common_types::empty_json::EmptyJson;
+use super::super::common_types::options::CommandInvokerOptions;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::super::common_types::options::CommandInvokerOptions;
-use super::super::common_types::empty_json::EmptyJson;
+use super::akri_service_error::AkriServiceError;
+use super::get_device_response_payload::GetDeviceResponsePayload;
+use super::get_device_response_schema::GetDeviceResponseSchema;
 
 pub type GetDeviceRequest = rpc_command::invoker::Request<EmptyJson>;
 pub type GetDeviceResponse = rpc_command::invoker::Response<GetDeviceResponsePayload>;
@@ -58,9 +57,9 @@ impl GetDeviceRequestBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<GetDeviceRequest, GetDeviceRequestBuilderError> {
-        self.inner_builder.payload(EmptyJson{}).unwrap();
+        self.inner_builder.payload(EmptyJson {}).unwrap();
 
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
@@ -69,9 +68,7 @@ impl GetDeviceRequestBuilder {
 }
 
 /// Command Invoker for `getDevice`
-pub struct GetDeviceCommandInvoker<C>(
-    rpc_command::Invoker<EmptyJson, GetDeviceResponseSchema, C>,
-)
+pub struct GetDeviceCommandInvoker<C>(rpc_command::Invoker<EmptyJson, GetDeviceResponseSchema, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -85,7 +82,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandInvokerOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &CommandInvokerOptions,
+    ) -> Self {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             invoker_options_builder.topic_namespace(topic_namespace.clone());
@@ -99,7 +100,10 @@ where
             .collect();
 
         topic_token_map.insert("modelId".to_string(), MODEL_ID.to_string());
-        topic_token_map.insert("invokerClientId".to_string(), client.client_id().to_string());
+        topic_token_map.insert(
+            "invokerClientId".to_string(),
+            client.client_id().to_string(),
+        );
         topic_token_map.insert("commandName".to_string(), "getDevice".to_string());
 
         let invoker_options = invoker_options_builder
