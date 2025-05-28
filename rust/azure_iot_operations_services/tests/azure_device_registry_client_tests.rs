@@ -421,6 +421,8 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Device update unobservation: {:?}", ());
+            // Included for failing
+            tokio::time::sleep(Duration::from_secs(1)).await;
 
             let response_after_unobs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
