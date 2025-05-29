@@ -255,13 +255,11 @@ async fn update_asset_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
+    let message = format!("Random test error for asset update {}", Uuid::new_v4());
     let updated_status = AssetStatus {
         config: Some(StatusConfig {
             error: Some(ConfigError {
-                message: Some(format!(
-                    "Random test error for asset update {}",
-                    Uuid::new_v4()
-                )),
+                message: Some(message.clone()),
                 ..ConfigError::default()
             }),
             ..StatusConfig::default()
@@ -288,7 +286,18 @@ async fn update_asset_status() {
                 updated_asset.specification.attributes["assetId"],
                 ASSET_NAME2
             );
-            // assert_eq!(updated_response.status.unwrap(), updated_status);
+            assert_eq!(
+                updated_asset
+                    .status
+                    .unwrap()
+                    .config
+                    .unwrap()
+                    .error
+                    .unwrap()
+                    .message
+                    .unwrap(),
+                message
+            );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
