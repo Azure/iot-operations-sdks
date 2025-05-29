@@ -486,7 +486,6 @@ async fn observe_asset_update_notifications() {
                 }
             });
 
-            // tokio::time::sleep(Duration::from_secs(1)).await;
             let response = azure_device_registry_client
                 .get_asset(
                     DEVICE2.to_string(),
@@ -498,30 +497,6 @@ async fn observe_asset_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Get asset to update the status: {response:?}",);
 
-            // let mut dataset_statuses = Vec::new();
-            // for dataset in response.specification.datasets {
-            //     dataset_statuses.push(azure_device_registry::DatasetEventStreamStatus {
-            //         error: None,
-            //         message_schema_reference: None,
-            //         name: dataset.name,
-            //     });
-            // }
-            // let status_to_be_updated = AssetStatus {
-            //     config: Some(StatusConfig {
-            //         version: response.specification.version,
-            //         error: Some(ConfigError {
-            //             message: Some(format!(
-            //                 "Random test error for asset update {}",
-            //                 Uuid::new_v4()
-            //             )),
-            //             ..ConfigError::default()
-            //         }),
-            //         // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
-            //         ..StatusConfig::default()
-            //     }),
-            //     datasets: Some(dataset_statuses),
-            //     ..AssetStatus::default()
-            // };
             let response_during_obs = azure_device_registry_client
                 .update_asset_status(
                     DEVICE2.to_string(),
