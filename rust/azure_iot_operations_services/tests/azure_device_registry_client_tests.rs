@@ -177,11 +177,6 @@ async fn update_device_plus_endpoint_status() {
                 updated_response.specification.attributes["deviceId"],
                 DEVICE2
             );
-            // assert_eq!(
-            //     updated_response.specification.attributes["deviceType"],
-            //     TYPE
-            // );
-            // assert_eq!(updated_response.status.unwrap(), updated_status);
             assert_eq!(
                 updated_response
                     .status
@@ -359,8 +354,8 @@ async fn observe_device_update_notifications() {
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Get device to update the status: {response:?}",);
-            
+            log::info!("[{log_identifier}] Get device to update the status: {response:?}");
+
             let response_during_obs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE1.to_string(),
