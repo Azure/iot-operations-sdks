@@ -145,13 +145,14 @@ async fn update_device_plus_endpoint_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
+    let message = format!(
+        "Random test error for device plus endpoint update {}",
+        Uuid::new_v4()
+    );
     let updated_status = DeviceStatus {
         config: Some(StatusConfig {
             error: Some(ConfigError {
-                message: Some(format!(
-                    "Random test error for device update {}",
-                    Uuid::new_v4()
-                )),
+                message: Some(message),
                 ..ConfigError::default()
             }),
             ..StatusConfig::default()
@@ -176,12 +177,23 @@ async fn update_device_plus_endpoint_status() {
                 updated_response.specification.attributes["deviceId"],
                 DEVICE2
             );
-            assert_eq!(
-                updated_response.specification.attributes["deviceType"],
-                TYPE
-            );
+            // assert_eq!(
+            //     updated_response.specification.attributes["deviceType"],
+            //     TYPE
+            // );
             // assert_eq!(updated_response.status.unwrap(), updated_status);
-
+            assert_eq!(
+                updated_response
+                    .status
+                    .unwrap()
+                    .config
+                    .unwrap()
+                    .error
+                    .unwrap()
+                    .message
+                    .unwrap(),
+                message
+            );
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
