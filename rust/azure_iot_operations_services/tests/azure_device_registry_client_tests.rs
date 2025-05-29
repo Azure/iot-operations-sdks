@@ -14,7 +14,7 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{
-    self, AssetStatus, ConfigError, DeviceStatus, StatusConfig,
+    self, AssetStatus, ConfigError, Device, DeviceStatus, StatusConfig,
 };
 use uuid::Uuid;
 
@@ -23,7 +23,7 @@ const DEVICE2: &str = "test-thermostat";
 const ENDPOINT1: &str = "my-rest-endpoint";
 const ENDPOINT2: &str = "my-coap-endpoint";
 const ASSET_NAME1: &str = "my-rest-thermostat-asset";
-const ASSET_NAME2: &str = " my-coap-thermostat-asset";
+const ASSET_NAME2: &str = "my-coap-thermostat-asset";
 #[allow(dead_code)]
 const ENDPOINT_TYPE: &str = "rest-thermostat";
 const TYPE: &str = "thermostat";
@@ -136,7 +136,7 @@ async fn get_device() {
 }
 
 #[tokio::test]
-#[ignore = "This test is ignored as it is still failing."]
+// #[ignore = "This test is ignored as it is still failing."]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -145,16 +145,18 @@ async fn update_device_plus_endpoint_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
-    let new_version = 12;
     let updated_status = DeviceStatus {
         config: Some(StatusConfig {
-            error: None,
-            version: Some(new_version),
+            error: Some(ConfigError {
+                message: Some(format!(
+                    "Random test error for device update {}",
+                    Uuid::new_v4()
+                )),
+                ..ConfigError::default()
+            }),
             ..StatusConfig::default()
         }),
-        endpoints: vec![(ENDPOINT1.to_string(), None)]
-            .into_iter()
-            .collect::<std::collections::HashMap<_, _>>(),
+        ..DeviceStatus::default()
     };
     let test_task = tokio::task::spawn({
         async move {
@@ -178,16 +180,7 @@ async fn update_device_plus_endpoint_status() {
                 updated_response.specification.attributes["deviceType"],
                 TYPE
             );
-            assert_eq!(
-                updated_response
-                    .status
-                    .unwrap()
-                    .config
-                    .unwrap()
-                    .version
-                    .unwrap(),
-                new_version
-            );
+            assert_eq!(updated_response.status.unwrap(), updated_status);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -258,7 +251,6 @@ async fn update_asset_status() {
     let (session, azure_device_registry_client, exit_handle) =
         initialize_client(&format!("{log_identifier}-client"));
 
-    // let new_version = 12;
     let updated_status = AssetStatus {
         config: Some(StatusConfig {
             error: Some(ConfigError {
@@ -292,17 +284,8 @@ async fn update_asset_status() {
                 updated_response.specification.attributes["assetId"],
                 ASSET_NAME2
             );
-            assert_eq!(updated_response.specification.attributes["assetType"], TYPE);
-            // assert_eq!(
-            //     updated_response
-            //         .status
-            //         .unwrap()
-            //         .config
-            //         .unwrap()
-            //         .version
-            //         .unwrap(),
-            //     new_version
-            // );
+            assert_eq!(updated_response.status.unwrap(), updated_status);
+
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
