@@ -224,6 +224,9 @@ pub struct DeviceEndpointClient {
     device_update_observation: DeviceUpdateObservation,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
+    /// The last definition of the device that was received so we can filter out updates that only report status changes. Temporary
+    #[getter(skip)]
+    last_specification: azure_device_registry::DeviceSpecification,
 }
 impl DeviceEndpointClient {
     pub(crate) fn new(
@@ -236,7 +239,7 @@ impl DeviceEndpointClient {
         Ok(DeviceEndpointClient {
             // TODO: get device_endpoint_credentials_mount_path from connector config
             specification: Arc::new(RwLock::new(DeviceSpecification::new(
-                device.specification,
+                device.specification.clone(),
                 "/etc/akri/secrets/device_endpoint_auth",
                 &device_endpoint_ref.inbound_endpoint_name,
             )?)),
@@ -246,6 +249,7 @@ impl DeviceEndpointClient {
             device_endpoint_ref,
             device_update_observation,
             connector_context,
+            last_specification: device.specification,
         })
     }
 
@@ -341,28 +345,41 @@ impl DeviceEndpointClient {
     ///
     /// If the status or specification mutexes have been poisoned, which should not be possible
     pub async fn recv_update(&mut self) -> Option<()> {
-        // handle the notification
-        // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
-        // get the update again because we'll pull the latest definition on the restart, so we don't need to get
-        // the notification again.
-        let (updated_device, _) = self.device_update_observation.recv_notification().await?;
-        // update self with updated specification and status
-        let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
-        *unlocked_specification = DeviceSpecification::new(
-                updated_device.specification,
-                // TODO: get device_endpoint_credentials_mount_path from connector config
-                "/etc/akri/secrets/device_endpoint_auth",
-                &self.device_endpoint_ref.inbound_endpoint_name,
-            ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
+        loop {
+            // handle the notification
+            // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
+            // get the update again because we'll pull the latest definition on the restart, so we don't need to get
+            // the notification again.
+            let (updated_device, _) = self.device_update_observation.recv_notification().await?;
 
-        let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
-        *unlocked_status = updated_device.status.map(|recvd_status| {
-            DeviceEndpointStatus::new(
-                recvd_status,
-                &self.device_endpoint_ref.inbound_endpoint_name,
-            )
-        });
-        Some(())
+            // ignore updates that only report status changes. NOTE: This filtering should be added by the service
+            // soon. This current filtering does filter out new status updates that are reported by other connectors
+            // as well, which may not be desirable.
+            if updated_device.specification == self.last_specification {
+                log::debug!("ignoring device endpoint update, no specification changes");
+                // wait for an actual specification update
+                continue;
+            }
+            // update self with updated specification and status
+            let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
+            *unlocked_specification = DeviceSpecification::new(
+                    updated_device.specification.clone(),
+                    // TODO: get device_endpoint_credentials_mount_path from connector config
+                    "/etc/akri/secrets/device_endpoint_auth",
+                    &self.device_endpoint_ref.inbound_endpoint_name,
+                ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
+
+            self.last_specification = updated_device.specification;
+
+            let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
+            *unlocked_status = updated_device.status.map(|recvd_status| {
+                DeviceEndpointStatus::new(
+                    recvd_status,
+                    &self.device_endpoint_ref.inbound_endpoint_name,
+                )
+            });
+            return Some(());
+        }
     }
 
     // Returns a clone of the current device status

@@ -243,7 +243,7 @@ pub struct Device {
     pub status: Option<DeviceStatus>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 /// Represents the specification of a device in the Azure Device Registry service.
 pub struct DeviceSpecification {
     /// The 'attributes' Field.
@@ -272,7 +272,7 @@ pub struct DeviceSpecification {
     pub version: Option<u64>,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq)]
 /// Represents the endpoints of a device in the Azure Device Registry service.
 pub struct DeviceEndpoints {
     /// The 'inbound' Field.
@@ -284,7 +284,7 @@ pub struct DeviceEndpoints {
 }
 
 /// Represents an outbound endpoint of a device in the Azure Device Registry service.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct OutboundEndpoint {
     /// The 'address' Field.
     pub address: String,
@@ -293,7 +293,7 @@ pub struct OutboundEndpoint {
 }
 
 /// Represents an inbound endpoint of a device in the Azure Device Registry service.
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct InboundEndpoint {
     /// The 'additionalConfiguration' Field.
     pub additional_configuration: Option<String>,
@@ -309,7 +309,7 @@ pub struct InboundEndpoint {
     pub version: Option<String>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 /// Represents the trust settings for an endpoint.
 pub struct TrustSettings {
     /// The 'issuerList' Field.
@@ -318,7 +318,7 @@ pub struct TrustSettings {
     pub trust_list: Option<String>,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq)]
 /// Represents the authentication method for an endpoint.
 pub enum Authentication {
     #[default]
