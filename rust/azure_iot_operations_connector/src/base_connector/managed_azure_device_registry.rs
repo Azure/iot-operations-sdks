@@ -219,6 +219,7 @@ pub struct DeviceEndpointClient {
     /// The 'status' Field.
     #[getter(skip)]
     status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    // Internally used fields
     /// The internal observation for updates
     #[getter(skip)]
     device_update_observation: DeviceUpdateObservation,
@@ -593,6 +594,7 @@ pub struct AssetClient {
     /// Status of the device that this Asset is tied to
     #[getter(skip)]
     device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    // Internally used fields
     /// The internal observation for updates
     #[getter(skip)]
     asset_update_observation: AssetUpdateObservation,
@@ -675,13 +677,13 @@ impl AssetClient {
 
             let new_dataset_client = match DatasetClient::new(
                 dataset_definition.clone(),
+                dataset_update_rx,
                 &default_dataset_destinations,
                 asset_ref.clone(),
                 status.clone(),
                 specification.clone(),
                 device_specification.clone(),
                 device_status.clone(),
-                dataset_update_rx,
                 connector_context.clone(),
             ) {
                 Ok(dataset_client) => dataset_client,
@@ -841,7 +843,8 @@ impl AssetClient {
             }
 
             // update datasets
-            // remove the datasets that are no longer present in the new asset definition. This triggers the deletion tokens. TODO: wait to release deletion notifications? Probably not possible
+            // remove the datasets that are no longer present in the new asset definition.
+            // This triggers deletion notification since this drops the update sender.
             self.dataset_hashmap.retain(|dataset_name, _| {
                 updated_asset
                     .specification
@@ -900,7 +903,6 @@ impl AssetClient {
                         // we need to make sure we have the updated definition for comparing next time
                         *dataset = received_dataset.clone();
                         // send update to the dataset
-                        // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
                         if dataset_update_tx
                             .send((
                                 received_dataset.clone(),
@@ -909,6 +911,7 @@ impl AssetClient {
                             ))
                             .is_err()
                         {
+                            // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
                             log::warn!(
                                 "Update received for dataset {}, but DatasetClient has been dropped",
                                 received_dataset.name
@@ -923,13 +926,13 @@ impl AssetClient {
 
                     let new_dataset_client = match DatasetClient::new(
                         received_dataset.clone(),
+                        dataset_update_rx,
                         &default_dataset_destinations,
                         self.asset_ref.clone(),
                         self.status.clone(),
                         self.specification.clone(),
                         self.device_specification.clone(),
                         self.device_status.clone(),
-                        dataset_update_rx,
                         self.connector_context.clone(),
                     ) {
                         Ok(dataset_client) => dataset_client,
@@ -1173,6 +1176,7 @@ pub struct DatasetClient {
     /// Status of the device that this dataset is tied to
     #[getter(skip)]
     device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    // Internally used fields
     /// Internal [`Forwarder`] that handles forwarding data to the destination defined in the dataset definition
     #[getter(skip)]
     forwarder: Forwarder,
@@ -1190,13 +1194,13 @@ impl DatasetClient {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
         dataset_definition: Dataset,
+        dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
         asset_specification: Arc<RwLock<AssetSpecification>>,
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
-        dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
