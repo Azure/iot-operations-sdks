@@ -355,33 +355,12 @@ async fn observe_device_update_notifications() {
                     log::info!("[{log_identifier}] Device update notification receiver closed");
                 }
             });
-            // This is not needed
-            // tokio::time::sleep(Duration::from_secs(1)).await;
             let response = azure_device_registry_client
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Get device to update the status: {response:?}",);
-            // let mut endpoint_statuses = HashMap::new();
-            // for (endpoint_name, endpoint) in response.specification.endpoints.inbound {
-            //     if endpoint.endpoint_type == ENDPOINT_TYPE {
-            //         log::info!("Endpoint '{endpoint_name}' accepted");
-            //         endpoint_statuses.insert(endpoint_name, None);
-            //     } else {
-            //         log::warn!(
-            //             "Endpoint '{endpoint_name}' not accepted. Endpoint type '{}' not supported.",
-            //             endpoint.endpoint_type
-            //         );
-            //         endpoint_statuses.insert(
-            //             endpoint_name,
-            //             Some(azure_device_registry::ConfigError {
-            //                 message: Some("endpoint type is not supported".to_string()),
-            //                 ..azure_device_registry::ConfigError::default()
-            //             }),
-            //         );
-            //     }
-            // }
-
+            
             let response_during_obs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE1.to_string(),
@@ -418,7 +397,7 @@ async fn observe_device_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Device update unobservation: {:?}", ());
             // Included for failing
-            tokio::time::sleep(Duration::from_secs(5)).await;
+            // tokio::time::sleep(Duration::from_secs(5)).await;
 
             let response_after_unobs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
@@ -447,7 +426,7 @@ async fn observe_device_update_notifications() {
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
 
-            tokio::time::sleep(Duration::from_secs(1)).await;
+            // tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
