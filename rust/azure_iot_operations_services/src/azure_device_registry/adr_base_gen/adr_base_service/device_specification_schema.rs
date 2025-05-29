@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::device_endpoint_schema::DeviceEndpointSchema;
+use super::device_endpoints_schema::DeviceEndpointsSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceSpecificationSchema {
@@ -33,7 +33,7 @@ pub struct DeviceSpecificationSchema {
     /// The 'endpoints' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub endpoints: Option<DeviceEndpointSchema>,
+    pub endpoints: Option<DeviceEndpointsSchema>,
 
     /// The 'externalDeviceId' Field.
     #[serde(rename = "externalDeviceId")]
