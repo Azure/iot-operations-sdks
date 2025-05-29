@@ -577,7 +577,7 @@ impl AssetClientCreationObservation {
 }
 
 /// Azure Device Registry Asset that includes additional functionality
-/// to report status, translate data, and send data to the destination
+/// to report status and receive Asset updates
 #[derive(Debug, Getters)]
 pub struct AssetClient {
     /// Asset, device, and inbound endpoint names
@@ -1063,6 +1063,7 @@ impl AssetClient {
         Ok(())
     }
 
+    /// Convenience function to report a vector of dataset errors to the ADR service
     async fn report_dataset_config_errors(
         &self,
         dataset_config_errors: Vec<azure_device_registry::DatasetEventStreamStatus>,
@@ -1130,7 +1131,8 @@ type DatasetUpdateNotification = (
 );
 
 /// Azure Device Registry Dataset that includes additional functionality
-/// to report status, translate data, and send data to the destination
+/// to report status, report message schema, receive Dataset updates,
+/// and send data to the destination
 #[derive(Debug, Getters)]
 pub struct DatasetClient {
     /// Dataset, asset, device, and inbound endpoint names
