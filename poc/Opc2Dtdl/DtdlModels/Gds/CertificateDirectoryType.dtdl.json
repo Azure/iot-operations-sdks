@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:Gds:CertificateDirectoryType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/Gds/CertificateDirectoryType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

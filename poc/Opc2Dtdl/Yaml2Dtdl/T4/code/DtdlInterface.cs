@@ -7,6 +7,7 @@ namespace Yaml2Dtdl
     public partial class DtdlInterface
     {
         private string modelId;
+        private string topicBase;
         private OpcUaDefinedType definedType;
         private TypeConverter typeConverter;
         private List<DtdlProperty> dtdlProperties;
@@ -18,6 +19,7 @@ namespace Yaml2Dtdl
         public DtdlInterface(string modelId, OpcUaDefinedType definedType, List<OpcUaDataType> dataTypes, List<OpcUaDataType> coreDataTypes)
         {
             this.modelId = modelId;
+            this.topicBase = modelId.Substring("dtmi:".Length).Replace(':', '/');
             this.definedType = definedType;
             this.typeConverter = new();
 

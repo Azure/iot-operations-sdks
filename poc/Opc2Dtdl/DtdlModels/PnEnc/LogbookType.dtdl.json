@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:PnEnc:LogbookType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/PnEnc/LogbookType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

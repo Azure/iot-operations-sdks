@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/AutoID/RfidReaderDeviceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

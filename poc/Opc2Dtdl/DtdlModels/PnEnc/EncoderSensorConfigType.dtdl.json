@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:PnEnc:EncoderSensorConfigType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/PnEnc/EncoderSensorConfigType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

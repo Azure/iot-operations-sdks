@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:AMB:DocumentationLinksType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/AMB/DocumentationLinksType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

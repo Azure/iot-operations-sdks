@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:PlasticsRubber_Extrusion_HaulOff:HaulOff_InterfaceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/PlasticsRubber_Extrusion_HaulOff/HaulOff_InterfaceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

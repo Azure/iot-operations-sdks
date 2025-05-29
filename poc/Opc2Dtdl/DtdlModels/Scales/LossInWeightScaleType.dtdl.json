@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:Scales:LossInWeightScaleType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/Scales/LossInWeightScaleType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

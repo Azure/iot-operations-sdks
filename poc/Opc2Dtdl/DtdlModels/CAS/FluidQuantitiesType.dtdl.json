@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:CAS:FluidQuantitiesType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/CAS/FluidQuantitiesType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

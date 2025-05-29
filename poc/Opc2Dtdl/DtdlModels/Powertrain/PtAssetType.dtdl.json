@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:Powertrain:PtAssetType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/Powertrain/PtAssetType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

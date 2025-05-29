@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/PlasticsRubber_HotRunner/OperationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:MachineVision:ConfigurationManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/MachineVision/ConfigurationManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

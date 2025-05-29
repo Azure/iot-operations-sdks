@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:BACnet:BACnetDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/BACnet/BACnetDeviceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

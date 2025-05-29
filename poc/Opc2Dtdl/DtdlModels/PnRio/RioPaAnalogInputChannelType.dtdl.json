@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:PnRio:RioPaAnalogInputChannelType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/PnRio/RioPaAnalogInputChannelType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

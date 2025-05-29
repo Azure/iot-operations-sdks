@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:WotCon:WoTAssetConnectionManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/WotCon/WoTAssetConnectionManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

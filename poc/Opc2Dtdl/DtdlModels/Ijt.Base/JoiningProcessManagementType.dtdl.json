@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/Ijt_Base/JoiningProcessManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

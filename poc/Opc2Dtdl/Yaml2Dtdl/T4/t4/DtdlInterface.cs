@@ -27,8 +27,13 @@ namespace Yaml2Dtdl
                     "nvif;1\",\r\n    \"dtmi:dtdl:extension:mqtt;4\",\r\n    \"dtmi:dtdl:extension:historizat" +
                     "ion;2\"\r\n  ],\r\n  \"@id\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
-            this.Write(";1\",\r\n  \"@type\": [ \"Interface\", \"Mqtt\" ],\r\n  \"payloadFormat\": \"Json/ecma/404\",\r\n " +
-                    " \"schemas\": [\r\n");
+            this.Write(";1\",\r\n  \"@type\": [ \"Interface\", \"Mqtt\" ],\r\n");
+ if (this.dtdlCommands.Count > 0) { 
+            this.Write("  \"commandTopic\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.topicBase));
+            this.Write("/{commandName}\",\r\n");
+ } 
+            this.Write("  \"payloadFormat\": \"Json/ecma/404\",\r\n  \"schemas\": [\r\n");
  ix = 1; foreach (DtdlDataType dtdlDataType in this.dtdlDataTypes) { 
             this.Write(this.ToStringHelper.ToStringWithCulture(dtdlDataType.TransformText()));
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.dtdlDataTypes.Count ? "," : ""));

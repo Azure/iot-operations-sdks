@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:PackML:PackMLMachineStateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/PackML/PackMLMachineStateMachineType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

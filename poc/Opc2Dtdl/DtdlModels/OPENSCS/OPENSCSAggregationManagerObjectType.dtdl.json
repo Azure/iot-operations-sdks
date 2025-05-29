@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:OPENSCS:OPENSCSAggregationManagerObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/OPENSCS/OPENSCSAggregationManagerObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
