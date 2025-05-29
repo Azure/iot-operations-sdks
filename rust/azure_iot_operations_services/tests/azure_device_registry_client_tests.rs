@@ -63,7 +63,8 @@ fn initialize_client(
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
         .hostname("localhost")
-        .tcp_port(1883u16)
+        .tcp_port(31883u16)
+        // .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
         .build()
@@ -486,6 +487,36 @@ async fn observe_asset_update_notifications() {
                 }
             });
 
+            // let receive_notifications_task = tokio::task::spawn({
+            //     async move {
+            //         let task_result = tokio::time::timeout(Duration::from_secs(30), async move {
+            //             log::info!("[{log_identifier}] Asset Notification receiver started.");
+            //             let mut count = 0;
+            //             if let Some((asset, _)) = observation.recv_notification().await {
+            //                 count += 1;
+            //                 log::info!("[{log_identifier}] Asset Observation Expected: {asset:?}");
+            //                 assert_eq!(asset.name, ASSET_NAME1);
+            //             }
+            //             while let Some((asset, _)) = observation.recv_notification().await {
+            //                 count += 1;
+            //                 log::info!(
+            //                     "[{log_identifier}] Asset Observation Unexpected: {asset:?}"
+            //                 );
+            //                 assert!(count < 2);
+            //             }
+            //             assert_eq!(count, 1);
+            //             log::info!("[{log_identifier}] Asset Notification receiver closed");
+            //         })
+            //         .await;
+            //         if task_result.is_err() {
+            //             log::error!(
+            //                 "[{log_identifier}] Entire notification task timed out after 30 seconds"
+            //             );
+            //             panic!("Notification receiver task timed out");
+            //         }
+            //     }
+            // });
+
             let response = azure_device_registry_client
                 .get_asset(
                     DEVICE2.to_string(),
@@ -527,7 +558,7 @@ async fn observe_asset_update_notifications() {
 
             azure_device_registry_client
                 .unobserve_asset_update_notifications(
-                    DEVICE1.to_string(),
+                    DEVICE2.to_string(),
                     ENDPOINT1.to_string(),
                     ASSET_NAME1.to_string(),
                     TIMEOUT,
