@@ -45,7 +45,6 @@ fn setup_test(test_name: &str) -> bool {
         .filter_module("azure_iot_operations", log::LevelFilter::Debug)
         .try_init();
 
-    // TODO Uncomment this to enable network tests
     if env::var("ENABLE_NETWORK_TESTS").is_err() {
         log::warn!("Test {test_name} is skipped. Set ENABLE_NETWORK_TESTS to run.");
         return false;
@@ -64,8 +63,6 @@ fn initialize_client(
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
         .hostname("localhost")
-        // .tcp_port(31883u16)
-        // TODO Uncomment this
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
@@ -107,7 +104,7 @@ async fn get_device() {
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Get Device: {response:?}",);
+            log::info!("[{log_identifier}] Get Device: {response:?}");
 
             assert_eq!(response.name, DEVICE1);
             assert_eq!(response.specification.attributes["deviceId"], DEVICE1);
@@ -278,7 +275,7 @@ async fn update_asset_status() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Updated Response Asset: {updated_asset:?}",);
+            log::info!("[{log_identifier}] Updated Response Asset: {updated_asset:?}");
 
             assert_eq!(updated_asset.name, ASSET_NAME2);
             assert_eq!(
@@ -373,7 +370,7 @@ async fn observe_device_update_notifications() {
                             version: response.specification.version,
                             error: Some(ConfigError {
                                 message: Some(format!(
-                                    "Random test error for device update {}",
+                                    "Random test error for observation of device update {}",
                                     Uuid::new_v4()
                                 )),
                                 ..ConfigError::default()
@@ -399,8 +396,6 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Device update unobservation: {:?}", ());
-            // Included for failing
-            // tokio::time::sleep(Duration::from_secs(5)).await;
 
             let response_after_unobs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
@@ -428,8 +423,6 @@ async fn observe_device_update_notifications() {
             );
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
-
-            // tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -493,7 +486,7 @@ async fn observe_asset_update_notifications() {
                 }
             });
 
-            tokio::time::sleep(Duration::from_secs(1)).await;
+            // tokio::time::sleep(Duration::from_secs(1)).await;
             let response = azure_device_registry_client
                 .get_asset(
                     DEVICE1.to_string(),
@@ -505,14 +498,14 @@ async fn observe_asset_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Get asset to update the status: {response:?}",);
 
-            let mut dataset_statuses = Vec::new();
-            for dataset in response.specification.datasets {
-                dataset_statuses.push(azure_device_registry::DatasetEventStreamStatus {
-                    error: None,
-                    message_schema_reference: None,
-                    name: dataset.name,
-                });
-            }
+            // let mut dataset_statuses = Vec::new();
+            // for dataset in response.specification.datasets {
+            //     dataset_statuses.push(azure_device_registry::DatasetEventStreamStatus {
+            //         error: None,
+            //         message_schema_reference: None,
+            //         name: dataset.name,
+            //     });
+            // }
             // let status_to_be_updated = AssetStatus {
             //     config: Some(StatusConfig {
             //         version: response.specification.version,
@@ -539,7 +532,7 @@ async fn observe_asset_update_notifications() {
                             version: response.specification.version,
                             error: Some(ConfigError {
                                 message: Some(format!(
-                                    "Random test error for asset update {}",
+                                    "Random test error for observation of asset update {}",
                                     Uuid::new_v4()
                                 )),
                                 ..ConfigError::default()
@@ -547,7 +540,6 @@ async fn observe_asset_update_notifications() {
                             // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
                             ..StatusConfig::default()
                         }),
-                        datasets: Some(dataset_statuses),
                         ..AssetStatus::default()
                     },
                     TIMEOUT,
@@ -575,11 +567,17 @@ async fn observe_asset_update_notifications() {
                     ENDPOINT1.to_string(),
                     ASSET_NAME1.to_string(),
                     AssetStatus {
-                        config: None,
-                        datasets: None,
-                        events: None,
-                        management_groups: None,
-                        streams: None,
+                        config: Some(StatusConfig {
+                            version: None,
+                            error: Some({
+                                ConfigError {
+                                    message: None,
+                                    ..ConfigError::default()
+                                }
+                            }),
+                            ..StatusConfig::default()
+                        }),
+                        ..AssetStatus::default()
                     },
                     TIMEOUT,
                 )
@@ -591,7 +589,7 @@ async fn observe_asset_update_notifications() {
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
 
-            tokio::time::sleep(Duration::from_secs(1)).await;
+            // tokio::time::sleep(Duration::from_secs(1)).await;
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
