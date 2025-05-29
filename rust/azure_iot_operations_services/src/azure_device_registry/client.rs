@@ -12,10 +12,12 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Notify;
 
-use crate::azure_device_registry::adr_base_gen::{
-    adr_base_service::client as base_client_gen, common_types::options as base_options_gen,
+use crate::azure_device_registry::{
+    adr_base_gen::adr_base_service::client as base_client_gen,
+    adr_base_gen::common_types::options as base_options_gen,
+    device_discovery_gen::device_discovery_service::client as discovery_client_gen,
 };
-use crate::azure_device_registry::models::{Asset, AssetStatus, Device, DeviceStatus};
+use crate::azure_device_registry::models::{Asset, AssetStatus, Device, DeviceStatus, DiscoveredDeviceSpecification};
 use crate::azure_device_registry::{
     AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
 };
@@ -734,6 +736,17 @@ where
             }
         }
     }
+
+    // pub fn create_or_update_discovered_device(&self, name: String, specification: DiscoveredDeviceSpecification) {
+    //     let payload = discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestPayload {
+    //         discovered_device_request: discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestSchema {
+    //             discovered_device: specification.into(),
+    //             discovered_device_name: name,
+    //         },
+    //     };
+
+
+    // }
 
     /// Hashes the device name and inbound endpoint name to create a single string.
     fn hash_device_endpoint(device_name: &str, inbound_endpoint_name: &str) -> String {

@@ -6,8 +6,13 @@ use std::collections::HashMap;
 
 use chrono::{DateTime, Utc};
 
-use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
+use crate::azure_device_registry::{
+    adr_base_gen::adr_base_service::client as base_client_gen,
+    device_discovery_gen::device_discovery_service::client as discovery_client_gen,
+};
 use crate::azure_device_registry::{ConfigError, StatusConfig};
+
+// TODO: bidirectional transforms
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
 
@@ -32,7 +37,7 @@ pub struct DeviceSpecification {
     /// The 'enabled' Field.
     pub enabled: Option<bool>,
     /// The 'endpoints' Field.
-    pub endpoints: DeviceEndpoints,
+    pub endpoints: Option<DeviceEndpoints>,
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
@@ -52,11 +57,12 @@ pub struct DeviceSpecification {
 }
 
 #[derive(Debug, Clone)]
+/// Represents a discovered device specification in the Azure Device Registry service.
 pub struct DiscoveredDeviceSpecification {
     /// The 'attributes' Field.
     pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
     /// The 'endpoints' Field.
-    pub endpoints: DeviceEndpoints,     // TODO: custom type
+    pub endpoints: Option<DiscoveredDeviceEndpoints>,
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'manufacturer' Field.
@@ -69,19 +75,37 @@ pub struct DiscoveredDeviceSpecification {
     pub operating_system_version: Option<String>,
 }
 
-
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
 /// Represents the endpoints of a device in the Azure Device Registry service.
 pub struct DeviceEndpoints {
     /// The 'inbound' Field.
     pub inbound: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
     /// The 'outbound' Field.
-    pub outbound_assigned: HashMap<String, OutboundEndpoint>,
-    /// The 'outboundUnassigned' Field.
-    pub outbound_unassigned: HashMap<String, OutboundEndpoint>,
+    pub outbound: Option<OutboundEndpoints>,
 }
 
+/// Represents the endpoints of a discovered device in the Azure Device Registry service.
+#[derive(Debug, Clone)]
+pub struct DiscoveredDeviceEndpoints {
+    /// The 'inbound' Field.
+    pub inbound: HashMap<String, DiscoveredInboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    /// The 'outbound' Field.
+    pub outbound: Option<DiscoveredOutboundEndpoints>,
+}
 
+#[derive(Debug, Clone)]
+pub struct OutboundEndpoints {
+    /// The 'assigned' Field.
+    pub assigned: HashMap<String, OutboundEndpoint>,
+    /// The 'unassigned' Field.
+    pub unassigned: HashMap<String, OutboundEndpoint>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct DiscoveredOutboundEndpoints {
+    /// The 'assigned' Field.
+    pub assigned: HashMap<String, OutboundEndpoint>,
+}
 
 /// Represents an outbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
@@ -105,6 +129,21 @@ pub struct InboundEndpoint {
     pub endpoint_type: String,
     /// The 'trustSettings' Field.
     pub trust_settings: Option<TrustSettings>,
+    /// The 'version' Field.
+    pub version: Option<String>,
+}
+
+/// Represents an inbound endpoint of a discovered device in the Azure Device Registry service.
+#[derive(Debug, Clone)]
+pub struct DiscoveredInboundEndpoint {
+    /// The 'additionalConfiguration' Field.
+    pub additional_configuration: Option<String>,
+    /// The 'address' Field.
+    pub address: String,
+    /// The 'endpointType' Field.
+    pub endpoint_type: String,
+    /// The 'supportedAuthenticationMethods' Field.
+    pub supported_authentication_methods: Vec<String>,
     /// The 'version' Field.
     pub version: Option<String>,
 }
@@ -165,7 +204,7 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
             attributes: value.attributes.unwrap_or_default(),
             discovered_device_ref: value.discovered_device_ref,
             enabled: value.enabled,
-            endpoints: value.endpoints.map(Into::into).unwrap_or_default(),
+            endpoints: value.endpoints.map(Into::into),
             external_device_id: value.external_device_id,
             last_transition_time: value.last_transition_time,
             manufacturer: value.manufacturer,
@@ -178,6 +217,34 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
     }
 }
 
+// impl From<discovery_client_gen::DiscoveredDevice> for DiscoveredDeviceSpecification {
+//     fn from(value: discovery_client_gen::DiscoveredDevice) -> Self {
+//         DiscoveredDeviceSpecification {
+//             attributes: value.attributes.unwrap_or_default(),
+//             endpoints: value.endpoints.map(Into::into).unwrap_or_default(),
+//             external_device_id: value.external_device_id,
+//             manufacturer: value.manufacturer,
+//             model: value.model,
+//             operating_system: value.operating_system,
+//             operating_system_version: value.operating_system_version,
+//         }
+//     }
+// }
+
+// impl From<DiscoveredDeviceSpecification> for discovery_client_gen::DiscoveredDevice {
+//     fn from(value: DiscoveredDeviceSpecification) -> Self {
+//         discovery_client_gen::DiscoveredDevice {
+//             attributes: (!value.attributes.is_empty()).then_some(value.attributes),
+//             endpoints: Some(value.endpoints.into()),
+//             external_device_id: value.external_device_id,
+//             manufacturer: value.manufacturer,
+//             model: value.model,
+//             operating_system: value.operating_system,
+//             operating_system_version: value.operating_system_version,
+//         }
+//     }
+// }
+
 impl From<base_client_gen::DeviceEndpointSchema> for DeviceEndpoints {
     fn from(value: base_client_gen::DeviceEndpointSchema) -> Self {
         let inbound = match value.inbound {
@@ -187,30 +254,70 @@ impl From<base_client_gen::DeviceEndpointSchema> for DeviceEndpoints {
                 .collect(),
             None => HashMap::new(),
         };
-        let mut outbound_assigned = HashMap::new();
-        let mut outbound_unassigned = HashMap::new();
 
-        if let Some(outbound) = value.outbound {
-            for (k, v) in outbound.assigned {
-                outbound_assigned.insert(k, v.into());
-            }
+        let outbound = value.outbound.map(Into::into);
 
-            if let Some(map) = outbound.unassigned {
-                for (k, v) in map {
-                    outbound_unassigned.insert(k, v.into());
-                }
-            }
-        }
-        DeviceEndpoints {
-            inbound,
-            outbound_assigned,
-            outbound_unassigned,
+        DeviceEndpoints { inbound, outbound }
+
+    }
+}
+
+impl From<base_client_gen::OutboundSchema> for OutboundEndpoints {
+    fn from(value: base_client_gen::OutboundSchema) -> Self {
+        let assigned = value
+            .assigned
+            .into_iter()
+            .map(|(k, v)| (k, v.into()))
+            .collect();
+
+        let unassigned = value.unassigned.unwrap_or_default()
+            .into_iter()
+            .map(|(k, v)| (k, v.into()))
+            .collect();
+
+        OutboundEndpoints {
+            assigned,
+            unassigned,
         }
     }
 }
 
+
+
+// impl From<discovery_client_gen::DiscoveredDeviceEndpoint> for DiscoveredDeviceEndpoints {
+//     fn from(value: discovery_client_gen::DiscoveredDeviceEndpoint) -> Self {
+//         let inbound = match value.inbound {
+//             Some(inbound_endpoints) => inbound_endpoints
+//                 .into_iter()
+//                 .map(|(k, v)| (k, v.into()))
+//                 .collect(),
+//             None => HashMap::new(),
+//         };
+//         let mut outbound_assigned = HashMap::new();
+//         if let Some(outbound) = value.outbound {
+//             for (k, v) in outbound.assigned {
+//                 outbound_assigned.insert(k, v.into());
+//             }
+//         }
+
+//         DiscoveredDeviceEndpoints {
+//             inbound,
+//             outbound_assigned,
+//         }
+//     }
+// }
+
 impl From<base_client_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
     fn from(value: base_client_gen::DeviceOutboundEndpoint) -> Self {
+        OutboundEndpoint {
+            address: value.address,
+            endpoint_type: value.endpoint_type,
+        }
+    }
+}
+
+impl From<discovery_client_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
+    fn from(value: discovery_client_gen::DeviceOutboundEndpoint) -> Self {
         OutboundEndpoint {
             address: value.address,
             endpoint_type: value.endpoint_type,
@@ -226,6 +333,18 @@ impl From<base_client_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
             authentication: value.authentication.map(Into::into).unwrap_or_default(),
             trust_settings: value.trust_settings.map(Into::into),
             endpoint_type: value.endpoint_type,
+            version: value.version,
+        }
+    }
+}
+
+impl From<discovery_client_gen::DiscoveredDeviceInboundEndpointSchema> for DiscoveredInboundEndpoint {
+    fn from(value: discovery_client_gen::DiscoveredDeviceInboundEndpointSchema) -> Self {
+        DiscoveredInboundEndpoint {
+            additional_configuration: value.additional_configuration,
+            address: value.address,
+            endpoint_type: value.endpoint_type,
+            supported_authentication_methods: value.supported_authentication_methods.unwrap_or_default(),
             version: value.version,
         }
     }
