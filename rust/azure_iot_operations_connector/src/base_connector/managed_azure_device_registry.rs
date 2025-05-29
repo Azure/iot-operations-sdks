@@ -52,9 +52,8 @@ impl DeviceEndpointClientCreationObservation {
 
     /// Receives a notification for a newly created device endpoint or [`None`]
     /// if there will be no more notifications. This notification includes the
-    /// [`DeviceEndpointClient`], a [`DeviceEndpointClientUpdateObservation`]
-    /// to observe for updates on the new Device, and a [`AssetClientCreationObservation`]
-    ///  to observe for newly created Assets related to this Device
+    /// [`DeviceEndpointClient`] and an [`AssetClientCreationObservation`]
+    /// to observe for newly created Assets related to this Device
     pub async fn recv_notification(
         &mut self,
     ) -> Option<(
@@ -451,8 +450,9 @@ pub struct AssetClientCreationObservation {
 impl AssetClientCreationObservation {
     /// Receives a notification for a newly created asset or [`None`] if there
     /// will be no more notifications. This notification includes the [`AssetClient`],
-    /// an [`AssetClientUpdateObservation`] to observe for updates on the new Asset,
-    /// and an [`AssetDeletionToken`] to observe for deletion of this Asset
+    /// an [`AssetDeletionToken`] to observe for deletion of this Asset, and a
+    /// [`DatasetClientCreationObservation`] to observe for newly created Datasets
+    /// related to this Asset
     pub async fn recv_notification(
         &mut self,
     ) -> Option<(
