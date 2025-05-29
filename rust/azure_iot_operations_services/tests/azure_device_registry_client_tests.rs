@@ -152,7 +152,7 @@ async fn update_device_plus_endpoint_status() {
     let updated_status = DeviceStatus {
         config: Some(StatusConfig {
             error: Some(ConfigError {
-                message: Some(message),
+                message: Some(message.clone()),
                 ..ConfigError::default()
             }),
             ..StatusConfig::default()
