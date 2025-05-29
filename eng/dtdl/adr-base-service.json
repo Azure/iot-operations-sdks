@@ -256,7 +256,7 @@
               },
               {
                 "@type": "Field",
-                "@id": "dtmi:com:microsoft:akri:DeviceEndpoint;1",
+                "@id": "dtmi:com:microsoft:akri:DeviceEndpoints;1",
                 "name": "endpoints",
                 "schema": {
                   "@type": "Object",
@@ -748,7 +748,7 @@
               {
                 "@type": "Field",
                 "name": "lastTransitionTime",
-                "schema": "string"
+                "schema": "dateTime"
               },
               {
                 "@type": "Field",
@@ -1224,7 +1224,7 @@
               {
                 "@type": "Field",
                 "name": "lastTransitionTime",
-                "schema": "string"
+                "schema": "dateTime"
               },
               {
                 "@type": "Field",
@@ -1290,7 +1290,7 @@
               {
                 "@type": "Field",
                 "name": "lastTransitionTime",
-                "schema": "string"
+                "schema": "dateTime"
               },
               {
                 "@type": "Field",
