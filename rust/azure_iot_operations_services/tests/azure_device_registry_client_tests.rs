@@ -338,13 +338,13 @@ async fn observe_device_update_notifications() {
                     let mut count = 0;
                     if let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
+                        // log::info!("[{log_identifier}] FIRST OBS DELETE LOG");
                         log::info!("[{log_identifier}] Device Observation expected: {device:?}");
                         assert_eq!(device.name, DEVICE1);
                     }
                     while let Some((device, _)) = observation.recv_notification().await {
                         count += 1;
-                        log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
+                        // log::info!("[{log_identifier}] ANY OTHER OBS DELETE LOG");
                         log::info!("[{log_identifier}] Device Observation unexpected: {device:?}");
                         // if something weird happens, this should prevent an infinite loop.
                         // Note that this does prevent getting an accurate count of how many extra unexpected notifications were received
@@ -454,14 +454,14 @@ async fn observe_asset_update_notifications() {
         async move {
             let mut observation = azure_device_registry_client
                 .observe_asset_update_notifications(
-                    DEVICE1.to_string(),
+                    DEVICE2.to_string(),
                     ENDPOINT1.to_string(),
                     ASSET_NAME1.to_string(),
                     TIMEOUT,
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Asset ipdate observation: {observation:?}",);
+            log::info!("[{log_identifier}] Asset update observation: {observation:?}",);
             let receive_notifications_task = tokio::task::spawn({
                 async move {
                     log::info!("[{log_identifier}] Asset update notification receiver started.");
@@ -489,7 +489,7 @@ async fn observe_asset_update_notifications() {
             // tokio::time::sleep(Duration::from_secs(1)).await;
             let response = azure_device_registry_client
                 .get_asset(
-                    DEVICE1.to_string(),
+                    DEVICE2.to_string(),
                     ENDPOINT1.to_string(),
                     ASSET_NAME1.to_string(),
                     TIMEOUT,
@@ -524,7 +524,7 @@ async fn observe_asset_update_notifications() {
             // };
             let response_during_obs = azure_device_registry_client
                 .update_asset_status(
-                    DEVICE1.to_string(),
+                    DEVICE2.to_string(),
                     ENDPOINT1.to_string(),
                     ASSET_NAME1.to_string(),
                     AssetStatus {
@@ -563,7 +563,7 @@ async fn observe_asset_update_notifications() {
 
             let response_after_unobs = azure_device_registry_client
                 .update_asset_status(
-                    DEVICE1.to_string(),
+                    DEVICE2.to_string(),
                     ENDPOINT1.to_string(),
                     ASSET_NAME1.to_string(),
                     AssetStatus {
