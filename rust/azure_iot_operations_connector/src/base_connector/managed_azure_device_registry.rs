@@ -1197,8 +1197,8 @@ impl DeviceSpecification {
                 trust_settings: recvd_inbound.trust_settings,
                 version: recvd_inbound.version,
             },
-            outbound_assigned: device_specification.endpoints.outbound_assigned,
-            outbound_unassigned: device_specification.endpoints.outbound_unassigned,
+            outbound_assigned: device_specification.endpoints.outbound.assigned,
+            outbound_unassigned: device_specification.endpoints.outbound.unassigned,
         };
 
         Ok(DeviceSpecification {
