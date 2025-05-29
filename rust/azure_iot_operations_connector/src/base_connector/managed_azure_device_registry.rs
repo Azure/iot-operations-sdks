@@ -1328,7 +1328,7 @@ pub struct AssetSpecification {
     /// Revision number of the hardware.
     pub hardware_revision: Option<String>,
     /// The last time the asset has been modified.
-    pub last_transition_time: Option<String>,
+    pub last_transition_time: Option<DateTime<Utc>>,
     /// Array of management groups that are part of the asset. TODO: `ManagementGroupClient`
     pub management_groups: Vec<adr_models::ManagementGroup>, // if None, we can represent as empty vec
     /// The name of the manufacturer.
