@@ -136,7 +136,6 @@ async fn get_device() {
 }
 
 #[tokio::test]
-// #[ignore = "This test is ignored as it is still failing."]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -449,7 +448,7 @@ async fn observe_device_update_notifications() {
 }
 
 #[tokio::test]
-#[ignore = "This test is ignored as  it is still failing."]
+// #[ignore = "This test is ignored as  it is still failing."]
 async fn observe_asset_update_notifications() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
