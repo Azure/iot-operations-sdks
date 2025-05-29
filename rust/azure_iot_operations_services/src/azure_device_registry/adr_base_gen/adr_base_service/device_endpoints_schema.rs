@@ -10,17 +10,18 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::spec_schema::SpecSchema;
+use super::inbound_schema_map_value_schema::InboundSchemaMapValueSchema;
+use super::outbound_schema::OutboundSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DiscoveredDeviceResponse {
-    /// The 'name' Field.
+pub struct DeviceEndpointsSchema {
+    /// The 'inbound' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub name: Option<String>,
+    pub inbound: Option<HashMap<String, InboundSchemaMapValueSchema>>,
 
-    /// The 'spec' Field.
+    /// The 'outbound' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub spec: Option<SpecSchema>,
+    pub outbound: Option<OutboundSchema>,
 }

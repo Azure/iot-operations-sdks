@@ -156,8 +156,8 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
     }
 }
 
-impl From<base_client_gen::DeviceEndpointSchema> for DeviceEndpoints {
-    fn from(value: base_client_gen::DeviceEndpointSchema) -> Self {
+impl From<base_client_gen::DeviceEndpointsSchema> for DeviceEndpoints {
+    fn from(value: base_client_gen::DeviceEndpointsSchema) -> Self {
         let inbound = match value.inbound {
             Some(inbound_endpoints) => inbound_endpoints
                 .into_iter()
