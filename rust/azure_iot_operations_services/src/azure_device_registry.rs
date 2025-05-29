@@ -8,6 +8,7 @@ use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
+use chrono::{DateTime, Utc};
 use thiserror::Error;
 
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
@@ -110,7 +111,7 @@ pub struct StatusConfig {
     /// Error details for status.
     pub error: Option<ConfigError>,
     /// The last time the configuration has been modified.
-    pub last_transition_time: Option<String>,
+    pub last_transition_time: Option<DateTime<Utc>>,
     /// The version of the Device or Asset configuration.
     pub version: Option<u64>,
 }

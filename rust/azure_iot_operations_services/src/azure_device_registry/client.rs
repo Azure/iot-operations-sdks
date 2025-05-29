@@ -12,14 +12,16 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use derive_builder::Builder;
 use tokio::sync::Notify;
 
+use crate::azure_device_registry::models::{
+    Asset, AssetStatus, Device, DeviceStatus, DiscoveredDeviceSpecification,
+};
+use crate::azure_device_registry::{
+    AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
+};
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
     adr_base_gen::common_types::options as base_options_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
-};
-use crate::azure_device_registry::models::{Asset, AssetStatus, Device, DeviceStatus, DiscoveredDeviceSpecification};
-use crate::azure_device_registry::{
-    AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
 };
 use crate::common::dispatcher::{DispatchError, Dispatcher};
 
@@ -744,7 +746,6 @@ where
     //             discovered_device_name: name,
     //         },
     //     };
-
 
     // }
 

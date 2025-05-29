@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetEventDestinationSchemaElementSchema>? Destinations { get; set; } = default;
+        public List<EventStreamDestination>? Destinations { get; set; } = default;
 
         /// <summary>
         /// The 'eventConfiguration' Field.

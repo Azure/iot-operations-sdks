@@ -6,11 +6,11 @@ use std::collections::HashMap;
 
 use chrono::{DateTime, Utc};
 
+use crate::azure_device_registry::{ConfigError, StatusConfig};
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
 };
-use crate::azure_device_registry::{ConfigError, StatusConfig};
 
 // TODO: bidirectional transforms
 
@@ -245,8 +245,8 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
 //     }
 // }
 
-impl From<base_client_gen::DeviceEndpointSchema> for DeviceEndpoints {
-    fn from(value: base_client_gen::DeviceEndpointSchema) -> Self {
+impl From<base_client_gen::DeviceEndpointsSchema> for DeviceEndpoints {
+    fn from(value: base_client_gen::DeviceEndpointsSchema) -> Self {
         let inbound = match value.inbound {
             Some(inbound_endpoints) => inbound_endpoints
                 .into_iter()
@@ -258,7 +258,6 @@ impl From<base_client_gen::DeviceEndpointSchema> for DeviceEndpoints {
         let outbound = value.outbound.map(Into::into);
 
         DeviceEndpoints { inbound, outbound }
-
     }
 }
 
@@ -270,7 +269,9 @@ impl From<base_client_gen::OutboundSchema> for OutboundEndpoints {
             .map(|(k, v)| (k, v.into()))
             .collect();
 
-        let unassigned = value.unassigned.unwrap_or_default()
+        let unassigned = value
+            .unassigned
+            .unwrap_or_default()
             .into_iter()
             .map(|(k, v)| (k, v.into()))
             .collect();
@@ -281,8 +282,6 @@ impl From<base_client_gen::OutboundSchema> for OutboundEndpoints {
         }
     }
 }
-
-
 
 // impl From<discovery_client_gen::DiscoveredDeviceEndpoint> for DiscoveredDeviceEndpoints {
 //     fn from(value: discovery_client_gen::DiscoveredDeviceEndpoint) -> Self {
@@ -338,13 +337,17 @@ impl From<base_client_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
     }
 }
 
-impl From<discovery_client_gen::DiscoveredDeviceInboundEndpointSchema> for DiscoveredInboundEndpoint {
+impl From<discovery_client_gen::DiscoveredDeviceInboundEndpointSchema>
+    for DiscoveredInboundEndpoint
+{
     fn from(value: discovery_client_gen::DiscoveredDeviceInboundEndpointSchema) -> Self {
         DiscoveredInboundEndpoint {
             additional_configuration: value.additional_configuration,
             address: value.address,
             endpoint_type: value.endpoint_type,
-            supported_authentication_methods: value.supported_authentication_methods.unwrap_or_default(),
+            supported_authentication_methods: value
+                .supported_authentication_methods
+                .unwrap_or_default(),
             version: value.version,
         }
     }

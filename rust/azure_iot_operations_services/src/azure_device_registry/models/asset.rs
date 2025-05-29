@@ -5,6 +5,7 @@
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
+use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::azure_device_registry::helper::ConvertOptionVec;
@@ -65,7 +66,7 @@ pub struct AssetSpecification {
     /// Revision number of the hardware.
     pub hardware_revision: Option<String>,
     /// The last time the asset has been modified.
-    pub last_transition_time: Option<String>,
+    pub last_transition_time: Option<DateTime<Utc>>,
     /// Array of management groups that are part of the asset.
     pub management_groups: Vec<ManagementGroup>, // if None, we can represent as empty vec
     /// The name of the manufacturer.
