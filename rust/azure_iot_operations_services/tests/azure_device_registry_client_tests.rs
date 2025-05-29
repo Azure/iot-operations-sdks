@@ -160,34 +160,32 @@ async fn update_device_plus_endpoint_status() {
     };
     let test_task = tokio::task::spawn({
         async move {
-            let updated_response = azure_device_registry_client
+            let updated_device = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE2.to_string(),
                     ENDPOINT2.to_string(),
-                    updated_status,
+                    updated_status.clone(),
                     TIMEOUT,
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Updated Response Device: {updated_response:?}",);
+            log::info!("[{log_identifier}] Updated Response Device: {updated_device:?}",);
 
-            assert_eq!(updated_response.name, DEVICE2);
-            assert_eq!(
-                updated_response.specification.attributes["deviceId"],
-                DEVICE2
-            );
-            assert_eq!(
-                updated_response
-                    .status
-                    .unwrap()
-                    .config
-                    .unwrap()
-                    .error
-                    .unwrap()
-                    .message
-                    .unwrap(),
-                message
-            );
+            assert_eq!(updated_device.name, DEVICE2);
+            assert_eq!(updated_device.specification.attributes["deviceId"], DEVICE2);
+            // assert_eq!(
+            //     updated_response
+            //         .status
+            //         .unwrap()
+            //         .config
+            //         .unwrap()
+            //         .error
+            //         .unwrap()
+            //         .message
+            //         .unwrap(),
+            //     message
+            // );
+            assert_eq!(updated_device.status.unwrap(), updated_status);
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
@@ -273,7 +271,7 @@ async fn update_asset_status() {
                     DEVICE2.to_string(),
                     ENDPOINT2.to_string(),
                     ASSET_NAME2.to_string(),
-                    updated_status,
+                    updated_status.clone(),
                     TIMEOUT,
                 )
                 .await
@@ -285,18 +283,19 @@ async fn update_asset_status() {
                 updated_asset.specification.attributes["assetId"],
                 ASSET_NAME2
             );
-            assert_eq!(
-                updated_asset
-                    .status
-                    .unwrap()
-                    .config
-                    .unwrap()
-                    .error
-                    .unwrap()
-                    .message
-                    .unwrap(),
-                message
-            );
+            // assert_eq!(
+            //     updated_asset
+            //         .status
+            //         .unwrap()
+            //         .config
+            //         .unwrap()
+            //         .error
+            //         .unwrap()
+            //         .message
+            //         .unwrap(),
+            //     message
+            // );
+            assert_eq!(updated_asset.status.unwrap(), updated_status);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
