@@ -11,9 +11,12 @@ use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 
-use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::azure_device_registry::helper::ConvertOptionVec;
 use crate::azure_device_registry::models::{Asset, Device};
+use crate::azure_device_registry::{
+    adr_base_gen::adr_base_service::client as base_client_gen,
+    device_discovery_gen::device_discovery_service::client as discovery_client_gen,
+};
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry base service generated code
@@ -145,6 +148,18 @@ pub struct Details {
 }
 
 // ~~ From impls ~~
+
+// NOTE: Each generated module has their own (identical) error, so unify them for error propagation.
+impl From<discovery_client_gen::AkriServiceError> for base_client_gen::AkriServiceError {
+    fn from(value: discovery_client_gen::AkriServiceError) -> Self {
+        base_client_gen::AkriServiceError {
+            code: value.code,
+            message: value.message,
+            timestamp: value.timestamp,
+        }
+    }
+}
+
 impl From<StatusConfig> for base_client_gen::DeviceStatusConfigSchema {
     fn from(value: StatusConfig) -> Self {
         base_client_gen::DeviceStatusConfigSchema {

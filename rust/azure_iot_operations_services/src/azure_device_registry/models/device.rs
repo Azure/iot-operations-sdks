@@ -6,8 +6,14 @@ use std::collections::HashMap;
 
 use chrono::{DateTime, Utc};
 
-use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
+use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
 use crate::azure_device_registry::{ConfigError, StatusConfig};
+use crate::azure_device_registry::{
+    adr_base_gen::adr_base_service::client as base_client_gen,
+    device_discovery_gen::device_discovery_service::client as discovery_client_gen,
+};
+
+// TODO: bidirectional transforms
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
 
@@ -26,13 +32,13 @@ pub struct Device {
 /// Represents the specification of a device in the Azure Device Registry service.
 pub struct DeviceSpecification {
     /// The 'attributes' Field.
-    pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
+    pub attributes: HashMap<String, String>, // if None in generated model, we can represent as empty hashmap
     /// The 'discoveredDeviceRef' Field.
     pub discovered_device_ref: Option<String>,
     /// The 'enabled' Field.
     pub enabled: Option<bool>,
     /// The 'endpoints' Field.
-    pub endpoints: DeviceEndpoints,
+    pub endpoints: Option<DeviceEndpoints>,
     /// The 'externalDeviceId' Field.
     pub external_device_id: Option<String>,
     /// The 'lastTransitionTime' Field.
@@ -51,15 +57,57 @@ pub struct DeviceSpecification {
     pub version: Option<u64>,
 }
 
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone)]
+/// Represents a discovered device specification in the Azure Device Registry service.
+pub struct DiscoveredDeviceSpecification {
+    /// The 'attributes' Field.
+    pub attributes: HashMap<String, String>, // if empty hashmap, we can represent as None on generated model
+    /// The 'endpoints' Field.
+    pub endpoints: Option<DiscoveredDeviceEndpoints>,
+    /// The 'externalDeviceId' Field.
+    pub external_device_id: Option<String>,
+    /// The 'manufacturer' Field.
+    pub manufacturer: Option<String>,
+    /// The 'model' Field.
+    pub model: Option<String>,
+    /// The 'operatingSystem' Field.
+    pub operating_system: Option<String>,
+    /// The 'operatingSystemVersion' Field.
+    pub operating_system_version: Option<String>,
+}
+
+#[derive(Debug, Clone)]
 /// Represents the endpoints of a device in the Azure Device Registry service.
 pub struct DeviceEndpoints {
     /// The 'inbound' Field.
-    pub inbound: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub inbound: HashMap<String, InboundEndpoint>, // if None on generated model, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
     /// The 'outbound' Field.
-    pub outbound_assigned: HashMap<String, OutboundEndpoint>,
-    /// The 'outboundUnassigned' Field.
-    pub outbound_unassigned: HashMap<String, OutboundEndpoint>,
+    pub outbound: Option<OutboundEndpoints>,
+}
+
+/// Represents the endpoints of a discovered device in the Azure Device Registry service.
+#[derive(Debug, Clone)]
+pub struct DiscoveredDeviceEndpoints {
+    /// The 'inbound' Field.
+    pub inbound: HashMap<String, DiscoveredInboundEndpoint>, // if empty, we can represent as None on generated model.
+    /// The 'outbound' Field.
+    pub outbound: Option<DiscoveredOutboundEndpoints>,
+}
+
+/// Represents the outbound endpoints of a device in the Azure Device Registry service.
+#[derive(Debug, Clone)]
+pub struct OutboundEndpoints {
+    /// The 'assigned' Field.
+    pub assigned: HashMap<String, OutboundEndpoint>,
+    /// The 'unassigned' Field.
+    pub unassigned: HashMap<String, OutboundEndpoint>,
+}
+
+/// Represents the outbound endpoints of a discovered device in the Azure Device Registry service.
+#[derive(Debug, Clone, Default)]
+pub struct DiscoveredOutboundEndpoints {
+    /// The 'assigned' Field.
+    pub assigned: HashMap<String, OutboundEndpoint>,
 }
 
 /// Represents an outbound endpoint of a device in the Azure Device Registry service.
@@ -84,6 +132,21 @@ pub struct InboundEndpoint {
     pub endpoint_type: String,
     /// The 'trustSettings' Field.
     pub trust_settings: Option<TrustSettings>,
+    /// The 'version' Field.
+    pub version: Option<String>,
+}
+
+/// Represents an inbound endpoint of a discovered device in the Azure Device Registry service.
+#[derive(Debug, Clone)]
+pub struct DiscoveredInboundEndpoint {
+    /// The 'additionalConfiguration' Field.
+    pub additional_configuration: Option<String>,
+    /// The 'address' Field.
+    pub address: String,
+    /// The 'endpointType' Field.
+    pub endpoint_type: String,
+    /// The 'supportedAuthenticationMethods' Field.
+    pub supported_authentication_methods: Vec<String>,
     /// The 'version' Field.
     pub version: Option<String>,
 }
@@ -116,6 +179,7 @@ pub enum Authentication {
         username_secret_name: String,
     },
 }
+
 // ~~ From impls ~~
 impl From<base_client_gen::Device> for Device {
     fn from(value: base_client_gen::Device) -> Self {
@@ -143,7 +207,7 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
             attributes: value.attributes.unwrap_or_default(),
             discovered_device_ref: value.discovered_device_ref,
             enabled: value.enabled,
-            endpoints: value.endpoints.map(Into::into).unwrap_or_default(),
+            endpoints: value.endpoints.map(Into::into),
             external_device_id: value.external_device_id,
             last_transition_time: value.last_transition_time,
             manufacturer: value.manufacturer,
@@ -156,33 +220,61 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
     }
 }
 
+impl From<DiscoveredDeviceSpecification> for discovery_client_gen::DiscoveredDevice {
+    fn from(value: DiscoveredDeviceSpecification) -> Self {
+        discovery_client_gen::DiscoveredDevice {
+            attributes: value.attributes.option_map_into(),
+            endpoints: value.endpoints.map(Into::into),
+            external_device_id: value.external_device_id,
+            manufacturer: value.manufacturer,
+            model: value.model,
+            operating_system: value.operating_system,
+            operating_system_version: value.operating_system_version,
+        }
+    }
+}
+
 impl From<base_client_gen::DeviceEndpointsSchema> for DeviceEndpoints {
     fn from(value: base_client_gen::DeviceEndpointsSchema) -> Self {
-        let inbound = match value.inbound {
-            Some(inbound_endpoints) => inbound_endpoints
+        DeviceEndpoints {
+            inbound: value.inbound.option_map_into().unwrap_or_default(),
+            outbound: value.outbound.map(Into::into),
+        }
+    }
+}
+
+impl From<DiscoveredDeviceEndpoints> for discovery_client_gen::DiscoveredDeviceEndpoint {
+    fn from(value: DiscoveredDeviceEndpoints) -> Self {
+        discovery_client_gen::DiscoveredDeviceEndpoint {
+            inbound: value.inbound.option_map_into(),
+            outbound: value.outbound.map(Into::into),
+        }
+    }
+}
+
+impl From<base_client_gen::OutboundSchema> for OutboundEndpoints {
+    fn from(value: base_client_gen::OutboundSchema) -> Self {
+        OutboundEndpoints {
+            assigned: value
+                .assigned
                 .into_iter()
                 .map(|(k, v)| (k, v.into()))
                 .collect(),
-            None => HashMap::new(),
-        };
-        let mut outbound_assigned = HashMap::new();
-        let mut outbound_unassigned = HashMap::new();
-
-        if let Some(outbound) = value.outbound {
-            for (k, v) in outbound.assigned {
-                outbound_assigned.insert(k, v.into());
-            }
-
-            if let Some(map) = outbound.unassigned {
-                for (k, v) in map {
-                    outbound_unassigned.insert(k, v.into());
-                }
-            }
+            unassigned: value.unassigned.option_map_into().unwrap_or_default(),
         }
-        DeviceEndpoints {
-            inbound,
-            outbound_assigned,
-            outbound_unassigned,
+    }
+}
+
+impl From<DiscoveredOutboundEndpoints>
+    for discovery_client_gen::DiscoveredDeviceOutboundEndpointsSchema
+{
+    fn from(value: DiscoveredOutboundEndpoints) -> Self {
+        discovery_client_gen::DiscoveredDeviceOutboundEndpointsSchema {
+            assigned: value
+                .assigned
+                .into_iter()
+                .map(|(k, v)| (k, v.into()))
+                .collect(),
         }
     }
 }
@@ -190,6 +282,15 @@ impl From<base_client_gen::DeviceEndpointsSchema> for DeviceEndpoints {
 impl From<base_client_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
     fn from(value: base_client_gen::DeviceOutboundEndpoint) -> Self {
         OutboundEndpoint {
+            address: value.address,
+            endpoint_type: value.endpoint_type,
+        }
+    }
+}
+
+impl From<OutboundEndpoint> for discovery_client_gen::DeviceOutboundEndpoint {
+    fn from(value: OutboundEndpoint) -> Self {
+        discovery_client_gen::DeviceOutboundEndpoint {
             address: value.address,
             endpoint_type: value.endpoint_type,
         }
@@ -204,6 +305,22 @@ impl From<base_client_gen::InboundSchemaMapValueSchema> for InboundEndpoint {
             authentication: value.authentication.map(Into::into).unwrap_or_default(),
             trust_settings: value.trust_settings.map(Into::into),
             endpoint_type: value.endpoint_type,
+            version: value.version,
+        }
+    }
+}
+
+impl From<DiscoveredInboundEndpoint>
+    for discovery_client_gen::DiscoveredDeviceInboundEndpointSchema
+{
+    fn from(value: DiscoveredInboundEndpoint) -> Self {
+        discovery_client_gen::DiscoveredDeviceInboundEndpointSchema {
+            additional_configuration: value.additional_configuration,
+            address: value.address,
+            endpoint_type: value.endpoint_type,
+            supported_authentication_methods: value
+                .supported_authentication_methods
+                .option_vec_into(),
             version: value.version,
         }
     }
