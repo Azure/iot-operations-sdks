@@ -90,6 +90,7 @@ pub struct AssetSpecification {
 }
 
 /// Represents the partial specification of an Discovered Asset in the Azure Device Registry service.
+#[derive(Clone, Debug)]
 pub struct DiscoveredAssetSpecification {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if empty, we can represent as None on generated model.
@@ -155,6 +156,7 @@ pub struct Dataset {
 }
 
 /// Represents a discovered dataset.
+#[derive(Clone, Debug)]
 pub struct DiscoveredDataset {
     /// Configuration for the dataset.
     pub dataset_configuration: Option<String>,
