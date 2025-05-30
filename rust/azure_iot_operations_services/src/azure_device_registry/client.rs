@@ -877,7 +877,7 @@ where
     /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
-    /// - device, asset or inbound endpoint names are invalid.
+    /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
