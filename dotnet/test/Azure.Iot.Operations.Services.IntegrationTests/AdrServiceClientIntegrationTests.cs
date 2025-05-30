@@ -59,7 +59,7 @@ public class AdrServiceClientIntegrationTests
             Config = new DeviceStatusConfig
             {
                 Error = null,
-                LastTransitionTime = "2023-10-01T00:00:00Z",
+                LastTransitionTime = DateTime.Parse("2023-10-01T00:00:00Z"),
                 Version = 1
             },
             Endpoints = new DeviceStatusEndpoint
@@ -698,7 +698,7 @@ public class AdrServiceClientIntegrationTests
             Config = new DeviceStatusConfig
             {
                 Error = null,
-                LastTransitionTime = timeStamp.ToString("o"),
+                LastTransitionTime = timeStamp,
                 Version = 2
             },
             Endpoints = new DeviceStatusEndpoint
@@ -721,7 +721,7 @@ public class AdrServiceClientIntegrationTests
                 Config = new AssetConfigStatus
                 {
                     Error = null,
-                    LastTransitionTime = timeStamp.ToString("o"),
+                    LastTransitionTime = timeStamp,
                     Version = 1
                 }
             }
