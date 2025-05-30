@@ -89,7 +89,7 @@ pub struct DeviceEndpoints {
 #[derive(Debug, Clone)]
 pub struct DiscoveredDeviceEndpoints {
     /// The 'inbound' Field.
-    pub inbound: HashMap<String, DiscoveredInboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub inbound: HashMap<String, DiscoveredInboundEndpoint>, // if None, we can represent as empty hashmap.
     /// The 'outbound' Field.
     pub outbound: Option<DiscoveredOutboundEndpoints>,
 }
