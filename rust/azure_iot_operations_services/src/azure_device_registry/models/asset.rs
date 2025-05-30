@@ -418,7 +418,7 @@ pub struct DestinationConfiguration {
     /// The description of the destination configuration.
     pub path: Option<String>,
     /// The MQTT `QoS` setting for the destination configuration.
-    pub qos: Option<MqttQoS>,
+    pub qos: Option<Qos>,
     /// The MQTT retain setting for the destination configuration.
     pub retain: Option<Retain>,
     /// The MQTT topic for the destination configuration.
@@ -586,6 +586,16 @@ pub enum ActionType {
     Read,
     /// Represents a write action type.
     Write,
+}
+
+/// Represents the MQTT Quality of Service level.
+/// Currently does not include Quality of Service 2.
+#[derive(Clone, Debug)]
+pub enum Qos {
+    /// Quality of Service level 0 (At most once)
+    AtMostOnce,
+    /// Quality of Service level 1 (At least once)
+    AtLeastOnce,
 }
 
 impl From<Retain> for base_client_gen::Retain {
@@ -1062,21 +1072,29 @@ impl From<DatasetTarget> for base_client_gen::DatasetTarget {
     }
 }
 
-impl From<base_client_gen::Qos> for azure_iot_operations_mqtt::control_packet::QoS {
+impl From<base_client_gen::Qos> for Qos {
     fn from(value: base_client_gen::Qos) -> Self {
         match value {
-            base_client_gen::Qos::Qos0 => MqttQoS::AtMostOnce,
-            base_client_gen::Qos::Qos1 => MqttQoS::AtLeastOnce,
+            base_client_gen::Qos::Qos0 => Qos::AtMostOnce,
+            base_client_gen::Qos::Qos1 => Qos::AtLeastOnce,
         }
     }
 }
 
-impl From<azure_iot_operations_mqtt::control_packet::QoS> for base_client_gen::Qos {
-    fn from(value: azure_iot_operations_mqtt::control_packet::QoS) -> Self {
+impl From<Qos> for base_client_gen::Qos {
+    fn from(value: Qos) -> Self {
         match value {
-            MqttQoS::AtMostOnce => base_client_gen::Qos::Qos0,
-            MqttQoS::AtLeastOnce => base_client_gen::Qos::Qos1,
-            MqttQoS::ExactlyOnce => base_client_gen::Qos::Qos1, // TODO: find a solution for this
+            Qos::AtMostOnce => base_client_gen::Qos::Qos0,
+            Qos::AtLeastOnce => base_client_gen::Qos::Qos1,
+        }
+    }
+}
+
+impl From<Qos> for MqttQoS {
+    fn from(value: Qos) -> Self {
+        match value {
+            Qos::AtMostOnce => MqttQoS::AtMostOnce,
+            Qos::AtLeastOnce => MqttQoS::AtLeastOnce,
         }
     }
 }
