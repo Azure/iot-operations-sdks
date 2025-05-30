@@ -96,7 +96,7 @@ async fn do_discovery(
             },
         ),
         (
-            "another_endpoint".to_string(),
+            "another_outbound_endpoint".to_string(),
             models::OutboundEndpoint {
                 address: "tcp://another/outbound/endpoint".to_string(),
                 endpoint_type: Some("anotherEndpointType".to_string()),
