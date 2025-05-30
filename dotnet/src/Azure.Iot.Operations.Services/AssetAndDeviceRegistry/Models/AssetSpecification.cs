@@ -45,7 +45,7 @@ public record AssetSpecification
 
     public string? HardwareRevision { get; set; }
 
-    public string? LastTransitionTime { get; set; }
+    public DateTime? LastTransitionTime { get; set; }
 
     public List<AssetManagementGroup>? ManagementGroups { get; set; }
 

@@ -6,6 +6,7 @@ using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using AkriServiceErrorException = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService.AkriServiceErrorException;
 using Asset = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Asset;
 using Device = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.Device;
 using DeviceStatus = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models.DeviceStatus;
@@ -13,9 +14,10 @@ using NotificationResponse = Azure.Iot.Operations.Services.AssetAndDeviceRegistr
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string connectorClientId) : IAdrServiceClient
+public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, string clientId) : IAdrServiceClient
 {
     private const string _connectorClientIdTokenKey = "connectorClientId";
+    private const string _discoveryClientIdTokenKey = "discoveryClientId";
     private const string _endpointNameTokenKey = "inboundEndpointName";
     private const string _deviceNameTokenKey = "deviceName";
     private const string _inboundEpTypeTokenKey = "inboundEndpointType";
@@ -53,7 +55,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -85,7 +87,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -112,14 +114,22 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
 
-        var result = await _adrBaseServiceClient.GetDeviceAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
-            cancellationToken);
-        return result.Device.ToModel();
+        try
+        {
+            var result = await _adrBaseServiceClient.GetDeviceAsync(null, additionalTopicTokenMap, commandTimeout ?? _defaultTimeout,
+                cancellationToken);
+            return result.Device.ToModel();
+        }
+        catch (AkriServiceErrorException exception)
+        {
+            var error = exception.AkriServiceError.ToModel();
+            throw new Models.AkriServiceErrorException(error);
+        }
     }
 
     /// <inheritdoc />
@@ -131,7 +141,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -163,7 +173,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -200,7 +210,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -231,7 +241,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -255,7 +265,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
@@ -277,31 +287,39 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
+            { _connectorClientIdTokenKey, clientId },
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
 
-        var result = await _adrBaseServiceClient.CreateOrUpdateDiscoveredAssetAsync(
-            request.ToProtocol(),
-            null,
-            additionalTopicTokenMap,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken);
-        return result.DiscoveredAssetResponse.ToModel();
+        try
+        {
+            var result = await _adrBaseServiceClient.CreateOrUpdateDiscoveredAssetAsync(
+                request.ToProtocol(),
+                null,
+                additionalTopicTokenMap,
+                commandTimeout ?? _defaultTimeout,
+                cancellationToken);
+            return result.DiscoveredAssetResponse.ToModel();
+        }
+        catch (AkriServiceErrorException exception)
+        {
+            var error = exception.AkriServiceError.ToModel();
+            throw new Models.AkriServiceErrorException(error);
+        }
     }
 
     /// <inheritdoc />
-    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(
-        CreateDiscoveredAssetEndpointProfileRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(CreateDiscoveredAssetEndpointProfileRequest request,
+        string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
-            { _connectorClientIdTokenKey, connectorClientId },
-            { _inboundEpTypeTokenKey, request.EndpointProfileType },
+            { _discoveryClientIdTokenKey, clientId },
+            { _inboundEpTypeTokenKey, inboundEndpointType },
         };
 
         var req = new CreateOrUpdateDiscoveredDeviceRequestPayload
@@ -313,13 +331,21 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             }
         };
 
-        var result = await _deviceDiscoveryServiceClient.CreateOrUpdateDiscoveredDeviceAsync(
-            req,
-            null,
-            additionalTopicTokenMap,
-            commandTimeout ?? _defaultTimeout,
-            cancellationToken);
-        return result.DiscoveredDeviceResponse.ToModel();
+        try
+        {
+            var result = await _deviceDiscoveryServiceClient.CreateOrUpdateDiscoveredDeviceAsync(
+                req,
+                null,
+                additionalTopicTokenMap,
+                commandTimeout ?? _defaultTimeout,
+                cancellationToken);
+            return result.DiscoveredDeviceResponse.ToModel();
+        }
+        catch (DeviceDiscoveryService.AkriServiceErrorException exception)
+        {
+            var error = exception.AkriServiceError.ToModel();
+            throw new Models.AkriServiceErrorException(error);
+        }
     }
 
     /// <inheritdoc />

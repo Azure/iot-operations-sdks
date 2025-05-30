@@ -4,6 +4,7 @@
 using System.Text.Json;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
+using Azure.Iot.Operations.Services.StateStore;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -15,7 +16,7 @@ internal static class ModelsConverter
         AllowTrailingCommas = true,
     };
 
-    public static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
+    internal static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
     {
         return new AssetStatus
         {
@@ -27,7 +28,7 @@ internal static class ModelsConverter
         };
     }
 
-    public static Asset ToModel(this AdrBaseService.Asset source)
+    internal static Asset ToModel(this AdrBaseService.Asset source)
     {
         return new Asset
         {
@@ -37,12 +38,32 @@ internal static class ModelsConverter
         };
     }
 
-    public static CreateDetectedAssetResponse ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
+    internal static CreateDetectedAssetResponse ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
     {
         return new CreateDetectedAssetResponse
         {
             DiscoveryId = source.DiscoveryId,
             Version = source.Version
+        };
+    }
+
+    internal static Models.AkriServiceError ToModel(this AdrBaseService.AkriServiceError source)
+    {
+        return new Models.AkriServiceError
+        {
+            Code = source.Code,
+            Message = source.Message,
+            Timestamp = source.Timestamp,
+        };
+    }
+
+    internal static Models.AkriServiceError ToModel(this DeviceDiscoveryService.AkriServiceError source)
+    {
+        return new Models.AkriServiceError
+        {
+            Code = source.Code,
+            Message = source.Message,
+            Timestamp = source.Timestamp,
         };
     }
 
@@ -299,7 +320,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceEndpoint ToModel(this DeviceEndpointSchema source)
+    internal static DeviceEndpoint ToModel(this DeviceEndpointsSchema source)
     {
         return new DeviceEndpoint
         {

@@ -7,8 +7,6 @@ public record CreateDiscoveredAssetEndpointProfileRequest
 {
     public required string Name { get; set; }
 
-    public required string EndpointProfileType { get; set; }
-
     public Dictionary<string, string>? Attributes { get; set; }
 
     public DiscoveredDeviceEndpoint? Endpoints { get; set; }

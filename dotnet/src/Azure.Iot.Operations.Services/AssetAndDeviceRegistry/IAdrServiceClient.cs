@@ -148,11 +148,13 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// Creates or updates a discovered device endpoint profile.
     /// </summary>
     /// <param name="request">The request containing discovered device endpoint profile creation parameters.</param>
+    /// <param name="inboundEndpointType"></param>
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered device endpoint profile.</returns>
     Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(
         CreateDiscoveredAssetEndpointProfileRequest request,
+        string inboundEndpointType,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
