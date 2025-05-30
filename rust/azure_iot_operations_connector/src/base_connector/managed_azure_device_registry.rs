@@ -19,13 +19,10 @@ use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio_retry2::{Retry, RetryError};
 
 use crate::{
-    AdrConfigError, Data, DatasetRef, MessageSchema,
-    base_connector::ConnectorContext,
-    destination_endpoint::{self, Forwarder},
-    filemount::azure_device_registry::{
+    base_connector::ConnectorContext, destination_endpoint::{self, Forwarder}, filemount::azure_device_registry::{
         AssetCreateObservation, AssetDeletionToken, AssetRef, DeviceEndpointCreateObservation,
         DeviceEndpointRef,
-    },
+    }, AdrConfigError, Data, DataOperationRef, MessageSchema
 };
 
 /// Used as the strategy when using [`tokio_retry2::Retry`]
@@ -475,7 +472,7 @@ impl AssetClientCreationObservation {
     ) -> Option<(
         AssetClient,
         AssetDeletionToken,
-        DatasetClientCreationObservation,
+        DataOperationClientCreationObservation,
     )> {
         loop {
             // Get the notification
@@ -503,7 +500,7 @@ impl AssetClientCreationObservation {
                 },
             };
 
-            let (dataset_creation_tx, dataset_creation_rx) = mpsc::unbounded_channel();
+            let (data_operation_creation_tx, data_operation_creation_rx) = mpsc::unbounded_channel();
             // get the asset definition
             let asset_client = match Retry::spawn(
                 RETRY_STRATEGY.map(tokio_retry2::strategy::jitter),
@@ -547,7 +544,7 @@ impl AssetClientCreationObservation {
                         self.device_specification.clone(),
                         self.device_status.clone(),
                         asset_update_observation,
-                        dataset_creation_tx,
+                        data_operation_creation_tx,
                         self.connector_context.clone(),
                     )
                     .await
@@ -585,8 +582,8 @@ impl AssetClientCreationObservation {
             return Some((
                 asset_client,
                 asset_deletion_token,
-                DatasetClientCreationObservation {
-                    dataset_creation_rx,
+                DataOperationClientCreationObservation {
+                    data_operation_creation_rx,
                 },
             ));
         }
@@ -615,23 +612,23 @@ pub struct AssetClient {
     /// The internal observation for updates
     #[getter(skip)]
     asset_update_observation: AssetUpdateObservation,
-    /// Internal sender for when new datasets are created
+    /// Internal sender for when new data_operations are created
     #[getter(skip)]
-    dataset_creation_tx: UnboundedSender<(
-        DatasetClient,
+    data_operation_creation_tx: UnboundedSender<(
+        DataOperationClient,
         tokio::sync::watch::Receiver<()>, // watch receiver for when the creation notification should be released to the application
     )>,
-    /// hashmap of current dataset names to their current definition and a sender to send dataset updates
+    /// hashmap of current data_operation names to their current definition and a sender to send data_operation updates
     #[getter(skip)]
-    dataset_hashmap: HashMap<String, (Dataset, UnboundedSender<DatasetUpdateNotification>)>,
+    data_operation_hashmap: HashMap<String, (DataOperationDefinition, UnboundedSender<DataOperationUpdateNotification>)>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
     /// The last definition of the asset that was received so we can filter out updates that only report status changes. Temporary
     #[getter(skip)]
     last_specification: azure_device_registry::AssetSpecification,
-    /// Internal watch sender for releasing dataset create/update notifications
+    /// Internal watch sender for releasing data_operation create/update notifications
     #[getter(skip)]
-    release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
+    release_data_operation_notifications_tx: tokio::sync::watch::Sender<()>,
 }
 
 impl AssetClient {
@@ -641,7 +638,7 @@ impl AssetClient {
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
         asset_update_observation: AssetUpdateObservation,
-        dataset_creation_tx: UnboundedSender<(DatasetClient, tokio::sync::watch::Receiver<()>)>,
+        data_operation_creation_tx: UnboundedSender<(DataOperationClient, tokio::sync::watch::Receiver<()>)>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
@@ -686,11 +683,11 @@ impl AssetClient {
             device_specification,
             device_status,
             asset_update_observation,
-            dataset_creation_tx,
-            dataset_hashmap: HashMap::new(),
+            data_operation_creation_tx,
+            data_operation_hashmap: HashMap::new(),
             connector_context,
             last_specification: asset.specification,
-            release_dataset_notifications_tx: tokio::sync::watch::Sender::new(()),
+            release_data_operation_notifications_tx: tokio::sync::watch::Sender::new(()),
         };
 
         // if there are any config errors when creating the datasets, collect them all so we can report them at once
@@ -721,7 +718,7 @@ impl AssetClient {
 
         // release new datasets to be consumable
         asset_client
-            .release_dataset_notifications_tx
+            .release_data_operation_notifications_tx
             .send_modify(|()| ());
 
         asset_client
@@ -762,7 +759,7 @@ impl AssetClient {
     /// If the status or specification mutexes have been poisoned, which should not be possible
     pub async fn recv_update(&mut self) -> Option<()> {
         // release any pending dataset create/update notifications
-        self.release_dataset_notifications_tx.send_modify(|()| ());
+        self.release_data_operation_notifications_tx.send_modify(|()| ());
         loop {
             // handle the notification
             // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
@@ -779,7 +776,7 @@ impl AssetClient {
                 continue;
             }
 
-            // Update status before generating datasets so that if a status needs to be reported, it uses the latest one
+            // Update status before generating data_operations so that if a status needs to be reported, it uses the latest one
             // but release the write guard because reporting a status when creating the datasets might update the status
             {
                 let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
@@ -789,7 +786,7 @@ impl AssetClient {
             // update datasets
             // remove the datasets that are no longer present in the new asset definition.
             // This triggers deletion notification since this drops the update sender.
-            self.dataset_hashmap.retain(|dataset_name, _| {
+            self.data_operation_hashmap.retain(|dataset_name, _| {
                 updated_asset
                     .specification
                     .datasets
@@ -841,8 +838,8 @@ impl AssetClient {
             // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
             for received_dataset_definition in &updated_asset.specification.datasets {
                 // it already exists
-                if let Some((dataset_definition, dataset_update_tx)) = self
-                    .dataset_hashmap
+                if let Some((data_operation_definition, dataset_update_tx)) = self
+                    .data_operation_hashmap
                     .get_mut(&received_dataset_definition.name)
                 {
                     // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
@@ -855,14 +852,14 @@ impl AssetClient {
                         // send update to the dataset
                         let _ = dataset_update_tx
                             .send((
-                                received_dataset_definition.clone(),
+                                DataOperationDefinition::Dataset(received_dataset_definition.clone()),
                                 default_dataset_destinations.clone(),
-                                self.release_dataset_notifications_tx.subscribe(),
+                                self.release_data_operation_notifications_tx.subscribe(),
                             )).inspect_err(|tokio::sync::mpsc::error::SendError((e_dataset_definition, _,_))| {
                                 // TODO: should this trigger the datasetClient create flow, or is this just indicative of an application bug?
                                 log::warn!(
                                     "Update received for dataset {}, but DatasetClient has been dropped",
-                                    e_dataset_definition.name
+                                    e_dataset_definition.name()
                                 );
                             });
                     }
@@ -1021,8 +1018,8 @@ impl AssetClient {
     ) -> Result<(), azure_device_registry::DatasetEventStreamStatus> {
         let (dataset_update_tx, dataset_update_rx) = mpsc::unbounded_channel();
 
-        let new_dataset_client = DatasetClient::new(
-            dataset_definition.clone(),
+        let new_dataset_client = DataOperationClient::new(
+            DataOperationDefinition::Dataset(dataset_definition.clone()),
             dataset_update_rx,
             default_dataset_destinations,
             self.asset_ref.clone(),
@@ -1059,16 +1056,16 @@ impl AssetClient {
         })?;
 
         // insert the dataset client into the hashmap so we can handle updates
-        self.dataset_hashmap.insert(
+        self.data_operation_hashmap.insert(
             dataset_definition.name.clone(),
-            (dataset_definition, dataset_update_tx),
+            (DataOperationDefinition::Dataset(dataset_definition), dataset_update_tx),
         );
 
         if self
-            .dataset_creation_tx
+            .data_operation_creation_tx
             .send((
                 new_dataset_client,
-                self.release_dataset_notifications_tx.subscribe(),
+                self.release_data_operation_notifications_tx.subscribe(),
             ))
             .is_err()
         {
@@ -1121,41 +1118,101 @@ impl AssetClient {
 
 /// An Observation for dataset creation events that uses
 /// multiple underlying clients to get full dataset information.
-pub struct DatasetClientCreationObservation {
+pub struct DataOperationClientCreationObservation {
     /// Internal channel for receiving notifications about dataset creation events.
-    dataset_creation_rx: UnboundedReceiver<(
-        DatasetClient,
+    data_operation_creation_rx: UnboundedReceiver<(
+        DataOperationClient,
         tokio::sync::watch::Receiver<()>, // watch receiver for when the creation notification should be released to the application
     )>,
 }
-impl DatasetClientCreationObservation {
-    /// Receives a notification for a newly created dataset with the
-    /// [`DatasetClient`] or [`None`] if there will be no more notifications.
+impl DataOperationClientCreationObservation {
+    /// Receives a notification for a newly created data operation (dataset, event, or stream) with the
+    /// [`DataOperationClient`] or [`None`] if there will be no more notifications.
     /// Receiving [`None`] indicates that the Asset has been deleted or the
     /// [`AssetClient`] has been dropped.
-    pub async fn recv_notification(&mut self) -> Option<DatasetClient> {
-        let (dataset_client, mut watch_receiver) = self.dataset_creation_rx.recv().await?;
+    pub async fn recv_notification(&mut self) -> Option<DataOperationClient> {
+        let (data_operation_client, mut watch_receiver) = self.data_operation_creation_rx.recv().await?;
         // wait until the message has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
         watch_receiver.changed().await.ok()?;
-        Some(dataset_client)
+        Some(data_operation_client)
     }
 }
 
-type DatasetUpdateNotification = (
-    Dataset,                                     // new Dataset definition
-    Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
+type DataOperationUpdateNotification = (
+    DataOperationDefinition,                                     // new DataOperation definition
+    Vec<Arc<destination_endpoint::Destination>>, // new default DataOperation destinations
     tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
 );
 
-/// Azure Device Registry Dataset that includes additional functionality
-/// to report status, report message schema, receive Dataset updates,
+#[derive(Debug)]
+pub enum DataOperationDefinition {
+    /// Dataset definition
+    Dataset(azure_device_registry::Dataset),
+    /// Event definition
+    Event(azure_device_registry::Event),
+    /// Stream definition
+    Stream(azure_device_registry::Stream),
+}
+
+impl DataOperationDefinition {
+    /// Returns the name of the data operation
+    #[must_use]
+    pub fn name(&self) -> &str {
+        match self {
+            DataOperationDefinition::Dataset(dataset) => &dataset.name,
+            DataOperationDefinition::Event(event) => &event.name,
+            DataOperationDefinition::Stream(stream) => &stream.name,
+        }
+    }
+
+    // /// Returns the destinations of the data operation
+    // #[must_use]
+    // pub fn destinations(&self) -> DataOperationDestinations {
+    //     match self {
+    //         DataOperationDefinition::Dataset(dataset) => DataOperationDestinations::Dataset(dataset.destinations),
+    //         DataOperationDefinition::Event(event) => DataOperationDestinations::EventStream(event.destinations),
+    //         DataOperationDefinition::Stream(stream) => DataOperationDestinations::EventStream(stream.destinations),
+    //     }
+    // }
+}
+
+pub enum DataOperationDestinations {
+    /// Dataset destinations
+    Dataset(Vec<azure_device_registry::DatasetDestination>),
+    /// Event or Stream destinations
+    EventStream(Vec<azure_device_registry::EventsAndStreamsDestination>),
+}
+
+// pub enum DataOperationDestination {
+//     /// Dataset destinations
+//     Dataset(azure_device_registry::DatasetDestination),
+//     /// Event or Stream destinations
+//     EventStream(azure_device_registry::EventsAndStreamsDestination),
+// }
+
+
+
+#[derive(Debug)]
+pub enum DataOperationKind{
+    /// Dataset
+    Dataset,
+    /// Event
+    Event,
+    /// Stream
+    Stream,
+}
+
+/// Azure Device Registry Data Operation Client represents either a Dataset, Event,
+/// or Stream and includes additional functionality
+/// to report status, report message schema, receive updates,
 /// and send data to the destination
 #[derive(Debug, Getters)]
-pub struct DatasetClient {
-    /// Dataset, asset, device, and inbound endpoint names
-    dataset_ref: DatasetRef,
-    /// Dataset Definition
-    dataset_definition: Dataset,
+pub struct DataOperationClient {
+    kind: DataOperationKind,
+    /// Data operation, asset, device, and inbound endpoint names
+    data_operation_ref: DataOperationRef,
+    /// Data operation Definition
+    definition: DataOperationDefinition,
     /// Current status for the Asset
     #[getter(skip)]
     asset_status: Arc<RwLock<Option<AssetStatus>>>,
@@ -1177,16 +1234,16 @@ pub struct DatasetClient {
     /// Asset reference for internal use
     #[getter(skip)]
     asset_ref: AssetRef,
-    /// Internal channel for receiving notifications about dataset updates.
+    /// Internal channel for receiving notifications about Data Operation updates.
     #[getter(skip)]
-    dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
+    data_operation_update_rx: UnboundedReceiver<DataOperationUpdateNotification>,
 }
 
-impl DatasetClient {
+impl DataOperationClient {
     #[allow(clippy::too_many_arguments)]
     pub(crate) fn new(
-        dataset_definition: Dataset,
-        dataset_update_rx: UnboundedReceiver<DatasetUpdateNotification>,
+        definition: DataOperationDefinition,
+        data_operation_update_rx: UnboundedReceiver<DataOperationUpdateNotification>,
         default_destinations: &[Arc<destination_endpoint::Destination>],
         asset_ref: AssetRef,
         asset_status: Arc<RwLock<Option<AssetStatus>>>,
@@ -1196,27 +1253,53 @@ impl DatasetClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
-        let forwarder = Forwarder::new_dataset_forwarder(
-            &dataset_definition.destinations,
-            &asset_ref.inbound_endpoint_name,
-            default_destinations,
-            connector_context.clone(),
-        )?;
+        let kind;
+        let forwarder = match definition {
+            DataOperationDefinition::Dataset(ref dataset) => {
+                kind = DataOperationKind::Dataset;
+                Forwarder::new_dataset_forwarder(
+                    &dataset.destinations,
+                    &asset_ref.inbound_endpoint_name,
+                    default_destinations,
+                    connector_context.clone(),
+                )
+            },
+            DataOperationDefinition::Event(ref event) => {
+                kind = DataOperationKind::Event;
+                Forwarder::new_event_stream_forwarder(
+                    &event.destinations,
+                    &asset_ref.inbound_endpoint_name,
+                    default_destinations,
+                    connector_context.clone(),
+                )
+            },
+            DataOperationDefinition::Stream(ref stream) => {
+                kind = DataOperationKind::Stream;
+                Forwarder::new_event_stream_forwarder(
+                    &stream.destinations,
+                    &asset_ref.inbound_endpoint_name,
+                    default_destinations,
+                    connector_context.clone(),
+                )
+            },
+        }?;
+
         Ok(Self {
-            dataset_ref: DatasetRef {
-                dataset_name: dataset_definition.name.clone(),
+            kind,
+            data_operation_ref: DataOperationRef {
+                data_operation_name: definition.name().to_string(),
                 asset_name: asset_ref.name.clone(),
                 device_name: asset_ref.device_name.clone(),
                 inbound_endpoint_name: asset_ref.inbound_endpoint_name.clone(),
             },
             asset_ref,
-            dataset_definition,
+            definition,
             asset_status,
             asset_specification,
             device_specification,
             device_status,
             forwarder,
-            dataset_update_rx,
+            data_operation_update_rx,
             connector_context,
         })
     }
@@ -1243,20 +1326,25 @@ impl DatasetClient {
             });
         // Get current message schema reference, so that it isn't overwritten
         let current_message_schema_reference = self.message_schema_reference();
-        let adr_asset_status = azure_device_registry::AssetStatus {
-            config: current_asset_config,
-            datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
-                name: self.dataset_ref.dataset_name.clone(),
+        let data_operation_status =  Some(vec![azure_device_registry::DatasetEventStreamStatus {
+                name: self.data_operation_ref.data_operation_name.clone(),
                 message_schema_reference: current_message_schema_reference,
                 error: status.err(),
-            }]),
+            }]);
+        let mut adr_asset_status = azure_device_registry::AssetStatus {
+            config: current_asset_config,
             ..azure_device_registry::AssetStatus::default()
         };
+        match self.kind {
+            DataOperationKind::Dataset => adr_asset_status.datasets = data_operation_status,
+            DataOperationKind::Event => adr_asset_status.events = data_operation_status,
+            DataOperationKind::Stream => adr_asset_status.streams = data_operation_status,
+        }
 
         // send status update to the service
         log::debug!(
-            "reporting dataset {} status from app",
-            self.dataset_ref.dataset_name
+            "reporting data operation {} status from app",
+            self.data_operation_ref.data_operation_name
         );
         AssetClient::internal_report_status(
             adr_asset_status,
@@ -1304,7 +1392,7 @@ impl DatasetClient {
                             schema_registry::ErrorKind::AIOProtocolError(_) => {
                                 log::warn!(
                                     "Reporting message schema failed for {}. Retrying: {e}",
-                                    self.dataset_ref.dataset_name
+                                    self.data_operation_ref.data_operation_name
                                 );
                                 RetryError::transient(e)
                             }
@@ -1352,33 +1440,42 @@ impl DatasetClient {
                 }
             });
         // Get the current dataset config error, if it exists, so that it isn't overwritten
-        let current_dataset_config_error =
+        let current_data_operation_config_error =
             self.asset_status
                 .read()
                 .unwrap()
                 .as_ref()
                 .and_then(|status| {
-                    status.datasets.as_ref().and_then(|datasets| {
-                        datasets
+                    match self.kind {
+                        DataOperationKind::Dataset => status.datasets.as_ref(),
+                        DataOperationKind::Event => status.events.as_ref(),
+                        DataOperationKind::Stream => status.streams.as_ref()
+                    }.and_then(|data_operation_statuses| {
+                        data_operation_statuses
                             .iter()
-                            .find(|dataset| dataset.name == self.dataset_ref.dataset_name)
-                            .and_then(|dataset| dataset.error.clone())
+                            .find(|data_operation_status| data_operation_status.name == self.data_operation_ref.data_operation_name)
+                            .and_then(|data_operation_status| data_operation_status.error.clone())
                     })
                 });
-        let adr_asset_status = azure_device_registry::AssetStatus {
-            config: current_asset_config,
-            datasets: Some(vec![azure_device_registry::DatasetEventStreamStatus {
-                name: self.dataset_ref.dataset_name.clone(),
+        let data_operation_status =  Some(vec![azure_device_registry::DatasetEventStreamStatus {
+                name: self.data_operation_ref.data_operation_name.clone(),
                 message_schema_reference: Some(message_schema_reference.clone()),
-                error: current_dataset_config_error,
-            }]),
+                error: current_data_operation_config_error,
+            }]);
+        let mut adr_asset_status = azure_device_registry::AssetStatus {
+            config: current_asset_config,
             ..azure_device_registry::AssetStatus::default()
         };
+        match self.kind {
+            DataOperationKind::Dataset => adr_asset_status.datasets = data_operation_status,
+            DataOperationKind::Event => adr_asset_status.events = data_operation_status,
+            DataOperationKind::Stream => adr_asset_status.streams = data_operation_status,
+        }
 
         // send status update to the service
         log::debug!(
             "reporting dataset {} message schema from app",
-            self.dataset_ref.dataset_name
+            self.data_operation_ref.data_operation_name
         );
         AssetClient::internal_report_status(
             adr_asset_status,
@@ -1409,29 +1506,60 @@ impl DatasetClient {
     /// [`AssetClient`] that this [`DatasetClient`] is related to has been dropped.
     pub async fn recv_update(&mut self) -> Option<()> {
         loop {
-            let (updated_dataset, default_destinations, mut watch_receiver) =
-                self.dataset_update_rx.recv().await?;
+            let (updated_data_operation_definition, default_destinations, mut watch_receiver) =
+                self.data_operation_update_rx.recv().await?;
             // wait until the udpate has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
             watch_receiver.changed().await.ok()?;
             // create new forwarder, in case destination has changed
-            self.forwarder = match Forwarder::new_dataset_forwarder(
-                &updated_dataset.destinations,
-                &self.asset_ref.inbound_endpoint_name,
-                &default_destinations,
-                self.connector_context.clone(),
-            ) {
+            self.forwarder = match match updated_data_operation_definition {
+                DataOperationDefinition::Dataset(ref dataset) => Forwarder::new_dataset_forwarder(
+                        &dataset.destinations,
+                        &self.asset_ref.inbound_endpoint_name,
+                        &default_destinations,
+                        self.connector_context.clone(),
+                    ),
+                DataOperationDefinition::Event(ref event) => Forwarder::new_event_stream_forwarder(
+                        &event.destinations,
+                        &self.asset_ref.inbound_endpoint_name,
+                        &default_destinations,
+                        self.connector_context.clone(),
+                    ),
+                DataOperationDefinition::Stream(ref stream) => Forwarder::new_event_stream_forwarder(
+                        &stream.destinations,
+                        &self.asset_ref.inbound_endpoint_name,
+                        &default_destinations,
+                        self.connector_context.clone(),
+                    ),
+            } {
                 Ok(forwarder) => forwarder,
                 Err(e) => {
                     // TODO: we could delete the dataset here, but the current implementation would just wait for a new valid definition, which seems okay for now?
                     log::error!(
                         "Ignoring update. Invalid dataset destination for updated dataset: {} {e:?}",
-                        updated_dataset.name.clone()
+                        updated_data_operation_definition.name()
                     );
                     self.report_status(Err(e)).await;
                     continue;
                 }
             };
-            self.dataset_definition = updated_dataset;
+            // self.forwarder = match Forwarder::new_dataset_forwarder(
+            //     &updated_data_operation_definition.destinations,
+            //     &self.asset_ref.inbound_endpoint_name,
+            //     &default_destinations,
+            //     self.connector_context.clone(),
+            // ) {
+            //     Ok(forwarder) => forwarder,
+            //     Err(e) => {
+            //         // TODO: we could delete the dataset here, but the current implementation would just wait for a new valid definition, which seems okay for now?
+            //         log::error!(
+            //             "Ignoring update. Invalid dataset destination for updated dataset: {} {e:?}",
+            //             updated_data_operation_definition.name()
+            //         );
+            //         self.report_status(Err(e)).await;
+            //         continue;
+            //     }
+            // };
+            self.definition = updated_data_operation_definition;
             break;
         }
         Some(())
@@ -1448,13 +1576,18 @@ impl DatasetClient {
         self.asset_status
             .read()
             .unwrap()
-            .as_ref()?
-            .datasets
-            .as_ref()?
+            .as_ref().and_then(|status| {
+            match self.kind {
+                DataOperationKind::Dataset => status.datasets.as_ref(),
+                DataOperationKind::Event => status.events.as_ref(),
+                DataOperationKind::Stream => status.streams.as_ref()
+            }})?
             .iter()
-            .find(|dataset| dataset.name == self.dataset_ref.dataset_name)?
+            .find(|data_operation_status| data_operation_status.name == self.data_operation_ref.data_operation_name)?
             .message_schema_reference
             .clone()
+
+        
     }
 
     /// Returns a clone of the current asset specification

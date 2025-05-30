@@ -55,7 +55,7 @@ pub enum ErrorKind {
     ValidationError(String),
 }
 
-/// A [`Forwarder`] forwards [`Data`] to a destination defined in a dataset or asset
+/// A [`Forwarder`] forwards [`Data`] to a destination defined in a data operation or asset
 #[derive(Debug)]
 pub(crate) struct Forwarder {
     message_schema_reference: Option<MessageSchemaReference>,
@@ -63,20 +63,20 @@ pub(crate) struct Forwarder {
     connector_context: Arc<ConnectorContext>,
 }
 impl Forwarder {
-    /// Creates a new [`Forwarder`] from a dataset definition's Destinations
+    /// Creates a new [`Forwarder`] from a data operation definition's Destinations
     /// and default destinations, if present on the asset
     ///
     /// # Errors
     /// [`AdrConfigError`] if there are any issues processing
     /// the destination from the definitions. This can be used to report the error
-    /// to the ADR service on the dataset's status
+    /// to the ADR service on the data operation's status
     pub(crate) fn new_dataset_forwarder(
         dataset_destinations: &[azure_device_registry::DatasetDestination],
         inbound_endpoint_name: &str,
         default_destinations: &[Arc<Destination>],
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
-        // if the dataset has destinations defined, use them, otherwise use the default dataset destinations
+        // if the data_operation has destinations defined, use them, otherwise use the default data_operation destinations
         let destination = match Destination::new_dataset_destinations(
             dataset_destinations,
             inbound_endpoint_name,
@@ -92,7 +92,45 @@ impl Forwarder {
                                 code: None,
                                 details: None,
                                 inner_error: None,
-                                message: Some("Asset must have default dataset destinations if dataset doesn't have destinations".to_string()),
+                                message: Some("Asset must have default data_operation destinations if data_operation doesn't have destinations".to_string()),
+                            })?
+                } else {
+                    // for now, this vec will only ever be length 1
+                    ForwarderDestination::DefaultDestination(default_destinations[0].clone())
+                }
+            }
+        };
+
+        Ok(Self {
+            message_schema_reference: None,
+            destination,
+            connector_context,
+        })
+    }
+
+    pub(crate) fn new_event_stream_forwarder(
+        event_stream_destinations: &[azure_device_registry::EventsAndStreamsDestination],
+        inbound_endpoint_name: &str,
+        default_destinations: &[Arc<Destination>],
+        connector_context: Arc<ConnectorContext>,
+    ) -> Result<Self, AdrConfigError> {
+        // if the data_operation has destinations defined, use them, otherwise use the default data_operation destinations
+        let destination = match Destination::new_event_stream_destinations(
+            event_stream_destinations,
+            inbound_endpoint_name,
+            &connector_context,
+        )?
+        // for now, this vec will only ever be length 1
+        .pop()
+        {
+            Some(destination) => ForwarderDestination::DatasetDestination(destination),
+            None => {
+                if default_destinations.is_empty() {
+                    Err(AdrConfigError {
+                                code: None,
+                                details: None,
+                                inner_error: None,
+                                message: Some("Asset must have default data_operation destinations if data_operation doesn't have destinations".to_string()),
                             })?
                 } else {
                     // for now, this vec will only ever be length 1
@@ -264,7 +302,7 @@ pub(crate) enum Destination {
         key: String,
     },
     Mqtt {
-        qos: Option<QoS>, // these are optional so that we use the defaults from the telemetry::sender if they aren't specified on the dataset/asset definition
+        qos: Option<QoS>, // these are optional so that we use the defaults from the telemetry::sender if they aren't specified on the data_operation/asset definition
         retain: Option<bool>,
         ttl: Option<u64>,
         inbound_endpoint_name: String,
@@ -273,6 +311,36 @@ pub(crate) enum Destination {
     Storage {
         path: String,
     },
+}
+
+pub enum DataOperationDestinationDefinition {
+    /// Dataset destinations
+    Dataset(azure_device_registry::DatasetDestination),
+    /// Event or Stream destinations
+    EventStream(azure_device_registry::EventsAndStreamsDestination),
+}
+
+pub enum DataOperationDestinationDefinitionTarget {
+    /// Dataset destinations
+    Dataset(azure_device_registry::DatasetTarget),
+    /// Event or Stream destinations
+    EventStream(azure_device_registry::EventStreamTarget),
+}
+
+impl DataOperationDestinationDefinition {
+    pub fn target(&self) -> DataOperationDestinationDefinitionTarget {
+        match self {
+            DataOperationDestinationDefinition::Dataset(destination) => DataOperationDestinationDefinitionTarget::Dataset(destination.target.clone()),
+            DataOperationDestinationDefinition::EventStream(destination) => DataOperationDestinationDefinitionTarget::EventStream(destination.target.clone()),
+        }
+    }
+
+    pub fn configuration(&self) -> &azure_device_registry::DestinationConfiguration {
+        match self {
+            DataOperationDestinationDefinition::Dataset(destination) => &destination.configuration,
+            DataOperationDestinationDefinition::EventStream(destination) => &destination.configuration,
+        }
+    }
 }
 
 impl Destination {
@@ -295,77 +363,117 @@ impl Destination {
         } else {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_destinations[0];
-            let destination = match definition_destination.target {
-                azure_device_registry::DatasetTarget::BrokerStateStore => {
-                    Destination::BrokerStateStore {
-                        // TODO: validate key not empty?
-                        key: definition_destination
-                            .configuration
-                            .key
-                            .clone()
-                            .expect("Key must be present if Target is BrokerStateStore"),
-                    }
+            let destination = Self::new_data_operation_destination(
+                DataOperationDestinationDefinition::Dataset(definition_destination.clone()),
+                inbound_endpoint_name,
+                connector_context,
+            )?;
+            Ok(vec![destination])
+        }
+    }
+
+    /// Creates a list of new [`Destination`]s from a list of [`azure_device_registry::DatasetDestination`]s.
+    /// At this time, this list cannot have more than one element. If there are no items in the list,
+    /// this function will return an empty Vec. This isn't an error, since a default destination may or
+    /// may not exist in the definition.
+    ///
+    /// # Errors
+    /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
+    /// This can be used to report the error to the ADR service on the status
+    pub(crate) fn new_event_stream_destinations(
+        event_stream_destinations: &[azure_device_registry::EventsAndStreamsDestination],
+        inbound_endpoint_name: &str,
+        connector_context: &Arc<ConnectorContext>,
+    ) -> Result<Vec<Self>, AdrConfigError> {
+        // Create a new forwarder
+        if event_stream_destinations.is_empty() {
+            Ok(vec![])
+        } else {
+            // for now, this vec will only ever be length 1
+            let definition_destination = &event_stream_destinations[0];
+            let destination = Self::new_data_operation_destination(
+                DataOperationDestinationDefinition::EventStream(definition_destination.clone()),
+                inbound_endpoint_name,
+                connector_context,
+            )?;
+            Ok(vec![destination])
+        }
+    }
+
+    pub(crate) fn new_data_operation_destination(
+        data_operation_destination_definition: DataOperationDestinationDefinition,
+        inbound_endpoint_name: &str,
+        connector_context: &Arc<ConnectorContext>,
+    ) -> Result<Self, AdrConfigError> {
+        Ok(match data_operation_destination_definition.target() {
+            DataOperationDestinationDefinitionTarget::Dataset(azure_device_registry::DatasetTarget::BrokerStateStore) => {
+                Destination::BrokerStateStore {
+                    // TODO: validate key not empty?
+                    key: data_operation_destination_definition
+                        .configuration()
+                        .key.clone()
+                        .expect("Key must be present if Target is BrokerStateStore"),
                 }
-                azure_device_registry::DatasetTarget::Mqtt => {
-                    let telemetry_sender_options = telemetry::sender::OptionsBuilder::default()
-                        .topic_pattern(
-                            definition_destination
-                                .configuration
-                                .topic
-                                .clone()
-                                .expect("Topic must be present if Target is Mqtt"),
-                        )
-                        .build()
-                        // TODO: check if this can fail, or just the next one
-                        .map_err(|e| AdrConfigError {
-                            code: None,
-                            details: None,
-                            inner_error: None,
-                            message: Some(e.to_string()),
-                        })?; // can fail if topic isn't valid in config
-                    let telemetry_sender = telemetry::Sender::new(
-                        connector_context.application_context.clone(),
-                        connector_context.managed_client.clone(),
-                        telemetry_sender_options,
+            }
+            DataOperationDestinationDefinitionTarget::EventStream(azure_device_registry::EventStreamTarget::Mqtt) |
+            DataOperationDestinationDefinitionTarget::Dataset(azure_device_registry::DatasetTarget::Mqtt) => {
+                let telemetry_sender_options = telemetry::sender::OptionsBuilder::default()
+                    .topic_pattern(
+                        data_operation_destination_definition
+                            .configuration()
+                            .topic.clone()
+                            .expect("Topic must be present if Target is Mqtt"),
                     )
+                    .build()
+                    // TODO: check if this can fail, or just the next one
                     .map_err(|e| AdrConfigError {
                         code: None,
                         details: None,
                         inner_error: None,
                         message: Some(e.to_string()),
-                    })?;
-                    Destination::Mqtt {
-                        qos: definition_destination.configuration.qos,
-                        retain: definition_destination
-                            .configuration
-                            .retain
-                            .as_ref()
-                            .map(|r| matches!(r, azure_device_registry::Retain::Keep)),
-                        ttl: definition_destination.configuration.ttl,
-                        inbound_endpoint_name: inbound_endpoint_name.to_string(),
-                        telemetry_sender,
-                    }
+                    })?; // can fail if topic isn't valid in config
+                let telemetry_sender = telemetry::Sender::new(
+                    connector_context.application_context.clone(),
+                    connector_context.managed_client.clone(),
+                    telemetry_sender_options,
+                )
+                .map_err(|e| AdrConfigError {
+                    code: None,
+                    details: None,
+                    inner_error: None,
+                    message: Some(e.to_string()),
+                })?;
+                Destination::Mqtt {
+                    qos: data_operation_destination_definition.configuration().qos,
+                    retain: data_operation_destination_definition
+                        .configuration()
+                        .retain
+                        .as_ref()
+                        .map(|r| matches!(r, azure_device_registry::Retain::Keep)),
+                    ttl: data_operation_destination_definition.configuration().ttl,
+                    inbound_endpoint_name: inbound_endpoint_name.to_string(),
+                    telemetry_sender,
                 }
-                azure_device_registry::DatasetTarget::Storage => {
-                    Err(AdrConfigError {
-                        code: None,
-                        details: None,
-                        inner_error: None,
-                        message: Some(
-                            "Storage destination not supported for this connector".to_string(),
-                        ),
-                    })?
-                    // Destination::Storage {
-                    //     path: definition_destination
-                    //         .configuration
-                    //         .path
-                    //         .clone()
-                    //         .expect("Path must be present if Target is Storage"),
-                    // }
-                }
-            };
-            Ok(vec![destination])
-        }
+            }
+            DataOperationDestinationDefinitionTarget::EventStream(azure_device_registry::EventStreamTarget::Storage) |
+            DataOperationDestinationDefinitionTarget::Dataset(azure_device_registry::DatasetTarget::Storage) => {
+            // azure_device_registry::DatasetTarget::Storage => {
+                Err(AdrConfigError {
+                    code: None,
+                    details: None,
+                    inner_error: None,
+                    message: Some(
+                        "Storage destination not supported for this connector".to_string(),
+                    ),
+                })?
+                // Destination::Storage {
+                //     path: definition_destination
+                //         .configuration
+                //         .path
+                //         .expect("Path must be present if Target is Storage"),
+                // }
+            }
+        })
     }
 }
 

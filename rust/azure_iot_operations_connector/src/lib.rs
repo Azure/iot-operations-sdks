@@ -56,3 +56,16 @@ pub struct DatasetRef {
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
 }
+
+/// Represents a DataOperation associated with a specific device, endpoint, and asset.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct DataOperationRef {
+    /// The name of the DataOperation
+    pub data_operation_name: String,
+    /// The name of the asset
+    pub asset_name: String,
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub inbound_endpoint_name: String,
+}
