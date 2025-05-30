@@ -1190,9 +1190,9 @@ where
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the discovered asset.
     /// * `asset_specification` - The specification of the discovered asset.
-    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns a tuple containing the discovery ID and version of the discovered asset.
