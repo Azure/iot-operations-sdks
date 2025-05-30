@@ -11,8 +11,7 @@ use std::{
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, AssetUpdateObservation, DeviceUpdateObservation,
-        models::{self as adr_models},
+        self, models::{self as adr_models}, AssetUpdateObservation, DeviceUpdateObservation
     },
     schema_registry,
 };
@@ -1173,7 +1172,11 @@ impl DeviceSpecification {
             .ok_or("Inbound endpoint not found on Device specification")?;
         let recvd_outbound = recvd_endpoints
             .outbound
-            .ok_or("Outbound Endpoints not found on Device Specification")?;
+            // TODO: more elegant way to handle this
+            .unwrap_or(adr_models::OutboundEndpoints {
+                assigned: HashMap::new(),
+                unassigned: HashMap::new(),
+            });
 
         // update authentication to include the full file path for the credentials
         let authentication = match recvd_inbound.authentication {

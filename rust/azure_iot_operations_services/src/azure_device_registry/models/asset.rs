@@ -28,31 +28,31 @@ pub struct Asset {
 #[derive(Clone, Debug)]
 pub struct AssetSpecification {
     /// URI or type definition ids.
-    pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub asset_type_refs: Vec<String>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// A set of key-value pairs that contain custom attributes
-    pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
+    pub attributes: HashMap<String, String>, // if None on generated model, we can represent as empty hashmap
     /// Array of datasets that are part of the asset.
-    pub datasets: Vec<Dataset>, // if None, we can represent as empty vec
+    pub datasets: Vec<Dataset>, // if None on generated model, we can represent as empty vec
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
     /// Default destinations for datasets.
-    pub default_datasets_destinations: Vec<DatasetDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_datasets_destinations: Vec<DatasetDestination>, // if None on generated model, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
     /// Default destinations for events.
-    pub default_events_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec.  Can currently only be length of 1
     /// Default configuration for management groups.
     pub default_management_groups_configuration: Option<String>,
     /// Default configuration for streams.
     pub default_streams_configuration: Option<String>,
     /// Default destinations for streams.
-    pub default_streams_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub default_streams_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// The description of the asset.
     pub description: Option<String>,
     /// A reference to the Device and Endpoint within the device
     pub device_ref: DeviceRef,
     /// Reference to a list of discovered assets
-    pub discovered_asset_refs: Vec<String>, // if None, we can represent as empty vec
+    pub discovered_asset_refs: Vec<String>, // if None on generated model, we can represent as empty vec
     /// The display name of the asset.
     pub display_name: Option<String>,
     /// Reference to the documentation.
@@ -60,7 +60,7 @@ pub struct AssetSpecification {
     /// Enabled/Disabled status of the asset.
     pub enabled: Option<bool>, // TODO: just bool?
     ///  Array of events that are part of the asset.
-    pub events: Vec<Event>, // if None, we can represent as empty vec
+    pub events: Vec<Event>, // if None on generated model, we can represent as empty vec
     /// Asset id provided by the customer.
     pub external_asset_id: Option<String>,
     /// Revision number of the hardware.
@@ -68,7 +68,7 @@ pub struct AssetSpecification {
     /// The last time the asset has been modified.
     pub last_transition_time: Option<DateTime<Utc>>,
     /// Array of management groups that are part of the asset.
-    pub management_groups: Vec<ManagementGroup>, // if None, we can represent as empty vec
+    pub management_groups: Vec<ManagementGroup>, // if None on generated model, we can represent as empty vec
     /// The name of the manufacturer.
     pub manufacturer: Option<String>,
     /// The URI of the manufacturer.
@@ -82,7 +82,7 @@ pub struct AssetSpecification {
     /// The revision number of the software.
     pub software_revision: Option<String>,
     /// Array of streams that are part of the asset.
-    pub streams: Vec<Stream>, // if None, we can represent as empty vec
+    pub streams: Vec<Stream>, // if None on generated model, we can represent as empty vec
     ///  Globally unique, immutable, non-reusable id.
     pub uuid: Option<String>,
     /// The version of the asset.
@@ -92,35 +92,35 @@ pub struct AssetSpecification {
 /// Represents the partial specification of an Discovered Asset in the Azure Device Registry service.
 pub struct DiscoveredAssetSpecification {
     /// URI or type definition ids.
-    pub asset_type_refs: Vec<String>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub asset_type_refs: Vec<String>, // if empty, we can represent as None on generated model.
     /// A set of key-value pairs that contain custom attributes
-    pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
+    pub attributes: HashMap<String, String>, // if empty, we can represent as None on generated model.
     /// Array of datasets that are part of the asset.
-    pub datasets: Vec<DiscoveredDataset>, // if None, we can represent as empty vec
+    pub datasets: Vec<DiscoveredDataset>, // if empty, we can represent as None on generated model
     /// Default configuration for datasets.
     pub default_datasets_configuration: Option<String>,
     /// Default destinations for datasets.
-    pub default_datasets_destinations: Vec<DatasetDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_datasets_destinations: Vec<DatasetDestination>, // if empty, we can represent as None on generated model.
     /// Default configuration for events.
     pub default_events_configuration: Option<String>,
     /// Default destinations for events.
-    pub default_events_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec.  Can currently only be length of 1
+    pub default_events_destinations: Vec<EventStreamDestination>, // if empty, we can represent as None on generated model.
     /// Default configuration for management groups.
     pub default_management_groups_configuration: Option<String>,
     /// Default configuration for streams.
     pub default_streams_configuration: Option<String>,
     /// Default destinations for streams.
-    pub default_streams_destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub default_streams_destinations: Vec<EventStreamDestination>, // if empty, we can represent as None on generated model.
     /// A reference to the Device and Endpoint within the device
     pub device_ref: DeviceRef,
     /// Reference to the documentation.
     pub documentation_uri: Option<String>,
     ///  Array of events that are part of the asset.
-    pub events: Vec<DiscoveredEvent>, // if None, we can represent as empty vec
+    pub events: Vec<DiscoveredEvent>, // if empty, we can represent as None on generated model.
     /// Revision number of the hardware.
     pub hardware_revision: Option<String>,
     /// Array of management groups that are part of the asset.
-    pub management_groups: Vec<DiscoveredManagementGroup>, // if None, we can represent as empty vec
+    pub management_groups: Vec<DiscoveredManagementGroup>, // if empty, we can represent as None on generated model.
     /// The name of the manufacturer.
     pub manufacturer: Option<String>,
     /// The URI of the manufacturer.
@@ -134,7 +134,7 @@ pub struct DiscoveredAssetSpecification {
     /// The revision number of the software.
     pub software_revision: Option<String>,
     /// Array of streams that are part of the asset.
-    pub streams: Vec<DiscoveredStream>, // if None, we can represent as empty vec
+    pub streams: Vec<DiscoveredStream>, // if empty, we can represent as None on generated model.
 }
 
 /// Represents a dataset.
@@ -143,11 +143,11 @@ pub struct Dataset {
     /// Configuration for the dataset.
     pub dataset_configuration: Option<String>,
     /// Array of data points that are part of the dataset.
-    pub data_points: Vec<DatasetDataPoint>, // if None, we can represent as empty vec
+    pub data_points: Vec<DatasetDataPoint>, // if None on generated model, we can represent as empty vec
     /// The address of the source of the data in the dataset
     pub data_source: Option<String>,
     /// Destinations for a dataset.
-    pub destinations: Vec<DatasetDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<DatasetDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// The name of the dataset.
     pub name: String,
     /// Type definition id or URI of the dataset
@@ -159,11 +159,11 @@ pub struct DiscoveredDataset {
     /// Configuration for the dataset.
     pub dataset_configuration: Option<String>,
     /// Array of data points that are part of the dataset.
-    pub data_points: Vec<DiscoveredDatasetDataPoint>, // if None, we can represent as empty vec
+    pub data_points: Vec<DiscoveredDatasetDataPoint>, // if empty, we can represent as None on generated model
     /// The address of the source of the data in the dataset
     pub data_source: Option<String>,
     /// Destinations for a dataset.
-    pub destinations: Vec<DatasetDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<DatasetDestination>, // if empty, we can represent as None on generated model.
     /// The last time the dataset was updated
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the dataset.
@@ -195,7 +195,7 @@ pub struct DiscoveredDatasetDataPoint {
     /// The last time the data point was updated
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the data point
-    pub name: Option<String>, // Should this not be option? Spec oversight?
+    pub name: Option<String>,
     /// URI or type definition id
     pub type_ref: Option<String>,
 }
@@ -249,9 +249,9 @@ pub struct DeviceRef {
 #[derive(Clone, Debug)]
 pub struct Event {
     /// Array of data points that are part of the event.
-    pub data_points: Vec<EventDataPoint>, // if None, we can represent as empty vec
+    pub data_points: Vec<EventDataPoint>, // if None on generated model, we can represent as empty vec
     /// The destination for the event.
-    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// The configuration for the event.
     pub event_configuration: Option<String>,
     /// The address of the notifier of the event
@@ -266,9 +266,9 @@ pub struct Event {
 #[derive(Clone, Debug)]
 pub struct DiscoveredEvent {
     /// Array of data points that are part of the event.
-    pub data_points: Vec<DiscoveredEventDataPoint>, // if None, we can represent as empty vec
+    pub data_points: Vec<DiscoveredEventDataPoint>, // if empty, we can represent as None on generated model
     /// The destination for the event.
-    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if empty, we can represent as None on generated model.
     /// The configuration for the event.
     pub event_configuration: Option<String>,
     /// The address of the notifier of the event
@@ -285,7 +285,7 @@ pub struct DiscoveredEvent {
 #[derive(Clone, Debug)]
 pub struct ManagementGroup {
     /// Actions for this management group
-    pub actions: Vec<ManagementGroupAction>, // if None, we can represent as empty vec
+    pub actions: Vec<ManagementGroupAction>, // if None on generated model, we can represent as empty vec
     /// Default timeout in seconds for this management group
     pub default_time_out_in_seconds: Option<u32>,
     /// The default MQTT topic for the management group.
@@ -302,7 +302,7 @@ pub struct ManagementGroup {
 #[derive(Clone, Debug)]
 pub struct DiscoveredManagementGroup {
     /// Actions for this management group
-    pub actions: Vec<DiscoveredManagementGroupAction>, // if None, we can represent as empty vec
+    pub actions: Vec<DiscoveredManagementGroupAction>, // if None on generated model, we can represent as empty vec
     /// Default timeout in seconds for this management group
     pub default_time_out_in_seconds: Option<u32>,
     /// The default MQTT topic for the management group.
@@ -361,7 +361,7 @@ pub struct DiscoveredManagementGroupAction {
 #[derive(Clone, Debug)]
 pub struct Stream {
     /// Destinations for a stream.
-    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// The name of the stream.
     pub name: String,
     /// The configuration for the stream.
@@ -374,7 +374,7 @@ pub struct Stream {
 #[derive(Clone, Debug)]
 pub struct DiscoveredStream {
     /// Destinations for a stream.
-    pub destinations: Vec<EventStreamDestination>, // if None, we can represent as empty vec. Can currently only be length of 1
+    pub destinations: Vec<EventStreamDestination>, // if empty we can represent as None on generated model.
     /// The last time the stream was updated
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the stream.
@@ -406,7 +406,7 @@ pub struct DiscoveredEventDataPoint {
     /// The last time the data point was updated
     pub last_updated_on: Option<DateTime<Utc>>,
     /// The name of the data point in the event.
-    pub name: Option<String>, // Should this not be option? Spec oversight?
+    pub name: Option<String>,
 }
 
 // TODO: turn into rust enums for which of these options can correlate to which destination enums
@@ -418,7 +418,7 @@ pub struct DestinationConfiguration {
     /// The description of the destination configuration.
     pub path: Option<String>,
     /// The MQTT `QoS` setting for the destination configuration.
-    pub qos: Option<Qos>,
+    pub qos: Option<QoS>,
     /// The MQTT retain setting for the destination configuration.
     pub retain: Option<Retain>,
     /// The MQTT topic for the destination configuration.
@@ -590,8 +590,8 @@ pub enum ActionType {
 
 /// Represents the MQTT Quality of Service level.
 /// Currently does not include Quality of Service 2.
-#[derive(Clone, Debug)]
-pub enum Qos {
+#[derive(Clone, Debug, Copy)]
+pub enum QoS {
     /// Quality of Service level 0 (At most once)
     AtMostOnce,
     /// Quality of Service level 1 (At least once)
@@ -1072,29 +1072,29 @@ impl From<DatasetTarget> for base_client_gen::DatasetTarget {
     }
 }
 
-impl From<base_client_gen::Qos> for Qos {
+impl From<base_client_gen::Qos> for QoS {
     fn from(value: base_client_gen::Qos) -> Self {
         match value {
-            base_client_gen::Qos::Qos0 => Qos::AtMostOnce,
-            base_client_gen::Qos::Qos1 => Qos::AtLeastOnce,
+            base_client_gen::Qos::Qos0 => QoS::AtMostOnce,
+            base_client_gen::Qos::Qos1 => QoS::AtLeastOnce,
         }
     }
 }
 
-impl From<Qos> for base_client_gen::Qos {
-    fn from(value: Qos) -> Self {
+impl From<QoS> for base_client_gen::Qos {
+    fn from(value: QoS) -> Self {
         match value {
-            Qos::AtMostOnce => base_client_gen::Qos::Qos0,
-            Qos::AtLeastOnce => base_client_gen::Qos::Qos1,
+            QoS::AtMostOnce => base_client_gen::Qos::Qos0,
+            QoS::AtLeastOnce => base_client_gen::Qos::Qos1,
         }
     }
 }
 
-impl From<Qos> for MqttQoS {
-    fn from(value: Qos) -> Self {
+impl From<QoS> for MqttQoS {
+    fn from(value: QoS) -> Self {
         match value {
-            Qos::AtMostOnce => MqttQoS::AtMostOnce,
-            Qos::AtLeastOnce => MqttQoS::AtLeastOnce,
+            QoS::AtMostOnce => MqttQoS::AtMostOnce,
+            QoS::AtLeastOnce => MqttQoS::AtLeastOnce,
         }
     }
 }

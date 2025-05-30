@@ -788,6 +788,9 @@ where
 
     /// Creates or updates a discovered device in the Azure Device Registry service.
     ///
+    /// If the specified discovered device does not yet exist, it will be created.
+    /// If it already exists, it will be replaced.
+    ///
     /// # Arguments
     /// * `name` - The name of the discovered device.
     /// * `specification` - The specification of the discovered device.
@@ -874,7 +877,7 @@ where
     /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
-    /// - device or inbound endpoint names are invalid.
+    /// - device, asset or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
@@ -1181,6 +1184,10 @@ where
     }
 
     /// Creates or updates a discovered asset in the Azure Device Registry service.
+    ///
+    /// If the specified discovered asset does not yet exist, it will be created.
+    /// If it already exists, it will be replaced.
+    ///
     /// # Arguments
     /// * `device_name` - The name of the device.
     /// * `asset_name` - The name of the discovered asset.
@@ -1206,9 +1213,9 @@ where
     pub async fn create_or_update_discovered_asset(
         &self,
         device_name: String,
+        inbound_endpoint_name: String,
         asset_name: String,
         asset_specification: DiscoveredAssetSpecification,
-        inbound_endpoint_name: String,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
         if asset_name.trim().is_empty() {

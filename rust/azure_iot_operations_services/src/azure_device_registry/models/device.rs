@@ -32,7 +32,7 @@ pub struct Device {
 /// Represents the specification of a device in the Azure Device Registry service.
 pub struct DeviceSpecification {
     /// The 'attributes' Field.
-    pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
+    pub attributes: HashMap<String, String>, // if None in generated model, we can represent as empty hashmap
     /// The 'discoveredDeviceRef' Field.
     pub discovered_device_ref: Option<String>,
     /// The 'enabled' Field.
@@ -61,7 +61,7 @@ pub struct DeviceSpecification {
 /// Represents a discovered device specification in the Azure Device Registry service.
 pub struct DiscoveredDeviceSpecification {
     /// The 'attributes' Field.
-    pub attributes: HashMap<String, String>, // if None, we can represent as empty hashmap
+    pub attributes: HashMap<String, String>, // if empty hashmap, we can represent as None on generated model
     /// The 'endpoints' Field.
     pub endpoints: Option<DiscoveredDeviceEndpoints>,
     /// The 'externalDeviceId' Field.
@@ -80,7 +80,7 @@ pub struct DiscoveredDeviceSpecification {
 /// Represents the endpoints of a device in the Azure Device Registry service.
 pub struct DeviceEndpoints {
     /// The 'inbound' Field.
-    pub inbound: HashMap<String, InboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub inbound: HashMap<String, InboundEndpoint>, // if None on generated model, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
     /// The 'outbound' Field.
     pub outbound: Option<OutboundEndpoints>,
 }
@@ -89,7 +89,7 @@ pub struct DeviceEndpoints {
 #[derive(Debug, Clone)]
 pub struct DiscoveredDeviceEndpoints {
     /// The 'inbound' Field.
-    pub inbound: HashMap<String, DiscoveredInboundEndpoint>, // if None, we can represent as empty hashmap. Might be able to change this to a single InboundEndpoint
+    pub inbound: HashMap<String, DiscoveredInboundEndpoint>, // if empty, we can represent as None on generated model. Might be able to change this to a single InboundEndpoint
     /// The 'outbound' Field.
     pub outbound: Option<DiscoveredOutboundEndpoints>,
 }
@@ -281,15 +281,6 @@ impl From<DiscoveredOutboundEndpoints>
 
 impl From<base_client_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
     fn from(value: base_client_gen::DeviceOutboundEndpoint) -> Self {
-        OutboundEndpoint {
-            address: value.address,
-            endpoint_type: value.endpoint_type,
-        }
-    }
-}
-
-impl From<discovery_client_gen::DeviceOutboundEndpoint> for OutboundEndpoint {
-    fn from(value: discovery_client_gen::DeviceOutboundEndpoint) -> Self {
         OutboundEndpoint {
             address: value.address,
             endpoint_type: value.endpoint_type,

@@ -345,7 +345,6 @@ impl Destination {
                         qos: definition_destination
                             .configuration
                             .qos
-                            .clone()
                             .map(Into::into),
                         retain: definition_destination
                             .configuration
