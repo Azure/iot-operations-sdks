@@ -54,7 +54,7 @@ pub enum ErrorKind {
     /// An argument provided for a request was invalid.
     #[error(transparent)]
     InvalidRequestArgument(#[from] rpc_command::invoker::RequestBuilderError),
-    /// An error was returned by the Azure Device Registry Service base service.
+    /// An error was returned by the Azure Device Registry Service.
     #[error("{0:?}")]
     ServiceError(#[from] base_client_gen::AkriServiceError),
     /// A Device or an asset may only have one observation at a time.
