@@ -11,7 +11,8 @@ use std::{
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, models::{self as adr_models}, AssetUpdateObservation, DeviceUpdateObservation
+        self, AssetUpdateObservation, DeviceUpdateObservation,
+        models::{self as adr_models},
     },
     schema_registry,
 };
