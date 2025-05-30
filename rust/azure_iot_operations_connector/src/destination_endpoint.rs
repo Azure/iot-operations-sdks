@@ -342,7 +342,11 @@ impl Destination {
                         message: Some(e.to_string()),
                     })?;
                     Destination::Mqtt {
-                        qos: definition_destination.configuration.qos.clone().map(Into::into),
+                        qos: definition_destination
+                            .configuration
+                            .qos
+                            .clone()
+                            .map(Into::into),
                         retain: definition_destination
                             .configuration
                             .retain

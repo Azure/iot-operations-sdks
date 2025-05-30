@@ -1710,6 +1710,11 @@ mod tests {
         ));
     }
 
+    // #[tokio::test]
+    // async fn test_create_or_update_discovered_device_zero_timeout() {
+
+    // }
+
     #[test]
     fn test_client_options_builder_default_auto_ack() {
         let options = ClientOptionsBuilder::default().build().unwrap();
@@ -1748,6 +1753,20 @@ mod tests {
         assert!(topic_tokens.keys().all(|key| {
             key == DEVICE_NAME_TOPIC_TOKEN || key == INBOUND_ENDPOINT_NAME_TOPIC_TOKEN
         }));
+    }
+
+    #[test]
+    fn test_get_discovery_service_topic_tokens() {
+        let inbound_endpoint_type = "test-endpoint-type".to_string();
+        let topic_tokens = Client::<SessionManagedClient>::get_discovery_service_topic_tokens(
+            inbound_endpoint_type.clone(),
+        );
+
+        assert_eq!(topic_tokens.len(), 1);
+        assert_eq!(
+            topic_tokens.get(INBOUND_ENDPOINT_TYPE_TOPIC_TOKEN),
+            Some(&inbound_endpoint_type)
+        );
     }
 
     #[test]
