@@ -804,7 +804,7 @@ where
     /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
-    /// - device or inbound endpoint names are invalid.
+    /// - inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
@@ -1716,11 +1716,6 @@ mod tests {
             ErrorKind::InvalidRequestArgument(_)
         ));
     }
-
-    // #[tokio::test]
-    // async fn test_create_or_update_discovered_device_zero_timeout() {
-
-    // }
 
     #[test]
     fn test_client_options_builder_default_auto_ack() {
