@@ -131,7 +131,7 @@ async fn run_program(
                         let mut endpoint_statuses = HashMap::new();
                         let mut any_errors = false;
                         for (inbound_endpoint_name, endpoint) in
-                            device.specification.endpoints.inbound
+                            device.specification.endpoints.unwrap().inbound
                         {
                             if endpoint.endpoint_type == "rest-thermostat"
                                 || endpoint.endpoint_type == "coap-thermostat"

@@ -11,7 +11,7 @@ use std::{
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, AssetUpdateObservation, DeviceUpdateObservation, models as adr_models,
+        self, models::{self as adr_models, device}, AssetUpdateObservation, DeviceUpdateObservation
     },
     schema_registry,
 };
@@ -1161,12 +1161,16 @@ impl DeviceSpecification {
     ) -> Result<Self, String> {
         // convert the endpoints to the new format with only the one specified inbound endpoint
         // if the inbound endpoint isn't in the specification, return an error
-        let recvd_inbound = device_specification
-            .endpoints
+        let recvd_endpoints = device_specification.endpoints.ok_or("Endpoints not found on Device specification")?;
+
+
+        let recvd_inbound = recvd_endpoints
             .inbound
             .get(inbound_endpoint_name)
             .cloned()
             .ok_or("Inbound endpoint not found on Device specification")?;
+        let recvd_outbound = recvd_endpoints.outbound.ok_or("Outbound Endpoints not found on Device Specification")?;
+
         // update authentication to include the full file path for the credentials
         let authentication = match recvd_inbound.authentication {
             adr_models::Authentication::Anonymous => Authentication::Anonymous,
@@ -1187,6 +1191,7 @@ impl DeviceSpecification {
                 ),
             },
         };
+
         let endpoints = DeviceEndpoints {
             inbound: InboundEndpoint {
                 name: inbound_endpoint_name.to_string(),
@@ -1197,8 +1202,8 @@ impl DeviceSpecification {
                 trust_settings: recvd_inbound.trust_settings,
                 version: recvd_inbound.version,
             },
-            outbound_assigned: device_specification.endpoints.outbound.assigned,
-            outbound_unassigned: device_specification.endpoints.outbound.unassigned,
+            outbound_assigned: recvd_outbound.assigned,
+            outbound_unassigned: recvd_outbound.unassigned,
         };
 
         Ok(DeviceSpecification {
