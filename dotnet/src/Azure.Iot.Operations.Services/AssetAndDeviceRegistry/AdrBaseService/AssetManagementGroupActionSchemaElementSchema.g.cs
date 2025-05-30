@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonPropertyName("actionType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public AssetManagementGroupActionTypeSchema ActionType { get; set; } = default!;
+        public AssetManagementGroupActionType ActionType { get; set; } = default!;
 
         /// <summary>
         /// The 'name' Field.

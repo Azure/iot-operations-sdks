@@ -45,7 +45,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("defaultDatasetsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DefaultDatasetsDestinationsSchemaElementSchema>? DefaultDatasetsDestinations { get; set; } = default;
+        public List<DatasetDestination>? DefaultDatasetsDestinations { get; set; } = default;
 
         /// <summary>
         /// The 'defaultEventsConfiguration' Field.
@@ -59,7 +59,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("defaultEventsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DefaultEventsDestinationsSchemaElementSchema>? DefaultEventsDestinations { get; set; } = default;
+        public List<EventStreamDestination>? DefaultEventsDestinations { get; set; } = default;
 
         /// <summary>
         /// The 'defaultManagementGroupsConfiguration' Field.
@@ -80,7 +80,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("defaultStreamsDestinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DefaultStreamsDestinationsSchemaElementSchema>? DefaultStreamsDestinations { get; set; } = default;
+        public List<EventStreamDestination>? DefaultStreamsDestinations { get; set; } = default;
 
         /// <summary>
         /// The 'description' Field.
@@ -95,7 +95,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         [JsonPropertyName("deviceRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public DeviceRefSchema DeviceRef { get; set; } = default!;
+        public AssetDeviceRef DeviceRef { get; set; } = default!;
 
         /// <summary>
         /// The 'discoveredAssetRefs' Field.
@@ -151,7 +151,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("lastTransitionTime")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? LastTransitionTime { get; set; } = default;
+        public DateTime? LastTransitionTime { get; set; } = default;
 
         /// <summary>
         /// The 'managementGroups' Field.
