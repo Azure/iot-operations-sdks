@@ -7,7 +7,7 @@ public record DeviceStatusConfig
 {
     public ConfigError? Error { get; set; }
 
-    public string? LastTransitionTime { get; set; }
+    public DateTime? LastTransitionTime { get; set; }
 
     public ulong? Version { get; set; }
 }

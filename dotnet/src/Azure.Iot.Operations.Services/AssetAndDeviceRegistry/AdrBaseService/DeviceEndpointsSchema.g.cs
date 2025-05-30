@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DeviceEndpointSchema
+    public partial class DeviceEndpointsSchema
     {
         /// <summary>
         /// The 'inbound' Field.

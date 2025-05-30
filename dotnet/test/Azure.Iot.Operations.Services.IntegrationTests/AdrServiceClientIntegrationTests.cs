@@ -14,7 +14,6 @@ using IntegrationTest;
 using Xunit;
 using Xunit.Abstractions;
 
-/*
 [Trait("Category", "ADR")]
 public class AdrServiceClientIntegrationTests
 {
@@ -60,7 +59,7 @@ public class AdrServiceClientIntegrationTests
             Config = new DeviceStatusConfig
             {
                 Error = null,
-                LastTransitionTime = "2023-10-01T00:00:00Z",
+                LastTransitionTime = DateTime.Parse("2023-10-01T00:00:00Z"),
                 Version = 1
             },
             Endpoints = new DeviceStatusEndpoint
@@ -323,7 +322,7 @@ public class AdrServiceClientIntegrationTests
         Assert.False(receivedUnexpectedNotification, "Should not receive asset update event after unobserving");
     }
 
-    [Fact(Skip = "Requires ADR service changes")]
+    [Fact]
     public async Task CanCreateDetectedAssetAsync()
     {
         // Arrange
@@ -331,12 +330,15 @@ public class AdrServiceClientIntegrationTests
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        DiscoveredAsset request = CreateCreateDetectedAssetRequest();
+        var request = CreateCreateDetectedAssetRequest();
 
         // Act
-        await client.CreateDetectedAssetAsync(TestDevice_1_Name, TestEndpointName, request);
+        var result = await client.CreateOrUpdateDiscoveredAssetAsync(TestDevice_1_Name, TestEndpointName, request);
 
         // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.DiscoveryId);
+        _output.WriteLine($"Detected asset created with DiscoveryId: {result.DiscoveryId}");
     }
 
     [Fact]
@@ -673,12 +675,19 @@ public class AdrServiceClientIntegrationTests
         Assert.True(receivedEvents.All(d => d.Name != TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
-    private DiscoveredAsset CreateCreateDetectedAssetRequest()
+    private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {
-        return new DiscoveredAsset
+        return new CreateOrUpdateDiscoveredAssetRequest
         {
-            AssetName = TestAssetName,
-            AssetEndpointProfileRef = TestEndpointName,
+            DiscoveredAssetName = TestAssetName,
+            DiscoveredAsset = new DiscoveredAsset
+            {
+                DeviceRef = new AssetDeviceRef
+                {
+                    DeviceName = TestDevice_1_Name,
+                    EndpointName = TestEndpointName
+                }
+            },
         };
     }
 
@@ -689,7 +698,7 @@ public class AdrServiceClientIntegrationTests
             Config = new DeviceStatusConfig
             {
                 Error = null,
-                LastTransitionTime = timeStamp.ToString("o"),
+                LastTransitionTime = timeStamp,
                 Version = 2
             },
             Endpoints = new DeviceStatusEndpoint
@@ -712,7 +721,7 @@ public class AdrServiceClientIntegrationTests
                 Config = new AssetConfigStatus
                 {
                     Error = null,
-                    LastTransitionTime = timeStamp.ToString("o"),
+                    LastTransitionTime = timeStamp,
                     Version = 1
                 }
             }
@@ -720,4 +729,3 @@ public class AdrServiceClientIntegrationTests
     }
 
 }
-*/
