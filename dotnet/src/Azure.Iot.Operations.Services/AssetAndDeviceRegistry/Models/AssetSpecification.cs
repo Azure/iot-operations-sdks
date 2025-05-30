@@ -65,6 +65,4 @@ public record AssetSpecification
     public string? Uuid { get; set; }
 
     public ulong? Version { get; set; }
-
-    public JsonDocument? DefaultManagementGroupsConfiguration { get; set; }
 }

@@ -123,7 +123,6 @@ internal static class ModelsConverter
             ProductCode = source.ProductCode,
             SerialNumber = source.SerialNumber,
             SoftwareRevision = source.SoftwareRevision,
-            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration != null ? JsonDocument.Parse(source.DefaultDatasetsConfiguration, _jsonDocumentOptions) : null,
             Streams = source.Streams?.Select(x => x.ToModel()).ToList(),
             Uuid = source.Uuid,
             Version = source.Version,
