@@ -789,8 +789,8 @@ where
     /// Creates or updates a discovered device in the Azure Device Registry service.
     ///
     /// # Arguments
-    /// * `name` - The name of the discovered device.
-    /// * `specification` - The specification of the discovered device.
+    /// * `device_name` - The name of the discovered device.
+    /// * `device_specification` - The specification of the discovered device.
     /// * `inbound_endpoint_type` - The type of the inbound endpoint.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
