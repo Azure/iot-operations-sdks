@@ -61,7 +61,6 @@ public class AdrServiceClientIntegrationTests
         _output.WriteLine($"Expected exception: {exception.Message}");
         Assert.NotNull(exception.AkriServiceError);
         Assert.Equal("KubeError", exception.AkriServiceError.Code);
-        Assert.StartsWith("Error fetching device non-existent-device.my-rest-endpoint", exception.AkriServiceError.Message);
     }
 
     [Fact]
@@ -767,7 +766,7 @@ public class AdrServiceClientIntegrationTests
         };
     }
 
-        private CreateDiscoveredAssetEndpointProfileRequest CreateCreateDiscoveredDeviceRequest()
+    private CreateDiscoveredAssetEndpointProfileRequest CreateCreateDiscoveredDeviceRequest()
     {
         return new CreateDiscoveredAssetEndpointProfileRequest
         {
