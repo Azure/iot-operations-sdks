@@ -795,7 +795,7 @@ pub struct DestinationConfiguration {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset Status DTDL Equivalent Structs~~~~~~~
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of an asset.
 pub struct AssetStatus {
     /// The configuration of the asset.
@@ -810,7 +810,7 @@ pub struct AssetStatus {
     pub streams: Option<Vec<DatasetEventStreamStatus>>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for a dataset, event, or stream.
 pub struct DatasetEventStreamStatus {
     /// The name of the dataset, event, or stream.
@@ -821,7 +821,7 @@ pub struct DatasetEventStreamStatus {
     pub error: Option<ConfigError>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for a management group
 pub struct ManagementGroupStatus {
     /// A collection of actions associated with the management group.
@@ -830,7 +830,7 @@ pub struct ManagementGroupStatus {
     pub name: String,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for an action associated with a management group.
 pub struct ActionStatus {
     /// The configuration error of the management group action.
@@ -843,7 +843,7 @@ pub struct ActionStatus {
     pub response_message_schema_reference: Option<MessageSchemaReference>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents a reference to a schema, including its name, version, and namespace.
 pub struct MessageSchemaReference {
     /// The name of the message schema.

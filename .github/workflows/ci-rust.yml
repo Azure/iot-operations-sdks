@@ -56,6 +56,9 @@ jobs:
         wait-for-broker: 'true'
         install-rust: 'true'
         action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+    
+    - name: Create ADR resources
+      run: kubectl apply -f ../eng/test/test-adr-resources
 
     - name: Run Checks
       run: |
