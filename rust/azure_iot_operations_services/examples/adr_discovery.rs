@@ -13,7 +13,7 @@ use azure_iot_operations_services::azure_device_registry::{self, models};
 use env_logger::Builder;
 
 const HOSTNAME: &str = "localhost";
-const PORT: u16 = 1882;
+const PORT: u16 = 1883;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
