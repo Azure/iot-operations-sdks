@@ -6,7 +6,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <Authors>Microsoft</Authors>
-    <VersionPrefix>0.11.0</VersionPrefix>
+    <VersionPrefix>0.10.3-akri</VersionPrefix>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
@@ -27,4 +27,12 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="..\..\..\eng\dtdl\adr-base-service.json">
+      <Link>AssetAndDeviceRegistry\adr-base-service.json</Link>
+    </Content>
+    <Content Include="..\..\..\eng\dtdl\device-discovery-service.json">
+      <Link>AssetAndDeviceRegistry\device-discovery-service.json</Link>
+    </Content>
+  </ItemGroup>
 </Project>

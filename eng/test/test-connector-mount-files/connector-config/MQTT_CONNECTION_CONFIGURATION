@@ -1,0 +1,16 @@
+{
+    "host": "someHostName:1234",
+    "keepAliveSeconds": 10,
+    "maxInflightMessages": 10,
+    "protocol": "mqtt",
+    "authentication": {
+        "method": "sat",
+        "serviceAccountTokenSettings": {
+            "audience": "someAudience"
+        }
+    },
+    "sessionExpirySeconds": 20,
+    "tls": {
+        "mode": "Enabled"
+    }
+}
