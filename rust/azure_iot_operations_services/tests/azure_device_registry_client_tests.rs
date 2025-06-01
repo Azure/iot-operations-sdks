@@ -4,7 +4,6 @@
 #![cfg(feature = "azure_device_registry")]
 
 use std::collections::HashMap;
-use std::sync::Arc;
 use std::{env, time::Duration};
 
 use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
@@ -13,7 +12,6 @@ use azure_iot_operations_mqtt::session::{
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use env_logger::Builder;
-use tokio::sync::Notify;
 use uuid::Uuid;
 
 use azure_iot_operations_services::azure_device_registry::models::{AssetStatus, DeviceStatus};
