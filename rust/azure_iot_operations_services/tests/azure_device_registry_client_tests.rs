@@ -411,7 +411,7 @@ async fn observe_device_update_notifications() {
 }
 
 #[tokio::test]
-async fn observe_device_notify() {
+async fn observe_device_notify_simpler() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
         return;
@@ -429,53 +429,41 @@ async fn observe_device_notify() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Device update observation: {observation:?}");
+            log::info!("[{log_identifier}] Device update observation: {observation:?}",);
 
-            let first_notification_notify = Arc::new(Notify::new());
-            let cleanup_notify = Arc::new(Notify::new());
             let receive_notifications_task = tokio::task::spawn({
-                let first_notification_notify = first_notification_notify.clone();
-                let cleanup_notify = cleanup_notify.clone();
-
                 async move {
                     log::info!("[{log_identifier}] Device update notification receiver started.");
                     let mut count = 0;
-                    let mut first_notification_sent = false;
+                    let timeout_duration = Duration::from_secs(30);
+
                     loop {
                         tokio::select! {
-                            notification_result = observation.recv_notification() => {
-                                if let Some((device, _)) = notification_result {
-                                    count += 1;
-                                    log::info!("[{log_identifier}] Device Observation received: {device:?}");
+                            notification_result = tokio::time::timeout(timeout_duration, observation.recv_notification()) => {
+                                match notification_result {
+                                    Ok(Some((device, _))) => {
+                                        count += 1;
+                                        log::info!("[{log_identifier}] Device Observation received #{count}: {device:?}");
 
-                                    if count == 1 {
-                                        // Signal that we got the first notification
-                                        if !first_notification_sent {
-                                            first_notification_notify.notify_one();
-                                            first_notification_sent = true;
+                                        if count == 1 {
+                                            assert_eq!(device.name, DEVICE1);
+                                            log::info!("[{log_identifier}] First expected notification received");
+                                        } else {
+                                            log::error!("[{log_identifier}] Unexpected additional notification #{count}");
+                                            break;
                                         }
-                                        assert_eq!(device.name, DEVICE1);
-                                    } else {
-                                        log::info!("[{log_identifier}] Device Observation unexpected: {device:?}");
-                                        // Should not receive more than 1 notification
-                                        assert!(count < 2, "Received unexpected additional device observation notification");
                                     }
-                                } else {
-                                    // Channel closed
-                                    break;
+                                    Ok(None) => {
+                                        log::info!("[{log_identifier}] Notification channel closed");
+                                        break;
+                                    }
+                                    Err(_) => {
+                                        log::warn!("[{log_identifier}] 30-second timeout reached while waiting for notifications");
+                                        break;
+                                    }
                                 }
                             }
-                            () = cleanup_notify.notified() => {
-                                // We're told to stop waiting for notifications
-                                log::info!("[{log_identifier}] Cleanup signal received, stopping notification receiver");
-                                break;
-                            }
                         }
-                    }
-
-                    // After loop exits for ANY reason:
-                    if !first_notification_sent {
-                        first_notification_notify.notify_one();
                     }
 
                     log::info!(
@@ -485,12 +473,14 @@ async fn observe_device_notify() {
                 }
             });
 
+            // Get current device state
             let response = azure_device_registry_client
                 .get_device(DEVICE1.to_string(), ENDPOINT1.to_string(), TIMEOUT)
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Get device to update the status: {response:?}");
 
+            // First update - should generate notification
             let response_during_obs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE1.to_string(),
@@ -517,11 +507,7 @@ async fn observe_device_notify() {
                 "[{log_identifier}] Updated device response after observation: {response_during_obs:?}",
             );
 
-            // Wait for first notification with timeout (e.g., 30 seconds)
-            let notification_timeout = Duration::from_secs(30);
-            let notified_future = first_notification_notify.notified();
-            let _ = tokio::time::timeout(notification_timeout, notified_future).await;
-
+            // unobserve as part of the test
             azure_device_registry_client
                 .unobserve_device_update_notifications(
                     DEVICE1.to_string(),
@@ -532,9 +518,7 @@ async fn observe_device_notify() {
                 .unwrap();
             log::info!("[{log_identifier}] Device update unobservation: {:?}", ());
 
-            // Signal the notification receiver to stop waiting
-            cleanup_notify.notify_one();
-
+            // Second update - should NOT generate notification (after unobserve)
             let response_after_unobs = azure_device_registry_client
                 .update_device_plus_endpoint_status(
                     DEVICE1.to_string(),
@@ -560,28 +544,40 @@ async fn observe_device_notify() {
                 "[{log_identifier}] Updated device response after unobserve: {response_after_unobs:?}",
             );
 
-            // Wait for the receive_notifications_task to finish and get the count
-            let notification_count = match receive_notifications_task.await {
-                Ok(count) => {
-                    log::info!(
-                        "[{log_identifier}] Notification receiver task completed with count: {count}"
-                    );
-                    count
-                }
-                Err(e) => {
-                    log::error!("[{log_identifier}] Notification receiver task failed: {e:?}");
-                    panic!("Notification receiver task failed");
-                }
-            };
+            // Let the background task run its full course (30s timeout) to verify no additional notifications
+            // If a second notification comes, the task will exit early with failure
+            // If no second notification comes, the task will timeout after 30s with success
+            log::info!(
+                "[{log_identifier}] Waiting for background task to complete (up to 30s timeout)..."
+            );
 
-            // Verify we got exactly 1 notification (only from the first update, not the second)
+            // Wait for the background task to finish
+            let notification_count = receive_notifications_task
+                .await
+                .expect("Notification receiver task failed");
+
+            log::info!(
+                "[{log_identifier}] Notification receiver task completed with count: {notification_count}"
+            );
+
+            // Always attempt cleanup unobserve, regardless of test result
+            log::info!("[{log_identifier}] Performing cleanup unobserve");
+            let _ = azure_device_registry_client
+                .unobserve_device_update_notifications(
+                    DEVICE1.to_string(),
+                    ENDPOINT1.to_string(),
+                    TIMEOUT,
+                )
+                .await;
+
+            // Shutdown client
+            assert!(azure_device_registry_client.shutdown().await.is_ok());
+
+            // Final assertion
             assert_eq!(
                 notification_count, 1,
                 "Expected exactly 1 notification, got {notification_count}",
             );
-
-            // Shutdown adr client and underlying resources
-            assert!(azure_device_registry_client.shutdown().await.is_ok());
 
             exit_handle.try_exit().await.unwrap();
         }
@@ -749,202 +745,6 @@ async fn observe_asset_update_notifications() {
             );
             // wait for the receive_notifications_task to finish to ensure any failed asserts are captured.
             assert!(receive_notifications_task.await.is_ok());
-
-            // Shutdown adr client and underlying resources
-            assert!(azure_device_registry_client.shutdown().await.is_ok());
-
-            exit_handle.try_exit().await.unwrap();
-        }
-    });
-
-    assert!(
-        tokio::try_join!(
-            async move { test_task.await.map_err(|e| { e.to_string() }) },
-            async move { session.run().await.map_err(|e| { e.to_string() }) }
-        )
-        .is_ok()
-    );
-}
-
-#[tokio::test]
-#[ignore = "reason: This test is ignored for preference simple."]
-async fn observe_asset_notify() {
-    let log_identifier = "observe_asset_update_notifications_network_tests-rust";
-    if !setup_test(log_identifier) {
-        return;
-    }
-    let (session, azure_device_registry_client, exit_handle) =
-        initialize_client(&format!("{log_identifier}-client"));
-
-    let test_task = tokio::task::spawn({
-        async move {
-            let mut observation = azure_device_registry_client
-                .observe_asset_update_notifications(
-                    DEVICE2.to_string(),
-                    ENDPOINT1.to_string(),
-                    ASSET_NAME1.to_string(),
-                    TIMEOUT,
-                )
-                .await
-                .unwrap();
-            log::info!("[{log_identifier}] Asset update observation: {observation:?}",);
-
-            let first_notification_notify = Arc::new(Notify::new());
-            let cleanup_notify = Arc::new(Notify::new());
-
-            let receive_notifications_task = tokio::task::spawn({
-                let first_notification_notify = first_notification_notify.clone();
-                let cleanup_notify = cleanup_notify.clone();
-
-                async move {
-                    log::info!("[{log_identifier}] Asset update notification receiver started.");
-                    let mut count = 0;
-                    let mut first_notification_sent = false;
-                    loop {
-                        tokio::select! {
-                            notification_result = observation.recv_notification() => {
-                                if let Some((asset, _)) = notification_result {
-                                    count += 1;
-                                    log::info!("[{log_identifier}] Asset Observation received: {asset:?}");
-
-                                    if count == 1 {
-                                        // Signal that we got the first notification
-                                        if !first_notification_sent {
-                                            first_notification_notify.notify_one();
-                                            first_notification_sent = true;
-                                        }
-                                        assert_eq!(asset.name, ASSET_NAME1);
-                                    } else {
-                                        log::info!("[{log_identifier}] Asset Observation unexpected: {asset:?}");
-                                        // Should not receive more than 1 notification
-                                        assert!(count < 2, "Received unexpected additional asset observation notification");
-                                    }
-                                } else {
-                                    // Channel closed
-                                    break;
-                                }
-                            }
-                            () = cleanup_notify.notified() => {
-                                // We're told to stop waiting for notifications
-                                log::info!("[{log_identifier}] Cleanup signal received, stopping notification receiver");
-                                break;
-                            }
-                        }
-                    }
-
-                    // After loop exits for ANY reason:
-                    if !first_notification_sent {
-                        first_notification_notify.notify_one();
-                    }
-
-                    log::info!(
-                        "[{log_identifier}] Asset update notification receiver closed with count: {count}"
-                    );
-                    count
-                }
-            });
-
-            let response = azure_device_registry_client
-                .get_asset(
-                    DEVICE2.to_string(),
-                    ENDPOINT1.to_string(),
-                    ASSET_NAME1.to_string(),
-                    TIMEOUT,
-                )
-                .await
-                .unwrap();
-            log::info!("[{log_identifier}] Get asset to update the status: {response:?}",);
-
-            let response_during_obs = azure_device_registry_client
-                .update_asset_status(
-                    DEVICE2.to_string(),
-                    ENDPOINT1.to_string(),
-                    ASSET_NAME1.to_string(),
-                    AssetStatus {
-                        config: Some(StatusConfig {
-                            version: response.specification.version,
-                            error: Some(ConfigError {
-                                message: Some(format!(
-                                    "Random test error for observation of asset update {}",
-                                    Uuid::new_v4()
-                                )),
-                                ..ConfigError::default()
-                            }),
-                            // last_transition_time: Some(time::OffsetDateTime::now_utc().to_string()),
-                            ..StatusConfig::default()
-                        }),
-                        ..AssetStatus::default()
-                    },
-                    TIMEOUT,
-                )
-                .await
-                .unwrap();
-            log::info!(
-                "[{log_identifier}] Updated asset response after observation: {response_during_obs:?}",
-            );
-
-            // Wait for first notification with timeout (e.g., 30 seconds)
-            let notification_timeout = Duration::from_secs(30);
-            let notified_future = first_notification_notify.notified();
-            let _ = tokio::time::timeout(notification_timeout, notified_future).await;
-
-            azure_device_registry_client
-                .unobserve_asset_update_notifications(
-                    DEVICE2.to_string(),
-                    ENDPOINT1.to_string(),
-                    ASSET_NAME1.to_string(),
-                    TIMEOUT,
-                )
-                .await
-                .unwrap();
-            log::info!("[{log_identifier}] Asset update unobservation: {:?}", ());
-
-            // Signal the notification receiver to stop waiting
-            cleanup_notify.notify_one();
-
-            let response_after_unobs = azure_device_registry_client
-                .update_asset_status(
-                    DEVICE2.to_string(),
-                    ENDPOINT1.to_string(),
-                    ASSET_NAME1.to_string(),
-                    AssetStatus {
-                        config: Some(StatusConfig {
-                            version: None,
-                            error: Some({
-                                ConfigError {
-                                    message: None,
-                                    ..ConfigError::default()
-                                }
-                            }),
-                            ..StatusConfig::default()
-                        }),
-                        ..AssetStatus::default()
-                    },
-                    TIMEOUT,
-                )
-                .await
-                .unwrap();
-            log::info!(
-                "[{log_identifier}] Updated asset response after unobserve: {response_after_unobs:?}",
-            );
-            let notification_count = match receive_notifications_task.await {
-                Ok(count) => {
-                    log::info!(
-                        "[{log_identifier}] Notification receiver task completed with count: {count}"
-                    );
-                    count
-                }
-                Err(e) => {
-                    log::error!("[{log_identifier}] Notification receiver task failed: {e:?}");
-                    panic!("Notification receiver task failed");
-                }
-            };
-
-            // Verify we got exactly 1 notification (only from the first update, not the second)
-            assert_eq!(
-                notification_count, 1,
-                "Expected exactly 1 notification, got {notification_count}",
-            );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
