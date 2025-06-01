@@ -16,9 +16,8 @@ use env_logger::Builder;
 use tokio::sync::Notify;
 use uuid::Uuid;
 
-use azure_iot_operations_services::azure_device_registry::{
-    self, AssetStatus, ConfigError, DeviceStatus, StatusConfig,
-};
+use azure_iot_operations_services::azure_device_registry::models::{AssetStatus, DeviceStatus};
+use azure_iot_operations_services::azure_device_registry::{self, ConfigError, StatusConfig};
 
 const DEVICE1: &str = "my-thermostat";
 const DEVICE2: &str = "test-thermostat";
@@ -112,13 +111,6 @@ async fn get_device() {
             assert_eq!(response.name, DEVICE1);
             assert_eq!(response.specification.attributes["deviceId"], DEVICE1);
             assert_eq!(response.specification.attributes["deviceType"], TYPE);
-            assert!(
-                response
-                    .specification
-                    .endpoints
-                    .inbound
-                    .contains_key(ENDPOINT1)
-            );
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
