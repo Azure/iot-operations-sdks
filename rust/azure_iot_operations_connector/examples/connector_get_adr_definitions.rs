@@ -131,7 +131,7 @@ async fn run_program(
                         let mut endpoint_statuses = HashMap::new();
                         let mut any_errors = false;
                         for (inbound_endpoint_name, endpoint) in
-                            device.specification.endpoints.inbound
+                            device.specification.endpoints.unwrap().inbound
                         {
                             if endpoint.endpoint_type == "rest-thermostat"
                                 || endpoint.endpoint_type == "coap-thermostat"
@@ -155,7 +155,7 @@ async fn run_program(
                                 );
                             }
                         }
-                        let status = azure_device_registry::DeviceStatus {
+                        let status = azure_device_registry::models::DeviceStatus {
                             config: Some(azure_device_registry::StatusConfig {
                                 version: device.specification.version,
                                 ..azure_device_registry::StatusConfig::default()
@@ -244,19 +244,19 @@ async fn run_program(
                                                 // now we should update the status of the asset
                                                 let mut dataset_statuses = Vec::new();
                                                 for dataset in asset.specification.datasets {
-                                                    dataset_statuses.push(azure_device_registry::DatasetEventStreamStatus {
+                                                    dataset_statuses.push(azure_device_registry::models::DatasetEventStreamStatus {
                                                     error: None,
                                                     message_schema_reference: None,
                                                     name: dataset.name,
                                                 });
                                                 }
-                                                let updated_status = azure_device_registry::AssetStatus {
+                                                let updated_status = azure_device_registry::models::AssetStatus {
                                                 config: Some(azure_device_registry::StatusConfig {
                                                     version: asset.specification.version,
                                                     ..azure_device_registry::StatusConfig::default()
                                                 }),
                                                 datasets: Some(dataset_statuses),
-                                                ..azure_device_registry::AssetStatus::default()
+                                                ..azure_device_registry::models::AssetStatus::default()
                                             };
                                                 match azure_device_registry_client_clone
                                                     .update_asset_status(

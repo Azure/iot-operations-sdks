@@ -47,6 +47,23 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
+    public async Task GetDeviceThrowsAkriServiceErrorExceptionWhenDeviceNotFoundAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<AkriServiceErrorException>(
+            () => client.GetDeviceAsync("non-existent-device", "my-rest-endpoint"));
+
+        _output.WriteLine($"Expected exception: {exception.Message}");
+        Assert.NotNull(exception.AkriServiceError);
+        Assert.Equal("KubeError", exception.AkriServiceError.Code);
+    }
+
+    [Fact]
     public async Task CanUpdateDeviceStatusAsync()
     {
         // Arrange
@@ -59,7 +76,7 @@ public class AdrServiceClientIntegrationTests
             Config = new DeviceStatusConfig
             {
                 Error = null,
-                LastTransitionTime = "2023-10-01T00:00:00Z",
+                LastTransitionTime = DateTime.Parse("2023-10-01T00:00:00Z"),
                 Version = 1
             },
             Endpoints = new DeviceStatusEndpoint
@@ -322,20 +339,44 @@ public class AdrServiceClientIntegrationTests
         Assert.False(receivedUnexpectedNotification, "Should not receive asset update event after unobserving");
     }
 
-    [Fact(Skip = "Requires ADR service changes")]
-    public async Task CanCreateDetectedAssetAsync()
+    [Fact]
+    public async Task CanCreateOrUpdateDiscoveredAssetAsync()
     {
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
         ApplicationContext applicationContext = new();
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
-        CreateDetectedAssetRequest request = CreateCreateDetectedAssetRequest();
+        var request = CreateCreateDetectedAssetRequest();
 
         // Act
-        await client.CreateDetectedAssetAsync(TestDevice_1_Name, TestEndpointName, request);
+        var result = await client.CreateOrUpdateDiscoveredAssetAsync(TestDevice_1_Name, TestEndpointName, request);
 
         // Assert
+        Assert.NotNull(result);
+        Assert.NotEmpty(result.DiscoveryId);
+        _output.WriteLine($"Detected asset created with DiscoveryId: {result.DiscoveryId}");
+    }
+
+    [Fact]
+    public async Task CanCreateOrUpdateDiscoveredDeviceAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        var request = CreateCreateDiscoveredDeviceRequest();
+
+        // Act
+        var response = await client.CreateOrUpdateDiscoveredDeviceAsync(request, "my-rest-endpoint");
+
+        // Assert
+        Assert.NotNull(response);
+        Assert.NotNull(response.DiscoveryId);
+        Assert.NotEmpty(response.DiscoveryId);
+        Assert.Equal("test-discovered-device", response.DiscoveryId);
+        _output.WriteLine($"Discovered device created with name: {response.DiscoveryId}");
     }
 
     [Fact]
@@ -672,12 +713,19 @@ public class AdrServiceClientIntegrationTests
         Assert.True(receivedEvents.All(d => d.Name != TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
     }
 
-    private CreateDetectedAssetRequest CreateCreateDetectedAssetRequest()
+    private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {
-        return new CreateDetectedAssetRequest
+        return new CreateOrUpdateDiscoveredAssetRequest
         {
-            AssetName = TestAssetName,
-            AssetEndpointProfileRef = TestEndpointName,
+            DiscoveredAssetName = TestAssetName,
+            DiscoveredAsset = new DiscoveredAsset
+            {
+                DeviceRef = new AssetDeviceRef
+                {
+                    DeviceName = TestDevice_1_Name,
+                    EndpointName = TestEndpointName
+                }
+            },
         };
     }
 
@@ -688,7 +736,7 @@ public class AdrServiceClientIntegrationTests
             Config = new DeviceStatusConfig
             {
                 Error = null,
-                LastTransitionTime = timeStamp.ToString("o"),
+                LastTransitionTime = timeStamp,
                 Version = 2
             },
             Endpoints = new DeviceStatusEndpoint
@@ -711,11 +759,51 @@ public class AdrServiceClientIntegrationTests
                 Config = new AssetConfigStatus
                 {
                     Error = null,
-                    LastTransitionTime = timeStamp.ToString("o"),
+                    LastTransitionTime = timeStamp,
                     Version = 1
                 }
             }
         };
     }
 
+    private CreateDiscoveredAssetEndpointProfileRequest CreateCreateDiscoveredDeviceRequest()
+    {
+        return new CreateDiscoveredAssetEndpointProfileRequest
+        {
+            Name = "test-discovered-device",
+            Manufacturer = "Test Manufacturer",
+            Model = "Test Model",
+            OperatingSystem = "Linux",
+            OperatingSystemVersion = "1.0",
+            ExternalDeviceId = "external-device-id-123",
+            Endpoints = new DiscoveredDeviceEndpoint
+            {
+                Inbound = new Dictionary<string, DiscoveredDeviceInboundEndpoint>
+                {
+                    {
+                        TestEndpointName,
+                        new DiscoveredDeviceInboundEndpoint
+                        {
+                            Address = "http://example.com",
+                            EndpointType = "rest",
+                            Version = "1.0",
+                            SupportedAuthenticationMethods = new List<string> { "Basic", "OAuth2" }
+                        }
+                    }
+                },
+                Outbound = new DiscoveredDeviceOutboundEndpoints
+                {
+                    Assigned = new Dictionary<string, DeviceOutboundEndpoint>
+                    {
+                        { "outbound-endpoint-1", new DeviceOutboundEndpoint { Address = "http://outbound.example.com", EndpointType = "rest" } }
+                    }
+                }
+            },
+            Attributes = new Dictionary<string, string>
+            {
+                { "attribute1", "value1" },
+                { "attribute2", "value2" }
+            }
+        };
+    }
 }

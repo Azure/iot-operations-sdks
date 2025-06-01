@@ -86,7 +86,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -188,7 +188,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -197,7 +197,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                             Qos = QoS.Qos1
                                         }
                                     },
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.BrokerStateStore,
                                         Configuration = new()
@@ -307,7 +307,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -441,7 +441,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -483,7 +483,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -591,7 +591,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -701,7 +701,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -812,7 +812,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -927,7 +927,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -1029,7 +1029,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()
@@ -1071,7 +1071,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 },
                                 Destinations = new()
                                 {
-                                    new AssetDatasetDestinationSchemaElement()
+                                    new DatasetDestination()
                                     {
                                         Target = DatasetTarget.Mqtt,
                                         Configuration = new()

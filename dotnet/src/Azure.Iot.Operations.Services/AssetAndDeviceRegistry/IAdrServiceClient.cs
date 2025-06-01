@@ -130,30 +130,31 @@ public interface IAdrServiceClient : IAsyncDisposable
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a detected asset.
+    /// Creates or updates a discovered asset.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-    /// <param name="request">The request containing detected asset creation parameters.</param>
+    /// <param name="request">The request containing discovered asset creation parameters.</param>
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A task that represents the asynchronous operation, containing the response for the created detected asset.</returns>
-    Task<CreateDetectedAssetResponse> CreateDetectedAssetAsync(
-        string deviceName,
+    /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered asset.</returns>
+    Task<CreateDetectedAssetResponse> CreateOrUpdateDiscoveredAssetAsync(string deviceName,
         string inboundEndpointName,
-        CreateDetectedAssetRequest request,
+        CreateOrUpdateDiscoveredAssetRequest request,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Creates a discovered asset endpoint profile.
+    /// Creates or updates a discovered device endpoint profile.
     /// </summary>
-    /// <param name="request">The request containing discovered asset endpoint profile creation parameters.</param>
+    /// <param name="request">The request containing discovered device endpoint profile creation parameters.</param>
+    /// <param name="inboundEndpointType"></param>
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered asset endpoint profile.</returns>
-    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateDiscoveredAssetEndpointProfileAsync(
+    /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered device endpoint profile.</returns>
+    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(
         CreateDiscoveredAssetEndpointProfileRequest request,
+        string inboundEndpointType,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
