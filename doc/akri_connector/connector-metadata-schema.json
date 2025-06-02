@@ -143,7 +143,7 @@
     },
     "secrets": {
       "type": "array",
-      "description": "The array of secrets that will be mounted onto all connector instances.",
+      "description": "The array of secrets that are required for the connector application to work. The secret will be mounted onto all connector instances deployed for this connector application",
       "items": [
         {
           "type": "object",
