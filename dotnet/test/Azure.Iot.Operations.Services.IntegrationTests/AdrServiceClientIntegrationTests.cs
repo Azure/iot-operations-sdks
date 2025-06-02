@@ -785,7 +785,7 @@ public class AdrServiceClientIntegrationTests
                         new DiscoveredDeviceInboundEndpoint
                         {
                             Address = "http://example.com",
-                            EndpointType = "rest-thermostat-endpoint-type",
+                            EndpointType = "my-rest-endpoint",
                             Version = "1.0",
                             SupportedAuthenticationMethods = new List<string> { "Basic", "OAuth2" }
                         }
