@@ -1406,7 +1406,7 @@ impl DatasetClient {
         loop {
             let (updated_dataset, default_destinations, mut watch_receiver) =
                 self.dataset_update_rx.recv().await?;
-            // wait until the udpate has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
+            // wait until the update has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
             watch_receiver.changed().await.ok()?;
             // create new forwarder, in case destination has changed
             self.forwarder = match destination_endpoint::Forwarder::new_dataset_forwarder(
