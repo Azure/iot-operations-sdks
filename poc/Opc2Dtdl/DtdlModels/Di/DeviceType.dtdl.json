@@ -5,12 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Di:DeviceType;1",
+  "@id": "dtmi:opcua:DI:DeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DI:ComponentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:Di:DeviceType:dataType:DeviceHealthEnumeration;1",
+      "@id": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -41,7 +42,7 @@
     {
       "@type": "Property",
       "name": "DeviceHealth",
-      "schema": "dtmi:opcua:Di:DeviceType:dataType:DeviceHealthEnumeration;1",
+      "schema": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1",
       "writable": false
     },
     {

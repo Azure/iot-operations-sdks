@@ -1,0 +1,363 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/TMC_v2/MachineModuleSpecificationType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialCapability",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialDefinitionType;1"
+          }
+        },
+        {
+          "name": "ConnectedMaterialPoint",
+          "schema": "string"
+        },
+        {
+          "name": "PropagatesProductionOrder",
+          "schema": "boolean"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialDefinitionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "BaseUnitOfMeasure",
+          "schema": "string"
+        },
+        {
+          "name": "BatchManaged",
+          "schema": "boolean"
+        },
+        {
+          "name": "GroupID",
+          "schema": "string"
+        },
+        {
+          "name": "ParentGroupID",
+          "schema": "string"
+        },
+        {
+          "name": "ShelfLife",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:DataDescriptionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialStorageBufferDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "StoredMaterial",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialDefinitionType;1"
+        },
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "TotalStorageCapacity",
+          "schema": "double"
+        },
+        {
+          "name": "StorageLogic",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageLogicEnumeration;1"
+        },
+        {
+          "name": "MixingLogic",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageMixingLogicEnumeration;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageLogicEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Other",
+          "enumValue": 0
+        },
+        {
+          "name": "FIFO",
+          "enumValue": 1
+        },
+        {
+          "name": "LIFO",
+          "enumValue": 2
+        },
+        {
+          "name": "FEFO",
+          "enumValue": 3
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageMixingLogicEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Mixing",
+          "enumValue": 0
+        },
+        {
+          "name": "NonMixingByProduct",
+          "enumValue": 1
+        },
+        {
+          "name": "NonMixingByBatch",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MessageType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "DeleteSpecificationRecord",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SpecificationRecord",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "LoadMachineModuleDocumentation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "DocumentToBeLoaded",
+              "schema": "bytes"
+            },
+            {
+              "name": "DocumentName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RemoveMachineModuleDocumentation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "DocumentName",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetNewSpecification",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "NewMaterialLoadingPoints",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1"
+              }
+            },
+            {
+              "name": "NewMaterialStorageBuffers",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialStorageBufferDataType;1"
+              }
+            },
+            {
+              "name": "NewMaterialOutputPoints",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1"
+              }
+            },
+            {
+              "name": "NewMaterialRejectionPoints",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialPointType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Documentation"
+    }
+  ]
+}

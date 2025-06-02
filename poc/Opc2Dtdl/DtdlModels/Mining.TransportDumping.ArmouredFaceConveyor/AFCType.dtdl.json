@@ -7,13 +7,10 @@
   ],
   "@id": "dtmi:opcua:Mining_TransportDumping_ArmouredFaceConveyor:AFCType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "ParameterSet"
-    }
   ]
 }

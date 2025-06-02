@@ -5,17 +5,17 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_cm:AssetVerificationType;1",
+  "@id": "dtmi:opcua:FX_CM:AssetVerificationType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeIdentifier;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifier;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Node",
-          "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeId;1"
+          "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeId;1"
         },
         {
           "name": "Alias",
@@ -23,17 +23,17 @@
         },
         {
           "name": "IdentifierBrowsePath",
-          "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableRelativePath;1"
+          "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePath;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Key",
-          "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeIdentifier;1"
+          "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifier;1"
         },
         {
           "name": "ArrayIndex",
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:AssetVerificationResultEnum;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:AssetVerificationResultEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -72,7 +72,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:AssetVerificationModeEnum;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:AssetVerificationModeEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeId;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeId;1",
       "@type": "Object",
       "fields": [
         {
@@ -105,25 +105,25 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableRelativePath;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePath;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Elements",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableRelativePathElement;1"
+            "elementSchema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePathElement;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableRelativePathElement;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePathElement;1",
       "@type": "Object",
       "fields": [
         {
           "name": "ReferenceTypeId",
-          "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeId;1"
+          "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeId;1"
         },
         {
           "name": "IsInverse",
@@ -135,12 +135,12 @@
         },
         {
           "name": "TargetName",
-          "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableQualifiedName;1"
+          "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableQualifiedName;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableQualifiedName;1",
+      "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableQualifiedName;1",
       "@type": "Object",
       "fields": [
         {
@@ -158,7 +158,7 @@
     {
       "@type": "Property",
       "name": "AssetToVerify",
-      "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeIdentifier;1",
+      "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifier;1",
       "writable": true
     },
     {
@@ -166,14 +166,14 @@
       "name": "ExpectedAdditionalVerificationVariables",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1"
+        "elementSchema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1"
       },
       "writable": true
     },
     {
       "@type": "Property",
       "name": "ExpectedVerificationResult",
-      "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:AssetVerificationResultEnum;1",
+      "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:AssetVerificationResultEnum;1",
       "writable": true
     },
     {
@@ -181,14 +181,14 @@
       "name": "ExpectedVerificationVariables",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1"
+        "elementSchema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1"
       },
       "writable": true
     },
     {
       "@type": "Property",
       "name": "VerificationMode",
-      "schema": "dtmi:opcua:fx_cm:AssetVerificationType:dataType:AssetVerificationModeEnum;1",
+      "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:AssetVerificationModeEnum;1",
       "writable": true
     }
   ]

@@ -28,6 +28,11 @@ namespace Yaml2Dtdl
                     "ion;2\"\r\n  ],\r\n  \"@id\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
             this.Write(";1\",\r\n  \"@type\": [ \"Interface\", \"Mqtt\" ],\r\n");
+ foreach (string supertypeId in this.supertypeIds) { 
+            this.Write("  \"extends\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(supertypeId));
+            this.Write(";1\",\r\n");
+ } 
  if (this.dtdlCommands.Count > 0) { 
             this.Write("  \"commandTopic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.topicBase));

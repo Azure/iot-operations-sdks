@@ -134,6 +134,10 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4885, ISA95ClassPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95PropertyType:
   - [ UAVariableType, ISA95:4263, ISA95PropertyType ]
@@ -143,6 +147,10 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4263, ISA95PropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95TestResultType:
   - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
@@ -152,36 +160,50 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:4880, ResultDescription, LocalizedText, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:4881, TestDate, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:4882, Result ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:4883, ResultUnitOfMeasure ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:4884, Expiration, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   ISA95TestResultNonEUType:
   - [ UAVariableType, ISA95:5094, ISA95TestResultNonEUType, ISA95TestResultDataType, -2, 0 ]
@@ -191,6 +213,10 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:5094, ISA95TestResultNonEUType, ISA95TestResultDataType, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
 
   ISA95TestResultEUType:
   - [ UAVariableType, ISA95:5101, ISA95TestResultEUType, ISA95TestResultMeasurementDataType, -2, 0 ]
@@ -200,6 +226,10 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:5101, ISA95TestResultEUType, ISA95TestResultMeasurementDataType, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
 
   ISA95AssetAssignmentType:
   - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
@@ -209,27 +239,39 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5110, AssignmentDescription, LocalizedText, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5111, StartTime, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5112, StopTime, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   QualificationTestResultType:
   - [ UAVariableType, ISA95:4961, QualificationTestResultType, Structure, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
 
   PersonnelClassPropertyType:
   - [ UAVariableType, ISA95:1123, PersonnelClassPropertyType ]
@@ -239,6 +281,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:1123, PersonnelClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAVariableType, ISA95:1123, PersonnelClassPropertyType ]
   - ISA95:4918:
     - [ UAObject, ISA95:4981, <TestSpecification> ]
     - ISA95:4713:
@@ -247,10 +291,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:4981, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:4977, QualificationTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4918_reverse:
+      - [ UAVariableType, ISA95:1123, PersonnelClassPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4885, ISA95ClassPropertyType ]
 
   PersonPropertyType:
   - [ UAVariableType, ISA95:5118, PersonPropertyType ]
@@ -260,6 +310,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5118, PersonPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAVariableType, ISA95:5118, PersonPropertyType ]
   - ISA95:4918:
     - [ UAObject, ISA95:5122, <TestSpecification> ]
     - ISA95:4713:
@@ -268,10 +320,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5122, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:4977, QualificationTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4918_reverse:
+      - [ UAVariableType, ISA95:5118, PersonPropertyType ]
   - ISA95:4915:
     - [ UAVariable, ISA95:5124, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
@@ -280,49 +336,71 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5124, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5126, ResultDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5124, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5127, TestDate, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5124, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5128, Result ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5124, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5129, ResultUnitOfMeasure ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5124, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5130, Expiration, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5124, <TestResult>, Structure, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:4961, QualificationTestResultType, Structure, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4915_reverse:
+      - [ UAVariableType, ISA95:5118, PersonPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4263, ISA95PropertyType ]
 
   GeoSpatialLocationType:
   - [ UAVariableType, ISA95:5048, GeoSpatialLocationType, String, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 68, PropertyType ]
 
   CompanyType:
   - [ UAVariableType, ISA95:5049, CompanyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   PhysicalAssetCapabilityTestResultType:
   - [ UAVariableType, ISA95:5050, PhysicalAssetCapabilityTestResultType, Structure, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
 
   PhysicalAssetClassPropertyType:
   - [ UAVariableType, ISA95:5059, PhysicalAssetClassPropertyType ]
@@ -332,6 +410,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5059, PhysicalAssetClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAVariableType, ISA95:5059, PhysicalAssetClassPropertyType ]
   - ISA95:4922:
     - [ UAObject, ISA95:5063, <TestSpecification> ]
     - ISA95:4713:
@@ -340,10 +420,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5063, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5057, PhysicalAssetCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4922_reverse:
+      - [ UAVariableType, ISA95:5059, PhysicalAssetClassPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4885, ISA95ClassPropertyType ]
 
   PhysicalAssetPropertyType:
   - [ UAVariableType, ISA95:5065, PhysicalAssetPropertyType ]
@@ -353,6 +439,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5065, PhysicalAssetPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAVariableType, ISA95:5065, PhysicalAssetPropertyType ]
   - ISA95:4922:
     - [ UAObject, ISA95:5069, <TestSpecification> ]
     - ISA95:4713:
@@ -361,10 +449,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5069, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5057, PhysicalAssetCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4922_reverse:
+      - [ UAVariableType, ISA95:5065, PhysicalAssetPropertyType ]
   - ISA95:4915:
     - [ UAVariable, ISA95:5071, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
@@ -373,43 +465,61 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5071, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5073, ResultDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5071, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5074, TestDate, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5071, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5075, Result ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5071, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5076, ResultUnitOfMeasure ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5071, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5077, Expiration, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5071, <TestResult>, Structure, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5050, PhysicalAssetCapabilityTestResultType, Structure, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4915_reverse:
+      - [ UAVariableType, ISA95:5065, PhysicalAssetPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4885, ISA95ClassPropertyType ]
 
   EquipmentCapabilityTestResultType:
   - [ UAVariableType, ISA95:5008, EquipmentCapabilityTestResultType, Structure, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
 
   EquipmentClassPropertyType:
   - [ UAVariableType, ISA95:5017, EquipmentClassPropertyType ]
@@ -419,6 +529,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5017, EquipmentClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAVariableType, ISA95:5017, EquipmentClassPropertyType ]
   - ISA95:4920:
     - [ UAObject, ISA95:5021, <TestSpecification> ]
     - ISA95:4713:
@@ -427,10 +539,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5021, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5015, EquipmentCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4920_reverse:
+      - [ UAVariableType, ISA95:5017, EquipmentClassPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4885, ISA95ClassPropertyType ]
 
   EquipmentPropertyType:
   - [ UAVariableType, ISA95:954, EquipmentPropertyType ]
@@ -440,6 +558,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:954, EquipmentPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAVariableType, ISA95:954, EquipmentPropertyType ]
   - ISA95:4920:
     - [ UAObject, ISA95:5025, <TestSpecification> ]
     - ISA95:4713:
@@ -448,10 +568,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5025, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5015, EquipmentCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4920_reverse:
+      - [ UAVariableType, ISA95:954, EquipmentPropertyType ]
   - ISA95:4915:
     - [ UAVariable, ISA95:5027, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
@@ -460,43 +584,61 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5027, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5029, ResultDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5027, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5030, TestDate, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5027, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5031, Result ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5027, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5032, ResultUnitOfMeasure ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5027, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5033, Expiration, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5027, <TestResult>, Structure, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5008, EquipmentCapabilityTestResultType, Structure, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4915_reverse:
+      - [ UAVariableType, ISA95:954, EquipmentPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4263, ISA95PropertyType ]
 
   MaterialTestResultType:
   - [ UAVariableType, ISA95:5165, MaterialTestResultType, Structure, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4878, ISA95TestResultType ]
 
   MaterialDefinitionPropertyType:
   - [ UAVariableType, ISA95:5174, MaterialDefinitionPropertyType ]
@@ -506,6 +648,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5174, MaterialDefinitionPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAVariableType, ISA95:5174, MaterialDefinitionPropertyType ]
   - ISA95:4924:
     - [ UAObject, ISA95:5178, <TestSpecification> ]
     - ISA95:4713:
@@ -514,10 +658,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5178, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4924_reverse:
+      - [ UAVariableType, ISA95:5174, MaterialDefinitionPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4885, ISA95ClassPropertyType ]
 
   MaterialClassPropertyType:
   - [ UAVariableType, ISA95:5180, MaterialClassPropertyType ]
@@ -527,6 +677,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5180, MaterialClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAVariableType, ISA95:5180, MaterialClassPropertyType ]
   - ISA95:4924:
     - [ UAObject, ISA95:5184, <TestSpecification> ]
     - ISA95:4713:
@@ -535,10 +687,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5184, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4924_reverse:
+      - [ UAVariableType, ISA95:5180, MaterialClassPropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:4885, ISA95ClassPropertyType ]
 
   MaterialLotPropertyType:
   - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
@@ -550,40 +708,54 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5193, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5195, ResultDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5193, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5196, TestDate, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5193, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5197, Result ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5193, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5198, ResultUnitOfMeasure ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5193, <TestResult>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5199, Expiration, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5193, <TestResult>, Structure, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4915_reverse:
+      - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
   - ISA95:2009:
     - [ UAVariable, ISA95:5200, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
@@ -592,40 +764,54 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5200, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5202, ResultDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5200, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5203, TestDate, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5200, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5204, Result ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5200, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5205, ResultUnitOfMeasure ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5200, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5206, Expiration, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5200, <PropertyName>, Structure, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
   - ISA95:4924:
     - [ UAObject, ISA95:5207, <TestSpecification> ]
     - ISA95:4713:
@@ -634,16 +820,26 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5207, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4924_reverse:
+      - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, ISA95:5165, MaterialTestResultType, Structure, -2, 0 ]
 
   ISA95ClassType:
   - [ UAObjectType, ISA95:4957, ISA95ClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95ObjectType:
   - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95TestSpecificationType:
   - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
@@ -653,9 +849,15 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   QualificationTestSpecificationType:
   - [ UAObjectType, ISA95:4977, QualificationTestSpecificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
 
   PersonnelClassType:
   - [ UAObjectType, ISA95:4996, PersonnelClassType ]
@@ -665,6 +867,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:1123, PersonnelClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAObjectType, ISA95:4996, PersonnelClassType ]
   - ISA95:4918:
     - [ UAObject, ISA95:4999, <TestSpecification> ]
     - ISA95:4713:
@@ -673,10 +877,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:4999, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:4977, QualificationTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4918_reverse:
+      - [ UAObjectType, ISA95:4996, PersonnelClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
 
   PersonType:
   - [ UAObjectType, ISA95:5131, PersonType ]
@@ -686,12 +896,16 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5118, PersonPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAObjectType, ISA95:5131, PersonType ]
   - ISA95:4917:
     - [ UAObject, ISA95:5302, <PersonnelClass> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:4996, PersonnelClassType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4917_reverse:
+      - [ UAObjectType, ISA95:5131, PersonType ]
   - ISA95:4918:
     - [ UAObject, ISA95:5134, <TestSpecification> ]
     - ISA95:4713:
@@ -700,13 +914,21 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5134, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:4977, QualificationTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4918_reverse:
+      - [ UAObjectType, ISA95:5131, PersonType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
 
   PhysicalAssetCapabilityTestSpecificationType:
   - [ UAObjectType, ISA95:5057, PhysicalAssetCapabilityTestSpecificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
 
   PhysicalAssetClassType:
   - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
@@ -716,6 +938,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5059, PhysicalAssetClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
   - ISA95:4922:
     - [ UAObject, ISA95:5081, <TestSpecification> ]
     - ISA95:4713:
@@ -724,22 +948,32 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5081, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5057, PhysicalAssetCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4922_reverse:
+      - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5083, Manufacturer ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5049, CompanyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5084, ModelNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
 
   PhysicalAssetType:
   - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
@@ -749,6 +983,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5065, PhysicalAssetPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
   - ISA95:2009:
     - [ UAObject, ISA95:5136, <PhysicalAsset> ]
     - ISA95:4921:
@@ -757,24 +993,32 @@ DefinedTypes:
         - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4921_reverse:
+        - [ UAObject, ISA95:5136, <PhysicalAsset> ]
     - ISA95:5114:
       - [ UAVariable, ISA95:5137, PhysicalLocation, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, ISA95:5048, GeoSpatialLocationType, String, -2, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:5114_reverse:
+        - [ UAObject, ISA95:5136, <PhysicalAsset> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5151, FixedAssetId, CDTIdentifier, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5136, <PhysicalAsset> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5152, VendorId ]
       - HasTypeDefinition:
         - [ UAVariableType, ISA95:5049, CompanyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5136, <PhysicalAsset> ]
     - HasComponent:
       - [ UAVariable, ISA95:5303, AssetAssignment ]
       - ISA95:4713:
@@ -783,38 +1027,52 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5303, AssetAssignment ]
       - ISA95:4713:
         - [ UAVariable, ISA95:5305, AssignmentDescription, LocalizedText, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5303, AssetAssignment ]
       - ISA95:4713:
         - [ UAVariable, ISA95:5306, StartTime, DateTime, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5303, AssetAssignment ]
       - ISA95:4713:
         - [ UAVariable, ISA95:5307, StopTime, DateTime, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5303, AssetAssignment ]
       - HasTypeDefinition:
         - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, ISA95:5136, <PhysicalAsset> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
   - ISA95:4921:
     - [ UAObject, ISA95:5088, PhysicalAssetClass ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4921_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
   - ISA95:4922:
     - [ UAObject, ISA95:5091, <TestSpecification> ]
     - ISA95:4713:
@@ -823,28 +1081,38 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5091, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5057, PhysicalAssetCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4922_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
   - ISA95:5114:
     - [ UAVariable, ISA95:5138, PhysicalLocation, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5048, GeoSpatialLocationType, String, -2, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:5114_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5153, FixedAssetId, CDTIdentifier, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5154, VendorId ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5049, CompanyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
   - HasComponent:
     - [ UAVariable, ISA95:5308, AssetAssignment ]
     - ISA95:4713:
@@ -853,31 +1121,45 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5308, AssetAssignment ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5310, AssignmentDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5308, AssetAssignment ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5311, StartTime, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5308, AssetAssignment ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5312, StopTime, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5308, AssetAssignment ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
 
   EquipmentCapabilityTestSpecificationType:
   - [ UAObjectType, ISA95:5015, EquipmentCapabilityTestSpecificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
 
   EquipmentClassType:
   - [ UAObjectType, ISA95:5034, EquipmentClassType ]
@@ -887,6 +1169,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5017, EquipmentClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAObjectType, ISA95:5034, EquipmentClassType ]
   - ISA95:4920:
     - [ UAObject, ISA95:5037, <TestSpecification> ]
     - ISA95:4713:
@@ -895,16 +1179,24 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5037, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5015, EquipmentCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4920_reverse:
+      - [ UAObjectType, ISA95:5034, EquipmentClassType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5039, EquipmentLevel, ISA95EquipmentElementLevelEnum, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5034, EquipmentClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
 
   EquipmentType:
   - [ UAObjectType, ISA95:5040, EquipmentType ]
@@ -914,12 +1206,16 @@ DefinedTypes:
       - [ UAVariableType, ISA95:954, EquipmentPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAObjectType, ISA95:5040, EquipmentType ]
   - ISA95:4919:
     - [ UAObject, ISA95:5043, <EquipmentClass> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5034, EquipmentClassType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4919_reverse:
+      - [ UAObjectType, ISA95:5040, EquipmentType ]
   - ISA95:4920:
     - [ UAObject, ISA95:5045, <TestSpecification> ]
     - ISA95:4713:
@@ -928,10 +1224,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5045, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5015, EquipmentCapabilityTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4920_reverse:
+      - [ UAObjectType, ISA95:5040, EquipmentType ]
   - ISA95:5115:
     - [ UAObject, ISA95:5144, <Equipment> ]
     - ISA95:4713:
@@ -940,12 +1240,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5144, <Equipment> ]
     - ISA95:4914:
       - [ UAObject, ISA95:5146, <PhysicalAsset> ]
       - HasTypeDefinition:
         - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4914_reverse:
+        - [ UAObject, ISA95:5144, <Equipment> ]
     - HasComponent:
       - [ UAVariable, ISA95:5318, AssetAssignment ]
       - ISA95:4713:
@@ -954,44 +1258,60 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5318, AssetAssignment ]
       - ISA95:4713:
         - [ UAVariable, ISA95:5320, AssignmentDescription, LocalizedText, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5318, AssetAssignment ]
       - ISA95:4713:
         - [ UAVariable, ISA95:5321, StartTime, DateTime, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5318, AssetAssignment ]
       - ISA95:4713:
         - [ UAVariable, ISA95:5322, StopTime, DateTime, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - ISA95:4713_reverse:
+          - [ UAVariable, ISA95:5318, AssetAssignment ]
       - HasTypeDefinition:
         - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, ISA95:5144, <Equipment> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5040, EquipmentType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:5115_reverse:
+      - [ UAObjectType, ISA95:5040, EquipmentType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5047, EquipmentLevel, ISA95EquipmentElementLevelEnum, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5040, EquipmentType ]
   - ISA95:4914:
     - [ UAObject, ISA95:5093, <PhysicalAsset> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4914_reverse:
+      - [ UAObjectType, ISA95:5040, EquipmentType ]
   - HasComponent:
     - [ UAVariable, ISA95:5328, AssetAssignment ]
     - ISA95:4713:
@@ -1000,31 +1320,45 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5328, AssetAssignment ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5330, AssignmentDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5328, AssetAssignment ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5331, StartTime, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5328, AssetAssignment ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5332, StopTime, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5328, AssetAssignment ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5108, ISA95AssetAssignmentType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, ISA95:5040, EquipmentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
 
   MaterialTestSpecificationType:
   - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
 
   MaterialClassType:
   - [ UAObjectType, ISA95:5209, MaterialClassType ]
@@ -1034,6 +1368,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5180, MaterialClassPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAObjectType, ISA95:5209, MaterialClassType ]
   - ISA95:4924:
     - [ UAObject, ISA95:5212, <TestSpecification> ]
     - ISA95:4713:
@@ -1042,10 +1378,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5212, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4924_reverse:
+      - [ UAObjectType, ISA95:5209, MaterialClassType ]
   - ISA95:4927:
     - [ UAObject, ISA95:5214, <AssemblyClass> ]
     - ISA95:4713:
@@ -1054,28 +1394,40 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5214, <AssemblyClass> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5216, AssemblyRelationship ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5214, <AssemblyClass> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5209, MaterialClassType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4927_reverse:
+      - [ UAObjectType, ISA95:5209, MaterialClassType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5217, AssemblyType ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5209, MaterialClassType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5218, AssemblyRelationship ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5209, MaterialClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
 
   MaterialDefinitionType:
   - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
@@ -1085,6 +1437,8 @@ DefinedTypes:
       - [ UAVariableType, ISA95:5174, MaterialDefinitionPropertyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4910_reverse:
+      - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
   - ISA95:4924:
     - [ UAObject, ISA95:5222, <TestSpecification> ]
     - ISA95:4713:
@@ -1093,10 +1447,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5222, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4924_reverse:
+      - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
   - ISA95:4926:
     - [ UAObject, ISA95:5227, <AssemblyClass> ]
     - ISA95:4713:
@@ -1105,28 +1463,40 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5227, <AssemblyClass> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5229, AssemblyRelationship ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5227, <AssemblyClass> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4926_reverse:
+      - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5230, AssemblyType ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5231, AssemblyRelationship ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
 
   MaterialLotType:
   - [ UAObjectType, ISA95:5232, MaterialLotType ]
@@ -1138,40 +1508,54 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5233, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5235, ResultDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5233, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5236, TestDate, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5233, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5237, Result ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5233, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5238, ResultUnitOfMeasure ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5233, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5239, Expiration, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5233, <PropertyName>, Structure, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:4924:
     - [ UAObject, ISA95:5240, <TestSpecification> ]
     - ISA95:4713:
@@ -1180,16 +1564,22 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5240, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4924_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:5301:
     - [ UAObject, ISA95:5242, <MaterialDefinition> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:5301_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:4928:
     - [ UAObject, ISA95:5245, <AssemblyLot> ]
     - ISA95:5301:
@@ -1198,70 +1588,96 @@ DefinedTypes:
         - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:5301_reverse:
+        - [ UAObject, ISA95:5245, <AssemblyLot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5249, AssemblyType ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5245, <AssemblyLot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5250, AssemblyRelationship ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5245, <AssemblyLot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5251, Status, CDTIdentifier, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5245, <AssemblyLot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5252, StorageLocation, CDTIdentifier, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5245, <AssemblyLot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5253, Quantity ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5245, <AssemblyLot> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5232, MaterialLotType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4928_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5254, AssemblyType ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5255, AssemblyRelationship ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5256, Status, CDTIdentifier, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5257, StorageLocation, CDTIdentifier, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5258, Quantity ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5232, MaterialLotType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
 
   MaterialSublotType:
   - [ UAObjectType, ISA95:5259, MaterialSublotType ]
@@ -1273,40 +1689,54 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5260, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5262, ResultDescription, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5260, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5263, TestDate, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5260, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5264, Result ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5260, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5265, ResultUnitOfMeasure ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5260, <PropertyName>, Structure, 0, 0 ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5266, Expiration, DateTime, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAVariable, ISA95:5260, <PropertyName>, Structure, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, ISA95:5186, MaterialLotPropertyType, Structure, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:2009_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:4924:
     - [ UAObject, ISA95:5267, <TestSpecification> ]
     - ISA95:4713:
@@ -1315,28 +1745,38 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5267, <TestSpecification> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4924_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:4928:
     - [ UAObject, ISA95:5269, <AssemblyLot> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5232, MaterialLotType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:4928_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5284, AssemblyType ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5285, AssemblyRelationship ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:5117:
     - [ UAObject, ISA95:5286, <Sublot> ]
     - ISA95:4713:
@@ -1345,49 +1785,69 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5286, <Sublot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5288, AssemblyRelationship ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5286, <Sublot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5289, Status, CDTIdentifier, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5286, <Sublot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5290, StorageLocation, CDTIdentifier, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5286, <Sublot> ]
     - ISA95:4713:
       - [ UAVariable, ISA95:5291, Quantity ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - ISA95:4713_reverse:
+        - [ UAObject, ISA95:5286, <Sublot> ]
     - HasTypeDefinition:
       - [ UAObjectType, ISA95:5259, MaterialSublotType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - ISA95:5117_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5292, Status, CDTIdentifier, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5293, StorageLocation, CDTIdentifier, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
   - ISA95:4713:
     - [ UAVariable, ISA95:5294, Quantity ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - ISA95:4713_reverse:
+      - [ UAObjectType, ISA95:5259, MaterialSublotType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]

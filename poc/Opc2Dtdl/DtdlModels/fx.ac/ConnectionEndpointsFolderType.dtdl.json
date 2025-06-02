@@ -5,12 +5,12 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:ConnectionEndpointsFolderType;1",
+  "@id": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:ConnectionEndpointsFolderType:dataType:CommHealthOptionSet;1",
+      "@id": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType:dataType:CommHealthOptionSet;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -33,7 +33,7 @@
     {
       "@type": "Property",
       "name": "CommHealth",
-      "schema": "dtmi:opcua:fx_ac:ConnectionEndpointsFolderType:dataType:CommHealthOptionSet;1",
+      "schema": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType:dataType:CommHealthOptionSet;1",
       "writable": false
     }
   ]

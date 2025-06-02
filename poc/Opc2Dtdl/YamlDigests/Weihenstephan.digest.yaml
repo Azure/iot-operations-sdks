@@ -99,30 +99,50 @@ DefinedTypes:
 
   WSAnalogUnitType:
   - [ UAVariableType, Weihenstephan:2000, WSAnalogUnitType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 17497, AnalogUnitType ]
 
   WSBaseDataVariableType:
   - [ UAVariableType, Weihenstephan:2001, WSBaseDataVariableType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   WSMachineType:
   - [ UAObjectType, Weihenstephan:1000, WSMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   WSBaseObjectType:
   - [ UAObjectType, Weihenstephan:1001, WSBaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   WSAlarmType:
   - [ UAObjectType, Weihenstephan:1002, WSAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Weihenstephan:1001, WSBaseObjectType ]
 
   WSWarningType:
   - [ UAObjectType, Weihenstephan:1003, WSWarningType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Weihenstephan:1001, WSBaseObjectType ]
 
   WSBaseStateMachineType:
   - [ UAObjectType, Weihenstephan:1004, WSBaseStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
 
   WSExecuteStateMachineType:
   - [ UAObjectType, Weihenstephan:1005, WSExecuteStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PackML:1, PackMLExecuteStateMachineType ]
 
   WSHeldStateMachineType:
   - [ UAObjectType, Weihenstephan:1006, WSHeldStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   WSSuspendedStateMachineType:
   - [ UAObjectType, Weihenstephan:1007, WSSuspendedStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]

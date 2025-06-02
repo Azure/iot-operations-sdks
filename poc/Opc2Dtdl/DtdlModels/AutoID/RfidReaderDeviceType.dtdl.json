@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
   "commandTopic": "opcua/AutoID/RfidReaderDeviceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
@@ -174,86 +175,6 @@
         {
           "name": "PermanentUnlock",
           "enumValue": 3
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanSettings;1",
-      "@type": "Object",
-      "fields": [
-        {
-          "name": "Duration",
-          "schema": "duration"
-        },
-        {
-          "name": "Cycles",
-          "schema": "integer"
-        },
-        {
-          "name": "DataAvailable",
-          "schema": "boolean"
-        },
-        {
-          "name": "LocationType",
-          "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:LocationTypeEnumeration;1"
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:LocationTypeEnumeration;1",
-      "@type": "Enum",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "NMEA",
-          "enumValue": 0
-        },
-        {
-          "name": "LOCAL",
-          "enumValue": 1
-        },
-        {
-          "name": "WGS84",
-          "enumValue": 2
-        },
-        {
-          "name": "NAME",
-          "enumValue": 3
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidScanResult;1",
-      "@type": "Object",
-      "fields": [
-        {
-          "name": "Sighting",
-          "schema": {
-            "@type": "Array",
-            "elementSchema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidSighting;1"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidSighting;1",
-      "@type": "Object",
-      "fields": [
-        {
-          "name": "Antenna",
-          "schema": "integer"
-        },
-        {
-          "name": "Strength",
-          "schema": "integer"
-        },
-        {
-          "name": "Timestamp",
-          "schema": "time"
-        },
-        {
-          "name": "CurrentPowerLevel",
-          "schema": "integer"
         }
       ]
     },
@@ -464,43 +385,6 @@
     },
     {
       "@type": "Command",
-      "name": "Scan",
-      "request": {
-        "@type": [ "CommandRequest", "Transparent" ],
-        "name": "input",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "name": "Setting",
-              "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanSettings;1"
-            }
-          ]
-        }
-      },
-      "response": {
-        "@type": [ "CommandResponse", "Transparent" ],
-        "name": "output",
-        "schema": {
-          "@type": "Object",
-          "fields": [
-            {
-              "name": "Results",
-              "schema": {
-                "@type": "Array",
-                "elementSchema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidScanResult;1"
-              }
-            },
-            {
-              "name": "Status",
-              "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "@type": "Command",
       "name": "SetTagPassword",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
@@ -644,16 +528,6 @@
           ]
         }
       }
-    },
-    {
-      "@type": "Relationship",
-      "name": "Diagnostics",
-      "target": "dtmi:opcua:DI:FunctionalGroupType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "RuntimeParameters",
-      "target": "dtmi:opcua:DI:FunctionalGroupType"
     }
   ]
 }

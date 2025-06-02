@@ -1,0 +1,37 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:MotorSetupType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:TMC_v2:ControlModuleSetupType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MotorSetupType:dataType:MotorDirectionEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Clockwise",
+          "enumValue": 0
+        },
+        {
+          "name": "CounterClockwise",
+          "enumValue": 1
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Direction",
+      "schema": "dtmi:opcua:TMC_v2:MotorSetupType:dataType:MotorDirectionEnumeration;1",
+      "writable": true
+    }
+  ]
+}

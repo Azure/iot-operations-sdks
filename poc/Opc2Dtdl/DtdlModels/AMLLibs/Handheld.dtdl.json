@@ -1,0 +1,16 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:AMLLibs:Handheld;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:AMLLibs:ControlHardware;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+  ]
+}

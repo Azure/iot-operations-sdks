@@ -7,17 +7,10 @@
   ],
   "@id": "dtmi:opcua:Mining_Loading_General:LoadingMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Mining_General:MiningEquipmentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "MethodSet"
-    },
-    {
-      "@type": "Relationship",
-      "name": "ParameterSet"
-    }
   ]
 }

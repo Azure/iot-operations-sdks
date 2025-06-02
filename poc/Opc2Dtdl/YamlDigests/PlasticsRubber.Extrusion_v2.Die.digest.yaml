@@ -277,6 +277,8 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Die:1002, Die_InterfaceType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5003, DimensionAdjustment ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Die:1002, Die_InterfaceType ]
     - GeneratesEvent:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasTypeDefinition:
@@ -285,6 +287,8 @@ DefinedTypes:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6003, NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5003, DimensionAdjustment ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -295,10 +299,14 @@ DefinedTypes:
       - [ UAObjectType, 2133, GeneralModelChangeEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Die:1002, Die_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6002, NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5002, MeltPressures ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -313,6 +321,8 @@ DefinedTypes:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5004, Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6006, AdditionalInformation, String, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5004, Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -323,18 +333,26 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6014, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6007, Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6008, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6007, Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5004, Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5001, TemperatureZones ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
       - HasModellingRule:
@@ -345,52 +363,70 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6022, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6009, RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6010, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6009, RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5004, Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Die:7001, Reset ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5004, Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6004, Status, MaintenanceStatusEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5004, Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6011, TotalOperation, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6023, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6011, TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6012, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6011, TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5004, Maintenance ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6001, NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5001, TemperatureZones ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasComponent:
@@ -403,19 +439,33 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5006, StartTempering ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Die:7002, StartRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5006, StartTempering ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5001, TemperatureZones ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Die:6005, Status, StartEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5006, StartTempering ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Die:7003, StopRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Die:5006, StartTempering ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Die:1002, Die_InterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1002, ExtrusionDeviceType ]

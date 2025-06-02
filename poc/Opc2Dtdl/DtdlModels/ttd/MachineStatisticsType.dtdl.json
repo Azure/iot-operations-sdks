@@ -5,9 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:ttd:MachineStatisticsType;1",
+  "@id": "dtmi:opcua:TTD:MachineStatisticsType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/ttd/MachineStatisticsType/{commandName}",
+  "commandTopic": "opcua/TTD/MachineStatisticsType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

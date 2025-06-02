@@ -5,18 +5,19 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType;1",
+  "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/PnRio/RioPaDigitalOutputChannelType/{commandName}",
+  "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
+  "commandTopic": "opcua/PNRIO/RioPaDigitalOutputChannelType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1",
+      "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "SignalType",
-          "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1"
+          "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1"
         },
         {
           "name": "WireCheckEnabled",
@@ -28,7 +29,7 @@
         },
         {
           "name": "SubstitutePolicy",
-          "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
+          "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
         },
         {
           "name": "SubstituteValue",
@@ -41,7 +42,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1",
+      "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -60,7 +61,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
+      "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -78,7 +79,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1",
+      "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -92,7 +93,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1",
+      "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -131,7 +132,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1",
+      "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -158,7 +159,7 @@
     {
       "@type": "Property",
       "name": "Config",
-      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1",
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1",
       "writable": false
     },
     {
@@ -170,19 +171,19 @@
     {
       "@type": "Property",
       "name": "Mode",
-      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1",
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1",
       "writable": false
     },
     {
       "@type": "Property",
       "name": "ProcessValue",
-      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
       "writable": false
     },
     {
       "@type": "Property",
       "name": "ProcessValueReadback",
-      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
       "writable": false
     },
     {
@@ -206,7 +207,7 @@
     {
       "@type": "Property",
       "name": "SimulationValue",
-      "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1",
+      "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1",
       "writable": false
     },
     {
@@ -237,7 +238,7 @@
           "fields": [
             {
               "name": "Mode",
-              "schema": "dtmi:opcua:PnRio:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1"
+              "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1"
             }
           ]
         }

@@ -311,24 +311,32 @@ DefinedTypes:
 
   EquipmentAMType:
   - [ UAObjectType, AdditiveManufacturing:1003, EquipmentAMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:12, EquipmentType ]
   - HasComponent:
     - [ UAObject, AdditiveManufacturing:5003, Feedstock ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, AdditiveManufacturing:1001, FeedstockListType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1003, EquipmentAMType ]
     - HasComponent:
       - [ UAObject, AdditiveManufacturing:5004, Feedstock ]
       - HasTypeDefinition:
         - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5003, Feedstock ]
       - HasProperty:
         - [ UAVariable, AdditiveManufacturing:6065, Identifier, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, AdditiveManufacturing:5004, Feedstock ]
 
   FeedstockListType:
   - [ UAObjectType, AdditiveManufacturing:1001, FeedstockListType ]
@@ -338,48 +346,64 @@ DefinedTypes:
       - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1001, FeedstockListType ]
     - HasComponent:
       - [ UAVariable, AdditiveManufacturing:6027, Cycle, UInt32, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
     - HasProperty:
       - [ UAVariable, AdditiveManufacturing:6028, ExternalIdentifier, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
     - HasComponent:
       - [ UAVariable, AdditiveManufacturing:6029, Function, FeedstockFunction, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
     - HasProperty:
       - [ UAVariable, AdditiveManufacturing:6026, Identifier, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
     - HasProperty:
       - [ UAVariable, AdditiveManufacturing:6030, Manufacturer, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
     - HasProperty:
       - [ UAVariable, AdditiveManufacturing:6031, Name, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
     - HasComponent:
       - [ UAVariable, AdditiveManufacturing:6032, ReadyForProduction, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
     - HasComponent:
       - [ UAVariable, AdditiveManufacturing:6077, RemainingQuantity, Number, 0, 3 ]
       - HasModellingRule:
@@ -392,12 +416,20 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, AdditiveManufacturing:6077, RemainingQuantity, Number, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5002, <Feedstock> ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, AdditiveManufacturing:6073, NodeVersion, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1001, FeedstockListType ]
 
   FeedstockType:
   - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
@@ -407,42 +439,56 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
   - HasProperty:
     - [ UAVariable, AdditiveManufacturing:6009, ExternalIdentifier, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
   - HasComponent:
     - [ UAVariable, AdditiveManufacturing:6015, Function, FeedstockFunction, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
   - HasProperty:
     - [ UAVariable, AdditiveManufacturing:6008, Identifier, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
   - HasProperty:
     - [ UAVariable, AdditiveManufacturing:6011, Manufacturer, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
   - HasProperty:
     - [ UAVariable, AdditiveManufacturing:6010, Name, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
   - HasComponent:
     - [ UAVariable, AdditiveManufacturing:6013, ReadyForProduction, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
   - HasComponent:
     - [ UAVariable, AdditiveManufacturing:6014, RemainingQuantity, Number, 0, 3 ]
     - HasModellingRule:
@@ -455,6 +501,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, AdditiveManufacturing:6014, RemainingQuantity, Number, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   MachineIdentificationAMType:
   - [ UAObjectType, AdditiveManufacturing:1004, MachineIdentificationAMType ]
@@ -464,6 +516,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1004, MachineIdentificationAMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:11, MachineToolIdentificationType ]
 
   AdditiveManufacturingType:
   - [ UAObjectType, AdditiveManufacturing:1005, AdditiveManufacturingType ]
@@ -473,18 +529,24 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, AdditiveManufacturing:1003, EquipmentAMType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1005, AdditiveManufacturingType ]
     - HasComponent:
       - [ UAObject, AdditiveManufacturing:5005, Feedstock ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, AdditiveManufacturing:1001, FeedstockListType ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5007, Equipment ]
     - HasComponent:
       - [ UAObject, AdditiveManufacturing:5015, Tools ]
       - HasTypeDefinition:
         - [ UAObjectType, MachineTool:44, ToolListType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5007, Equipment ]
   - HasAddIn:
     - [ UAObject, AdditiveManufacturing:5008, Identification ]
     - HasModellingRule:
@@ -497,24 +559,36 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5008, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1005, AdditiveManufacturingType ]
     - HasProperty:
       - [ UAVariable, AdditiveManufacturing:6081, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5008, Identification ]
     - HasProperty:
       - [ UAVariable, AdditiveManufacturing:6080, ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5008, Identification ]
     - HasProperty:
       - [ UAVariable, AdditiveManufacturing:6082, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, AdditiveManufacturing:5008, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:13, MachineToolType ]
   - HasComponent:
     - [ UAObject, AdditiveManufacturing:5011, MachineryBuildingBlocks ]
     - HasTypeDefinition:
@@ -527,6 +601,8 @@ DefinedTypes:
         - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObject, AdditiveManufacturing:5011, MachineryBuildingBlocks ]
       - HasComponent:
         - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
         - HasModellingRule:
@@ -539,66 +615,90 @@ DefinedTypes:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
           - HasProperty:
             - [ UAVariable, AdditiveManufacturing:6018, Id, NodeId, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, AdditiveManufacturing:6017, CurrentState, LocalizedText, 0, 0 ]
         - HasComponent:
           - [ UAVariable, AdditiveManufacturing:6019, EquipmentID, String, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
+        - HasComponent_reverse:
+          - [ UAObject, AdditiveManufacturing:5012, JobManagement ]
         - HasComponent:
           - [ UAVariable, AdditiveManufacturing:6020, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, AdditiveManufacturing:6021, MaterialClassID, String, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, AdditiveManufacturing:6022, MaterialDefinitionID, String, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
         - HasProperty:
           - [ UAVariable, AdditiveManufacturing:6023, MaxDownloadableJobOrders, UInt16, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, AdditiveManufacturing:6024, PersonnelID, String, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, AdditiveManufacturing:6025, PhysicalAssetID, String, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, AdditiveManufacturing:6066, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5013, JobOrderControl ]
       - HasComponent:
         - [ UAObject, AdditiveManufacturing:5014, JobOrderResults ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+        - HasComponent_reverse:
+          - [ UAObject, AdditiveManufacturing:5012, JobManagement ]
         - HasComponent:
           - [ UAMethod, AdditiveManufacturing:7001, RequestJobResponseByJobOrderID ]
           - HasModellingRule:
@@ -611,6 +711,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, AdditiveManufacturing:7001, RequestJobResponseByJobOrderID ]
           - HasProperty:
             - [ UAVariable, AdditiveManufacturing:6068, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -620,6 +722,10 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, AdditiveManufacturing:7001, RequestJobResponseByJobOrderID ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5014, JobOrderResults ]
         - HasComponent:
           - [ UAMethod, AdditiveManufacturing:7002, RequestJobResponseByJobOrderState ]
           - HasModellingRule:
@@ -632,6 +738,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, AdditiveManufacturing:7002, RequestJobResponseByJobOrderState ]
           - HasProperty:
             - [ UAVariable, AdditiveManufacturing:6070, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -641,6 +749,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, AdditiveManufacturing:7002, RequestJobResponseByJobOrderState ]
+          - HasComponent_reverse:
+            - [ UAObject, AdditiveManufacturing:5014, JobOrderResults ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1005, AdditiveManufacturingType ]
   - HasComponent:
     - [ UAObject, AdditiveManufacturing:5001, Monitoring ]
     - HasTypeDefinition:
@@ -653,24 +767,34 @@ DefinedTypes:
         - [ UAObjectType, 61, FolderType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5001, Monitoring ]
     - HasComponent:
       - [ UAObject, AdditiveManufacturing:5006, MachineTool ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, MachineTool:26, MachineOperationMonitoringType ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5001, Monitoring ]
       - HasComponent:
         - [ UAVariable, AdditiveManufacturing:6016, OperationMode, MachineOperationMode, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, AdditiveManufacturing:5006, MachineTool ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1005, AdditiveManufacturingType ]
     - HasComponent:
       - [ UAObject, AdditiveManufacturing:5009, Process ]
       - HasTypeDefinition:
         - [ UAObjectType, 61, FolderType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AdditiveManufacturing:5001, Monitoring ]
 
   ProcessValueAMType:
   - [ UAObjectType, AdditiveManufacturing:1002, ProcessValueAMType ]
@@ -680,9 +804,15 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1002, ProcessValueAMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
   - HasProperty:
     - [ UAVariable, AdditiveManufacturing:6064, Severity, SensorSeverity, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AdditiveManufacturing:1002, ProcessValueAMType ]

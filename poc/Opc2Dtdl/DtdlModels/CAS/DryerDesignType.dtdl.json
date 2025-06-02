@@ -7,43 +7,11 @@
   ],
   "@id": "dtmi:opcua:CAS:DryerDesignType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CAS:DesignType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:CAS:DryerDesignType:dataType:DryerTypeEnum;1",
-      "@type": "Enum",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Other",
-          "enumValue": 0
-        },
-        {
-          "name": "AbsorptionDryer",
-          "enumValue": 1
-        },
-        {
-          "name": "AdsorptionDryer",
-          "enumValue": 2
-        },
-        {
-          "name": "MembraneDryer",
-          "enumValue": 3
-        },
-        {
-          "name": "RefrigerationDryer",
-          "enumValue": 4
-        }
-      ]
-    }
   ],
   "contents": [
-    {
-      "@type": "Property",
-      "name": "ComponentClass",
-      "schema": "dtmi:opcua:CAS:DryerDesignType:dataType:DryerTypeEnum;1",
-      "writable": false
-    },
     {
       "@type": "Property",
       "name": "LowestAmbientTemperature",

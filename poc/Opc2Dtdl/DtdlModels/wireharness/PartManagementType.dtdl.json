@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:wireharness:PartManagementType;1",
+  "@id": "dtmi:opcua:WireHarness:PartManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/wireharness/PartManagementType/{commandName}",
+  "commandTopic": "opcua/WireHarness/PartManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1",
+      "@id": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -53,13 +53,13 @@
           "name": "Properties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95PropertyDataType;1"
+            "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95PropertyDataType;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95PropertyDataType;1",
+      "@id": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95PropertyDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -85,7 +85,7 @@
           "name": "Subproperties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95PropertyDataType;1"
+            "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95PropertyDataType;1"
           }
         }
       ]
@@ -97,7 +97,7 @@
       "name": "Seals",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+        "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
       },
       "writable": true
     },
@@ -106,7 +106,7 @@
       "name": "Sleeves",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+        "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
       },
       "writable": true
     },
@@ -115,7 +115,7 @@
       "name": "Terminals",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+        "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
       },
       "writable": true
     },
@@ -124,7 +124,7 @@
       "name": "Wires",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+        "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
       },
       "writable": true
     },
@@ -139,7 +139,7 @@
           "fields": [
             {
               "name": "Part",
-              "schema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+              "schema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
             }
           ]
         }
@@ -171,7 +171,7 @@
               "name": "Parts",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+                "elementSchema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
               }
             }
           ]
@@ -189,7 +189,7 @@
           "fields": [
             {
               "name": "Part",
-              "schema": "dtmi:opcua:wireharness:PartManagementType:dataType:ISA95MaterialDataType;1"
+              "schema": "dtmi:opcua:WireHarness:PartManagementType:dataType:ISA95MaterialDataType;1"
             }
           ]
         }

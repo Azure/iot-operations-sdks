@@ -7,35 +7,11 @@
   ],
   "@id": "dtmi:opcua:CAS:ReceiverDesignType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CAS:DesignType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:CAS:ReceiverDesignType:dataType:ReceiverTypeEnum;1",
-      "@type": "Enum",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Other",
-          "enumValue": 0
-        },
-        {
-          "name": "DryReceiver",
-          "enumValue": 1
-        },
-        {
-          "name": "WetReceiver",
-          "enumValue": 2
-        }
-      ]
-    }
   ],
   "contents": [
-    {
-      "@type": "Property",
-      "name": "ComponentClass",
-      "schema": "dtmi:opcua:CAS:ReceiverDesignType:dataType:ReceiverTypeEnum;1",
-      "writable": false
-    },
     {
       "@type": "Property",
       "name": "Volume",

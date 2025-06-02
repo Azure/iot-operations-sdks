@@ -56,3 +56,5 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]

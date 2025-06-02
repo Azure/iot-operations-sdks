@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:IA:StacklightType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:IA:BasicStacklightType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

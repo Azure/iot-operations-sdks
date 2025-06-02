@@ -9,6 +9,8 @@ namespace Yaml2Dtdl
     {
         private const string defaultType = "string";
 
+        private static readonly Regex modelIdRegex = new Regex(@"^dtmi:opcua:(\w+):(\w+)(?:;\d+)?$", RegexOptions.Compiled);
+
         // Per https://reference.opcfoundation.org/Core/Part6/v104/docs/5
         // and https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.v4.md#primitive-schema
         //
@@ -142,5 +144,20 @@ namespace Yaml2Dtdl
         public static string GetDataTypeDtmiFromBrowseName(string modelId, string browseName) => $"{modelId}:dataType:{LegalizeName(browseName)};1";
 
         public static string GetModelId(string specName, string typeName) => $"dtmi:opcua:{specName}:{typeName}".Replace('.', '_').Replace('-', '_');
+
+        public static bool TryDecomposeModelId(string modelId, out string specName, out string typeeName)
+        {
+            Match modelIdMatch = modelIdRegex.Match(modelId);
+            if (!modelIdMatch.Success)
+            {
+                specName = string.Empty;
+                typeeName = string.Empty;
+                return false;
+            }
+
+            specName = modelIdMatch.Groups[1].Captures[0].Value;
+            typeeName = modelIdMatch.Groups[2].Captures[0].Value;
+            return true;
+        }
     }
 }

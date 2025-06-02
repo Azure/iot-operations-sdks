@@ -10,6 +10,7 @@ namespace Yaml2Dtdl
         private string topicBase;
         private OpcUaDefinedType definedType;
         private TypeConverter typeConverter;
+        private HashSet<string> supertypeIds;
         private List<DtdlProperty> dtdlProperties;
         private List<DtdlCommand> dtdlCommands;
         private List<DtdlRelationship> dtdlRelationships;
@@ -23,6 +24,7 @@ namespace Yaml2Dtdl
             this.definedType = definedType;
             this.typeConverter = new();
 
+            this.supertypeIds = new (definedType.Contents.Where(c => c.Relationship == "HasSubtype_reverse" && c.DefinedType.NodeType == "UAObjectType" && c.DefinedType.NodeId.Contains(':')).Select(c => TypeConverter.GetModelId(c.DefinedType.NodeId.Substring(0, c.DefinedType.NodeId.IndexOf(':')), c.DefinedType.BrowseName)));
             this.dtdlProperties = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAVariable").Select(c => new DtdlProperty(modelId, c.DefinedType, this.typeConverter)).ToList();
             this.dtdlCommands = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAMethod").Select(c => new DtdlCommand(modelId, c.DefinedType, this.typeConverter)).ToList();
             this.dtdlRelationships = definedType.Contents.Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAObject").Select(c => new DtdlRelationship(c.DefinedType)).ToList();

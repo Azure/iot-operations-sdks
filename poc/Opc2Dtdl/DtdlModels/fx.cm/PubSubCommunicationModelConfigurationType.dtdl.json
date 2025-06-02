@@ -5,17 +5,18 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType;1",
+  "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "ConfigurationMask",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefMask;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefMask;1"
         },
         {
           "name": "ElementIndex",
@@ -32,12 +33,12 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationValueDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationValueDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "ConfigurationElement",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1"
         },
         {
           "name": "Name",
@@ -50,42 +51,42 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfiguration2DataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfiguration2DataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "SubscribedDataSets",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:StandaloneSubscribedDataSetDataType;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:StandaloneSubscribedDataSetDataType;1"
           }
         },
         {
           "name": "DataSetClasses",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1"
           }
         },
         {
           "name": "DefaultSecurityKeyServices",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:EndpointDescription;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:EndpointDescription;1"
           }
         },
         {
           "name": "SecurityGroups",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:SecurityGroupDataType;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:SecurityGroupDataType;1"
           }
         },
         {
           "name": "PubSubKeyPushTargets",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubKeyPushTargetDataType;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubKeyPushTargetDataType;1"
           }
         },
         {
@@ -96,13 +97,13 @@
           "name": "ConfigurationProperties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -117,7 +118,7 @@
           "name": "Fields",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:FieldMetaData;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:FieldMetaData;1"
           }
         },
         {
@@ -126,12 +127,12 @@
         },
         {
           "name": "ConfigurationVersion",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ConfigurationVersionDataType;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ConfigurationVersionDataType;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:StandaloneSubscribedDataSetDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:StandaloneSubscribedDataSetDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -147,7 +148,7 @@
         },
         {
           "name": "DataSetMetaData",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:DataSetMetaDataType;1"
         },
         {
           "name": "SubscribedDataSet",
@@ -156,7 +157,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:FieldMetaData;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:FieldMetaData;1",
       "@type": "Object",
       "fields": [
         {
@@ -169,7 +170,7 @@
         },
         {
           "name": "FieldFlags",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetFieldFlags;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:DataSetFieldFlags;1"
         },
         {
           "name": "BuiltInType",
@@ -202,13 +203,13 @@
           "name": "Properties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:DataSetFieldFlags;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:DataSetFieldFlags;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -219,7 +220,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:NodeIdTranslationDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:NodeIdTranslationDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -228,17 +229,17 @@
         },
         {
           "name": "PortableNode",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeIdentifier;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableNodeIdentifier;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeIdentifier;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableNodeIdentifier;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Node",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1"
         },
         {
           "name": "Alias",
@@ -246,30 +247,30 @@
         },
         {
           "name": "IdentifierBrowsePath",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePath;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePath;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePath;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePath;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Elements",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePathElement;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePathElement;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePathElement;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableRelativePathElement;1",
       "@type": "Object",
       "fields": [
         {
           "name": "ReferenceTypeId",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1"
         },
         {
           "name": "IsInverse",
@@ -281,12 +282,12 @@
         },
         {
           "name": "TargetName",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableQualifiedName;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableQualifiedName;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableQualifiedName;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableQualifiedName;1",
       "@type": "Object",
       "fields": [
         {
@@ -300,7 +301,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PortableNodeId;1",
       "@type": "Object",
       "fields": [
         {
@@ -314,7 +315,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefMask;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefMask;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -373,7 +374,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:EndpointDescription;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:EndpointDescription;1",
       "@type": "Object",
       "fields": [
         {
@@ -382,7 +383,7 @@
         },
         {
           "name": "Server",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationDescription;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ApplicationDescription;1"
         },
         {
           "name": "ServerCertificate",
@@ -390,7 +391,7 @@
         },
         {
           "name": "SecurityMode",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:MessageSecurityMode;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:MessageSecurityMode;1"
         },
         {
           "name": "SecurityPolicyUri",
@@ -400,7 +401,7 @@
           "name": "UserIdentityTokens",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1"
           }
         },
         {
@@ -414,7 +415,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1",
       "@type": "Object",
       "fields": [
         {
@@ -423,7 +424,7 @@
         },
         {
           "name": "TokenType",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenType;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:UserTokenType;1"
         },
         {
           "name": "IssuedTokenType",
@@ -440,7 +441,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:MessageSecurityMode;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:MessageSecurityMode;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -463,7 +464,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationDescription;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ApplicationDescription;1",
       "@type": "Object",
       "fields": [
         {
@@ -480,7 +481,7 @@
         },
         {
           "name": "ApplicationType",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationType;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ApplicationType;1"
         },
         {
           "name": "GatewayServerUri",
@@ -500,7 +501,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ApplicationType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ApplicationType;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -523,7 +524,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:UserTokenType;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -546,7 +547,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:SecurityGroupDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:SecurityGroupDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -584,20 +585,20 @@
           "name": "RolePermissions",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:RolePermissionType;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:RolePermissionType;1"
           }
         },
         {
           "name": "GroupProperties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:RolePermissionType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:RolePermissionType;1",
       "@type": "Object",
       "fields": [
         {
@@ -606,12 +607,12 @@
         },
         {
           "name": "Permissions",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PermissionType;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PermissionType;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PermissionType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PermissionType;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -686,7 +687,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubKeyPushTargetDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubKeyPushTargetDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -710,7 +711,7 @@
         },
         {
           "name": "UserTokenType",
-          "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1"
+          "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:UserTokenPolicy;1"
         },
         {
           "name": "RequestedKeyCount",
@@ -724,7 +725,7 @@
           "name": "PushTargetProperties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1"
           }
         },
         {
@@ -737,7 +738,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:KeyValuePair;1",
       "@type": "Object",
       "fields": [
         {
@@ -751,7 +752,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:ConfigurationVersionDataType;1",
+      "@id": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:ConfigurationVersionDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -771,7 +772,7 @@
       "name": "ConfigurationReferences",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1"
+        "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationRefDataType;1"
       },
       "writable": true
     },
@@ -780,7 +781,7 @@
       "name": "ConfigurationValues",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationValueDataType;1"
+        "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfigurationValueDataType;1"
       },
       "writable": true
     },
@@ -796,7 +797,7 @@
     {
       "@type": "Property",
       "name": "PubSubConfiguration",
-      "schema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:PubSubConfiguration2DataType;1",
+      "schema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:PubSubConfiguration2DataType;1",
       "writable": true
     },
     {
@@ -804,7 +805,7 @@
       "name": "TranslationTable",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:PubSubCommunicationModelConfigurationType:dataType:NodeIdTranslationDataType;1"
+        "elementSchema": "dtmi:opcua:FX_CM:PubSubCommunicationModelConfigurationType:dataType:NodeIdTranslationDataType;1"
       },
       "writable": true
     }

@@ -1,0 +1,55 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PDRV:SafetyType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "STO",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SS1",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SS2",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SOS",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SLS",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SDI",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SLA",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SLP",
+      "target": "dtmi:opcua:PDRV:SafetyFunctionType"
+    }
+  ]
+}

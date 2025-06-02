@@ -5,12 +5,12 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType;1",
+  "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -34,7 +34,7 @@
         },
         {
           "name": "UserTokenType",
-          "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1"
         },
         {
           "name": "RequestedKeyCount",
@@ -48,7 +48,7 @@
           "name": "PushTargetProperties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:KeyValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:KeyValuePair;1"
           }
         },
         {
@@ -61,7 +61,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -99,20 +99,20 @@
           "name": "RolePermissions",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:RolePermissionType;1"
+            "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:RolePermissionType;1"
           }
         },
         {
           "name": "GroupProperties",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:KeyValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:KeyValuePair;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:RolePermissionType;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:RolePermissionType;1",
       "@type": "Object",
       "fields": [
         {
@@ -121,12 +121,12 @@
         },
         {
           "name": "Permissions",
-          "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PermissionType;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PermissionType;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PermissionType;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PermissionType;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -201,7 +201,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -223,7 +223,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1",
       "@type": "Object",
       "fields": [
         {
@@ -232,7 +232,7 @@
         },
         {
           "name": "TokenType",
-          "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenType;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenType;1"
         },
         {
           "name": "IssuedTokenType",
@@ -249,7 +249,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:UserTokenType;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenType;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -272,7 +272,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:KeyValuePair;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:KeyValuePair;1",
       "@type": "Object",
       "fields": [
         {
@@ -292,7 +292,7 @@
       "name": "PubSubKeyPushTargets",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1"
+        "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1"
       },
       "writable": true
     },
@@ -301,7 +301,7 @@
       "name": "SecurityGroups",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1"
+        "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1"
       },
       "writable": true
     },
@@ -314,7 +314,7 @@
           {
             "@type": [ "Field", "Subject" ],
             "name": "SecurityKeyServer",
-            "schema": "dtmi:opcua:fx_cm:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1"
+            "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1"
           },
           {
             "name": "Address",

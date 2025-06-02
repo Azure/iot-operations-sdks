@@ -1,0 +1,2118 @@
+DataTypes:
+- UADataType: [ BACnet_V2:3008, BACnetAction ]
+  Enums:
+    direct: 0
+    reverse: 1
+- UADataType: [ BACnet_V2:103016, BACnetBackupState ]
+  Enums:
+    Idle: 0
+    Preparing_For_Backup: 1
+    Preparing_For_Restore: 2
+    Performing_A_Backup: 3
+    Performing_A_Restore: 4
+    Backup_Failure: 5
+    Restore_Failure: 6
+- UADataType: [ BACnet_V2:3005, BACnetBinaryPV ]
+  Enums:
+    Inactive: 0
+    Active: 1
+- UADataType: [ BACnet_V2:3021, BACnetDay ]
+  Enums:
+    days numbered 1-7: 1
+    days numbered 8-14: 2
+    days numbered 15-21: 3
+    days numbered 22-28: 4
+    days numbered 29-31: 5
+    last 7 days of this month: 6
+    any week of this month: 255
+- UADataType: [ BACnet_V2:3025, BACnetDayOfMonth ]
+  Enums:
+    1: 1
+    2: 2
+    3: 3
+    4: 4
+    5: 5
+    6: 6
+    7: 7
+    8: 8
+    9: 9
+    10: 10
+    11: 11
+    12: 12
+    13: 13
+    14: 14
+    15: 15
+    16: 16
+    17: 17
+    18: 18
+    19: 19
+    20: 20
+    21: 21
+    22: 22
+    23: 23
+    24: 24
+    25: 25
+    26: 26
+    27: 27
+    28: 28
+    29: 29
+    30: 30
+    31: 31
+    Last day of month: 32
+    Odd day of month: 33
+    Even day of month: 34
+    Unspecified: 255
+- UADataType: [ BACnet_V2:103036, BACnetDayOfWeek ]
+  Enums:
+    Monday: 1
+    Tuesday: 2
+    Wednesday: 3
+    Thursday: 4
+    Friday: 5
+    Saturday: 6
+    Sunday: 7
+    unspecified: 255
+- UADataType: [ BACnet_V2:3018, BACnetDeviceCommunicationEnabled ]
+  Enums:
+    Enable: 0
+    Disable: 1
+    DisableInitiation: 2
+- UADataType: [ BACnet_V2:3033, BACnetDeviceStatus ]
+  Enums:
+    Operational: 0
+    OperationalReadOnly: 1
+    DownloadRequired: 2
+    DownloadInProgress: 3
+    NonOperational: 4
+    BackupInProgress: 5
+- UADataType: [ BACnet_V2:3029, BACnetEventEnumType ]
+  Enums:
+    ChangeOfBitstring: 0
+    ChangeOfState: 1
+    ChangeOfValue: 2
+    CommandFailure: 3
+    FloatingLimit: 4
+    OutOfRange: 5
+    ChangeOfLifeSafety: 8
+    Extended: 9
+    BufferReady: 10
+    UnsignedRange: 11
+- UADataType: [ BACnet_V2:3003, BACnetEventState ]
+  Enums:
+    Normal: 0
+    Fault: 1
+    OffNormal: 2
+    HighLimit: 3
+    LowLimit: 4
+    LifeSafetyAlarm: 5
+- UADataType: [ BACnet_V2:103054, BACnetEventType ]
+  Enums:
+    change-of-bitstring: 0
+    change-of-state: 1
+    change-of-value: 2
+    command-failure: 3
+    out-of-range: 5
+    change-of-life-safety: 8
+    floating-limit: 4
+    extended: 9
+    buffer-ready: 10
+    unsigned-range: 11
+    access-event: 13
+    double-out-of-range: 14
+    signed-out-of-range: 15
+    unsigned-out-of-range: 16
+    change-of-characterstring: 17
+    change-of-status-flags: 18
+- UADataType: [ BACnet_V2:103028, BACnetFaultType ]
+  Enums:
+    none: 0
+    fault-characterstring: 1
+    fault-exended: 2
+    fault-life-safety: 3
+    fault-state: 4
+    fault-status-flags: 5
+- UADataType: [ BACnet_V2:3035, BACnetLifeSafetyMode ]
+  Enums:
+    Off: 0
+    On: 1
+    Test: 2
+    Manned: 3
+    UnManned: 4
+    Armed: 5
+    Disarmed: 6
+    Prearmed: 7
+    Slow: 8
+    Fast: 9
+    Disconnected: 10
+    Enabled: 11
+    Disabled: 12
+    AutomaticReleaseDisabled: 13
+    Default: 14
+- UADataType: [ BACnet_V2:3044, BACnetLifeSafetyOperation ]
+  Enums:
+    None: 0
+    Silence: 1
+    SilenceAudible: 2
+    SilenceVisible: 3
+    Reset: 4
+    ResetAlarm: 5
+    ResetFault: 6
+    Unsilence: 7
+    UnsilenceAudible: 8
+    UnsilenceVisible: 9
+- UADataType: [ BACnet_V2:3036, BACnetLifeSafetyState ]
+  Enums:
+    Quiet: 0
+    PreAlarm: 1
+    Alarm: 2
+    Fault: 3
+    FaultPreAlarm: 4
+    FaultAlarm: 5
+    NotReady: 6
+    Active: 7
+    Tamper: 8
+    TestAlarm: 9
+    TestActive: 10
+    TestFault: 11
+    TestFaultAlarm: 12
+    Holdup: 13
+    Duress: 14
+    TamperAlarm: 15
+    Abnormal: 16
+    EmergencyPower: 17
+    Delayed: 18
+    Blocked: 19
+    LocalAlarm: 20
+    GeneralAlarm: 21
+    Supervisory: 22
+    TestSupervisory: 23
+- UADataType: [ BACnet_V2:103048, BACnetLoggingType ]
+  Enums:
+    Polled: 0
+    COV: 1
+    Triggered: 2
+- UADataType: [ BACnet_V2:3057, BACnetMessagePriority ]
+  Enums:
+    normal: 0
+    urgent: 1
+- UADataType: [ BACnet_V2:3014, BACnetMonth ]
+  Enums:
+    January: 1
+    February: 2
+    March: 3
+    April: 4
+    May: 5
+    June: 6
+    July: 7
+    August: 8
+    September: 9
+    October: 10
+    November: 11
+    December: 12
+    Odd: 13
+    Even: 14
+    Unspecified: 255
+- UADataType: [ BACnet_V2:3045, BACnetNodeType ]
+  Enums:
+    UNKNOWN: 0
+    SYSTEM: 1
+    NETWORK: 2
+    DEVICE: 3
+    ORGANIZATIONAL: 4
+    AREA: 5
+    EQUIPMENT: 6
+    POINT: 7
+    COLLECTION: 8
+    PROPERTY: 9
+    FUNCTIONAL: 10
+    OTHER: 11
+- UADataType: [ BACnet_V2:3002, BACnetNotifyType ]
+  Enums:
+    Alarm: 0
+    Event: 1
+    AckNotification: 2
+- UADataType: [ BACnet_V2:103053, BACnetObjectTypeEnum ]
+  Enums:
+    analog-input: 0
+    analog-output: 1
+    analog-value: 2
+    binary-input: 3
+    binary-output: 4
+    binary-value: 5
+    calendar: 6
+    command: 7
+    device: 8
+    event-enrollment: 9
+    file: 10
+    group: 11
+    loop: 12
+    multi-state-input: 13
+    multi-state-output: 14
+    notification-class: 15
+    program: 16
+    schedule: 17
+    averaging: 18
+    multi-state-value: 19
+    trend-log: 20
+    life-safety-point: 21
+    life-safety-zone: 22
+    accumulator: 23
+    pulse-converter: 24
+    event-log: 25
+    global-group: 26
+    trend-log-multiple: 27
+    load-control: 28
+    structured-view: 29
+    access-door: 30
+    unassigned: 31
+    access-credential: 32
+    access-point: 33
+    access-rights: 34
+    access-user: 35
+    access-zone: 36
+    credentional-data-input: 37
+    network-security: 38
+    bitstring-value: 39
+    characterstring-value: 40
+    date-pattern-value: 41
+    date-value: 42
+    datetime-pattern-value: 43
+    datetime-value: 44
+    integer-value: 45
+    large-analog-value: 46
+    octetstring-value: 47
+    positive-integer-value: 48
+    time-pattern-value: 49
+    time-value: 50
+    notification-forwarder: 51
+    alert-enrollment: 52
+    channel: 53
+    lighting-output: 54
+- UADataType: [ BACnet_V2:3007, BACnetPolarity ]
+  Enums:
+    Normal: 0
+    Reverse: 1
+- UADataType: [ BACnet_V2:3032, BACnetProgramError ]
+  Enums:
+    Normal: 0
+    LoadFailed: 1
+    Internal: 2
+    Program: 3
+    Other: 4
+- UADataType: [ BACnet_V2:3030, BACnetProgramRequest ]
+  Enums:
+    Ready: 0
+    Load: 1
+    Run: 2
+    Halt: 3
+    Restart: 4
+    Unload: 5
+- UADataType: [ BACnet_V2:3031, BACnetProgramStates ]
+  Enums:
+    Idle: 0
+    Loading: 1
+    Running: 2
+    Waiting: 3
+    Halted: 4
+    Unloading: 5
+- UADataType: [ BACnet_V2:3046, BACnetPropertyIdentifier ]
+  Enums:
+    AckedTransitions: 0
+    AckRequired: 1
+    Action: 2
+    ActionText: 3
+    ActiveText: 4
+    ActiveVtSessions: 5
+    AlarmValue: 6
+    AlarmValues: 7
+    All: 8
+    AllWritesSuccessful: 9
+    ApduSegmentTimeout: 10
+    ApduTimeout: 11
+    ApplicationSoftwareVersion: 12
+    Archive: 13
+    Bias: 14
+    ChangeOfStateCount: 15
+    ChangeOfStateTime: 16
+    NotificationClass: 17
+    this property deleted: 18
+    ControlledVariableReference: 19
+    ControlledVariableUnits: 20
+    ControlledVariableValue: 21
+    CovIncrement: 22
+    DateList: 23
+    DaylightSavingsStatus: 24
+    Deadband: 25
+    DerivativeConstant: 26
+    DerivativeConstantUnits: 27
+    Description: 28
+    DescriptionOfHalt: 29
+    DeviceAddressBinding: 30
+    DeviceType: 31
+    EffectivePeriod: 32
+    ElapsedActiveTime: 33
+    ErrorLimit: 34
+    EventEnable: 35
+    EventState: 36
+    EventType: 37
+    ExceptionSchedule: 38
+    FaultValues: 39
+    FeedbackValue: 40
+    FileAccessMethod: 41
+    FileSize: 42
+    FileType: 43
+    FirmwareRevision: 44
+    HighLimit: 45
+    InactiveText: 46
+    InProcess: 47
+    InstanceOf: 48
+    IntegralConstant: 49
+    IntegralConstantUnits: 50
+    Removed In Version 1 Revision 4_51: 51
+    LimitEnable: 52
+    ListOfGroupMembers: 53
+    ListOfObjectPropertyReferences: 54
+    Unassigned_55: 55
+    LocalDate: 56
+    LocalTime: 57
+    Location: 58
+    LowLimit: 59
+    ManipulatedVariableReference: 60
+    MaximumOutput: 61
+    MaxApduLengthAccepted: 62
+    MaxInfoFrames: 63
+    MaxMaster: 64
+    MaxPresValue: 65
+    MinimumOffTime: 66
+    MinimumOnTime: 67
+    MinimumOutput: 68
+    MinPresValue: 69
+    ModelName: 70
+    ModificationDate: 71
+    NotifyType: 72
+    NumberOfApduRetries: 73
+    NumberOfStates: 74
+    ObjectIdentifier: 75
+    ObjectList: 76
+    ObjectName: 77
+    ObjectPropertyReference: 78
+    ObjectType: 79
+    Optional: 80
+    OutOfService: 81
+    OutputUnits: 82
+    EventParameters: 83
+    Polarity: 84
+    PresentValue: 85
+    Priority: 86
+    PriorityArray: 87
+    PriorityForWriting: 88
+    ProcessIdentifier: 89
+    ProgramChange: 90
+    ProgramLocation: 91
+    ProgramState: 92
+    ProportionalConstant: 93
+    ProportionalConstantUnits: 94
+    Removed In Version 1 Revision 2_95: 95
+    ProtocolObjectTypesSupported: 96
+    ProtocolServicesSupported: 97
+    ProtocolVersion: 98
+    ReadOnly: 99
+    ReasonForHalt: 100
+    Removed In Version 1 Revision 4_101: 101
+    RecipientList: 102
+    Reliability: 103
+    RelinquishDefault: 104
+    Required: 105
+    Resolution: 106
+    SegmentationSupported: 107
+    Setpoint: 108
+    SetpointReference: 109
+    StateText: 110
+    StatusFlags: 111
+    SystemStatus: 112
+    TimeDelay: 113
+    TimeOfActiveTimeReset: 114
+    TimeOfStateCountReset: 115
+    TimeSynchronizationRecipients: 116
+    Units: 117
+    UpdateInterval: 118
+    UtcOffset: 119
+    VendorIdentifier: 120
+    VendorName: 121
+    VtClassesSupported: 122
+    WeeklySchedule: 123
+    AttemptedSamples: 124
+    AverageValue: 125
+    BufferSize: 126
+    ClientCovIncrement: 127
+    CovResubscriptionInterval: 128
+    Removed In Version 1 Revision 3_129: 129
+    EventTimeStamps: 130
+    LogBuffer: 131
+    LogDeviceObjectProperty: 132
+    Enable: 133
+    LogInterval: 134
+    MaximumValue: 135
+    MinimumValue: 136
+    NotificationThreshold: 137
+    Removed In Version 1 Revision 3_138: 138
+    ProtocolRevision: 139
+    RecordsSinceNotification: 140
+    RecordCount: 141
+    StartTime: 142
+    StopTime: 143
+    StopWhenFull: 144
+    TotalRecordCount: 145
+    ValidSamples: 146
+    WindowInterval: 147
+    WindowSamples: 148
+    MaximumValueTimestamp: 149
+    MinimumValueTimestamp: 150
+    VarianceValue: 151
+    ActiveCovSubscriptions: 152
+    BackupFailureTimeout: 153
+    ConfigurationFiles: 154
+    DatabaseRevision: 155
+    DirectReading: 156
+    LastRestoreTime: 157
+    MaintenanceRequired: 158
+    MemberOf: 159
+    Mode: 160
+    OperationExpected: 161
+    Setting: 162
+    Silenced: 163
+    TrackingValue: 164
+    ZoneMembers: 165
+    LifeSafetyAlarmValues: 166
+    MaxSegmentsAccepted: 167
+    ProfileName: 168
+    AutoSlaveDiscovery: 169
+    ManualSlaveAddressBinding: 170
+    SlaveAddressBinding: 171
+    SlaveProxyEnable: 172
+    LastNotifyRecord: 173
+    ScheduleDefault: 174
+    AcceptedModes: 175
+    AdjustValue: 176
+    Count: 177
+    CountBeforeChange: 178
+    CountChangeTime: 179
+    CovPeriod: 180
+    InputReference: 181
+    LimitMonitoringInterval: 182
+    LoggingObject: 183
+    LoggingRecord: 184
+    Prescale: 185
+    PulseRate: 186
+    Scale: 187
+    ScaleFactor: 188
+    UpdateTime: 189
+    ValueBeforeChange: 190
+    ValueSet: 191
+    ValueChangeTime: 192
+    AlignIntervals: 193
+    Unassigned_194: 194
+    IntervalOffset: 195
+    LastRestartReason: 196
+    LoggingType: 197
+    Unassigned_198: 198
+    Unassigned_199: 199
+    Unassigned_200: 200
+    Unassigned_201: 201
+    RestartNotificationRecipients: 202
+    TimeOfDeviceRestart: 203
+    TimeSynchronizationInterval: 204
+    Trigger: 205
+    UtcTimeSynchronizationRecipients: 206
+    NodeSubtype: 207
+    NodeType: 208
+    StructuredObjectList: 209
+    SubordinateAnnotations: 210
+    SubordinateList: 211
+    ActualShedLevel: 212
+    DutyWindow: 213
+    ExpectedShedLevel: 214
+    FullDutyBaseline: 215
+    Unassigned_216: 216
+    Unassigned_217: 217
+    RequestedShedLevel: 218
+    ShedDuration: 219
+    ShedLevelDescriptions: 220
+    ShedLevels: 221
+    StateDescription: 222
+    Unassigned_223: 223
+    Unassigned_224: 224
+    Unassigned_225: 225
+    DoorAlarmState: 226
+    DoorExtendedPulseTime: 227
+    DoorMembers: 228
+    DoorOpenTooLongTime: 229
+    DoorPulseTime: 230
+    DoorStatus: 231
+    DoorUnlockDelayTime: 232
+    LockStatus: 233
+    MaskedAlarmValues: 234
+    SecuredStatus: 235
+    Unassigned_236: 236
+    Unassigned_237: 237
+    Unassigned_238: 238
+    Unassigned_239: 239
+    Unassigned_240: 240
+    Unassigned_241: 241
+    Unassigned_242: 242
+    Unassigned_243: 243
+    AbsenteeLimit: 244
+    AccessAlarmEvents: 245
+    AccessDoors: 246
+    AccessEvent: 247
+    AccessEventAuthenticationFactor: 248
+    AccessEventCredential: 249
+    AccessEventTime: 250
+    AccessTransactionEvents: 251
+    Accompaniment: 252
+    AccompanimentTime: 253
+    ActivationTime: 254
+    ActiveAuthenticationPolicy: 255
+    AssignedAccessRights: 256
+    AuthenticationFactors: 257
+    AuthenticationPolicyList: 258
+    AuthenticationPolicyNames: 259
+    AuthenticationStatus: 260
+    AuthorizationMode: 261
+    BelongsTo: 262
+    CredentialDisable: 263
+    CredentialStatus: 264
+    Credentials: 265
+    CredentialsInZone: 266
+    DaysRemaining: 267
+    EntryPoints: 268
+    ExitPoints: 269
+    ExpiryTime: 270
+    ExtendedTimeEnable: 271
+    FailedAttemptEvents: 272
+    FailedAttempts: 273
+    FailedAttemptsTime: 274
+    LastAccessEvent: 275
+    LastAccessPoint: 276
+    LastCredentialAdded: 277
+    LastCredentialAddedTime: 278
+    LastCredentialRemoved: 279
+    LastCredentialRemovedTime: 280
+    LastUseTime: 281
+    Lockout: 282
+    LockoutRelinquishTime: 283
+    Removed In Version 1 Revision 13_284: 284
+    MaxFailedAttempts: 285
+    Members: 286
+    MusterPoint: 287
+    NegativeAccessRules: 288
+    NumberOfAuthenticationPolicies: 289
+    OccupancyCount: 290
+    OccupancyCountAdjust: 291
+    OccupancyCountEnable: 292
+    Removed In Version 1 Revision 13_293: 293
+    OccupancyLowerLimit: 294
+    OccupancyLowerLimitEnforced: 295
+    OccupancyState: 296
+    OccupancyUpperLimit: 297
+    OccupancyUpperLimitEnforced: 298
+    Removed In Version 1 Revision 13_299: 299
+    PassbackMode: 300
+    PassbackTimeout: 301
+    PositiveAccessRules: 302
+    ReasonForDisable: 303
+    SupportedFormats: 304
+    SupportedFormatClasses: 305
+    ThreatAuthority: 306
+    ThreatLevel: 307
+    TraceFlag: 308
+    TransactionNotificationClass: 309
+    UserExternalIdentifier: 310
+    UserInformationReference: 311
+    Unassigned_312: 312
+    Unassigned_313: 313
+    Unassigned_314: 314
+    Unassigned_315: 315
+    Unassigned_316: 316
+    UserName: 317
+    UserType: 318
+    UsesRemaining: 319
+    ZoneFrom: 320
+    ZoneTo: 321
+    AccessEventTag: 322
+    GlobalIdentifier: 323
+    Unassigned_324: 324
+    Unassigned_325: 325
+    VerificationTime: 326
+    BaseDeviceSecurityPolicy: 327
+    DistributionKeyRevision: 328
+    DoNotHide: 329
+    KeySets: 330
+    LastKeyServer: 331
+    NetworkAccessSecurityPolicies: 332
+    PacketReorderTime: 333
+    SecurityPduTimeout: 334
+    SecurityTimeWindow: 335
+    SupportedSecurityAlgorithms: 336
+    UpdateKeySetTimeout: 337
+    BackupAndRestoreState: 338
+    BackupPreparationTime: 339
+    RestoreCompletionTime: 340
+    RestorePreparationTime: 341
+    BitMask: 342
+    BitText: 343
+    IsUtc: 344
+    GroupMembers: 345
+    GroupMemberNames: 346
+    MemberStatusFlags: 347
+    RequestedUpdateInterval: 348
+    CovuPeriod: 349
+    CovuRecipients: 350
+    EventMessageTexts: 351
+    EventMessageTextsConfig: 352
+    EventDetectionEnable: 353
+    EventAlgorithmInhibit: 354
+    EventAlgorithmInhibitRef: 355
+    TimeDelayNormal: 356
+    ReliabilityEvaluationInhibit: 357
+    FaultParameters: 358
+    FaultType: 359
+    LocalForwardingOnly: 360
+    ProcessIdentifierFilter: 361
+    SubscribedRecipients: 362
+    PortFilter: 363
+    AuthorizationExemptions: 364
+    AllowGroupDelayInhibit: 365
+    ChannelNumber: 366
+    ControlGroups: 367
+    ExecutionDelay: 368
+    LastPriority: 369
+    WriteStatus: 370
+    PropertyList: 371
+    SerialNumber: 372
+    BlinkWarnEnable: 373
+    DefaultFadeTime: 374
+    DefaultRampRate: 375
+    DefaultStepIncrement: 376
+    EgressTime: 377
+    InProgress: 378
+    InstantaneousPower: 379
+    LightingCommand: 380
+    LightingCommandDefaultPriority: 381
+    MaxActualValue: 382
+    MinActualValue: 383
+    Power: 384
+    Transition: 385
+    EgressActive: 386
+- UADataType: [ BACnet_V2:3049, BACnetReinitializedStateofDevice ]
+  Enums:
+    Coldstart: 0
+    Warmstart: 1
+    Startbackup: 2
+    Endbackup: 3
+    Startrestore: 4
+    Endrestore: 5
+    Abortrestore: 6
+- UADataType: [ BACnet_V2:3001, BACnetReliability ]
+  Enums:
+    NoFaultDetected: 0
+    NoSensor: 1
+    OverRange: 2
+    UnderRange: 3
+    OpenLoop: 4
+    ShortedLoop: 5
+    NoOutput: 6
+    UnreliableOther: 7
+    ProcessError: 8
+    MultiStateFault: 9
+    ConfigurationError: 10
+    CommunicationFailure: 12
+    MemberFault: 13
+    MONITORED_OBJECT_FAULT: 14
+    TRIPPED: 15
+- UADataType: [ BACnet_V2:103019, BACnetRestartReason ]
+  Enums:
+    unknown: 0
+    coldstart: 1
+    warmstart: 2
+    detected_power_lost: 3
+    detected_powered_off: 4
+    hardware_watchdog: 5
+    software_watchdog: 6
+    suspended: 7
+- UADataType: [ BACnet_V2:103011, BACnetSegmentation ]
+  Enums:
+    segmented-both: 0
+    segmented-transmit: 1
+    segmented-receive: 2
+    no-segmentation: 3
+- UADataType: [ BACnet_V2:3015, BACnetYear ]
+  Bases:
+  - UInt16
+- UADataType: [ BACnet_V2:3013, BACnetDeviceCount ]
+  Bases:
+  - UInt32
+- UADataType: [ BACnet_V2:3010, BACnetElementCount ]
+  Bases:
+  - UInt32
+- UADataType: [ BACnet_V2:3012, BACnetObjectCount ]
+  Bases:
+  - UInt32
+- UADataType: [ BACnet_V2:3020, BACnetObjectIdentifier ]
+  Bases:
+  - UInt32
+- UADataType: [ BACnet_V2:3011, BACnetPropertyCount ]
+  Bases:
+  - UInt32
+- UADataType: [ BACnet_V2:3022, BACnetAddress ]
+  Fields:
+    NetworkNumber: [ UInt16, 0 ]
+    MacAddress: [ ByteString, 0 ]
+- UADataType: [ BACnet_V2:103015, BACnetAddressBinding ]
+  Fields:
+    DeviceObjectIdentifier: [ BACnetObjectIdentifier, 0 ]
+    DeviceAddress: [ BACnetAddress, 0 ]
+- UADataType: [ BACnet_V2:103017, BACnetCOVSubscription ]
+  Fields:
+    Recipient: [ BACnetRecipientProcess, 0 ]
+    MonitoredPropertyReference: [ BACnetDeviceObjectPropertyReference, 0 ]
+    IssueConfirmedNotifications: [ Boolean, 0 ]
+    TimeRemaining: [ UInt32, 0 ]
+    CovIncrement: [ Float, 0 ]
+- UADataType: [ BACnet_V2:103001, BACnetDailySchedule ]
+  Fields:
+    Day-schedule: [ BACnetTimeValue, 1 ]
+- UADataType: [ BACnet_V2:3017, BACnetDate ]
+  Fields:
+    Year: [ BACnetYear, 0 ]
+    Month: [ BACnetMonth, 0 ]
+    DayOfMonth: [ BACnetDayOfMonth, 0 ]
+    DayOfWeek: [ BACnetDayOfWeek, 0 ]
+- UADataType: [ BACnet_V2:3009, BACnetDateRange ]
+  Fields:
+    StartDate: [ BACnetDate, 0 ]
+    EndTime: [ BACnetDate, 0 ]
+- UADataType: [ BACnet_V2:3006, BACnetDateTime ]
+  Fields:
+    Date: [ BACnetDate, 0 ]
+    Time: [ BACnetTime, 0 ]
+- UADataType: [ BACnet_V2:103020, BACnetDestination ]
+  Fields:
+    ValidDays: [ BACnetDaysOfWeek, 0 ]
+    FromTime: [ BACnetTime, 0 ]
+    ToTime: [ BACnetTime, 0 ]
+    Recipient: [ BACnetRecipient, 0 ]
+    ProcessIdentifier: [ UInt32, 0 ]
+    IssueConfirmedNotifications: [ Boolean, 0 ]
+    Transitions: [ BACnetEventTransitionBits, 0 ]
+- UADataType: [ BACnet_V2:103002, BACnetDeviceObjectPropertyReference ]
+  Fields:
+    ObjectIdentifier: [ BACnetObjectIdentifier, 0 ]
+    PropertyIdentifier: [ BACnetPropertyIdentifier, 0 ]
+    PropertyArrayIndex: [ UInt32, 0 ]
+    DeviceIdentifier: [ BACnetObjectIdentifier, 0 ]
+- UADataType: [ BACnet_V2:103031, BACnetEventFaultParameterExtended ]
+  Fields:
+    VendorId: [ UInt16, 0 ]
+    Extended-fault-type: [ UInteger, 0 ]
+    Parameters: [ BACnetEventParameterExtendedParameters, 1 ]
+- UADataType: [ BACnet_V2:103042, BACnetEventParameterBufferReady ]
+  Fields:
+    Notification-threshold: [ UInt32, 0 ]
+    Previous-notification-count: [ UInt32, 0 ]
+- UADataType: [ BACnet_V2:103005, BACnetEventParameterChangeOfBitstring ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Bitmask: [ OptionSet, 0 ]
+    List-of-bitstring-values: [ OptionSet, 1 ]
+- UADataType: [ BACnet_V2:3066, BACnetEventParameterChangeOfCharacterString ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    AlarmValues: [ String, 1 ]
+- UADataType: [ BACnet_V2:3027, BACnetEventParameterChangeOfLifeSafety ]
+  Fields:
+    NewState: [ BACnetLifeSafetyState, 0 ]
+    NewMode: [ BACnetLifeSafetyMode, 0 ]
+    OperationExtended: [ BACnetLifeSafetyOperation, 0 ]
+- UADataType: [ BACnet_V2:103009, BACnetEventParameterChangeOfState ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    List-of-values: [ BACnetPropertyStates, 1 ]
+- UADataType: [ BACnet_V2:103037, BACnetEventParameterChangeOfValue ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Cov-criteria-bitmask: [ OptionSet, 0 ]
+    Cov-criteria-referenced-property-increment: [ Float, 0 ]
+- UADataType: [ BACnet_V2:103039, BACnetEventParameterCommandFailure ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Feedback-property-reference: [ BACnetDeviceObjectPropertyReference, 0 ]
+- UADataType: [ BACnet_V2:3058, BACnetEventParameterDoubleOutOfRange ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Low-limit: [ Double, 0 ]
+    High-limit: [ Double, 0 ]
+    Deadband: [ Double, 0 ]
+- UADataType: [ BACnet_V2:103040, BACnetEventParameterFloatingLimit ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Setpoint-reference: [ BACnetDeviceObjectPropertyReference, 0 ]
+    Low-diff-limit: [ Double, 0 ]
+    High-diff-limit: [ Double, 0 ]
+    Deadband: [ Double, 0 ]
+- UADataType: [ BACnet_V2:103041, BACnetEventParameterOutOfRange ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Low-limit: [ Double, 0 ]
+    High-limit: [ Double, 0 ]
+    Deadband: [ Double, 0 ]
+- UADataType: [ BACnet_V2:3059, BACnetEventParameterSignedOutOfRange ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Low-limit: [ Int32, 0 ]
+    High-limit: [ Int32, 0 ]
+    Deadband: [ UInt32, 0 ]
+- UADataType: [ BACnet_V2:103043, BACnetEventParameterUnsignedOutOfRange ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Low-limit: [ UInt32, 0 ]
+    High-limit: [ UInt32, 0 ]
+    Deadband: [ UInt32, 0 ]
+- UADataType: [ BACnet_V2:3067, BACnetEventParameterUnsignedRange ]
+  Fields:
+    Time-delay: [ UInt32, 0 ]
+    Low-limit: [ UInt32, 0 ]
+    High-limit: [ UInt32, 0 ]
+- UADataType: [ BACnet_V2:103030, BACnetFaultParameterFaultCharacterstring ]
+  Fields:
+    Fault-characterstring: [ String, 0 ]
+- UADataType: [ BACnet_V2:103032, BACnetFaultParameterFaultLifeSafety ]
+  Fields:
+    List-of-fault-values: [ BACnetLifeSafetyState, 1 ]
+    Mode-property-reference: [ BACnetDeviceObjectPropertyReference, 0 ]
+- UADataType: [ BACnet_V2:103033, BACnetFaultParameterFaultState ]
+  Fields:
+    List-of-fault-values: [ BACnetProgramStates, 1 ]
+- UADataType: [ BACnet_V2:103034, BACnetFaultParameterFaultStatusFlags ]
+  Fields:
+    Status-flags-reference: [ BACnetDeviceObjectPropertyReference, 1 ]
+- UADataType: [ BACnet_V2:3028, BACnetPropertyStates ]
+  Fields:
+    BooleanValue: [ Boolean, 0 ]
+    BinaryValue: [ BACnetBinaryPV, 0 ]
+    EventType: [ BACnetEventEnumType, 0 ]
+    Polarity: [ BACnetPolarity, 0 ]
+    ProgramChange: [ BACnetProgramRequest, 0 ]
+    ProgramState: [ BACnetProgramStates, 0 ]
+    ProgramError: [ BACnetProgramError, 0 ]
+    Reliability: [ BACnetReliability, 0 ]
+    State: [ BACnetEventState, 0 ]
+    SystemStatus: [ BACnetDeviceStatus, 0 ]
+    Units: [ EUInformation, 0 ]
+    UnsignedValue: [ UInt32, 0 ]
+    LifeSafetyMode: [ BACnetLifeSafetyMode, 0 ]
+    LifeSafetyState: [ BACnetLifeSafetyState, 0 ]
+- UADataType: [ BACnet_V2:103018, BACnetRecipientProcess ]
+  Fields:
+    Recipient: [ BACnetRecipient, 0 ]
+    ProcessIdentifier: [ UInt32, 0 ]
+- UADataType: [ BACnet_V2:103003, BACnetSpecialEvent ]
+  Fields:
+    Period: [ BACnetSpecialEventPeriod, 0 ]
+    ListOfTimeValues: [ BACnetTimeValue, 1 ]
+    EventPriority: [ Byte, 0 ]
+- UADataType: [ BACnet_V2:3019, BACnetTime ]
+  Fields:
+    Hour: [ Byte, 0 ]
+    Minute: [ Byte, 0 ]
+    Second: [ Byte, 0 ]
+    Hundredths: [ Byte, 0 ]
+- UADataType: [ BACnet_V2:103004, BACnetTimeValue ]
+  Fields:
+    Time: [ BACnetTime, 0 ]
+    Value: [ BACnetTimeValueValue, 0 ]
+- UADataType: [ BACnet_V2:103010, BACnetTimeValueValue ]
+  Fields:
+    BooleanValue: [ Boolean, 0 ]
+    UnsignedValue: [ UInteger, 0 ]
+    SignedValue: [ Integer, 0 ]
+    OctedStringValue: [ ByteString, 0 ]
+    CharStringValue: [ String, 0 ]
+    ObjectIdentifierValue: [ BACnetObjectIdentifier, 0 ]
+    EnumerationValue: [ Int32, 0 ]
+    BitStringValue: [ OptionSet, 0 ]
+- UADataType: [ BACnet_V2:3024, BACnetWeekNDay ]
+  Fields:
+    Month: [ BACnetMonth, 0 ]
+    Day: [ BACnetDay, 0 ]
+    DayOfWeek: [ BACnetDayOfWeek, 0 ]
+- UADataType: [ BACnet_V2:3060, BACnetDaysOfWeek ]
+  Enums:
+    monday: 0
+    tuesday: 1
+    wednesday: 2
+    thursday: 3
+    friday: 4
+    saturday: 5
+    sunday: 6
+- UADataType: [ BACnet_V2:3061, BACnetEventTransitionBits ]
+  Enums:
+    to-offnormal: 0
+    to-fault: 1
+    to-normal: 2
+- UADataType: [ BACnet_V2:3062, BACnetLimitEnable ]
+  Enums:
+    lowLimitEnable: 0
+    highLimitEnable: 1
+- UADataType: [ BACnet_V2:3063, BACnetObjectTypeSupportedBits ]
+  Enums:
+    analog-input: 0
+    analog-output: 1
+    analog-value: 2
+    binary-input: 3
+    binary-output: 4
+    binary-value: 5
+    calendar: 6
+    command: 7
+    device: 8
+    event-enrollment: 9
+    file: 10
+    group: 11
+    loop: 12
+    multi-state-input: 13
+    multi-state-output: 14
+    notification-class: 15
+    program: 16
+    schedule: 17
+    averaging: 18
+    multi-state-value: 19
+    trend-log: 20
+    life-safety-point: 21
+    life-safety-zone: 22
+    accumulator: 23
+    pulse-converter: 24
+    event-log: 25
+    global-group: 26
+    trend-log-multiple: 27
+    load-control: 28
+    structured-view: 29
+    access-door: 30
+    UNASSIGNED_31: 31
+    access-credential: 32
+    access-point: 33
+    access-rights: 34
+    access-user: 35
+    access-zone: 36
+    credential-data-input: 37
+    network-security: 38
+    bitstring-value: 39
+    characterstring-value: 40
+    date-pattern-value: 41
+    date-value: 42
+    datetime-pattern-value: 43
+    datetime-value: 44
+    integer-value: 45
+    large-analog-value: 46
+    octetstring-value: 47
+    positive-integer-value: 48
+    time-pattern-value: 49
+    time-value: 50
+    notification-forwarder: 51
+    alert-enrollment: 52
+    channel: 53
+    lighting-output: 54
+- UADataType: [ BACnet_V2:3064, BACnetServicesSupportedBits ]
+  Enums:
+    acknowledgeAlarm: 0
+    confirmedCOVNotification: 1
+    confirmedEventNotification: 2
+    getAlarmSummary: 3
+    getEnrollmentSummary: 4
+    subscribeCOV: 5
+    atomicReadFile: 6
+    atomicWriteFile: 7
+    addListElement: 8
+    removeListElement: 9
+    createObject: 10
+    deleteObject: 11
+    readProperty: 12
+    UNASSIGNED_13: 13
+    readPropertyMultiple: 14
+    writeProperty: 15
+    writePropertyMultiple: 16
+    deviceCommunicationControl: 17
+    confirmedPrivateTransfer: 18
+    reinitializeDevice: 19
+    vtOpen: 20
+    vtClose: 21
+    vtData: 22
+    UNASSIGNED_24: 23
+    UNASSIGNED_25: 24
+    i-Am: 25
+    i-Have: 26
+    unconfirmedCOVNotification: 27
+    unconfirmedEventNotification: 28
+    unconfirmedPrivateTransfer: 29
+    unconfirmedTextMessage: 30
+    timeSynchronization: 31
+    who-Has: 32
+    who-Is: 33
+    readRange: 34
+    utcTimeSynchronization: 35
+    lifeSafetyOperation: 36
+    subscribeCOVProperty: 37
+    getEventInformation: 38
+    writeGroup: 39
+- UADataType: [ BACnet_V2:3065, BACnetStatusFlags ]
+  Enums:
+    InAlarm: 0
+    Fault: 1
+    Overriden: 2
+    OutOfService: 3
+- UADataType: [ BACnet_V2:3016, BACnetCalendarEntry ]
+  Fields:
+    Date: [ BACnetDate, 0 ]
+    DateRange: [ BACnetDateRange, 0 ]
+    WeekNDay: [ BACnetWeekNDay, 0 ]
+- UADataType: [ BACnet_V2:3023, BACnetClientCOV ]
+  Fields:
+    Real-increment: [ Float, 0 ]
+- UADataType: [ BACnet_V2:3050, BACnetEventParameter ]
+  Fields:
+    Change-of-bitstring: [ BACnetEventParameterChangeOfBitstring, 0 ]
+    Change-of-state: [ BACnetEventParameterChangeOfState, 0 ]
+    Change-of-value: [ BACnetEventParameterChangeOfValue, 0 ]
+    Command-failure: [ BACnetEventParameterCommandFailure, 0 ]
+    Floating-limit: [ BACnetEventParameterFloatingLimit, 0 ]
+    Out-of-range: [ BACnetEventParameterOutOfRange, 0 ]
+    Extended: [ BACnetEventFaultParameterExtended, 0 ]
+    Buffer-ready: [ BACnetEventParameterBufferReady, 0 ]
+    Unsigned-range: [ BACnetEventParameterUnsignedRange, 0 ]
+    Double-out-of-range: [ BACnetEventParameterDoubleOutOfRange, 0 ]
+    Signed-out-of-range: [ BACnetEventParameterSignedOutOfRange, 0 ]
+    Unsigned-out-of-range: [ BACnetEventParameterUnsignedOutOfRange, 0 ]
+    Change-of-characterstring: [ BACnetEventParameterChangeOfCharacterString, 0 ]
+    Change-of-life-safety: [ BACnetEventParameterChangeOfLifeSafety, 0 ]
+- UADataType: [ BACnet_V2:3068, BACnetEventParameterExtendedParameters ]
+  Fields:
+    Real: [ Double, 0 ]
+    Unsigned: [ UInt32, 0 ]
+    Boolean: [ Boolean, 0 ]
+    Double: [ Double, 0 ]
+    Octed: [ Byte, 1 ]
+    CharacterString: [ String, 0 ]
+    BitString: [ OptionSet, 0 ]
+    Enum: [ UInt32, 0 ]
+    Date: [ BACnetDate, 0 ]
+    Time: [ BACnetTime, 0 ]
+    ObjectIdentifier: [ BACnetObjectIdentifier, 0 ]
+    Reference: [ BACnetDeviceObjectPropertyReference, 0 ]
+    Integer: [ Int32, 0 ]
+- UADataType: [ BACnet_V2:3051, BACnetFaultParameter ]
+  Fields:
+    Fault-characterstring: [ BACnetFaultParameterFaultCharacterstring, 0 ]
+    Fault-life-safety: [ BACnetFaultParameterFaultLifeSafety, 0 ]
+    Fault-state: [ BACnetFaultParameterFaultState, 0 ]
+    Fault-status-flags: [ BACnetFaultParameterFaultStatusFlags, 0 ]
+    Fault-extended: [ BACnetEventFaultParameterExtended, 0 ]
+- UADataType: [ BACnet_V2:3052, BACnetMessageClass ]
+  Fields:
+    Unsigned: [ UInteger, 0 ]
+    String: [ String, 0 ]
+- UADataType: [ BACnet_V2:3053, BACnetPriorityValue ]
+  Fields:
+    Real: [ Float, 0 ]
+    Enumerated: [ Int32, 0 ]
+    Unsigned: [ UInteger, 0 ]
+    Boolean: [ Boolean, 0 ]
+    Signed: [ Integer, 0 ]
+    Double: [ Double, 0 ]
+- UADataType: [ BACnet_V2:3054, BACnetRecipient ]
+  Fields:
+    Device: [ BACnetObjectIdentifier, 0 ]
+    Address: [ BACnetAddress, 0 ]
+- UADataType: [ BACnet_V2:3055, BACnetSpecialEventPeriod ]
+  Fields:
+    CalendarEntry: [ BACnetCalendarEntry, 0 ]
+    CalendarReference: [ BACnetObjectIdentifier, 0 ]
+- UADataType: [ BACnet_V2:3056, BACnetTimeStamp ]
+  Fields:
+    Time: [ BACnetTime, 0 ]
+    SequenceNumber: [ UInt16, 0 ]
+    DateTime: [ BACnetDateTime, 0 ]
+
+DefinedTypes:
+
+  BACnetBackupRestoreType:
+  - [ UAObjectType, BACnet_V2:101020, BACnetBackupRestoreType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107004, BACnetBackup ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107005, BACnetRestore ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetChangeOfStateCountType:
+  - [ UAObjectType, BACnet_V2:1016, BACnetChangeOfStateCountType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7001, Reset ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetDeviceRestartType:
+  - [ UAObjectType, BACnet_V2:101022, BACnetDeviceRestartType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107006, AddRestartRecipients ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6108, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RestartNotificationRecipients: [ BACnetRecipient, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6137, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107007, RemoveRestartRecipients ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6147, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RestartNotificationRecipients: [ BACnetRecipient, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6141, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetElapsedActiveTimeType:
+  - [ UAObjectType, BACnet_V2:1017, BACnetElapsedActiveTimeType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7003, Reset ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetEventAlgorithmType:
+  - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetBufferReadyAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101005, BACnetBufferReadyAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetChangeOfBitStringAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101003, BACnetChangeOfBitStringAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetChangeOfCharacterStringAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101034, BACnetChangeOfCharacterStringAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetChangeOfLifeSafetyAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101028, BACnetChangeOfLifeSafetyAlgorithmType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:106311, AlarmValues, BACnetLifeSafetyState, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:106312, LifeSafetyAlarmValues, BACnetLifeSafetyState, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetChangeOfStateAlgorithmType:
+  - [ UAObjectType, BACnet_V2:1010, BACnetChangeOfStateAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetChangeOfStatusFlagsAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101030, BACnetChangeOfStatusFlagsAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetChangeOfValueAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101004, BACnetChangeOfValueAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetCommandFailureAlgorithmType:
+  - [ UAObjectType, BACnet_V2:1029, BACnetCommandFailureAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetDoubleOutOfRangeAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101031, BACnetDoubleOutOfRangeAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetFloatingLimitAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101002, BACnetFloatingLimitAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetOutOfRangeAlgorithmType:
+  - [ UAObjectType, BACnet_V2:1009, BACnetOutOfRangeAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetSignedOutOfRangeAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101032, BACnetSignedOutOfRangeAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetUnsignedOutOfRangeAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101033, BACnetUnsignedOutOfRangeAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetUnsignedRangeAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101029, BACnetUnsignedRangeAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+
+  BACnetEventReportingType:
+  - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5026, EventAlgorithm ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1026, BACnetEventAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetIntrinsicReportingTrendLogType:
+  - [ UAObjectType, BACnet_V2:101016, BACnetIntrinsicReportingTrendLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+
+  BACnetFaultAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101025, BACnetFaultAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetFaultCharacterStringAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101009, BACnetFaultCharacterStringAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101025, BACnetFaultAlgorithmType ]
+
+  BACnetFaultStateAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101011, BACnetFaultStateAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101025, BACnetFaultAlgorithmType ]
+
+  BACnetFaultStatusFlagsAlgorithmType:
+  - [ UAObjectType, BACnet_V2:101012, BACnetFaultStatusFlagsAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101025, BACnetFaultAlgorithmType ]
+
+  BACnetFaultEvaluationType:
+  - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105096, FaultAlgorithm ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:101025, BACnetFaultAlgorithmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetInternetworkType:
+  - [ UAObjectType, BACnet_V2:1030, BACnetInternetworkType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5040, <BACnetDeviceName> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1011, BACnetDeviceType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7012, AddDeviceByAddress ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6252, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Address: [ BaseDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7011, AddDeviceById ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6248, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DeviceObject: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7010, GetDeviceIdList ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6247, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          BACnetDeviceIds: [ BACnetObjectIdentifier, 1 ]
+          OpcUaObjectIds: [ NodeId, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7023, NetworkScan ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6660, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          WaitTimeInSeconds: [ UInt32, 0 ]
+          ApplyRange: [ Boolean, 0 ]
+          DeviceRangeLow: [ UInt32, 0 ]
+          DeviceRangeHigh: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6661, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DeviceAddressBindings: [ BaseDataType, 1 ]
+          MaxAPDULengthAccepted: [ UInt32, 1 ]
+          SegmentationSupported: [ BACnetSegmentation, 1 ]
+          VendorIdentifier: [ UInt16, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7021, TimeSynchronization ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6662, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Time: [ UtcTime, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7009, TranslateBACnetIds ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6245, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          BACnetIds: [ BACnetDeviceObjectPropertyReference, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6246, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          OpcUaIds: [ NodeId, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetMstpMasterType:
+  - [ UAObjectType, BACnet_V2:101021, BACnetMstpMasterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetObjectType:
+  - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetAnalogType:
+  - [ UAObjectType, BACnet_V2:1004, BACnetAnalogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5001, EventReporting ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105097, FaultEvaluation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6002, Present_Value, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetAnalogInputType:
+  - [ UAObjectType, BACnet_V2:1005, BACnetAnalogInputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1004, BACnetAnalogType ]
+
+  BACnetAnalogOutputType:
+  - [ UAObjectType, BACnet_V2:1006, BACnetAnalogOutputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1004, BACnetAnalogType ]
+
+  BACnetAnalogValueType:
+  - [ UAObjectType, BACnet_V2:1007, BACnetAnalogValueType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1004, BACnetAnalogType ]
+
+  BACnetBinaryType:
+  - [ UAObjectType, BACnet_V2:1012, BACnetBinaryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5007, ChangeOfState ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1016, BACnetChangeOfStateCountType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5008, ElapsedActiveTime ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1017, BACnetElapsedActiveTimeType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105092, EventReporting ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105098, FaultEvaluation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6019, Present_Value, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetBinaryInputType:
+  - [ UAObjectType, BACnet_V2:1013, BACnetBinaryInputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1012, BACnetBinaryType ]
+
+  BACnetBinaryOutputType:
+  - [ UAObjectType, BACnet_V2:1014, BACnetBinaryOutputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1012, BACnetBinaryType ]
+
+  BACnetBinaryValueType:
+  - [ UAObjectType, BACnet_V2:1015, BACnetBinaryValueType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1012, BACnetBinaryType ]
+
+  BACnetCalendarType:
+  - [ UAObjectType, BACnet_V2:1008, BACnetCalendarType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7005, AddDateListElements ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6083, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          CalendarEntries: [ BACnetCalendarEntry, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:106294, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6073, Present_Value, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7006, RemoveDateListElements ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6084, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          CalendarEntries: [ BACnetCalendarEntry, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:106295, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  BACnetDeviceType:
+  - [ UAObjectType, BACnet_V2:1011, BACnetDeviceType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7024, AddDeviceAddressBindings ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6271, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AddressBindings: [ BACnetAddressBinding, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6272, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105086, BackupRestore ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:101020, BACnetBackupRestoreType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7013, CreateObject ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6254, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ObjectSpecifier: [ BACnetObjectIdentifier, 0 ]
+          ListOfInitialValues: [ KeyValuePair, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7014, DeleteObject ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6256, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ObjectIdentifier: [ BACnetObjectIdentifier, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7015, DeviceCommunicationControl ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6266, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          TimeDurationInMinutes: [ UInt16, 0 ]
+          EnableDisable: [ BACnetDeviceCommunicationEnabled, 0 ]
+          Password: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105088, DeviceRestart ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:101022, BACnetDeviceRestartType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105087, MstpMaster ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:101021, BACnetMstpMasterType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105084, Object_List ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7016, ReinitializeDevice ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6255, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ReinitializedStateofDevice: [ BACnetReinitializedStateofDevice, 0 ]
+          Password: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7025, RemoveDeviceAddressBindings ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6273, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AddressBindings: [ BACnetAddressBinding, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6274, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105094, Structured_Object_List ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7019, TextMessage ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6267, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SendUnconfirmed: [ Boolean, 0 ]
+          TextMessageSourceDevice: [ BACnetObjectIdentifier, 0 ]
+          MessageClass: [ BACnetMessageClass, 0 ]
+          MessagePriority: [ BACnetMessagePriority, 0 ]
+          Message: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105085, TimeManagement ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:101019, BACnetTimeManagementType ]
+
+  BACnetEventEnrollmentType:
+  - [ UAObjectType, BACnet_V2:101006, BACnetEventEnrollmentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105073, EventReporting ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105074, FaultEvaluation ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107016, SetEventAlgorithm ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6331, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          EventParameters: [ BACnetEventParameter, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107017, SetFaultAlgorithm ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6332, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FaultParameters: [ BACnetFaultParameter, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  BACnetLogType:
+  - [ UAObjectType, BACnet_V2:101014, BACnetLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105076, EventReporting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105075, FaultEvaluation ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+
+  BACnetEventLogType:
+  - [ UAObjectType, BACnet_V2:101018, BACnetEventLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101014, BACnetLogType ]
+
+  BACnetTrendLogBaseType:
+  - [ UAObjectType, BACnet_V2:101026, BACnetTrendLogBaseType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101014, BACnetLogType ]
+
+  BACnetTrendLogMultipleType:
+  - [ UAObjectType, BACnet_V2:101027, BACnetTrendLogMultipleType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101026, BACnetTrendLogBaseType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:106291, Log_Buffer ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetTrendLogType:
+  - [ UAObjectType, BACnet_V2:101017, BACnetTrendLogType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6339, Log_Buffer ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101026, BACnetTrendLogBaseType ]
+
+  BACnetClockAlignedTrendLogType:
+  - [ UAObjectType, BACnet_V2:101015, BACnetClockAlignedTrendLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101017, BACnetTrendLogType ]
+
+  BACnetLoopType:
+  - [ UAObjectType, BACnet_V2:101001, BACnetLoopType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6386, Bias, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6268, Controlled_Variable_Value, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6388, Derivative_Constant, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105013, EventReporting ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105072, FaultEvaluation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6384, Integral_Constant, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6025, Present_Value, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6382, Proportional_Constant, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6327, Setpoint, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetMultiStateType:
+  - [ UAObjectType, BACnet_V2:1018, BACnetMultiStateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5009, EventReporting ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105070, FaultEvaluation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6106, Present_Value, UInteger, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetMultiStateInputType:
+  - [ UAObjectType, BACnet_V2:1019, BACnetMultiStateInputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1018, BACnetMultiStateType ]
+
+  BACnetMultiStateOutputType:
+  - [ UAObjectType, BACnet_V2:1020, BACnetMultiStateOutputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1018, BACnetMultiStateType ]
+
+  BACnetMultiStateValueType:
+  - [ UAObjectType, BACnet_V2:1021, BACnetMultiStateValueType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1018, BACnetMultiStateType ]
+
+  BACnetNotifierType:
+  - [ UAObjectType, BACnet_V2:1048, BACnetNotifierType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+
+  BACnetNotificationClassType:
+  - [ UAObjectType, BACnet_V2:1024, BACnetNotificationClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1048, BACnetNotifierType ]
+
+  BACnetObjectTypeUnknown:
+  - [ UAObjectType, BACnet_V2:101024, BACnetObjectTypeUnknown ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:106084, Object_Type, BACnetObjectTypeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetScheduleType:
+  - [ UAObjectType, BACnet_V2:1022, BACnetScheduleType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107014, AddObjectPropertyReferences ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6323, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DeviceObjectPropertyReferences: [ BACnetDeviceObjectPropertyReference, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6324, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105093, EventReporting ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1003, BACnetEventReportingType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:105071, FaultEvaluation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1025, BACnetFaultEvaluationType ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6128, Present_Value ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107015, RemoveObjectPropertyReferences ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6325, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DeviceObjectPropertyReferences: [ BACnetDeviceObjectPropertyReference, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6326, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, BACnet_V2:6321, Schedule_Default ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  BACnetStructuredViewType:
+  - [ UAObjectType, BACnet_V2:1049, BACnetStructuredViewType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5044, <BACnetObject> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+  - HasComponent:
+    - [ UAObject, BACnet_V2:5043, <BACnetStructuredView> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, BACnet_V2:1049, BACnetStructuredViewType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1002, BACnetObjectType ]
+
+  BACnetTimeManagementType:
+  - [ UAObjectType, BACnet_V2:101019, BACnetTimeManagementType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:107001, TimeSynchronization ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6346, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Time: [ UtcTime, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  BACnetAutomaticTimeSynchronizationMasterType:
+  - [ UAObjectType, BACnet_V2:1052, BACnetAutomaticTimeSynchronizationMasterType ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7027, AddTimeSynchronizationRecipients ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6353, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AddToUtcList: [ Boolean, 0 ]
+          TimeSynchronizationRecipients: [ BACnetRecipient, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6354, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, BACnet_V2:7028, RemoveTimeSynchronizationRecipients ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6355, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RemoveFromUtcList: [ Boolean, 0 ]
+          TimeSynchronizationRecipients: [ BACnetRecipient, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, BACnet_V2:6356, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FirstFailedElementNumber: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:101019, BACnetTimeManagementType ]
+
+  BACnetNotificationType:
+  - [ UAObjectType, BACnet_V2:1001, BACnetNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2915, AlarmConditionType ]
+
+  BACnetEventNotificationType:
+  - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1001, BACnetNotificationType ]
+
+  BACnetBufferReadyNotificationType:
+  - [ UAObjectType, BACnet_V2:1042, BACnetBufferReadyNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetChangeOfBitStringNotificationType:
+  - [ UAObjectType, BACnet_V2:1037, BACnetChangeOfBitStringNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetChangeOfCharacterStringNotificationType:
+  - [ UAObjectType, BACnet_V2:1047, BACnetChangeOfCharacterStringNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetChangeOfRealValueNotificationType:
+  - [ UAObjectType, BACnet_V2:1039, BACnetChangeOfRealValueNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetChangeOfStateNotificationType:
+  - [ UAObjectType, BACnet_V2:1038, BACnetChangeOfStateNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetChangeOfValueNotificationType:
+  - [ UAObjectType, BACnet_V2:1053, BACnetChangeOfValueNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetCommandFailureNotificationType:
+  - [ UAObjectType, BACnet_V2:1040, BACnetCommandFailureNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetDoubleOutOfRangeNotificationType:
+  - [ UAObjectType, BACnet_V2:1044, BACnetDoubleOutOfRangeNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetFloatingLimitNotificationType:
+  - [ UAObjectType, BACnet_V2:1041, BACnetFloatingLimitNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetOutOfRangeNotificationType:
+  - [ UAObjectType, BACnet_V2:1031, BACnetOutOfRangeNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetSignedOutOfRangeNotificationType:
+  - [ UAObjectType, BACnet_V2:1045, BACnetSignedOutOfRangeNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetUnsignedOutOfRangeNotificationType:
+  - [ UAObjectType, BACnet_V2:1046, BACnetUnsignedOutOfRangeNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetUnsignedRangeNotificationType:
+  - [ UAObjectType, BACnet_V2:1043, BACnetUnsignedRangeNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1028, BACnetEventNotificationType ]
+
+  BACnetFaultNotificationType:
+  - [ UAObjectType, BACnet_V2:1027, BACnetFaultNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1001, BACnetNotificationType ]
+
+  BACnetChangeOfReliabilityNotificationType:
+  - [ UAObjectType, BACnet_V2:1036, BACnetChangeOfReliabilityNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1027, BACnetFaultNotificationType ]
+
+  BACnetEventEnrollmentNotificationType:
+  - [ UAObjectType, BACnet_V2:1035, BACnetEventEnrollmentNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1027, BACnetFaultNotificationType ]
+
+  BACnetFeedbackNotificationType:
+  - [ UAObjectType, BACnet_V2:1034, BACnetFeedbackNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1027, BACnetFaultNotificationType ]
+
+  BACnetLoopNotificationType:
+  - [ UAObjectType, BACnet_V2:1033, BACnetLoopNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1027, BACnetFaultNotificationType ]
+
+  BACnetSimpleNotificationType:
+  - [ UAObjectType, BACnet_V2:1032, BACnetSimpleNotificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, BACnet_V2:1027, BACnetFaultNotificationType ]

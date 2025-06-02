@@ -7,23 +7,10 @@
   ],
   "@id": "dtmi:opcua:AdditiveManufacturing:AdditiveManufacturingType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:MachineTool:MachineToolType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "Equipment",
-      "target": "dtmi:opcua:AdditiveManufacturing:EquipmentAMType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Monitoring",
-      "target": "dtmi:opcua:MachineTool:MonitoringType"
-    }
   ]
 }

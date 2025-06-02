@@ -7,7 +7,7 @@
   ],
   "@id": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Machinery_ProcessValues/ProcessValueType/{commandName}",
+  "extends": "dtmi:opcua:PADIM:AnalogSignalType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
@@ -16,41 +16,6 @@
       "@type": "Property",
       "name": "AlarmSuppression",
       "schema": "unsignedShort",
-      "writable": true
-    },
-    {
-      "@type": "Property",
-      "name": "AnalogSignal",
-      "schema": {
-        "@type": [ "Object", "Detail" ],
-        "fields": [
-          {
-            "@type": [ "Field", "Subject" ],
-            "name": "AnalogSignal",
-            "schema": "integer"
-          },
-          {
-            "name": "HighHighLimit",
-            "schema": "integer"
-          },
-          {
-            "name": "HighLimit",
-            "schema": "integer"
-          },
-          {
-            "name": "LowLimit",
-            "schema": "integer"
-          },
-          {
-            "name": "LowLowLimit",
-            "schema": "integer"
-          },
-          {
-            "name": "PercentageValue",
-            "schema": "double"
-          }
-        ]
-      },
       "writable": true
     },
     {
@@ -64,10 +29,6 @@
       "name": "Status",
       "schema": "unsignedShort",
       "writable": true
-    },
-    {
-      "@type": "Command",
-      "name": "ZeroPointAdjustment"
     },
     {
       "@type": "Relationship",

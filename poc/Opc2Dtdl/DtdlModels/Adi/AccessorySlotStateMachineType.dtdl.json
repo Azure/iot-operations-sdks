@@ -5,7 +5,7 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Adi:AccessorySlotStateMachineType;1",
+  "@id": "dtmi:opcua:ADI:AccessorySlotStateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [

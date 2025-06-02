@@ -7,14 +7,10 @@
   ],
   "@id": "dtmi:opcua:PAEFS:SensorSetpointReadType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PAEFS:SensorMonitoringType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "Signal",
-      "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
-    }
   ]
 }

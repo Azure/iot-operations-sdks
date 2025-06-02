@@ -140,6 +140,8 @@ DefinedTypes:
     - [ UAVariable, Machinery.Jobs:6013, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
   - HasComponent:
     - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
     - HasModellingRule:
@@ -152,66 +154,90 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
       - HasProperty:
         - [ UAVariable, Machinery.Jobs:6010, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Machinery.Jobs:6009, CurrentState, LocalizedText, 0, 0 ]
     - HasComponent:
       - [ UAVariable, Machinery.Jobs:6001, EquipmentID, String, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
     - HasComponent:
       - [ UAVariable, Machinery.Jobs:6002, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
     - HasComponent:
       - [ UAVariable, Machinery.Jobs:6003, MaterialClassID, String, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
     - HasComponent:
       - [ UAVariable, Machinery.Jobs:6004, MaterialDefinitionID, String, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
     - HasProperty:
       - [ UAVariable, Machinery.Jobs:6005, MaxDownloadableJobOrders, UInt16, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
     - HasComponent:
       - [ UAVariable, Machinery.Jobs:6006, PersonnelID, String, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
     - HasComponent:
       - [ UAVariable, Machinery.Jobs:6007, PhysicalAssetID, String, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
     - HasComponent:
       - [ UAVariable, Machinery.Jobs:6008, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5001, JobOrderControl ]
   - HasComponent:
     - [ UAObject, Machinery.Jobs:5002, JobOrderResults ]
     - HasTypeDefinition:
       - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
     - HasComponent:
       - [ UAMethod, Machinery.Jobs:7001, RequestJobResponseByJobOrderID ]
       - HasModellingRule:
@@ -224,6 +250,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Jobs:7001, RequestJobResponseByJobOrderID ]
       - HasProperty:
         - [ UAVariable, Machinery.Jobs:6012, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -233,6 +261,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Jobs:7001, RequestJobResponseByJobOrderID ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5002, JobOrderResults ]
     - HasComponent:
       - [ UAMethod, Machinery.Jobs:7002, RequestJobResponseByJobOrderState ]
       - HasModellingRule:
@@ -245,6 +277,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Jobs:7002, RequestJobResponseByJobOrderState ]
       - HasProperty:
         - [ UAVariable, Machinery.Jobs:6038, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -254,3 +288,9 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Jobs:7002, RequestJobResponseByJobOrderState ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Jobs:5002, JobOrderResults ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

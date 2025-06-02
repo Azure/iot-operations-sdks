@@ -38,6 +38,26 @@ DataTypes:
 
 DefinedTypes:
 
+  FunctionalGroupType:
+  - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
+
+  SercosProfileType:
+  - [ UAObjectType, sercos:1002, SercosProfileType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+
+  SercosClassType:
+  - [ UAObjectType, sercos:1003, SercosClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+
+  SercosFunctionGroupType:
+  - [ UAObjectType, sercos:1004, SercosFunctionGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+
   SercosDeviceType:
   - [ UAObjectType, sercos:1001, SercosDeviceType ]
   - HasComponent:
@@ -64,6 +84,8 @@ DefinedTypes:
       - [ UAObjectType, sercos:6012, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
 
   ProfileSet:
   - [ UAObjectType, sercos:6075, ProfileSet ]
@@ -73,6 +95,8 @@ DefinedTypes:
       - [ UAObjectType, sercos:1002, SercosProfileType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
 
   ClassSet:
   - [ UAObjectType, sercos:6077, ClassSet ]
@@ -82,6 +106,8 @@ DefinedTypes:
       - [ UAObjectType, sercos:1003, SercosClassType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
 
   FunctionGroupSet:
   - [ UAObjectType, sercos:6079, FunctionGroupSet ]
@@ -91,3 +117,5 @@ DefinedTypes:
       - [ UAObjectType, sercos:1004, SercosFunctionGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]

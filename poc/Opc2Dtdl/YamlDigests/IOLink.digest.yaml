@@ -44,42 +44,68 @@ DefinedTypes:
 
   ProcessDataVariableType:
   - [ UAVariableType, IOLink:2002, ProcessDataVariableType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   IOLinkAlarmType:
   - [ UAObjectType, IOLink:1007, IOLinkAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   IOLinkDeviceAlarmType:
   - [ UAObjectType, IOLink:1008, IOLinkDeviceAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1007, IOLinkAlarmType ]
 
   IOLinkIODDDeviceAlarmType:
   - [ UAObjectType, IOLink:1009, IOLinkIODDDeviceAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1008, IOLinkDeviceAlarmType ]
 
   IOLinkMasterAlarmType:
   - [ UAObjectType, IOLink:1011, IOLinkMasterAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1007, IOLinkAlarmType ]
 
   IOLinkPortAlarmType:
   - [ UAObjectType, IOLink:1010, IOLinkPortAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1007, IOLinkAlarmType ]
 
   IOLinkEventType:
   - [ UAObjectType, IOLink:1003, IOLinkEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
 
   IOLinkDeviceEventType:
   - [ UAObjectType, IOLink:1004, IOLinkDeviceEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1003, IOLinkEventType ]
 
   IOLinkIODDDeviceEventType:
   - [ UAObjectType, IOLink:1021, IOLinkIODDDeviceEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1004, IOLinkDeviceEventType ]
 
   IOLinkMasterEventType:
   - [ UAObjectType, IOLink:1006, IOLinkMasterEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1003, IOLinkEventType ]
 
   IOLinkPortEventType:
   - [ UAObjectType, IOLink:1005, IOLinkPortEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1003, IOLinkEventType ]
 
   DeviceVariantType:
   - [ UAObjectType, IOLink:1013, DeviceVariantType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   IOLinkDeviceType:
   - [ UAObjectType, IOLink:1002, IOLinkDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
   - GeneratesEvent:
     - [ UAObjectType, IOLink:1008, IOLinkDeviceAlarmType ]
   - GeneratesEvent:
@@ -87,9 +113,13 @@ DefinedTypes:
 
   IOLinkIODDDeviceType:
   - [ UAObjectType, IOLink:1012, IOLinkIODDDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IOLink:1002, IOLinkDeviceType ]
 
   IOLinkMasterType:
   - [ UAObjectType, IOLink:1014, IOLinkMasterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
   - GeneratesEvent:
     - [ UAObjectType, IOLink:1011, IOLinkMasterAlarmType ]
   - GeneratesEvent:
@@ -97,6 +127,8 @@ DefinedTypes:
 
   IOLinkPortType:
   - [ UAObjectType, IOLink:1015, IOLinkPortType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
   - GeneratesEvent:
     - [ UAObjectType, IOLink:1010, IOLinkPortAlarmType ]
   - GeneratesEvent:

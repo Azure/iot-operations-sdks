@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:Cutter_InterfaceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionDeviceType;1",
   "commandTopic": "opcua/PlasticsRubber_Extrusion_Cutter/Cutter_InterfaceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [

@@ -5,7 +5,7 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Di:ConfigurableObjectType;1",
+  "@id": "dtmi:opcua:DI:ConfigurableObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [

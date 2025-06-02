@@ -5,12 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:PubSubConnectionEndpointType;1",
+  "@id": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:FX_AC:ConnectionEndpointType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1",
+      "@id": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -33,7 +34,7 @@
     {
       "@type": "Property",
       "name": "Mode",
-      "schema": "dtmi:opcua:fx_ac:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1",
+      "schema": "dtmi:opcua:FX_AC:PubSubConnectionEndpointType:dataType:PubSubConnectionEndpointModeEnum;1",
       "writable": true
     }
   ]

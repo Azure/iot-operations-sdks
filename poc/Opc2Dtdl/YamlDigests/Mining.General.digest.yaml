@@ -50,18 +50,26 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, Mining.General:2002, StructuredArrayItemType ]
   - HasProperty:
     - [ UAVariable, Mining.General:6007, EURange, Range, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, Mining.General:2002, StructuredArrayItemType ]
   - HasProperty:
     - [ UAVariable, Mining.General:6018, InstrumentRange, Range, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, Mining.General:2002, StructuredArrayItemType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 2365, DataItemType ]
 
   LongwallShieldOffsetArrayItemType:
   - [ UAVariableType, Mining.General:2003, LongwallShieldOffsetArrayItemType, LongwallShieldOffsetDataType, 1, 0 ]
@@ -71,12 +79,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, Mining.General:2003, LongwallShieldOffsetArrayItemType, LongwallShieldOffsetDataType, 1, 0 ]
   - HasProperty:
     - [ UAVariable, Mining.General:6017, EURange, Range, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, Mining.General:2003, LongwallShieldOffsetArrayItemType, LongwallShieldOffsetDataType, 1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, Mining.General:2002, StructuredArrayItemType ]
 
   MiningEquipmentIdentificationType:
   - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
@@ -86,16 +100,22 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
   - HasProperty:
     - [ UAVariable, Mining.General:6026, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
   - HasProperty:
     - [ UAVariable, Mining.General:6032, DeviceClass, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
   - HasComponent:
     - [ UAObject, Mining.General:5006, DeviceTypeImage ]
     - HasModellingRule:
@@ -108,6 +128,10 @@ DefinedTypes:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.General:5006, DeviceTypeImage ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
   - HasComponent:
     - [ UAObject, Mining.General:5007, Documentation ]
     - HasModellingRule:
@@ -120,6 +144,10 @@ DefinedTypes:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.General:5007, Documentation ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
   - HasComponent:
     - [ UAObject, Mining.General:5008, ImageSet ]
     - HasModellingRule:
@@ -132,6 +160,10 @@ DefinedTypes:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.General:5008, ImageSet ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
   - HasInterface:
     - [ UAObjectType, DI:15054, ISupportInfoType ]
   - HasProperty:
@@ -140,12 +172,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
   - HasProperty:
     - [ UAVariable, Mining.General:6029, Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
   - HasComponent:
     - [ UAObject, Mining.General:5009, ProtocolSupport ]
     - HasModellingRule:
@@ -158,6 +196,10 @@ DefinedTypes:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.General:5009, ProtocolSupport ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.General:1003, MiningEquipmentIdentificationType ]
 
   MiningEquipmentType:
   - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
@@ -167,6 +209,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasAddIn:
     - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
     - HasModellingRule:
@@ -179,39 +223,57 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.General:6019, DeviceClass, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.General:6020, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.General:6021, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
     - HasProperty:
       - [ UAVariable, Mining.General:6030, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.General:6031, ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.General:6033, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.General:5005, MiningEquipmentIdentification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]

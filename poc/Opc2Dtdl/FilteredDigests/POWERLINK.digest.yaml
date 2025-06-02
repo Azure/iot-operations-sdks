@@ -100,6 +100,11 @@ DataTypes:
 
 DefinedTypes:
 
+  PowerlinkProtocolType:
+  - [ UAObjectType, POWERLINK:6, PowerlinkProtocolType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
   PowerlinkConnectionPointType:
   - [ UAObjectType, POWERLINK:3, PowerlinkConnectionPointType ]
   - HasComponent:
@@ -150,6 +155,8 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
   - HasComponent:
     - [ UAObject, POWERLINK:66, SdoServices ]
     - HasTypeDefinition:
@@ -189,6 +196,8 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, POWERLINK:3, PowerlinkConnectionPointType ]
 
   PowerlinkMnConnectionPointType:
   - [ UAObjectType, POWERLINK:5, PowerlinkMnConnectionPointType ]
@@ -210,6 +219,8 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, POWERLINK:3, PowerlinkConnectionPointType ]
 
   PowerlinkDeviceType:
   - [ UAObjectType, POWERLINK:2, PowerlinkDeviceType ]
@@ -225,3 +236,10 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, POWERLINK:5, PowerlinkMnConnectionPointType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
+
+  PowerlinkDeviceProfileType:
+  - [ UAObjectType, POWERLINK:1, PowerlinkDeviceProfileType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]

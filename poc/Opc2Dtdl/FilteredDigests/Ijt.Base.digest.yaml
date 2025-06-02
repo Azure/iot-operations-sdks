@@ -270,6 +270,151 @@ DataTypes:
 
 DefinedTypes:
 
+  AcceptedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1090, AcceptedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  AddedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1096, AddedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  AssetConnectedConditionClassType:
+  - [ UAObjectType, IJT.Base:1018, AssetConnectedConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  AssetDisabledConditionClassType:
+  - [ UAObjectType, IJT.Base:1027, AssetDisabledConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  AssetDisconnectedConditionClassType:
+  - [ UAObjectType, IJT.Base:1021, AssetDisconnectedConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  AssetEnabledConditionClassType:
+  - [ UAObjectType, IJT.Base:1024, AssetEnabledConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  AssetLocationConditionClassType:
+  - [ UAObjectType, IJT.Base:1048, AssetLocationConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  CertificateConditionClassType:
+  - [ UAObjectType, IJT.Base:1072, CertificateConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  ConfigurationChangeConditionClassType:
+  - [ UAObjectType, IJT.Base:1030, ConfigurationChangeConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  DataValidationFailureConditionClassType:
+  - [ UAObjectType, IJT.Base:1057, DataValidationFailureConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  ErrorConditionClassType:
+  - [ UAObjectType, IJT.Base:1063, ErrorConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  ExpiredEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1081, ExpiredEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  HardwareConditionClassType:
+  - [ UAObjectType, IJT.Base:1069, HardwareConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  IncompatibleEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1087, IncompatibleEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  InputValidationFailureConditionClassType:
+  - [ UAObjectType, IJT.Base:1060, InputValidationFailureConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  InvalidEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1084, InvalidEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  JoiningSystemUserLoggedInConditionClassType:
+  - [ UAObjectType, IJT.Base:1039, JoiningSystemUserLoggedInConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  JoiningSystemUserLoggedOutConditionClassType:
+  - [ UAObjectType, IJT.Base:1042, JoiningSystemUserLoggedOutConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  LicenseConditionClassType:
+  - [ UAObjectType, IJT.Base:1075, LicenseConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  LocationInZoneConditionClassType:
+  - [ UAObjectType, IJT.Base:1051, LocationInZoneConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  LocationOutOfZoneConditionClassType:
+  - [ UAObjectType, IJT.Base:1054, LocationOutOfZoneConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  MissingEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1078, MissingEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  ReceivedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1105, ReceivedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  RejectedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1093, RejectedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  RemovedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1102, RemovedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  SoftwareConditionClassType:
+  - [ UAObjectType, IJT.Base:1066, SoftwareConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  ThresholdViolationConditionClassType:
+  - [ UAObjectType, IJT.Base:1033, ThresholdViolationConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  ThresholdViolationResolvedConditionClassType:
+  - [ UAObjectType, IJT.Base:1036, ThresholdViolationResolvedConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  UpdatedEntityConditionClassType:
+  - [ UAObjectType, IJT.Base:1099, UpdatedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
   JoiningSystemConditionType:
   - [ UAObjectType, IJT.Base:1020, JoiningSystemConditionType ]
   - HasComponent:
@@ -296,6 +441,8 @@ DefinedTypes:
       - [ UAVariable, IJT.Base:6285, ReportedValues, ReportedValueDataType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2881, AcknowledgeableConditionType ]
 
   JoiningSystemEventType:
   - [ UAObjectType, IJT.Base:1006, JoiningSystemEventType ]
@@ -323,6 +470,8 @@ DefinedTypes:
       - [ UAVariable, IJT.Base:6280, ReportedValues, ReportedValueDataType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
 
   JoiningSystemResultReadyEventType:
   - [ UAObjectType, IJT.Base:1007, JoiningSystemResultReadyEventType ]
@@ -330,6 +479,13 @@ DefinedTypes:
     - [ UAVariable, IJT.Base:6001, Result, ResultDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
+
+  IJoiningAdditionalInformationType:
+  - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   IJoiningSystemAssetType:
   - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
@@ -357,9 +513,13 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   IAccessoryType:
   - [ UAObjectType, IJT.Base:1015, IAccessoryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5024, Parameters ]
     - HasTypeDefinition:
@@ -369,6 +529,8 @@ DefinedTypes:
 
   IBatteryType:
   - [ UAObjectType, IJT.Base:1010, IBatteryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5009, Parameters ]
     - HasModellingRule:
@@ -378,6 +540,8 @@ DefinedTypes:
 
   ICableType:
   - [ UAObjectType, IJT.Base:1014, ICableType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5010, Parameters ]
     - HasTypeDefinition:
@@ -387,6 +551,8 @@ DefinedTypes:
 
   IControllerType:
   - [ UAObjectType, IJT.Base:1003, IControllerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5006, Parameters ]
     - HasTypeDefinition:
@@ -396,6 +562,8 @@ DefinedTypes:
 
   IFeederType:
   - [ UAObjectType, IJT.Base:1012, IFeederType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5011, Parameters ]
     - HasTypeDefinition:
@@ -405,6 +573,8 @@ DefinedTypes:
 
   IMemoryDeviceType:
   - [ UAObjectType, IJT.Base:1013, IMemoryDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5013, Parameters ]
     - HasTypeDefinition:
@@ -414,6 +584,8 @@ DefinedTypes:
 
   IPowerSupplyType:
   - [ UAObjectType, IJT.Base:1009, IPowerSupplyType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5012, Parameters ]
     - HasModellingRule:
@@ -423,6 +595,8 @@ DefinedTypes:
 
   ISensorType:
   - [ UAObjectType, IJT.Base:1011, ISensorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5014, Parameters ]
     - HasTypeDefinition:
@@ -432,6 +606,8 @@ DefinedTypes:
 
   IServoType:
   - [ UAObjectType, IJT.Base:1008, IServoType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5007, Parameters ]
     - HasTypeDefinition:
@@ -439,8 +615,15 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
+  ISoftwareType:
+  - [ UAObjectType, IJT.Base:1019, ISoftwareType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+
   ISubComponentType:
   - [ UAObjectType, IJT.Base:1016, ISubComponentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5019, Parameters ]
     - HasModellingRule:
@@ -450,12 +633,24 @@ DefinedTypes:
 
   IToolType:
   - [ UAObjectType, IJT.Base:1004, IToolType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5008, Parameters ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+
+  IVirtualStationType:
+  - [ UAObjectType, IJT.Base:1031, IVirtualStationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+
+  JoiningSystemIdentificationType:
+  - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   JoiningProcessManagementType:
   - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
@@ -756,6 +951,8 @@ DefinedTypes:
           StatusMessage: [ LocalizedText, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JoiningSystemAssetMethodSetType:
   - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
@@ -1056,6 +1253,8 @@ DefinedTypes:
           StatusMessage: [ LocalizedText, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JoiningSystemType:
   - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
@@ -1071,6 +1270,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JointManagementType:
   - [ UAObjectType, IJT.Base:1023, JointManagementType ]
@@ -1332,6 +1533,8 @@ DefinedTypes:
           StatusMessage: [ LocalizedText, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JoiningSystemResultManagementType:
   - [ UAObjectType, IJT.Base:1022, JoiningSystemResultManagementType ]
@@ -1341,3 +1544,5 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]

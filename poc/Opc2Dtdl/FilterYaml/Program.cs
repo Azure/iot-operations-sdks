@@ -67,6 +67,7 @@
             foreach (OpcUaContent content in definedType.Contents)
             {
                 if (definedType.NodeType == "UAObjectType" && content.Relationship == "HasComponent" ||
+                    definedType.NodeType == "UAObjectType" && content.Relationship == "HasSubtype_reverse" ||
                     definedType.NodeType == "UAVariable" && content.Relationship == "HasComponent" ||
                     definedType.NodeType == "UAMethod" && content.Relationship == "HasProperty" ||
                     definedType.NodeType == "UAObject" && content.Relationship == "HasTypeDefinition" ||

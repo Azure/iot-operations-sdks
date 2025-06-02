@@ -44,6 +44,8 @@ DefinedTypes:
 
   FaceAlignmentSystemType:
   - [ UAObjectType, Mining.PELOServices.FaceAlignmentSystem:1002, FaceAlignmentSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasAddIn:
     - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
     - HasTypeDefinition:
@@ -56,36 +58,50 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6010, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6011, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.PELOServices.FaceAlignmentSystem:1002, FaceAlignmentSystemType ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6012, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6013, ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6014, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5002, MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5001, ParameterSet ]
     - HasModellingRule:
@@ -98,6 +114,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5001, ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6001, Offsets, LongwallShieldOffsetDataType, 1, 0 ]
       - HasModellingRule:
@@ -110,9 +128,17 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6001, Offsets, LongwallShieldOffsetDataType, 1, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6007, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.PELOServices.FaceAlignmentSystem:6001, Offsets, LongwallShieldOffsetDataType, 1, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5001, ParameterSet ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.PELOServices.FaceAlignmentSystem:1002, FaceAlignmentSystemType ]

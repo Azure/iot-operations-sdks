@@ -287,6 +287,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, EnergyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5011, FluidEnergy ]
     - HasTypeDefinition:
@@ -332,6 +334,8 @@ DefinedTypes:
 
   ExtrusionTemperatureZonesType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1017, ExtrusionTemperatureZonesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5001, Maintenance ]
     - HasTypeDefinition:
@@ -359,6 +363,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1003, GapType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   GapType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1003, GapType ]
@@ -380,6 +386,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6345, IsClosed, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -397,6 +405,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1064, MeasuringDeviceType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.GeneralTypes:6018, NominalCoolingPower, Double, 0, 0 ]
     - HasModellingRule:
@@ -414,6 +424,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1064, MeasuringDeviceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   RollPeripheralDevicesType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1008, RollPeripheralDevicesType ]
@@ -429,6 +441,8 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   RollsType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1006, RollsType ]
@@ -438,6 +452,8 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1005, RollType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   RollType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1005, RollType ]
@@ -471,6 +487,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1007, RollBendingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5046, Temperature ]
     - HasTypeDefinition:
@@ -484,6 +502,8 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5070, ControlledRun ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5080, FromControlledRunToManualRun ]
     - HasTypeDefinition:
@@ -529,6 +549,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1009, ExtrusionExecutingSubState_StateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.GeneralTypes:5008, FromExecutingToExecuting ]
     - HasTypeDefinition:

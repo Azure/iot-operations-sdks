@@ -298,6 +298,46 @@ DataTypes:
 
 DefinedTypes:
 
+  FormingProcessConditionClassType:
+  - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11164, ProcessConditionClassType ]
+
+  AllowableTiltingExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1011, AllowableTiltingExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+
+  BreakthroughTonnageExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1014, BreakthroughTonnageExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+
+  CorrectionValueOutOfRangeConditionClassType:
+  - [ UAObjectType, MetalForming:1020, CorrectionValueOutOfRangeConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+
+  EccentricLoadExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1006, EccentricLoadExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+
+  OverloadTriggeredConditionClassType:
+  - [ UAObjectType, MetalForming:1005, OverloadTriggeredConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+
+  PositionOutOfRangeConditionClassType:
+  - [ UAObjectType, MetalForming:1017, PositionOutOfRangeConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+
+  ProcessForceExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1009, ProcessForceExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+
   CyclicEventType:
   - [ UAObjectType, MetalForming:1016, CyclicEventType ]
   - HasComponent:
@@ -310,6 +350,8 @@ DefinedTypes:
     - [ UAVariable, MetalForming:6055, CycleCount, Counter, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
   - HasComponent:
     - [ UAVariable, MetalForming:6056, PartId, String, 0, 3 ]
     - HasModellingRule:
@@ -317,6 +359,8 @@ DefinedTypes:
 
   FormingToolType:
   - [ UAObjectType, MetalForming:1010, FormingToolType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:49, BaseToolType ]
   - HasComponent:
     - [ UAObject, MetalForming:5004, Location ]
     - HasModellingRule:
@@ -332,6 +376,8 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1010, FormingToolType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:51, MultiToolType ]
 
   ProcessWorkingUnitType:
   - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
@@ -353,6 +399,8 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:41, WorkingUnitMonitoringType ]
 
   FormingProcessWorkingUnitType:
   - [ UAObjectType, MetalForming:1008, FormingProcessWorkingUnitType ]
@@ -362,6 +410,8 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
 
   FormingPositionsType:
   - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
@@ -371,6 +421,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, MetalForming:5012, Retract ]
     - HasModellingRule:
@@ -402,3 +454,5 @@ DefinedTypes:
     - [ UAVariable, MetalForming:6020, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]

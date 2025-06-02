@@ -9,6 +9,9 @@
   ],
   "@id": "<#=this.modelId#>;1",
   "@type": [ "Interface", "Mqtt" ],
+<# foreach (string supertypeId in this.supertypeIds) { #>
+  "extends": "<#=supertypeId#>;1",
+<# } #>
 <# if (this.dtdlCommands.Count > 0) { #>
   "commandTopic": "<#=this.topicBase#>/{commandName}",
 <# } #>

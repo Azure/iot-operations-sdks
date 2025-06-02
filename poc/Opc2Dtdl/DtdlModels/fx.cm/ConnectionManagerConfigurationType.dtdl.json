@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_cm:ConnectionManagerConfigurationType;1",
+  "@id": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/fx_cm/ConnectionManagerConfigurationType/{commandName}",
+  "commandTopic": "opcua/FX_CM/ConnectionManagerConfigurationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -52,7 +52,7 @@
               "name": "Operations",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_cm:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1"
+                "elementSchema": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType:dataType:ConnectionConfigurationSetOperation;1"
               }
             }
           ]

@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:IAssetRevisionType;1",
+  "@id": "dtmi:opcua:FX_AC:IAssetRevisionType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/fx_ac/IAssetRevisionType/{commandName}",
+  "commandTopic": "opcua/FX_AC/IAssetRevisionType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationModeEnum;1",
+      "@id": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:AssetVerificationModeEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -30,7 +30,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:KeyValuePair;1",
+      "@id": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:KeyValuePair;1",
       "@type": "Object",
       "fields": [
         {
@@ -44,7 +44,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationResultEnum;1",
+      "@id": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:AssetVerificationResultEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -81,14 +81,14 @@
               "name": "VerificationMode",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationModeEnum;1"
+                "elementSchema": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:AssetVerificationModeEnum;1"
               }
             },
             {
               "name": "ExpectedVerificationVariables",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:KeyValuePair;1"
+                "elementSchema": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:KeyValuePair;1"
               }
             }
           ]
@@ -102,7 +102,7 @@
           "fields": [
             {
               "name": "VerificationResult",
-              "schema": "dtmi:opcua:fx_ac:IAssetRevisionType:dataType:AssetVerificationResultEnum;1"
+              "schema": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:AssetVerificationResultEnum;1"
             },
             {
               "name": "VerificationVariablesErrors",

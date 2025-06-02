@@ -54,6 +54,8 @@ DefinedTypes:
 
   AFCType:
   - [ UAObjectType, Mining.TransportDumping.ArmouredFaceConveyor:1002, AFCType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5002, ParameterSet ]
     - HasTypeDefinition:

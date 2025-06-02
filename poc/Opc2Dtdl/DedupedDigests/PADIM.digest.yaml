@@ -1,0 +1,749 @@
+DataTypes:
+- UADataType: [ PADIM:1156, ResetModeEnum ]
+  Enums:
+    Application: 1
+    Communication: 2712
+    Factory: 2713
+- UADataType: [ PADIM:1158, ExecutionModeEnum ]
+  Enums:
+    Start: 2
+    Abort: 255
+- UADataType: [ PADIM:1276, PatDictionaryEnum ]
+  Enums:
+    CAS: 0
+    PAT: 1
+    User-defined: 2
+- UADataType: [ PADIM:1275, ChemicalSubstanceDataType ]
+  Fields:
+    PatDictionary: [ PatDictionaryEnum, 0 ]
+    Label: [ LocalizedText, 0 ]
+    Id: [ LocalizedText, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  PADIMType:
+  - [ UAObjectType, PADIM:1009, PADIMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1029, DeviceHealth, DeviceHealthEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1032, DateOfLastChange, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1033, DisplayLanguage, LocaleId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PADIM:1034, SignalSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PADIM:1021, SignalSetType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PADIM:1018, DeviceHealthAlarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PADIM:1025, SubDevices ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PADIM:1028, FactoryReset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PADIM:1030, InputArguments, Argument, 1, 3 ]
+      - Arguments:
+          ResetMode: [ ResetModeEnum, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PADIM:1284, DeviceConditionSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SignalSetType:
+  - [ UAObjectType, PADIM:1021, SignalSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAObject, PADIM:1024, <SignalIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PADIM:1008, SignalType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+
+  IAdministrationType:
+  - [ UAObjectType, PADIM:1050, IAdministrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1068, DisplayLanguage, LocaleId, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1070, DateOfLastChange, DateTime, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, PADIM:1072, FactoryReset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PADIM:1080, InputArguments, Argument, 1, 3 ]
+      - Arguments:
+          ResetMode: [ ResetModeEnum, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  ISignalSetType:
+  - [ UAObjectType, PADIM:1052, ISignalSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAObject, PADIM:1074, SignalSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PADIM:1021, SignalSetType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SignalType:
+  - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  AnalogSignalType:
+  - [ UAObjectType, PADIM:1022, AnalogSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasComponent:
+    - [ UAMethod, PADIM:1109, ZeroPointAdjustment ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1027, AnalogSignal, Number, -2, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, PADIM:1288, <SignalCalibrationIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, PADIM:1290, SignalConditionSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ControlSignalType:
+  - [ UAObjectType, PADIM:1023, ControlSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasComponent:
+    - [ UAMethod, PADIM:1116, AutoAdjustPositioner ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, PADIM:1119, InputArguments, Argument, 1, 3 ]
+      - Arguments:
+          ExecutionMode: [ ExecutionModeEnum, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1031, ControlSignal, Float, -2, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PADIM:1192, ActuatorType, UInt32, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PADIM:1195, OperatingDirection, UInt32, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PADIM:1196, Setpoint, Float, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  DiscreteSignalType:
+  - [ UAObjectType, PADIM:1036, DiscreteSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1039, DiscreteSignal ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  TwoStateDiscreteSignalType:
+  - [ UAObjectType, PADIM:1037, TwoStateDiscreteSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1040, TwoStateDiscreteSignal, Boolean, -2, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MultiStateDiscreteSignalType:
+  - [ UAObjectType, PADIM:1038, MultiStateDiscreteSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1041, MultiStateDiscreteSignal, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  TwoStateDiscreteControlSignalType:
+  - [ UAObjectType, PADIM:1223, TwoStateDiscreteControlSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1224, ControlSignal, Boolean, -2, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PADIM:1228, OperatingDirection, UInt32, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PADIM:1243, Setpoint, Boolean, -2, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  MultiStateDiscreteControlSignalType:
+  - [ UAObjectType, PADIM:1239, MultiStateDiscreteControlSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1008, SignalType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1240, ControlSignal, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PADIM:1246, Setpoint, UInt32, 0, 3 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  CalibrationPointType:
+  - [ UAObjectType, PADIM:1042, CalibrationPointType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1513, CalibrationActualValue, Float, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1512, CalibrationSetpoint, Float, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CalibrationPointSetType:
+  - [ UAObjectType, PADIM:1043, CalibrationPointSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAObject, PADIM:1282, <CalibrationPointIdentifier> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PADIM:1042, CalibrationPointType ]
+
+  GeneralDeviceConditionSetType:
+  - [ UAObjectType, PADIM:1051, GeneralDeviceConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1528, InternalTemperature, Float, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IGeneralDeviceConditionSetType:
+  - [ UAObjectType, PADIM:1044, IGeneralDeviceConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAObject, PADIM:1279, GeneralDeviceConditions ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PADIM:1051, GeneralDeviceConditionSetType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PADIM:1280, DeviceComponentConditions ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ICalibrationType:
+  - [ UAObjectType, PADIM:1045, ICalibrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAObject, PADIM:1283, CalibrationPointSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PADIM:1043, CalibrationPointSetType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1308, TypeOfCalibration, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IPhCalibrationType:
+  - [ UAObjectType, PADIM:1046, IPhCalibrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1427, SensorAsymmetryPotential, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1424, SensorSlope, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IConductivityCalibrationType:
+  - [ UAObjectType, PADIM:1047, IConductivityCalibrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1505, ConductivityCellConstant, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IAmperometricCalibrationType:
+  - [ UAObjectType, PADIM:1048, IAmperometricCalibrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1319, AmperometricSensorSlope, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1511, AmperometricSensorZeroPoint, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1507, AbsoluteAirPressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IOpticalFluorescenseQuenchingCalibrationType:
+  - [ UAObjectType, PADIM:1049, IOpticalFluorescenseQuenchingCalibrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1516, AbsoluteAirPressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1517, OpticalFluorescenseQuenchingSensorSlope, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1518, OpticalFluorescenseQuenchingSensorZeroPoint, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ITocDeviceConditionSetType:
+  - [ UAObjectType, PADIM:1053, ITocDeviceConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1396, ActualInjectedVolume, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1385, CarrierGasGaugePressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1389, CarrierGasVolumeFlow, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1398, CoolerTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1391, ReactorTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1395, ReferenceInjectionVolume, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1394, SampleWaterVolumeFlow, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IFlameIonisationDeviceConditionSetType:
+  - [ UAObjectType, PADIM:1054, IFlameIonisationDeviceConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1346, BlockTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1335, CatalystTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1345, CombustionAirPressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1344, FuelGasPressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  INonDispersiveInfraredSignalConditionSetType:
+  - [ UAObjectType, PADIM:1055, INonDispersiveInfraredSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1320, AbsoluteSampleGasPressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1321, ChopperFrequencyDeviation, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1322, SampleCellTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ITocSignalConditionSetType:
+  - [ UAObjectType, PADIM:1056, ITocSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1400, AbsoluteSampleGasPressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1403, ChopperFrequencyDeviation, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1392, SampleCellTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1402, DetectorZeroSignal, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1387, RelativeReagentLevel, Float, -2, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1401, SampleGasVolumeFlow, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IParamagneticSignalConditionSetType:
+  - [ UAObjectType, PADIM:1057, IParamagneticSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1324, SampleTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1343, SensingElementTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IThermalConductivitySignalConditionSetType:
+  - [ UAObjectType, PADIM:1058, IThermalConductivitySignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1327, SampleTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ITunableDiodeLaserSignalConditionSetType:
+  - [ UAObjectType, PADIM:1059, ITunableDiodeLaserSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1353, AbsoluteSampleGasPressure, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1351, LaserTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1352, SampleTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1349, SignalFitQuality, Float, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1348, SignalNoiseRatio, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1347, TransmissionRatio, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IZirconiumDioxideSignalConditionSetType:
+  - [ UAObjectType, PADIM:1060, IZirconiumDioxideSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1354, RelativeHeatOutput, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1386, SampleGasVolumeFlow, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1355, SensingElementTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IPhSignalConditionSetType:
+  - [ UAObjectType, PADIM:1061, IPhSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1356, PhMeasuringMethod, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1364, SensingElementImpedance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1357, SensorNextCalibration, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1365, SensorReferenceImpedance, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1338, SensingElementTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IConductivitySignalConditionSetType:
+  - [ UAObjectType, PADIM:1062, IConductivitySignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1366, ConductivityMeasuringMethod, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1339, SensingElementTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1368, TemperatureCompensationStyle, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IOpticalFluorescenseQuenchingSignalConditionSetType:
+  - [ UAObjectType, PADIM:1063, IOpticalFluorescenseQuenchingSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1521, SensorNextCalibration, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1523, SensingElementTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  IAmperometricSignalConditionSetType:
+  - [ UAObjectType, PADIM:1064, IAmperometricSignalConditionSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1374, SensorNextCalibration, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PADIM:1378, SensingElementTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  AnalyticalSignalType:
+  - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1022, AnalogSignalType ]
+
+  AmperometricSignalType:
+  - [ UAObjectType, PADIM:1066, AmperometricSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  ConductivitySignalType:
+  - [ UAObjectType, PADIM:1067, ConductivitySignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  FlameIonisationSignalType:
+  - [ UAObjectType, PADIM:1069, FlameIonisationSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  NonDispersiveInfraredSignalType:
+  - [ UAObjectType, PADIM:1071, NonDispersiveInfraredSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  OpticalFluorescenseQuenchingSignalType:
+  - [ UAObjectType, PADIM:1073, OpticalFluorescenseQuenchingSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  ParamagneticSignalType:
+  - [ UAObjectType, PADIM:1075, ParamagneticSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  PhSignalType:
+  - [ UAObjectType, PADIM:1076, PhSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  ThermalConductivitySignalType:
+  - [ UAObjectType, PADIM:1077, ThermalConductivitySignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  TocSignalType:
+  - [ UAObjectType, PADIM:1078, TocSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  TunableDiodeLaserSignalType:
+  - [ UAObjectType, PADIM:1079, TunableDiodeLaserSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  ZirconiumDioxideSignalType:
+  - [ UAObjectType, PADIM:1081, ZirconiumDioxideSignalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1065, AnalyticalSignalType ]
+
+  ProcessAnalyserType:
+  - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1009, PADIMType ]
+
+  AmperometricAnalyserType:
+  - [ UAObjectType, PADIM:1083, AmperometricAnalyserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  ConductivityMeterType:
+  - [ UAObjectType, PADIM:1084, ConductivityMeterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  FlameIonisationDetectorType:
+  - [ UAObjectType, PADIM:1085, FlameIonisationDetectorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  NonDispersiveInfraredGasAnalyserType:
+  - [ UAObjectType, PADIM:1086, NonDispersiveInfraredGasAnalyserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  OpticalFluorescenseQuenchingSensorType:
+  - [ UAObjectType, PADIM:1087, OpticalFluorescenseQuenchingSensorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  ParamagneticGasAnalyserType:
+  - [ UAObjectType, PADIM:1088, ParamagneticGasAnalyserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  PhMeterType:
+  - [ UAObjectType, PADIM:1089, PhMeterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  ThermalConductivityGasAnalyserType:
+  - [ UAObjectType, PADIM:1090, ThermalConductivityGasAnalyserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  TocAnalyserType:
+  - [ UAObjectType, PADIM:1091, TocAnalyserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  TunableDiodeLaserSpectrometerType:
+  - [ UAObjectType, PADIM:1092, TunableDiodeLaserSpectrometerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]
+
+  ZirconiumDioxideAnalyserType:
+  - [ UAObjectType, PADIM:1093, ZirconiumDioxideAnalyserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PADIM:1082, ProcessAnalyserType ]

@@ -1,0 +1,44 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:TMCStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PackML:PackMLBaseStateMachineType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AbortedToClearedGuard",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "AbortingToAbortedGuard",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "ClearedToAbortingGuard",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LastTransition",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "AbortedSubstate"
+    }
+  ]
+}

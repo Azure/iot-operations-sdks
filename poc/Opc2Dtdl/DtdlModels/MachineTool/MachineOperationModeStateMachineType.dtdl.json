@@ -7,94 +7,15 @@
   ],
   "@id": "dtmi:opcua:MachineTool:MachineOperationModeStateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Machinery:MachineryOperationModeStateMachineType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
     {
       "@type": "Relationship",
-      "name": "FromMaintenanceToMaintenance"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToNone"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToProcessing"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToSetup"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNoneToMaintenance"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNoneToNone"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNoneToProcessing"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNoneToSetup"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromProcessingToMaintenance"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromProcessingToNone"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromProcessingToProcessing"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromProcessingToSetup"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromSetupToMaintenance"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromSetupToNone"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromSetupToProcessing"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromSetupToSetup"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Maintenance"
-    },
-    {
-      "@type": "Relationship",
       "name": "MaintenanceMode",
       "target": "dtmi:opcua:MachineTool:MaintenanceModeStateMachineType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "None"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Processing"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Setup"
     }
   ]
 }

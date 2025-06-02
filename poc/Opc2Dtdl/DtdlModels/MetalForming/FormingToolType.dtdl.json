@@ -7,13 +7,10 @@
   ],
   "@id": "dtmi:opcua:MetalForming:FormingToolType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:MachineTool:BaseToolType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "Location"
-    }
   ]
 }

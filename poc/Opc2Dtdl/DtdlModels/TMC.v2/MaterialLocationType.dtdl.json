@@ -1,0 +1,206 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:MaterialLocationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialSublotType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialLot",
+          "schema": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialLotType;1"
+        },
+        {
+          "name": "MaterialStorageLocationID",
+          "schema": "string"
+        },
+        {
+          "name": "Quantity",
+          "schema": "double"
+        },
+        {
+          "name": "CarrierID",
+          "schema": "string"
+        },
+        {
+          "name": "RelativePositionID",
+          "schema": "string"
+        },
+        {
+          "name": "ParentSublotID",
+          "schema": "string"
+        },
+        {
+          "name": "Sublots",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialSublotType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialLotType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "MaterialDefinition",
+          "schema": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialDefinitionType;1"
+        },
+        {
+          "name": "Status",
+          "schema": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialStockStatusEnumeration;1"
+        },
+        {
+          "name": "ProductionDate",
+          "schema": "time"
+        },
+        {
+          "name": "BestUsedBeforeDate",
+          "schema": "time"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialDefinitionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "BaseUnitOfMeasure",
+          "schema": "string"
+        },
+        {
+          "name": "BatchManaged",
+          "schema": "boolean"
+        },
+        {
+          "name": "GroupID",
+          "schema": "string"
+        },
+        {
+          "name": "ParentGroupID",
+          "schema": "string"
+        },
+        {
+          "name": "ShelfLife",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "Properties",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:DataDescriptionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialStockStatusEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Unrestricted",
+          "enumValue": 0
+        },
+        {
+          "name": "QualityInspection",
+          "enumValue": 1
+        },
+        {
+          "name": "Blocked",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:DataDescriptionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "MES_ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Sublots",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:TMC_v2:MaterialLocationType:dataType:MaterialSublotType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Carriers"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StateMachine",
+      "target": "dtmi:opcua:TMC_v2:TMCStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UIInfo",
+      "target": "dtmi:opcua:TMC_v2:UIInformationType"
+    }
+  ]
+}

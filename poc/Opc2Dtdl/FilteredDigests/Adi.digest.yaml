@@ -123,6 +123,8 @@ DefinedTypes:
       - [ UAObjectType, ADI:1017, AccessorySlotType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
 
   AnalyserDeviceStateMachineType:
   - [ UAObjectType, ADI:1002, AnalyserDeviceStateMachineType ]
@@ -186,6 +188,8 @@ DefinedTypes:
     - [ UAObject, ADI:9675, MaintenanceToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   AnalyserChannelType:
   - [ UAObjectType, ADI:1003, AnalyserChannelType ]
@@ -237,6 +241,23 @@ DefinedTypes:
       - [ UAObjectType, ADI:1017, AccessorySlotType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
+
+  AnalyserChannelOperatingStateType:
+  - [ UAObjectType, ADI:1004, AnalyserChannelOperatingStateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2307, StateType ]
+
+  AnalyserChannelLocalStateType:
+  - [ UAObjectType, ADI:1005, AnalyserChannelLocalStateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2307, StateType ]
+
+  AnalyserChannelMaintenanceStateType:
+  - [ UAObjectType, ADI:1006, AnalyserChannelMaintenanceStateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2307, StateType ]
 
   AnalyserChannelStateMachineType:
   - [ UAObjectType, ADI:1007, AnalyserChannelStateMachineType ]
@@ -314,6 +335,13 @@ DefinedTypes:
     - [ UAObject, ADI:10022, MaintenanceToSlaveModeTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
+
+  AnalyserChannelOperatingExecuteStateType:
+  - [ UAObjectType, ADI:8964, AnalyserChannelOperatingExecuteStateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2307, StateType ]
 
   AnalyserChannel_OperatingModeSubStateMachineType:
   - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
@@ -607,6 +635,8 @@ DefinedTypes:
     - [ UAObject, ADI:10188, StoppingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   AnalyserChannel_OperatingModeExecuteSubStateMachineType:
   - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
@@ -842,6 +872,8 @@ DefinedTypes:
     - [ UAObject, ADI:10315, CleanupSamplingSystemToSelectExecutionCycleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   StreamType:
   - [ UAObjectType, ADI:1010, StreamType ]
@@ -899,6 +931,8 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
 
   SpectrometerDeviceStreamType:
   - [ UAObjectType, ADI:1030, SpectrometerDeviceStreamType ]
@@ -938,6 +972,13 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1010, StreamType ]
+
+  MassSpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1031, MassSpectrometerDeviceStreamType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1010, StreamType ]
 
   ParticleSizeMonitorDeviceStreamType:
   - [ UAObjectType, ADI:1032, ParticleSizeMonitorDeviceStreamType ]
@@ -953,6 +994,23 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1010, StreamType ]
+
+  AcousticSpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1033, AcousticSpectrometerDeviceStreamType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1010, StreamType ]
+
+  ChromatographDeviceStreamType:
+  - [ UAObjectType, ADI:1034, ChromatographDeviceStreamType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1010, StreamType ]
+
+  MNRDeviceStreamType:
+  - [ UAObjectType, ADI:1035, MNRDeviceStreamType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1010, StreamType ]
 
   SpectrometerDeviceType:
   - [ UAObjectType, ADI:1011, SpectrometerDeviceType ]
@@ -968,6 +1026,33 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+
+  ParticleSizeMonitorDeviceType:
+  - [ UAObjectType, ADI:1012, ParticleSizeMonitorDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+
+  ChromatographDeviceType:
+  - [ UAObjectType, ADI:1013, ChromatographDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+
+  MassSpectrometerDeviceType:
+  - [ UAObjectType, ADI:1014, MassSpectrometerDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+
+  AcousticSpectrometerDeviceType:
+  - [ UAObjectType, ADI:1015, AcousticSpectrometerDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+
+  NMRDeviceType:
+  - [ UAObjectType, ADI:1016, NMRDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
 
   AccessorySlotType:
   - [ UAObjectType, ADI:1017, AccessorySlotType ]
@@ -983,6 +1068,8 @@ DefinedTypes:
       - [ UAObjectType, ADI:1019, AccessoryType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1004, ConfigurableObjectType ]
 
   AccessorySlotStateMachineType:
   - [ UAObjectType, ADI:1018, AccessorySlotStateMachineType ]
@@ -1058,6 +1145,8 @@ DefinedTypes:
     - [ UAObject, ADI:12874, RemovingToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   AccessoryType:
   - [ UAObjectType, ADI:1019, AccessoryType ]
@@ -1079,3 +1168,25 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
+
+  DetectorType:
+  - [ UAObjectType, ADI:9350, DetectorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1019, AccessoryType ]
+
+  SmartSamplingSystemType:
+  - [ UAObjectType, ADI:9359, SmartSamplingSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1019, AccessoryType ]
+
+  SourceType:
+  - [ UAObjectType, ADI:9368, SourceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1019, AccessoryType ]
+
+  GcOvenType:
+  - [ UAObjectType, ADI:1020, GcOvenType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, ADI:1019, AccessoryType ]

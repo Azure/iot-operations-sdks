@@ -19,6 +19,8 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:15, FindApplications ]
     - HasProperty:
@@ -29,6 +31,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:15, FindApplications ]
     - HasProperty:
       - [ UAVariable, GDS:17, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -37,8 +41,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:15, FindApplications ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:18, RegisterApplication ]
     - HasProperty:
@@ -49,6 +57,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:18, RegisterApplication ]
     - HasProperty:
       - [ UAVariable, GDS:20, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -57,8 +67,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:18, RegisterApplication ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:188, UpdateApplication ]
     - HasProperty:
@@ -69,8 +83,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:188, UpdateApplication ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:21, UnregisterApplication ]
     - HasProperty:
@@ -81,8 +99,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:21, UnregisterApplication ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:210, GetApplication ]
     - HasProperty:
@@ -93,6 +115,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:210, GetApplication ]
     - HasProperty:
       - [ UAVariable, GDS:212, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -101,8 +125,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:210, GetApplication ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:868, QueryApplications ]
     - HasProperty:
@@ -119,6 +147,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:868, QueryApplications ]
     - HasProperty:
       - [ UAVariable, GDS:870, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -129,8 +159,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:868, QueryApplications ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:23, QueryServers ]
     - HasProperty:
@@ -146,6 +180,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:23, QueryServers ]
     - HasProperty:
       - [ UAVariable, GDS:25, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -155,11 +191,19 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:23, QueryServers ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:13, DirectoryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
 
   ApplicationRegistrationChangedAuditEventType:
   - [ UAObjectType, GDS:26, ApplicationRegistrationChangedAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
   CertificateDirectoryType:
   - [ UAObjectType, GDS:63, CertificateDirectoryType ]
@@ -175,24 +219,32 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasProperty:
           - [ UAVariable, GDS:515, Writable, Boolean, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasProperty:
           - [ UAVariable, GDS:516, UserWritable, Boolean, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasProperty:
           - [ UAVariable, GDS:517, OpenCount, UInt16, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:519, Open ]
           - HasProperty:
@@ -203,6 +255,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:519, Open ]
           - HasProperty:
             - [ UAVariable, GDS:521, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -211,8 +265,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:519, Open ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:522, Close ]
           - HasProperty:
@@ -223,8 +281,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:522, Close ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:524, Read ]
           - HasProperty:
@@ -236,6 +298,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:524, Read ]
           - HasProperty:
             - [ UAVariable, GDS:526, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -244,8 +308,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:524, Read ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:527, Write ]
           - HasProperty:
@@ -257,8 +325,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:527, Write ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:529, GetPosition ]
           - HasProperty:
@@ -269,6 +341,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:529, GetPosition ]
           - HasProperty:
             - [ UAVariable, GDS:531, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -277,8 +351,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:529, GetPosition ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:532, SetPosition ]
           - HasProperty:
@@ -290,14 +368,20 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:532, SetPosition ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasProperty:
           - [ UAVariable, GDS:534, LastUpdateTime, UtcTime, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:535, OpenWithMasks ]
           - HasProperty:
@@ -308,6 +392,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:535, OpenWithMasks ]
           - HasProperty:
             - [ UAVariable, GDS:537, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -316,8 +402,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:535, OpenWithMasks ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:538, CloseAndUpdate ]
           - HasProperty:
@@ -328,6 +418,8 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:538, CloseAndUpdate ]
           - HasProperty:
             - [ UAVariable, GDS:540, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -336,8 +428,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:538, CloseAndUpdate ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:541, AddCertificate ]
           - HasProperty:
@@ -349,8 +445,12 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:541, AddCertificate ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasComponent:
           - [ UAMethod, GDS:543, RemoveCertificate ]
           - HasProperty:
@@ -362,28 +462,40 @@ DefinedTypes:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAMethod, GDS:543, RemoveCertificate ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, GDS:513, TrustList ]
         - HasTypeDefinition:
           - [ UAObjectType, 12522, TrustListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, GDS:512, DefaultApplicationGroup ]
       - HasProperty:
         - [ UAVariable, GDS:545, CertificateTypes, NodeId, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, GDS:512, DefaultApplicationGroup ]
       - HasCondition:
         - [ UAObjectType, 13225, CertificateExpirationAlarmType ]
       - HasTypeDefinition:
         - [ UAObjectType, 12555, CertificateGroupType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, GDS:511, CertificateGroups ]
     - HasTypeDefinition:
       - [ UAObjectType, 13813, CertificateGroupFolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - Organizes_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:79, StartSigningRequest ]
     - HasProperty:
@@ -397,6 +509,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:79, StartSigningRequest ]
     - HasProperty:
       - [ UAVariable, GDS:81, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -405,8 +519,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:79, StartSigningRequest ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:76, StartNewKeyPairRequest ]
     - HasProperty:
@@ -423,6 +541,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:76, StartNewKeyPairRequest ]
     - HasProperty:
       - [ UAVariable, GDS:78, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -431,8 +551,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:76, StartNewKeyPairRequest ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:85, FinishRequest ]
     - HasProperty:
@@ -444,6 +568,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:85, FinishRequest ]
     - HasProperty:
       - [ UAVariable, GDS:87, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -454,8 +580,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:85, FinishRequest ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:15003, RevokeCertificate ]
     - HasProperty:
@@ -467,8 +597,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:15003, RevokeCertificate ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:369, GetCertificateGroups ]
     - HasProperty:
@@ -479,6 +613,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:369, GetCertificateGroups ]
     - HasProperty:
       - [ UAVariable, GDS:371, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -487,8 +623,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:369, GetCertificateGroups ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:89, GetCertificates ]
     - HasProperty:
@@ -500,6 +640,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:89, GetCertificates ]
     - HasProperty:
       - [ UAVariable, GDS:108, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -509,8 +651,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:89, GetCertificates ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:197, GetTrustList ]
     - HasProperty:
@@ -522,6 +668,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:197, GetTrustList ]
     - HasProperty:
       - [ UAVariable, GDS:199, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -530,8 +678,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:197, GetTrustList ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:222, GetCertificateStatus ]
     - HasProperty:
@@ -544,6 +696,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:222, GetCertificateStatus ]
     - HasProperty:
       - [ UAVariable, GDS:224, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -552,8 +706,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:222, GetCertificateStatus ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
   - HasComponent:
     - [ UAMethod, GDS:126, CheckRevocationStatus ]
     - HasProperty:
@@ -564,6 +722,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:126, CheckRevocationStatus ]
     - HasProperty:
       - [ UAVariable, GDS:161, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -573,8 +733,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:126, CheckRevocationStatus ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:63, CertificateDirectoryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, GDS:13, DirectoryType ]
 
   CertificateRequestedAuditEventType:
   - [ UAObjectType, GDS:91, CertificateRequestedAuditEventType ]
@@ -584,12 +750,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:91, CertificateRequestedAuditEventType ]
   - HasProperty:
     - [ UAVariable, GDS:718, CertificateType, NodeId, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:91, CertificateRequestedAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
   CertificateDeliveredAuditEventType:
   - [ UAObjectType, GDS:109, CertificateDeliveredAuditEventType ]
@@ -599,12 +771,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:109, CertificateDeliveredAuditEventType ]
   - HasProperty:
     - [ UAVariable, GDS:720, CertificateType, NodeId, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:109, CertificateDeliveredAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]
 
   KeyCredentialManagementFolderType:
   - [ UAObjectType, GDS:55, KeyCredentialManagementFolderType ]
@@ -616,12 +794,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, GDS:61, <ServiceName> ]
     - HasProperty:
       - [ UAVariable, GDS:162, ProfileUris, String, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, GDS:61, <ServiceName> ]
     - HasComponent:
       - [ UAMethod, GDS:168, StartRequest ]
       - HasProperty:
@@ -635,6 +817,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, GDS:168, StartRequest ]
       - HasProperty:
         - [ UAVariable, GDS:195, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -643,8 +827,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, GDS:168, StartRequest ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, GDS:61, <ServiceName> ]
     - HasComponent:
       - [ UAMethod, GDS:196, FinishRequest ]
       - HasProperty:
@@ -656,6 +844,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, GDS:196, FinishRequest ]
       - HasProperty:
         - [ UAVariable, GDS:203, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -668,12 +858,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, GDS:196, FinishRequest ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, GDS:61, <ServiceName> ]
     - HasTypeDefinition:
       - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:55, KeyCredentialManagementFolderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
 
   KeyCredentialServiceType:
   - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
@@ -683,18 +881,24 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
   - HasProperty:
     - [ UAVariable, GDS:1022, ProfileUris, String, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
   - HasProperty:
     - [ UAVariable, GDS:495, SecurityPolicyUris, String, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
   - HasComponent:
     - [ UAMethod, GDS:1023, StartRequest ]
     - HasProperty:
@@ -708,6 +912,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:1023, StartRequest ]
     - HasProperty:
       - [ UAVariable, GDS:1025, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -716,8 +922,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:1023, StartRequest ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
   - HasComponent:
     - [ UAMethod, GDS:1026, FinishRequest ]
     - HasProperty:
@@ -729,6 +939,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:1026, FinishRequest ]
     - HasProperty:
       - [ UAVariable, GDS:1028, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -741,8 +953,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:1026, FinishRequest ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
   - HasComponent:
     - [ UAMethod, GDS:1029, Revoke ]
     - HasProperty:
@@ -753,17 +969,29 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:1029, Revoke ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:1020, KeyCredentialServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   KeyCredentialRequestedAuditEventType:
   - [ UAObjectType, GDS:1039, KeyCredentialRequestedAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
 
   KeyCredentialDeliveredAuditEventType:
   - [ UAObjectType, GDS:1057, KeyCredentialDeliveredAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
 
   KeyCredentialRevokedAuditEventType:
   - [ UAObjectType, GDS:1075, KeyCredentialRevokedAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 18011, KeyCredentialAuditEventType ]
 
   AuthorizationServicesFolderType:
   - [ UAObjectType, GDS:233, AuthorizationServicesFolderType ]
@@ -775,12 +1003,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, GDS:234, <ServiceName> ]
     - HasProperty:
       - [ UAVariable, GDS:236, ServiceCertificate, ByteString, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, GDS:234, <ServiceName> ]
     - HasComponent:
       - [ UAMethod, GDS:238, GetServiceDescription ]
       - HasProperty:
@@ -793,12 +1025,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, GDS:238, GetServiceDescription ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, GDS:234, <ServiceName> ]
     - HasTypeDefinition:
       - [ UAObjectType, GDS:966, AuthorizationServiceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - Organizes_reverse:
+      - [ UAObjectType, GDS:233, AuthorizationServicesFolderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
 
   AuthorizationServiceType:
   - [ UAObjectType, GDS:966, AuthorizationServiceType ]
@@ -808,18 +1048,24 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:966, AuthorizationServiceType ]
   - HasProperty:
     - [ UAVariable, GDS:968, ServiceCertificate, ByteString, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:966, AuthorizationServiceType ]
   - HasProperty:
     - [ UAVariable, GDS:967, UserTokenPolicies, UserTokenPolicy, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, GDS:966, AuthorizationServiceType ]
   - HasComponent:
     - [ UAMethod, GDS:1004, GetServiceDescription ]
     - HasProperty:
@@ -832,8 +1078,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:1004, GetServiceDescription ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:966, AuthorizationServiceType ]
   - HasComponent:
     - [ UAMethod, GDS:969, RequestAccessToken ]
     - HasProperty:
@@ -845,6 +1095,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:969, RequestAccessToken ]
     - HasProperty:
       - [ UAVariable, GDS:971, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -853,8 +1105,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, GDS:969, RequestAccessToken ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, GDS:966, AuthorizationServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   AccessTokenIssuedAuditEventType:
   - [ UAObjectType, GDS:975, AccessTokenIssuedAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]

@@ -67,36 +67,50 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6002, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6003, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5003, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.Extraction.ShearerLoader:1003, ShearerLoaderDrumType ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6020, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6021, ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6022, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5003, MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.Extraction.ShearerLoader:5007, ParameterSet ]
     - HasModellingRule:
@@ -109,42 +123,60 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5007, ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6065, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6062, DrumDiameter, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6066, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6062, DrumDiameter, Double, 0, 0 ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6063, DrumHeight, Double, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5007, ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6067, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6063, DrumHeight, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6068, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6063, DrumHeight, Double, 0, 0 ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6064, MountingPosition, ShearerDrumMountingPositionEnum, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5007, ParameterSet ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.Extraction.ShearerLoader:1003, ShearerLoaderDrumType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
 
   ShearerLoaderType:
   - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, ShearerLoaderType ]
@@ -154,6 +186,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, ShearerLoaderType ]
     - HasComponent:
       - [ UAMethod, Mining.Extraction.ShearerLoader:7001, SetFloorOffset ]
       - HasModellingRule:
@@ -168,6 +202,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Mining.Extraction.ShearerLoader:7001, SetFloorOffset ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6035, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -176,6 +212,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Mining.Extraction.ShearerLoader:7001, SetFloorOffset ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5006, MethodSet ]
     - HasComponent:
       - [ UAMethod, Mining.Extraction.ShearerLoader:7003, SetRoofOffset ]
       - HasModellingRule:
@@ -190,6 +230,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Mining.Extraction.ShearerLoader:7003, SetRoofOffset ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6037, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -198,6 +240,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Mining.Extraction.ShearerLoader:7003, SetRoofOffset ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5006, MethodSet ]
   - HasAddIn:
     - [ UAObject, Mining.Extraction.ShearerLoader:5002, MiningEquipmentIdentification ]
     - HasTypeDefinition:
@@ -210,36 +256,50 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6024, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6025, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5002, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, ShearerLoaderType ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6029, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6030, ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6031, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5002, MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.Extraction.ShearerLoader:5008, ParameterSet ]
     - HasModellingRule:
@@ -252,6 +312,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5008, ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6026, FloorOffset, LongwallShieldOffsetDataType, 1, 0 ]
       - HasModellingRule:
@@ -264,12 +326,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6026, FloorOffset, LongwallShieldOffsetDataType, 1, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6028, EURange, Range, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6026, FloorOffset, LongwallShieldOffsetDataType, 1, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5008, ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6043, MaxLength, Double, 0, 0 ]
       - HasModellingRule:
@@ -282,12 +350,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6043, MaxLength, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6047, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6043, MaxLength, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5008, ParameterSet ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.Extraction.ShearerLoader:1006, ShearerLoaderType ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6044, Position, Double, 0, 0 ]
       - HasModellingRule:
@@ -300,12 +376,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6044, Position, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6049, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6044, Position, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5008, ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.Extraction.ShearerLoader:6016, RoofOffset, LongwallShieldOffsetDataType, 1, 0 ]
       - HasModellingRule:
@@ -318,9 +400,17 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6016, RoofOffset, LongwallShieldOffsetDataType, 1, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Extraction.ShearerLoader:6019, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Extraction.ShearerLoader:6016, RoofOffset, LongwallShieldOffsetDataType, 1, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Extraction.ShearerLoader:5008, ParameterSet ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]

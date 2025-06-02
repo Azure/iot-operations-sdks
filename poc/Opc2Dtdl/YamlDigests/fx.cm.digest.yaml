@@ -410,24 +410,32 @@ DefinedTypes:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2002, SecurityKeyServerAddressType, SecurityKeyServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6040, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6039, Address, UriString, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6041, SecurityPolicyUri, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2002, SecurityKeyServerAddressType, SecurityKeyServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6042, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6041, SecurityPolicyUri, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6043, ServerUri, UriString, 0, 3 ]
     - HasTypeDefinition:
@@ -440,12 +448,20 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6043, ServerUri, UriString, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2002, SecurityKeyServerAddressType, SecurityKeyServerAddressDataType, 0, 0 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6065, UsePushModel, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2002, SecurityKeyServerAddressType, SecurityKeyServerAddressDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   ServerAddressType:
   - [ UAVariableType, FX.CM:2003, ServerAddressType, ServerAddressDataType, 0, 0 ]
@@ -455,36 +471,48 @@ DefinedTypes:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2003, ServerAddressType, ServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6067, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6066, Address, UriString, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6069, SecurityMode, MessageSecurityMode, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2003, ServerAddressType, ServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6075, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6069, SecurityMode, MessageSecurityMode, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6076, SecurityPolicyUri, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2003, ServerAddressType, ServerAddressDataType, 0, 0 ]
     - HasProperty:
       - [ UAVariable, FX.CM:6078, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6076, SecurityPolicyUri, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6079, ServerUri, UriString, 0, 3 ]
     - HasTypeDefinition:
@@ -497,6 +525,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6079, ServerUri, UriString, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FX.CM:2003, ServerAddressType, ServerAddressDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   AssetVerificationType:
   - [ UAObjectType, FX.CM:1247, AssetVerificationType ]
@@ -506,36 +540,50 @@ DefinedTypes:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1247, AssetVerificationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6157, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6095, AssetToVerify, PortableNodeIdentifier, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6526, ExpectedAdditionalVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1247, AssetVerificationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6158, ExpectedVerificationResult, AssetVerificationResultEnum, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1247, AssetVerificationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6159, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1247, AssetVerificationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6160, VerificationMode, AssetVerificationModeEnum, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1247, AssetVerificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   AutomationComponentConfigurationType:
   - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
@@ -545,66 +593,90 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1247, AssetVerificationType ]
+    - HasAssetToVerify_reverse:
+      - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6052, AssetToVerify, PortableNodeIdentifier, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5007, <AssetVerification> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6053, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6052, AssetToVerify, PortableNodeIdentifier, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6527, ExpectedAdditionalVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5007, <AssetVerification> ]
     - HasComponent:
       - [ UAVariable, FX.CM:6054, ExpectedVerificationResult, AssetVerificationResultEnum, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5007, <AssetVerification> ]
     - HasComponent:
       - [ UAVariable, FX.CM:6055, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5007, <AssetVerification> ]
     - HasComponent:
       - [ UAVariable, FX.CM:6056, VerificationMode, AssetVerificationModeEnum, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5007, <AssetVerification> ]
   - HasComponent:
     - [ UAVariable, FX.CM:6045, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6046, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6045, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
   - HasCharacteristic:
     - [ UAVariable, FX.CM:6009, CommandBundleRequired, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasCharacteristic_reverse:
+      - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
   - HasComponent:
     - [ UAObject, FX.CM:5013, CommunicationModelConfig ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1016, CommunicationModelConfigurationType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ConnectionConfigurationSetEventType:
   - [ UAObjectType, FX.CM:1006, ConnectionConfigurationSetEventType ]
@@ -614,27 +686,49 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FX.CM:1006, ConnectionConfigurationSetEventType ]
   - HasProperty:
     - [ UAVariable, FX.CM:6352, ConnectionConfigurationSetNode, NodeId, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FX.CM:1006, ConnectionConfigurationSetEventType ]
   - HasProperty:
     - [ UAVariable, FX.CM:6353, Name, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FX.CM:1006, ConnectionConfigurationSetEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
 
   ConnectionConfigurationSetProcessingFailedEventType:
   - [ UAObjectType, FX.CM:1009, ConnectionConfigurationSetProcessingFailedEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FX.CM:1006, ConnectionConfigurationSetEventType ]
+  - HasEffect_reverse:
+    - [ UAObject, FX.CM:1176, ProcessingToError ]
 
   ConnectionConfigurationSetProcessingStartedEventType:
   - [ UAObjectType, FX.CM:1007, ConnectionConfigurationSetProcessingStartedEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FX.CM:1006, ConnectionConfigurationSetEventType ]
+  - HasEffect_reverse:
+    - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+  - HasEffect_reverse:
+    - [ UAObject, FX.CM:1177, ErrorToProcessing ]
 
   ConnectionConfigurationSetProcessingSucceededEventType:
   - [ UAObjectType, FX.CM:1008, ConnectionConfigurationSetProcessingSucceededEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FX.CM:1006, ConnectionConfigurationSetEventType ]
+  - HasEffect_reverse:
+    - [ UAObject, FX.CM:1175, ProcessingToReady ]
 
   IConnectionManagerType:
   - [ UAObjectType, FX.CM:1019, IConnectionManagerType ]
@@ -648,6 +742,8 @@ DefinedTypes:
       - [ UAMethod, FX.CM:7005, Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16036, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -656,10 +752,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7005, Close ]
     - HasComponent:
       - [ UAMethod, FX.CM:7004, CloseAndUpdate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16034, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -670,6 +770,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7004, CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, FX.CM:16035, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -680,10 +782,16 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7004, CloseAndUpdate ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1019, IConnectionManagerType ]
     - HasComponent:
       - [ UAMethod, FX.CM:7006, GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16037, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -692,6 +800,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7006, GetPosition ]
       - HasProperty:
         - [ UAVariable, FX.CM:16038, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -700,6 +810,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7006, GetPosition ]
     - HasComponent:
       - [ UAMethod, FX.CM:7007, Open ]
       - HasModellingRule:
@@ -712,6 +824,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7007, Open ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:16040, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -720,12 +836,16 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7007, Open ]
     - HasProperty:
       - [ UAVariable, FX.CM:16041, OpenCount, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7008, Read ]
       - HasModellingRule:
@@ -739,6 +859,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7008, Read ]
       - HasProperty:
         - [ UAVariable, FX.CM:16043, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -747,6 +869,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7008, Read ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7009, SetPosition ]
       - HasModellingRule:
@@ -760,24 +886,34 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7009, SetPosition ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:16045, Size, UInt64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:16046, UserWritable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:16047, Writable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7010, Write ]
       - HasModellingRule:
@@ -791,9 +927,17 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7010, Write ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5083, ConnectionManagerConfiguration ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   CommunicationFlowConfigurationType:
   - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   PubSubCommunicationFlowConfigurationType:
   - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
@@ -803,102 +947,138 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1001, SubscriberConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6110, Address, NetworkAddressDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5024, <SubscriberConfiguration> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6111, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6110, Address, NetworkAddressDataType, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6182, MessageReceiveTimeout, Duration, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5024, <SubscriberConfiguration> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6183, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6182, MessageReceiveTimeout, Duration, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:1459, Address, NetworkAddressDataType, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1460, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:1459, Address, NetworkAddressDataType, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6196, HeaderLayoutUri, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6197, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6196, HeaderLayoutUri, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:1461, PublishingInterval, Duration, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1462, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:1461, PublishingInterval, Duration, 0, 3 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6113, Qos, CommunicationFlowQosDataType, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6114, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6113, Qos, CommunicationFlowQosDataType, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6524, SecurityGroupId, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6525, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6524, SecurityGroupId, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6520, SecurityMode, MessageSecurityMode, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6521, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6520, SecurityMode, MessageSecurityMode, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6194, TransportProfileUri, String, 0, 3 ]
     - HasTypeDefinition:
@@ -911,9 +1091,15 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6194, TransportProfileUri, String, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1014, PubSubCommunicationFlowConfigurationType ]
 
   CommunicationModelConfigurationType:
   - [ UAObjectType, FX.CM:1016, CommunicationModelConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   PubSubCommunicationModelConfigurationType:
   - [ UAObjectType, FX.CM:1042, PubSubCommunicationModelConfigurationType ]
@@ -923,30 +1109,42 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1042, PubSubCommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6530, ConfigurationValues, PubSubConfigurationValueDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1042, PubSubCommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6184, Namespaces, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1042, PubSubCommunicationModelConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FX.CM:1016, CommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6528, PubSubConfiguration, PubSubConfiguration2DataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1042, PubSubCommunicationModelConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6185, TranslationTable, NodeIdTranslationDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1042, PubSubCommunicationModelConfigurationType ]
 
   ConnectionConfigurationSetType:
   - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
@@ -956,30 +1154,40 @@ DefinedTypes:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
+    - HasAutomationComponentConfiguration_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6057, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
       - HasProperty:
         - [ UAVariable, FX.CM:6058, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6057, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
     - HasCharacteristic:
       - [ UAVariable, FX.CM:6010, CommandBundleRequired, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasCharacteristic_reverse:
+        - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
     - HasComponent:
       - [ UAObject, FX.CM:5101, CommunicationModelConfig ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1016, CommunicationModelConfigurationType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
     - ToConnectionEndpointConfiguration:
       - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasModellingRule:
@@ -992,6 +1200,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasComponent:
         - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
         - HasModellingRule:
@@ -1004,72 +1214,102 @@ DefinedTypes:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6146, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6145, CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6177, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6147, IsPersistent, Boolean, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6148, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6147, IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6149, IsPreconfigured, Boolean, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6150, Name, String, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6151, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6150, Name, String, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6284, ControlGroups, PortableNodeIdentifier, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
+      - ToConnectionEndpointConfiguration_reverse:
+        - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5022, <Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6285, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6135, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6136, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6135, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
     - ToConnectionEndpointConfiguration:
       - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasModellingRule:
@@ -1082,18 +1322,32 @@ DefinedTypes:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+        - HasCommunicationFlowConfiguration_reverse:
+          - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+        - ToInboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
+        - ToOutboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - ToOutboundFlow:
         - [ UAObject, FX.CM:1202, <CommunicationFlow> ]
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+        - HasCommunicationFlowConfiguration_reverse:
+          - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+        - ToInboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
+        - ToOutboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6299, ConfigurationData, PortableNodeIdentifierValuePair, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
         - HasModellingRule:
@@ -1106,84 +1360,124 @@ DefinedTypes:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6153, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6152, CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6178, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6154, IsPersistent, Boolean, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6161, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6154, IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6162, IsPreconfigured, Boolean, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6163, Name, String, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6164, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6163, Name, String, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6300, ControlGroups, PortableNodeIdentifier, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
+      - ToConnectionEndpointConfiguration_reverse:
+        - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5022, <Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6301, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6176, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6229, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6176, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
+    - ToAutomationComponentConfiguration_reverse:
+      - [ UAVariable, FX.CM:6038, <ServerAddress>, ServerAddressDataType, 0, 3 ]
   - HasCommunicationFlowConfiguration:
     - [ UAObject, FX.CM:1202, <CommunicationFlow> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+    - HasCommunicationFlowConfiguration_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+    - ToInboundFlow_reverse:
+      - [ UAObject, FX.CM:5028, Endpoint2 ]
+    - ToOutboundFlow_reverse:
+      - [ UAObject, FX.CM:5028, Endpoint2 ]
   - HasConnectionConfiguration:
     - [ UAObject, FX.CM:5022, <Connection> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1013, ConnectionConfigurationType ]
+    - HasConnectionConfiguration_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasModellingRule:
@@ -1196,6 +1490,8 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasComponent:
         - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
         - HasModellingRule:
@@ -1208,72 +1504,102 @@ DefinedTypes:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6146, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6145, CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6177, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6147, IsPersistent, Boolean, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6148, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6147, IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6149, IsPreconfigured, Boolean, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6150, Name, String, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6151, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6150, Name, String, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6284, ControlGroups, PortableNodeIdentifier, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
+      - ToConnectionEndpointConfiguration_reverse:
+        - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5022, <Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6285, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6135, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5023, Endpoint1 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6136, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6135, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
     - HasComponent:
       - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasModellingRule:
@@ -1286,18 +1612,32 @@ DefinedTypes:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+        - HasCommunicationFlowConfiguration_reverse:
+          - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+        - ToInboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
+        - ToOutboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - ToOutboundFlow:
         - [ UAObject, FX.CM:1202, <CommunicationFlow> ]
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+        - HasCommunicationFlowConfiguration_reverse:
+          - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+        - ToInboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
+        - ToOutboundFlow_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6299, ConfigurationData, PortableNodeIdentifierValuePair, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
         - HasModellingRule:
@@ -1310,78 +1650,110 @@ DefinedTypes:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6153, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6152, CleanupTimeout, Duration, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6178, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6154, IsPersistent, Boolean, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6161, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6154, IsPersistent, Boolean, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6162, IsPreconfigured, Boolean, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
         - HasComponent:
           - [ UAVariable, FX.CM:6163, Name, String, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasProperty:
             - [ UAVariable, FX.CM:6164, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6163, Name, String, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6300, ControlGroups, PortableNodeIdentifier, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
+      - ToConnectionEndpointConfiguration_reverse:
+        - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5022, <Connection> ]
       - HasComponent:
         - [ UAVariable, FX.CM:6301, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6176, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5028, Endpoint2 ]
         - HasProperty:
           - [ UAVariable, FX.CM:6229, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6176, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6137, ProcessingResult, StatusCode, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5022, <Connection> ]
   - HasServerAddress:
     - [ UAVariable, FX.CM:6038, <ServerAddress>, ServerAddressDataType, 0, 3 ]
     - HasTypeDefinition:
@@ -1394,30 +1766,40 @@ DefinedTypes:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
+      - HasAutomationComponentConfiguration_reverse:
+        - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
       - HasComponent:
         - [ UAVariable, FX.CM:6057, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
         - HasProperty:
           - [ UAVariable, FX.CM:6058, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6057, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
       - HasCharacteristic:
         - [ UAVariable, FX.CM:6010, CommandBundleRequired, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasCharacteristic_reverse:
+          - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
       - HasComponent:
         - [ UAObject, FX.CM:5101, CommunicationModelConfig ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1016, CommunicationModelConfigurationType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
       - ToConnectionEndpointConfiguration:
         - [ UAObject, FX.CM:5023, Endpoint1 ]
         - HasModellingRule:
@@ -1430,6 +1812,8 @@ DefinedTypes:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5023, Endpoint1 ]
         - HasComponent:
           - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasModellingRule:
@@ -1442,72 +1826,102 @@ DefinedTypes:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6146, Selections ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAVariable, FX.CM:6145, CleanupTimeout, Duration, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6177, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6147, IsPersistent, Boolean, 0, 3 ]
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6148, Selections ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAVariable, FX.CM:6147, IsPersistent, Boolean, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6149, IsPreconfigured, Boolean, 0, 3 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6150, Name, String, 0, 3 ]
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5020, ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6151, Selections ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAVariable, FX.CM:6150, Name, String, 0, 3 ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5023, Endpoint1 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6284, ControlGroups, PortableNodeIdentifier, 1, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5023, Endpoint1 ]
+        - ToConnectionEndpointConfiguration_reverse:
+          - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5022, <Connection> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6285, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5023, Endpoint1 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6135, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5023, Endpoint1 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6136, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6135, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
       - ToConnectionEndpointConfiguration:
         - [ UAObject, FX.CM:5028, Endpoint2 ]
         - HasModellingRule:
@@ -1520,18 +1934,32 @@ DefinedTypes:
             - [ UAObject, 11510, MandatoryPlaceholder ]
           - HasTypeDefinition:
             - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+          - HasCommunicationFlowConfiguration_reverse:
+            - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+          - ToInboundFlow_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
+          - ToOutboundFlow_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
         - ToOutboundFlow:
           - [ UAObject, FX.CM:1202, <CommunicationFlow> ]
           - HasModellingRule:
             - [ UAObject, 11510, MandatoryPlaceholder ]
           - HasTypeDefinition:
             - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+          - HasCommunicationFlowConfiguration_reverse:
+            - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+          - ToInboundFlow_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
+          - ToOutboundFlow_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6299, ConfigurationData, PortableNodeIdentifierValuePair, 1, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
         - HasComponent:
           - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasModellingRule:
@@ -1544,108 +1972,154 @@ DefinedTypes:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6153, Selections ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAVariable, FX.CM:6152, CleanupTimeout, Duration, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6178, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6154, IsPersistent, Boolean, 0, 3 ]
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6161, Selections ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAVariable, FX.CM:6154, IsPersistent, Boolean, 0, 3 ]
           - HasComponent:
             - [ UAVariable, FX.CM:6162, IsPreconfigured, Boolean, 0, 3 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
           - HasComponent:
             - [ UAVariable, FX.CM:6163, Name, String, 0, 3 ]
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5021, ConnectionEndpoint ]
             - HasProperty:
               - [ UAVariable, FX.CM:6164, Selections ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAVariable, FX.CM:6163, Name, String, 0, 3 ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6300, ControlGroups, PortableNodeIdentifier, 1, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
+        - ToConnectionEndpointConfiguration_reverse:
+          - [ UAObject, FX.CM:5004, <AutomationComponentConfiguration> ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5022, <Connection> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6301, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6176, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5028, Endpoint2 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6229, Selections ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6176, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
+      - ToAutomationComponentConfiguration_reverse:
+        - [ UAVariable, FX.CM:6038, <ServerAddress>, ServerAddressDataType, 0, 3 ]
+    - HasServerAddress_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6085, Address, UriString, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6038, <ServerAddress>, ServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6086, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6085, Address, UriString, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6087, SecurityMode, MessageSecurityMode, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6038, <ServerAddress>, ServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6088, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6087, SecurityMode, MessageSecurityMode, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6089, SecurityPolicyUri, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6038, <ServerAddress>, ServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6099, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6089, SecurityPolicyUri, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6100, ServerUri, UriString, 0, 3 ]
       - HasTypeDefinition:
@@ -1658,6 +2132,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6100, ServerUri, UriString, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6038, <ServerAddress>, ServerAddressDataType, 0, 3 ]
   - HasComponent:
     - [ UAObject, FX.CM:5045, ConnectionConfigurationSetStateMachine ]
     - HasModellingRule:
@@ -1670,24 +2148,34 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5045, ConnectionConfigurationSetStateMachine ]
     - HasComponent:
       - [ UAVariable, FX.CM:6237, AvailableTransitions, NodeId, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5045, ConnectionConfigurationSetStateMachine ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6019, CurrentState, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5045, ConnectionConfigurationSetStateMachine ]
       - HasProperty:
         - [ UAVariable, FX.CM:6083, Id, NodeId, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6019, CurrentState, LocalizedText, 0, 0 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6017, LastTransition, LocalizedText, 0, 0 ]
       - HasModellingRule:
@@ -1700,12 +2188,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6017, LastTransition, LocalizedText, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5045, ConnectionConfigurationSetStateMachine ]
   - HasProperty:
     - [ UAVariable, FX.CM:6487, Edit, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
   - HasComponent:
     - [ UAObject, FX.CM:5095, Lock ]
     - HasModellingRule:
@@ -1716,6 +2210,8 @@ DefinedTypes:
       - [ UAMethod, FX.CM:7037, BreakLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6382, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1724,10 +2220,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7037, BreakLock ]
     - HasComponent:
       - [ UAMethod, FX.CM:7038, ExitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6383, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1736,10 +2236,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7038, ExitLock ]
     - HasComponent:
       - [ UAMethod, FX.CM:7039, InitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6384, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1748,6 +2252,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7039, InitLock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6385, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1756,30 +2262,42 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7039, InitLock ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6386, Locked, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
     - HasProperty:
       - [ UAVariable, FX.CM:6387, LockingClient, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
     - HasProperty:
       - [ UAVariable, FX.CM:6388, LockingUser, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
     - HasProperty:
       - [ UAVariable, FX.CM:6389, RemainingLockTime, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
     - HasComponent:
       - [ UAMethod, FX.CM:7040, RenewLock ]
       - HasModellingRule:
@@ -1792,24 +2310,34 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7040, RenewLock ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5095, Lock ]
   - HasComponent:
     - [ UAVariable, FX.CM:6209, PubSubKeyPushTargets, PubSubKeyPushTargetDataType, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
   - HasProperty:
     - [ UAVariable, FX.CM:1272, RollbackOnError, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6208, SecurityGroups, SecurityGroupDataType, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6102, SecurityKeyServer, SecurityKeyServerAddressDataType, 0, 3 ]
     - HasTypeDefinition:
@@ -1822,24 +2350,34 @@ DefinedTypes:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6102, SecurityKeyServer, SecurityKeyServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6104, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6103, Address, UriString, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6105, SecurityPolicyUri, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6102, SecurityKeyServer, SecurityKeyServerAddressDataType, 0, 3 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6106, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6105, SecurityPolicyUri, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6112, ServerUri, UriString, 0, 3 ]
       - HasTypeDefinition:
@@ -1852,18 +2390,28 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6112, ServerUri, UriString, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6102, SecurityKeyServer, SecurityKeyServerAddressDataType, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6116, UsePushModel, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, FX.CM:6102, SecurityKeyServer, SecurityKeyServerAddressDataType, 0, 3 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6219, Version, UInt32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
 
   ConnectionConfigurationType:
   - [ UAObjectType, FX.CM:1013, ConnectionConfigurationType ]
@@ -1879,6 +2427,8 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5008, Endpoint1 ]
     - HasComponent:
       - [ UAObject, FX.CM:5010, ConnectionEndpoint ]
       - HasModellingRule:
@@ -1891,72 +2441,100 @@ DefinedTypes:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5010, ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6127, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6126, CleanupTimeout, Duration, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5008, Endpoint1 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6174, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5010, ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6128, IsPersistent, Boolean, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5010, ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6129, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6128, IsPersistent, Boolean, 0, 3 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6130, IsPreconfigured, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5010, ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6131, Name, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5010, ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6132, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6131, Name, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6281, ControlGroups, PortableNodeIdentifier, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5008, Endpoint1 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1013, ConnectionConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6282, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5008, Endpoint1 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6123, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5008, Endpoint1 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6124, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6123, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
   - HasComponent:
     - [ UAObject, FX.CM:5009, Endpoint2 ]
     - HasModellingRule:
@@ -1969,6 +2547,8 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5009, Endpoint2 ]
     - HasComponent:
       - [ UAObject, FX.CM:5014, ConnectionEndpoint ]
       - HasModellingRule:
@@ -1981,78 +2561,110 @@ DefinedTypes:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5014, ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6139, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6138, CleanupTimeout, Duration, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5009, Endpoint2 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6175, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5014, ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6140, IsPersistent, Boolean, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5014, ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6141, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6140, IsPersistent, Boolean, 0, 3 ]
       - HasComponent:
         - [ UAVariable, FX.CM:6142, IsPreconfigured, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5014, ConnectionEndpoint ]
       - HasComponent:
         - [ UAVariable, FX.CM:6143, Name, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 16309, SelectionListType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5014, ConnectionEndpoint ]
         - HasProperty:
           - [ UAVariable, FX.CM:6144, Selections ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, FX.CM:6143, Name, String, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6270, ControlGroups, PortableNodeIdentifier, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5009, Endpoint2 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1013, ConnectionConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6298, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5009, Endpoint2 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6133, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5009, Endpoint2 ]
       - HasProperty:
         - [ UAVariable, FX.CM:6134, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6133, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:1273, ProcessingResult, StatusCode, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1013, ConnectionConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ConnectionEndpointConfigurationType:
   - [ UAObjectType, FX.CM:1129, ConnectionEndpointConfigurationType ]
@@ -2062,6 +2674,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1129, ConnectionEndpointConfigurationType ]
   - HasComponent:
     - [ UAObject, FX.CM:5002, ConnectionEndpoint ]
     - HasModellingRule:
@@ -2074,72 +2688,100 @@ DefinedTypes:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5002, ConnectionEndpoint ]
       - HasProperty:
         - [ UAVariable, FX.CM:6118, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6117, CleanupTimeout, Duration, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1129, ConnectionEndpointConfigurationType ]
     - HasComponent:
       - [ UAVariable, FX.CM:6173, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5002, ConnectionEndpoint ]
     - HasComponent:
       - [ UAVariable, FX.CM:6119, IsPersistent, Boolean, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5002, ConnectionEndpoint ]
       - HasProperty:
         - [ UAVariable, FX.CM:6120, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6119, IsPersistent, Boolean, 0, 3 ]
     - HasComponent:
       - [ UAVariable, FX.CM:6121, IsPreconfigured, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5002, ConnectionEndpoint ]
     - HasComponent:
       - [ UAVariable, FX.CM:6122, Name, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 16309, SelectionListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5002, ConnectionEndpoint ]
       - HasProperty:
         - [ UAVariable, FX.CM:6125, Selections ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, FX.CM:6122, Name, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6108, ControlGroups, PortableNodeIdentifier, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1129, ConnectionEndpointConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6107, ExpectedVerificationVariables, PortableNodeIdentifierValuePair, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1129, ConnectionEndpointConfigurationType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6097, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1129, ConnectionEndpointConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6098, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6097, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ConnectionEndpointParameterType:
   - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
@@ -2149,78 +2791,106 @@ DefinedTypes:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6074, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6073, CleanupTimeout, Duration, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6179, CommunicationLinks, CommunicationLinkConfigurationDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6172, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6068, InputVariableIds, PortableNodeIdentifier, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6072, IsPersistent, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6077, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6072, IsPersistent, Boolean, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6498, IsPreconfigured, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6070, Name, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6071, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6070, Name, String, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6082, OutputVariableIds, PortableNodeIdentifier, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6180, PreconfiguredPublishedDataSet, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
   - HasComponent:
     - [ UAVariable, FX.CM:6181, PreconfiguredSubscribedDataSet, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1261, ConnectionEndpointParameterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ConnectionManagerType:
   - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
@@ -2230,12 +2900,16 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
   - HasComponent:
     - [ UAObject, FX.CM:5085, Capabilities ]
     - HasTypeDefinition:
       - [ UAObjectType, FX.CM:1010, ConnectionManagerCapabilitiesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
   - HasComponent:
     - [ UAObject, FX.CM:1163, ConnectionConfigurationSets ]
     - HasModellingRule:
@@ -2248,42 +2922,56 @@ DefinedTypes:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
         - [ UAObjectType, FX.CM:1012, ConnectionConfigurationSetType ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:1163, ConnectionConfigurationSets ]
       - HasAutomationComponentConfiguration:
         - [ UAObject, FX.CM:5006, AutomationComponentConfiguration ]
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1246, AutomationComponentConfigurationType ]
+        - HasAutomationComponentConfiguration_reverse:
+          - [ UAObject, FX.CM:5005, <ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6008, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5006, AutomationComponentConfiguration ]
           - HasProperty:
             - [ UAVariable, FX.CM:6011, Selections ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6008, AutomationComponentNode, PortableNodeIdentifier, 0, 3 ]
         - HasCharacteristic:
           - [ UAVariable, FX.CM:6016, CommandBundleRequired, Boolean, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasCharacteristic_reverse:
+            - [ UAObject, FX.CM:5006, AutomationComponentConfiguration ]
       - HasCommunicationFlowConfiguration:
         - [ UAObject, FX.CM:5046, CommunicationFlow ]
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1003, CommunicationFlowConfigurationType ]
+        - HasCommunicationFlowConfiguration_reverse:
+          - [ UAObject, FX.CM:5005, <ConnectionConfigurationSet> ]
       - HasConnectionConfiguration:
         - [ UAObject, FX.CM:5047, Connection ]
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1013, ConnectionConfigurationType ]
+        - HasConnectionConfiguration_reverse:
+          - [ UAObject, FX.CM:5005, <ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAObject, FX.CM:5052, Endpoint1 ]
           - HasModellingRule:
@@ -2302,84 +2990,116 @@ DefinedTypes:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 16309, SelectionListType ]
+              - HasComponent_reverse:
+                - [ UAObject, FX.CM:5053, ConnectionEndpoint ]
               - HasProperty:
                 - [ UAVariable, FX.CM:6028, Selections ]
                 - HasModellingRule:
                   - [ UAObject, 78, Mandatory ]
                 - HasTypeDefinition:
                   - [ UAVariableType, 68, PropertyType ]
+                - HasProperty_reverse:
+                  - [ UAVariable, FX.CM:6027, CleanupTimeout, Duration, 0, 3 ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5052, Endpoint1 ]
             - HasComponent:
               - [ UAVariable, FX.CM:6059, ConnectionEndpointTypeId, PortableNodeId, 0, 3 ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 63, BaseDataVariableType ]
+              - HasComponent_reverse:
+                - [ UAObject, FX.CM:5053, ConnectionEndpoint ]
             - HasComponent:
               - [ UAVariable, FX.CM:6060, IsPersistent, Boolean, 0, 3 ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 16309, SelectionListType ]
+              - HasComponent_reverse:
+                - [ UAObject, FX.CM:5053, ConnectionEndpoint ]
               - HasProperty:
                 - [ UAVariable, FX.CM:6061, Selections ]
                 - HasModellingRule:
                   - [ UAObject, 78, Mandatory ]
                 - HasTypeDefinition:
                   - [ UAVariableType, 68, PropertyType ]
+                - HasProperty_reverse:
+                  - [ UAVariable, FX.CM:6060, IsPersistent, Boolean, 0, 3 ]
             - HasComponent:
               - [ UAVariable, FX.CM:6062, IsPreconfigured, Boolean, 0, 3 ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 63, BaseDataVariableType ]
+              - HasComponent_reverse:
+                - [ UAObject, FX.CM:5053, ConnectionEndpoint ]
             - HasComponent:
               - [ UAVariable, FX.CM:6084, Name, String, 0, 3 ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 16309, SelectionListType ]
+              - HasComponent_reverse:
+                - [ UAObject, FX.CM:5053, ConnectionEndpoint ]
               - HasProperty:
                 - [ UAVariable, FX.CM:6165, Selections ]
                 - HasModellingRule:
                   - [ UAObject, 78, Mandatory ]
                 - HasTypeDefinition:
                   - [ UAVariableType, 68, PropertyType ]
+                - HasProperty_reverse:
+                  - [ UAVariable, FX.CM:6084, Name, String, 0, 3 ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5047, Connection ]
           - HasComponent:
             - [ UAVariable, FX.CM:6166, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 16309, SelectionListType ]
+            - HasComponent_reverse:
+              - [ UAObject, FX.CM:5052, Endpoint1 ]
             - HasProperty:
               - [ UAVariable, FX.CM:6167, Selections ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
+              - HasProperty_reverse:
+                - [ UAVariable, FX.CM:6166, FunctionalEntityNode, PortableNodeIdentifier, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6168, ProcessingResult, StatusCode, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5047, Connection ]
       - HasComponent:
         - [ UAObject, FX.CM:5079, ConnectionConfigurationSetStateMachine ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5005, <ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6216, CurrentState, LocalizedText, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5079, ConnectionConfigurationSetStateMachine ]
           - HasProperty:
             - [ UAVariable, FX.CM:6217, Id, NodeId, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6216, CurrentState, LocalizedText, 0, 0 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6218, LastTransition, LocalizedText, 0, 0 ]
           - HasModellingRule:
@@ -2392,6 +3112,10 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6218, LastTransition, LocalizedText, 0, 0 ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5079, ConnectionConfigurationSetStateMachine ]
       - HasComponent:
         - [ UAObject, FX.CM:5086, Lock ]
         - HasModellingRule:
@@ -2402,6 +3126,8 @@ DefinedTypes:
           - [ UAMethod, FX.CM:7018, BreakLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6221, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -2410,10 +3136,14 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, FX.CM:7018, BreakLock ]
         - HasComponent:
           - [ UAMethod, FX.CM:7019, ExitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6222, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -2422,10 +3152,14 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, FX.CM:7019, ExitLock ]
         - HasComponent:
           - [ UAMethod, FX.CM:7020, InitLock ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6223, InputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -2434,6 +3168,8 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, FX.CM:7020, InitLock ]
           - HasProperty:
             - [ UAVariable, FX.CM:6224, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -2442,30 +3178,42 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, FX.CM:7020, InitLock ]
+        - HasComponent_reverse:
+          - [ UAObject, FX.CM:5005, <ConnectionConfigurationSet> ]
         - HasProperty:
           - [ UAVariable, FX.CM:6225, Locked, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
         - HasProperty:
           - [ UAVariable, FX.CM:6226, LockingClient, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
         - HasProperty:
           - [ UAVariable, FX.CM:6227, LockingUser, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
         - HasProperty:
           - [ UAVariable, FX.CM:6228, RemainingLockTime, Duration, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
         - HasComponent:
           - [ UAMethod, FX.CM:7021, RenewLock ]
           - HasModellingRule:
@@ -2478,12 +3226,18 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, FX.CM:7021, RenewLock ]
+          - HasComponent_reverse:
+            - [ UAObject, FX.CM:5086, Lock ]
       - HasProperty:
         - [ UAVariable, FX.CM:6231, RollbackOnError, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, FX.CM:5005, <ConnectionConfigurationSet> ]
       - HasServerAddress:
         - [ UAVariable, FX.CM:6169, ServerAddress, ServerAddressDataType, 0, 3 ]
         - HasModellingRule:
@@ -2496,36 +3250,50 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
+          - HasComponent_reverse:
+            - [ UAVariable, FX.CM:6169, ServerAddress, ServerAddressDataType, 0, 3 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6171, Selections ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6170, Address, UriString, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6210, SecurityMode, MessageSecurityMode, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
+          - HasComponent_reverse:
+            - [ UAVariable, FX.CM:6169, ServerAddress, ServerAddressDataType, 0, 3 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6211, Selections ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6210, SecurityMode, MessageSecurityMode, 0, 3 ]
         - HasComponent:
           - [ UAVariable, FX.CM:6212, SecurityPolicyUri, String, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 16309, SelectionListType ]
+          - HasComponent_reverse:
+            - [ UAVariable, FX.CM:6169, ServerAddress, ServerAddressDataType, 0, 3 ]
           - HasProperty:
             - [ UAVariable, FX.CM:6213, Selections ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6212, SecurityPolicyUri, String, 0, 3 ]
+        - HasServerAddress_reverse:
+          - [ UAObject, FX.CM:5005, <ConnectionConfigurationSet> ]
         - HasComponent:
           - [ UAVariable, FX.CM:6214, ServerUri, UriString, 0, 3 ]
           - HasModellingRule:
@@ -2538,6 +3306,12 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, FX.CM:6214, ServerUri, UriString, 0, 3 ]
+          - HasComponent_reverse:
+            - [ UAVariable, FX.CM:6169, ServerAddress, ServerAddressDataType, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
   - HasComponent:
     - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
     - HasTypeDefinition:
@@ -2548,6 +3322,8 @@ DefinedTypes:
       - [ UAMethod, FX.CM:7012, Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6048, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2556,10 +3332,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7012, Close ]
     - HasComponent:
       - [ UAMethod, FX.CM:7011, CloseAndUpdate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6029, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2570,6 +3350,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7011, CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, FX.CM:6030, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2580,10 +3362,16 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7011, CloseAndUpdate ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
     - HasComponent:
       - [ UAMethod, FX.CM:7013, GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6049, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2592,6 +3380,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7013, GetPosition ]
       - HasProperty:
         - [ UAVariable, FX.CM:6050, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2600,6 +3390,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7013, GetPosition ]
     - HasComponent:
       - [ UAMethod, FX.CM:7014, Open ]
       - HasModellingRule:
@@ -2612,6 +3404,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7014, Open ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
       - HasProperty:
         - [ UAVariable, FX.CM:6063, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2620,12 +3416,16 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7014, Open ]
     - HasProperty:
       - [ UAVariable, FX.CM:6064, OpenCount, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7015, Read ]
       - HasModellingRule:
@@ -2639,6 +3439,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7015, Read ]
       - HasProperty:
         - [ UAVariable, FX.CM:6199, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2647,6 +3449,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7015, Read ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7016, SetPosition ]
       - HasModellingRule:
@@ -2660,24 +3466,34 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7016, SetPosition ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:6201, Size, UInt64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:6202, UserWritable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
     - HasProperty:
       - [ UAVariable, FX.CM:6203, Writable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
     - HasComponent:
       - [ UAMethod, FX.CM:7017, Write ]
       - HasModellingRule:
@@ -2691,12 +3507,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:7017, Write ]
+      - HasComponent_reverse:
+        - [ UAObject, FX.CM:5084, ConnectionManagerConfiguration ]
   - HasComponent:
     - [ UAMethod, FX.CM:1481, EditConnectionConfigurationSets ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - GeneratesEvent:
       - [ UAObjectType, FX.Data:1025, AuditUpdateMethodResultEventType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1265, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2706,6 +3528,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FX.CM:1481, EditConnectionConfigurationSets ]
     - HasProperty:
       - [ UAVariable, FX.CM:1267, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2714,6 +3538,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FX.CM:1481, EditConnectionConfigurationSets ]
   - HasComponent:
     - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
     - HasModellingRule:
@@ -2729,6 +3555,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
     - HasProperty:
       - [ UAVariable, FX.CM:1271, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2737,6 +3565,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
+    - HasCause_reverse:
+      - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+    - HasCause_reverse:
+      - [ UAObject, FX.CM:1175, ProcessingToReady ]
+    - HasCause_reverse:
+      - [ UAObject, FX.CM:1177, ErrorToProcessing ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ConnectionManagerConfigurationType:
   - [ UAObjectType, FX.CM:1011, ConnectionManagerConfigurationType ]
@@ -2744,6 +3584,8 @@ DefinedTypes:
     - [ UAMethod, FX.CM:7003, CloseAndUpdate ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1011, ConnectionManagerConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:16032, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2754,6 +3596,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FX.CM:7003, CloseAndUpdate ]
     - HasProperty:
       - [ UAVariable, FX.CM:16033, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2764,6 +3608,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FX.CM:7003, CloseAndUpdate ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11575, FileType ]
 
   ConnectionManagerCapabilitiesType:
   - [ UAObjectType, FX.CM:1010, ConnectionManagerCapabilitiesType ]
@@ -2773,12 +3621,18 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasCMCapability_reverse:
+      - [ UAObjectType, FX.CM:1010, ConnectionManagerCapabilitiesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
   - HasCMCapability:
     - [ UAVariable, FX.CM:6207, MaxConnectionConfigurationSets, UInt32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasCMCapability_reverse:
+      - [ UAObjectType, FX.CM:1010, ConnectionManagerCapabilitiesType ]
 
   ConnectionConfigurationSetStateMachineType:
   - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
@@ -2786,12 +3640,20 @@ DefinedTypes:
     - [ UAObject, FX.CM:1171, Error ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1388, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:1171, Error ]
+    - ToState_reverse:
+      - [ UAObject, FX.CM:1176, ProcessingToError ]
+    - FromState_reverse:
+      - [ UAObject, FX.CM:1177, ErrorToProcessing ]
   - HasComponent:
     - [ UAObject, FX.CM:1177, ErrorToProcessing ]
     - HasTypeDefinition:
@@ -2800,6 +3662,8 @@ DefinedTypes:
       - [ UAObjectType, FX.CM:1007, ConnectionConfigurationSetProcessingStartedEventType ]
     - FromState:
       - [ UAObject, FX.CM:1171, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
     - HasCause:
       - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
       - HasModellingRule:
@@ -2815,6 +3679,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
       - HasProperty:
         - [ UAVariable, FX.CM:1271, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2823,6 +3689,16 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
+      - HasComponent_reverse:
+        - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1175, ProcessingToReady ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1177, ErrorToProcessing ]
     - ToState:
       - [ UAObject, FX.CM:1170, Processing ]
     - HasProperty:
@@ -2831,6 +3707,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:1177, ErrorToProcessing ]
   - HasComponent:
     - [ UAVariable, FX.CM:6081, LastTransition, LocalizedText, 0, 0 ]
     - HasModellingRule:
@@ -2843,16 +3721,32 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6081, LastTransition, LocalizedText, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
   - HasComponent:
     - [ UAObject, FX.CM:1170, Processing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1387, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:1170, Processing ]
+    - ToState_reverse:
+      - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+    - FromState_reverse:
+      - [ UAObject, FX.CM:1175, ProcessingToReady ]
+    - FromState_reverse:
+      - [ UAObject, FX.CM:1176, ProcessingToError ]
+    - ToState_reverse:
+      - [ UAObject, FX.CM:1177, ErrorToProcessing ]
   - HasComponent:
     - [ UAObject, FX.CM:1176, ProcessingToError ]
     - HasTypeDefinition:
@@ -2863,12 +3757,16 @@ DefinedTypes:
       - [ UAObject, FX.CM:1171, Error ]
     - FromState:
       - [ UAObject, FX.CM:1170, Processing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1393, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:1176, ProcessingToError ]
   - HasComponent:
     - [ UAObject, FX.CM:1175, ProcessingToReady ]
     - HasTypeDefinition:
@@ -2890,6 +3788,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
       - HasProperty:
         - [ UAVariable, FX.CM:1271, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2898,8 +3798,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
+      - HasComponent_reverse:
+        - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1175, ProcessingToReady ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1177, ErrorToProcessing ]
     - FromState:
       - [ UAObject, FX.CM:1170, Processing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
     - ToState:
       - [ UAObject, FX.CM:1169, Ready ]
     - HasProperty:
@@ -2908,16 +3820,26 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:1175, ProcessingToReady ]
   - HasComponent:
     - [ UAObject, FX.CM:1169, Ready ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1386, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:1169, Ready ]
+    - FromState_reverse:
+      - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+    - ToState_reverse:
+      - [ UAObject, FX.CM:1175, ProcessingToReady ]
   - HasComponent:
     - [ UAObject, FX.CM:1174, ReadyToProcessing ]
     - HasTypeDefinition:
@@ -2939,6 +3861,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
       - HasProperty:
         - [ UAVariable, FX.CM:1271, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2947,16 +3871,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FX.CM:1483, ProcessConnectionConfigurationSets ]
+      - HasComponent_reverse:
+        - [ UAObjectType, FX.CM:1002, ConnectionManagerType ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1175, ProcessingToReady ]
+      - HasCause_reverse:
+        - [ UAObject, FX.CM:1177, ErrorToProcessing ]
     - ToState:
       - [ UAObject, FX.CM:1170, Processing ]
     - FromState:
       - [ UAObject, FX.CM:1169, Ready ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1018, ConnectionConfigurationSetStateMachineType ]
     - HasProperty:
       - [ UAVariable, FX.CM:1391, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FX.CM:1174, ReadyToProcessing ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   SubscriberConfigurationType:
   - [ UAObjectType, FX.CM:1001, SubscriberConfigurationType ]
@@ -2966,33 +3906,47 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1001, SubscriberConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6189, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6188, Address, NetworkAddressDataType, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6190, MessageReceiveTimeout, Duration, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1001, SubscriberConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6191, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6190, MessageReceiveTimeout, Duration, 0, 3 ]
   - HasComponent:
     - [ UAVariable, FX.CM:6192, ReceiveQos, ReceiveQosDataType, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 16309, SelectionListType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FX.CM:1001, SubscriberConfigurationType ]
     - HasProperty:
       - [ UAVariable, FX.CM:6193, Selections ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, FX.CM:6192, ReceiveQos, ReceiveQosDataType, 1, 3 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

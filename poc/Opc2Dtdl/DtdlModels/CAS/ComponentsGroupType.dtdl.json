@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:CAS:ComponentsGroupType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

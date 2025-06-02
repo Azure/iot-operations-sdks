@@ -660,10 +660,16 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1007, ArticleSpecManagementType ]
   - HasComponent:
     - [ UAMethod, WireHarness:7018, ClearArticleSpec ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1007, ArticleSpecManagementType ]
+    - HasComponent_reverse:
+      - [ UAObject, WireHarness:5010, ArticleSpecManagement ]
     - HasProperty:
       - [ UAVariable, WireHarness:6058, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -672,6 +678,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7018, ClearArticleSpec ]
   - HasComponent:
     - [ UAMethod, WireHarness:7017, StoreArticleSpec ]
     - HasModellingRule:
@@ -684,6 +692,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7017, StoreArticleSpec ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1007, ArticleSpecManagementType ]
+    - HasComponent_reverse:
+      - [ UAObject, WireHarness:5010, ArticleSpecManagement ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ProductFinishedEventType:
   - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
@@ -693,48 +709,66 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6066, JobOrderID, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6067, MaterialDefinitionID, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6076, ProductID, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6079, ResultIDs, TrimmedString, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6075, Run, UInt32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6077, StartTime, DateTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6080, State, JobResult, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
 
   RunCompleteEventType:
   - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
@@ -744,42 +778,58 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6061, GoodQuantity, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6036, JobOrderID, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6059, ProducedQuantity, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6062, ProductIDs, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6052, Run, UInt32, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, WireHarness:6053, StartTime, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
 
   WireHarnessMachineIdentificationType:
   - [ UAObjectType, WireHarness:1003, WireHarnessMachineIdentificationType ]
@@ -789,6 +839,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, WireHarness:1003, WireHarnessMachineIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
 
   PartManagementType:
   - [ UAObjectType, WireHarness:1004, PartManagementType ]
@@ -796,6 +850,10 @@ DefinedTypes:
     - [ UAMethod, WireHarness:7016, ClearPart ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]
+    - HasComponent_reverse:
+      - [ UAObject, WireHarness:5045, PartManagement ]
     - HasProperty:
       - [ UAVariable, WireHarness:6055, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -804,10 +862,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7016, ClearPart ]
   - HasComponent:
     - [ UAMethod, WireHarness:7009, FindPartsByType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]
     - HasProperty:
       - [ UAVariable, WireHarness:6028, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -816,6 +878,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7009, FindPartsByType ]
     - HasProperty:
       - [ UAVariable, WireHarness:6034, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -824,18 +888,24 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7009, FindPartsByType ]
   - HasComponent:
     - [ UAVariable, WireHarness:6022, Seals, ISA95MaterialDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]
   - HasComponent:
     - [ UAVariable, WireHarness:6026, Sleeves, ISA95MaterialDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]
   - HasComponent:
     - [ UAMethod, WireHarness:7015, StorePart ]
     - HasModellingRule:
@@ -848,18 +918,30 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7015, StorePart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]
+    - HasComponent_reverse:
+      - [ UAObject, WireHarness:5045, PartManagement ]
   - HasComponent:
     - [ UAVariable, WireHarness:6017, Terminals, ISA95MaterialDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]
   - HasComponent:
     - [ UAVariable, WireHarness:6027, Wires, ISA95MaterialDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1004, PartManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   WireHarnessJobOrderReceiverSubStatesType:
   - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
@@ -867,6 +949,8 @@ DefinedTypes:
     - [ UAMethod, WireHarness:7003, Abort ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
     - HasProperty:
       - [ UAVariable, WireHarness:6021, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -876,6 +960,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7003, Abort ]
     - HasProperty:
       - [ UAVariable, WireHarness:6024, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -884,10 +970,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7003, Abort ]
   - HasComponent:
     - [ UAMethod, WireHarness:7002, Cancel ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
     - HasProperty:
       - [ UAVariable, WireHarness:6018, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -897,6 +987,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7002, Cancel ]
     - HasProperty:
       - [ UAVariable, WireHarness:6020, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -905,10 +997,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7002, Cancel ]
   - HasComponent:
     - [ UAMethod, WireHarness:7005, Clear ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
     - HasProperty:
       - [ UAVariable, WireHarness:6101, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -918,6 +1014,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7005, Clear ]
     - HasProperty:
       - [ UAVariable, WireHarness:6102, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -926,6 +1024,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7005, Clear ]
   - HasComponent:
     - [ UAMethod, WireHarness:7006, Pause ]
     - HasModellingRule:
@@ -939,6 +1039,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7006, Pause ]
     - HasProperty:
       - [ UAVariable, WireHarness:6104, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -947,6 +1049,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7006, Pause ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
   - HasComponent:
     - [ UAMethod, WireHarness:7004, Start ]
     - HasModellingRule:
@@ -960,6 +1066,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7004, Start ]
     - HasProperty:
       - [ UAVariable, WireHarness:6100, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -968,6 +1076,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7004, Start ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
   - HasComponent:
     - [ UAMethod, WireHarness:7007, Stop ]
     - HasModellingRule:
@@ -981,6 +1093,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7007, Stop ]
     - HasProperty:
       - [ UAVariable, WireHarness:6106, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -989,6 +1103,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7007, Stop ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
   - HasComponent:
     - [ UAMethod, WireHarness:7008, Store ]
     - HasModellingRule:
@@ -1002,6 +1120,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7008, Store ]
     - HasProperty:
       - [ UAVariable, WireHarness:6108, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1010,6 +1130,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, WireHarness:7008, Store ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
 
   WireHarnessMachineType:
   - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
@@ -1025,10 +1151,18 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, WireHarness:5010, ArticleSpecManagement ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
     - HasComponent:
       - [ UAMethod, WireHarness:7018, ClearArticleSpec ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObjectType, WireHarness:1007, ArticleSpecManagementType ]
+      - HasComponent_reverse:
+        - [ UAObject, WireHarness:5010, ArticleSpecManagement ]
       - HasProperty:
         - [ UAVariable, WireHarness:6058, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1037,6 +1171,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, WireHarness:7018, ClearArticleSpec ]
     - HasComponent:
       - [ UAMethod, WireHarness:7017, StoreArticleSpec ]
       - HasModellingRule:
@@ -1049,12 +1185,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, WireHarness:7017, StoreArticleSpec ]
+      - HasComponent_reverse:
+        - [ UAObjectType, WireHarness:1007, ArticleSpecManagementType ]
+      - HasComponent_reverse:
+        - [ UAObject, WireHarness:5010, ArticleSpecManagement ]
   - HasAddIn:
     - [ UAObject, WireHarness:5036, Components ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
   - HasAddIn:
     - [ UAObject, WireHarness:5001, Identification ]
     - HasTypeDefinition:
@@ -1067,24 +1211,34 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, WireHarness:5001, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
     - HasProperty:
       - [ UAVariable, WireHarness:6010, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, WireHarness:5001, Identification ]
     - HasProperty:
       - [ UAVariable, WireHarness:6012, ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, WireHarness:5001, Identification ]
     - HasProperty:
       - [ UAVariable, WireHarness:6011, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, WireHarness:5001, Identification ]
   - HasComponent:
     - [ UAObject, WireHarness:5002, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -1097,6 +1251,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery.Jobs:1003, JobManagementType ]
+      - HasAddIn_reverse:
+        - [ UAObject, WireHarness:5002, MachineryBuildingBlocks ]
       - HasComponent:
         - [ UAObject, WireHarness:5013, JobOrderControl ]
         - HasModellingRule:
@@ -1107,6 +1263,8 @@ DefinedTypes:
           - [ UAMethod, WireHarness:7013, Abort ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, WireHarness:5013, JobOrderControl ]
           - HasProperty:
             - [ UAVariable, isa95-jobcontrol:6063, InputArguments ]
           - HasProperty:
@@ -1115,6 +1273,8 @@ DefinedTypes:
           - [ UAMethod, WireHarness:7011, Clear ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, WireHarness:5013, JobOrderControl ]
           - HasProperty:
             - [ UAVariable, isa95-jobcontrol:6067, InputArguments ]
           - HasProperty:
@@ -1123,6 +1283,8 @@ DefinedTypes:
           - [ UAVariable, Machinery.Jobs:6009, CurrentState ]
         - HasComponent:
           - [ UAVariable, Machinery.Jobs:6001, EquipmentID ]
+        - HasComponent_reverse:
+          - [ UAObject, WireHarness:5005, JobManagement ]
         - HasComponent:
           - [ UAVariable, Machinery.Jobs:6002, JobOrderList ]
         - HasComponent:
@@ -1143,6 +1305,8 @@ DefinedTypes:
             - [ UAVariable, isa95-jobcontrol:6053, InputArguments ]
           - HasProperty:
             - [ UAVariable, isa95-jobcontrol:6054, OutputArguments ]
+          - HasComponent_reverse:
+            - [ UAObject, WireHarness:5013, JobOrderControl ]
         - HasComponent:
           - [ UAMethod, WireHarness:7000, Store ]
           - HasModellingRule:
@@ -1151,10 +1315,14 @@ DefinedTypes:
             - [ UAVariable, isa95-jobcontrol:6040, InputArguments ]
           - HasProperty:
             - [ UAVariable, isa95-jobcontrol:6041, OutputArguments ]
+          - HasComponent_reverse:
+            - [ UAObject, WireHarness:5013, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, Machinery.Jobs:6008, WorkMaster ]
       - HasComponent:
         - [ UAObject, Machinery.Jobs:5002, JobOrderResults ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
     - HasAddIn:
       - [ UAObject, WireHarness:5003, MachineryItemState ]
       - HasModellingRule:
@@ -1167,8 +1335,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, WireHarness:5003, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, 3728, Id ]
+      - HasAddIn_reverse:
+        - [ UAObject, WireHarness:5002, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, WireHarness:5004, MachineryOperationMode ]
       - HasTypeDefinition:
@@ -1181,14 +1353,20 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, WireHarness:5004, MachineryOperationMode ]
         - HasProperty:
           - [ UAVariable, 3728, Id ]
+      - HasAddIn_reverse:
+        - [ UAObject, WireHarness:5002, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, WireHarness:5006, OperationCounters ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
+      - HasAddIn_reverse:
+        - [ UAObject, WireHarness:5002, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, WireHarness:5043, ResultManagement ]
       - HasTypeDefinition:
@@ -1199,6 +1377,8 @@ DefinedTypes:
         - [ UAMethod, WireHarness:7001, GetResultIdListFiltered ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, WireHarness:5043, ResultManagement ]
         - HasProperty:
           - [ UAVariable, WireHarness:6013, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1210,6 +1390,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, WireHarness:7001, GetResultIdListFiltered ]
         - HasProperty:
           - [ UAVariable, WireHarness:6014, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1220,12 +1402,18 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, WireHarness:7001, GetResultIdListFiltered ]
+      - HasAddIn_reverse:
+        - [ UAObject, WireHarness:5002, MachineryBuildingBlocks ]
       - HasComponent:
         - [ UAObject, WireHarness:5044, Results ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAObjectType, 61, FolderType ]
+        - HasComponent_reverse:
+          - [ UAObject, WireHarness:5043, ResultManagement ]
   - HasComponent:
     - [ UAObject, WireHarness:5045, PartManagement ]
     - HasModellingRule:
@@ -1236,6 +1424,10 @@ DefinedTypes:
       - [ UAMethod, WireHarness:7016, ClearPart ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObjectType, WireHarness:1004, PartManagementType ]
+      - HasComponent_reverse:
+        - [ UAObject, WireHarness:5045, PartManagement ]
       - HasProperty:
         - [ UAVariable, WireHarness:6055, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1244,10 +1436,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, WireHarness:7016, ClearPart ]
     - HasComponent:
       - [ UAMethod, WireHarness:7010, FindPartsByType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, WireHarness:5045, PartManagement ]
       - HasProperty:
         - [ UAVariable, WireHarness:6033, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1256,6 +1452,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, WireHarness:7010, FindPartsByType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
     - HasComponent:
       - [ UAMethod, WireHarness:7015, StorePart ]
       - HasModellingRule:
@@ -1268,3 +1468,11 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, WireHarness:7015, StorePart ]
+      - HasComponent_reverse:
+        - [ UAObjectType, WireHarness:1004, PartManagementType ]
+      - HasComponent_reverse:
+        - [ UAObject, WireHarness:5045, PartManagement ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

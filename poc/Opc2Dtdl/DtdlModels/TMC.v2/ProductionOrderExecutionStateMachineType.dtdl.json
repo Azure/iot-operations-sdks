@@ -1,0 +1,257 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:ProductionOrderExecutionStateMachineType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AbortingToAbortedGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AssignedToStartingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AssignedToUnassigningGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AssignedToUnreleasingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "AssigningToAssignedGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CompletingToAbortingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "CompletingToCompleteGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ExecuteToAbortingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ExecuteToCompletingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "LastTransition",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ReleasedToAssigningGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ReleasedToUnreleasingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ReleasingToReleasedGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "ReleasingToUnreleasingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StartingToAbortingGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "StartingToExecuteGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnassigningToReleasedGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnreleasedToReleasedGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "UnreleasingToUnreleasedGuard",
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Relationship",
+      "name": "Aborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Aborting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AbortingToAborted"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Assigned"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AssignedToStarting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AssignedToUnassigning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AssignedToUnreleasing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Assigning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "AssigningToAssigned"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Complete"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Completing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompletingToAborting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "CompletingToComplete"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Execute"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToAborting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExecuteToCompleting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineModuleProductionOrders"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Released"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReleasedToAssigning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReleasedToUnreleasing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Releasing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReleasingToReleased"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReleasingToUnreleasing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Starting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingToAborting"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StartingToExecute"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Unassigning"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnassigningToReleased"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Unreleased"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnreleasedToReleased"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Unreleasing"
+    },
+    {
+      "@type": "Relationship",
+      "name": "UnreleasingToUnreleased"
+    }
+  ]
+}

@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:DEXPI:CentrifugalCompressorType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DEXPI:CompressorType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

@@ -5,8 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Sercos:FunctionGroupSet;1",
+  "@id": "dtmi:opcua:sercos:FunctionGroupSet;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:sercos:FunctionalGroupType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

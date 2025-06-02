@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnEnc:LogbookType;1",
+  "@id": "dtmi:opcua:PNENC:LogbookType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/PnEnc/LogbookType/{commandName}",
+  "commandTopic": "opcua/PNENC/LogbookType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1",
+      "@id": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -24,7 +24,7 @@
         },
         {
           "name": "EventType",
-          "schema": "dtmi:opcua:PnEnc:LogbookType:dataType:EventTypeEnumeration;1"
+          "schema": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1"
         },
         {
           "name": "EventCode",
@@ -49,7 +49,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnEnc:LogbookType:dataType:EventTypeEnumeration;1",
+      "@id": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -74,7 +74,7 @@
       "name": "LogEntries",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+        "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
       },
       "writable": false
     },
@@ -95,7 +95,7 @@
               "name": "ActiveDiagnosis",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
               }
             }
           ]
@@ -115,7 +115,7 @@
               "name": "CurrentLogEntries",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
               }
             }
           ]
@@ -141,7 +141,7 @@
             },
             {
               "name": "EventType",
-              "schema": "dtmi:opcua:PnEnc:LogbookType:dataType:EventTypeEnumeration;1"
+              "schema": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1"
             },
             {
               "name": "EventCode",
@@ -164,7 +164,7 @@
               "name": "FilteredLogEntries",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
               }
             }
           ]
@@ -197,7 +197,7 @@
               "name": "HistoricLogEntries",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:LogbookType:dataType:LogEntryDataType;1"
+                "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
               }
             }
           ]

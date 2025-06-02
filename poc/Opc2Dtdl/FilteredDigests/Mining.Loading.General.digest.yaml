@@ -44,6 +44,8 @@ DefinedTypes:
 
   LoadingMachineType:
   - [ UAObjectType, Mining.Loading.General:1002, LoadingMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.Loading.General:5002, MethodSet ]
     - HasTypeDefinition:

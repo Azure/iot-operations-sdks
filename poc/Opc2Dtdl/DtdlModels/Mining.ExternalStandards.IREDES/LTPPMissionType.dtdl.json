@@ -1,0 +1,190 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMaction;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Load",
+          "enumValue": 0
+        },
+        {
+          "name": "Dump",
+          "enumValue": 1
+        },
+        {
+          "name": "Parking",
+          "enumValue": 2
+        },
+        {
+          "name": "Workshop",
+          "enumValue": 3
+        },
+        {
+          "name": "Other",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptFromType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "LoadPt",
+          "enumValue": 0
+        },
+        {
+          "name": "DumpPt",
+          "enumValue": 1
+        },
+        {
+          "name": "Parking",
+          "enumValue": 2
+        },
+        {
+          "name": "Workshop",
+          "enumValue": 3
+        },
+        {
+          "name": "Others",
+          "enumValue": 4
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptToType;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "LoadPt",
+          "enumValue": 0
+        },
+        {
+          "name": "DumpPt",
+          "enumValue": 1
+        },
+        {
+          "name": "Parking",
+          "enumValue": 2
+        },
+        {
+          "name": "Boulder",
+          "enumValue": 3
+        },
+        {
+          "name": "Workshop",
+          "enumValue": 4
+        },
+        {
+          "name": "Others",
+          "enumValue": 5
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "LTPPMaction",
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMaction;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMarea",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMisSeq",
+      "schema": "unsignedLong",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMopID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMpayld",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMptFromID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMptFromN",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMptFromType",
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptFromType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMptToID",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMptToN",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMptToType",
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:LTPPMissionType:dataType:LTPPMptToType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMtimeAct",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMtramDist",
+      "schema": "float",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMwaitgen",
+      "schema": "dateTime",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "LTPPMwaitPoint",
+      "schema": "dateTime",
+      "writable": true
+    }
+  ]
+}

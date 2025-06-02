@@ -73,6 +73,8 @@ DefinedTypes:
 
   UIDescriptionType:
   - [ UAVariableType, FDI5:1, UIDescriptionType, String, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, DI:6246, UIElementType ]
 
   UIPlugInType:
   - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
@@ -82,51 +84,71 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:4, FDITechnologyVersion, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:5, RuntimeId, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:6, CpuInformation, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:7, PlatformId, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:8, Style, StyleType, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
   - HasProperty:
     - [ UAVariable, FDI5:9, StartElementName, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
   - HasComponent:
     - [ UAObject, FDI5:10, Documentation ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, FDI5:2, UIPlugInType, Byte, 1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, DI:6246, UIElementType ]
 
   ActionType:
   - [ UAObjectType, FDI5:11, ActionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ActionServiceType:
   - [ UAObjectType, FDI5:21, ActionServiceType ]
@@ -141,6 +163,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:22, InvokeAction ]
     - HasProperty:
       - [ UAVariable, FDI5:24, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -150,8 +174,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:22, InvokeAction ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:21, ActionServiceType ]
   - HasComponent:
     - [ UAMethod, FDI5:25, RespondAction ]
     - HasProperty:
@@ -163,6 +191,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:25, RespondAction ]
     - HasProperty:
       - [ UAVariable, FDI5:27, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -171,8 +201,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:25, RespondAction ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:21, ActionServiceType ]
   - HasComponent:
     - [ UAMethod, FDI5:28, AbortAction ]
     - HasProperty:
@@ -183,6 +217,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:28, AbortAction ]
     - HasProperty:
       - [ UAVariable, FDI5:30, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -191,14 +227,22 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:28, AbortAction ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:21, ActionServiceType ]
   - HasComponent:
     - [ UAObject, FDI5:181, <ActionIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI5:11, ActionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:21, ActionServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   EditContextType:
   - [ UAObjectType, FDI5:54, EditContextType ]
@@ -213,6 +257,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:55, GetEditContext ]
     - HasProperty:
       - [ UAVariable, FDI5:57, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -222,8 +268,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:55, GetEditContext ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:54, EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:58, RegisterNodesById ]
     - HasProperty:
@@ -235,6 +285,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:58, RegisterNodesById ]
     - HasProperty:
       - [ UAVariable, FDI5:60, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -243,8 +295,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:58, RegisterNodesById ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:54, EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:61, RegisterNodesByRelativePath ]
     - HasProperty:
@@ -256,6 +312,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:61, RegisterNodesByRelativePath ]
     - HasProperty:
       - [ UAVariable, FDI5:63, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -264,8 +322,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:61, RegisterNodesByRelativePath ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:54, EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:64, Apply ]
     - HasProperty:
@@ -276,6 +338,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:64, Apply ]
     - HasProperty:
       - [ UAVariable, FDI5:66, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -284,8 +348,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:64, Apply ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:54, EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:67, Reset ]
     - HasProperty:
@@ -296,6 +364,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:67, Reset ]
     - HasProperty:
       - [ UAVariable, FDI5:69, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -304,8 +374,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:67, Reset ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:54, EditContextType ]
   - HasComponent:
     - [ UAMethod, FDI5:70, Discard ]
     - HasProperty:
@@ -316,6 +390,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:70, Discard ]
     - HasProperty:
       - [ UAVariable, FDI5:72, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -324,8 +400,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:70, Discard ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:54, EditContextType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   DirectDeviceAccessType:
   - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
@@ -339,6 +421,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:83, InitDirectAccess ]
     - HasProperty:
       - [ UAVariable, FDI5:85, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -347,8 +431,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:83, InitDirectAccess ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
   - HasComponent:
     - [ UAMethod, FDI5:86, Transfer ]
     - HasProperty:
@@ -360,6 +448,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:86, Transfer ]
     - HasProperty:
       - [ UAVariable, FDI5:88, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -368,8 +458,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:86, Transfer ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
   - HasComponent:
     - [ UAMethod, FDI5:89, EndDirectAccess ]
     - HasProperty:
@@ -380,6 +474,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:89, EndDirectAccess ]
     - HasProperty:
       - [ UAVariable, FDI5:91, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -388,5 +484,11 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, FDI5:89, EndDirectAccess ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI5:82, DirectDeviceAccessType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

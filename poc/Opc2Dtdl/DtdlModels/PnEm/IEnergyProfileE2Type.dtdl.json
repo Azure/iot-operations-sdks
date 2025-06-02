@@ -5,7 +5,7 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnEm:IEnergyProfileE2Type;1",
+  "@id": "dtmi:opcua:PNEM:IEnergyProfileE2Type;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [

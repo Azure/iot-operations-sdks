@@ -46,60 +46,86 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6009, DisplayValue, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6008, DisplayMaxValue, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6007, DisplayMinValue, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6006, Exponent, SByte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6001, MaxValue ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6002, MinValue ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
   - HasProperty:
     - [ UAVariable, sercos:6005, ProcedureCommand, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, sercos:2001, SercosParameterType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   FunctionalGroupType:
   - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
 
   SercosProfileType:
   - [ UAObjectType, sercos:1002, SercosProfileType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
 
   SercosClassType:
   - [ UAObjectType, sercos:1003, SercosClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
 
   SercosFunctionGroupType:
   - [ UAObjectType, sercos:1004, SercosFunctionGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
 
   SercosDeviceType:
   - [ UAObjectType, sercos:1001, SercosDeviceType ]
@@ -109,24 +135,34 @@ DefinedTypes:
       - [ UAObjectType, sercos:6012, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, sercos:1001, SercosDeviceType ]
   - HasComponent:
     - [ UAObject, sercos:5001, ProfileSet ]
     - HasTypeDefinition:
       - [ UAObjectType, sercos:6012, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, sercos:1001, SercosDeviceType ]
   - HasComponent:
     - [ UAObject, sercos:5002, ClassSet ]
     - HasTypeDefinition:
       - [ UAObjectType, sercos:6012, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, sercos:1001, SercosDeviceType ]
   - HasComponent:
     - [ UAObject, sercos:5003, FunctionGroupSet ]
     - HasTypeDefinition:
       - [ UAObjectType, sercos:6012, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, sercos:1001, SercosDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
 
   ProfileSet:
   - [ UAObjectType, sercos:6075, ProfileSet ]
@@ -136,6 +172,10 @@ DefinedTypes:
       - [ UAObjectType, sercos:1002, SercosProfileType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, sercos:6075, ProfileSet ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
 
   ClassSet:
   - [ UAObjectType, sercos:6077, ClassSet ]
@@ -145,6 +185,10 @@ DefinedTypes:
       - [ UAObjectType, sercos:1003, SercosClassType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, sercos:6077, ClassSet ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
 
   FunctionGroupSet:
   - [ UAObjectType, sercos:6079, FunctionGroupSet ]
@@ -154,3 +198,7 @@ DefinedTypes:
       - [ UAObjectType, sercos:1004, SercosFunctionGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, sercos:6079, FunctionGroupSet ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, sercos:6012, FunctionalGroupType ]

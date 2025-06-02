@@ -62,36 +62,50 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6002, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6003, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5002, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.DevelopmentSupport.RoofSupportSystem:1002, RoofSupportSystemType ]
     - HasProperty:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6004, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6010, ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6018, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5002, MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5003, ParameterSet ]
     - HasModellingRule:
@@ -104,48 +118,66 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5003, ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6025, ClearanceLeft, Double, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5003, ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6029, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6025, ClearanceLeft, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6030, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6025, ClearanceLeft, Double, 0, 0 ]
     - HasComponent:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6026, ClearanceRight, Double, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 17570, AnalogUnitRangeType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5003, ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6031, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6026, ClearanceRight, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6032, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6026, ClearanceRight, Double, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.DevelopmentSupport.RoofSupportSystem:1002, RoofSupportSystemType ]
     - HasComponent:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6027, ShieldAdvanceState, RSSStateEnum, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5003, ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6028, ShieldWidth, Double, 0, 0 ]
       - HasModellingRule:
@@ -158,9 +190,17 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6028, ShieldWidth, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6034, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.DevelopmentSupport.RoofSupportSystem:6028, ShieldWidth, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.DevelopmentSupport.RoofSupportSystem:5003, ParameterSet ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]

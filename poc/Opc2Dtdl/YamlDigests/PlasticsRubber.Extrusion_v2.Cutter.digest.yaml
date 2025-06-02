@@ -283,12 +283,18 @@ DefinedTypes:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1002, CutEventType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6002, ActualOutput, UInt64, 0, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1002, CutEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6001, CuttingProductId, String, 0, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1002, CutEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -299,11 +305,17 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1002, CutEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
 
   CuttingProductsType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1004, CuttingProductsType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6029, ActualCuttingProductId, String, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1004, CuttingProductsType ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
@@ -312,14 +324,20 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6023, ActualOutput, UInt64, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1004, CuttingProductsType ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6024, Id, String, 0, 0 ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
@@ -330,10 +348,14 @@ DefinedTypes:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6025, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6014, Length, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
@@ -342,10 +364,14 @@ DefinedTypes:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6036, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6015, LengthCorrection, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasModellingRule:
@@ -354,47 +380,67 @@ DefinedTypes:
       - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7007, ResetOutput ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6027, SetOutput, UInt64, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6028, TotalOutput, UInt64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6018, WallThickeningLength, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 17497, AnalogUnitType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6047, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6018, WallThickeningLength, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6091, WallThickeningPosition, WallThickeningEnumeration, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5001, CuttingProduct_<Nr> ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   CuttingProductType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6021, ActualOutput, UInt64, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6009, Id, String, 0, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -405,10 +451,14 @@ DefinedTypes:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6011, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasProperty_reverse:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6010, Length, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
@@ -417,46 +467,62 @@ DefinedTypes:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6013, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasProperty_reverse:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6012, LengthCorrection, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7001, ResetOutput ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6020, SetOutput, UInt64, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6022, TotalOutput, UInt64, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6016, WallThickeningLength, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6017, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasProperty_reverse:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6016, WallThickeningLength, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6019, WallThickeningPosition, WallThickeningEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
 
   Cutter_InterfaceType:
   - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
@@ -466,6 +532,8 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5003, CuttingProducts ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6032, ActualCuttingProductId, String, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5003, CuttingProducts ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
@@ -474,14 +542,20 @@ DefinedTypes:
       - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6033, ActualOutput, UInt64, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5003, CuttingProducts ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1003, CuttingProductType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6034, Id, String, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -492,10 +566,14 @@ DefinedTypes:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6035, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6026, Length, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
@@ -504,10 +582,14 @@ DefinedTypes:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6093, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6092, LengthCorrection, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasModellingRule:
@@ -516,42 +598,58 @@ DefinedTypes:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7008, ResetOutput ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6037, SetOutput, UInt64, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6038, TotalOutput, UInt64, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6094, WallThickeningLength, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6095, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6094, WallThickeningLength, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6096, WallThickeningPosition, WallThickeningEnumeration, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5004, CuttingProduct_<Nr> ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1004, CuttingProductsType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5005, CuttingProgram ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -560,40 +658,56 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5005, CuttingProgram ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7005, StartRequest ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5005, CuttingProgram ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6040, Status, StartEnumeration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5005, CuttingProgram ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7006, StopRequest ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5005, CuttingProgram ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7002, ManualCut ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6030, ActualValue, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6051, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6030, ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6031, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6030, ActualValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -602,8 +716,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6052, AlarmSuppression, UInt16, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6053, EnumValues, EnumValueType, 1, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6052, AlarmSuppression, UInt16, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -618,8 +736,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6052, AlarmSuppression, UInt16, 0, 3 ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6055, AutomaticMonitoring, Boolean, 0, 3 ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -630,16 +752,22 @@ DefinedTypes:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6077, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6056, LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6057, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6056, LowerTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
@@ -648,16 +776,22 @@ DefinedTypes:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6078, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6058, LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6059, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6058, LowerTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
@@ -666,16 +800,22 @@ DefinedTypes:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6079, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6060, MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6061, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6060, MaxValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasComponent:
@@ -684,16 +824,22 @@ DefinedTypes:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6080, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6062, MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6063, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6062, MinValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -702,10 +848,14 @@ DefinedTypes:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6064, MonitoringSensitivity, UInt16, 0, 0 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6065, EnumValues, EnumValueType, 1, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6064, MonitoringSensitivity, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
       - HasTypeDefinition:
         - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
       - HasModellingRule:
@@ -716,124 +866,168 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6064, MonitoringSensitivity, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
     - HasComponent:
       - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7004, ResetMonitoring ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6067, SetRampDown, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6081, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6067, SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6068, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6067, SetRampDown, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6069, SetRampUp, Double, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6082, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6069, SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6070, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6069, SetRampUp, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6071, SetValue, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6083, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6071, SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6072, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6071, SetValue, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6073, UpperTolerance, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6084, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6073, UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6074, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6073, UpperTolerance, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
     - HasComponent:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6075, UpperTolerance2, Double, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2368, AnalogItemType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6085, EngineeringUnits, EUInformation, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6075, UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6076, EURange, Range, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6075, UpperTolerance2, Double, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.Cutter:5002, ProductSpeed ]
   - HasComponent:
     - [ UAMethod, PlasticsRubber.Extrusion_v2.Cutter:7003, SampleCut ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6041, SampleCuttingLength, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6042, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasProperty_reverse:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6041, SampleCuttingLength, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6039, SideClampClosed, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6048, TotalWasteLength, Double, 0, 0 ]
     - HasTypeDefinition:
@@ -844,23 +1038,35 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6048, TotalWasteLength, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6045, WasteCuttingLength, Double, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6046, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasProperty_reverse:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6045, WasteCuttingLength, Double, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Cutter:6044, WasteIndicator, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Cutter:1005, Cutter_InterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1002, ExtrusionDeviceType ]

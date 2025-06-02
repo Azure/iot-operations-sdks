@@ -117,7 +117,7 @@
                 foreach (string specFilePath in Directory.GetFiles(specFolderPath, $"*{sourceFileSuffix}"))
                 {
                     string specFileName = Path.GetFileName(specFilePath);
-                    string specName = GetSpecName(specFileName);
+                    string specName = GetSpecName(specFilePath);
 
                     if (singleSpecName == null || specName == singleSpecName)
                     {
@@ -129,7 +129,14 @@
             return specFiles;
         }
 
-        private static string GetSpecName(string specFileName)
+        private static string GetSpecName(string specFilePath)
+        {
+            ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
+
+            return GetSpecNameFromUri(specDoc.RootElement.SelectSingleNode("//opc:Model", specDoc.NamespaceManager)!.Attributes!["ModelUri"]!.Value);
+        }
+
+        private static string GetSpecName1(string specFileName)
         {
             foreach (string sourceFilePrefix in sourceFilePrefixes)
             {
@@ -142,21 +149,21 @@
             return specFileName.Substring(0, specFileName.Length - sourceFileSuffix.Length);
         }
 
-        private static IEnumerable<ManagedXmlDocument> EnumerateRequiredModels(string rawSpecName, Dictionary<string, SpecFile> specFiles, HashSet<string>? visitedSpecs = null)
+        private static IEnumerable<ManagedXmlDocument> EnumerateRequiredModels(string specName, Dictionary<string, SpecFile> specFiles, HashSet<string>? visitedSpecs = null)
         {
-            string specName = rawSpecName.ToLower();
+            string lowerSpecName = specName.ToLower();
             if (visitedSpecs == null)
             {
                 visitedSpecs = new HashSet<string>();
             }
-            else if (visitedSpecs.Contains(specName))
+            else if (visitedSpecs.Contains(lowerSpecName))
             {
                 yield break;
             }
 
-            visitedSpecs.Add(specName);
+            visitedSpecs.Add(lowerSpecName);
 
-            SpecFile specFile = specFiles[specName];
+            SpecFile specFile = specFiles[lowerSpecName];
 
             string specFilePath = Path.Combine(specFile.FolderPath, specFile.FileName);
             ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
@@ -171,7 +178,7 @@
                     continue;
                 }
 
-                foreach (ManagedXmlDocument xmlDoc in EnumerateRequiredModels(GetModelNameFromUri(modelUri), specFiles, visitedSpecs))
+                foreach (ManagedXmlDocument xmlDoc in EnumerateRequiredModels(GetSpecNameFromUri(modelUri), specFiles, visitedSpecs))
                 {
                     yield return xmlDoc;
                 }
@@ -211,7 +218,7 @@
             }
         }
 
-        private static string GetModelNameFromUri(string modelUri) => modelUri switch
+        private static string GetSpecNameFromUri(string modelUri) => modelUri switch
         {
             "http://fdi-cooperation.com/OPCUA/FDI5/" => "FDI5",
             "http://fdi-cooperation.com/OPCUA/FDI7/" => "FDI7",
@@ -235,7 +242,7 @@
             foreach (XmlNode dtNode in namespaceNode.SelectNodes("child::opc:Uri", specDoc.NamespaceManager)!)
             {
                 ++ix;
-                namespaceMap[ix.ToString()] = GetModelNameFromUri(dtNode.InnerText);
+                namespaceMap[ix.ToString()] = GetSpecNameFromUri(dtNode.InnerText);
             }
 
             return namespaceMap;
@@ -423,19 +430,15 @@
 
             foreach (XmlNode node in xmlNode.SelectNodes($"descendant::*[@ReferenceType]", nsmgr)!)
             {
-                if (node.Attributes!["IsForward"]?.Value == "false")
-                {
-                    continue;
-                }
-
+                bool reverseRef = node.Attributes!["IsForward"]?.Value == "false";
                 string rawReferenceType = node.Attributes!["ReferenceType"]!.Value;
-                string referenceType = ResolveDataType(rawReferenceType, coreAliases, dataTypeAliases, namespaceMap);
+                string referenceType = ResolveDataType(rawReferenceType, coreAliases, dataTypeAliases, namespaceMap) + (reverseRef ? "_reverse" : string.Empty);
 
                 XmlNode? subNode = xmlNode.SelectSingleNode($"//*[@NodeId='{node.InnerText}']", nsmgr);
                 if (subNode != null)
                 {
                     outputFile.WriteLine($"{currentIndent}- {referenceType}:");
-                    VisitNodes(coreAliases, coreTypeNames, otherTypeNames, dataTypeAliases, namespaceMap, nsmgr, subNode, depth + 1, outputFile, terminalRefTypes.Contains(referenceType) ? ExpansionCondition.ExpandNone : ExpansionCondition.ExpandUnlessType);
+                    VisitNodes(coreAliases, coreTypeNames, otherTypeNames, dataTypeAliases, namespaceMap, nsmgr, subNode, depth + 1, outputFile, (terminalRefTypes.Contains(referenceType) || reverseRef) ? ExpansionCondition.ExpandNone : ExpansionCondition.ExpandUnlessType);
                 }
                 else
                 {

@@ -86,6 +86,8 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   MotionDeviceType:
   - [ UAObjectType, Robotics:1004, MotionDeviceType ]
@@ -119,6 +121,8 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   AxisType:
   - [ UAObjectType, Robotics:16601, AxisType ]
@@ -134,6 +138,8 @@ DefinedTypes:
       - [ UAObjectType, Robotics:1018, LoadType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   PowerTrainType:
   - [ UAObjectType, Robotics:16794, PowerTrainType ]
@@ -149,6 +155,8 @@ DefinedTypes:
       - [ UAObjectType, Robotics:1022, GearType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   MotorType:
   - [ UAObjectType, Robotics:1019, MotorType ]
@@ -158,6 +166,8 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   GearType:
   - [ UAObjectType, Robotics:1022, GearType ]
@@ -177,6 +187,8 @@ DefinedTypes:
     - [ UAVariable, Robotics:17165, Pitch, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   SafetyStateType:
   - [ UAObjectType, Robotics:1013, SafetyStateType ]
@@ -198,6 +210,8 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   EmergencyStopFunctionType:
   - [ UAObjectType, Robotics:17230, EmergencyStopFunctionType ]
@@ -205,6 +219,8 @@ DefinedTypes:
     - [ UAVariable, Robotics:17232, Active, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ProtectiveStopFunctionType:
   - [ UAObjectType, Robotics:17233, ProtectiveStopFunctionType ]
@@ -216,6 +232,8 @@ DefinedTypes:
     - [ UAVariable, Robotics:17236, Active, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ControllerType:
   - [ UAObjectType, Robotics:1003, ControllerType ]
@@ -249,6 +267,18 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
+
+  AuxiliaryComponentType:
+  - [ UAObjectType, Robotics:17725, AuxiliaryComponentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
+
+  DriveType:
+  - [ UAObjectType, Robotics:17793, DriveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
 
   TaskControlType:
   - [ UAObjectType, Robotics:1011, TaskControlType ]
@@ -258,6 +288,8 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   LoadType:
   - [ UAObjectType, Robotics:1018, LoadType ]
@@ -317,3 +349,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  UserType:
+  - [ UAObjectType, Robotics:18175, UserType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

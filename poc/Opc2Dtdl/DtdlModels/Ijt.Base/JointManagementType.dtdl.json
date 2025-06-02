@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Ijt_Base:JointManagementType;1",
+  "@id": "dtmi:opcua:IJT_Base:JointManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Ijt_Base/JointManagementType/{commandName}",
+  "commandTopic": "opcua/IJT_Base/JointManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -58,7 +58,7 @@
           "name": "AssociatedEntities",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:EntityDataType;1"
+            "elementSchema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:EntityDataType;1"
           }
         },
         {
@@ -68,7 +68,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:EntityDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:EntityDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -98,7 +98,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointComponentDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -128,7 +128,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDesignDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -147,7 +147,7 @@
           "name": "JointDesignContent",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:DesignValueDataType;1"
+            "elementSchema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:DesignValueDataType;1"
           }
         },
         {
@@ -160,7 +160,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:DesignValueDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JointManagementType:dataType:DesignValueDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -329,7 +329,7 @@
           "fields": [
             {
               "name": "Joint",
-              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDataType;1"
             },
             {
               "name": "Status",
@@ -371,7 +371,7 @@
           "fields": [
             {
               "name": "JointComponent",
-              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointComponentDataType;1"
             },
             {
               "name": "Status",
@@ -411,7 +411,7 @@
               "name": "JointComponentList",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1"
+                "elementSchema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointComponentDataType;1"
               }
             },
             {
@@ -454,7 +454,7 @@
           "fields": [
             {
               "name": "JointDesign",
-              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDesignDataType;1"
             },
             {
               "name": "Status",
@@ -494,7 +494,7 @@
               "name": "JointDesignList",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1"
+                "elementSchema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDesignDataType;1"
               }
             },
             {
@@ -535,7 +535,7 @@
               "name": "JointList",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+                "elementSchema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDataType;1"
               }
             },
             {
@@ -580,7 +580,7 @@
               "name": "JointList",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+                "elementSchema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDataType;1"
               }
             },
             {
@@ -652,7 +652,7 @@
             },
             {
               "name": "Joint",
-              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDataType;1"
             }
           ]
         }
@@ -690,7 +690,7 @@
             },
             {
               "name": "JointComponent",
-              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointComponentDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointComponentDataType;1"
             }
           ]
         }
@@ -728,7 +728,7 @@
             },
             {
               "name": "JointDesign",
-              "schema": "dtmi:opcua:Ijt_Base:JointManagementType:dataType:JointDesignDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JointManagementType:dataType:JointDesignDataType;1"
             }
           ]
         }

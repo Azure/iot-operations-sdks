@@ -279,8 +279,15 @@ DataTypes:
 
 DefinedTypes:
 
+  IPumpVendorNameplateType:
+  - [ UAObjectType, Pumps:1004, IPumpVendorNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1010, IMachineVendorNameplateType ]
+
   DiscreteObjectType:
   - [ UAObjectType, Pumps:1029, DiscreteObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, Pumps:8777, OnOffCycle, UInt32, 0, 0 ]
     - HasModellingRule:
@@ -292,6 +299,8 @@ DefinedTypes:
 
   DiscreteInputObjectType:
   - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1029, DiscreteObjectType ]
   - HasComponent:
     - [ UAVariable, Pumps:8837, DiscreteInputValue, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -299,6 +308,8 @@ DefinedTypes:
 
   DiscreteOutputObjectType:
   - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1029, DiscreteObjectType ]
   - HasComponent:
     - [ UAVariable, Pumps:8781, DiscreteOutputValue, Boolean, 0, 3 ]
     - HasModellingRule:
@@ -318,6 +329,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:8829, PumpKickMode, PumpKickModeEnum, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
   - HasComponent:
     - [ UAVariable, Pumps:8830, PumpKickTime, Double, 0, 3 ]
     - HasModellingRule:
@@ -329,6 +342,8 @@ DefinedTypes:
 
   ActuationType:
   - [ UAObjectType, Pumps:1025, ActuationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:8728, FaultAction, Boolean, 0, 3 ]
     - HasModellingRule:
@@ -410,6 +425,8 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1025, ActuationType ]
   - HasComponent:
     - [ UAObject, Pumps:5082, PumpKick ]
     - HasModellingRule:
@@ -449,6 +466,8 @@ DefinedTypes:
 
   BreakdownMaintenanceType:
   - [ UAObjectType, Pumps:1010, BreakdownMaintenanceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:6558, CorrectiveMaintenanceTime, Double, 0, 0 ]
     - HasModellingRule:
@@ -476,6 +495,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6500, Availability, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:6504, Durability, Double, 0, 0 ]
     - HasModellingRule:
@@ -519,6 +540,8 @@ DefinedTypes:
 
   ConfigurationGroupType:
   - [ UAObjectType, Pumps:1024, ConfigurationGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, Pumps:5064, Design ]
     - HasTypeDefinition:
@@ -540,6 +563,8 @@ DefinedTypes:
 
   ConnectionDesignType:
   - [ UAObjectType, Pumps:1040, ConnectionDesignType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9275, NominalPressure, String, 0, 0 ]
     - HasModellingRule:
@@ -555,6 +580,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9309, InletAreaOfThePump, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1040, ConnectionDesignType ]
   - HasComponent:
     - [ UAVariable, Pumps:9310, MaximumAllowableInletPressure, Double, 0, 0 ]
     - HasModellingRule:
@@ -594,6 +621,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9282, OutletAreaOfThePump, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1040, ConnectionDesignType ]
   - HasComponent:
     - [ UAVariable, Pumps:9283, ReliefValveAccumulationPressure, Double, 0, 0 ]
     - HasModellingRule:
@@ -613,6 +642,8 @@ DefinedTypes:
 
   ConnectionImplementationType:
   - [ UAObjectType, Pumps:1046, ConnectionImplementationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9389, NominalSize, String, 0, 3 ]
     - HasModellingRule:
@@ -624,6 +655,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9407, HeightOfTheInletConnection, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1046, ConnectionImplementationType ]
   - HasComponent:
     - [ UAVariable, Pumps:9408, MeanRatedVelocityAtInlet, Double, 0, 3 ]
     - HasModellingRule:
@@ -647,6 +680,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9392, MeanRatedVelocityAtOutlet, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1046, ConnectionImplementationType ]
   - HasComponent:
     - [ UAVariable, Pumps:9393, RatedOutletPressure, Double, 0, 3 ]
     - HasModellingRule:
@@ -674,6 +709,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:7928, ControllerOutputVariable, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:7918, DeadTime, Double, 0, 3 ]
     - HasModellingRule:
@@ -765,6 +802,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:7705, DesignRadialLoad, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:7773, DirectivesOfEUDeclarationOfConformity, DeclarationOfConformityOptionSet, 0, 0 ]
     - HasModellingRule:
@@ -1100,6 +1139,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6408, DetailLink, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, Pumps:5040, DuringMaintenanceServicesRendered ]
     - HasTypeDefinition:
@@ -1273,6 +1314,8 @@ DefinedTypes:
 
   DriveDesignType:
   - [ UAObjectType, Pumps:1043, DriveDesignType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9338, EnergyEfficiencyClassOfMotor, String, 0, 0 ]
     - HasModellingRule:
@@ -1336,6 +1379,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9447, DCLinkVoltage, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9449, DriverPowerInput, Double, 0, 0 ]
     - HasModellingRule:
@@ -1395,6 +1440,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6456, FailureRate, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:13059, IdleTime, Double, 0, 0 ]
     - HasModellingRule:
@@ -1490,6 +1537,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:8108, HydraulicEfficiency, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:8109, InstallationTotalHead, Double, 0, 3 ]
     - HasModellingRule:
@@ -1597,6 +1646,8 @@ DefinedTypes:
 
   InletConnectionMeasurementsType:
   - [ UAObjectType, Pumps:1050, InletConnectionMeasurementsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9433, InletTemperatureOfThePump, Double, 0, 0 ]
     - HasModellingRule:
@@ -1608,6 +1659,8 @@ DefinedTypes:
 
   InletConnectionSystemRequirementsType:
   - [ UAObjectType, Pumps:1045, InletConnectionSystemRequirementsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9385, InletPressure, Double, 0, 3 ]
     - HasModellingRule:
@@ -1621,6 +1674,8 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1002, MarkingsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
 
   MaintenanceGroupType:
   - [ UAObjectType, Pumps:1011, MaintenanceGroupType ]
@@ -1642,6 +1697,8 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1007, GeneralMaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, Pumps:5049, PreventiveMaintenance ]
     - HasModellingRule:
@@ -1753,6 +1810,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:12675, MeanVelocityAtThroat, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:12677, MechanicalEfficiency, Double, 0, 0 ]
     - HasModellingRule:
@@ -1888,6 +1947,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9257, MultiPumpOperationMode, MultiPumpOperationModeEnum, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9258, NumberOfPumps, UInt32, 0, 3 ]
     - HasModellingRule:
@@ -1931,6 +1992,8 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1039, MultiPumpType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, Pumps:5192, PumpActuation ]
     - HasModellingRule:
@@ -1956,6 +2019,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9423, MeanVelocityAtOutlet, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:9428, OutletTemperatureOfThePump, Double, 0, 0 ]
     - HasModellingRule:
@@ -1967,6 +2032,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9381, BackingPressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   PortsGroupType:
   - [ UAObjectType, Pumps:1034, PortsGroupType ]
@@ -1988,6 +2055,8 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, Pumps:1037, OutletConnectionPortType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   PreventiveMaintenanceType:
   - [ UAObjectType, Pumps:1009, PreventiveMaintenanceType ]
@@ -2019,6 +2088,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6544, PreventiveMaintenanceTime, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   SignalsType:
   - [ UAObjectType, Pumps:1033, SignalsType ]
@@ -2124,6 +2195,8 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, Pumps:5083, StandBy ]
     - HasTypeDefinition:
@@ -2275,6 +2348,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:7200, StartUp, Boolean, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:7203, TemperatureShock, Boolean, 0, 5 ]
     - HasModellingRule:
@@ -2330,6 +2405,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:7239, ShortToEarth, Boolean, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:7242, SupplyCurrent, Boolean, 0, 5 ]
     - HasModellingRule:
@@ -2425,6 +2502,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6782, Ram, Boolean, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   SupervisionMechanicsType:
   - [ UAObjectType, Pumps:1012, SupervisionMechanicsType ]
@@ -2488,6 +2567,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6746, RotorStationRubbing, Boolean, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:6749, Unbalance, Boolean, 0, 5 ]
     - HasModellingRule:
@@ -2539,6 +2620,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6842, Stall, Boolean, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:6845, Temperature, Boolean, 0, 5 ]
     - HasModellingRule:
@@ -2662,6 +2745,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6929, PartialLoad, Boolean, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:6932, Synchronisation, Boolean, 0, 5 ]
     - HasModellingRule:
@@ -2733,6 +2818,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:6809, SoftwareReset, Boolean, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   SupervisionType:
   - [ UAObjectType, Pumps:1019, SupervisionType ]
@@ -2778,6 +2865,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Pumps:1014, SupervisionSoftwareType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   SystemRequirementsType:
   - [ UAObjectType, Pumps:1022, SystemRequirementsType ]
@@ -2917,6 +3006,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:8000, SolidContent, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, Pumps:8001, Throughput, Double, 0, 3 ]
     - HasModellingRule:
@@ -3076,6 +3167,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:13167, VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequencyPerG, Double, 0, 5 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   MarkingsType:
   - [ UAObjectType, Pumps:1002, MarkingsType ]
@@ -3085,6 +3178,8 @@ DefinedTypes:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
 
   PortType:
   - [ UAObjectType, Pumps:1035, PortType ]
@@ -3100,6 +3195,8 @@ DefinedTypes:
     - [ UAVariable, Pumps:9247, IdCarrier, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   DrivePortType:
   - [ UAObjectType, Pumps:1038, DrivePortType ]
@@ -3109,6 +3206,8 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1043, DriveDesignType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1035, PortType ]
   - HasComponent:
     - [ UAObject, Pumps:5116, Measurements ]
     - HasTypeDefinition:
@@ -3130,6 +3229,8 @@ DefinedTypes:
       - [ UAObjectType, Pumps:1047, InletConnectionImplementationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1035, PortType ]
   - HasComponent:
     - [ UAObject, Pumps:5109, Measurements ]
     - HasTypeDefinition:
@@ -3163,6 +3264,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Pumps:1049, OutletConnectionMeasurementsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1035, PortType ]
   - HasComponent:
     - [ UAObject, Pumps:5114, SystemRequirements ]
     - HasModellingRule:
@@ -3214,3 +3317,5 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, Pumps:1034, PortsGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]

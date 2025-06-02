@@ -46,27 +46,39 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, DI:468, LifetimeVariableType, Number, 0, 0 ]
   - HasProperty:
     - [ UAVariable, DI:470, LimitValue, Number, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, DI:468, LifetimeVariableType, Number, 0, 0 ]
   - HasProperty:
     - [ UAVariable, DI:471, Indication, NodeId, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, DI:468, LifetimeVariableType, Number, 0, 0 ]
   - HasProperty:
     - [ UAVariable, DI:472, WarningValues, Number, -3, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, DI:468, LifetimeVariableType, Number, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 17497, AnalogUnitType ]
 
   UIElementType:
   - [ UAVariableType, DI:6246, UIElementType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   TopologyElementType:
   - [ UAObjectType, DI:1001, TopologyElementType ]
@@ -78,28 +90,38 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:5002, ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1001, TopologyElementType ]
   - HasComponent:
     - [ UAObject, DI:5003, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1001, TopologyElementType ]
   - HasComponent:
     - [ UAObject, DI:6567, <GroupIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1001, TopologyElementType ]
   - HasComponent:
     - [ UAObject, DI:6014, Identification ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1001, TopologyElementType ]
   - HasComponent:
     - [ UAObject, DI:6161, Lock ]
     - HasProperty:
@@ -108,24 +130,32 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasProperty:
       - [ UAVariable, DI:6163, LockingClient, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasProperty:
       - [ UAVariable, DI:6164, LockingUser, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasProperty:
       - [ UAVariable, DI:6165, RemainingLockTime, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6166, InitLock ]
       - HasProperty:
@@ -136,6 +166,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6166, InitLock ]
       - HasProperty:
         - [ UAVariable, DI:6168, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -144,8 +176,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6166, InitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6169, RenewLock ]
       - HasProperty:
@@ -156,8 +192,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6169, RenewLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6171, ExitLock ]
       - HasProperty:
@@ -168,8 +208,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6171, ExitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6173, BreakLock ]
       - HasProperty:
@@ -180,12 +224,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6173, BreakLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6161, Lock ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1001, TopologyElementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   IVendorNameplateType:
   - [ UAObjectType, DI:15035, IVendorNameplateType ]
@@ -195,84 +247,114 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15037, ManufacturerUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15038, Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15039, HardwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15040, SoftwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15041, DeviceRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15042, ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15043, DeviceManual, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15044, DeviceClass, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15045, SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15046, ProductInstanceUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15047, RevisionCounter, Int32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:23, SoftwareReleaseDate, DateTime, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:24, PatchIdentifiers, String, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15035, IVendorNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   ITagNameplateType:
   - [ UAObjectType, DI:15048, ITagNameplateType ]
@@ -282,12 +364,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15048, ITagNameplateType ]
   - HasProperty:
     - [ UAVariable, DI:15050, ComponentName, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15048, ITagNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   IDeviceHealthType:
   - [ UAObjectType, DI:15051, IDeviceHealthType ]
@@ -297,12 +385,18 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:15051, IDeviceHealthType ]
   - HasComponent:
     - [ UAObject, DI:15053, DeviceHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:15051, IDeviceHealthType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   ISupportInfoType:
   - [ UAObjectType, DI:15054, ISupportInfoType ]
@@ -314,10 +408,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:15055, DeviceTypeImage ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:15054, ISupportInfoType ]
   - HasComponent:
     - [ UAObject, DI:15057, Documentation ]
     - HasComponent:
@@ -326,10 +424,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:15057, Documentation ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:15054, ISupportInfoType ]
   - HasComponent:
     - [ UAObject, DI:27, DocumentationFiles ]
     - HasComponent:
@@ -340,24 +442,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasProperty:
         - [ UAVariable, DI:30, Writable, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasProperty:
         - [ UAVariable, DI:31, UserWritable, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasProperty:
         - [ UAVariable, DI:32, OpenCount, UInt16, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasComponent:
         - [ UAMethod, DI:36, Open ]
         - HasProperty:
@@ -368,6 +478,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:36, Open ]
         - HasProperty:
           - [ UAVariable, DI:38, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -376,8 +488,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:36, Open ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasComponent:
         - [ UAMethod, DI:39, Close ]
         - HasProperty:
@@ -388,8 +504,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:39, Close ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasComponent:
         - [ UAMethod, DI:63, Read ]
         - HasProperty:
@@ -401,6 +521,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:63, Read ]
         - HasProperty:
           - [ UAVariable, DI:65, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -409,8 +531,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:63, Read ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasComponent:
         - [ UAMethod, DI:66, Write ]
         - HasProperty:
@@ -422,8 +548,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:66, Write ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasComponent:
         - [ UAMethod, DI:68, GetPosition ]
         - HasProperty:
@@ -434,6 +564,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:68, GetPosition ]
         - HasProperty:
           - [ UAVariable, DI:70, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -442,8 +574,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:68, GetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasComponent:
         - [ UAMethod, DI:71, SetPosition ]
         - HasProperty:
@@ -455,16 +591,24 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, DI:71, SetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, DI:28, <DocumentFileId> ]
       - HasTypeDefinition:
         - [ UAObjectType, 11575, FileType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:27, DocumentationFiles ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:15054, ISupportInfoType ]
   - HasComponent:
     - [ UAObject, DI:15059, ProtocolSupport ]
     - HasComponent:
@@ -473,10 +617,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:15059, ProtocolSupport ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:15054, ISupportInfoType ]
   - HasComponent:
     - [ UAObject, DI:15061, ImageSet ]
     - HasComponent:
@@ -485,10 +633,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:15061, ImageSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:15054, ISupportInfoType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   ComponentType:
   - [ UAObjectType, DI:15063, ComponentType ]
@@ -498,88 +652,118 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15087, ManufacturerUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15088, Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15089, HardwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15090, SoftwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15091, DeviceRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15092, ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15093, DeviceManual, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15094, DeviceClass, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15095, SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15096, ProductInstanceUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15097, RevisionCounter, Int32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15098, AssetId, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasProperty:
     - [ UAVariable, DI:15099, ComponentName, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15063, ComponentType ]
   - HasInterface:
     - [ UAObjectType, DI:15035, IVendorNameplateType ]
   - HasInterface:
     - [ UAObjectType, DI:15048, ITagNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
 
   DeviceType:
   - [ UAObjectType, DI:1002, DeviceType ]
@@ -589,72 +773,96 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:15100, ManufacturerUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6004, Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6008, HardwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6007, SoftwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6006, DeviceRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:15101, ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6005, DeviceManual, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6470, DeviceClass, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6001, SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:15102, ProductInstanceUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasProperty:
     - [ UAVariable, DI:6002, RevisionCounter, Int32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasComponent:
     - [ UAObject, DI:6571, <CPIdentifier> ]
     - HasComponent:
@@ -663,22 +871,30 @@ DefinedTypes:
         - [ UAObjectType, DI:1005, FunctionalGroupType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6571, <CPIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6308, ConnectionPointType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasComponent:
     - [ UAVariable, DI:6208, DeviceHealth, DeviceHealthEnumeration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasComponent:
     - [ UAObject, DI:15105, DeviceHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasComponent:
     - [ UAObject, DI:6209, DeviceTypeImage ]
     - HasComponent:
@@ -687,10 +903,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6209, DeviceTypeImage ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasComponent:
     - [ UAObject, DI:6211, Documentation ]
     - HasComponent:
@@ -699,10 +919,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6211, Documentation ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasComponent:
     - [ UAObject, DI:6213, ProtocolSupport ]
     - HasComponent:
@@ -711,10 +935,14 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6213, ProtocolSupport ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasComponent:
     - [ UAObject, DI:6215, ImageSet ]
     - HasComponent:
@@ -723,14 +951,20 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6215, ImageSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1002, DeviceType ]
   - HasInterface:
     - [ UAObjectType, DI:15054, ISupportInfoType ]
   - HasInterface:
     - [ UAObjectType, DI:15051, IDeviceHealthType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   SoftwareType:
   - [ UAObjectType, DI:15106, SoftwareType ]
@@ -740,18 +974,26 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15106, SoftwareType ]
   - HasProperty:
     - [ UAVariable, DI:15131, Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15106, SoftwareType ]
   - HasProperty:
     - [ UAVariable, DI:15133, SoftwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:15106, SoftwareType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   BlockType:
   - [ UAObjectType, DI:1003, BlockType ]
@@ -761,45 +1003,67 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1003, BlockType ]
   - HasProperty:
     - [ UAVariable, DI:6010, ActualMode, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1003, BlockType ]
   - HasProperty:
     - [ UAVariable, DI:6011, PermittedMode, LocalizedText, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1003, BlockType ]
   - HasProperty:
     - [ UAVariable, DI:6012, NormalMode, LocalizedText, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1003, BlockType ]
   - HasProperty:
     - [ UAVariable, DI:6013, TargetMode, LocalizedText, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1003, BlockType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
 
   DeviceHealthDiagnosticAlarmType:
   - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 18347, InstrumentDiagnosticAlarmType ]
 
   FailureAlarmType:
   - [ UAObjectType, DI:15292, FailureAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
 
   CheckFunctionAlarmType:
   - [ UAObjectType, DI:15441, CheckFunctionAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
 
   OffSpecAlarmType:
   - [ UAObjectType, DI:15590, OffSpecAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
 
   MaintenanceRequiredAlarmType:
   - [ UAObjectType, DI:15739, MaintenanceRequiredAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
 
   ConfigurableObjectType:
   - [ UAObjectType, DI:1004, ConfigurableObjectType ]
@@ -809,33 +1073,53 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1004, ConfigurableObjectType ]
   - HasComponent:
     - [ UAObject, DI:6026, <ObjectIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   BaseLifetimeIndicationType:
   - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   TimeIndicationType:
   - [ UAObjectType, DI:474, TimeIndicationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
 
   NumberOfPartsIndicationType:
   - [ UAObjectType, DI:475, NumberOfPartsIndicationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
 
   NumberOfUsagesIndicationType:
   - [ UAObjectType, DI:476, NumberOfUsagesIndicationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
 
   LengthIndicationType:
   - [ UAObjectType, DI:477, LengthIndicationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
 
   DiameterIndicationType:
   - [ UAObjectType, DI:478, DiameterIndicationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
 
   SubstanceVolumeIndicationType:
   - [ UAObjectType, DI:479, SubstanceVolumeIndicationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
 
   FunctionalGroupType:
   - [ UAObjectType, DI:1005, FunctionalGroupType ]
@@ -847,19 +1131,29 @@ DefinedTypes:
         - [ UAVariableType, DI:6246, UIElementType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6027, <GroupIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, DI:6243, UIElement ]
     - HasTypeDefinition:
       - [ UAVariableType, DI:6246, UIElementType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
 
   ProtocolType:
   - [ UAObjectType, DI:1006, ProtocolType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   IOperationCounterType:
   - [ UAObjectType, DI:480, IOperationCounterType ]
@@ -869,18 +1163,26 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:480, IOperationCounterType ]
   - HasProperty:
     - [ UAVariable, DI:482, OperationDuration, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:480, IOperationCounterType ]
   - HasProperty:
     - [ UAVariable, DI:483, OperationCycleCounter, UInteger, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:480, IOperationCounterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   NetworkType:
   - [ UAObjectType, DI:6247, NetworkType ]
@@ -890,6 +1192,8 @@ DefinedTypes:
       - [ UAObjectType, DI:1006, ProtocolType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6247, NetworkType ]
   - DI:6030:
     - [ UAObject, DI:6248, <CPIdentifier> ]
     - HasComponent:
@@ -898,10 +1202,14 @@ DefinedTypes:
         - [ UAObjectType, DI:1005, FunctionalGroupType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6248, <CPIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6308, ConnectionPointType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - DI:6030_reverse:
+      - [ UAObjectType, DI:6247, NetworkType ]
   - HasComponent:
     - [ UAObject, DI:6294, Lock ]
     - HasProperty:
@@ -910,24 +1218,32 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasProperty:
       - [ UAVariable, DI:6296, LockingClient, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasProperty:
       - [ UAVariable, DI:6297, LockingUser, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasProperty:
       - [ UAVariable, DI:6298, RemainingLockTime, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6299, InitLock ]
       - HasProperty:
@@ -938,6 +1254,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6299, InitLock ]
       - HasProperty:
         - [ UAVariable, DI:6301, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -946,8 +1264,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6299, InitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6302, RenewLock ]
       - HasProperty:
@@ -958,8 +1280,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6302, RenewLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6304, ExitLock ]
       - HasProperty:
@@ -970,8 +1296,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6304, ExitLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasComponent:
       - [ UAMethod, DI:6306, BreakLock ]
       - HasProperty:
@@ -982,12 +1312,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:6306, BreakLock ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:6294, Lock ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6388, LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6247, NetworkType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ConnectionPointType:
   - [ UAObjectType, DI:6308, ConnectionPointType ]
@@ -997,18 +1335,26 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6308, ConnectionPointType ]
   - HasComponent:
     - [ UAObject, DI:6499, <ProfileIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1006, ProtocolType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6308, ConnectionPointType ]
   - DI:6030:
     - [ UAObject, DI:6599, <NetworkIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:6247, NetworkType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - DI:6030_reverse:
+      - [ UAObjectType, DI:6308, ConnectionPointType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
 
   TransferServicesType:
   - [ UAObjectType, DI:6526, TransferServicesType ]
@@ -1023,8 +1369,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6527, TransferToDevice ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6526, TransferServicesType ]
   - HasComponent:
     - [ UAMethod, DI:6529, TransferFromDevice ]
     - HasProperty:
@@ -1036,8 +1386,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6529, TransferFromDevice ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6526, TransferServicesType ]
   - HasComponent:
     - [ UAMethod, DI:6531, FetchTransferResultData ]
     - HasProperty:
@@ -1051,6 +1405,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6531, FetchTransferResultData ]
     - HasProperty:
       - [ UAVariable, DI:6533, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1059,8 +1415,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6531, FetchTransferResultData ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6526, TransferServicesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   LockingServicesType:
   - [ UAObjectType, DI:6388, LockingServicesType ]
@@ -1068,30 +1430,40 @@ DefinedTypes:
     - [ UAVariable, DI:15890, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasProperty:
     - [ UAVariable, DI:6534, Locked, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasProperty:
     - [ UAVariable, DI:6390, LockingClient, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasProperty:
     - [ UAVariable, DI:6391, LockingUser, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasProperty:
     - [ UAVariable, DI:6392, RemainingLockTime, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasComponent:
     - [ UAMethod, DI:6393, InitLock ]
     - HasProperty:
@@ -1102,6 +1474,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6393, InitLock ]
     - HasProperty:
       - [ UAVariable, DI:6395, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1110,8 +1484,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6393, InitLock ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasComponent:
     - [ UAMethod, DI:6396, RenewLock ]
     - HasProperty:
@@ -1122,8 +1500,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6396, RenewLock ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasComponent:
     - [ UAMethod, DI:6398, ExitLock ]
     - HasProperty:
@@ -1134,8 +1516,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6398, ExitLock ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
   - HasComponent:
     - [ UAMethod, DI:6400, BreakLock ]
     - HasProperty:
@@ -1146,8 +1532,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:6400, BreakLock ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:6388, LockingServicesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   SoftwareUpdateType:
   - [ UAObjectType, DI:1, SoftwareUpdateType ]
@@ -1157,6 +1549,8 @@ DefinedTypes:
       - [ UAObjectType, DI:135, SoftwareLoadingType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasComponent:
     - [ UAObject, DI:4, PrepareForUpdate ]
     - HasComponent:
@@ -1167,22 +1561,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, DI:5, CurrentState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:4, PrepareForUpdate ]
     - HasComponent:
       - [ UAMethod, DI:19, Prepare ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:4, PrepareForUpdate ]
     - HasComponent:
       - [ UAMethod, DI:20, Abort ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:4, PrepareForUpdate ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasComponent:
     - [ UAObject, DI:40, Installation ]
     - HasComponent:
@@ -1193,18 +1597,26 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, DI:41, CurrentState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:40, Installation ]
     - HasComponent:
       - [ UAMethod, DI:61, Resume ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:40, Installation ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:249, InstallationStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasComponent:
     - [ UAObject, DI:76, PowerCycle ]
     - HasComponent:
@@ -1215,14 +1627,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, DI:77, CurrentState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:76, PowerCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasComponent:
     - [ UAObject, DI:98, Confirmation ]
     - HasComponent:
@@ -1233,24 +1651,34 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, DI:99, CurrentState, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:98, Confirmation ]
     - HasComponent:
       - [ UAMethod, DI:112, Confirm ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:98, Confirmation ]
     - HasComponent:
       - [ UAVariable, DI:113, ConfirmationTimeout, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:98, Confirmation ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasComponent:
     - [ UAObject, DI:122, Parameters ]
     - HasProperty:
@@ -1259,6 +1687,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:122, Parameters ]
     - HasComponent:
       - [ UAMethod, DI:124, GenerateFileForRead ]
       - HasProperty:
@@ -1269,6 +1699,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:124, GenerateFileForRead ]
       - HasProperty:
         - [ UAVariable, DI:126, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1279,8 +1711,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:124, GenerateFileForRead ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:122, Parameters ]
     - HasComponent:
       - [ UAMethod, DI:127, GenerateFileForWrite ]
       - HasProperty:
@@ -1291,6 +1727,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:127, GenerateFileForWrite ]
       - HasProperty:
         - [ UAVariable, DI:129, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1300,8 +1738,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:127, GenerateFileForWrite ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:122, Parameters ]
     - HasComponent:
       - [ UAMethod, DI:130, CloseAndCommit ]
       - HasProperty:
@@ -1312,6 +1754,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:130, CloseAndCommit ]
       - HasProperty:
         - [ UAVariable, DI:132, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1320,28 +1764,42 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:130, CloseAndCommit ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:122, Parameters ]
     - HasTypeDefinition:
       - [ UAObjectType, 15744, TemporaryFileTransferType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasComponent:
     - [ UAVariable, DI:133, UpdateStatus, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasComponent:
     - [ UAVariable, DI:402, VendorErrorCode, Int32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
   - HasProperty:
     - [ UAVariable, DI:134, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:1, SoftwareUpdateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   SoftwareLoadingType:
   - [ UAObjectType, DI:135, SoftwareLoadingType ]
@@ -1351,6 +1809,10 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:135, SoftwareLoadingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   PackageLoadingType:
   - [ UAObjectType, DI:137, PackageLoadingType ]
@@ -1362,22 +1824,30 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:139, CurrentVersion ]
     - HasProperty:
       - [ UAVariable, DI:346, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:139, CurrentVersion ]
     - HasProperty:
       - [ UAVariable, DI:347, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:139, CurrentVersion ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:212, SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:137, PackageLoadingType ]
   - HasComponent:
     - [ UAObject, DI:140, FileTransfer ]
     - HasProperty:
@@ -1386,6 +1856,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:140, FileTransfer ]
     - HasComponent:
       - [ UAMethod, DI:142, GenerateFileForRead ]
       - HasProperty:
@@ -1396,6 +1868,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:142, GenerateFileForRead ]
       - HasProperty:
         - [ UAVariable, DI:144, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1406,8 +1880,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:142, GenerateFileForRead ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:140, FileTransfer ]
     - HasComponent:
       - [ UAMethod, DI:145, GenerateFileForWrite ]
       - HasProperty:
@@ -1418,6 +1896,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:145, GenerateFileForWrite ]
       - HasProperty:
         - [ UAVariable, DI:147, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1427,8 +1907,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:145, GenerateFileForWrite ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:140, FileTransfer ]
     - HasComponent:
       - [ UAMethod, DI:148, CloseAndCommit ]
       - HasProperty:
@@ -1439,6 +1923,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:148, CloseAndCommit ]
       - HasProperty:
         - [ UAVariable, DI:150, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1447,24 +1933,36 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:148, CloseAndCommit ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:140, FileTransfer ]
     - HasTypeDefinition:
       - [ UAObjectType, 15744, TemporaryFileTransferType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:137, PackageLoadingType ]
   - HasComponent:
     - [ UAVariable, DI:151, ErrorMessage, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:137, PackageLoadingType ]
   - HasProperty:
     - [ UAVariable, DI:152, WriteBlockSize, UInt32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:137, PackageLoadingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:135, SoftwareLoadingType ]
 
   DirectLoadingType:
   - [ UAObjectType, DI:153, DirectLoadingType ]
@@ -1474,12 +1972,18 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:153, DirectLoadingType ]
   - HasProperty:
     - [ UAVariable, DI:170, WriteTimeout, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:153, DirectLoadingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:137, PackageLoadingType ]
 
   CachedLoadingType:
   - [ UAObjectType, DI:171, CachedLoadingType ]
@@ -1491,22 +1995,30 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:187, PendingVersion ]
     - HasProperty:
       - [ UAVariable, DI:367, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:187, PendingVersion ]
     - HasProperty:
       - [ UAVariable, DI:368, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:187, PendingVersion ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:212, SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:171, CachedLoadingType ]
   - HasComponent:
     - [ UAObject, DI:188, FallbackVersion ]
     - HasProperty:
@@ -1515,22 +2027,30 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:188, FallbackVersion ]
     - HasProperty:
       - [ UAVariable, DI:374, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:188, FallbackVersion ]
     - HasProperty:
       - [ UAVariable, DI:375, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:188, FallbackVersion ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:212, SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:171, CachedLoadingType ]
   - HasComponent:
     - [ UAMethod, DI:189, GetUpdateBehavior ]
     - HasProperty:
@@ -1543,6 +2063,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:189, GetUpdateBehavior ]
     - HasProperty:
       - [ UAVariable, DI:191, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1551,8 +2073,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:189, GetUpdateBehavior ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:171, CachedLoadingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:137, PackageLoadingType ]
 
   FileSystemLoadingType:
   - [ UAObjectType, DI:192, FileSystemLoadingType ]
@@ -1568,6 +2096,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:195, CreateDirectory ]
       - HasProperty:
         - [ UAVariable, DI:197, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1576,8 +2106,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:195, CreateDirectory ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:194, FileSystem ]
     - HasComponent:
       - [ UAMethod, DI:198, CreateFile ]
       - HasProperty:
@@ -1589,6 +2123,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:198, CreateFile ]
       - HasProperty:
         - [ UAVariable, DI:200, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1598,8 +2134,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:198, CreateFile ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:194, FileSystem ]
     - HasComponent:
       - [ UAMethod, DI:201, Delete ]
       - HasProperty:
@@ -1610,8 +2150,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:201, Delete ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:194, FileSystem ]
     - HasComponent:
       - [ UAMethod, DI:203, MoveOrCopy ]
       - HasProperty:
@@ -1625,6 +2169,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:203, MoveOrCopy ]
       - HasProperty:
         - [ UAVariable, DI:205, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1633,12 +2179,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, DI:203, MoveOrCopy ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, DI:194, FileSystem ]
     - HasTypeDefinition:
       - [ UAObjectType, 13353, FileDirectoryType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:192, FileSystemLoadingType ]
   - HasComponent:
     - [ UAMethod, DI:206, GetUpdateBehavior ]
     - HasProperty:
@@ -1649,6 +2201,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:206, GetUpdateBehavior ]
     - HasProperty:
       - [ UAVariable, DI:208, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1657,8 +2211,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:206, GetUpdateBehavior ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:192, FileSystemLoadingType ]
   - HasComponent:
     - [ UAMethod, DI:209, ValidateFiles ]
     - HasProperty:
@@ -1669,6 +2227,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:209, ValidateFiles ]
     - HasProperty:
       - [ UAVariable, DI:211, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1678,8 +2238,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:209, ValidateFiles ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:192, FileSystemLoadingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:135, SoftwareLoadingType ]
 
   SoftwareVersionType:
   - [ UAObjectType, DI:212, SoftwareVersionType ]
@@ -1689,42 +2255,58 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:212, SoftwareVersionType ]
   - HasProperty:
     - [ UAVariable, DI:381, ManufacturerUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:212, SoftwareVersionType ]
   - HasProperty:
     - [ UAVariable, DI:382, SoftwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:212, SoftwareVersionType ]
   - HasProperty:
     - [ UAVariable, DI:383, PatchIdentifiers, String, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:212, SoftwareVersionType ]
   - HasProperty:
     - [ UAVariable, DI:384, ReleaseDate, DateTime, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:212, SoftwareVersionType ]
   - HasProperty:
     - [ UAVariable, DI:385, ChangeLogReference, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:212, SoftwareVersionType ]
   - HasProperty:
     - [ UAVariable, DI:386, Hash, ByteString, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, DI:212, SoftwareVersionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   PrepareForUpdateStateMachineType:
   - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
@@ -1734,18 +2316,26 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAMethod, DI:228, Prepare ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAMethod, DI:229, Abort ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAMethod, DI:230, Resume ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:231, Idle ]
     - HasProperty:
@@ -1754,8 +2344,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:231, Idle ]
+    - FromState_reverse:
+      - [ UAObject, DI:239, IdleToPreparing ]
+    - ToState_reverse:
+      - [ UAObject, DI:241, PreparingToIdle ]
+    - ToState_reverse:
+      - [ UAObject, DI:247, ResumingToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:233, Preparing ]
     - HasProperty:
@@ -1764,8 +2364,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:233, Preparing ]
+    - ToState_reverse:
+      - [ UAObject, DI:239, IdleToPreparing ]
+    - FromState_reverse:
+      - [ UAObject, DI:241, PreparingToIdle ]
+    - FromState_reverse:
+      - [ UAObject, DI:243, PreparingToPreparedForUpdate ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:235, PreparedForUpdate ]
     - HasProperty:
@@ -1774,8 +2384,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:235, PreparedForUpdate ]
+    - ToState_reverse:
+      - [ UAObject, DI:243, PreparingToPreparedForUpdate ]
+    - FromState_reverse:
+      - [ UAObject, DI:245, PreparedForUpdateToResuming ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:237, Resuming ]
     - HasProperty:
@@ -1784,8 +2402,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:237, Resuming ]
+    - ToState_reverse:
+      - [ UAObject, DI:245, PreparedForUpdateToResuming ]
+    - FromState_reverse:
+      - [ UAObject, DI:247, ResumingToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:239, IdleToPreparing ]
     - HasProperty:
@@ -1794,6 +2420,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:239, IdleToPreparing ]
     - FromState:
       - [ UAObject, DI:231, Idle ]
     - ToState:
@@ -1802,6 +2430,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:241, PreparingToIdle ]
     - HasProperty:
@@ -1810,6 +2440,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:241, PreparingToIdle ]
     - ToState:
       - [ UAObject, DI:231, Idle ]
     - FromState:
@@ -1818,6 +2450,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:243, PreparingToPreparedForUpdate ]
     - HasProperty:
@@ -1826,6 +2460,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:243, PreparingToPreparedForUpdate ]
     - FromState:
       - [ UAObject, DI:233, Preparing ]
     - ToState:
@@ -1834,6 +2470,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:245, PreparedForUpdateToResuming ]
     - HasProperty:
@@ -1842,6 +2480,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:245, PreparedForUpdateToResuming ]
     - FromState:
       - [ UAObject, DI:235, PreparedForUpdate ]
     - ToState:
@@ -1850,6 +2490,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:247, ResumingToIdle ]
     - HasProperty:
@@ -1858,6 +2500,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:247, ResumingToIdle ]
     - ToState:
       - [ UAObject, DI:231, Idle ]
     - FromState:
@@ -1866,6 +2510,10 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   InstallationStateMachineType:
   - [ UAObjectType, DI:249, InstallationStateMachineType ]
@@ -1875,12 +2523,16 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAVariable, DI:264, InstallationDelay, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAMethod, DI:265, InstallSoftwarePackage ]
     - HasProperty:
@@ -1894,8 +2546,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:265, InstallSoftwarePackage ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAMethod, DI:268, InstallFiles ]
     - HasProperty:
@@ -1906,12 +2562,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, DI:268, InstallFiles ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAMethod, DI:270, Resume ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:271, Idle ]
     - HasProperty:
@@ -1920,8 +2582,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:271, Idle ]
+    - FromState_reverse:
+      - [ UAObject, DI:277, IdleToInstalling ]
+    - ToState_reverse:
+      - [ UAObject, DI:279, InstallingToIdle ]
+    - ToState_reverse:
+      - [ UAObject, DI:283, ErrorToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:273, Installing ]
     - HasProperty:
@@ -1930,8 +2602,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:273, Installing ]
+    - ToState_reverse:
+      - [ UAObject, DI:277, IdleToInstalling ]
+    - FromState_reverse:
+      - [ UAObject, DI:279, InstallingToIdle ]
+    - FromState_reverse:
+      - [ UAObject, DI:281, InstallingToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:275, Error ]
     - HasProperty:
@@ -1940,8 +2622,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:275, Error ]
+    - ToState_reverse:
+      - [ UAObject, DI:281, InstallingToError ]
+    - FromState_reverse:
+      - [ UAObject, DI:283, ErrorToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:277, IdleToInstalling ]
     - HasProperty:
@@ -1950,6 +2640,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:277, IdleToInstalling ]
     - FromState:
       - [ UAObject, DI:271, Idle ]
     - ToState:
@@ -1958,6 +2650,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:279, InstallingToIdle ]
     - HasProperty:
@@ -1966,6 +2660,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:279, InstallingToIdle ]
     - ToState:
       - [ UAObject, DI:271, Idle ]
     - FromState:
@@ -1974,6 +2670,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:281, InstallingToError ]
     - HasProperty:
@@ -1982,6 +2680,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:281, InstallingToError ]
     - FromState:
       - [ UAObject, DI:273, Installing ]
     - ToState:
@@ -1990,6 +2690,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:283, ErrorToIdle ]
     - HasProperty:
@@ -1998,6 +2700,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:283, ErrorToIdle ]
     - ToState:
       - [ UAObject, DI:271, Idle ]
     - FromState:
@@ -2006,6 +2710,10 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:249, InstallationStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   PowerCycleStateMachineType:
   - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
@@ -2017,8 +2725,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:299, NotWaitingForPowerCycle ]
+    - FromState_reverse:
+      - [ UAObject, DI:303, NotWaitingForPowerCycleToWaitingForPowerCycle ]
+    - ToState_reverse:
+      - [ UAObject, DI:305, WaitingForPowerCycleToNotWaitingForPowerCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:301, WaitingForPowerCycle ]
     - HasProperty:
@@ -2027,8 +2743,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:301, WaitingForPowerCycle ]
+    - ToState_reverse:
+      - [ UAObject, DI:303, NotWaitingForPowerCycleToWaitingForPowerCycle ]
+    - FromState_reverse:
+      - [ UAObject, DI:305, WaitingForPowerCycleToNotWaitingForPowerCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:303, NotWaitingForPowerCycleToWaitingForPowerCycle ]
     - HasProperty:
@@ -2037,6 +2761,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:303, NotWaitingForPowerCycleToWaitingForPowerCycle ]
     - FromState:
       - [ UAObject, DI:299, NotWaitingForPowerCycle ]
     - ToState:
@@ -2045,6 +2771,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:305, WaitingForPowerCycleToNotWaitingForPowerCycle ]
     - HasProperty:
@@ -2053,6 +2781,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:305, WaitingForPowerCycleToNotWaitingForPowerCycle ]
     - ToState:
       - [ UAObject, DI:299, NotWaitingForPowerCycle ]
     - FromState:
@@ -2061,6 +2791,10 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   ConfirmationStateMachineType:
   - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
@@ -2068,12 +2802,16 @@ DefinedTypes:
     - [ UAMethod, DI:321, Confirm ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
   - HasComponent:
     - [ UAVariable, DI:322, ConfirmationTimeout, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:323, NotWaitingForConfirm ]
     - HasProperty:
@@ -2082,8 +2820,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:323, NotWaitingForConfirm ]
+    - FromState_reverse:
+      - [ UAObject, DI:327, NotWaitingForConfirmToWaitingForConfirm ]
+    - ToState_reverse:
+      - [ UAObject, DI:329, WaitingForConfirmToNotWaitingForConfirm ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:325, WaitingForConfirm ]
     - HasProperty:
@@ -2092,8 +2838,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:325, WaitingForConfirm ]
+    - ToState_reverse:
+      - [ UAObject, DI:327, NotWaitingForConfirmToWaitingForConfirm ]
+    - FromState_reverse:
+      - [ UAObject, DI:329, WaitingForConfirmToNotWaitingForConfirm ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:327, NotWaitingForConfirmToWaitingForConfirm ]
     - HasProperty:
@@ -2102,6 +2856,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:327, NotWaitingForConfirmToWaitingForConfirm ]
     - FromState:
       - [ UAObject, DI:323, NotWaitingForConfirm ]
     - ToState:
@@ -2110,6 +2866,8 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
   - HasComponent:
     - [ UAObject, DI:329, WaitingForConfirmToNotWaitingForConfirm ]
     - HasProperty:
@@ -2118,6 +2876,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, DI:329, WaitingForConfirmToNotWaitingForConfirm ]
     - ToState:
       - [ UAObject, DI:323, NotWaitingForConfirm ]
     - FromState:
@@ -2126,3 +2886,7 @@ DefinedTypes:
       - [ UAObjectType, 2311, TransitionEventType ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]

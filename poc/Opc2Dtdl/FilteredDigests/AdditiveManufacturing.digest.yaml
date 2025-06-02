@@ -311,6 +311,8 @@ DefinedTypes:
 
   EquipmentAMType:
   - [ UAObjectType, AdditiveManufacturing:1003, EquipmentAMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:12, EquipmentType ]
   - HasComponent:
     - [ UAObject, AdditiveManufacturing:5003, Feedstock ]
     - HasModellingRule:
@@ -326,6 +328,8 @@ DefinedTypes:
       - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   FeedstockType:
   - [ UAObjectType, AdditiveManufacturing:1000, FeedstockType ]
@@ -345,6 +349,13 @@ DefinedTypes:
     - [ UAVariable, AdditiveManufacturing:6014, RemainingQuantity, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineIdentificationAMType:
+  - [ UAObjectType, AdditiveManufacturing:1004, MachineIdentificationAMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:11, MachineToolIdentificationType ]
 
   AdditiveManufacturingType:
   - [ UAObjectType, AdditiveManufacturing:1005, AdditiveManufacturingType ]
@@ -354,6 +365,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, AdditiveManufacturing:1003, EquipmentAMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:13, MachineToolType ]
   - HasComponent:
     - [ UAObject, AdditiveManufacturing:5011, MachineryBuildingBlocks ]
     - HasTypeDefinition:
@@ -366,3 +379,8 @@ DefinedTypes:
       - [ UAObjectType, MachineTool:14, MonitoringType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+
+  ProcessValueAMType:
+  - [ UAObjectType, AdditiveManufacturing:1002, ProcessValueAMType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]

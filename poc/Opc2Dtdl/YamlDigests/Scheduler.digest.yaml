@@ -122,12 +122,16 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Scheduler:37, CalendarType ]
   - HasProperty:
     - [ UAVariable, Scheduler:39, DateList, CalendarEntryType, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Scheduler:37, CalendarType ]
   - HasComponent:
     - [ UAMethod, Scheduler:40, AddDateListElements ]
     - HasProperty:
@@ -138,6 +142,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:40, AddDateListElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:42, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -146,8 +152,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:40, AddDateListElements ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Scheduler:37, CalendarType ]
   - HasComponent:
     - [ UAMethod, Scheduler:43, RemoveDateListElements ]
     - HasProperty:
@@ -158,6 +168,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:43, RemoveDateListElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:45, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -166,8 +178,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:43, RemoveDateListElements ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Scheduler:37, CalendarType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ScheduleType:
   - [ UAObjectType, Scheduler:52, ScheduleType ]
@@ -177,6 +195,8 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Scheduler:52, ScheduleType ]
   - HasComponent:
     - [ UAMethod, Scheduler:54, AddExceptionScheduleElements ]
     - HasProperty:
@@ -187,6 +207,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:54, AddExceptionScheduleElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:56, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -195,8 +217,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:54, AddExceptionScheduleElements ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Scheduler:52, ScheduleType ]
   - HasComponent:
     - [ UAMethod, Scheduler:57, RemoveExceptionScheduleElements ]
     - HasProperty:
@@ -207,6 +233,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:57, RemoveExceptionScheduleElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:59, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -215,29 +243,43 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Scheduler:57, RemoveExceptionScheduleElements ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Scheduler:52, ScheduleType ]
   - HasProperty:
     - [ UAVariable, Scheduler:60, WeeklySchedule, DailyScheduleType, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Scheduler:52, ScheduleType ]
   - HasProperty:
     - [ UAVariable, Scheduler:61, LocalTime, TimeZoneDataType, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Scheduler:52, ScheduleType ]
   - HasProperty:
     - [ UAVariable, Scheduler:62, EffectivePeriod, DateRangeType, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Scheduler:52, ScheduleType ]
   - HasProperty:
     - [ UAVariable, Scheduler:63, ApplyLastAfterStart, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Scheduler:52, ScheduleType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

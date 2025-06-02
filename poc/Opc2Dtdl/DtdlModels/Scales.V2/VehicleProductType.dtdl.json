@@ -1,0 +1,75 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales_V2:VehicleProductType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Scales_V2:ProductType;1",
+  "commandTopic": "opcua/Scales_V2/VehicleProductType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Gross",
+          "schema": "double"
+        },
+        {
+          "name": "Net",
+          "schema": "double"
+        },
+        {
+          "name": "Tare",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "DeltaWeight",
+      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "InboundWeight",
+      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "OutboundWeight",
+      "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "GetVehicleInformation",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "VehicleId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Material",
+      "target": "dtmi:opcua:Scales_V2:MaterialType"
+    }
+  ]
+}

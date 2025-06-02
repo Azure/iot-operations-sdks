@@ -278,36 +278,48 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6006, EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Tightening:6005, DesignType, Byte, 0, 0 ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6014, DriveMethod, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6015, EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Tightening:6014, DriveMethod, Byte, 0, 0 ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6016, DriveType, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 2376, MultiStateDiscreteType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
     - HasProperty:
       - [ UAVariable, IJT.Tightening:6017, EnumStrings, LocalizedText, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Tightening:6016, DriveType, Byte, 0, 0 ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6022, MaxSpeed, Double, 0, 0 ]
     - HasTypeDefinition:
@@ -320,6 +332,10 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Tightening:6022, MaxSpeed, Double, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6026, PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
@@ -332,6 +348,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Tightening:6026, PhysicalQuantity, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Tightening:6022, MaxSpeed, Double, 0, 0 ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6020, MaxTorque, Double, 0, 0 ]
     - HasTypeDefinition:
@@ -344,6 +364,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Tightening:6020, MaxTorque, Double, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6029, PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
@@ -356,6 +380,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Tightening:6029, PhysicalQuantity, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Tightening:6020, MaxTorque, Double, 0, 0 ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6021, MinTorque, Double, 0, 0 ]
     - HasTypeDefinition:
@@ -368,6 +396,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Tightening:6021, MinTorque, Double, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
     - HasComponent:
       - [ UAVariable, IJT.Tightening:6025, PhysicalQuantity, Byte, 0, 0 ]
       - HasModellingRule:
@@ -380,12 +412,20 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Tightening:6025, PhysicalQuantity, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Tightening:6021, MinTorque, Double, 0, 0 ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6023, MotorType, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
     - [ UAVariable, IJT.Tightening:6018, ShutOffMethod, Byte, 0, 0 ]
     - HasTypeDefinition:
@@ -398,3 +438,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Tightening:6018, ShutOffMethod, Byte, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Tightening:1003, ITighteningToolParametersType ]

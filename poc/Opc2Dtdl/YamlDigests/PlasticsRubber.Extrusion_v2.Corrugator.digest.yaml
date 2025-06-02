@@ -279,11 +279,17 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Corrugator:6002, ExtruderEnabled, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Corrugator:1003, Corrugator_InterfaceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasProperty:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.Corrugator:6001, MouldId, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.Corrugator:1003, Corrugator_InterfaceType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PlasticsRubber.Extrusion_v2.HaulOff:1002, HaulOff_InterfaceType ]

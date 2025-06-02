@@ -93,24 +93,86 @@ DefinedTypes:
 
   ISA95JobOrderStatusEventType:
   - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6047, JobOrder, ISA95JobOrderDataType, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6049, JobResponse, ISA95JobResponseDataType, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6048, JobState, ISA95StateDataType, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5045, FromAllowedToStartToRunning ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5073, FromAllowedToStartToRunning ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+  - HasEffect_reverse:
+    - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
 
   ISA95JobResponseProviderObjectType:
   - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
@@ -122,6 +184,8 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7002, RequestJobResponseByJobOrderID ]
     - HasModellingRule:
@@ -134,6 +198,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7002, RequestJobResponseByJobOrderID ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6043, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -143,6 +209,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7002, RequestJobResponseByJobOrderID ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7014, RequestJobResponseByJobOrderState ]
     - HasModellingRule:
@@ -155,6 +227,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7014, RequestJobResponseByJobOrderState ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6017, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -164,6 +238,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7014, RequestJobResponseByJobOrderState ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
 
   ISA95JobResponseReceiverObjectType:
   - [ UAObjectType, isa95-jobcontrol:1004, ISA95JobResponseReceiverObjectType ]
@@ -179,6 +257,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7003, ReceiveJobResponse ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6045, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -187,6 +267,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7003, ReceiveJobResponse ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1004, ISA95JobResponseReceiverObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95EndedStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1005, ISA95EndedStateMachineType ]
@@ -194,22 +280,34 @@ DefinedTypes:
     - [ UAObject, isa95-jobcontrol:5057, Closed ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1005, ISA95EndedStateMachineType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6094, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5057, Closed ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5058, FromCompletedToClosed ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5056, Completed ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1005, ISA95EndedStateMachineType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6093, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5056, Completed ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5058, FromCompletedToClosed ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5058, FromCompletedToClosed ]
     - HasTypeDefinition:
@@ -218,12 +316,18 @@ DefinedTypes:
       - [ UAObject, isa95-jobcontrol:5057, Closed ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5056, Completed ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1005, ISA95EndedStateMachineType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6095, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5058, FromCompletedToClosed ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   ISA95InterruptedStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1007, ISA95InterruptedStateMachineType ]
@@ -231,6 +335,8 @@ DefinedTypes:
     - [ UAObject, isa95-jobcontrol:5061, FromHeldToSuspended ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1007, ISA95InterruptedStateMachineType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5059, Held ]
     - ToState:
@@ -241,10 +347,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5061, FromHeldToSuspended ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5062, FromSuspendedToHeld ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1007, ISA95InterruptedStateMachineType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5059, Held ]
     - FromState:
@@ -255,16 +365,26 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5062, FromSuspendedToHeld ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5059, Held ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1007, ISA95InterruptedStateMachineType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6096, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5059, Held ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5061, FromHeldToSuspended ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5062, FromSuspendedToHeld ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5060, Suspended ]
     - HasTypeDefinition:
@@ -275,6 +395,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5060, Suspended ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1007, ISA95InterruptedStateMachineType ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5061, FromHeldToSuspended ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5062, FromSuspendedToHeld ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   ISA95JobOrderReceiverObjectType:
   - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
@@ -282,6 +412,24 @@ DefinedTypes:
     - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -291,6 +439,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -299,30 +449,62 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7010, Abort ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5040, Aborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6076, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5040, Aborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6072, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5045, FromAllowedToStartToRunning ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7011, Cancel ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6065, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -332,6 +514,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7011, Cancel ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6066, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -340,10 +524,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7011, Cancel ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7012, Clear ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6067, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -353,6 +541,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7012, Clear ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6068, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -361,22 +551,34 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7012, Clear ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5039, Ended ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6075, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5039, Ended ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6037, EquipmentID, String, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
     - HasTypeDefinition:
@@ -385,6 +587,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -394,6 +614,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -402,10 +624,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5040, Aborted ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - HasProperty:
@@ -414,6 +640,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
     - HasTypeDefinition:
@@ -422,6 +650,8 @@ DefinedTypes:
       - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - HasProperty:
@@ -430,6 +660,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasModellingRule:
@@ -443,6 +675,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6062, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -451,12 +685,26 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - ToState:
@@ -474,6 +722,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7013, RevokeStart ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6070, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -482,18 +732,30 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7013, RevokeStart ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6079, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5045, FromAllowedToStartToRunning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - ToState:
@@ -504,6 +766,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5045, FromAllowedToStartToRunning ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
     - HasTypeDefinition:
@@ -512,6 +776,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -521,6 +803,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -529,8 +813,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5040, Aborted ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5038, Interrupted ]
     - HasEffect:
@@ -541,12 +829,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5039, Ended ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5038, Interrupted ]
     - HasEffect:
@@ -564,6 +856,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6056, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -572,16 +866,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6087, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5038, Interrupted ]
     - HasEffect:
@@ -599,6 +909,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7008, Resume ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6060, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -607,6 +919,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7008, Resume ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5037, Running ]
     - HasProperty:
@@ -615,6 +935,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
     - HasTypeDefinition:
@@ -623,6 +945,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -632,6 +972,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -640,8 +982,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5040, Aborted ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -652,12 +998,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5036, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -675,6 +1025,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7005, Start ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6054, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -683,16 +1035,28 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7005, Start ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6078, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - ToState:
@@ -705,6 +1069,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasModellingRule:
@@ -718,6 +1084,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6062, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -726,6 +1094,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
     - HasTypeDefinition:
@@ -734,6 +1114,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -743,6 +1141,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -751,8 +1151,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5040, Aborted ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -763,12 +1167,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5039, Ended ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -786,6 +1194,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6056, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -794,16 +1204,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6083, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5038, Interrupted ]
     - HasEffect:
@@ -821,6 +1247,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7007, Pause ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6058, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -829,6 +1257,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7007, Pause ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5037, Running ]
     - HasProperty:
@@ -837,50 +1273,86 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5038, Interrupted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6074, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5038, Interrupted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6033, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6035, MaterialClassID, String, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6036, MaterialDefinitionID, String, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasProperty:
     - [ UAVariable, isa95-jobcontrol:6088, MaxDownloadableJobOrders, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5035, NotAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6071, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5035, NotAllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7007, Pause ]
     - HasModellingRule:
@@ -894,6 +1366,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7007, Pause ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6058, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -902,18 +1376,30 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7007, Pause ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6039, PersonnelID, String, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6038, PhysicalAssetID, String, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7008, Resume ]
     - HasModellingRule:
@@ -927,6 +1413,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7008, Resume ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6060, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -935,6 +1423,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7008, Resume ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7013, RevokeStart ]
     - HasModellingRule:
@@ -948,6 +1444,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7013, RevokeStart ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6070, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -956,16 +1454,38 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7013, RevokeStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5037, Running ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6073, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5037, Running ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5045, FromAllowedToStartToRunning ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7005, Start ]
     - HasModellingRule:
@@ -979,6 +1499,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7005, Start ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6054, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -987,6 +1509,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7005, Start ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7006, Stop ]
     - HasModellingRule:
@@ -1000,6 +1530,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7006, Stop ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6056, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1008,6 +1540,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7006, Stop ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7001, Store ]
     - HasModellingRule:
@@ -1021,6 +1565,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7001, Store ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6041, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1029,6 +1575,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7001, Store ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7004, StoreAndStart ]
     - HasModellingRule:
@@ -1042,6 +1592,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7004, StoreAndStart ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6052, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1050,6 +1602,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7004, StoreAndStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7009, Update ]
     - HasModellingRule:
@@ -1063,6 +1619,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7009, Update ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6062, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1071,12 +1629,28 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, isa95-jobcontrol:7009, Update ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+    - HasCause_reverse:
+      - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAVariable, isa95-jobcontrol:6034, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   ISA95JobOrderReceiverSubStatesType:
   - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
@@ -1084,62 +1658,108 @@ DefinedTypes:
     - [ UAObject, isa95-jobcontrol:5068, Aborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6105, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5068, Aborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasSubStateMachine:
       - [ UAObject, isa95-jobcontrol:5081, AllowedToStartSubstates ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+      - HasSubStateMachine_reverse:
+        - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
       - HasComponent:
         - [ UAVariable, isa95-jobcontrol:6003, CurrentState, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, isa95-jobcontrol:5081, AllowedToStartSubstates ]
         - HasProperty:
           - [ UAVariable, isa95-jobcontrol:6004, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, isa95-jobcontrol:6003, CurrentState, LocalizedText, 0, 0 ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6101, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5073, FromAllowedToStartToRunning ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5081, AllowedToStartSubstates ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+    - HasSubStateMachine_reverse:
+      - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
     - HasComponent:
       - [ UAVariable, isa95-jobcontrol:6003, CurrentState, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, isa95-jobcontrol:5081, AllowedToStartSubstates ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6004, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, isa95-jobcontrol:6003, CurrentState, LocalizedText, 0, 0 ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5067, Ended ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasSubStateMachine:
       - [ UAObject, isa95-jobcontrol:5082, EndedSubstates ]
       - HasModellingRule:
@@ -1152,18 +1772,32 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, isa95-jobcontrol:5082, EndedSubstates ]
         - HasProperty:
           - [ UAVariable, isa95-jobcontrol:6006, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, isa95-jobcontrol:6005, CurrentState, LocalizedText, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+      - HasSubStateMachine_reverse:
+        - [ UAObject, isa95-jobcontrol:5067, Ended ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6104, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5067, Ended ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5082, EndedSubstates ]
     - HasModellingRule:
@@ -1176,12 +1810,20 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, isa95-jobcontrol:5082, EndedSubstates ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6006, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, isa95-jobcontrol:6005, CurrentState, LocalizedText, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+    - HasSubStateMachine_reverse:
+      - [ UAObject, isa95-jobcontrol:5067, Ended ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
     - HasTypeDefinition:
@@ -1190,6 +1832,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1199,6 +1859,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1207,10 +1869,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5068, Aborted ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - HasProperty:
@@ -1219,6 +1885,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
     - HasTypeDefinition:
@@ -1227,6 +1895,8 @@ DefinedTypes:
       - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - HasProperty:
@@ -1235,6 +1905,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasModellingRule:
@@ -1248,6 +1920,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6062, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1256,12 +1930,26 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - ToState:
@@ -1279,6 +1967,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7013, RevokeStart ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6070, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1287,18 +1977,30 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7013, RevokeStart ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5043, FromAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6108, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5073, FromAllowedToStartToRunning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - ToState:
@@ -1309,6 +2011,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5073, FromAllowedToStartToRunning ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
     - HasTypeDefinition:
@@ -1317,6 +2021,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1326,6 +2048,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1334,8 +2058,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5068, Aborted ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
     - HasEffect:
@@ -1346,12 +2074,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5067, Ended ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
     - HasEffect:
@@ -1369,6 +2101,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6056, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1377,16 +2111,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6116, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
     - HasEffect:
@@ -1404,6 +2154,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7008, Resume ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6060, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1412,6 +2164,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7008, Resume ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5050, FromInterruptedToRunning ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5065, Running ]
     - HasProperty:
@@ -1420,6 +2180,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
     - HasTypeDefinition:
@@ -1428,6 +2190,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1437,6 +2217,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1445,8 +2227,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5068, Aborted ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -1457,12 +2243,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5064, AllowedToStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -1480,6 +2270,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7005, Start ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6054, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1488,16 +2280,28 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7005, Start ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5042, FromNotAllowedToStartToAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6107, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -1510,6 +2314,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
     - HasCause:
       - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasModellingRule:
@@ -1523,6 +2329,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6062, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1531,6 +2339,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7009, Update ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5041, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5044, FromAllowedToStartToAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5072, FromAllowedToStartToAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
     - HasTypeDefinition:
@@ -1539,6 +2359,24 @@ DefinedTypes:
       - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5048, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5049, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5084, FromNotAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5085, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5086, FromAllowedToStartToAborted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6063, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1548,6 +2386,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6064, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1556,8 +2396,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7010, Abort ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5068, Aborted ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -1568,12 +2412,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5067, Ended ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasEffect:
       - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
     - FromState:
@@ -1591,6 +2439,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6056, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1599,16 +2449,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7006, Stop ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5047, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5051, FromInterruptedToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6112, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
     - HasEffect:
@@ -1626,6 +2492,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7007, Pause ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6058, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1634,6 +2502,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, isa95-jobcontrol:7007, Pause ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5046, FromRunningToInterrupted ]
+      - HasCause_reverse:
+        - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5065, Running ]
     - HasProperty:
@@ -1642,10 +2518,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasSubStateMachine:
       - [ UAObject, isa95-jobcontrol:5083, InterruptedSubstates ]
       - HasModellingRule:
@@ -1658,18 +2538,36 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, isa95-jobcontrol:5083, InterruptedSubstates ]
         - HasProperty:
           - [ UAVariable, isa95-jobcontrol:6008, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, isa95-jobcontrol:6007, CurrentState, LocalizedText, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+      - HasSubStateMachine_reverse:
+        - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6103, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5077, FromInterruptedToAborted ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5079, FromInterruptedToEnded ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5083, InterruptedSubstates ]
     - HasModellingRule:
@@ -1682,16 +2580,28 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, isa95-jobcontrol:5083, InterruptedSubstates ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6008, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, isa95-jobcontrol:6007, CurrentState, LocalizedText, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+    - HasSubStateMachine_reverse:
+      - [ UAObject, isa95-jobcontrol:5066, Interrupted ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5063, NotAllowedToStart ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasSubStateMachine:
       - [ UAObject, isa95-jobcontrol:5080, NotAllowedToStartSubstates ]
       - HasModellingRule:
@@ -1704,18 +2614,38 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, isa95-jobcontrol:5080, NotAllowedToStartSubstates ]
         - HasProperty:
           - [ UAVariable, isa95-jobcontrol:6002, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, isa95-jobcontrol:6001, CurrentState, LocalizedText, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+      - HasSubStateMachine_reverse:
+        - [ UAObject, isa95-jobcontrol:5063, NotAllowedToStart ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6100, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5063, NotAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5069, FromNotAllowedToStartToNotAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5070, FromNotAllowedToStartToAllowedToStart ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5071, FromAllowedToStartToNotAllowedToStart ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5087, FromNotAllowedToStartToAborted ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5080, NotAllowedToStartSubstates ]
     - HasModellingRule:
@@ -1728,22 +2658,44 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, isa95-jobcontrol:5080, NotAllowedToStartSubstates ]
       - HasProperty:
         - [ UAVariable, isa95-jobcontrol:6002, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, isa95-jobcontrol:6001, CurrentState, LocalizedText, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
+    - HasSubStateMachine_reverse:
+      - [ UAObject, isa95-jobcontrol:5063, NotAllowedToStart ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5065, Running ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6102, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5065, Running ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5073, FromAllowedToStartToRunning ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5074, FromRunningToInterrupted ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5075, FromRunningToEnded ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5076, FromRunningToAborted ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5078, FromInterruptedToRunning ]
 
   ISA95PrepareStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
@@ -1751,6 +2703,8 @@ DefinedTypes:
     - [ UAObject, isa95-jobcontrol:5089, FromLoadedToReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5053, Loaded ]
     - ToState:
@@ -1761,10 +2715,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5089, FromLoadedToReady ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5090, FromLoadedToWaiting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5053, Loaded ]
     - HasProperty:
@@ -1773,12 +2731,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5090, FromLoadedToWaiting ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5000, Waiting ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5055, FromReadyToLoaded ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5053, Loaded ]
     - FromState:
@@ -1789,10 +2751,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5055, FromReadyToLoaded ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5088, FromReadyToWaiting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5052, Ready ]
     - HasProperty:
@@ -1801,12 +2767,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5088, FromReadyToWaiting ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5000, Waiting ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5054, FromWaitingToReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
     - ToState:
       - [ UAObject, isa95-jobcontrol:5052, Ready ]
     - HasProperty:
@@ -1815,28 +2785,52 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5054, FromWaitingToReady ]
     - FromState:
       - [ UAObject, isa95-jobcontrol:5000, Waiting ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5053, Loaded ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6090, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5053, Loaded ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5055, FromReadyToLoaded ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5089, FromLoadedToReady ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5090, FromLoadedToWaiting ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5052, Ready ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
     - HasProperty:
       - [ UAVariable, isa95-jobcontrol:6089, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5052, Ready ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5054, FromWaitingToReady ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5055, FromReadyToLoaded ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5088, FromReadyToWaiting ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5089, FromLoadedToReady ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5000, Waiting ]
     - HasTypeDefinition:
@@ -1847,3 +2841,15 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, isa95-jobcontrol:5000, Waiting ]
+    - HasComponent_reverse:
+      - [ UAObjectType, isa95-jobcontrol:1001, ISA95PrepareStateMachineType ]
+    - FromState_reverse:
+      - [ UAObject, isa95-jobcontrol:5054, FromWaitingToReady ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5088, FromReadyToWaiting ]
+    - ToState_reverse:
+      - [ UAObject, isa95-jobcontrol:5090, FromLoadedToWaiting ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]

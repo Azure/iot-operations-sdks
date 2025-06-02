@@ -1,0 +1,22 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:AMLLibs:ExternalDataConnector;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:AMLLibs:AutomationMLBaseInterface;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "refURI",
+      "schema": "string",
+      "writable": false
+    }
+  ]
+}

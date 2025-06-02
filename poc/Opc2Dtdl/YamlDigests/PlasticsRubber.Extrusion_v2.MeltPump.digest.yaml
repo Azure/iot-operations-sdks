@@ -279,6 +279,8 @@ DefinedTypes:
     - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5002, Drive ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5003, AdditionalMeasuringDevices ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5002, Drive ]
       - GeneratesEvent:
         - [ UAObjectType, 2133, GeneralModelChangeEventType ]
       - HasTypeDefinition:
@@ -287,20 +289,28 @@ DefinedTypes:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6002, NodeVersion, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5003, AdditionalMeasuringDevices ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.MeltPump:1002, MeltPump_InterfaceType ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, DriveType ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5004, Energy ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6009, ActualPower, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5004, Energy ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6010, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6009, ActualPower, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -309,16 +319,22 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6018, ActualSpecificEnergy, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5004, Energy ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6019, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6018, ActualSpecificEnergy, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5002, Drive ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1063, EnergyType ]
       - HasModellingRule:
@@ -329,22 +345,30 @@ DefinedTypes:
           - [ UAVariableType, 17497, AnalogUnitType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6021, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6020, PowerConsumption, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5004, Energy ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6022, PowerFactor, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5004, Energy ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5007, Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6023, AdditionalInformation, String, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5007, Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -355,18 +379,26 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6025, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6024, Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6026, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6024, Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5007, Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5002, Drive ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
       - HasModellingRule:
@@ -377,62 +409,84 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6028, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6027, RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6029, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6027, RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5007, Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7002, Reset ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5007, Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6003, Status, MaintenanceStatusEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5007, Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6030, TotalOperation, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6031, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6030, TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6032, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6030, TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5007, Maintenance ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6004, ActualValue, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6112, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6004, ActualValue, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6005, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6004, ActualValue, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -441,8 +495,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6033, AlarmSuppression, UInt16, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6041, EnumValues, EnumValueType, 1, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6033, AlarmSuppression, UInt16, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -457,8 +515,12 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6033, AlarmSuppression, UInt16, 0, 3 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6043, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -469,16 +531,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6045, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6044, LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6046, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6044, LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -487,16 +555,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6048, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6047, LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6049, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6047, LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -505,16 +579,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6051, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6050, MaxValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6052, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6050, MaxValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -523,16 +603,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6054, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6053, MinValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6055, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6053, MinValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -541,10 +627,14 @@ DefinedTypes:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6056, MonitoringSensitivity, UInt16, 0, 3 ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6057, EnumValues, EnumValueType, 1, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6056, MonitoringSensitivity, UInt16, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
         - HasTypeDefinition:
           - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
         - HasModellingRule:
@@ -555,102 +645,138 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6056, MonitoringSensitivity, UInt16, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7003, ResetMonitoring ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6059, SetRampDown, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6060, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6059, SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6061, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6059, SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6062, SetRampUp, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6063, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6062, SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6064, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6062, SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6065, SetValue, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6066, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6065, SetValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6067, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6065, SetValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5002, Drive ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6068, UpperTolerance, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6069, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6068, UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6070, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6068, UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6071, UpperTolerance2, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6072, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6071, UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6073, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6071, UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5008, Speed ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5011, StartDrive ]
       - HasModellingRule:
@@ -661,36 +787,52 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5011, StartDrive ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5002, Drive ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7004, StartRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5011, StartDrive ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6006, Status, StartEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5011, StartDrive ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7005, StopRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5011, StartDrive ]
     - HasComponent:
       - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6007, ActualValue, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6113, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6007, ActualValue, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6008, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6007, ActualValue, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -699,8 +841,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6075, AlarmSuppression, UInt16, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6076, EnumValues, EnumValueType, 1, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6075, AlarmSuppression, UInt16, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
@@ -715,8 +861,12 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6075, AlarmSuppression, UInt16, 0, 3 ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6078, AutomaticMonitoring, Boolean, 0, 3 ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -727,16 +877,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6080, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6079, LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6081, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6079, LowerTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -745,16 +901,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6083, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6082, LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6084, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6082, LowerTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -763,16 +925,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6086, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6085, MaxValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6087, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6085, MaxValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -781,16 +949,22 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6089, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6088, MinValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6090, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6088, MinValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -799,10 +973,14 @@ DefinedTypes:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6091, MonitoringSensitivity, UInt16, 0, 3 ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6092, EnumValues, EnumValueType, 1, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6091, MonitoringSensitivity, UInt16, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
         - HasTypeDefinition:
           - [ UAVariableType, 11238, MultiStateValueDiscreteType ]
         - HasModellingRule:
@@ -813,112 +991,152 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6091, MonitoringSensitivity, UInt16, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7006, ResetMonitoring ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6094, SetRampDown, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6095, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6094, SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6096, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6094, SetRampDown, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6097, SetRampUp, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6098, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6097, SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6099, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6097, SetRampUp, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6100, SetValue, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6101, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6100, SetValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6102, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6100, SetValue, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5002, Drive ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6103, UpperTolerance, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6104, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6103, UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6105, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6103, UpperTolerance, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6106, UpperTolerance2, Double, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6110, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6106, UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6111, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6106, UpperTolerance2, Double, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5012, Torque ]
   - HasComponent:
     - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6011, FeedRate, Double, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6012, EngineeringUnits, EUInformation, 0, 0 ]
+      - HasProperty_reverse:
+        - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6011, FeedRate, Double, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.MeltPump:1002, MeltPump_InterfaceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -927,10 +1145,14 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1065, MeasuringDevicesType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.MeltPump:1002, MeltPump_InterfaceType ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6001, NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5001, MeltPressures ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
@@ -941,6 +1163,8 @@ DefinedTypes:
       - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5006, Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6034, AdditionalInformation, String, 0, 0 ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5006, Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
@@ -951,18 +1175,26 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6108, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6035, Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6036, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6035, Interval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5006, Maintenance ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5005, TemperatureZones ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
       - HasModellingRule:
@@ -973,50 +1205,68 @@ DefinedTypes:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6109, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6037, RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6038, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6037, RemainingInterval, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5006, Maintenance ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7001, Reset ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5006, Maintenance ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6015, Status, MaintenanceStatusEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5006, Maintenance ]
       - HasComponent:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6039, TotalOperation, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 2368, AnalogItemType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6114, EngineeringUnits, EUInformation, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6039, TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasProperty:
           - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6040, EURange, Range, 0, 0 ]
+          - HasProperty_reverse:
+            - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6039, TotalOperation, Double, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5006, Maintenance ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6014, NodeVersion, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5005, TemperatureZones ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
@@ -1031,19 +1281,33 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5009, StartTempering ]
       - HasTypeDefinition:
         - [ UAObjectType, PlasticsRubber.GeneralTypes:1023, StartDeviceType ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7007, StartRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5009, StartTempering ]
+      - HasComponent_reverse:
+        - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5005, TemperatureZones ]
       - HasProperty:
         - [ UAVariable, PlasticsRubber.Extrusion_v2.MeltPump:6016, Status, StartEnumeration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5009, StartTempering ]
       - HasComponent:
         - [ UAMethod, PlasticsRubber.Extrusion_v2.MeltPump:7008, StopRequest ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, PlasticsRubber.Extrusion_v2.MeltPump:5009, StartTempering ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PlasticsRubber.Extrusion_v2.MeltPump:1002, MeltPump_InterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PlasticsRubber.Extrusion_v2.GeneralTypes:1002, ExtrusionDeviceType ]

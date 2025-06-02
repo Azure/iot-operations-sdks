@@ -7,24 +7,10 @@
   ],
   "@id": "dtmi:opcua:CAS:DrainType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CAS:CASComponentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "Design",
-      "target": "dtmi:opcua:CAS:DrainDesignType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Operational",
-      "target": "dtmi:opcua:CAS:DrainOperationalType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "ProcessFluidCircuit",
-      "target": "dtmi:opcua:CAS:FluidCircuitType"
-    }
   ]
 }

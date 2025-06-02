@@ -46,6 +46,12 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1011, IMachineTagNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15048, ITagNameplateType ]
+  - HasInterface_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
 
   IMachineryItemVendorNameplateType:
   - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
@@ -55,39 +61,59 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, Machinery:6022, Manufacturer, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, Machinery:6026, MonthOfConstruction, Byte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, Machinery:6024, SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, Machinery:6025, YearOfConstruction, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15035, IVendorNameplateType ]
+  - HasInterface_reverse:
+    - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
 
   IMachineVendorNameplateType:
   - [ UAObjectType, Machinery:1010, IMachineVendorNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
   - HasProperty:
     - [ UAVariable, Machinery:6023, ProductInstanceUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1010, IMachineVendorNameplateType ]
+  - HasInterface_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
 
   MachineryItemIdentificationType:
   - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
@@ -97,28 +123,38 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6014, ComponentName, LocalizedText, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6088, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6012, DeviceClass, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6010, HardwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasInterface:
     - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
   - HasProperty:
@@ -127,6 +163,8 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasInterface:
     - [ UAObjectType, DI:15048, ITagNameplateType ]
   - HasProperty:
@@ -135,54 +173,74 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6007, ManufacturerUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6008, Model, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6005, MonthOfConstruction, Byte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6009, ProductCode, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6001, ProductInstanceUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6003, SerialNumber, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6011, SoftwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6004, YearOfConstruction, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   MachineIdentificationType:
   - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
@@ -190,6 +248,8 @@ DefinedTypes:
     - [ UAVariable, Machinery:6030, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
   - HasInterface:
     - [ UAObjectType, Machinery:1011, IMachineTagNameplateType ]
   - HasInterface:
@@ -200,12 +260,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6015, ProductInstanceUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
 
   MachineryComponentIdentificationType:
   - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
@@ -213,12 +279,18 @@ DefinedTypes:
     - [ UAVariable, Machinery:6016, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
   - HasProperty:
     - [ UAVariable, Machinery:6017, DeviceRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
 
   MachineryOperationCounterType:
   - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
@@ -226,26 +298,36 @@ DefinedTypes:
     - [ UAVariable, Machinery:6082, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
   - HasInterface:
     - [ UAObjectType, DI:480, IOperationCounterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasProperty:
     - [ UAVariable, Machinery:6081, OperationCycleCounter, UInteger, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
   - HasProperty:
     - [ UAVariable, Machinery:6080, OperationDuration, Duration, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
   - HasProperty:
     - [ UAVariable, Machinery:6079, PowerOnDuration, Duration, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
 
   MachineryLifetimeCounterType:
   - [ UAObjectType, Machinery:1015, MachineryLifetimeCounterType ]
@@ -255,28 +337,40 @@ DefinedTypes:
       - [ UAVariableType, DI:468, LifetimeVariableType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1015, MachineryLifetimeCounterType ]
     - HasProperty:
       - [ UAVariable, Machinery:6086, EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, Machinery:6083, <LifetimeVariable>, Number, 0, 3 ]
     - HasProperty:
       - [ UAVariable, Machinery:6084, LimitValue, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, Machinery:6083, <LifetimeVariable>, Number, 0, 3 ]
     - HasProperty:
       - [ UAVariable, Machinery:6085, StartValue, Number, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, Machinery:6083, <LifetimeVariable>, Number, 0, 3 ]
   - HasProperty:
     - [ UAVariable, Machinery:6087, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1015, MachineryLifetimeCounterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
 
   MachineComponentsType:
   - [ UAObjectType, Machinery:1006, MachineComponentsType ]
@@ -286,28 +380,40 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
     - HasAddIn:
       - [ UAObject, Machinery:5003, Identification ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+      - HasAddIn_reverse:
+        - [ UAObject, Machinery:5002, <Component> ]
       - HasProperty:
         - [ UAVariable, Machinery:6019, Manufacturer, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Machinery:5003, Identification ]
       - HasProperty:
         - [ UAVariable, Machinery:6020, SerialNumber, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Machinery:5003, Identification ]
   - HasProperty:
     - [ UAVariable, Machinery:6018, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   MachineryItemState_StateMachineType:
   - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
@@ -315,16 +421,38 @@ DefinedTypes:
     - [ UAVariable, Machinery:6021, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
   - HasComponent:
     - [ UAObject, Machinery:5006, Executing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6040, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5006, Executing ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5010, FromNotAvailableToExecuting ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5014, FromOutOfServiceToExecuting ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5018, FromNotExecutingToExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5020, FromExecutingToNotAvailable ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5021, FromExecutingToOutOfService ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5022, FromExecutingToNotExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5023, FromExecutingToExecuting ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5023, FromExecutingToExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5023, FromExecutingToExecuting ]
     - HasTypeDefinition:
@@ -333,18 +461,24 @@ DefinedTypes:
       - [ UAObject, Machinery:5006, Executing ]
     - ToState:
       - [ UAObject, Machinery:5006, Executing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6057, TransitionNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5023, FromExecutingToExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5020, FromExecutingToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, Machinery:5006, Executing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5005, NotAvailable ]
     - HasProperty:
@@ -353,12 +487,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5020, FromExecutingToNotAvailable ]
   - HasComponent:
     - [ UAObject, Machinery:5022, FromExecutingToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, Machinery:5006, Executing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5007, NotExecuting ]
     - HasProperty:
@@ -367,12 +505,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5022, FromExecutingToNotExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5021, FromExecutingToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, Machinery:5006, Executing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5004, OutOfService ]
     - HasProperty:
@@ -381,12 +523,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5021, FromExecutingToOutOfService ]
   - HasComponent:
     - [ UAObject, Machinery:5010, FromNotAvailableToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, Machinery:5006, Executing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5005, NotAvailable ]
     - HasProperty:
@@ -395,10 +541,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5010, FromNotAvailableToExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5011, FromNotAvailableToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5005, NotAvailable ]
     - ToState:
@@ -409,10 +559,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5011, FromNotAvailableToNotAvailable ]
   - HasComponent:
     - [ UAObject, Machinery:5009, FromNotAvailableToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5005, NotAvailable ]
     - ToState:
@@ -423,10 +577,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5009, FromNotAvailableToNotExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5008, FromNotAvailableToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5005, NotAvailable ]
     - ToState:
@@ -437,12 +595,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5008, FromNotAvailableToOutOfService ]
   - HasComponent:
     - [ UAObject, Machinery:5018, FromNotExecutingToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, Machinery:5006, Executing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5007, NotExecuting ]
     - HasProperty:
@@ -451,10 +613,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5018, FromNotExecutingToExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5016, FromNotExecutingToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5005, NotAvailable ]
     - FromState:
@@ -465,10 +631,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5016, FromNotExecutingToNotAvailable ]
   - HasComponent:
     - [ UAObject, Machinery:5019, FromNotExecutingToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5007, NotExecuting ]
     - ToState:
@@ -479,10 +649,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5019, FromNotExecutingToNotExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5017, FromNotExecutingToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5007, NotExecuting ]
     - ToState:
@@ -493,12 +667,16 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5017, FromNotExecutingToOutOfService ]
   - HasComponent:
     - [ UAObject, Machinery:5014, FromOutOfServiceToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, Machinery:5006, Executing ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5004, OutOfService ]
     - HasProperty:
@@ -507,10 +685,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5014, FromOutOfServiceToExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5012, FromOutOfServiceToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5005, NotAvailable ]
     - FromState:
@@ -521,10 +703,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5012, FromOutOfServiceToNotAvailable ]
   - HasComponent:
     - [ UAObject, Machinery:5013, FromOutOfServiceToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5007, NotExecuting ]
     - FromState:
@@ -535,10 +721,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5013, FromOutOfServiceToNotExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5015, FromOutOfServiceToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5004, OutOfService ]
     - ToState:
@@ -549,36 +739,100 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5015, FromOutOfServiceToOutOfService ]
   - HasComponent:
     - [ UAObject, Machinery:5005, NotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6039, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5005, NotAvailable ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5008, FromNotAvailableToOutOfService ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5009, FromNotAvailableToNotExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5010, FromNotAvailableToExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5011, FromNotAvailableToNotAvailable ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5011, FromNotAvailableToNotAvailable ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5012, FromOutOfServiceToNotAvailable ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5016, FromNotExecutingToNotAvailable ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5020, FromExecutingToNotAvailable ]
   - HasComponent:
     - [ UAObject, Machinery:5007, NotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6041, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5007, NotExecuting ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5009, FromNotAvailableToNotExecuting ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5013, FromOutOfServiceToNotExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5016, FromNotExecutingToNotAvailable ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5017, FromNotExecutingToOutOfService ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5018, FromNotExecutingToExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5019, FromNotExecutingToNotExecuting ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5019, FromNotExecutingToNotExecuting ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5022, FromExecutingToNotExecuting ]
   - HasComponent:
     - [ UAObject, Machinery:5004, OutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6038, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5004, OutOfService ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5008, FromNotAvailableToOutOfService ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5012, FromOutOfServiceToNotAvailable ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5013, FromOutOfServiceToNotExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5014, FromOutOfServiceToExecuting ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5015, FromOutOfServiceToOutOfService ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5015, FromOutOfServiceToOutOfService ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5017, FromNotExecutingToOutOfService ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5021, FromExecutingToOutOfService ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   MachineryOperationModeStateMachineType:
   - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
@@ -586,10 +840,14 @@ DefinedTypes:
     - [ UAVariable, Machinery:6058, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
   - HasComponent:
     - [ UAObject, Machinery:5035, FromMaintenanceToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5025, Maintenance ]
     - ToState:
@@ -600,10 +858,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5035, FromMaintenanceToMaintenance ]
   - HasComponent:
     - [ UAObject, Machinery:5032, FromMaintenanceToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5025, Maintenance ]
     - ToState:
@@ -614,10 +876,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5032, FromMaintenanceToNone ]
   - HasComponent:
     - [ UAObject, Machinery:5034, FromMaintenanceToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5025, Maintenance ]
     - ToState:
@@ -628,10 +894,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5034, FromMaintenanceToProcessing ]
   - HasComponent:
     - [ UAObject, Machinery:5033, FromMaintenanceToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5025, Maintenance ]
     - ToState:
@@ -642,10 +912,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5033, FromMaintenanceToSetup ]
   - HasComponent:
     - [ UAObject, Machinery:5028, FromNoneToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5025, Maintenance ]
     - FromState:
@@ -656,10 +930,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5028, FromNoneToMaintenance ]
   - HasComponent:
     - [ UAObject, Machinery:5031, FromNoneToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5024, None ]
     - ToState:
@@ -670,10 +948,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5031, FromNoneToNone ]
   - HasComponent:
     - [ UAObject, Machinery:5030, FromNoneToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5024, None ]
     - ToState:
@@ -684,10 +966,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5030, FromNoneToProcessing ]
   - HasComponent:
     - [ UAObject, Machinery:5029, FromNoneToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5024, None ]
     - ToState:
@@ -698,10 +984,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5029, FromNoneToSetup ]
   - HasComponent:
     - [ UAObject, Machinery:5041, FromProcessingToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5025, Maintenance ]
     - FromState:
@@ -712,10 +1002,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5041, FromProcessingToMaintenance ]
   - HasComponent:
     - [ UAObject, Machinery:5040, FromProcessingToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5024, None ]
     - FromState:
@@ -726,10 +1020,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5040, FromProcessingToNone ]
   - HasComponent:
     - [ UAObject, Machinery:5043, FromProcessingToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5026, Processing ]
     - ToState:
@@ -740,10 +1038,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5043, FromProcessingToProcessing ]
   - HasComponent:
     - [ UAObject, Machinery:5042, FromProcessingToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5026, Processing ]
     - ToState:
@@ -754,10 +1056,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5042, FromProcessingToSetup ]
   - HasComponent:
     - [ UAObject, Machinery:5037, FromSetupToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5025, Maintenance ]
     - FromState:
@@ -768,10 +1074,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5037, FromSetupToMaintenance ]
   - HasComponent:
     - [ UAObject, Machinery:5036, FromSetupToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5024, None ]
     - FromState:
@@ -782,10 +1092,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5036, FromSetupToNone ]
   - HasComponent:
     - [ UAObject, Machinery:5038, FromSetupToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - ToState:
       - [ UAObject, Machinery:5026, Processing ]
     - FromState:
@@ -796,10 +1110,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5038, FromSetupToProcessing ]
   - HasComponent:
     - [ UAObject, Machinery:5039, FromSetupToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - FromState:
       - [ UAObject, Machinery:5027, Setup ]
     - ToState:
@@ -810,43 +1128,127 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5039, FromSetupToSetup ]
   - HasComponent:
     - [ UAObject, Machinery:5025, Maintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6060, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5025, Maintenance ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5028, FromNoneToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5032, FromMaintenanceToNone ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5033, FromMaintenanceToSetup ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5034, FromMaintenanceToProcessing ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5035, FromMaintenanceToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5035, FromMaintenanceToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5037, FromSetupToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5041, FromProcessingToMaintenance ]
   - HasComponent:
     - [ UAObject, Machinery:5024, None ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6059, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5024, None ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5028, FromNoneToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5029, FromNoneToSetup ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5030, FromNoneToProcessing ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5031, FromNoneToNone ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5031, FromNoneToNone ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5032, FromMaintenanceToNone ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5036, FromSetupToNone ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5040, FromProcessingToNone ]
   - HasComponent:
     - [ UAObject, Machinery:5026, Processing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6061, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5026, Processing ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5030, FromNoneToProcessing ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5034, FromMaintenanceToProcessing ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5038, FromSetupToProcessing ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5040, FromProcessingToNone ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5041, FromProcessingToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5042, FromProcessingToSetup ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5043, FromProcessingToProcessing ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5043, FromProcessingToProcessing ]
   - HasComponent:
     - [ UAObject, Machinery:5027, Setup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
     - HasProperty:
       - [ UAVariable, Machinery:6062, StateNumber, UInt32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery:5027, Setup ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5029, FromNoneToSetup ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5033, FromMaintenanceToSetup ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5036, FromSetupToNone ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5037, FromSetupToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5038, FromSetupToProcessing ]
+    - FromState_reverse:
+      - [ UAObject, Machinery:5039, FromSetupToSetup ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5039, FromSetupToSetup ]
+    - ToState_reverse:
+      - [ UAObject, Machinery:5042, FromProcessingToSetup ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]

@@ -46,6 +46,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, CSPPlusForMachine:2001, CsppAnalogItemType, Number, -2, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 2368, AnalogItemType ]
 
   CsppMachineType:
   - [ UAObjectType, CSPPlusForMachine:1001, CsppMachineType ]
@@ -57,16 +61,22 @@ DefinedTypes:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, CSPPlusForMachine:5001, ParameterSet ]
     - HasComponent:
       - [ UAVariable, CSPPlusForMachine:6002, <ConfigurationName> ]
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, CSPPlusForMachine:5001, ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, CSPPlusForMachine:1001, CsppMachineType ]
   - HasComponent:
     - [ UAObject, CSPPlusForMachine:5002, <CommIfSection> ]
     - HasComponent:
@@ -77,10 +87,14 @@ DefinedTypes:
           - [ UAVariableType, 2365, DataItemType ]
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
+        - Organizes_reverse:
+          - [ UAObject, CSPPlusForMachine:5003, <CommIfVariablePart> ]
       - HasTypeDefinition:
         - [ UAObjectType, DI:1005, FunctionalGroupType ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, CSPPlusForMachine:5002, <CommIfSection> ]
     - HasComponent:
       - [ UAObject, CSPPlusForMachine:5004, <CommIfConfigurationPart> ]
       - Organizes:
@@ -89,17 +103,27 @@ DefinedTypes:
           - [ UAVariableType, 2365, DataItemType ]
         - HasModellingRule:
           - [ UAObject, 11510, MandatoryPlaceholder ]
+        - Organizes_reverse:
+          - [ UAObject, CSPPlusForMachine:5004, <CommIfConfigurationPart> ]
       - HasTypeDefinition:
         - [ UAObjectType, DI:1005, FunctionalGroupType ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, CSPPlusForMachine:5002, <CommIfSection> ]
     - Organizes:
       - [ UAVariable, CSPPlusForMachine:6003, <VariableOrConfigurationName> ]
       - HasTypeDefinition:
         - [ UAVariableType, 2365, DataItemType ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
+      - Organizes_reverse:
+        - [ UAObject, CSPPlusForMachine:5002, <CommIfSection> ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, CSPPlusForMachine:1001, CsppMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]

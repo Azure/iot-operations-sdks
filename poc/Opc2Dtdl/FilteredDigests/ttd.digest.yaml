@@ -402,6 +402,13 @@ DefinedTypes:
     - [ UAVariable, TTD:6038, Result, ResultDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
+
+  JobStatisticsType:
+  - [ UAObjectType, TTD:1009, JobStatisticsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   MachineStatisticsType:
   - [ UAObjectType, TTD:1012, MachineStatisticsType ]
@@ -409,6 +416,8 @@ DefinedTypes:
     - [ UAMethod, TTD:7007, ResetStatistics ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   RecurrentPrognosisType:
   - [ UAObjectType, TTD:1004, RecurrentPrognosisType ]
@@ -416,6 +425,8 @@ DefinedTypes:
     - [ UAVariable, TTD:6066, Activity, LocalizedText, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:3, PrognosisType ]
 
   RecipeManagementType:
   - [ UAObjectType, TTD:1003, RecipeManagementType ]
@@ -487,6 +498,8 @@ DefinedTypes:
           Overwrite: [ Boolean, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   TTDResultManagementType:
   - [ UAObjectType, TTD:1007, TTDResultManagementType ]
@@ -521,6 +534,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
 
   TextileTestingDeviceType:
   - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
@@ -542,3 +557,5 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, TTD:1003, RecipeManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

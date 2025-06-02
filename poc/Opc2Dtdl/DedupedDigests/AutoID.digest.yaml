@@ -1,0 +1,586 @@
+DataTypes:
+- UADataType: [ AutoID:3013, AutoIdOperationStatusEnumeration ]
+  Enums:
+    SUCCESS: 0
+    MISC_ERROR_TOTAL: 1
+    MISC_ERROR_PARTIAL: 2
+    PERMISSON_ERROR: 3
+    PASSWORD_ERROR: 4
+    REGION_NOT_FOUND_ERROR: 5
+    OP_NOT_POSSIBLE_ERROR: 6
+    OUT_OF_RANGE_ERROR: 7
+    NO_IDENTIFIER: 8
+    MULTIPLE_IDENTIFIERS: 9
+    READ_ERROR: 10
+    DECODING_ERROR: 11
+    MATCH_ERROR: 12
+    CODE_NOT_SUPPORTED: 13
+    WRITE_ERROR: 14
+    NOT_SUPPORTED_BY_DEVICE: 15
+    NOT_SUPPORTED_BY_TAG: 16
+    DEVICE_NOT_READY: 17
+    INVALID_CONFIGURATION: 18
+    RF_COMMUNICATION_ERROR: 19
+    DEVICE_FAULT: 20
+    TAG_HAS_LOW_BATTERY: 21
+- UADataType: [ AutoID:3003, DeviceStatusEnumeration ]
+  Enums:
+    Idle: 0
+    Error: 1
+    Scanning: 2
+    Busy: 3
+- UADataType: [ AutoID:3009, LocationTypeEnumeration ]
+  Enums:
+    NMEA: 0
+    LOCAL: 1
+    WGS84: 2
+    NAME: 3
+- UADataType: [ AutoID:3016, RfidLockOperationEnumeration ]
+  Enums:
+    Lock: 0
+    Unlock: 1
+    PermanentLock: 2
+    PermanentUnlock: 3
+- UADataType: [ AutoID:3015, RfidLockRegionEnumeration ]
+  Enums:
+    Kill: 0
+    Access: 1
+    EPC: 2
+    TID: 3
+    User: 4
+- UADataType: [ AutoID:3014, RfidPasswordTypeEnumeration ]
+  Enums:
+    Access: 0
+    Kill: 1
+    Read: 2
+    Write: 3
+- UADataType: [ AutoID:3031, CodeTypeDataType ]
+  Bases:
+  - String
+- UADataType: [ AutoID:3021, LocationName ]
+  Bases:
+  - String
+- UADataType: [ AutoID:3012, NmeaCoordinateString ]
+  Bases:
+  - String
+- UADataType: [ AutoID:3017, AccessResult ]
+  Fields:
+    CodeType: [ CodeTypeDataType, 0 ]
+    Identifier: [ ScanData, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+- UADataType: [ AutoID:3018, RfidAccessResult ]
+  Fields:
+    CodeTypeRWData: [ CodeTypeDataType, 0 ]
+    RWData: [ ScanData, 0 ]
+    Antenna: [ Int32, 0 ]
+    CurrentPowerLevel: [ Int32, 0 ]
+    PC: [ UInt16, 0 ]
+    Polarization: [ String, 0 ]
+    Strength: [ Int32, 0 ]
+- UADataType: [ AutoID:3011, AntennaNameIdPair ]
+  Fields:
+    AntennaId: [ Int32, 0 ]
+    AntennaName: [ String, 0 ]
+- UADataType: [ AutoID:3023, DhcpGeoConfCoordinate ]
+  Fields:
+    LaRes: [ Byte, 0 ]
+    LatitudeInteger: [ Int16, 0 ]
+    LatitudeFraction: [ Int32, 0 ]
+    LoRes: [ Byte, 0 ]
+    LongitudeInteger: [ Int16, 0 ]
+    LongitudeFraction: [ Int32, 0 ]
+    AT: [ Byte, 0 ]
+    AltRes: [ Byte, 0 ]
+    AltitudeInteger: [ Int32, 0 ]
+    AltitudeFraction: [ Int16, 0 ]
+    Datum: [ Byte, 0 ]
+- UADataType: [ AutoID:3019, LocalCoordinate ]
+  Fields:
+    X: [ Double, 0 ]
+    Y: [ Double, 0 ]
+    Z: [ Double, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    DilutionOfPrecision: [ Double, 0 ]
+    UsefulPrecision: [ Int32, 0 ]
+- UADataType: [ AutoID:3004, Position ]
+  Fields:
+    PositionX: [ Int32, 0 ]
+    PositionY: [ Int32, 0 ]
+    SizeX: [ Int32, 0 ]
+    SizeY: [ Int32, 0 ]
+    Rotation: [ Int32, 0 ]
+- UADataType: [ AutoID:3006, RfidSighting ]
+  Fields:
+    Antenna: [ Int32, 0 ]
+    Strength: [ Int32, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    CurrentPowerLevel: [ Int32, 0 ]
+- UADataType: [ AutoID:3029, Rotation ]
+  Fields:
+    Yaw: [ Double, 0 ]
+    Pitch: [ Double, 0 ]
+    Roll: [ Double, 0 ]
+- UADataType: [ AutoID:3024, ScanDataEpc ]
+  Fields:
+    PC: [ UInt16, 0 ]
+    UId: [ ByteString, 0 ]
+    XPC_W1: [ UInt16, 0 ]
+    XPC_W2: [ UInt16, 0 ]
+- UADataType: [ AutoID:3001, ScanResult ]
+  Fields:
+    CodeType: [ CodeTypeDataType, 0 ]
+    ScanData: [ ScanData, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    Location: [ Location, 0 ]
+- UADataType: [ AutoID:3002, OcrScanResult ]
+  Fields:
+    ImageId: [ NodeId, 0 ]
+    Quality: [ Byte, 0 ]
+    Position: [ Position, 0 ]
+    Font: [ String, 0 ]
+    DecodingTime: [ UtcTime, 0 ]
+- UADataType: [ AutoID:3026, OpticalScanResult ]
+  Fields:
+    Grade: [ Float, 0 ]
+    Position: [ Position, 0 ]
+    Symbology: [ String, 0 ]
+    ImageId: [ NodeId, 0 ]
+- UADataType: [ AutoID:3030, OpticalVerifierScanResult ]
+  Fields:
+    IsoGrade: [ String, 0 ]
+    RMin: [ Int16, 0 ]
+    SymbolContrast: [ Int16, 0 ]
+    ECMin: [ Int16, 0 ]
+    Modulation: [ Int16, 0 ]
+    Defects: [ Int16, 0 ]
+    Decodability: [ Int16, 0 ]
+    Decode: [ Int16, 0 ]
+    PrintGain: [ Int16, 0 ]
+- UADataType: [ AutoID:3007, RfidScanResult ]
+  Fields:
+    Sighting: [ RfidSighting, 1 ]
+- UADataType: [ AutoID:3028, RtlsLocationResult ]
+  Fields:
+    Speed: [ Double, 0 ]
+    Heading: [ Double, 0 ]
+    Rotation: [ Rotation, 0 ]
+    ReceiveTime: [ UtcTime, 0 ]
+- UADataType: [ AutoID:3010, ScanSettings ]
+  Fields:
+    Duration: [ Duration, 0 ]
+    Cycles: [ Int32, 0 ]
+    DataAvailable: [ Boolean, 0 ]
+    LocationType: [ LocationTypeEnumeration, 0 ]
+- UADataType: [ AutoID:3008, Location ]
+  Fields:
+    NMEA: [ NmeaCoordinateString, 0 ]
+    Local: [ LocalCoordinate, 0 ]
+    WGS84: [ WGS84Coordinate, 0 ]
+    Name: [ LocationName, 0 ]
+- UADataType: [ AutoID:3020, ScanData ]
+  Fields:
+    ByteString: [ ByteString, 0 ]
+    String: [ String, 0 ]
+    Epc: [ ScanDataEpc, 0 ]
+    Custom: [ null, 0 ]
+- UADataType: [ AutoID:3027, WGS84Coordinate ]
+  Fields:
+    N/S Hemisphere: [ String, 0 ]
+    Latitude: [ Double, 0 ]
+    E/W Hemisphere: [ String, 0 ]
+    Longitude: [ Double, 0 ]
+    Altitude: [ Double, 0 ]
+    Timestamp: [ UtcTime, 0 ]
+    DilutionOfPrecision: [ Double, 0 ]
+    UsefulPrecisionLatLon: [ Int32, 0 ]
+    UsefulPrecisionAlt: [ Int32, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  AutoIdDiagnosticsEventType:
+  - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+
+  AutoIdAccessEventType:
+  - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
+
+  RfidAccessEventType:
+  - [ UAObjectType, AutoID:1016, RfidAccessEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
+
+  AutoIdLogEntryEventType:
+  - [ UAObjectType, AutoID:1017, AutoIdLogEntryEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
+
+  AutoIdPresenceEventType:
+  - [ UAObjectType, AutoID:1018, AutoIdPresenceEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
+
+  AutoIdScanEventType:
+  - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+
+  OcrScanEventType:
+  - [ UAObjectType, AutoID:1005, OcrScanEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+
+  OpticalScanEventType:
+  - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+
+  OpticalVerifierScanEventType:
+  - [ UAObjectType, AutoID:1013, OpticalVerifierScanEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
+
+  RfidScanEventType:
+  - [ UAObjectType, AutoID:1006, RfidScanEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+
+  RtlsLocationEventType:
+  - [ UAObjectType, AutoID:1014, RtlsLocationEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+
+  AutoIdDeviceType:
+  - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6128, DeviceLocation, Location, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6030, DeviceStatus, DeviceStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AutoID:5026, Diagnostics ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7042, GetDeviceLocation ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6130, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          LocationType: [ LocationTypeEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6129, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Location: [ Location, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, AutoID:5054, IOData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6055, LastScanData ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6096, LastScanTimestamp, UtcTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, AutoID:5044, RuntimeParameters ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7008, Scan ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6050, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6001, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Results: [ ScanResult, 1 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6099, ScanActive, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7009, ScanStart ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6051, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Settings: [ ScanSettings, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6208, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7010, ScanStop ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OcrReaderDeviceType:
+  - [ UAObjectType, AutoID:1002, OcrReaderDeviceType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5006, Images ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+
+  OpticalReaderDeviceType:
+  - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
+  - HasComponent:
+    - [ UAObject, AutoID:5001, Images ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+
+  OpticalVerifierDeviceType:
+  - [ UAObjectType, AutoID:1011, OpticalVerifierDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
+
+  RfidReaderDeviceType:
+  - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7017, KillTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6062, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          KillPassword: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6063, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6097, LastScanAntenna, Int32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, AutoID:6098, LastScanRSSI, Int32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7018, LockTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6064, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          Password: [ ByteString, 0 ]
+          Region: [ RfidLockRegionEnumeration, 0 ]
+          Lock: [ RfidLockOperationEnumeration, 0 ]
+          Offset: [ UInt32, 0 ]
+          Length: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6065, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7014, ReadTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6054, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          Region: [ UInt16, 0 ]
+          Offset: [ UInt32, 0 ]
+          Length: [ UInt32, 0 ]
+          Password: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6056, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResultData: [ ByteString, 0 ]
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7016, SetTagPassword ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6059, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          PasswordType: [ RfidPasswordTypeEnumeration, 0 ]
+          AccessPassword: [ ByteString, 0 ]
+          NewPassword: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6060, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7015, WriteTag ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6057, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          Region: [ UInt16, 0 ]
+          Offset: [ UInt32, 0 ]
+          Data: [ ByteString, 0 ]
+          Password: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6058, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7023, WriteTagID ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6137, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+          NewUId: [ ByteString, 0 ]
+          AFI: [ Byte, 0 ]
+          Toggle: [ Boolean, 0 ]
+          Password: [ ByteString, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6140, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Status: [ AutoIdOperationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+
+  RtlsDeviceType:
+  - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7056, GetLocation ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6224, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Identifier: [ ScanData, 0 ]
+          LocationType: [ LocationTypeEnumeration, 0 ]
+          CodeType: [ CodeTypeDataType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6225, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Result: [ RtlsLocationResult, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7058, GetSupportedLocationTypes ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, AutoID:6226, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SupportedLocationTypes: [ LocationTypeEnumeration, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, AutoID:7057, GetUnits ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]

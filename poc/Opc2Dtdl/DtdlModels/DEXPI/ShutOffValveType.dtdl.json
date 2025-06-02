@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:DEXPI:ShutOffValveType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DEXPI:PipingComponentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {

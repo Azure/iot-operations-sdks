@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_cm:ConnectionManagerType;1",
+  "@id": "dtmi:opcua:FX_CM:ConnectionManagerType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/fx_cm/ConnectionManagerType/{commandName}",
+  "commandTopic": "opcua/FX_CM/ConnectionManagerType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxEditEnum;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxEditEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -30,7 +30,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxProcessEnum;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxProcessEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -79,7 +79,7 @@
           "fields": [
             {
               "name": "Action",
-              "schema": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxEditEnum;1"
+              "schema": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxEditEnum;1"
             },
             {
               "name": "ConnectionConfigurationSets",
@@ -119,7 +119,7 @@
           "fields": [
             {
               "name": "Action",
-              "schema": "dtmi:opcua:fx_cm:ConnectionManagerType:dataType:FxProcessEnum;1"
+              "schema": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxProcessEnum;1"
             },
             {
               "name": "ConnectionConfigurationSets",

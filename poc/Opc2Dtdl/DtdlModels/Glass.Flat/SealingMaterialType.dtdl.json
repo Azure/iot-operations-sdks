@@ -1,0 +1,38 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Glass_Flat:SealingMaterialType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Glass_Flat:BaseMaterialType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "AddOnMaterial",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MixingRatio",
+      "schema": "double",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "Hardener",
+      "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Resin",
+      "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
+    }
+  ]
+}

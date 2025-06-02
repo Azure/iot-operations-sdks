@@ -57,6 +57,8 @@ DefinedTypes:
 
   DozerType:
   - [ UAObjectType, Mining.DevelopmentSupport.Dozer:1002, DozerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.DevelopmentSupport.Dozer:5002, MethodSet ]
     - HasTypeDefinition:

@@ -5,21 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Adi:StreamType;1",
+  "@id": "dtmi:opcua:ADI:StreamType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DI:TopologyElementType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "ParameterSet"
-    },
-    {
-      "@type": "Relationship",
-      "name": "GroupIdentifier",
-      "target": "dtmi:opcua:DI:FunctionalGroupType"
-    },
     {
       "@type": "Relationship",
       "name": "Configuration",

@@ -99,20 +99,32 @@ DefinedTypes:
 
   BrakeType:
   - [ UAObjectType, CranesHoists:1556, BrakeType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:15063, ComponentType ]
 
   CraneAxisType:
   - [ UAObjectType, CranesHoists:1369, CraneAxisType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Robotics:16601, AxisType ]
 
   CraneMotionDeviceType:
   - [ UAObjectType, CranesHoists:1392, CraneMotionDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Robotics:1004, MotionDeviceType ]
 
   CraneMotionDeviceSystemType:
   - [ UAObjectType, CranesHoists:2112, CraneMotionDeviceSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Robotics:1002, MotionDeviceSystemType ]
 
   CraneMotorType:
   - [ UAObjectType, CranesHoists:1262, CraneMotorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Robotics:1019, MotorType ]
   - Robotics:18181:
     - [ UAObject, Robotics:16041, <GearIdentifier> ]
 
   ProtectiveFunctionType:
   - [ UAObjectType, CranesHoists:1462, ProtectiveFunctionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

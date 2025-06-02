@@ -52,3 +52,5 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]

@@ -7,94 +7,15 @@
   ],
   "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionMachineryItemState_StateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Machinery:MachineryItemState_StateMachineType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
     {
       "@type": "Relationship",
-      "name": "Executing"
-    },
-    {
-      "@type": "Relationship",
       "name": "ExtrusionExecutingSubState",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionExecutingSubState_StateMachineType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromExecutingToExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromExecutingToNotAvailable"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromExecutingToNotExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromExecutingToOutOfService"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToNotAvailable"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToNotExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToOutOfService"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToNotAvailable"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToNotExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToOutOfService"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToNotAvailable"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToNotExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToOutOfService"
-    },
-    {
-      "@type": "Relationship",
-      "name": "NotAvailable"
-    },
-    {
-      "@type": "Relationship",
-      "name": "NotExecuting"
-    },
-    {
-      "@type": "Relationship",
-      "name": "OutOfService"
     }
   ]
 }

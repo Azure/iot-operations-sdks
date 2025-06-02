@@ -5,8 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:gms:GMSResultManagementType;1",
+  "@id": "dtmi:opcua:GMS:GMSResultManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

@@ -5,17 +5,17 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType;1",
+  "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Key",
-          "schema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1"
         },
         {
           "name": "ArrayIndex",
@@ -31,12 +31,12 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Node",
-          "schema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeId;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeId;1"
         },
         {
           "name": "Alias",
@@ -44,12 +44,12 @@
         },
         {
           "name": "IdentifierBrowsePath",
-          "schema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableRelativePath;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableRelativePath;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeId;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeId;1",
       "@type": "Object",
       "fields": [
         {
@@ -63,25 +63,25 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableRelativePath;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableRelativePath;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Elements",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableRelativePathElement;1"
+            "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableRelativePathElement;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableRelativePathElement;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableRelativePathElement;1",
       "@type": "Object",
       "fields": [
         {
           "name": "ReferenceTypeId",
-          "schema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeId;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeId;1"
         },
         {
           "name": "IsInverse",
@@ -93,12 +93,12 @@
         },
         {
           "name": "TargetName",
-          "schema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableQualifiedName;1"
+          "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableQualifiedName;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableQualifiedName;1",
+      "@id": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableQualifiedName;1",
       "@type": "Object",
       "fields": [
         {
@@ -118,7 +118,7 @@
       "name": "ConfigurationData",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1"
+        "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1"
       },
       "writable": true
     },
@@ -127,7 +127,7 @@
       "name": "ControlGroups",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1"
+        "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1"
       },
       "writable": true
     },
@@ -136,14 +136,14 @@
       "name": "ExpectedVerificationVariables",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1"
+        "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1"
       },
       "writable": true
     },
     {
       "@type": "Property",
       "name": "FunctionalEntityNode",
-      "schema": "dtmi:opcua:fx_cm:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1",
+      "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1",
       "writable": true
     },
     {

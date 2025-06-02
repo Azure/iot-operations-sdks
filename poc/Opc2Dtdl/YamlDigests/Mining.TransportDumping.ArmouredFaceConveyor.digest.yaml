@@ -60,9 +60,15 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAVariableType, Mining.TransportDumping.ArmouredFaceConveyor:2001, AFCStateType, AFCStateEnum, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   AFCType:
   - [ UAObjectType, Mining.TransportDumping.ArmouredFaceConveyor:1002, AFCType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasAddIn:
     - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
     - HasTypeDefinition:
@@ -75,42 +81,58 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6001, DeviceClass, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6002, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6003, ManufacturerUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.TransportDumping.ArmouredFaceConveyor:1002, AFCType ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6016, Model, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6017, ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6018, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5003, MiningEquipmentIdentification ]
   - HasComponent:
     - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5002, ParameterSet ]
     - HasTypeDefinition:
@@ -129,6 +151,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6025, AFCState, AFCStateEnum, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5002, ParameterSet ]
     - HasComponent:
       - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6026, Load, Double, 0, 0 ]
       - HasTypeDefinition:
@@ -141,9 +167,17 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6026, Load, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6029, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.TransportDumping.ArmouredFaceConveyor:6026, Load, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.TransportDumping.ArmouredFaceConveyor:5002, ParameterSet ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.TransportDumping.ArmouredFaceConveyor:1002, AFCType ]

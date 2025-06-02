@@ -277,18 +277,24 @@ DefinedTypes:
       - [ UAVariableType, 17497, AnalogUnitType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1008, ActivityDataMonitoringType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6013, EngineeringUnits, EUInformation, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6012, CurrentValue, Number, 0, 0 ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6062, Description, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1008, ActivityDataMonitoringType ]
   - HasInterface:
     - [ UAObjectType, 23513, IOrderedObjectType ]
   - HasProperty:
@@ -297,12 +303,16 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1008, ActivityDataMonitoringType ]
   - HasProperty:
     - [ UAVariable, LaserSystems:6009, ParameterIdentifier, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1008, ActivityDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6010, PreviousValue, Number, 0, 0 ]
     - HasModellingRule:
@@ -315,6 +325,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6010, PreviousValue, Number, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1008, ActivityDataMonitoringType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:23, ElementMonitoringType ]
 
   ConditionDataMonitoringType:
   - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
@@ -324,12 +340,16 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6070, Description, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6068, LowerErrorLevel, Number, 0, 0 ]
     - HasModellingRule:
@@ -342,6 +362,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6068, LowerErrorLevel, Number, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6066, LowerWarningLevel, Number, 0, 0 ]
     - HasModellingRule:
@@ -354,6 +378,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6066, LowerWarningLevel, Number, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6064, UpperErrorLevel, Number, 0, 0 ]
     - HasModellingRule:
@@ -366,6 +394,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6064, UpperErrorLevel, Number, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6008, UpperWarningLevel, Number, 0, 0 ]
     - HasModellingRule:
@@ -378,6 +410,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6008, UpperWarningLevel, Number, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6006, Value, Number, 0, 0 ]
     - HasTypeDefinition:
@@ -390,6 +426,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6006, Value, Number, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:23, ElementMonitoringType ]
 
   ConsumptionDataMonitoringType:
   - [ UAObjectType, LaserSystems:1004, ConsumptionDataMonitoringType ]
@@ -399,12 +441,16 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1004, ConsumptionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6002, Description, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1004, ConsumptionDataMonitoringType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6003, Value, Number, 0, 0 ]
     - HasTypeDefinition:
@@ -417,6 +463,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, LaserSystems:6003, Value, Number, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1004, ConsumptionDataMonitoringType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:23, ElementMonitoringType ]
 
   LaserSystemOperationCounterType:
   - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
@@ -424,6 +476,8 @@ DefinedTypes:
     - [ UAVariable, LaserSystems:6027, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
   - HasInterface:
     - [ UAObjectType, DI:480, IOperationCounterType ]
   - HasProperty:
@@ -432,12 +486,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
   - HasProperty:
     - [ UAVariable, LaserSystems:6041, PowerOnDuration, Duration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
 
   LaserSystemMonitoringType:
   - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
@@ -459,30 +519,44 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 17497, AnalogUnitType ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5003, <ActivityData> ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6154, EngineeringUnits, EUInformation, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6153, CurrentValue, Number, 0, 0 ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6026, Name, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5003, <ActivityData> ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6025, NumberInList, UInt16, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5003, <ActivityData> ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6155, ParameterIdentifier, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5003, <ActivityData> ]
+      - HasOrderedComponent_reverse:
+        - [ UAObject, LaserSystems:5008, ActivityData ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
   - HasComponent:
     - [ UAObject, LaserSystems:5009, ConditionData ]
     - HasTypeDefinition:
@@ -495,18 +569,24 @@ DefinedTypes:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
         - [ UAObjectType, LaserSystems:1006, ConditionDataMonitoringType ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5009, ConditionData ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6158, ConditionParameterIdentifier, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5101, <ConditionData> ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6161, Name, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5101, <ConditionData> ]
       - HasComponent:
         - [ UAVariable, LaserSystems:6159, Value, Number, 0, 0 ]
         - HasModellingRule:
@@ -519,6 +599,12 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6159, Value, Number, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5101, <ConditionData> ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
   - HasComponent:
     - [ UAObject, LaserSystems:5010, ConsumptionData ]
     - HasTypeDefinition:
@@ -531,18 +617,24 @@ DefinedTypes:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
         - [ UAObjectType, LaserSystems:1004, ConsumptionDataMonitoringType ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5010, ConsumptionData ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6162, ConsumableIdentifier, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5102, <ConsumptionData> ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6165, Name, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5102, <ConsumptionData> ]
       - HasComponent:
         - [ UAVariable, LaserSystems:6163, Value, Number, 0, 0 ]
         - HasModellingRule:
@@ -555,6 +647,12 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6163, Value, Number, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5102, <ConsumptionData> ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
   - HasComponent:
     - [ UAObject, LaserSystems:5006, LaserSystemStatus ]
     - HasTypeDefinition:
@@ -573,12 +671,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5007, LaserSystemState ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6021, Id, NodeId, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6020, CurrentState, LocalizedText, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5006, LaserSystemStatus ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
     - HasAddIn:
       - [ UAObject, LaserSystems:5018, MachineryItemState ]
       - HasTypeDefinition:
@@ -591,12 +697,18 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5018, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6043, Id, NodeId, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6040, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5006, LaserSystemStatus ]
     - HasAddIn:
       - [ UAObject, LaserSystems:5019, MachineryOperationMode ]
       - HasTypeDefinition:
@@ -609,12 +721,18 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5019, MachineryOperationMode ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6045, Id, NodeId, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6044, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5006, LaserSystemStatus ]
     - HasComponent:
       - [ UAObject, LaserSystems:5020, MachineToolsLaserStatus ]
       - HasTypeDefinition:
@@ -627,48 +745,68 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5020, MachineToolsLaserStatus ]
       - HasComponent:
         - [ UAVariable, LaserSystems:6047, LaserState, LaserState, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5020, MachineToolsLaserStatus ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5006, LaserSystemStatus ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6048, Name, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5020, MachineToolsLaserStatus ]
     - HasAddIn:
       - [ UAObject, LaserSystems:5021, OperationCounters ]
       - HasTypeDefinition:
         - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5006, LaserSystemStatus ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6049, OperationDuration, Duration, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5021, OperationCounters ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6050, PowerOnDuration, Duration, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5021, OperationCounters ]
   - HasComponent:
     - [ UAObject, LaserSystems:5005, Stacklight ]
     - HasTypeDefinition:
       - [ UAObjectType, IA:1002, BasicStacklightType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1002, LaserSystemMonitoringType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6019, StacklightMode, StacklightOperationMode, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5005, Stacklight ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   LaserSystemProductionType:
   - [ UAObjectType, LaserSystems:1003, LaserSystemProductionType ]
@@ -684,30 +822,44 @@ DefinedTypes:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
         - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5068, RecipeSettingsAndOverviews ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6166, LastModification, UtcTime, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5104, <Recipe> ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6167, LastUsage, UtcTime, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5104, <Recipe> ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6168, RecipeIdentifier, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5104, <Recipe> ]
       - HasComponent:
         - [ UAVariable, LaserSystems:6169, RunsCompleted, UInt64, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5104, <Recipe> ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1003, LaserSystemProductionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   LaserSystemStatusType:
   - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
@@ -723,12 +875,18 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5013, LaserSystemState ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6023, Id, NodeId, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, LaserSystems:6022, CurrentState, LocalizedText, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
   - HasAddIn:
     - [ UAObject, LaserSystems:5015, MachineryItemState ]
     - HasModellingRule:
@@ -741,12 +899,18 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5015, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6035, Id, NodeId, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, LaserSystems:6034, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
   - HasAddIn:
     - [ UAObject, LaserSystems:5016, MachineryOperationMode ]
     - HasModellingRule:
@@ -759,12 +923,18 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5016, MachineryOperationMode ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6037, Id, NodeId, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, LaserSystems:6036, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
   - HasComponent:
     - [ UAObject, LaserSystems:5014, MachineToolsLaserStatus ]
     - HasTypeDefinition:
@@ -777,36 +947,52 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5014, MachineToolsLaserStatus ]
     - HasComponent:
       - [ UAVariable, LaserSystems:6032, LaserState, LaserState, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5014, MachineToolsLaserStatus ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6033, Name, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5014, MachineToolsLaserStatus ]
   - HasAddIn:
     - [ UAObject, LaserSystems:5017, OperationCounters ]
     - HasTypeDefinition:
       - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, LaserSystems:1012, LaserSystemStatusType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6038, OperationDuration, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5017, OperationCounters ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6039, PowerOnDuration, Duration, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5017, OperationCounters ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   LaserSystemType:
   - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
@@ -816,18 +1002,26 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6017, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5001, Identification ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6018, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5001, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -840,18 +1034,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6017, Manufacturer, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5001, Identification ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6018, SerialNumber, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5001, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
     - HasAddIn:
       - [ UAObject, LaserSystems:5024, MachineryItemState ]
       - HasModellingRule:
@@ -864,12 +1068,20 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5024, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6054, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6053, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, LaserSystems:5025, MachineryOperationMode ]
       - HasModellingRule:
@@ -882,30 +1094,46 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5025, MachineryOperationMode ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6056, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, LaserSystems:6055, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, LaserSystems:5027, OperationCounters ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6060, OperationDuration, Duration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5027, OperationCounters ]
       - HasProperty:
         - [ UAVariable, LaserSystems:6061, PowerOnDuration, Duration, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, LaserSystems:5027, OperationCounters ]
+      - HasAddIn_reverse:
+        - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, LaserSystems:5004, Monitoring ]
     - HasModellingRule:
@@ -930,12 +1158,20 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, LaserSystems:5023, LaserSystemState ]
           - HasProperty:
             - [ UAVariable, LaserSystems:6052, Id, NodeId, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, LaserSystems:6051, CurrentState, LocalizedText, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
+      - HasComponent_reverse:
+        - [ UAObject, LaserSystems:5004, Monitoring ]
       - HasAddIn:
         - [ UAObject, LaserSystems:5024, MachineryItemState ]
         - HasModellingRule:
@@ -948,12 +1184,20 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, LaserSystems:5024, MachineryItemState ]
           - HasProperty:
             - [ UAVariable, LaserSystems:6054, Id, NodeId, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, LaserSystems:6053, CurrentState, LocalizedText, 0, 0 ]
+        - HasAddIn_reverse:
+          - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
+        - HasAddIn_reverse:
+          - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
       - HasAddIn:
         - [ UAObject, LaserSystems:5025, MachineryOperationMode ]
         - HasModellingRule:
@@ -966,12 +1210,20 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, LaserSystems:5025, MachineryOperationMode ]
           - HasProperty:
             - [ UAVariable, LaserSystems:6056, Id, NodeId, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, LaserSystems:6055, CurrentState, LocalizedText, 0, 0 ]
+        - HasAddIn_reverse:
+          - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
+        - HasAddIn_reverse:
+          - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
       - HasComponent:
         - [ UAObject, LaserSystems:5026, MachineToolsLaserStatus ]
         - HasModellingRule:
@@ -984,48 +1236,72 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, LaserSystems:5026, MachineToolsLaserStatus ]
         - HasComponent:
           - [ UAVariable, LaserSystems:6058, LaserState, LaserState, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, LaserSystems:5026, MachineToolsLaserStatus ]
+        - HasComponent_reverse:
+          - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6059, Name, String, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, LaserSystems:5026, MachineToolsLaserStatus ]
       - HasAddIn:
         - [ UAObject, LaserSystems:5027, OperationCounters ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, LaserSystems:1010, LaserSystemOperationCounterType ]
+        - HasAddIn_reverse:
+          - [ UAObject, LaserSystems:5022, LaserSystemStatus ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6060, OperationDuration, Duration, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, LaserSystems:5027, OperationCounters ]
         - HasProperty:
           - [ UAVariable, LaserSystems:6061, PowerOnDuration, Duration, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, LaserSystems:5027, OperationCounters ]
+        - HasAddIn_reverse:
+          - [ UAObject, LaserSystems:5103, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
   - HasComponent:
     - [ UAObject, LaserSystems:5011, Notification ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineTool:7, NotificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
   - HasComponent:
     - [ UAObject, LaserSystems:5012, Production ]
     - HasTypeDefinition:
       - [ UAObjectType, LaserSystems:1003, LaserSystemProductionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1005, LaserSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   LaserSystemMaintenancePrognosisType:
   - [ UAObjectType, LaserSystems:1013, LaserSystemMaintenancePrognosisType ]
@@ -1035,12 +1311,18 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1013, LaserSystemMaintenancePrognosisType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6076, Description, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1013, LaserSystemMaintenancePrognosisType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:9, MaintenancePrognosisType ]
 
   LaserSystemUtilityChangePrognosisType:
   - [ UAObjectType, LaserSystems:1014, LaserSystemUtilityChangePrognosisType ]
@@ -1050,12 +1332,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1014, LaserSystemUtilityChangePrognosisType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6078, Description, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1014, LaserSystemUtilityChangePrognosisType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:6, UtilityChangePrognosisType ]
 
   RecipeSettingsAndOverviewType:
   - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
@@ -1065,48 +1353,66 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6075, Description, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
   - HasProperty:
     - [ UAVariable, LaserSystems:6073, LastModification, UtcTime, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
   - HasProperty:
     - [ UAVariable, LaserSystems:6014, LastUsage, UtcTime, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
   - HasProperty:
     - [ UAVariable, LaserSystems:6072, RecipeIdentifier, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
   - HasProperty:
     - [ UAVariable, LaserSystems:6071, RecipeName, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
   - HasProperty:
     - [ UAVariable, LaserSystems:6016, RecipeRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
   - HasComponent:
     - [ UAVariable, LaserSystems:6015, RunsCompleted, UInt64, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1007, RecipeSettingsAndOverviewType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   LaserSystemState_StateMachineType:
   - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
@@ -1114,26 +1420,100 @@ DefinedTypes:
     - [ UAVariable, LaserSystems:6152, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
   - HasComponent:
     - [ UAObject, LaserSystems:5029, EnergySaving ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6081, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5037, FromOffToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5044, FromEnergySavingToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5045, FromEnergySavingToEnergySaving ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5045, FromEnergySavingToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5046, FromEnergySavingToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5047, FromEnergySavingToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5048, FromEnergySavingToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5049, FromEnergySavingToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5050, FromEnergySavingToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5051, FromEnergySavingToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5053, FromIdleToEnergySaving ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5061, FromSetUpToEnergySaving ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5070, FromLaserReadyToEnergySaving ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5078, FromMaintenanceToEnergySaving ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5086, FromErrorToEnergySaving ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5094, FromLaserOnToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5034, Error ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6086, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5034, Error ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5042, FromOffToError ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5050, FromEnergySavingToError ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5058, FromIdleToError ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5066, FromSetUpToError ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5075, FromLaserReadyToError ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5083, FromMaintenanceToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5085, FromErrorToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5086, FromErrorToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5087, FromErrorToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5088, FromErrorToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5089, FromErrorToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5090, FromErrorToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5091, FromErrorToError ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5091, FromErrorToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5092, FromErrorToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5099, FromLaserOnToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5045, FromEnergySavingToEnergySaving ]
     - HasTypeDefinition:
@@ -1142,12 +1522,16 @@ DefinedTypes:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
     - ToState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6097, TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5045, FromEnergySavingToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5050, FromEnergySavingToError ]
     - HasTypeDefinition:
@@ -1156,18 +1540,24 @@ DefinedTypes:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6102, TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5050, FromEnergySavingToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5046, FromEnergySavingToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - HasProperty:
@@ -1176,12 +1566,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5046, FromEnergySavingToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5051, FromEnergySavingToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - HasProperty:
@@ -1190,12 +1584,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5051, FromEnergySavingToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5048, FromEnergySavingToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - HasProperty:
@@ -1204,12 +1602,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5048, FromEnergySavingToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5049, FromEnergySavingToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - HasProperty:
@@ -1218,12 +1620,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5049, FromEnergySavingToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5044, FromEnergySavingToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5028, Off ]
     - HasProperty:
@@ -1232,12 +1638,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5044, FromEnergySavingToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5047, FromEnergySavingToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5031, SetUp ]
     - HasProperty:
@@ -1246,6 +1656,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5047, FromEnergySavingToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5086, FromErrorToEnergySaving ]
     - HasTypeDefinition:
@@ -1254,12 +1666,16 @@ DefinedTypes:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
     - FromState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6137, TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5086, FromErrorToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5091, FromErrorToError ]
     - HasTypeDefinition:
@@ -1268,18 +1684,24 @@ DefinedTypes:
       - [ UAObject, LaserSystems:5034, Error ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6142, TransitionNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5091, FromErrorToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5087, FromErrorToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - HasProperty:
@@ -1288,12 +1710,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5087, FromErrorToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5092, FromErrorToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - HasProperty:
@@ -1302,12 +1728,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5092, FromErrorToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5089, FromErrorToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - HasProperty:
@@ -1316,12 +1746,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5089, FromErrorToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5090, FromErrorToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - HasProperty:
@@ -1330,12 +1764,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5090, FromErrorToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5085, FromErrorToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5028, Off ]
     - HasProperty:
@@ -1344,12 +1782,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5085, FromErrorToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5088, FromErrorToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - FromState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5031, SetUp ]
     - HasProperty:
@@ -1358,12 +1800,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5088, FromErrorToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5053, FromIdleToEnergySaving ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - HasProperty:
@@ -1372,12 +1818,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5053, FromIdleToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5058, FromIdleToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - HasProperty:
@@ -1386,10 +1836,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5058, FromIdleToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5054, FromIdleToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - ToState:
@@ -1400,10 +1854,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5054, FromIdleToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5059, FromIdleToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - ToState:
@@ -1414,10 +1872,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5059, FromIdleToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5056, FromIdleToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - ToState:
@@ -1428,10 +1890,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5056, FromIdleToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5057, FromIdleToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - ToState:
@@ -1442,10 +1908,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5057, FromIdleToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5052, FromIdleToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - ToState:
@@ -1456,10 +1926,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5052, FromIdleToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5055, FromIdleToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - ToState:
@@ -1470,12 +1944,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5055, FromIdleToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5094, FromLaserOnToEnergySaving ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - HasProperty:
@@ -1484,12 +1962,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5094, FromLaserOnToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5099, FromLaserOnToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - HasProperty:
@@ -1498,10 +1980,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5099, FromLaserOnToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5095, FromLaserOnToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - FromState:
@@ -1512,10 +1998,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5095, FromLaserOnToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5100, FromLaserOnToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - ToState:
@@ -1526,10 +2016,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5100, FromLaserOnToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5097, FromLaserOnToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - ToState:
@@ -1540,10 +2034,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5097, FromLaserOnToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5098, FromLaserOnToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - ToState:
@@ -1554,10 +2052,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5098, FromLaserOnToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5093, FromLaserOnToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - ToState:
@@ -1568,10 +2070,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5093, FromLaserOnToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5096, FromLaserOnToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - ToState:
@@ -1582,12 +2088,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5096, FromLaserOnToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5070, FromLaserReadyToEnergySaving ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - HasProperty:
@@ -1596,12 +2106,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5070, FromLaserReadyToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5075, FromLaserReadyToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - HasProperty:
@@ -1610,10 +2124,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5075, FromLaserReadyToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5071, FromLaserReadyToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - FromState:
@@ -1624,10 +2142,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5071, FromLaserReadyToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5076, FromLaserReadyToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - FromState:
@@ -1638,10 +2160,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5076, FromLaserReadyToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5073, FromLaserReadyToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - ToState:
@@ -1652,10 +2178,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5073, FromLaserReadyToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5074, FromLaserReadyToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - ToState:
@@ -1666,10 +2196,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5074, FromLaserReadyToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5069, FromLaserReadyToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - ToState:
@@ -1680,10 +2214,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5069, FromLaserReadyToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5072, FromLaserReadyToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - ToState:
@@ -1694,12 +2232,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5072, FromLaserReadyToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5078, FromMaintenanceToEnergySaving ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - HasProperty:
@@ -1708,12 +2250,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5078, FromMaintenanceToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5083, FromMaintenanceToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - HasProperty:
@@ -1722,10 +2268,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5083, FromMaintenanceToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5079, FromMaintenanceToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - FromState:
@@ -1736,10 +2286,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5079, FromMaintenanceToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5084, FromMaintenanceToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - FromState:
@@ -1750,10 +2304,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5084, FromMaintenanceToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5081, FromMaintenanceToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - FromState:
@@ -1764,10 +2322,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5081, FromMaintenanceToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5082, FromMaintenanceToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - ToState:
@@ -1778,10 +2340,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5082, FromMaintenanceToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5077, FromMaintenanceToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - ToState:
@@ -1792,10 +2358,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5077, FromMaintenanceToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5080, FromMaintenanceToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - ToState:
@@ -1806,12 +2376,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5080, FromMaintenanceToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5037, FromOffToEnergySaving ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5028, Off ]
     - HasProperty:
@@ -1820,12 +2394,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5037, FromOffToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5042, FromOffToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5028, Off ]
     - HasProperty:
@@ -1834,10 +2412,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5042, FromOffToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5038, FromOffToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - FromState:
@@ -1848,10 +2430,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5038, FromOffToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5043, FromOffToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - FromState:
@@ -1862,10 +2448,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5043, FromOffToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5040, FromOffToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - FromState:
@@ -1876,10 +2466,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5040, FromOffToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5041, FromOffToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - FromState:
@@ -1890,10 +2484,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5041, FromOffToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5036, FromOffToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5028, Off ]
     - ToState:
@@ -1904,10 +2502,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5036, FromOffToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5039, FromOffToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5028, Off ]
     - ToState:
@@ -1918,12 +2520,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5039, FromOffToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5061, FromSetUpToEnergySaving ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5029, EnergySaving ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5031, SetUp ]
     - HasProperty:
@@ -1932,12 +2538,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5061, FromSetUpToEnergySaving ]
   - HasComponent:
     - [ UAObject, LaserSystems:5066, FromSetUpToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
     - ToState:
       - [ UAObject, LaserSystems:5034, Error ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5031, SetUp ]
     - HasProperty:
@@ -1946,10 +2556,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5066, FromSetUpToError ]
   - HasComponent:
     - [ UAObject, LaserSystems:5062, FromSetUpToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5030, Idle ]
     - FromState:
@@ -1960,10 +2574,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5062, FromSetUpToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5067, FromSetUpToLaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5035, LaserOn ]
     - FromState:
@@ -1974,10 +2592,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5067, FromSetUpToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5064, FromSetUpToLaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5032, LaserReady ]
     - FromState:
@@ -1988,10 +2610,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5064, FromSetUpToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5065, FromSetUpToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5033, Maintenance ]
     - FromState:
@@ -2002,10 +2628,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5065, FromSetUpToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5060, FromSetUpToOff ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - ToState:
       - [ UAObject, LaserSystems:5028, Off ]
     - FromState:
@@ -2016,10 +2646,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5060, FromSetUpToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5063, FromSetUpToSetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - FromState:
       - [ UAObject, LaserSystems:5031, SetUp ]
     - ToState:
@@ -2030,63 +2664,283 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5063, FromSetUpToSetUp ]
   - HasComponent:
     - [ UAObject, LaserSystems:5030, Idle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6082, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5030, Idle ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5038, FromOffToIdle ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5046, FromEnergySavingToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5052, FromIdleToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5053, FromIdleToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5054, FromIdleToIdle ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5054, FromIdleToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5055, FromIdleToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5056, FromIdleToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5057, FromIdleToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5058, FromIdleToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5059, FromIdleToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5062, FromSetUpToIdle ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5071, FromLaserReadyToIdle ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5079, FromMaintenanceToIdle ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5087, FromErrorToIdle ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5095, FromLaserOnToIdle ]
   - HasComponent:
     - [ UAObject, LaserSystems:5035, LaserOn ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6087, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5035, LaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5043, FromOffToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5051, FromEnergySavingToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5059, FromIdleToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5067, FromSetUpToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5076, FromLaserReadyToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5084, FromMaintenanceToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5092, FromErrorToLaserOn ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5093, FromLaserOnToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5094, FromLaserOnToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5095, FromLaserOnToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5096, FromLaserOnToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5097, FromLaserOnToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5098, FromLaserOnToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5099, FromLaserOnToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5100, FromLaserOnToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5100, FromLaserOnToLaserOn ]
   - HasComponent:
     - [ UAObject, LaserSystems:5032, LaserReady ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6084, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5032, LaserReady ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5040, FromOffToLaserReady ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5048, FromEnergySavingToLaserReady ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5056, FromIdleToLaserReady ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5064, FromSetUpToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5069, FromLaserReadyToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5070, FromLaserReadyToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5071, FromLaserReadyToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5072, FromLaserReadyToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5073, FromLaserReadyToLaserReady ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5073, FromLaserReadyToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5074, FromLaserReadyToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5075, FromLaserReadyToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5076, FromLaserReadyToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5081, FromMaintenanceToLaserReady ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5089, FromErrorToLaserReady ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5097, FromLaserOnToLaserReady ]
   - HasComponent:
     - [ UAObject, LaserSystems:5033, Maintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6085, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5033, Maintenance ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5041, FromOffToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5049, FromEnergySavingToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5057, FromIdleToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5065, FromSetUpToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5074, FromLaserReadyToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5077, FromMaintenanceToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5078, FromMaintenanceToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5079, FromMaintenanceToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5080, FromMaintenanceToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5081, FromMaintenanceToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5082, FromMaintenanceToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5082, FromMaintenanceToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5083, FromMaintenanceToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5084, FromMaintenanceToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5090, FromErrorToMaintenance ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5098, FromLaserOnToMaintenance ]
   - HasComponent:
     - [ UAObject, LaserSystems:5028, Off ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6080, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5028, Off ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5036, FromOffToOff ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5036, FromOffToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5037, FromOffToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5038, FromOffToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5039, FromOffToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5040, FromOffToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5041, FromOffToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5042, FromOffToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5043, FromOffToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5044, FromEnergySavingToOff ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5052, FromIdleToOff ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5060, FromSetUpToOff ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5069, FromLaserReadyToOff ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5077, FromMaintenanceToOff ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5085, FromErrorToOff ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5093, FromLaserOnToOff ]
   - HasComponent:
     - [ UAObject, LaserSystems:5031, SetUp ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, LaserSystems:1009, LaserSystemState_StateMachineType ]
     - HasProperty:
       - [ UAVariable, LaserSystems:6083, StateNumber, UInt32, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, LaserSystems:5031, SetUp ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5039, FromOffToSetUp ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5047, FromEnergySavingToSetUp ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5055, FromIdleToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5060, FromSetUpToOff ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5061, FromSetUpToEnergySaving ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5062, FromSetUpToIdle ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5063, FromSetUpToSetUp ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5063, FromSetUpToSetUp ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5064, FromSetUpToLaserReady ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5065, FromSetUpToMaintenance ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5066, FromSetUpToError ]
+    - FromState_reverse:
+      - [ UAObject, LaserSystems:5067, FromSetUpToLaserOn ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5072, FromLaserReadyToSetUp ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5080, FromMaintenanceToSetUp ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5088, FromErrorToSetUp ]
+    - ToState_reverse:
+      - [ UAObject, LaserSystems:5096, FromLaserOnToSetUp ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]

@@ -300,30 +300,48 @@ DefinedTypes:
 
   CyclicProcessValueVariableType:
   - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   FormingProcessConditionClassType:
   - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11164, ProcessConditionClassType ]
 
   AllowableTiltingExceededConditionClassType:
   - [ UAObjectType, MetalForming:1011, AllowableTiltingExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
 
   BreakthroughTonnageExceededConditionClassType:
   - [ UAObjectType, MetalForming:1014, BreakthroughTonnageExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
 
   CorrectionValueOutOfRangeConditionClassType:
   - [ UAObjectType, MetalForming:1020, CorrectionValueOutOfRangeConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
 
   EccentricLoadExceededConditionClassType:
   - [ UAObjectType, MetalForming:1006, EccentricLoadExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
 
   OverloadTriggeredConditionClassType:
   - [ UAObjectType, MetalForming:1005, OverloadTriggeredConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
 
   PositionOutOfRangeConditionClassType:
   - [ UAObjectType, MetalForming:1017, PositionOutOfRangeConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
 
   ProcessForceExceededConditionClassType:
   - [ UAObjectType, MetalForming:1009, ProcessForceExceededConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
 
   CyclicEventType:
   - [ UAObjectType, MetalForming:1016, CyclicEventType ]
@@ -339,63 +357,89 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5019, CurrentProcessValue ]
       - HasProperty:
         - [ UAVariable, MetalForming:6052, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6051, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6053, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6051, AnalogSignal, Number, -2, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1016, CyclicEventType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6054, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5019, CurrentProcessValue ]
   - HasComponent:
     - [ UAVariable, MetalForming:6055, CycleCount, Counter, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1016, CyclicEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
   - HasComponent:
     - [ UAVariable, MetalForming:6056, PartId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1016, CyclicEventType ]
 
   FormingToolType:
   - [ UAObjectType, MetalForming:1010, FormingToolType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:49, BaseToolType ]
   - HasComponent:
     - [ UAObject, MetalForming:5004, Location ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1010, FormingToolType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6111, Name, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5004, Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6046, Orientation, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5004, Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6112, PlaceNumber, UInt16, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5004, Location ]
     - HasComponent:
       - [ UAVariable, MetalForming:6048, Position, Double, 0, 3 ]
       - HasModellingRule:
@@ -408,18 +452,26 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6048, Position, Double, 0, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6050, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6048, Position, Double, 0, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5004, Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6047, Stage, UInt16, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5004, Location ]
 
   FormingMultiToolType:
   - [ UAObjectType, MetalForming:1012, FormingMultiToolType ]
@@ -429,36 +481,50 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, MetalForming:1010, FormingToolType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1012, FormingMultiToolType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6085, Identifier, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5005, <FormingTool> ]
     - HasComponent:
       - [ UAObject, MetalForming:5020, Location ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5005, <FormingTool> ]
       - HasProperty:
         - [ UAVariable, MetalForming:6113, Name, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, MetalForming:5020, Location ]
       - HasProperty:
         - [ UAVariable, MetalForming:6114, PlaceNumber, UInt16, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, MetalForming:5020, Location ]
     - HasProperty:
       - [ UAVariable, MetalForming:6086, Name, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5005, <FormingTool> ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:51, MultiToolType ]
 
   ProcessWorkingUnitType:
   - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
@@ -468,24 +534,32 @@ DefinedTypes:
       - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5010, <CyclicProcessValue> ]
       - HasProperty:
         - [ UAVariable, MetalForming:6023, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6024, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6071, HighHighLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -498,6 +572,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6071, HighHighLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6073, HighLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -510,6 +588,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6073, HighLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6075, LowLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -522,6 +604,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6075, LowLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6077, LowLowLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -534,6 +620,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6077, LowLowLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6079, PercentageValue, Double, 0, 3 ]
         - HasTypeDefinition:
@@ -546,18 +636,26 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6079, PercentageValue, Double, 0, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6081, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6079, PercentageValue, Double, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6022, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6021, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5010, <CyclicProcessValue> ]
     - HasComponent:
       - [ UAVariable, MetalForming:6082, ProcessValueSetpoint, Number, -2, 3 ]
       - HasTypeDefinition:
@@ -570,42 +668,58 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6082, ProcessValueSetpoint, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6084, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6082, ProcessValueSetpoint, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5010, <CyclicProcessValue> ]
     - HasProperty:
       - [ UAVariable, MetalForming:6025, SignalTag, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5010, <CyclicProcessValue> ]
   - HasComponent:
     - [ UAObject, MetalForming:5009, <ProcessValue> ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, Machinery.ProcessValues:2002, ProcessValueVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5009, <ProcessValue> ]
       - HasProperty:
         - [ UAVariable, MetalForming:6017, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6018, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6057, HighHighLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -618,6 +732,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6057, HighHighLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6059, HighLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -630,6 +748,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6059, HighLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6061, LowLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -642,6 +764,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6061, LowLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6063, LowLowLimit, Number, 0, 3 ]
         - HasTypeDefinition:
@@ -654,6 +780,10 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6063, LowLowLimit, Number, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6065, PercentageValue, Double, 0, 3 ]
         - HasTypeDefinition:
@@ -666,12 +796,18 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6065, PercentageValue, Double, 0, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6067, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6065, PercentageValue, Double, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAVariable, MetalForming:6016, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6068, ProcessValueSetpoint, Number, -2, 3 ]
       - HasTypeDefinition:
@@ -684,18 +820,26 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6068, ProcessValueSetpoint, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6070, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6068, ProcessValueSetpoint, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5009, <ProcessValue> ]
     - HasProperty:
       - [ UAVariable, MetalForming:6019, SignalTag, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5009, <ProcessValue> ]
   - HasComponent:
     - [ UAObject, MetalForming:5007, MachineryItemState ]
     - HasTypeDefinition:
@@ -708,12 +852,20 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5007, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, MetalForming:6015, Id, NodeId, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6014, CurrentState, LocalizedText, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:41, WorkingUnitMonitoringType ]
 
   FormingProcessWorkingUnitType:
   - [ UAObjectType, MetalForming:1008, FormingProcessWorkingUnitType ]
@@ -735,30 +887,44 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5021, BDC ]
         - HasProperty:
           - [ UAVariable, MetalForming:6087, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6026, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6088, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6026, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5008, FormingPositions ]
       - HasComponent:
         - [ UAVariable, MetalForming:6089, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5021, BDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6090, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, MetalForming:5021, BDC ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1008, FormingProcessWorkingUnitType ]
     - HasComponent:
       - [ UAObject, MetalForming:5022, Retract ]
       - HasTypeDefinition:
@@ -771,30 +937,42 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5022, Retract ]
         - HasProperty:
           - [ UAVariable, MetalForming:6092, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6091, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6093, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6091, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6094, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5022, Retract ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5008, FormingPositions ]
       - HasProperty:
         - [ UAVariable, MetalForming:6095, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, MetalForming:5022, Retract ]
     - HasComponent:
       - [ UAObject, MetalForming:5023, Start ]
       - HasTypeDefinition:
@@ -807,30 +985,42 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5023, Start ]
         - HasProperty:
           - [ UAVariable, MetalForming:6097, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6096, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6098, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6096, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6099, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5023, Start ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5008, FormingPositions ]
       - HasProperty:
         - [ UAVariable, MetalForming:6100, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, MetalForming:5023, Start ]
     - HasComponent:
       - [ UAObject, MetalForming:5024, TDC ]
       - HasTypeDefinition:
@@ -843,30 +1033,42 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5024, TDC ]
         - HasProperty:
           - [ UAVariable, MetalForming:6102, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6101, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6103, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6101, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6104, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5024, TDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6105, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, MetalForming:5024, TDC ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5008, FormingPositions ]
     - HasComponent:
       - [ UAObject, MetalForming:5025, Touch ]
       - HasTypeDefinition:
@@ -879,30 +1081,44 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5025, Touch ]
         - HasProperty:
           - [ UAVariable, MetalForming:6107, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6106, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, MetalForming:6108, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, MetalForming:6106, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, MetalForming:6109, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, MetalForming:5025, Touch ]
       - HasProperty:
         - [ UAVariable, MetalForming:6110, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, MetalForming:5025, Touch ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5008, FormingPositions ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
 
   FormingPositionsType:
   - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
@@ -918,30 +1134,44 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5016, BDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6043, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6042, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6044, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6042, AnalogSignal, Number, -2, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
     - HasComponent:
       - [ UAVariable, MetalForming:6041, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5016, BDC ]
     - HasProperty:
       - [ UAVariable, MetalForming:6045, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5016, BDC ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, MetalForming:5012, Retract ]
     - HasModellingRule:
@@ -954,30 +1184,42 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5012, Retract ]
       - HasProperty:
         - [ UAVariable, MetalForming:6010, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6009, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6011, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6009, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6008, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5012, Retract ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6012, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5012, Retract ]
   - HasComponent:
     - [ UAObject, MetalForming:5013, Start ]
     - HasModellingRule:
@@ -990,30 +1232,42 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5013, Start ]
       - HasProperty:
         - [ UAVariable, MetalForming:6028, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6027, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6029, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6027, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6013, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5013, Start ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
     - HasProperty:
       - [ UAVariable, MetalForming:6030, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5013, Start ]
   - HasComponent:
     - [ UAObject, MetalForming:5014, TDC ]
     - HasModellingRule:
@@ -1026,30 +1280,42 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5014, TDC ]
       - HasProperty:
         - [ UAVariable, MetalForming:6033, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6032, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6034, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6032, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6031, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5014, TDC ]
     - HasProperty:
       - [ UAVariable, MetalForming:6035, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5014, TDC ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
   - HasComponent:
     - [ UAObject, MetalForming:5015, Touch ]
     - HasModellingRule:
@@ -1062,30 +1328,42 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5015, Touch ]
       - HasProperty:
         - [ UAVariable, MetalForming:6038, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6037, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, MetalForming:6039, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, MetalForming:6037, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, MetalForming:6036, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, MetalForming:5015, Touch ]
     - HasProperty:
       - [ UAVariable, MetalForming:6040, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, MetalForming:5015, Touch ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
 
   CyclicProcessValueType:
   - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
@@ -1095,3 +1373,7 @@ DefinedTypes:
       - [ UAVariableType, MetalForming:2001, CyclicProcessValueVariableType, CyclicProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]

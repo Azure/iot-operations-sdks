@@ -54,12 +54,16 @@ DefinedTypes:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, Machinery.Result:2001, ResultType, ResultDataType, 0, 0 ]
   - HasStructuredComponent:
     - [ UAVariable, Machinery.Result:6010, ResultContent ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent_reverse:
+      - [ UAVariableType, Machinery.Result:2001, ResultType, ResultDataType, 0, 0 ]
   - HasStructuredComponent:
     - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasTypeDefinition:
@@ -72,120 +76,164 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6022, ExternalConfigurationId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6019, ExternalRecipeId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6031, FileFormat, String, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6013, HasTransferableDataOnFile, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6023, InternalConfigurationId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6020, InternalRecipeId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6014, IsPartial, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6015, IsSimulated, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6024, JobId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6018, PartId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6026, ProcessingTimes, ProcessingTimesDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6021, ProductId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6028, ResultEvaluation, ResultEvaluationEnum, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6030, ResultEvaluationCode, Int64, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6029, ResultEvaluationDetails, LocalizedText, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6012, ResultId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
+    - HasStructuredComponent_reverse:
+      - [ UAVariableType, Machinery.Result:2001, ResultType, ResultDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6016, ResultState, Int32, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6027, ResultUri, UriString, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6017, StepId, TrimmedString, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6009, ResultMetaData, ResultMetaDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   ResultReadyEventType:
   - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
@@ -195,6 +243,8 @@ DefinedTypes:
       - [ UAVariableType, Machinery.Result:2001, ResultType, ResultDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
     - HasStructuredComponent:
       - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasModellingRule:
@@ -207,120 +257,166 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6057, ExternalConfigurationId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6058, ExternalRecipeId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6059, FileFormat, String, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6060, HasTransferableDataOnFile, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6061, InternalConfigurationId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6062, InternalRecipeId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6063, IsPartial, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6064, IsSimulated, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6065, JobId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6066, PartId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6067, ProcessingTimes, ProcessingTimesDataType, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6068, ProductId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6069, ResultEvaluation, ResultEvaluationEnum, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6070, ResultEvaluationCode, Int64, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6071, ResultEvaluationDetails, LocalizedText, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6034, ResultId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, Machinery.Result:6032, Result, ResultDataType, 0, 3 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6072, ResultState, Int32, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6073, ResultUri, UriString, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6074, StepId, TrimmedString, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6033, ResultMetaData, ResultMetaDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
 
   ResultManagementType:
   - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
@@ -328,10 +424,14 @@ DefinedTypes:
     - [ UAVariable, Machinery.Result:6037, DefaultInstanceBrowseName, QualifiedName, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7008, GetLatestResult ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6054, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -340,6 +440,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7008, GetLatestResult ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6055, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -350,10 +452,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7008, GetLatestResult ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7005, GetResultById ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6048, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -363,6 +469,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7005, GetResultById ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6049, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -373,10 +481,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7005, GetResultById ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7006, GetResultIdListFiltered ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6050, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -388,6 +500,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7006, GetResultIdListFiltered ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6051, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -398,6 +512,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7006, GetResultIdListFiltered ]
   - HasComponent:
     - [ UAMethod, Machinery.Result:7007, ReleaseResultHandle ]
     - HasModellingRule:
@@ -410,6 +526,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7007, ReleaseResultHandle ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6053, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -418,6 +536,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7007, ReleaseResultHandle ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
   - GeneratesEvent:
     - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
   - HasComponent:
@@ -432,6 +554,8 @@ DefinedTypes:
         - [ UAVariableType, Machinery.Result:2001, ResultType, ResultDataType, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 11508, OptionalPlaceholder ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Result:5011, Results ]
       - HasStructuredComponent:
         - [ UAVariable, Machinery.Result:6046, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasTypeDefinition:
@@ -444,6 +568,12 @@ DefinedTypes:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, Machinery.Result:6046, ResultMetaData, ResultMetaDataType, 0, 0 ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, Machinery.Result:6045, <ResultVariable>, ResultDataType, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
   - HasComponent:
     - [ UAObject, Machinery.Result:5010, ResultTransfer ]
     - HasTypeDefinition:
@@ -456,10 +586,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Machinery.Result:5010, ResultTransfer ]
     - HasComponent:
       - [ UAMethod, Machinery.Result:7003, CloseAndCommit ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Result:5010, ResultTransfer ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6041, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -468,6 +602,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Result:7003, CloseAndCommit ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6042, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -476,10 +612,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Result:7003, CloseAndCommit ]
     - HasComponent:
       - [ UAMethod, Machinery.Result:7002, GenerateFileForRead ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Result:5010, ResultTransfer ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6038, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -488,6 +628,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Result:7002, GenerateFileForRead ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6039, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -498,10 +640,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Result:7002, GenerateFileForRead ]
     - HasComponent:
       - [ UAMethod, Machinery.Result:7004, GenerateFileForWrite ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Machinery.Result:5010, ResultTransfer ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6043, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -510,6 +656,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Result:7004, GenerateFileForWrite ]
       - HasProperty:
         - [ UAVariable, Machinery.Result:6044, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -519,6 +667,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Machinery.Result:7004, GenerateFileForWrite ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ResultTransferType:
   - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
@@ -526,6 +680,8 @@ DefinedTypes:
     - [ UAMethod, Machinery.Result:7001, GenerateFileForRead ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Machinery.Result:1003, ResultTransferType ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6035, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -534,6 +690,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7001, GenerateFileForRead ]
     - HasProperty:
       - [ UAVariable, Machinery.Result:6036, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -544,3 +702,7 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Machinery.Result:7001, GenerateFileForRead ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 15744, TemporaryFileTransferType ]

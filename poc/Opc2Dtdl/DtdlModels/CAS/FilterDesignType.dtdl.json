@@ -7,43 +7,9 @@
   ],
   "@id": "dtmi:opcua:CAS:FilterDesignType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CAS:DesignType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterTypeEnum;1",
-      "@type": "Enum",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Other",
-          "enumValue": 0
-        },
-        {
-          "name": "ActivatedCarbonFilter",
-          "enumValue": 1
-        },
-        {
-          "name": "AdsorptionFilter",
-          "enumValue": 2
-        },
-        {
-          "name": "CoalescingFilter",
-          "enumValue": 3
-        },
-        {
-          "name": "ParticulateFilter",
-          "enumValue": 4
-        },
-        {
-          "name": "FabricFilter",
-          "enumValue": 5
-        },
-        {
-          "name": "SterileFilter",
-          "enumValue": 6
-        }
-      ]
-    },
     {
       "@id": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1",
       "@type": "Object",
@@ -115,12 +81,6 @@
     }
   ],
   "contents": [
-    {
-      "@type": "Property",
-      "name": "ComponentClass",
-      "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterTypeEnum;1",
-      "writable": false
-    },
     {
       "@type": "Property",
       "name": "FilterClass",

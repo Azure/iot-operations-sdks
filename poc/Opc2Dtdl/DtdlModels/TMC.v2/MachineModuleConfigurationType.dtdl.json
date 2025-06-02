@@ -1,0 +1,357 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/TMC_v2/MachineModuleConfigurationType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Machine",
+          "enumValue": 0
+        },
+        {
+          "name": "Brand",
+          "enumValue": 1
+        },
+        {
+          "name": "Machine_and_Brand",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        },
+        {
+          "name": "Definitions",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataDefinitionType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataDefinitionType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "EngineeringUnits",
+          "schema": "string"
+        },
+        {
+          "name": "DisplayFormat",
+          "schema": "string"
+        },
+        {
+          "name": "Dependency",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1"
+        },
+        {
+          "name": "DataType",
+          "schema": "string"
+        },
+        {
+          "name": "UserSubset",
+          "schema": "boolean"
+        },
+        {
+          "name": "ControlRange",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1"
+        },
+        {
+          "name": "AlarmRange",
+          "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Low",
+          "schema": "double"
+        },
+        {
+          "name": "High",
+          "schema": "double"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "ParentID",
+          "schema": "string"
+        },
+        {
+          "name": "Description",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "GroupID",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "GetDataSetList",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Dependency",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1"
+            },
+            {
+              "name": "UserSubset",
+              "schema": "boolean"
+            },
+            {
+              "name": "CompleteSet",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "DataSetList",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1"
+            },
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetRootCauseGroupList",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RootCauseGroupList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1"
+              }
+            },
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetRootCauseList",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RootCauseList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1"
+              }
+            },
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "GetStopReasonList",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "StopReasonList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1"
+              }
+            },
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetDataSetListMESID",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "IDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            },
+            {
+              "name": "MESIDs",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "string"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetRootCauseLists",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "RootCauseList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1"
+              }
+            },
+            {
+              "name": "RootCauseGroupList",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -7,30 +7,10 @@
   ],
   "@id": "dtmi:opcua:CAS:ConverterDesignType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CAS:DesignType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:CAS:ConverterDesignType:dataType:ConverterTypeEnum;1",
-      "@type": "Enum",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Other",
-          "enumValue": 0
-        },
-        {
-          "name": "CatalyticHCConverter",
-          "enumValue": 1
-        }
-      ]
-    }
   ],
   "contents": [
-    {
-      "@type": "Property",
-      "name": "ComponentClass",
-      "schema": "dtmi:opcua:CAS:ConverterDesignType:dataType:ConverterTypeEnum;1",
-      "writable": false
-    }
   ]
 }

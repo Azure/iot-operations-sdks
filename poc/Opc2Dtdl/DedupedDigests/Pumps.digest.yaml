@@ -1,0 +1,3315 @@
+DataTypes:
+- UADataType: [ Pumps:3008, ControlModeEnum ]
+  Enums:
+    ConstantPressureControl: 0
+    ConstantTemperatureControl: 1
+    DifferentialPressureControl: 2
+    ConstantDifferentialPressureControl: 3
+    VariableDifferentialPressureControl: 4
+    FlowDependentDifferentialPressureControl: 5
+    ReturnFlowTemperatureControl: 6
+    FlowTemperatureControl: 7
+    FlowRateControl: 8
+    SpeedControl: 9
+    Automatic: 10
+    Uncontrolled: 11
+- UADataType: [ Pumps:3013, DistributionTypeEnum ]
+  Enums:
+    ManufacturerSpecific: 0
+    OperatorSpecific: 1
+    ConcerningTimeDistribution: 2
+    ConcerningLoadDistribution: 3
+- UADataType: [ Pumps:3012, ExchangeModeEnum ]
+  Enums:
+    ManufacturerSpecific: 0
+    ExchangeDisabled: 1
+    OperatorSpecific: 2
+- UADataType: [ Pumps:3005, FieldbusEnum ]
+  Enums:
+    Other: 0
+    ARCNET: 1
+    AS-Interface: 2
+    BACnet/IP: 3
+    BACnet/MSTP: 4
+    Bluetooth: 5
+    BluetoothLowEnergy: 6
+    CAN: 7
+    CANopen: 8
+    CC-Link: 9
+    ControlNet: 10
+    DALI: 11
+    DECTULE: 12
+    DeviceNet: 13
+    DMX: 14
+    KNX: 15
+    EnOcean: 16
+    EtherCAT: 17
+    Ethernet/IP: 18
+    EthernetTCP/IP: 19
+    IEEE1588: 20
+    GSM: 21
+    Interbus: 22
+    IO-Link: 23
+    HART: 24
+    LON: 25
+    LoRaWAN: 26
+    LIN-Bus: 27
+    LTE: 28
+    LTE-M: 29
+    M-Bus: 30
+    ModbusTCP: 31
+    ModbusRTU: 32
+    MP-Bus: 33
+    NB-IOT: 34
+    NFC: 35
+    OPCUA: 36
+    OPCDA: 37
+    PROFIBUSDP: 38
+    PROFINETRT: 39
+    Powerlink: 40
+    SERCOS: 41
+    SMI: 42
+    Thread: 43
+    UMTS: 44
+    WIFI: 45
+    X2X-Link: 46
+    VARAN: 47
+    ZigBee: 48
+    Z-Wave: 49
+- UADataType: [ Pumps:3004, MaintenanceLevelEnum ]
+  Enums:
+    Level1: 0
+    Level2: 1
+    Level3: 2
+    Level4: 3
+    Level5: 4
+- UADataType: [ Pumps:3011, MultiPumpOperationModeEnum ]
+  Enums:
+    Standalone: 0
+    RedundancyOperation: 1
+    AdditionOperation: 2
+    MixedRedundancy: 3
+- UADataType: [ Pumps:3006, OperatingModeEnum ]
+  Enums:
+    SingleOperation: 0
+    SeriesOperation: 1
+    ParallelOperation: 2
+- UADataType: [ Pumps:3007, OperationModeEnum ]
+  Enums:
+    AutoControl: 0
+    ClosedLoopStandardPID: 1
+    Advanced: 2
+    StandBy: 3
+    OpenLoopMin: 4
+    OpenLoopValue: 5
+    OpenLoopMax: 6
+    ClosedLoopMin: 7
+    ClosedLoopMax: 8
+    Test: 9
+    Calibration: 10
+- UADataType: [ Pumps:3014, PortDirectionEnum ]
+  Enums:
+    In: 0
+    Out: 1
+    InOut: 2
+- UADataType: [ Pumps:3021, PumpClassEnum ]
+  Enums:
+    RotodynamicPump: 0
+    PositiveDisplacementPump: 1
+    ProcessVacuumPump: 2
+    TurboVacuumPump: 3
+    VacuumPump: 4
+    LiquidPump: 5
+    Pump: 6
+- UADataType: [ Pumps:3009, PumpKickModeEnum ]
+  Enums:
+    ManufacturerSpecific: 0
+    Disabled: 1
+    OperatorSpecific: 2
+- UADataType: [ Pumps:3010, PumpRoleEnum ]
+  Enums:
+    Slave: 0
+    Master: 1
+    SlaveAndAuxiliaryMaster: 2
+- UADataType: [ Pumps:3003, StateOfTheItemEnum ]
+  Enums:
+    IdleState: 0
+    StandByState: 1
+    OperatingState: 2
+    ExternalDisabledState: 3
+    DownState: 4
+- UADataType: [ Pumps:3019, DeclarationOfConformityOptionSet ]
+  Enums:
+    2006_42_EC: 0
+    2009_125_EC: 1
+    2011_65_EU: 2
+    2014_35_EU: 3
+    2014_34_EU: 4
+    2014_30_EU: 5
+    2014_68_EU: 6
+    2014_29_EU: 7
+- UADataType: [ Pumps:3016, ExplosionProtectionOptionSet ]
+  Enums:
+    M1: 0
+    M2: 1
+    1G: 2
+    2G: 3
+    3G: 4
+    1D: 5
+    2D: 6
+    3D: 7
+- UADataType: [ Pumps:3015, ExplosionZoneOptionSet ]
+  Enums:
+    Zone 0: 0
+    Zone 1: 1
+    Zone 2: 2
+    Zone 20: 3
+    Zone 21: 4
+    Zone 22: 5
+- UADataType: [ Pumps:3017, OfferedControlModesOptionSet ]
+  Enums:
+    Constant pressure control: 0
+    Constant temperature control: 1
+    Differential pressure control: 2
+    Constant differential pressure control: 3
+    Variable differential pressure control: 4
+    Flow_dependent differential pressure control: 5
+    Return flow temperature control: 6
+    Flow temperature control: 7
+    Flow rate control: 8
+    Automatic: 9
+    Uncontrolled: 10
+    Speed control: 11
+- UADataType: [ Pumps:3018, OfferedFieldbusesOptionSet ]
+  Enums:
+    Other: 0
+    ARCNET: 1
+    AS_Interface: 2
+    BACnet_IP: 3
+    BACnet_MSTP: 4
+    Bluetooth: 5
+    Bluetooth Low Energy: 6
+    CAN: 7
+    CANopen: 8
+    CC_Link: 9
+    ControlNet: 10
+    DALI: 11
+    DECT ULE: 12
+    DeviceNet: 13
+    DMX: 14
+    KNX: 15
+    EnOcean: 16
+    EtherCAT: 17
+    Ethernet_IP: 18
+    Ethernet TCP_IP: 19
+    IEEE1588: 20
+    GSM: 21
+    Interbus: 22
+    IO_Link: 23
+    HART: 24
+    LON: 25
+    LoRaWAN: 26
+    LIN_Bus: 27
+    LTE: 28
+    LTE_M: 29
+    M_Bus: 30
+    Modbus TCP: 31
+    Modbus RTU: 32
+    MP_Bus: 33
+    NB_IOT: 34
+    NFC: 35
+    OPC UA: 36
+    OPC DA: 37
+    PROFIBUS DP: 38
+    PROFINET RT: 39
+    Powerlink: 40
+    SERCOS: 41
+    SMI: 42
+    Thread: 43
+    UMTS: 44
+    WIFI: 45
+    X2X_Link: 46
+    VARAN: 47
+    ZigBee: 48
+    Z_Wave: 49
+- UADataType: [ Pumps:3020, PhysicalAddressDataType ]
+  Fields:
+    Street: [ LocalizedText, 0 ]
+    Number: [ LocalizedText, 0 ]
+    City: [ LocalizedText, 0 ]
+    PostalCode: [ LocalizedText, 0 ]
+    State: [ LocalizedText, 0 ]
+    Country: [ LocalizedText, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  IPumpVendorNameplateType:
+  - [ UAObjectType, Pumps:1004, IPumpVendorNameplateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1010, IMachineVendorNameplateType ]
+
+  DiscreteObjectType:
+  - [ UAObjectType, Pumps:1029, DiscreteObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8777, OnOffCycle, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8773, Status, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DiscreteInputObjectType:
+  - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1029, DiscreteObjectType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8837, DiscreteInputValue, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  DiscreteOutputObjectType:
+  - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1029, DiscreteObjectType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8781, DiscreteOutputValue, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8784, FaultAction, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8787, FaultValue, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PumpKickObjectType:
+  - [ UAObjectType, Pumps:1032, PumpKickObjectType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8829, PumpKickMode, PumpKickModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8830, PumpKickTime, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8831, PumpKickTimeDifference, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ActuationType:
+  - [ UAObjectType, Pumps:1025, ActuationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8728, FaultAction, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8733, FaultValue, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8734, FeedbackVariable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8738, ManipulatedValue, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8721, OnOff, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8736, ReferenceVariable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8725, Status, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PumpActuationType:
+  - [ UAObjectType, Pumps:1028, PumpActuationType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8754, ActualControlMode, ControlModeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8750, ActualOperationMode, OperationModeEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5078, CleanValveRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8756, ControlInversion, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8762, Enable, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8759, ExternalSignal, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5076, FlushValveRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5079, GasDilValveRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5074, InletValveRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5075, OutletValveRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1025, ActuationType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5082, PumpKick ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1032, PumpKickObjectType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5080, PumpStandByRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5077, PurgeValveRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8751, ReverseRotatingDirection, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8755, SetControlMode, ControlModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8749, SetOperationMode, OperationModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5081, VentValveRequest ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1031, DiscreteOutputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  BreakdownMaintenanceType:
+  - [ UAObjectType, Pumps:1010, BreakdownMaintenanceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6558, CorrectiveMaintenanceTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6562, Criticality, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6565, Failure, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6563, NumberOfFailures, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6564, Severity, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConditionBasedMaintenanceType:
+  - [ UAObjectType, Pumps:1008, ConditionBasedMaintenanceType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6500, Availability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6504, Durability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6505, ExpectedReliability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6506, InstantaneousAvailability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6507, IntrinsicMaintainability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6508, IntrinsicReliability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6509, Maintainability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13077, OperationalReliability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6510, ProductionBasedAvailability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6511, Reliability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6512, TimeBasedAvailability, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConfigurationGroupType:
+  - [ UAObjectType, Pumps:1024, ConfigurationGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5064, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1020, DesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5065, Implementation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1023, ImplementationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5066, SystemRequirements ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1022, SystemRequirementsType ]
+
+  ConnectionDesignType:
+  - [ UAObjectType, Pumps:1040, ConnectionDesignType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9275, NominalPressure, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  InletConnectionDesignType:
+  - [ UAObjectType, Pumps:1041, InletConnectionDesignType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9305, CriticalBackingPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9309, InletAreaOfThePump, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1040, ConnectionDesignType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9310, MaximumAllowableInletPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9311, MaximumTolerableWaterVaporInletPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9312, MaximumWorkingPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9313, MinimumAllowableInletPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9314, NetPositiveInletPressureRequired, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9315, WaterVaporCapacity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OutletConnectionDesignType:
+  - [ UAObjectType, Pumps:1042, OutletConnectionDesignType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9277, MaximumAllowableOutletPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9281, MinimumAllowableOutetPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9282, OutletAreaOfThePump, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1040, ConnectionDesignType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9283, ReliefValveAccumulationPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9284, ReliefValveBackPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9285, ReliefValveReseatPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9286, ReliefValveSetPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ConnectionImplementationType:
+  - [ UAObjectType, Pumps:1046, ConnectionImplementationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9389, NominalSize, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  InletConnectionImplementationType:
+  - [ UAObjectType, Pumps:1047, InletConnectionImplementationType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9407, HeightOfTheInletConnection, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1046, ConnectionImplementationType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9408, MeanRatedVelocityAtInlet, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9409, RatedInletPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9410, TotalHeadAtInletAreaOfThePump, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OutletConnectionImplementationType:
+  - [ UAObjectType, Pumps:1048, OutletConnectionImplementationType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9391, HeightOfTheOutletConnection, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9392, MeanRatedVelocityAtOutlet, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1046, ConnectionImplementationType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9393, RatedOutletPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9394, TotalHeadAtOutletAreaOfThePump, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ControlType:
+  - [ UAObjectType, Pumps:1021, ControlType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7914, CommandVariable, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7926, ControlDifferenceVariable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7927, ControlledVariable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7928, ControllerOutputVariable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7918, DeadTime, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7919, DerivativeActionCoefficient, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7929, FeedbackVariable, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7920, FinalControlledVariable, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7921, IntegralActionCoefficient, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7922, ManipulatedVariable, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7925, OperatingMode, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7923, ProportionalActionCoefficient, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7924, ReferenceVariable, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DesignType:
+  - [ UAObjectType, Pumps:1020, DesignType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7777, AdditionalFieldbuses, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7697, BalancingRateOfFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7701, BasePressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7702, ClearanceVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7759, ClockwiseRotation, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7762, Controllable, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7771, Cool_DownTimeForAVaporJetPumpOrADiffusionPump, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7765, Counter_ClockwiseRotation, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7703, CriticalSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7772, DeclarationOfConformity, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7768, DeclarationOfConformityAvailable, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7704, DesignAxialLoad, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7705, DesignRadialLoad, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7773, DirectivesOfEUDeclarationOfConformity, DeclarationOfConformityOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7706, DryCriticalSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7774, ExplosionProtection, ExplosionProtectionOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7707, GeometricalFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7708, GeometricDisplacementVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7709, HeadAtPeakPoint, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5057, InstallationNpshCurve ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7710, LeakageRateOfFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7711, MaximumAllowableAmbientTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7712, MaximumAllowableCasingWorkingPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7713, MaximumAllowableContinuousSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7714, MaximumAllowableHead, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7715, MaximumAllowableRelativeHumidity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7716, MaximumAllowableTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7717, MaximumAllowableThroughput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7718, MaximumAllowableWorkingPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7719, MaximumAxialLoad, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7720, MaximumPumpPowerInput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7721, MaximumRadialLoad, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7722, MaximumStaticSealingPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7723, MeanTimebetweenFailures, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7724, MinimumAllowableAmbientTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7725, MinimumAllowableContinuousSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7726, MinimumAllowableHead, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7727, MinimumAllowableRelativeHumidity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7728, MinimumAllowableTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7729, MinimumAllowableThermalFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7730, MinimumContinuousStableFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7731, MinimumContinuousThermalFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7732, NetPositiveSuctionHeadRequired, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7733, NetPositiveSuctionHeadRequiredForADropOf3Percent, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7775, OfferedControlModes, OfferedControlModesOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7776, OfferedFieldbuses, OfferedFieldbusesOptionSet, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7734, OptimumHead, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7735, OptimumPumpPowerInput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7736, OptimumRateOfFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7737, PistonVelocity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7778, PossibleFluids, String, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7738, Pre_ChargePressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7779, PumpClass, PumpClassEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5058, PumpCurve ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5059, PumpEfficiencyCurve ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5060, PumpH_Q_Curve ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5061, PumpNpshCurve ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5062, PumpPowerInputCurve ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7739, Shut_OffHead, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7740, Shut_OffPumpPowerInput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7741, SlipFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7742, SoundEnergy, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7743, SoundEnergyLevel, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7744, SoundPower, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7745, SoundPowerLevel, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7746, SoundPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7747, SoundPressureLevel, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7748, SpecificSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5063, StablePumpH_Q_Curve ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7749, StandardGasFlowrate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7750, StartingPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7751, Suction_SpecificSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7752, SweptVolume, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7753, TripSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7780, TypeNumber, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7754, VolumeFlowRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7755, VolumeFlowRateOfBackingPump, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7756, WarmUpTimeForAVaporJetPumpOrADiffusionPump, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7757, WaterVaporTolerableLoad, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7758, WetCriticalSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DocumentationType:
+  - [ UAObjectType, Pumps:1006, DocumentationType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5024, Arrangements ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6109, ArrangementsLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5025, Certificates ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6110, CertificatesLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5026, CircuitDiagram ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6406, CircuitDiagramLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5027, ComponentsList ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6407, ComponentsListLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5028, Detail ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6408, DetailLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5040, DuringMaintenanceServicesRendered ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6409, DuringMaintenanceServicesRenderedLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5043, ImplementationDescription ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6410, ImplementationDescriptionLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5029, Layout ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6411, LayoutLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5030, Location ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6412, LocationLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5031, LogicDiagram ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6413, LogicDiagramLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5032, LubricationMap ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6414, LubricationMapLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5033, MaintenanceManual ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6415, MaintenanceManualLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5034, OperationManual ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6416, OperationManualLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5041, PersonnelRecording ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6417, PersonnelRecordingLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5035, PipeAndInstrumentDiagram ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6418, PipeAndInstrumentDiagramLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5044, ScopeOfWork ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6419, ScopeOfWorkLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5036, SingleLineDiagram ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6420, SingleLineDiagramLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5045, SparePartReference ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6421, SparePartReferenceLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5042, Staff ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6422, StaffLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5037, TechnicalData ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6423, TechnicalDataLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5038, TestProgramReport ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6424, TestProgramReportLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5039, UnitMaintenanceReport ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6425, UnitMaintenanceReportLink, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DriveDesignType:
+  - [ UAObjectType, Pumps:1043, DriveDesignType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9338, EnergyEfficiencyClassOfMotor, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9339, MaxNominalFrequency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9340, MinNominalFrequency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9341, MotorEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9342, NominalFrequency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9343, NominalPowerConsumption, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9344, NominalVoltage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9345, PowerFactor, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9337, ProtectionClass, String, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9346, RatedCurrent, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9347, RatedSpeed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9348, TorqueAtNominalSpeedOfDrive, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  DriveMeasurementsType:
+  - [ UAObjectType, Pumps:1051, DriveMeasurementsType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9443, Current, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9445, DCLinkCurrent, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9447, DCLinkVoltage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9449, DriverPowerInput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9451, EnergyConsumption, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9453, Frequency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9455, MotorCurrent, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9457, MotorEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9459, MotorTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9461, MotorVoltage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9463, PowerFactor, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9465, Torque, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9467, Voltage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  GeneralMaintenanceType:
+  - [ UAObjectType, Pumps:1007, GeneralMaintenanceType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6452, ActiveMaintenanceTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13057, DownTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13058, ExternalDisabledTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6456, FailureRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13059, IdleTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6450, MaintenanceLevel, MaintenanceLevelEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6457, MaintenanceTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6458, MeanOperatingTimeBetweenFailures, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6459, MeanRepairTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6460, MeanTimeToRestauration, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6466, Obsolescence, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12949, OperatingTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6461, OperatingTimeBetweenFailures, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6462, OperatingTimeToFailure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6463, RepairTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13060, StandbyTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6448, StateOfTheItem, StateOfTheItemEnum, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6464, TimeBetweenFailures, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6465, TimeToRestoration, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13061, UpTime, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  ImplementationType:
+  - [ UAObjectType, Pumps:1023, ImplementationType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8102, AtmosphericPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8103, Density, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8104, DynamicViscosity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8105, HeightOfTheInletManometer, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8106, HeightOfTheNpshDatumPlane, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8107, HeightOfTheOutletManometer, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8108, HydraulicEfficiency, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8109, InstallationTotalHead, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8110, KinematicViscosity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8111, MaximumAllowableFlow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8112, MaximumDynamicSealingPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8115, MechanicalEfficiency, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8116, MinimumAllowableFlow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8117, MinimumAllowableStableFlow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8118, NetPositiveSuctionHeadAvailable, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8119, OverallEfficiency, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8120, PumpBestEfficiency, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8121, PumpEfficiency, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8122, PumpMechanicalPowerLosses, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8123, PumpRatedPowerInput, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8124, PumpTotalHead, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8125, RatedDifferentialPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8126, RatedFlow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8113, RatedMeanVelocityAtInletAreaOfTheInstallation, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8114, RatedMeanVelocityAtOutletAreaOfTheInstallation, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8127, RatedSpeed, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8128, TotalHeadAtInletAreaOfTheInstallation, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8129, TotalHeadAtOutletAreaOfTheInstallation, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8130, UsefulLife, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8131, ValveSeatVelocity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8132, ValveSpillVelocity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8133, VaporPressureOfThePumpedLiquid, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8134, VolumetricEfficiency, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  InletConnectionMeasurementsType:
+  - [ UAObjectType, Pumps:1050, InletConnectionMeasurementsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9433, InletTemperatureOfThePump, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9435, MeanVelocityAtInlet, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  InletConnectionSystemRequirementsType:
+  - [ UAObjectType, Pumps:1045, InletConnectionSystemRequirementsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9385, InletPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PumpIdentificationType:
+  - [ UAObjectType, Pumps:1005, PumpIdentificationType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5022, Markings ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1002, MarkingsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+
+  MaintenanceGroupType:
+  - [ UAObjectType, Pumps:1011, MaintenanceGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5046, BreakdownMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1010, BreakdownMaintenanceType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5047, ConditionBasedMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1008, ConditionBasedMaintenanceType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5048, GeneralMaintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1007, GeneralMaintenanceType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5049, PreventiveMaintenance ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1009, PreventiveMaintenanceType ]
+
+  MeasurementsType:
+  - [ UAObjectType, Pumps:1054, MeasurementsType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5228, <Vibration> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1055, VibrationMeasurementType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:11265, AmbientHumidity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9515, AmbientTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:11127, AxialLoadOfPumpRotor, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:11859, AxialRotorPosition, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12637, BackPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12639, BearingTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12641, ClearanceFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12643, CoolantTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12645, Density, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12647, DifferentialPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12649, DynamicViscosity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12651, ElectronicTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12653, FluidTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12655, HousingTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12657, HydraulicEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12659, InletPressureOfTheInstallation, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12661, InstallationTotalHead, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12663, KinematicViscosity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12667, LeakageRateOfFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12665, Level, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12669, LubricatingOilConsumption, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12671, LubricatingOilPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12673, MassFlow, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12675, MeanVelocityAtThroat, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12677, MechanicalEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12679, NetPositiveInletPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12681, NetPositiveSuctionHead, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12683, NumberOfStarts, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12685, OutletPressureOfTheInstallation, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12687, OverallEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12689, PowerLossDueToInternalLeakage, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12691, ProcessPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12693, PumpEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12695, PumpHumidity, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12697, PumpPowerInput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12699, PumpPowerOutput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12701, PumpTemperature, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12703, PumpTotalHead, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12705, RadialLoadOfPumpRotor, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12707, SoundEnergy, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12709, SoundEnergyLevel, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12711, SoundPower, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12713, SoundPowerLevel, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12715, SoundPressure, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12717, SoundPressureLevel, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12719, Speed, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12721, Throughput, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12723, TotalHeadAtInletAreaOfTheInstallation, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12725, TotalHeadAtOutletAreaOfTheInstallation, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12727, VolumetricEfficiency, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  MultiPumpType:
+  - [ UAObjectType, Pumps:1039, MultiPumpType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9251, DistributionPriority, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9252, DistributionType, DistributionTypeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9253, ExchangeMode, ExchangeModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9254, ExchangeTime, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9255, ExchangeTimeDifference, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9256, MaximumNumberOfPumpsInOperation, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9257, MultiPumpOperationMode, MultiPumpOperationModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9258, NumberOfPumps, UInt32, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9259, PumpCollectiveIDs, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9260, PumpRole, PumpRoleEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9261, RedundantPumpIDs, String, 1, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OperationalGroupType:
+  - [ UAObjectType, Pumps:1053, OperationalGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5193, BypassActuation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1025, ActuationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5191, Control ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1021, ControlType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5129, Measurements ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1054, MeasurementsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5197, MultiPump ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1039, MultiPumpType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5192, PumpActuation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1028, PumpActuationType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5195, Signals ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1033, SignalsType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5194, ThrottleValveActuation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1025, ActuationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OutletConnectionMeasurementsType:
+  - [ UAObjectType, Pumps:1049, OutletConnectionMeasurementsType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9423, MeanVelocityAtOutlet, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9428, OutletTemperatureOfThePump, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OutletConnectionSystemRequirementsType:
+  - [ UAObjectType, Pumps:1044, OutletConnectionSystemRequirementsType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9381, BackingPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  PortsGroupType:
+  - [ UAObjectType, Pumps:1034, PortsGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5104, <Drive> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1038, DrivePortType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, Pumps:5105, <InletConnection> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1036, InletConnectionPortType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAObject, Pumps:5106, <OutletConnection> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1037, OutletConnectionPortType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  PreventiveMaintenanceType:
+  - [ UAObjectType, Pumps:1009, PreventiveMaintenanceType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6540, ActivePreventiveMaintenanceTime, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6548, InstallationDate, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6550, LastInspectionDate, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6551, LastServicingDate, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6552, NextInspectionDate, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6553, NextServicingDate, DateTime, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6544, PreventiveMaintenanceTime, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  SignalsType:
+  - [ UAObjectType, Pumps:1033, SignalsType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5084, Acceleration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5085, CleanValveOpen ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5103, Deceleration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5086, FlushValveOpen ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5087, GasDilValveOpen ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5088, InletValveOpen ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5089, NoRotation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5090, OutletValveOpen ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5091, ProcessIsActive ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5092, PumpActivation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5093, PumpDirection ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5094, PumpOperation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5095, PumpPowerMax ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5096, PumpSpeedMax ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5097, PumpSpeedMin ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5098, PurgeValveOpen ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5099, RatedSpeed ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5083, StandBy ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5100, StandBySpeed ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5101, TargetSpeed ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5102, VentValveOpen ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1030, DiscreteInputObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SupervisionAuxiliaryDeviceType:
+  - [ UAObjectType, Pumps:1017, SupervisionAuxiliaryDeviceType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6960, ActuatorElement, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6963, AmbientTemperature, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6966, AuxiliaryDeviceFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6969, AuxiliaryMediumAbsence, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6972, AuxiliaryMediumInsufficiency, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6975, AuxiliaryPowerPole, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6978, AuxiliaryPowerRange, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6981, CommunicationError, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6984, Corrosion, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6987, Deviation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6990, ElectromagneticInterference, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6993, ElectronicFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6996, EnergySupply, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6999, EvaluationElectronics, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7152, ExciterError, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7155, Fouling, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7158, HumidityElectronics, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7161, Installation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7164, Interruption, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7167, LineLength, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7170, MaterialElectronics, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7173, MeasuredMaterialElectronics, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7176, MechanicalDamage, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7179, OperatingConditions, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7182, Other, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7185, Overloading, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7188, ParameterSetting, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7191, Peripheral, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7194, ProcessInfluence, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7197, SensorElement, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7200, StartUp, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7203, TemperatureShock, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7206, Vibration, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7209, WearReserveOperation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7212, WearReserveWear, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SupervisionElectronicsType:
+  - [ UAObjectType, Pumps:1018, SupervisionElectronicsType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7215, ArmatureCircuit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7218, CurrentInsideDevice, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7221, ElectricalFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7224, FieldCircuit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7227, InstallationFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7230, InsulationResistance, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7233, PhaseFailure, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7236, ShortCircuit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7239, ShortToEarth, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7242, SupplyCurrent, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7245, SupplyCurrentHigh, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7248, SupplyCurrentLow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7251, SupplyFrequency, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7254, SupplyFrequencyHigh, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7257, SupplyFrequencyLow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7260, SupplyVoltage, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7263, SupplyVoltageHigh, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7266, SupplyVoltageLow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7269, VoltageInsideDevice, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7272, WindingTemperature, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SupervisionHardwareType:
+  - [ UAObjectType, Pumps:1013, SupervisionHardwareType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6752, Communication, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6755, ComputingCircuit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6758, ControlCircuit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6761, DCLinkSupply, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6764, Eprom, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6767, HardwareFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6770, IONA, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6773, MeasureCircuit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6785, MicroProcessor, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6776, NetworkNA, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6779, PowerSupply, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6782, Ram, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  SupervisionMechanicsType:
+  - [ UAObjectType, Pumps:1012, SupervisionMechanicsType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6704, AxialBearingAbrasion, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6707, AxialBearingFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6710, AxialBearingOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6713, BearingFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6716, BrakeChopper, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6719, BrakeOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6722, ExcessVibration, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6725, GapWear, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6728, MechanicalFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6731, Misalignment, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6734, RadialBearingAbrasion, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6737, RadialBearingFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6740, RadialBearingOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6743, RotorBlocked, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6746, RotorStationRubbing, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6749, Unbalance, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SupervisionProcessFluidType:
+  - [ UAObjectType, Pumps:1015, SupervisionProcessFluidType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6812, Blockage, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6815, Cavitation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6818, Condensation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6821, Dry, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6824, Flow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6827, Gas, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6830, Liquid, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6833, Pressure, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6836, ProcessFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6839, Solid, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6842, Stall, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6845, Temperature, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6848, Viscosity, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SupervisionPumpOperationType:
+  - [ UAObjectType, Pumps:1016, SupervisionPumpOperationType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6851, AccessoryLiquidFlow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6854, AccessoryLiquidHigh, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6857, AccessoryLiquidLow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6860, AccessoryLiquidOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6863, AccessoryLiquidPressure, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6866, AmbientTemperature, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6869, CaseOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6872, ControllerOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:12084, ConverterOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6875, CoolantFlow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6878, CoolantHigh, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6881, CoolantLow, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6884, CoolantOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6887, Deceleration, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6890, DirtyImpeller, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6893, DriveOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6896, GeneratorOperation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6899, Leakage, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6902, Lubricant, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6905, MaximumNumberStarts, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6908, MaximumOperationTime, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6911, MaximumStartsAtTime, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6914, MotorHumidity, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6917, MotorOverheat, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6920, OperationFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6923, OverLoad, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6926, OverSpeed, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6929, PartialLoad, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6932, Synchronisation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6935, TemperatureFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6938, TimeOut, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6941, TMSFailure, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6944, TorqueLimit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6947, TurbineOperation, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6950, UnderSpeed, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6953, VelocityLimit, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6956, WearReserveExhausted, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  SupervisionSoftwareType:
+  - [ UAObjectType, Pumps:1014, SupervisionSoftwareType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6788, Application, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6791, Communication, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6794, Control, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6797, Memory, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6800, OS, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6803, Parameter, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6806, SoftwareFault, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:6809, SoftwareReset, Boolean, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  SupervisionType:
+  - [ UAObjectType, Pumps:1019, SupervisionType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5020, SupervisionAuxiliaryDevice ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1017, SupervisionAuxiliaryDeviceType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5021, SupervisionElectronics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1018, SupervisionElectronicsType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5050, SupervisionHardware ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1013, SupervisionHardwareType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5051, SupervisionMechanics ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1012, SupervisionMechanicsType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5052, SupervisionProcessFluid ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1015, SupervisionProcessFluidType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5053, SupervisionPumpOperation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1016, SupervisionPumpOperationType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5054, SupervisionSoftware ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1014, SupervisionSoftwareType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  SystemRequirementsType:
+  - [ UAObjectType, Pumps:1022, SystemRequirementsType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7967, CompressionRatio, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7968, ExplosionZone, ExplosionZoneOptionSet, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7964, Fieldbus, FieldbusEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7969, Fluid, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7970, GasContent, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7971, HeightOfTheInletSideOfTheInstallation, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7972, HeightOfTheOutletSideOfTheInstallation, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7973, HeightOfThePump, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7974, MaximumAmbientTemperature, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7975, MaximumFlow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7976, MaximumHead, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7977, MaximumInletPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7978, MaximumOutletPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7979, MaximumRelativeHumidity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7980, MaximumTemperature, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7981, MeanTimeBetweenFailures, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7982, MinimumAmbientTemperature, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7983, MinimumFlow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7984, MinimumHead, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7985, MinimumInletPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7986, MinimumOutletPressure, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7987, MinimumRelativeHumidity, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7988, MinimumTemperature, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7989, Multi_Phase, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7992, NetPositiveInletPressureAvailable, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7993, NormalFlow, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7994, NpshDatumPlane, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7966, OperatingMode, OperatingModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7995, RatedInletPressureOfTheInstallation, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7996, RatedPumpUnitTotalHead, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7997, ReferencePlane, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7998, RequiredControlMode, ControlModeEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:7999, RequiredTime, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8000, SolidContent, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8001, Throughput, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8002, UltimatePressureOfAVacuumPump, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:8003, WorkingTemperature, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  VibrationMeasurementType:
+  - [ UAObjectType, Pumps:1055, VibrationMeasurementType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:11275, 1XPhase, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:11277, 1XRelativeShaftVibrationP_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:11279, 2XPhase, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:11281, 2XRelativeShaftVibrationP_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13105, BearingIndex, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13107, BearingIndexPerG, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13109, BroadbandCavitationAccelerationPerG_RMS, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13111, BroadbandCavitationAccelerationRMS, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13113, GapVoltage, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13115, Not1XRelativeShaftVibrationP_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13117, OverallVibrationAcceleration0_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13119, OverallVibrationAccelerationP_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13123, OverallVibrationAccelerationPerG0_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13121, OverallVibrationAccelerationPerG_RMS, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13125, OverallVibrationAccelerationPerGP_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13127, OverallVibrationAccelerationRMS, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13129, OverallVibrationDisplacementP_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13131, OverallVibrationDisplacementRMS, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13133, OverallVibrationVelocity0_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13135, OverallVibrationVelocityP_P, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13137, OverallVibrationVelocityRMS, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13139, ReferenceStandardForVibrationMeasurement, String, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13141, RotationalPhase1X, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13143, RotationalPhase2X, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13145, SpeedOfRotation, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13147, ThrustPosition, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13149, VibrationAmplitudeAtTheBearingDefectFrequencies, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13151, VibrationAmplitudeAtTheBearingDefectFrequenciesPerG, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13153, VibrationAmplitudeAtTheBladePassFrequency, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13155, VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13157, VibrationAmplitudeAtTheGearMeshingFrequency, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13159, VibrationAmplitudeAtTheGearMeshingFrequencyPerG, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13161, VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13163, VibrationAmplitudeAtTheRotationFrequency1X, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13165, VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequency, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:13167, VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequencyPerG, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  MarkingsType:
+  - [ UAObjectType, Pumps:1002, MarkingsType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5019, <Marking> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 11575, FileType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
+
+  PortType:
+  - [ UAObjectType, Pumps:1035, PortType ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9246, Category, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9245, Direction, PortDirectionEnum, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Pumps:9247, IdCarrier, String, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  DrivePortType:
+  - [ UAObjectType, Pumps:1038, DrivePortType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5115, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1043, DriveDesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1035, PortType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5116, Measurements ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1051, DriveMeasurementsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  InletConnectionPortType:
+  - [ UAObjectType, Pumps:1036, InletConnectionPortType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5107, Design ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1041, InletConnectionDesignType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5108, Implementation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1047, InletConnectionImplementationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1035, PortType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5109, Measurements ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1050, InletConnectionMeasurementsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5110, SystemRequirements ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1045, InletConnectionSystemRequirementsType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  OutletConnectionPortType:
+  - [ UAObjectType, Pumps:1037, OutletConnectionPortType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5111, Design ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1042, OutletConnectionDesignType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5112, Implementation ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1048, OutletConnectionImplementationType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5113, Measurements ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1049, OutletConnectionMeasurementsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Pumps:1035, PortType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5114, SystemRequirements ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1044, OutletConnectionSystemRequirementsType ]
+
+  PumpType:
+  - [ UAObjectType, Pumps:1052, PumpType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5118, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1024, ConfigurationGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5119, Documentation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1006, DocumentationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5117, Events ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1019, SupervisionType ]
+  - HasComponent:
+    - [ UAObject, Pumps:5121, Maintenance ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1011, MaintenanceGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5122, Operational ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1053, OperationalGroupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, Pumps:5123, Ports ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, Pumps:1034, PortsGroupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]

@@ -348,6 +348,11 @@ DataTypes:
 
 DefinedTypes:
 
+  SensorWarningAlarmType:
+  - [ UAObjectType, GMS:1010, SensorWarningAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2955, LimitAlarmType ]
+
   IntermediateResultEventType:
   - [ UAObjectType, GMS:1001, IntermediateResultEventType ]
   - HasComponent:
@@ -356,6 +361,8 @@ DefinedTypes:
       - [ UAObjectType, GMS:1009, CharacteristicType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
 
   MultiSensorType:
   - [ UAObjectType, GMS:1012, MultiSensorType ]
@@ -365,6 +372,8 @@ DefinedTypes:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, GMS:1007, SensorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:51, MultiToolType ]
 
   SensorType:
   - [ UAObjectType, GMS:1007, SensorType ]
@@ -376,6 +385,8 @@ DefinedTypes:
     - [ UAVariable, GMS:6056, Class, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:50, ToolType ]
   - HasComponent:
     - [ UAObject, GMS:5065, ToolLife ]
     - HasTypeDefinition:
@@ -385,6 +396,8 @@ DefinedTypes:
 
   CharacteristicType:
   - [ UAObjectType, GMS:1009, CharacteristicType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, GMS:6042, LowerToleranceLimit, Double, 0, 3 ]
     - HasModellingRule:
@@ -404,6 +417,8 @@ DefinedTypes:
 
   CorrectionType:
   - [ UAObjectType, GMS:1005, CorrectionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, GMS:6074, CorrectionValueAbsolute, Double, 0, 3 ]
     - HasModellingRule:
@@ -427,10 +442,17 @@ DefinedTypes:
     - [ UAVariable, GMS:6073, IsInLoadingPosition, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:23, ElementMonitoringType ]
   - HasComponent:
     - [ UAVariable, GMS:6060, LoadStatus, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+
+  ToolMonitoringType:
+  - [ UAObjectType, GMS:1006, ToolMonitoringType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:41, WorkingUnitMonitoringType ]
 
   GMSEquipmentType:
   - [ UAObjectType, GMS:1003, GMSEquipmentType ]
@@ -446,12 +468,19 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:12, EquipmentType ]
   - HasComponent:
     - [ UAObject, GMS:5017, Tools ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineTool:44, ToolListType ]
+
+  GMSIdentificationType:
+  - [ UAObjectType, GMS:1011, GMSIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:11, MachineToolIdentificationType ]
 
   GMSType:
   - [ UAObjectType, GMS:1002, GMSType ]
@@ -461,6 +490,8 @@ DefinedTypes:
       - [ UAObjectType, GMS:1003, GMSEquipmentType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:13, MachineToolType ]
   - HasComponent:
     - [ UAObject, GMS:5026, Monitoring ]
     - HasModellingRule:
@@ -488,6 +519,8 @@ DefinedTypes:
 
   GMSMonitoringType:
   - [ UAObjectType, GMS:1004, GMSMonitoringType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:14, MonitoringType ]
   - HasComponent:
     - [ UAObject, GMS:5031, LoadingMonitoring ]
     - HasTypeDefinition:
@@ -501,8 +534,15 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, GMS:1006, ToolMonitoringType ]
 
+  GMSJobType:
+  - [ UAObjectType, GMS:1016, GMSJobType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:29, ProductionJobType ]
+
   GMSPartType:
   - [ UAObjectType, GMS:1017, GMSPartType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:56, ProductionPartType ]
   - HasComponent:
     - [ UAVariable, GMS:6316, NestIdentifier, Number, 0, 3 ]
     - HasModellingRule:
@@ -524,6 +564,11 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
+  CalibrationPrognosisType:
+  - [ UAObjectType, GMS:1019, CalibrationPrognosisType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:3, PrognosisType ]
+
   GMSResultManagementType:
   - [ UAObjectType, GMS:1008, GMSResultManagementType ]
   - HasComponent:
@@ -532,3 +577,20 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
+
+  RotaryTableType:
+  - [ UAObjectType, GMS:1018, RotaryTableType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  SensorExchangeRackType:
+  - [ UAObjectType, GMS:1015, SensorExchangeRackType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  TipExchangeRackType:
+  - [ UAObjectType, GMS:1022, TipExchangeRackType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

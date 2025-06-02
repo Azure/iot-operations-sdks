@@ -5,9 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Di:PrepareForUpdateStateMachineType;1",
+  "@id": "dtmi:opcua:DI:PrepareForUpdateStateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Di/PrepareForUpdateStateMachineType/{commandName}",
+  "commandTopic": "opcua/DI/PrepareForUpdateStateMachineType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

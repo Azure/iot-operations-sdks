@@ -82,12 +82,16 @@ DefinedTypes:
   - [ UAObjectType, PAEFS:1007, AirConnectionType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1040, AirConnectionStatusChangedConditionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5012, Airflow ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasComponent:
       - [ UAObject, PAEFS:5056, Signal ]
       - HasTypeDefinition:
@@ -100,40 +104,56 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5056, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6035, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6033, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6038, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6033, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5012, Airflow ]
       - HasProperty:
         - [ UAVariable, PAEFS:6040, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5056, Signal ]
   - HasComponent:
     - [ UAMethod, PAEFS:7009, Close ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6426, ConnectionOpen, AirConnectionOpenEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
   - HasComponent:
     - [ UAObject, PAEFS:5064, GasQuality ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasComponent:
       - [ UAObject, PAEFS:5076, Signal ]
       - HasTypeDefinition:
@@ -146,30 +166,42 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5076, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6125, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6124, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6126, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6124, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5064, GasQuality ]
       - HasProperty:
         - [ UAVariable, PAEFS:6127, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5076, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5066, Humidity ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasComponent:
       - [ UAObject, PAEFS:5096, Signal ]
       - HasTypeDefinition:
@@ -182,42 +214,58 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5096, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6129, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6128, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6130, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6128, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5066, Humidity ]
       - HasProperty:
         - [ UAVariable, PAEFS:6131, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5096, Signal ]
   - HasProperty:
     - [ UAVariable, PAEFS:6428, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7008, Open ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
   - HasComponent:
     - [ UAObject, PAEFS:5014, Pressure ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasComponent:
       - [ UAObject, PAEFS:5058, Signal ]
       - HasTypeDefinition:
@@ -230,24 +278,34 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5058, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6051, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6045, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6052, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6045, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5014, Pressure ]
       - HasProperty:
         - [ UAVariable, PAEFS:6053, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5058, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5067, Temperature ]
     - HasModellingRule:
@@ -266,69 +324,147 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5097, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6149, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6148, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6151, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6148, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5067, Temperature ]
       - HasProperty:
         - [ UAVariable, PAEFS:6152, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5097, Signal ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1007, AirConnectionType ]
 
   CompressedAirSupplyInterruptedAlarmType:
   - [ UAObjectType, PAEFS:1032, CompressedAirSupplyInterruptedAlarmType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   EndOfFilterRollAlarmType:
   - [ UAObjectType, PAEFS:1026, EndOfFilterRollAlarmType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1021, AutomaticRollFilterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   MalfunctionAlarmType:
   - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1002, FilterSystemType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1007, AirConnectionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1008, SafetySystemType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1009, FanType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1012, FilterUnitType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1016, CleaningUnitValveType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   SafetySystemTriggeredAlarmType:
   - [ UAObjectType, PAEFS:1041, SafetySystemTriggeredAlarmType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1008, SafetySystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   WashingAgentDrainMalfunctionAlarmType:
   - [ UAObjectType, PAEFS:1030, WashingAgentDrainMalfunctionAlarmType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   WashingAgentInflowMalfunctionAlarmType:
   - [ UAObjectType, PAEFS:1029, WashingAgentInflowMalfunctionAlarmType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10637, OffNormalAlarmType ]
 
   CleaningRecommendedConditionType:
   - [ UAObjectType, PAEFS:1037, CleaningRecommendedConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2881, AcknowledgeableConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6048, Recommended, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1037, CleaningRecommendedConditionType ]
 
   MaintenanceRequestedConditionType:
   - [ UAObjectType, PAEFS:1023, MaintenanceRequestedConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1002, FilterSystemType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1012, FilterUnitType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2881, AcknowledgeableConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6047, Requested, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1023, MaintenanceRequestedConditionType ]
 
   AirConnectionStatusChangedConditionType:
   - [ UAObjectType, PAEFS:1040, AirConnectionStatusChangedConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1007, AirConnectionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:8427, Status, AirConnectionOpenEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1040, AirConnectionStatusChangedConditionType ]
 
   CleaningUnitActiveConditionType:
   - [ UAObjectType, PAEFS:1036, CleaningUnitActiveConditionType ]
@@ -338,42 +474,74 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1036, CleaningUnitActiveConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
 
   ContainerOpenConditionType:
   - [ UAObjectType, PAEFS:1024, ContainerOpenConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6050, Open, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1024, ContainerOpenConditionType ]
 
   DischargeContainerInstalledConditionType:
   - [ UAObjectType, PAEFS:1038, DischargeContainerInstalledConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:8425, Installed, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1038, DischargeContainerInstalledConditionType ]
 
   FilterAidDeviceStatusChangedConditionType:
   - [ UAObjectType, PAEFS:1033, FilterAidDeviceStatusChangedConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:8421, Status, FilterAidDeviceStatusEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1033, FilterAidDeviceStatusChangedConditionType ]
 
   MaintenanceSwitchConditionType:
   - [ UAObjectType, PAEFS:1039, MaintenanceSwitchConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1009, FanType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6046, SwitchOn, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1039, MaintenanceSwitchConditionType ]
 
   WashingAgentDrainOpenConditionType:
   - [ UAObjectType, PAEFS:1028, WashingAgentDrainOpenConditionType ]
@@ -383,6 +551,12 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1028, WashingAgentDrainOpenConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
 
   WashingAgentInflowOpenConditionType:
   - [ UAObjectType, PAEFS:1027, WashingAgentInflowOpenConditionType ]
@@ -392,6 +566,12 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1027, WashingAgentInflowOpenConditionType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
 
   HighVoltageUnitSupplyActiveEventType:
   - [ UAObjectType, PAEFS:1031, HighVoltageUnitSupplyActiveEventType ]
@@ -401,6 +581,12 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1031, HighVoltageUnitSupplyActiveEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
 
   CleaningUnitType:
   - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
@@ -410,42 +596,56 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1016, CleaningUnitValveType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6195, Malfunction, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5049, <Valve> ]
     - HasProperty:
       - [ UAVariable, PAEFS:6198, Open, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5049, <Valve> ]
   - HasComponent:
     - [ UAObject, PAEFS:5078, AirConsumption ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6082, AutomaticCleaningEnabled, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6161, CleaningActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
   - HasComponent:
     - [ UAObject, PAEFS:5077, CleaningInterval ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5103, Signal ]
       - HasTypeDefinition:
@@ -458,18 +658,24 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5103, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6175, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6174, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6183, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6174, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, PAEFS:6221, ProcessValueSetpoint, Number, -2, 3 ]
         - HasModellingRule:
@@ -482,34 +688,50 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6221, ProcessValueSetpoint, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6223, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6221, ProcessValueSetpoint, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5103, Signal ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5077, CleaningInterval ]
       - HasProperty:
         - [ UAVariable, PAEFS:6184, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5103, Signal ]
   - HasProperty:
     - [ UAVariable, PAEFS:6187, CleaningRecommended, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1037, CleaningRecommendedConditionType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1036, CleaningUnitActiveConditionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5048, FilterCleaningEffect ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5098, Signal ]
       - HasTypeDefinition:
@@ -522,18 +744,24 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5098, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6154, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6153, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6155, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6153, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, PAEFS:6216, ProcessValueSetpoint, Number, -2, 3 ]
         - HasModellingRule:
@@ -546,36 +774,54 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6216, ProcessValueSetpoint, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6218, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6216, ProcessValueSetpoint, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5098, Signal ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5048, FilterCleaningEffect ]
       - HasProperty:
         - [ UAVariable, PAEFS:6156, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5098, Signal ]
   - HasAddIn:
     - [ UAObject, PAEFS:5051, Identification ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6199, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5051, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6200, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5051, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5114, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5114, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -588,18 +834,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6199, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5051, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6200, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5051, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5114, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5199, MachineryItemState ]
       - HasTypeDefinition:
@@ -612,12 +868,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5199, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8422, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6407, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5114, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5199, MachineryItemState ]
     - HasTypeDefinition:
@@ -630,30 +894,44 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5199, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:8422, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6407, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5114, MachineryBuildingBlocks ]
   - HasProperty:
     - [ UAVariable, PAEFS:6406, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7007, RequestCleaning ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
   - HasComponent:
     - [ UAObject, PAEFS:5043, ReservoirPressure ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5073, Signal ]
       - HasTypeDefinition:
@@ -666,18 +944,24 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5073, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6113, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6112, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6114, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6112, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, PAEFS:6210, ProcessValueSetpoint, Number, -2, 3 ]
         - HasModellingRule:
@@ -690,33 +974,49 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6210, ProcessValueSetpoint, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6212, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6210, ProcessValueSetpoint, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5073, Signal ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5043, ReservoirPressure ]
       - HasProperty:
         - [ UAVariable, PAEFS:6115, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5073, Signal ]
   - HasProperty:
     - [ UAVariable, PAEFS:6186, TotalCleaningCycles, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
 
   CleaningUnitValveType:
   - [ UAObjectType, PAEFS:1016, CleaningUnitValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6359, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1016, CleaningUnitValveType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasProperty:
@@ -725,6 +1025,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1016, CleaningUnitValveType ]
 
   CollectorType:
   - [ UAObjectType, PAEFS:1020, CollectorType ]
@@ -734,6 +1036,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1020, CollectorType ]
     - HasComponent:
       - [ UAObject, PAEFS:5062, Signal ]
       - HasTypeDefinition:
@@ -746,24 +1050,36 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5062, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6073, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6072, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6074, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6072, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5027, CollectorOutput ]
       - HasProperty:
         - [ UAVariable, PAEFS:6075, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5062, Signal ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ConsumptionType:
   - [ UAObjectType, PAEFS:1011, ConsumptionType ]
@@ -773,6 +1089,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasComponent:
       - [ UAObject, PAEFS:5059, Signal ]
       - HasTypeDefinition:
@@ -785,24 +1103,36 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5059, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6056, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6055, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6057, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6055, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5015, CurrentConsumption ]
       - HasProperty:
         - [ UAVariable, PAEFS:6063, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5059, Signal ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, PAEFS:6016, LifetimeConsumption, Double, 0, 0 ]
     - HasTypeDefinition:
@@ -815,6 +1145,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PAEFS:6016, LifetimeConsumption, Double, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1011, ConsumptionType ]
 
   DischargeSystemType:
   - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
@@ -824,12 +1158,16 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6140, DischargeContainerInstalled, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1038, DischargeContainerInstalledConditionType ]
   - HasProperty:
@@ -838,12 +1176,18 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5055, FillingLevel ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
     - HasComponent:
       - [ UAObject, PAEFS:5075, Signal ]
       - HasTypeDefinition:
@@ -856,42 +1200,60 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5075, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6121, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6120, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6122, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6120, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5055, FillingLevel ]
       - HasProperty:
         - [ UAVariable, PAEFS:6123, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5075, Signal ]
   - HasAddIn:
     - [ UAObject, PAEFS:5087, Identification ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6020, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5087, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6242, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5087, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5115, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5115, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -904,18 +1266,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6020, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5087, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6242, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5087, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5115, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5201, MachineryItemState ]
       - HasTypeDefinition:
@@ -928,12 +1300,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5201, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8431, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6419, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5115, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5201, MachineryItemState ]
     - HasTypeDefinition:
@@ -946,12 +1326,20 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5201, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:8431, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6419, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5115, MachineryBuildingBlocks ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1039, MaintenanceSwitchConditionType ]
   - HasProperty:
@@ -960,35 +1348,49 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6420, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
 
   FanType:
   - [ UAObjectType, PAEFS:1009, FanType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasAddIn:
     - [ UAObject, PAEFS:5080, Identification ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1009, FanType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6433, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5080, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6434, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5080, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5109, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5109, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -1001,18 +1403,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1009, FanType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6433, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5080, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6434, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5080, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5109, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1009, FanType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5203, MachineryItemState ]
       - HasModellingRule:
@@ -1025,12 +1437,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5203, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8434, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6396, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1009, FanType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5109, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5203, MachineryItemState ]
     - HasModellingRule:
@@ -1043,12 +1463,20 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5203, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:8434, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6396, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1009, FanType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5109, MachineryBuildingBlocks ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1039, MaintenanceSwitchConditionType ]
   - HasProperty:
@@ -1057,12 +1485,16 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1009, FanType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6395, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1009, FanType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasComponent:
@@ -1071,12 +1503,16 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1009, FanType ]
   - HasComponent:
     - [ UAObject, PAEFS:5013, RotationalSpeed ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1009, FanType ]
     - HasComponent:
       - [ UAObject, PAEFS:5068, Signal ]
       - HasTypeDefinition:
@@ -1089,18 +1525,24 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5068, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6083, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6080, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6084, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6080, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, PAEFS:6193, ProcessValueSetpoint, Number, -2, 3 ]
         - HasModellingRule:
@@ -1113,18 +1555,28 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6193, ProcessValueSetpoint, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6197, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6193, ProcessValueSetpoint, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5068, Signal ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5013, RotationalSpeed ]
       - HasProperty:
         - [ UAVariable, PAEFS:6085, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5068, Signal ]
 
   FilterAidDeviceType:
   - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
@@ -1134,18 +1586,24 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6204, AutomaticDosingEnabled, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6146, CompressedAirSupplyInterrupted, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1032, CompressedAirSupplyInterruptedAlarmType ]
   - HasProperty:
@@ -1154,6 +1612,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1024, ContainerOpenConditionType ]
   - HasComponent:
@@ -1162,6 +1622,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
     - HasComponent:
       - [ UAObject, PAEFS:5072, Signal ]
       - HasTypeDefinition:
@@ -1174,18 +1636,24 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5072, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6108, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6106, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6109, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6106, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, PAEFS:6205, ProcessValueSetpoint, Number, -2, 3 ]
         - HasModellingRule:
@@ -1198,30 +1666,44 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6205, ProcessValueSetpoint, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6209, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6205, ProcessValueSetpoint, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5072, Signal ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5031, DosageAmount ]
       - HasProperty:
         - [ UAVariable, PAEFS:6110, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5072, Signal ]
   - HasProperty:
     - [ UAVariable, PAEFS:6144, DosingRequested, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - HasComponent:
     - [ UAObject, PAEFS:5009, FillingLevel ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
     - HasComponent:
       - [ UAObject, PAEFS:5052, Signal ]
       - HasTypeDefinition:
@@ -1234,50 +1716,72 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5052, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6025, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6024, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6026, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6024, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5009, FillingLevel ]
       - HasProperty:
         - [ UAVariable, PAEFS:6027, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5052, Signal ]
   - HasProperty:
     - [ UAVariable, PAEFS:6143, FilterAidDeviceStatus, FilterAidDeviceStatusEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1033, FilterAidDeviceStatusChangedConditionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasAddIn:
     - [ UAObject, PAEFS:5085, Identification ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6462, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5085, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6463, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5085, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5112, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5112, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -1290,18 +1794,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6462, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5085, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6463, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5085, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5112, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5205, MachineryItemState ]
       - HasTypeDefinition:
@@ -1314,12 +1828,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5205, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8437, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6147, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5112, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5205, MachineryItemState ]
     - HasTypeDefinition:
@@ -1332,18 +1854,28 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5205, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:8437, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6147, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5112, MachineryBuildingBlocks ]
   - HasProperty:
     - [ UAVariable, PAEFS:6145, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasComponent:
@@ -1352,14 +1884,20 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7006, ResetFillingLevel ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7042, TriggerDosing ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
 
   FilterSystemType:
   - [ UAObjectType, PAEFS:1002, FilterSystemType ]
@@ -1369,24 +1907,32 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1009, FanType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5081, Identification ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5007, <Fan> ]
       - HasProperty:
         - [ UAVariable, PAEFS:6435, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5081, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6436, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5081, Identification ]
     - HasAddIn:
       - [ UAObject, PAEFS:5204, MachineryItemState ]
       - HasModellingRule:
@@ -1399,36 +1945,50 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5204, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8436, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8435, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5007, <Fan> ]
   - HasComponent:
     - [ UAObject, PAEFS:5004, <FilterAidDevice> ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1004, FilterAidDeviceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5086, Identification ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5004, <FilterAidDevice> ]
       - HasProperty:
         - [ UAVariable, PAEFS:6464, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5086, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6465, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5086, Identification ]
     - HasAddIn:
       - [ UAObject, PAEFS:5206, MachineryItemState ]
       - HasTypeDefinition:
@@ -1441,54 +2001,74 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5206, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8439, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8438, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5004, <FilterAidDevice> ]
     - HasProperty:
       - [ UAVariable, PAEFS:6235, Malfunction, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5004, <FilterAidDevice> ]
   - HasComponent:
     - [ UAObject, PAEFS:5018, <FilterUnit> ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
     - HasComponent:
       - [ UAObject, PAEFS:5019, <Separator> ]
       - HasModellingRule:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
         - [ UAObjectType, PAEFS:1003, SeparatorType ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
     - HasComponent:
       - [ UAObject, PAEFS:5020, AirIntakeConnection ]
       - HasTypeDefinition:
         - [ UAObjectType, PAEFS:1007, AirConnectionType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
     - HasComponent:
       - [ UAObject, PAEFS:5021, AirOutletConnection ]
       - HasTypeDefinition:
         - [ UAObjectType, PAEFS:1007, AirConnectionType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
     - HasAddIn:
       - [ UAObject, PAEFS:5083, Identification ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
       - HasProperty:
         - [ UAVariable, PAEFS:6446, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5083, Identification ]
       - HasComponent:
         - [ UAVariable, PAEFS:6262, NominalAirflow, Double, 0, 0 ]
         - HasModellingRule:
@@ -1501,12 +2081,18 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6262, NominalAirflow, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6264, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6262, NominalAirflow, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5083, Identification ]
       - HasComponent:
         - [ UAVariable, PAEFS:6259, RatedPower, Double, 0, 0 ]
         - HasTypeDefinition:
@@ -1519,18 +2105,26 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6259, RatedPower, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6261, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6259, RatedPower, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5083, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6447, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5083, Identification ]
     - HasAddIn:
       - [ UAObject, PAEFS:5208, MachineryItemState ]
       - HasTypeDefinition:
@@ -1543,30 +2137,42 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5208, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8443, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8442, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
     - HasProperty:
       - [ UAVariable, PAEFS:6037, MaintenanceRequested, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
     - HasProperty:
       - [ UAVariable, PAEFS:6452, Malfunction, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
     - HasComponent:
       - [ UAObject, PAEFS:5038, PressureLoss ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5018, <FilterUnit> ]
       - HasComponent:
         - [ UAObject, PAEFS:5069, Signal ]
         - HasTypeDefinition:
@@ -1579,48 +2185,66 @@ DefinedTypes:
             - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, PAEFS:5069, Signal ]
           - HasProperty:
             - [ UAVariable, PAEFS:6094, EngineeringUnits, EUInformation, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, PAEFS:6086, AnalogSignal, Number, -2, 3 ]
           - HasProperty:
             - [ UAVariable, PAEFS:6095, EURange, Range, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, PAEFS:6086, AnalogSignal, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5038, PressureLoss ]
         - HasProperty:
           - [ UAVariable, PAEFS:6096, SignalTag, String, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, PAEFS:5069, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5006, <SafetySystem> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1008, SafetySystemType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5090, Identification ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5006, <SafetySystem> ]
       - HasProperty:
         - [ UAVariable, PAEFS:6466, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5090, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6467, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5090, Identification ]
     - HasAddIn:
       - [ UAObject, PAEFS:5210, MachineryItemState ]
       - HasTypeDefinition:
@@ -1633,12 +2257,18 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5210, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8445, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8444, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5006, <SafetySystem> ]
     - HasComponent:
       - [ UAObject, PAEFS:5211, MachineryState ]
       - HasTypeDefinition:
@@ -1651,54 +2281,76 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5211, MachineryState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8447, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8446, CurrentState, LocalizedText, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5006, <SafetySystem> ]
     - HasProperty:
       - [ UAVariable, PAEFS:6432, Malfunction, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5006, <SafetySystem> ]
     - HasProperty:
       - [ UAVariable, PAEFS:6220, Triggered, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5006, <SafetySystem> ]
   - HasComponent:
     - [ UAObject, PAEFS:5106, <TemperatureRegulator> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasComponent:
     - [ UAObject, PAEFS:5002, AirConsumption ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasComponent:
     - [ UAObject, PAEFS:5005, AirIntakeConnection ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasComponent:
     - [ UAObject, PAEFS:5008, AirOutletConnection ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6021, ControlMode, ControlModeEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasAddIn:
     - [ UAObject, PAEFS:5084, Identification ]
     - HasTypeDefinition:
@@ -1711,12 +2363,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5084, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6178, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5084, Identification ]
     - HasComponent:
       - [ UAVariable, PAEFS:6247, NominalAirflow, Double, 0, 0 ]
       - HasModellingRule:
@@ -1729,18 +2387,26 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6247, NominalAirflow, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6249, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6247, NominalAirflow, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5084, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6177, ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5084, Identification ]
     - HasComponent:
       - [ UAVariable, PAEFS:6244, RatedPower, Double, 0, 0 ]
       - HasTypeDefinition:
@@ -1753,18 +2419,28 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6244, RatedPower, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6246, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6244, RatedPower, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5084, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6179, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5084, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5107, MachineryBuildingBlocks ]
   - HasInterface:
     - [ UAObjectType, DI:480, IOperationCounterType ]
   - HasComponent:
@@ -1785,12 +2461,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5084, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1002, FilterSystemType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6178, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5084, Identification ]
       - HasComponent:
         - [ UAVariable, PAEFS:6247, NominalAirflow, Double, 0, 0 ]
         - HasModellingRule:
@@ -1803,18 +2485,26 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6247, NominalAirflow, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6249, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6247, NominalAirflow, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5084, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6177, ProductInstanceUri, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5084, Identification ]
       - HasComponent:
         - [ UAVariable, PAEFS:6244, RatedPower, Double, 0, 0 ]
         - HasTypeDefinition:
@@ -1827,18 +2517,30 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6244, RatedPower, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6246, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6244, RatedPower, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5084, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6179, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5084, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5107, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5207, MachineryItemState ]
       - HasTypeDefinition:
@@ -1851,12 +2553,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5207, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8441, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8440, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1002, FilterSystemType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5107, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5207, MachineryItemState ]
     - HasTypeDefinition:
@@ -1869,18 +2579,28 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5207, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:8441, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:8440, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5107, MachineryBuildingBlocks ]
   - HasProperty:
     - [ UAVariable, PAEFS:6238, MaintenanceRequested, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1023, MaintenanceRequestedConditionType ]
   - HasProperty:
@@ -1889,6 +2609,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasProperty:
@@ -1897,38 +2619,52 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6180, OperationDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7005, OperationOff ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7004, OperationOn ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasComponent:
     - [ UAObject, PAEFS:5017, PowerConsumption ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6054, PowerOnDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
   - HasComponent:
     - [ UAObject, PAEFS:5016, PressureLoss ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1002, FilterSystemType ]
     - HasComponent:
       - [ UAObject, PAEFS:5060, Signal ]
       - HasTypeDefinition:
@@ -1941,24 +2677,34 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5060, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6065, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6064, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6066, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6064, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5016, PressureLoss ]
       - HasProperty:
         - [ UAVariable, PAEFS:6067, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5060, Signal ]
 
   FilterUnitType:
   - [ UAObjectType, PAEFS:1012, FilterUnitType ]
@@ -1968,30 +2714,40 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1005, CleaningUnitType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6206, CleaningActive, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5044, <CleaningUnit> ]
     - HasAddIn:
       - [ UAObject, PAEFS:5088, Identification ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5044, <CleaningUnit> ]
       - HasProperty:
         - [ UAVariable, PAEFS:6194, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5088, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6201, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5088, Identification ]
     - HasAddIn:
       - [ UAObject, PAEFS:5200, MachineryItemState ]
       - HasTypeDefinition:
@@ -2004,18 +2760,26 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5200, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8430, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8429, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5044, <CleaningUnit> ]
   - HasComponent:
     - [ UAObject, PAEFS:5022, <DischargeSystem> ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1006, DischargeSystemType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5202, MachineryItemState ]
       - HasTypeDefinition:
@@ -2028,36 +2792,50 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5202, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:8433, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:8432, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5022, <DischargeSystem> ]
     - HasProperty:
       - [ UAVariable, PAEFS:6425, MaintenanceSwitchOn, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5022, <DischargeSystem> ]
   - HasComponent:
     - [ UAObject, PAEFS:5036, <Separator> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1003, SeparatorType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAObject, PAEFS:5030, AirConsumption ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAObject, PAEFS:5093, Airflow ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5100, Signal ]
       - HasTypeDefinition:
@@ -2070,36 +2848,50 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5100, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6163, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6162, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6164, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6162, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5093, Airflow ]
       - HasProperty:
         - [ UAVariable, PAEFS:6165, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5100, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5023, AirIntakeConnection ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAObject, PAEFS:5024, AirOutletConnection ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1007, AirConnectionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasAddIn:
     - [ UAObject, PAEFS:5082, Identification ]
     - HasTypeDefinition:
@@ -2112,12 +2904,18 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5082, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6444, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5082, Identification ]
     - HasComponent:
       - [ UAVariable, PAEFS:6253, NominalAirflow, Double, 0, 0 ]
       - HasModellingRule:
@@ -2130,12 +2928,18 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6253, NominalAirflow, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6255, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6253, NominalAirflow, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5082, Identification ]
     - HasComponent:
       - [ UAVariable, PAEFS:6256, RatedPower, Double, 0, 0 ]
       - HasTypeDefinition:
@@ -2148,18 +2952,28 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6256, RatedPower, Double, 0, 0 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6258, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6256, RatedPower, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5082, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6445, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5082, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5108, MachineryBuildingBlocks ]
   - HasInterface:
     - [ UAObjectType, DI:480, IOperationCounterType ]
   - HasComponent:
@@ -2180,12 +2994,18 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5082, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1012, FilterUnitType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6444, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5082, Identification ]
       - HasComponent:
         - [ UAVariable, PAEFS:6253, NominalAirflow, Double, 0, 0 ]
         - HasModellingRule:
@@ -2198,12 +3018,18 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6253, NominalAirflow, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6255, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6253, NominalAirflow, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5082, Identification ]
       - HasComponent:
         - [ UAVariable, PAEFS:6256, RatedPower, Double, 0, 0 ]
         - HasTypeDefinition:
@@ -2216,18 +3042,30 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6256, RatedPower, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6258, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6256, RatedPower, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5082, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6445, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5082, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5108, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5092, MachineryItemState ]
       - HasTypeDefinition:
@@ -2240,12 +3078,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5092, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:6471, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6470, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1012, FilterUnitType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5108, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5092, MachineryItemState ]
     - HasTypeDefinition:
@@ -2258,18 +3104,28 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5092, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:6471, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6470, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5108, MachineryBuildingBlocks ]
   - HasProperty:
     - [ UAVariable, PAEFS:6141, MaintenanceRequested, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1023, MaintenanceRequestedConditionType ]
   - HasProperty:
@@ -2278,6 +3134,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasProperty:
@@ -2286,38 +3146,52 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6250, OperationDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7002, OperationOff ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7001, OperationOn ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAObject, PAEFS:5029, PowerConsumption ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6182, PowerOnDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAObject, PAEFS:5094, Pressure ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5101, Signal ]
       - HasTypeDefinition:
@@ -2330,30 +3204,42 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5101, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6167, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6166, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6168, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6166, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5094, Pressure ]
       - HasProperty:
         - [ UAVariable, PAEFS:6169, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5101, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5028, PressureLoss ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5063, Signal ]
       - HasTypeDefinition:
@@ -2366,30 +3252,42 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5063, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6077, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6076, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6078, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6076, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5028, PressureLoss ]
       - HasProperty:
         - [ UAVariable, PAEFS:6079, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5063, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5095, RotationalSpeed ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5102, Signal ]
       - HasTypeDefinition:
@@ -2402,24 +3300,34 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5102, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6171, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6170, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6172, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6170, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5095, RotationalSpeed ]
       - HasProperty:
         - [ UAVariable, PAEFS:6173, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5102, Signal ]
   - HasComponent:
     - [ UAMethod, PAEFS:7003, SetAndActivateAirflowSetpoint ]
     - HasModellingRule:
@@ -2432,6 +3340,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, PAEFS:7003, SetAndActivateAirflowSetpoint ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7071, SetAndActivatePressureSetpoint ]
     - HasModellingRule:
@@ -2444,6 +3356,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, PAEFS:7071, SetAndActivatePressureSetpoint ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
   - HasComponent:
     - [ UAMethod, PAEFS:7072, SetAndActivateRotationalSpeedSetpoint ]
     - HasModellingRule:
@@ -2456,6 +3372,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, PAEFS:7072, SetAndActivateRotationalSpeedSetpoint ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1012, FilterUnitType ]
 
   FilterMachineIdentificationType:
   - [ UAObjectType, PAEFS:1022, FilterMachineIdentificationType ]
@@ -2465,6 +3385,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1022, FilterMachineIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
   - HasComponent:
     - [ UAVariable, PAEFS:6437, NominalAirflow, Double, 0, 3 ]
     - HasTypeDefinition:
@@ -2477,12 +3401,18 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PAEFS:6437, NominalAirflow, Double, 0, 3 ]
     - HasProperty:
       - [ UAVariable, PAEFS:6439, EURange, Range, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PAEFS:6437, NominalAirflow, Double, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1022, FilterMachineIdentificationType ]
   - HasComponent:
     - [ UAVariable, PAEFS:6441, RatedPower, Double, 0, 3 ]
     - HasTypeDefinition:
@@ -2495,12 +3425,18 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PAEFS:6441, RatedPower, Double, 0, 3 ]
     - HasProperty:
       - [ UAVariable, PAEFS:6443, EURange, Range, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PAEFS:6441, RatedPower, Double, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1022, FilterMachineIdentificationType ]
 
   HighVoltageUnitType:
   - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
@@ -2510,12 +3446,16 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1020, CollectorType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5042, CollectorOutput ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5041, <Collector> ]
       - HasComponent:
         - [ UAObject, PAEFS:5071, Signal ]
         - HasTypeDefinition:
@@ -2528,36 +3468,50 @@ DefinedTypes:
             - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, PAEFS:5071, Signal ]
           - HasProperty:
             - [ UAVariable, PAEFS:6103, EngineeringUnits, EUInformation, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, PAEFS:6102, AnalogSignal, Number, -2, 3 ]
           - HasProperty:
             - [ UAVariable, PAEFS:6104, EURange, Range, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, PAEFS:6102, AnalogSignal, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5042, CollectorOutput ]
         - HasProperty:
           - [ UAVariable, PAEFS:6105, SignalTag, String, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, PAEFS:5071, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5039, <Ionizer> ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1019, IonizerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
     - HasComponent:
       - [ UAObject, PAEFS:5040, IonizerOutput ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5039, <Ionizer> ]
       - HasComponent:
         - [ UAObject, PAEFS:5070, Signal ]
         - HasTypeDefinition:
@@ -2570,42 +3524,58 @@ DefinedTypes:
             - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, PAEFS:5070, Signal ]
           - HasProperty:
             - [ UAVariable, PAEFS:6099, EngineeringUnits, EUInformation, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, PAEFS:6097, AnalogSignal, Number, -2, 3 ]
           - HasProperty:
             - [ UAVariable, PAEFS:6100, EURange, Range, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasProperty_reverse:
+              - [ UAVariable, PAEFS:6097, AnalogSignal, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5040, IonizerOutput ]
         - HasProperty:
           - [ UAVariable, PAEFS:6101, SignalTag, String, 0, 3 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAObject, PAEFS:5070, Signal ]
   - HasComponent:
     - [ UAVariable, PAEFS:6088, CurrentOutput, Double, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 17570, AnalogUnitRangeType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6089, EngineeringUnits, EUInformation, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PAEFS:6088, CurrentOutput, Double, 0, 0 ]
     - HasProperty:
       - [ UAVariable, PAEFS:6090, EURange, Range, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAVariable, PAEFS:6088, CurrentOutput, Double, 0, 0 ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1031, HighVoltageUnitSupplyActiveEventType ]
   - HasInterface:
@@ -2616,6 +3586,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1023, MaintenanceRequestedConditionType ]
   - HasProperty:
@@ -2624,6 +3598,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasProperty:
@@ -2632,24 +3608,32 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6092, OperationDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6039, PowerOnDuration, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6087, SupplyActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
 
   IonizerType:
   - [ UAObjectType, PAEFS:1019, IonizerType ]
@@ -2659,6 +3643,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1019, IonizerType ]
     - HasComponent:
       - [ UAObject, PAEFS:5053, Signal ]
       - HasTypeDefinition:
@@ -2671,24 +3657,36 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5053, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6029, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6028, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6031, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6028, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5011, IonizerOutput ]
       - HasProperty:
         - [ UAVariable, PAEFS:6032, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5053, Signal ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   SafetySystemType:
   - [ UAObjectType, PAEFS:1008, SafetySystemType ]
@@ -2698,18 +3696,26 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1008, SafetySystemType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6202, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5089, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6203, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5089, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5111, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5111, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -2722,18 +3728,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1008, SafetySystemType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6202, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5089, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6203, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5089, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5111, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1008, SafetySystemType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5209, MachineryItemState ]
       - HasTypeDefinition:
@@ -2746,12 +3762,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5209, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:6431, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6429, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1008, SafetySystemType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5111, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5209, MachineryItemState ]
     - HasTypeDefinition:
@@ -2764,28 +3788,42 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5209, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:6431, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6429, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1008, SafetySystemType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5111, MachineryBuildingBlocks ]
   - HasProperty:
     - [ UAVariable, PAEFS:6430, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1008, SafetySystemType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1041, SafetySystemTriggeredAlarmType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6219, Triggered, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1008, SafetySystemType ]
 
   SensorMonitoringType:
   - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
@@ -2795,18 +3833,26 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6005, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5033, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6006, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5033, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5105, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5105, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -2819,18 +3865,30 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6005, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5033, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6006, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5033, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5105, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5026, Signal ]
     - HasModellingRule:
@@ -2843,30 +3901,42 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5026, Signal ]
       - HasProperty:
         - [ UAVariable, PAEFS:6002, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6001, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6003, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6001, AnalogSignal, Number, -2, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6004, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5026, Signal ]
   - HasProperty:
     - [ UAVariable, PAEFS:6007, SignalForm, AnalogDigitalEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
 
   SensorSetpointReadType:
   - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
@@ -2876,6 +3946,10 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
   - HasComponent:
     - [ UAObject, PAEFS:5099, Signal ]
     - HasModellingRule:
@@ -2888,18 +3962,24 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5099, Signal ]
       - HasProperty:
         - [ UAVariable, PAEFS:6158, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6157, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6159, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6157, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, PAEFS:6185, ProcessValueSetpoint, Number, -2, 0 ]
       - HasTypeDefinition:
@@ -2912,21 +3992,33 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6185, ProcessValueSetpoint, Number, -2, 0 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6189, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6185, ProcessValueSetpoint, Number, -2, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5099, Signal ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6160, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5099, Signal ]
 
   SensorSetpointWriteType:
   - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PAEFS:1034, SensorSetpointReadType ]
   - HasComponent:
     - [ UAObject, PAEFS:5057, Signal ]
     - HasModellingRule:
@@ -2939,18 +4031,24 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5057, Signal ]
       - HasProperty:
         - [ UAVariable, PAEFS:6042, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6041, AnalogSignal, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6043, EURange, Range, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6041, AnalogSignal, Number, -2, 3 ]
     - HasComponent:
       - [ UAVariable, PAEFS:6190, ProcessValueSetpoint, Number, -2, 3 ]
       - HasTypeDefinition:
@@ -2963,18 +4061,28 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6190, ProcessValueSetpoint, Number, -2, 3 ]
       - HasProperty:
         - [ UAVariable, PAEFS:6192, EURange, Range, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6190, ProcessValueSetpoint, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5057, Signal ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1035, SensorSetpointWriteType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6044, SignalTag, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5057, Signal ]
 
   SeparatorType:
   - [ UAObjectType, PAEFS:1003, SeparatorType ]
@@ -2984,12 +4092,16 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
   - HasComponent:
     - [ UAObject, PAEFS:5001, FilterMediumState ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
     - HasComponent:
       - [ UAObject, PAEFS:5034, Signal ]
       - HasTypeDefinition:
@@ -3002,30 +4114,42 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5034, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6014, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6008, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6015, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6008, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5001, FilterMediumState ]
       - HasProperty:
         - [ UAVariable, PAEFS:6017, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5034, Signal ]
   - HasComponent:
     - [ UAObject, PAEFS:5003, Humidity ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, PAEFS:1010, SensorMonitoringType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
     - HasComponent:
       - [ UAObject, PAEFS:5050, Signal ]
       - HasTypeDefinition:
@@ -3038,42 +4162,60 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5050, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6019, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6018, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6022, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6018, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5003, Humidity ]
       - HasProperty:
         - [ UAVariable, PAEFS:6023, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5050, Signal ]
   - HasAddIn:
     - [ UAObject, PAEFS:5091, Identification ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6468, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5091, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6469, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5091, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5113, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5113, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -3086,18 +4228,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1003, SeparatorType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6468, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5091, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6469, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5091, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5113, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5104, MachineryItemState ]
       - HasTypeDefinition:
@@ -3110,12 +4262,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5104, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:6237, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6236, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1003, SeparatorType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5113, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5104, MachineryItemState ]
     - HasTypeDefinition:
@@ -3128,12 +4288,22 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5104, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:6237, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6236, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5113, MachineryBuildingBlocks ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PAEFS:5025, Temperature ]
     - HasModellingRule:
@@ -3152,38 +4322,56 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5061, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6069, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6068, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6070, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6068, AnalogSignal, Number, -2, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5025, Temperature ]
       - HasProperty:
         - [ UAVariable, PAEFS:6071, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5061, Signal ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1003, SeparatorType ]
 
   AutomaticRollFilterType:
   - [ UAObjectType, PAEFS:1021, AutomaticRollFilterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PAEFS:1003, SeparatorType ]
   - HasProperty:
     - [ UAVariable, PAEFS:6389, EndOfFilterRoll, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1021, AutomaticRollFilterType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1026, EndOfFilterRollAlarmType ]
 
   CartridgeFilterType:
   - [ UAObjectType, PAEFS:1013, CartridgeFilterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PAEFS:1003, SeparatorType ]
 
   ElectrostaticPrecipitatorType:
   - [ UAObjectType, PAEFS:1018, ElectrostaticPrecipitatorType ]
@@ -3193,6 +4381,10 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1015, HighVoltageUnitType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1018, ElectrostaticPrecipitatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PAEFS:1003, SeparatorType ]
 
   WetSeparatorType:
   - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
@@ -3202,6 +4394,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1030, WashingAgentDrainMalfunctionAlarmType ]
   - HasProperty:
@@ -3210,6 +4404,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1028, WashingAgentDrainOpenConditionType ]
   - HasProperty:
@@ -3218,6 +4414,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1029, WashingAgentInflowMalfunctionAlarmType ]
   - HasProperty:
@@ -3226,8 +4424,12 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1014, WetSeparatorType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1027, WashingAgentInflowOpenConditionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PAEFS:1003, SeparatorType ]
 
   TemperatureRegulatorType:
   - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
@@ -3237,18 +4439,26 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
     - HasProperty:
       - [ UAVariable, PAEFS:6034, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5045, Identification ]
     - HasProperty:
       - [ UAVariable, PAEFS:6107, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, PAEFS:5045, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5110, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, PAEFS:5110, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -3261,18 +4471,28 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
       - HasProperty:
         - [ UAVariable, PAEFS:6034, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5045, Identification ]
       - HasProperty:
         - [ UAVariable, PAEFS:6107, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5045, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5110, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
     - HasAddIn:
       - [ UAObject, PAEFS:5046, MachineryItemState ]
       - HasTypeDefinition:
@@ -3285,12 +4505,20 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5046, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, PAEFS:6150, Id, NodeId, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6111, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
+      - HasAddIn_reverse:
+        - [ UAObject, PAEFS:5110, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, PAEFS:5046, MachineryItemState ]
     - HasTypeDefinition:
@@ -3303,18 +4531,28 @@ DefinedTypes:
         - [ UAVariableType, 2760, FiniteStateVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5046, MachineryItemState ]
       - HasProperty:
         - [ UAVariable, PAEFS:6150, Id, NodeId, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, PAEFS:6111, CurrentState, LocalizedText, 0, 0 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
+    - HasAddIn_reverse:
+      - [ UAObject, PAEFS:5110, MachineryBuildingBlocks ]
   - HasProperty:
     - [ UAVariable, PAEFS:6233, Malfunction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
   - GeneratesEvent:
     - [ UAObjectType, PAEFS:1025, MalfunctionAlarmType ]
   - HasComponent:
@@ -3323,6 +4561,8 @@ DefinedTypes:
       - [ UAObjectType, PAEFS:1011, ConsumptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
   - HasComponent:
     - [ UAObject, PAEFS:5047, Temperature ]
     - HasModellingRule:
@@ -3341,18 +4581,24 @@ DefinedTypes:
           - [ UAVariableType, PADIM:1111, AnalogSignalVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5074, Signal ]
         - HasProperty:
           - [ UAVariable, PAEFS:6117, EngineeringUnits, EUInformation, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6116, AnalogSignal, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6118, EURange, Range, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6116, AnalogSignal, Number, -2, 3 ]
       - HasComponent:
         - [ UAVariable, PAEFS:6213, ProcessValueSetpoint, Number, -2, 3 ]
         - HasModellingRule:
@@ -3365,15 +4611,29 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6213, ProcessValueSetpoint, Number, -2, 3 ]
         - HasProperty:
           - [ UAVariable, PAEFS:6215, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, PAEFS:6213, ProcessValueSetpoint, Number, -2, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, PAEFS:5074, Signal ]
+      - HasComponent_reverse:
+        - [ UAObject, PAEFS:5047, Temperature ]
       - HasProperty:
         - [ UAVariable, PAEFS:6119, SignalTag, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, PAEFS:5074, Signal ]
+    - HasComponent_reverse:
+      - [ UAObjectType, PAEFS:1017, TemperatureRegulatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

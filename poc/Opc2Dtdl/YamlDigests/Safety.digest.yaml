@@ -31,18 +31,30 @@ DefinedTypes:
 
   SafetyConsumerParametersType:
   - [ UAObjectType, Safety:1006, SafetyConsumerParametersType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   SafetyObjectsType:
   - [ UAObjectType, Safety:1004, SafetyObjectsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   SafetyConsumerType:
   - [ UAObjectType, Safety:1005, SafetyConsumerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Safety:1004, SafetyObjectsType ]
 
   SafetyProviderType:
   - [ UAObjectType, Safety:1003, SafetyProviderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Safety:1004, SafetyObjectsType ]
 
   SafetyPDUsType:
   - [ UAObjectType, Safety:1007, SafetyPDUsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   SafetyProviderParametersType:
   - [ UAObjectType, Safety:1002, SafetyProviderParametersType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

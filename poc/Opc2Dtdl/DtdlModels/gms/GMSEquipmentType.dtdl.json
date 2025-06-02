@@ -5,8 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:gms:GMSEquipmentType;1",
+  "@id": "dtmi:opcua:GMS:GMSEquipmentType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:MachineTool:EquipmentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
@@ -18,11 +19,6 @@
     {
       "@type": "Relationship",
       "name": "AdditionalSensor"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Tools",
-      "target": "dtmi:opcua:MachineTool:ToolListType"
     }
   ]
 }

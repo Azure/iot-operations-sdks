@@ -1,0 +1,270 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/TMC_v2/MachineModuleLiveStatusType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Success",
+          "schema": "boolean"
+        },
+        {
+          "name": "Message",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MessageType;1"
+          }
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:CommandEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Abort",
+          "enumValue": 0
+        },
+        {
+          "name": "Start",
+          "enumValue": 1
+        },
+        {
+          "name": "Stop",
+          "enumValue": 2
+        },
+        {
+          "name": "Reset",
+          "enumValue": 3
+        },
+        {
+          "name": "Hold",
+          "enumValue": 4
+        },
+        {
+          "name": "Unhold",
+          "enumValue": 5
+        },
+        {
+          "name": "Clear",
+          "enumValue": 6
+        },
+        {
+          "name": "Suspend",
+          "enumValue": 7
+        },
+        {
+          "name": "Unsuspend",
+          "enumValue": 8
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:ControlModeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "OTHER",
+          "enumValue": 0
+        },
+        {
+          "name": "PRODUCTION",
+          "enumValue": 1
+        },
+        {
+          "name": "MAINTENANCE",
+          "enumValue": 2
+        },
+        {
+          "name": "MANUAL",
+          "enumValue": 3
+        },
+        {
+          "name": "CHANGE_OVER",
+          "enumValue": 4
+        },
+        {
+          "name": "CLEAN",
+          "enumValue": 5
+        },
+        {
+          "name": "SET_UP",
+          "enumValue": 6
+        },
+        {
+          "name": "EMPTY_OUT",
+          "enumValue": 7
+        },
+        {
+          "name": "REMOTE_SERVICE",
+          "enumValue": 8
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MessageType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ID",
+          "schema": "string"
+        },
+        {
+          "name": "LocalText",
+          "schema": "string"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "AcknowledgeAlarms",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ResetAggregates",
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SendCommand",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "Command",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:CommandEnumeration;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetControlMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ControlMode",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:ControlModeEnumeration;1"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetIdleEnergySavingMode",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "IdleEnergySavingMode",
+              "schema": "boolean"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ExecutionFeedback",
+              "schema": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Alarms"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Data"
+    },
+    {
+      "@type": "Relationship",
+      "name": "StateMachine",
+      "target": "dtmi:opcua:TMC_v2:TMCStateMachineType"
+    }
+  ]
+}

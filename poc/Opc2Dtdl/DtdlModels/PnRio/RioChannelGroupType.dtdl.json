@@ -5,9 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnRio:RioChannelGroupType;1",
+  "@id": "dtmi:opcua:PNRIO:RioChannelGroupType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/PnRio/RioChannelGroupType/{commandName}",
+  "commandTopic": "opcua/PNRIO/RioChannelGroupType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType;1",
+  "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Ijt_Base/JoiningProcessManagementType/{commandName}",
+  "commandTopic": "opcua/IJT_Base/JoiningProcessManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -29,12 +29,12 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "JoiningProcessMetaData",
-          "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
+          "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
         },
         {
           "name": "JoiningProcessContent",
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -85,13 +85,13 @@
           "name": "AssociatedEntities",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:EntityDataType;1"
+            "elementSchema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:EntityDataType;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:EntityDataType;1",
+      "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:EntityDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -137,7 +137,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
               "name": "AbortMessage",
@@ -179,7 +179,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
               "name": "DecrementCount",
@@ -221,7 +221,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
           ]
         }
@@ -306,7 +306,7 @@
           "fields": [
             {
               "name": "JoiningProcess",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
             },
             {
               "name": "SelectionName",
@@ -350,7 +350,7 @@
               "name": "JoiningProcessList",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
+                "elementSchema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
               }
             },
             {
@@ -395,7 +395,7 @@
               "name": "JoiningProcessList",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
+                "elementSchema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
               }
             },
             {
@@ -425,7 +425,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
               "name": "IncrementCount",
@@ -467,7 +467,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
           ]
         }
@@ -505,7 +505,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
           ]
         }
@@ -543,7 +543,7 @@
             },
             {
               "name": "JoiningProcess",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
             },
             {
               "name": "SelectionName",
@@ -585,7 +585,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
               "name": "CounterValue",
@@ -627,7 +627,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
           ]
         }
@@ -665,7 +665,7 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
               "name": "MaxCounterSize",
@@ -707,13 +707,13 @@
             },
             {
               "name": "JoiningProcessIdentification",
-              "schema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
+              "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
               "name": "AssociatedEntities",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Ijt_Base:JoiningProcessManagementType:dataType:EntityDataType;1"
+                "elementSchema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:EntityDataType;1"
               }
             }
           ]

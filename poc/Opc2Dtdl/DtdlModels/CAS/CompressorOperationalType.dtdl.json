@@ -7,47 +7,9 @@
   ],
   "@id": "dtmi:opcua:CAS:CompressorOperationalType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CAS:OperationalType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
-    {
-      "@id": "dtmi:opcua:CAS:CompressorOperationalType:dataType:CompressorOperatingStateEnum;1",
-      "@type": "Enum",
-      "valueSchema": "integer",
-      "enumValues": [
-        {
-          "name": "Other",
-          "enumValue": 0
-        },
-        {
-          "name": "Stopped",
-          "enumValue": 1
-        },
-        {
-          "name": "Starting",
-          "enumValue": 2
-        },
-        {
-          "name": "Stopping",
-          "enumValue": 3
-        },
-        {
-          "name": "Unloaded",
-          "enumValue": 4
-        },
-        {
-          "name": "Loading",
-          "enumValue": 5
-        },
-        {
-          "name": "Unloading",
-          "enumValue": 6
-        },
-        {
-          "name": "Loaded",
-          "enumValue": 7
-        }
-      ]
-    }
   ],
   "contents": [
     {
@@ -66,12 +28,6 @@
       "@type": "Property",
       "name": "IsentropicEfficiency",
       "schema": "double",
-      "writable": false
-    },
-    {
-      "@type": "Property",
-      "name": "OperatingState",
-      "schema": "dtmi:opcua:CAS:CompressorOperationalType:dataType:CompressorOperatingStateEnum;1",
       "writable": false
     },
     {

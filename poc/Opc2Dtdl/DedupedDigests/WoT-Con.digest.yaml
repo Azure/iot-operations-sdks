@@ -1,0 +1,71 @@
+DataTypes:
+
+DefinedTypes:
+
+  WoTAssetConnectionManagementType:
+  - [ UAObjectType, WoT-Con:1, WoTAssetConnectionManagementType ]
+  - HasComponent:
+    - [ UAMethod, WoT-Con:26, CreateAsset ]
+    - HasProperty:
+      - [ UAVariable, WoT-Con:27, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AssetName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, WoT-Con:28, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AssetId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, WoT-Con:29, DeleteAsset ]
+    - HasProperty:
+      - [ UAVariable, WoT-Con:30, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          AssetId: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  IWoTAssetType:
+  - [ UAObjectType, WoT-Con:42, IWoTAssetType ]
+  - HasComponent:
+    - [ UAObject, WoT-Con:43, WoTFile ]
+    - HasTypeDefinition:
+      - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+
+  WoTAssetType:
+  - [ UAObjectType, WoT-Con:115, WoTAssetType ]
+  - HasComponent:
+    - [ UAObject, WoT-Con:116, WoTFile ]
+    - HasTypeDefinition:
+      - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  WoTAssetFileType:
+  - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+  - HasComponent:
+    - [ UAMethod, WoT-Con:111, CloseAndUpdate ]
+    - HasProperty:
+      - [ UAVariable, WoT-Con:112, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FileHandle: [ UInt32, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11575, FileType ]

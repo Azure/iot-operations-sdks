@@ -1,0 +1,49 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales_V2:RecipeProductType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Scales_V2:ProductType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales_V2:RecipeProductType:dataType:RecipeReportElementType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "ReportMessage",
+          "schema": "string"
+        },
+        {
+          "name": "Timestamp",
+          "schema": "time"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "RecipeNodeId",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Report",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:Scales_V2:RecipeProductType:dataType:RecipeReportElementType;1"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "ReportFile"
+    }
+  ]
+}

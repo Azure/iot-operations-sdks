@@ -56,6 +56,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1176, RegisterTickets ]
     - HasProperty:
       - [ UAVariable, Onboarding:1178, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -64,8 +66,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1176, RegisterTickets ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1175, DeviceRegistrarAdminType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1179, UnregisterTickets ]
     - HasProperty:
@@ -76,6 +82,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1179, UnregisterTickets ]
     - HasProperty:
       - [ UAVariable, Onboarding:1181, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -84,8 +92,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1179, UnregisterTickets ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1175, DeviceRegistrarAdminType ]
   - HasComponent:
     - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasProperty:
@@ -94,24 +106,32 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1184, Writable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1185, UserWritable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1186, OpenCount, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1190, Open ]
       - HasProperty:
@@ -122,6 +142,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1190, Open ]
       - HasProperty:
         - [ UAVariable, Onboarding:1192, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -130,8 +152,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1190, Open ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1193, Close ]
       - HasProperty:
@@ -142,8 +168,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1193, Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1195, Read ]
       - HasProperty:
@@ -155,6 +185,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1195, Read ]
       - HasProperty:
         - [ UAVariable, Onboarding:1197, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -163,8 +195,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1195, Read ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1198, Write ]
       - HasProperty:
@@ -176,8 +212,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1198, Write ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1200, GetPosition ]
       - HasProperty:
@@ -188,6 +228,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1200, GetPosition ]
       - HasProperty:
         - [ UAVariable, Onboarding:1202, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -196,8 +238,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1200, GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1203, SetPosition ]
       - HasProperty:
@@ -209,14 +255,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1203, SetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1205, LastUpdateTime, UtcTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1208, OpenWithMasks ]
       - HasProperty:
@@ -227,6 +279,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1208, OpenWithMasks ]
       - HasProperty:
         - [ UAVariable, Onboarding:1210, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -235,8 +289,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1208, OpenWithMasks ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1211, CloseAndUpdate ]
       - HasProperty:
@@ -247,6 +305,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1211, CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, Onboarding:1213, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -255,8 +315,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1211, CloseAndUpdate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1214, AddCertificate ]
       - HasProperty:
@@ -268,8 +332,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1214, AddCertificate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1216, RemoveCertificate ]
       - HasProperty:
@@ -281,12 +349,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1216, RemoveCertificate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1182, TicketAuthorities ]
     - HasTypeDefinition:
       - [ UAObjectType, 12522, TrustListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1175, DeviceRegistrarAdminType ]
   - HasComponent:
     - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasProperty:
@@ -295,24 +369,32 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1220, Writable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1221, UserWritable, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1222, OpenCount, UInt16, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1226, Open ]
       - HasProperty:
@@ -323,6 +405,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1226, Open ]
       - HasProperty:
         - [ UAVariable, Onboarding:1228, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -331,8 +415,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1226, Open ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1229, Close ]
       - HasProperty:
@@ -343,8 +431,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1229, Close ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1231, Read ]
       - HasProperty:
@@ -356,6 +448,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1231, Read ]
       - HasProperty:
         - [ UAVariable, Onboarding:1233, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -364,8 +458,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1231, Read ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1234, Write ]
       - HasProperty:
@@ -377,8 +475,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1234, Write ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1236, GetPosition ]
       - HasProperty:
@@ -389,6 +491,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1236, GetPosition ]
       - HasProperty:
         - [ UAVariable, Onboarding:1238, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -397,8 +501,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1236, GetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1239, SetPosition ]
       - HasProperty:
@@ -410,14 +518,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1239, SetPosition ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1241, LastUpdateTime, UtcTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1244, OpenWithMasks ]
       - HasProperty:
@@ -428,6 +542,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1244, OpenWithMasks ]
       - HasProperty:
         - [ UAVariable, Onboarding:1246, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -436,8 +552,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1244, OpenWithMasks ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1247, CloseAndUpdate ]
       - HasProperty:
@@ -448,6 +568,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1247, CloseAndUpdate ]
       - HasProperty:
         - [ UAVariable, Onboarding:1249, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -456,8 +578,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1247, CloseAndUpdate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1250, AddCertificate ]
       - HasProperty:
@@ -469,8 +595,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1250, AddCertificate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasComponent:
       - [ UAMethod, Onboarding:1252, RemoveCertificate ]
       - HasProperty:
@@ -482,12 +612,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1252, RemoveCertificate ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1218, DeviceIdentityAuthorities ]
     - HasTypeDefinition:
       - [ UAObjectType, 12522, TrustListType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1175, DeviceRegistrarAdminType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   DeviceRegistrarType:
   - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
@@ -503,6 +641,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1260, ProvideIdentities ]
     - HasProperty:
       - [ UAVariable, Onboarding:1262, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -514,8 +654,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1260, ProvideIdentities ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1503, UpdateSoftwareStatus ]
     - HasProperty:
@@ -528,8 +672,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1503, UpdateSoftwareStatus ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1263, RegisterDeviceEndpoint ]
     - HasProperty:
@@ -540,8 +688,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1263, RegisterDeviceEndpoint ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1505, GetManagers ]
     - HasProperty:
@@ -552,8 +704,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1505, GetManagers ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
   - HasComponent:
     - [ UAMethod, Onboarding:1507, RegisterManagedApplication ]
     - HasProperty:
@@ -565,6 +721,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1507, RegisterManagedApplication ]
     - HasProperty:
       - [ UAVariable, Onboarding:1509, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -573,8 +731,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, Onboarding:1507, RegisterManagedApplication ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
   - HasComponent:
     - [ UAObject, Onboarding:1265, Administration ]
     - HasComponent:
@@ -587,6 +749,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1266, RegisterTickets ]
       - HasProperty:
         - [ UAVariable, Onboarding:1268, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -595,8 +759,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1266, RegisterTickets ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1265, Administration ]
     - HasComponent:
       - [ UAMethod, Onboarding:1269, UnregisterTickets ]
       - HasProperty:
@@ -607,6 +775,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1269, UnregisterTickets ]
       - HasProperty:
         - [ UAVariable, Onboarding:1271, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -615,8 +785,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, Onboarding:1269, UnregisterTickets ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1265, Administration ]
     - HasComponent:
       - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasProperty:
@@ -625,24 +799,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1274, Writable, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1275, UserWritable, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1276, OpenCount, UInt16, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1280, Open ]
         - HasProperty:
@@ -653,6 +835,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1280, Open ]
         - HasProperty:
           - [ UAVariable, Onboarding:1282, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -661,8 +845,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1280, Open ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1283, Close ]
         - HasProperty:
@@ -673,8 +861,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1283, Close ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1285, Read ]
         - HasProperty:
@@ -686,6 +878,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1285, Read ]
         - HasProperty:
           - [ UAVariable, Onboarding:1287, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -694,8 +888,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1285, Read ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1288, Write ]
         - HasProperty:
@@ -707,8 +905,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1288, Write ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1290, GetPosition ]
         - HasProperty:
@@ -719,6 +921,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1290, GetPosition ]
         - HasProperty:
           - [ UAVariable, Onboarding:1292, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -727,8 +931,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1290, GetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1293, SetPosition ]
         - HasProperty:
@@ -740,14 +948,20 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1293, SetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1295, LastUpdateTime, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1298, OpenWithMasks ]
         - HasProperty:
@@ -758,6 +972,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1298, OpenWithMasks ]
         - HasProperty:
           - [ UAVariable, Onboarding:1300, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -766,8 +982,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1298, OpenWithMasks ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1301, CloseAndUpdate ]
         - HasProperty:
@@ -778,6 +998,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1301, CloseAndUpdate ]
         - HasProperty:
           - [ UAVariable, Onboarding:1303, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -786,8 +1008,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1301, CloseAndUpdate ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1304, AddCertificate ]
         - HasProperty:
@@ -799,8 +1025,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1304, AddCertificate ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1306, RemoveCertificate ]
         - HasProperty:
@@ -812,12 +1042,18 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1306, RemoveCertificate ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1272, TicketAuthorities ]
       - HasTypeDefinition:
         - [ UAObjectType, 12522, TrustListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1265, Administration ]
     - HasComponent:
       - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasProperty:
@@ -826,24 +1062,32 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1310, Writable, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1311, UserWritable, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1312, OpenCount, UInt16, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1316, Open ]
         - HasProperty:
@@ -854,6 +1098,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1316, Open ]
         - HasProperty:
           - [ UAVariable, Onboarding:1318, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -862,8 +1108,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1316, Open ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1319, Close ]
         - HasProperty:
@@ -874,8 +1124,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1319, Close ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1321, Read ]
         - HasProperty:
@@ -887,6 +1141,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1321, Read ]
         - HasProperty:
           - [ UAVariable, Onboarding:1323, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -895,8 +1151,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1321, Read ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1324, Write ]
         - HasProperty:
@@ -908,8 +1168,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1324, Write ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1326, GetPosition ]
         - HasProperty:
@@ -920,6 +1184,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1326, GetPosition ]
         - HasProperty:
           - [ UAVariable, Onboarding:1328, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -928,8 +1194,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1326, GetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1329, SetPosition ]
         - HasProperty:
@@ -941,14 +1211,20 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1329, SetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasProperty:
         - [ UAVariable, Onboarding:1331, LastUpdateTime, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1334, OpenWithMasks ]
         - HasProperty:
@@ -959,6 +1235,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1334, OpenWithMasks ]
         - HasProperty:
           - [ UAVariable, Onboarding:1336, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -967,8 +1245,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1334, OpenWithMasks ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1337, CloseAndUpdate ]
         - HasProperty:
@@ -979,6 +1261,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1337, CloseAndUpdate ]
         - HasProperty:
           - [ UAVariable, Onboarding:1339, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -987,8 +1271,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1337, CloseAndUpdate ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1340, AddCertificate ]
         - HasProperty:
@@ -1000,8 +1288,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1340, AddCertificate ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasComponent:
         - [ UAMethod, Onboarding:1342, RemoveCertificate ]
         - HasProperty:
@@ -1013,16 +1305,26 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, Onboarding:1342, RemoveCertificate ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, Onboarding:1308, DeviceIdentityAuthorities ]
       - HasTypeDefinition:
         - [ UAObjectType, 12522, TrustListType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, Onboarding:1265, Administration ]
     - HasTypeDefinition:
       - [ UAObjectType, Onboarding:1175, DeviceRegistrarAdminType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Onboarding:1259, DeviceRegistrarType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   DeviceRegistrationAuditEventType:
   - [ UAObjectType, Onboarding:1517, DeviceRegistrationAuditEventType ]
@@ -1032,6 +1334,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Onboarding:1517, DeviceRegistrationAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2052, AuditEventType ]
 
   DeviceIdentityAcceptedAuditEventType:
   - [ UAObjectType, Onboarding:1533, DeviceIdentityAcceptedAuditEventType ]
@@ -1041,18 +1347,26 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Onboarding:1533, DeviceIdentityAcceptedAuditEventType ]
   - HasProperty:
     - [ UAVariable, Onboarding:1550, Ticket, EncodedTicket, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Onboarding:1533, DeviceIdentityAcceptedAuditEventType ]
   - HasProperty:
     - [ UAVariable, Onboarding:1551, Composite, EncodedTicket, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Onboarding:1533, DeviceIdentityAcceptedAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Onboarding:1517, DeviceRegistrationAuditEventType ]
 
   DeviceSoftwareUpdatedAuditEventType:
   - [ UAObjectType, Onboarding:1552, DeviceSoftwareUpdatedAuditEventType ]
@@ -1062,9 +1376,15 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Onboarding:1552, DeviceSoftwareUpdatedAuditEventType ]
   - HasProperty:
     - [ UAVariable, Onboarding:1568, SoftwareRevision, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Onboarding:1552, DeviceSoftwareUpdatedAuditEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Onboarding:1517, DeviceRegistrationAuditEventType ]

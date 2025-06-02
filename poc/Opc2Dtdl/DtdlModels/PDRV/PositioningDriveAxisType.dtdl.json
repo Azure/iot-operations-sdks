@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PDRV:PositioningDriveAxisType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "CharacteristicsMechanics"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MotionProgram"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Homing"
+    }
+  ]
+}

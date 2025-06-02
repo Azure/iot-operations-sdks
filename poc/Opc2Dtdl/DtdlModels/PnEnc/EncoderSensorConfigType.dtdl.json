@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnEnc:EncoderSensorConfigType;1",
+  "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/PnEnc/EncoderSensorConfigType/{commandName}",
+  "commandTopic": "opcua/PNENC/EncoderSensorConfigType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:PnEnc:EncoderSensorConfigType:dataType:KeyValuePair;1",
+      "@id": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:KeyValuePair;1",
       "@type": "Object",
       "fields": [
         {
@@ -39,7 +39,7 @@
               "name": "SensorConfigParameters",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:EncoderSensorConfigType:dataType:KeyValuePair;1"
+                "elementSchema": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:KeyValuePair;1"
               }
             }
           ]
@@ -55,7 +55,7 @@
               "name": "SensorConfigParametersResult",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:EncoderSensorConfigType:dataType:KeyValuePair;1"
+                "elementSchema": "dtmi:opcua:PNENC:EncoderSensorConfigType:dataType:KeyValuePair;1"
               }
             }
           ]

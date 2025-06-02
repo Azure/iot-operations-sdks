@@ -50,12 +50,16 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Mining.Loading.General:1002, LoadingMachineType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.Loading.HydraulicExcavator:1002, HydraulicExcavatorType ]
     - HasComponent:
       - [ UAObject, Mining.Loading.HydraulicExcavator:5003, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5002, LoadingMachine ]
       - HasComponent:
         - [ UAMethod, Mining.Loading.HydraulicExcavator:7003, PositioningComplete ]
         - HasModellingRule:
@@ -68,6 +72,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.Loading.HydraulicExcavator:7003, PositioningComplete ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.Loading.HydraulicExcavator:5003, MethodSet ]
       - HasComponent:
         - [ UAMethod, Mining.Loading.HydraulicExcavator:7001, RequestForLoading ]
         - HasModellingRule:
@@ -80,6 +88,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.Loading.HydraulicExcavator:7001, RequestForLoading ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.Loading.HydraulicExcavator:5003, MethodSet ]
       - HasComponent:
         - [ UAMethod, Mining.Loading.HydraulicExcavator:7002, StopLoading ]
         - HasModellingRule:
@@ -92,6 +104,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.Loading.HydraulicExcavator:7002, StopLoading ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.Loading.HydraulicExcavator:5003, MethodSet ]
     - HasComponent:
       - [ UAObject, Mining.Loading.HydraulicExcavator:5004, ParameterSet ]
       - HasTypeDefinition:
@@ -110,42 +126,58 @@ DefinedTypes:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6007, ExclusionZone, 3DFrame, 1, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6008, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6007, ExclusionZone, 3DFrame, 1, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6009, X, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6008, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6010, Y, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6008, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6011, Z, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6008, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6002, Constant, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6007, ExclusionZone, 3DFrame, 1, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.Loading.HydraulicExcavator:5004, ParameterSet ]
         - HasProperty:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6003, FixedBase, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6007, ExclusionZone, 3DFrame, 1, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6012, Orientation, 3DOrientation, 0, 0 ]
           - HasTypeDefinition:
@@ -158,18 +190,26 @@ DefinedTypes:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6012, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6014, B, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6012, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6015, C, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6012, Orientation, 3DOrientation, 0, 0 ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6007, ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.HydraulicExcavator:6024, MachinePose, 3DFrame, 0, 0 ]
         - HasTypeDefinition:
@@ -182,42 +222,58 @@ DefinedTypes:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6024, MachinePose, 3DFrame, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6025, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6024, MachinePose, 3DFrame, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6026, X, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6025, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6027, Y, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6025, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6028, Z, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6025, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6040, Constant, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6024, MachinePose, 3DFrame, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6041, FixedBase, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6024, MachinePose, 3DFrame, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.Loading.HydraulicExcavator:5004, ParameterSet ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.HydraulicExcavator:6029, Orientation, 3DOrientation, 0, 0 ]
           - HasTypeDefinition:
@@ -230,18 +286,28 @@ DefinedTypes:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6029, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6037, B, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6029, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.Loading.HydraulicExcavator:6038, C, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.Loading.HydraulicExcavator:6029, Orientation, 3DOrientation, 0, 0 ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.HydraulicExcavator:6024, MachinePose, 3DFrame, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5002, LoadingMachine ]
   - HasAddIn:
     - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
     - HasTypeDefinition:
@@ -254,39 +320,57 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Loading.HydraulicExcavator:6031, DeviceClass, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Loading.HydraulicExcavator:6035, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Loading.HydraulicExcavator:6032, ManufacturerUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.Loading.HydraulicExcavator:1002, HydraulicExcavatorType ]
     - HasProperty:
       - [ UAVariable, Mining.Loading.HydraulicExcavator:6033, Model, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Loading.HydraulicExcavator:6034, ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.Loading.HydraulicExcavator:6042, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.Loading.HydraulicExcavator:5001, MiningEquipmentIdentification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]

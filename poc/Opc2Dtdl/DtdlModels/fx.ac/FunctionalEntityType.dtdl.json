@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:FunctionalEntityType;1",
+  "@id": "dtmi:opcua:FX_AC:FunctionalEntityType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/fx_ac/FunctionalEntityType/{commandName}",
+  "commandTopic": "opcua/FX_AC/FunctionalEntityType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:OperationalHealthOptionSet;1",
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:OperationalHealthOptionSet;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -34,12 +34,12 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:NodeIdValuePair;1",
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdValuePair;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Key",
-          "schema": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:NodeIdArray;1"
+          "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdArray;1"
         },
         {
           "name": "Value",
@@ -48,7 +48,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:NodeIdArray;1",
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdArray;1",
       "@type": "Object",
       "fields": [
         {
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:FunctionalEntityVerificationResultEnum;1",
+      "@id": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FunctionalEntityVerificationResultEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -88,7 +88,7 @@
     {
       "@type": "Property",
       "name": "OperationalHealth",
-      "schema": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:OperationalHealthOptionSet;1",
+      "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:OperationalHealthOptionSet;1",
       "writable": false
     },
     {
@@ -104,7 +104,7 @@
               "name": "ExpectedVerificationVariables",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:NodeIdValuePair;1"
+                "elementSchema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:NodeIdValuePair;1"
               }
             }
           ]
@@ -118,7 +118,7 @@
           "fields": [
             {
               "name": "VerificationResult",
-              "schema": "dtmi:opcua:fx_ac:FunctionalEntityType:dataType:FunctionalEntityVerificationResultEnum;1"
+              "schema": "dtmi:opcua:FX_AC:FunctionalEntityType:dataType:FunctionalEntityVerificationResultEnum;1"
             },
             {
               "name": "VerificationVariablesErrors",

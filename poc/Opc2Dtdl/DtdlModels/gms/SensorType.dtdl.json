@@ -5,8 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:gms:SensorType;1",
+  "@id": "dtmi:opcua:GMS:SensorType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:MachineTool:ToolType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
@@ -25,10 +26,6 @@
       "name": "Class",
       "schema": "unsignedInteger",
       "writable": true
-    },
-    {
-      "@type": "Relationship",
-      "name": "ToolLife"
     }
   ]
 }

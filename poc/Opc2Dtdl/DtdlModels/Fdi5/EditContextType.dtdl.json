@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Fdi5:EditContextType;1",
+  "@id": "dtmi:opcua:FDI5:EditContextType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Fdi5/EditContextType/{commandName}",
+  "commandTopic": "opcua/FDI5/EditContextType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:WindowModeType;1",
+      "@id": "dtmi:opcua:FDI5:EditContextType:dataType:WindowModeType;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -30,7 +30,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:RegistrationParameters;1",
+      "@id": "dtmi:opcua:FDI5:EditContextType:dataType:RegistrationParameters;1",
       "@type": "Object",
       "fields": [
         {
@@ -44,7 +44,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisterNodesResult;1",
+      "@id": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1",
       "@type": "Object",
       "fields": [
         {
@@ -55,13 +55,13 @@
           "name": "RegisteredNodes",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisteredNode;1"
+            "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisteredNode;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisteredNode;1",
+      "@id": "dtmi:opcua:FDI5:EditContextType:dataType:RegisteredNode;1",
       "@type": "Object",
       "fields": [
         {
@@ -87,7 +87,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:ApplyResult;1",
+      "@id": "dtmi:opcua:FDI5:EditContextType:dataType:ApplyResult;1",
       "@type": "Object",
       "fields": [
         {
@@ -98,13 +98,13 @@
           "name": "TransferIncidents",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:TransferIncident;1"
+            "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:TransferIncident;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:Fdi5:EditContextType:dataType:TransferIncident;1",
+      "@id": "dtmi:opcua:FDI5:EditContextType:dataType:TransferIncident;1",
       "@type": "Object",
       "fields": [
         {
@@ -138,7 +138,7 @@
             },
             {
               "name": "TargetWindowMode",
-              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:WindowModeType;1"
+              "schema": "dtmi:opcua:FDI5:EditContextType:dataType:WindowModeType;1"
             }
           ]
         }
@@ -178,7 +178,7 @@
               "name": "NodesToRegister",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegistrationParameters;1"
+                "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:RegistrationParameters;1"
               }
             }
           ]
@@ -192,7 +192,7 @@
           "fields": [
             {
               "name": "RegisterNodesStatus",
-              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisterNodesResult;1"
+              "schema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1"
             }
           ]
         }
@@ -215,7 +215,7 @@
               "name": "NodesToRegister",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegistrationParameters;1"
+                "elementSchema": "dtmi:opcua:FDI5:EditContextType:dataType:RegistrationParameters;1"
               }
             }
           ]
@@ -229,7 +229,7 @@
           "fields": [
             {
               "name": "RegisterNodesStatus",
-              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:RegisterNodesResult;1"
+              "schema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1"
             }
           ]
         }
@@ -259,7 +259,7 @@
           "fields": [
             {
               "name": "ApplyStatus",
-              "schema": "dtmi:opcua:Fdi5:EditContextType:dataType:ApplyResult;1"
+              "schema": "dtmi:opcua:FDI5:EditContextType:dataType:ApplyResult;1"
             }
           ]
         }

@@ -1,0 +1,356 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
+  "commandTopic": "opcua/BACnet_V2/BACnetDeviceType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "DeviceObjectIdentifier",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "DeviceAddress",
+          "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:KeyValuePair;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Key",
+          "schema": "string"
+        },
+        {
+          "name": "Value",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceCommunicationEnabled;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Enable",
+          "enumValue": 0
+        },
+        {
+          "name": "Disable",
+          "enumValue": 1
+        },
+        {
+          "name": "DisableInitiation",
+          "enumValue": 2
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetReinitializedStateofDevice;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Coldstart",
+          "enumValue": 0
+        },
+        {
+          "name": "Warmstart",
+          "enumValue": 1
+        },
+        {
+          "name": "Startbackup",
+          "enumValue": 2
+        },
+        {
+          "name": "Endbackup",
+          "enumValue": 3
+        },
+        {
+          "name": "Startrestore",
+          "enumValue": 4
+        },
+        {
+          "name": "Endrestore",
+          "enumValue": 5
+        },
+        {
+          "name": "Abortrestore",
+          "enumValue": 6
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessageClass;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Unsigned",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "String",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessagePriority;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "normal",
+          "enumValue": 0
+        },
+        {
+          "name": "urgent",
+          "enumValue": 1
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddress;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "NetworkNumber",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "MacAddress",
+          "schema": "bytes"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Command",
+      "name": "AddDeviceAddressBindings",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "AddressBindings",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FirstFailedElementNumber",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "CreateObject",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ObjectSpecifier",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "ListOfInitialValues",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:KeyValuePair;1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "DeleteObject",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ObjectIdentifier",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "DeviceCommunicationControl",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "TimeDurationInMinutes",
+              "schema": "unsignedShort"
+            },
+            {
+              "name": "EnableDisable",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetDeviceCommunicationEnabled;1"
+            },
+            {
+              "name": "Password",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "ReinitializeDevice",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ReinitializedStateofDevice",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetReinitializedStateofDevice;1"
+            },
+            {
+              "name": "Password",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RemoveDeviceAddressBindings",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "AddressBindings",
+              "schema": {
+                "@type": "Array",
+                "elementSchema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetAddressBinding;1"
+              }
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "FirstFailedElementNumber",
+              "schema": "unsignedInteger"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "TextMessage",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "SendUnconfirmed",
+              "schema": "boolean"
+            },
+            {
+              "name": "TextMessageSourceDevice",
+              "schema": "unsignedInteger"
+            },
+            {
+              "name": "MessageClass",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessageClass;1"
+            },
+            {
+              "name": "MessagePriority",
+              "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceType:dataType:BACnetMessagePriority;1"
+            },
+            {
+              "name": "Message",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "BackupRestore",
+      "target": "dtmi:opcua:BACnet_V2:BACnetBackupRestoreType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "DeviceRestart",
+      "target": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MstpMaster",
+      "target": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Object_List"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Structured_Object_List"
+    },
+    {
+      "@type": "Relationship",
+      "name": "TimeManagement",
+      "target": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType"
+    }
+  ]
+}

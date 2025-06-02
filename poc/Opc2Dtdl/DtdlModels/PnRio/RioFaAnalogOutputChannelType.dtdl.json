@@ -5,17 +5,18 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType;1",
+  "@id": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioFaAnalogOutputConfigDataType;1",
+      "@id": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogOutputConfigDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "SignalType",
-          "schema": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioSignalTypeEnumeration;1"
+          "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioSignalTypeEnumeration;1"
         },
         {
           "name": "WireCheckEnabled",
@@ -31,11 +32,11 @@
         },
         {
           "name": "SubstitutePolicy",
-          "schema": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
+          "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
         },
         {
           "name": "SubstituteValue",
-          "schema": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioAnalogDataType;1"
+          "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioAnalogDataType;1"
         },
         {
           "name": "SubstituteTime",
@@ -44,7 +45,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1",
+      "@id": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -54,7 +55,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioSignalTypeEnumeration;1",
+      "@id": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioSignalTypeEnumeration;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -93,7 +94,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1",
+      "@id": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -116,7 +117,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioAnalogDataType;1",
+      "@id": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioAnalogDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -146,7 +147,7 @@
     {
       "@type": "Property",
       "name": "Config",
-      "schema": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioFaAnalogOutputConfigDataType;1",
+      "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogOutputConfigDataType;1",
       "writable": false
     },
     {
@@ -158,7 +159,7 @@
           {
             "@type": [ "Field", "Subject" ],
             "name": "ProcessValue",
-            "schema": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
+            "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
           },
           {
             "name": "QualifierValue",
@@ -177,7 +178,7 @@
           {
             "@type": [ "Field", "Subject" ],
             "name": "ProcessValueReadback",
-            "schema": "dtmi:opcua:PnRio:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
+            "schema": "dtmi:opcua:PNRIO:RioFaAnalogOutputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
           },
           {
             "name": "QualifierValue",

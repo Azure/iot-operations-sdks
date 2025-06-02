@@ -44,6 +44,8 @@ DefinedTypes:
 
   FaceAlignmentSystemType:
   - [ UAObjectType, Mining.PELOServices.FaceAlignmentSystem:1002, FaceAlignmentSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.PELOServices.FaceAlignmentSystem:5001, ParameterSet ]
     - HasModellingRule:

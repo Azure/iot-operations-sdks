@@ -1,0 +1,249 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:BACnet_V2:BACnetObjectTypeUnknown;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:BACnet_V2:BACnetObjectTypeUnknown:dataType:BACnetObjectTypeEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "analog_input",
+          "enumValue": 0
+        },
+        {
+          "name": "analog_output",
+          "enumValue": 1
+        },
+        {
+          "name": "analog_value",
+          "enumValue": 2
+        },
+        {
+          "name": "binary_input",
+          "enumValue": 3
+        },
+        {
+          "name": "binary_output",
+          "enumValue": 4
+        },
+        {
+          "name": "binary_value",
+          "enumValue": 5
+        },
+        {
+          "name": "calendar",
+          "enumValue": 6
+        },
+        {
+          "name": "command",
+          "enumValue": 7
+        },
+        {
+          "name": "device",
+          "enumValue": 8
+        },
+        {
+          "name": "event_enrollment",
+          "enumValue": 9
+        },
+        {
+          "name": "file",
+          "enumValue": 10
+        },
+        {
+          "name": "group",
+          "enumValue": 11
+        },
+        {
+          "name": "loop",
+          "enumValue": 12
+        },
+        {
+          "name": "multi_state_input",
+          "enumValue": 13
+        },
+        {
+          "name": "multi_state_output",
+          "enumValue": 14
+        },
+        {
+          "name": "notification_class",
+          "enumValue": 15
+        },
+        {
+          "name": "program",
+          "enumValue": 16
+        },
+        {
+          "name": "schedule",
+          "enumValue": 17
+        },
+        {
+          "name": "averaging",
+          "enumValue": 18
+        },
+        {
+          "name": "multi_state_value",
+          "enumValue": 19
+        },
+        {
+          "name": "trend_log",
+          "enumValue": 20
+        },
+        {
+          "name": "life_safety_point",
+          "enumValue": 21
+        },
+        {
+          "name": "life_safety_zone",
+          "enumValue": 22
+        },
+        {
+          "name": "accumulator",
+          "enumValue": 23
+        },
+        {
+          "name": "pulse_converter",
+          "enumValue": 24
+        },
+        {
+          "name": "event_log",
+          "enumValue": 25
+        },
+        {
+          "name": "global_group",
+          "enumValue": 26
+        },
+        {
+          "name": "trend_log_multiple",
+          "enumValue": 27
+        },
+        {
+          "name": "load_control",
+          "enumValue": 28
+        },
+        {
+          "name": "structured_view",
+          "enumValue": 29
+        },
+        {
+          "name": "access_door",
+          "enumValue": 30
+        },
+        {
+          "name": "unassigned",
+          "enumValue": 31
+        },
+        {
+          "name": "access_credential",
+          "enumValue": 32
+        },
+        {
+          "name": "access_point",
+          "enumValue": 33
+        },
+        {
+          "name": "access_rights",
+          "enumValue": 34
+        },
+        {
+          "name": "access_user",
+          "enumValue": 35
+        },
+        {
+          "name": "access_zone",
+          "enumValue": 36
+        },
+        {
+          "name": "credentional_data_input",
+          "enumValue": 37
+        },
+        {
+          "name": "network_security",
+          "enumValue": 38
+        },
+        {
+          "name": "bitstring_value",
+          "enumValue": 39
+        },
+        {
+          "name": "characterstring_value",
+          "enumValue": 40
+        },
+        {
+          "name": "date_pattern_value",
+          "enumValue": 41
+        },
+        {
+          "name": "date_value",
+          "enumValue": 42
+        },
+        {
+          "name": "datetime_pattern_value",
+          "enumValue": 43
+        },
+        {
+          "name": "datetime_value",
+          "enumValue": 44
+        },
+        {
+          "name": "integer_value",
+          "enumValue": 45
+        },
+        {
+          "name": "large_analog_value",
+          "enumValue": 46
+        },
+        {
+          "name": "octetstring_value",
+          "enumValue": 47
+        },
+        {
+          "name": "positive_integer_value",
+          "enumValue": 48
+        },
+        {
+          "name": "time_pattern_value",
+          "enumValue": 49
+        },
+        {
+          "name": "time_value",
+          "enumValue": 50
+        },
+        {
+          "name": "notification_forwarder",
+          "enumValue": 51
+        },
+        {
+          "name": "alert_enrollment",
+          "enumValue": 52
+        },
+        {
+          "name": "channel",
+          "enumValue": 53
+        },
+        {
+          "name": "lighting_output",
+          "enumValue": 54
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Object_Type",
+      "schema": "dtmi:opcua:BACnet_V2:BACnetObjectTypeUnknown:dataType:BACnetObjectTypeEnum;1",
+      "writable": true
+    }
+  ]
+}

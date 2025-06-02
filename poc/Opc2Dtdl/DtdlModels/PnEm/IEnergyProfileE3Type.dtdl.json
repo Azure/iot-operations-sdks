@@ -5,12 +5,12 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnEm:IEnergyProfileE3Type;1",
+  "@id": "dtmi:opcua:PNEM:IEnergyProfileE3Type;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+      "@id": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPpDataType;1",
+      "@id": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPpDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -62,19 +62,19 @@
     {
       "@type": "Property",
       "name": "AcActivePower",
-      "schema": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
       "writable": true
     },
     {
       "@type": "Property",
       "name": "AcCurrent",
-      "schema": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
       "writable": true
     },
     {
       "@type": "Property",
       "name": "AcPowerFactor",
-      "schema": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
       "writable": true
     },
     {
@@ -92,19 +92,19 @@
     {
       "@type": "Property",
       "name": "AcReactivePower",
-      "schema": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
       "writable": true
     },
     {
       "@type": "Property",
       "name": "AcVoltagePe",
-      "schema": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPeDataType;1",
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPeDataType;1",
       "writable": true
     },
     {
       "@type": "Property",
       "name": "AcVoltagePp",
-      "schema": "dtmi:opcua:PnEm:IEnergyProfileE3Type:dataType:AcPpDataType;1",
+      "schema": "dtmi:opcua:PNEM:IEnergyProfileE3Type:dataType:AcPpDataType;1",
       "writable": true
     }
   ]

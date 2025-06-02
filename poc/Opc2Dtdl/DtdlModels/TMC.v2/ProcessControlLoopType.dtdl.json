@@ -1,0 +1,35 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:ProcessControlLoopType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "ControlValue",
+      "target": "dtmi:opcua:TMC_v2:ProcessControlItemType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ExternalAlarms"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProcessValue",
+      "target": "dtmi:opcua:TMC_v2:ProcessControlItemType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SetPoint",
+      "target": "dtmi:opcua:TMC_v2:ProcessControlItemType"
+    }
+  ]
+}

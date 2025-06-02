@@ -1,0 +1,119 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales_V2:ScaleDeviceType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DI:ComponentType;1",
+  "commandTopic": "opcua/Scales_V2/ScaleDeviceType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "Gross",
+          "schema": "double"
+        },
+        {
+          "name": "Net",
+          "schema": "double"
+        },
+        {
+          "name": "Tare",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "CurrentWeight",
+      "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "MinimalWeight",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "RegisteredWeight",
+      "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "ClearTare"
+    },
+    {
+      "@type": "Command",
+      "name": "RegisterWeight"
+    },
+    {
+      "@type": "Command",
+      "name": "SetPresetTare",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "PresetTare",
+              "schema": "double"
+            },
+            {
+              "name": "EngineeringUnits",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "SetTare"
+    },
+    {
+      "@type": "Command",
+      "name": "SetZero"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ListOfWeighingRanges",
+      "target": "dtmi:opcua:Scales_V2:WeighingRangeElementType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "MachineryBuildingBlocks"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionOutput",
+      "target": "dtmi:opcua:Scales_V2:StatisticType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ProductionPreset",
+      "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "State",
+      "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "SubDevices",
+      "target": "dtmi:opcua:DI:ConfigurableObjectType"
+    }
+  ]
+}

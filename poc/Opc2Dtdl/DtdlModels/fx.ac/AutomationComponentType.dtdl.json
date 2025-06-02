@@ -5,27 +5,27 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:AutomationComponentType;1",
+  "@id": "dtmi:opcua:FX_AC:AutomationComponentType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/fx_ac/AutomationComponentType/{commandName}",
+  "commandTopic": "opcua/FX_AC/AutomationComponentType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AggregatedHealthDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AggregatedHealthDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "AggregatedDeviceHealth",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
         },
         {
           "name": "AggregatedOperationalHealth",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:DeviceHealthOptionSet;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -48,7 +48,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:OperationalHealthOptionSet;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -71,7 +71,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FxCommandMask;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FxCommandMask;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -114,7 +114,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -123,35 +123,35 @@
         },
         {
           "name": "VerificationMode",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationModeEnum;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationModeEnum;1"
         },
         {
           "name": "ExpectedVerificationResult",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
         },
         {
           "name": "ExpectedVerificationVariables",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:KeyValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:KeyValuePair;1"
           }
         },
         {
           "name": "ExpectedAdditionalVerificationVariables",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdValuePair;1"
           }
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdValuePair;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Key",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdArray;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdArray;1"
         },
         {
           "name": "Value",
@@ -160,7 +160,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:KeyValuePair;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:KeyValuePair;1",
       "@type": "Object",
       "fields": [
         {
@@ -174,7 +174,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultEnum;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -197,7 +197,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationModeEnum;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationModeEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -216,7 +216,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdArray;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdArray;1",
       "@type": "Object",
       "fields": [
         {
@@ -233,7 +233,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -242,13 +242,13 @@
         },
         {
           "name": "ConnectionEndpoint",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1"
         },
         {
           "name": "ExpectedVerificationVariables",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdValuePair;1"
           }
         },
         {
@@ -262,7 +262,7 @@
           "name": "ConfigurationData",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:NodeIdValuePair;1"
+            "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdValuePair;1"
           }
         },
         {
@@ -272,12 +272,12 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Parameter",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1"
         },
         {
           "name": "Node",
@@ -286,7 +286,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -321,7 +321,7 @@
         },
         {
           "name": "RelatedEndpoint",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:RelatedEndpointDataType;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:RelatedEndpointDataType;1"
         },
         {
           "name": "IsPreconfigured",
@@ -330,7 +330,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:RelatedEndpointDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:RelatedEndpointDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -341,7 +341,7 @@
           "name": "ConnectionEndpointPath",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:PortableQualifiedName;1"
+            "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:PortableQualifiedName;1"
           }
         },
         {
@@ -351,7 +351,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:PortableQualifiedName;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:PortableQualifiedName;1",
       "@type": "Object",
       "fields": [
         {
@@ -365,7 +365,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -374,7 +374,7 @@
         },
         {
           "name": "VerificationResult",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
         },
         {
           "name": "VerificationVariablesErrors",
@@ -393,7 +393,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -410,7 +410,7 @@
         },
         {
           "name": "VerificationResult",
-          "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1"
+          "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1"
         },
         {
           "name": "VerificationStatus",
@@ -455,7 +455,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1",
+      "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -484,15 +484,15 @@
           {
             "@type": [ "Field", "Subject" ],
             "name": "AggregatedHealth",
-            "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AggregatedHealthDataType;1"
+            "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AggregatedHealthDataType;1"
           },
           {
             "name": "AggregatedDeviceHealth",
-            "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
+            "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
           },
           {
             "name": "AggregatedOperationalHealth",
-            "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
+            "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
           }
         ]
       },
@@ -549,20 +549,20 @@
           "fields": [
             {
               "name": "CommandMask",
-              "schema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:FxCommandMask;1"
+              "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FxCommandMask;1"
             },
             {
               "name": "AssetVerifications",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationDataType;1"
+                "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationDataType;1"
               }
             },
             {
               "name": "ConnectionEndpointConfigurations",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1"
+                "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1"
               }
             },
             {
@@ -592,14 +592,14 @@
               "name": "AssetVerificationResults",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:AssetVerificationResultDataType;1"
+                "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultDataType;1"
               }
             },
             {
               "name": "ConnectionEndpointConfigurationResults",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1"
+                "elementSchema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1"
               }
             },
             {

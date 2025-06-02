@@ -5,7 +5,7 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_cm:ConnectionConfigurationSetStateMachineType;1",
+  "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetStateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [

@@ -5,12 +5,12 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType;1",
+  "@id": "dtmi:opcua:FX_AC:ConnectionEndpointType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
+      "@id": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -21,7 +21,7 @@
           "name": "ConnectionEndpointPath",
           "schema": {
             "@type": "Array",
-            "elementSchema": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:PortableQualifiedName;1"
+            "elementSchema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:PortableQualifiedName;1"
           }
         },
         {
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1",
+      "@id": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:PortableQualifiedName;1",
+      "@id": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:PortableQualifiedName;1",
       "@type": "Object",
       "fields": [
         {
@@ -106,13 +106,13 @@
     {
       "@type": "Property",
       "name": "RelatedEndpoint",
-      "schema": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
+      "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:RelatedEndpointDataType;1",
       "writable": true
     },
     {
       "@type": "Property",
       "name": "Status",
-      "schema": "dtmi:opcua:fx_ac:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1",
+      "schema": "dtmi:opcua:FX_AC:ConnectionEndpointType:dataType:ConnectionEndpointStatusEnum;1",
       "writable": false
     }
   ]

@@ -5,13 +5,14 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Di:CachedLoadingType;1",
+  "@id": "dtmi:opcua:DI:CachedLoadingType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Di/CachedLoadingType/{commandName}",
+  "extends": "dtmi:opcua:DI:PackageLoadingType;1",
+  "commandTopic": "opcua/DI/CachedLoadingType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:Di:CachedLoadingType:dataType:UpdateBehavior;1",
+      "@id": "dtmi:opcua:DI:CachedLoadingType:dataType:UpdateBehavior;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -74,7 +75,7 @@
           "fields": [
             {
               "name": "UpdateBehavior",
-              "schema": "dtmi:opcua:Di:CachedLoadingType:dataType:UpdateBehavior;1"
+              "schema": "dtmi:opcua:DI:CachedLoadingType:dataType:UpdateBehavior;1"
             }
           ]
         }

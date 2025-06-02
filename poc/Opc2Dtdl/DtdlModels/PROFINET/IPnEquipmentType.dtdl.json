@@ -1,0 +1,250 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PROFINET:IPnEquipmentType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "commandTopic": "opcua/PROFINET/IPnEquipmentType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnDeviceDiagnosisDataType;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "API",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "Slot",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "Subslot",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "ChannelNumber",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "Type",
+          "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelTypeEnumeration;1"
+        },
+        {
+          "name": "Accumulative",
+          "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelAccumulativeEnumeration;1"
+        },
+        {
+          "name": "Maintenance",
+          "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelMaintenanceEnumeration;1"
+        },
+        {
+          "name": "Specifier",
+          "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelSpecifierEnumeration;1"
+        },
+        {
+          "name": "Direction",
+          "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelDirectionEnumeration;1"
+        },
+        {
+          "name": "UserStructureIdentifier",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "ChannelErrorType",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "ExtChannelErrorType",
+          "schema": "unsignedShort"
+        },
+        {
+          "name": "ExtChannelAddValue",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "QualifiedChannelQualifier",
+          "schema": "unsignedInteger"
+        },
+        {
+          "name": "ManufacturerData",
+          "schema": "bytes"
+        },
+        {
+          "name": "Message",
+          "schema": "string"
+        },
+        {
+          "name": "HelpText",
+          "schema": "string"
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelTypeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "UNSPECIFIC",
+          "enumValue": 0
+        },
+        {
+          "name": "X_1BIT",
+          "enumValue": 1
+        },
+        {
+          "name": "X_2BIT",
+          "enumValue": 2
+        },
+        {
+          "name": "X_4BIT",
+          "enumValue": 3
+        },
+        {
+          "name": "X_8BIT",
+          "enumValue": 4
+        },
+        {
+          "name": "X_16BIT",
+          "enumValue": 5
+        },
+        {
+          "name": "X_32BIT",
+          "enumValue": 6
+        },
+        {
+          "name": "X_64BIT",
+          "enumValue": 7
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelAccumulativeEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "SINGLE",
+          "enumValue": 0
+        },
+        {
+          "name": "ACCUMULATIVE",
+          "enumValue": 256
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelMaintenanceEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "FAULT",
+          "enumValue": 0
+        },
+        {
+          "name": "MAINTENANCE_REQUIRED",
+          "enumValue": 512
+        },
+        {
+          "name": "MAINTENANCE_DEMANDED",
+          "enumValue": 1024
+        },
+        {
+          "name": "USE_QUALIFIED_CHANNEL_QUALIFIER",
+          "enumValue": 1536
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelSpecifierEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "ALL_DISAPPEARS",
+          "enumValue": 0
+        },
+        {
+          "name": "APPEARS",
+          "enumValue": 2048
+        },
+        {
+          "name": "DISAPPEARS",
+          "enumValue": 4096
+        },
+        {
+          "name": "DISAPPEARS_OTHER_REMAIN",
+          "enumValue": 6144
+        }
+      ]
+    },
+    {
+      "@id": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelDirectionEnumeration;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "MANUFACTURER_SPECIFIC",
+          "enumValue": 0
+        },
+        {
+          "name": "INPUT_CHANNEL",
+          "enumValue": 8192
+        },
+        {
+          "name": "OUTPUT_CHANNEL",
+          "enumValue": 16384
+        },
+        {
+          "name": "BIDIRECTIONAL_CHANNEL",
+          "enumValue": 24576
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Diagnosis",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnDeviceDiagnosisDataType;1"
+      },
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "ShowLocation"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Alarms"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Assets",
+      "target": "dtmi:opcua:PROFINET:PnAssetContainerType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "IM",
+      "target": "dtmi:opcua:PROFINET:PnIdentificationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Interfaces",
+      "target": "dtmi:opcua:PROFINET:PnInterfaceContainerType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Modules",
+      "target": "dtmi:opcua:PROFINET:PnRealModuleContainerType"
+    }
+  ]
+}

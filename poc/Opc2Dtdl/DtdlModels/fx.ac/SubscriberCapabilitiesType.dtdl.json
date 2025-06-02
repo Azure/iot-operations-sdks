@@ -5,12 +5,12 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType;1",
+  "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:IntervalRange;1",
+      "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1",
       "@type": "Object",
       "fields": [
         {
@@ -31,12 +31,12 @@
         },
         {
           "name": "Unit",
-          "schema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1"
+          "schema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1"
         }
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1",
+      "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -53,7 +53,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1",
+      "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -97,7 +97,7 @@
       "name": "SupportedMessageReceiveTimeouts",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:IntervalRange;1"
+        "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1"
       },
       "writable": true
     },
@@ -106,7 +106,7 @@
       "name": "SupportedPublishingIntervals",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:IntervalRange;1"
+        "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1"
       },
       "writable": true
     },
@@ -115,7 +115,7 @@
       "name": "SupportedQos",
       "schema": {
         "@type": "Array",
-        "elementSchema": "dtmi:opcua:fx_ac:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1"
+        "elementSchema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1"
       },
       "writable": true
     }

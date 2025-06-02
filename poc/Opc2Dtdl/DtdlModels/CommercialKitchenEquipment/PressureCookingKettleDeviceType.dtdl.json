@@ -7,6 +7,7 @@
   ],
   "@id": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CommercialKitchenEquipment:CommercialKitchenDeviceType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

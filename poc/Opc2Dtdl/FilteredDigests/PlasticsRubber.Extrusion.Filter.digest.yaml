@@ -312,6 +312,8 @@ DefinedTypes:
       - [ UAObjectType, PlasticsRubber.GeneralTypes:1068, DriveType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PlasticsRubber.Extrusion.GeneralTypes:1002, ExtrusionDeviceType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5014, FilterPackage_<Nr> ]
     - HasTypeDefinition:
@@ -365,6 +367,8 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6166, Area, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, PlasticsRubber.Extrusion.Filter:5013, ScreenPackage_<Nr> ]
     - HasModellingRule:
@@ -378,3 +382,5 @@ DefinedTypes:
     - [ UAVariable, PlasticsRubber.Extrusion.Filter:6155, Area, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

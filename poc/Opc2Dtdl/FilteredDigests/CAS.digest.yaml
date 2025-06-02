@@ -256,6 +256,8 @@ DefinedTypes:
 
   AnalysisType:
   - [ UAObjectType, CAS:1004, AnalysisType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, CAS:5059, OutputFile ]
     - HasTypeDefinition:
@@ -275,6 +277,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1038, AirnetsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, CAS:5013, Components ]
     - HasTypeDefinition:
@@ -296,6 +300,8 @@ DefinedTypes:
 
   CommunicationSettingsType:
   - [ UAObjectType, CAS:1048, CommunicationSettingsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, CAS:11298, Dhcp, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -319,6 +325,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1011, ElectricalQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAObject, CAS:5066, Input ]
     - HasTypeDefinition:
@@ -342,6 +350,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6093, Current, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, CAS:6094, Energy, Double, 0, 0 ]
     - HasModellingRule:
@@ -373,6 +383,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, CAS:6274, FluidType, FluidTypeEnum, 0, 0 ]
     - HasModellingRule:
@@ -408,6 +420,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6170, DewPoint, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAVariable, CAS:6171, GaugePressure, Double, 0, 0 ]
     - HasModellingRule:
@@ -455,6 +469,8 @@ DefinedTypes:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 61, FolderType ]
   - HasComponent:
     - [ UAObject, CAS:5194, ChargingSystems ]
     - HasTypeDefinition:
@@ -542,6 +558,8 @@ DefinedTypes:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, CAS:5092, EnergyReportISO50001 ]
     - HasTypeDefinition:
@@ -551,6 +569,8 @@ DefinedTypes:
 
   CalibrationType:
   - [ UAObjectType, CAS:1054, CalibrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, CAS:6715, LastCalibrationDate, DateTime, 0, 0 ]
     - HasModellingRule:
@@ -559,6 +579,16 @@ DefinedTypes:
     - [ UAVariable, CAS:6716, NextCalibrationDate, DateTime, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+
+  CASIdentificationType:
+  - [ UAObjectType, CAS:1051, CASIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+
+  ConfigurationType:
+  - [ UAObjectType, CAS:1037, ConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   AirnetConfigurationType:
   - [ UAObjectType, CAS:1016, AirnetConfigurationType ]
@@ -570,6 +600,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6260, OperatingProfiles, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1037, ConfigurationType ]
 
   MCSConfigurationType:
   - [ UAObjectType, CAS:1019, MCSConfigurationType ]
@@ -593,6 +625,8 @@ DefinedTypes:
     - [ UAMethod, CAS:10123, SaveConfigurationFile ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1037, ConfigurationType ]
 
   DesignType:
   - [ UAObjectType, CAS:1044, DesignType ]
@@ -600,6 +634,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6273, ComponentClass, Enumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   CompressorDesignType:
   - [ UAObjectType, CAS:1008, CompressorDesignType ]
@@ -623,6 +659,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6319, VariableFlow, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   ConverterDesignType:
   - [ UAObjectType, CAS:1041, ConverterDesignType ]
@@ -630,6 +668,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6642, ComponentClass, ConverterTypeEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   DrainDesignType:
   - [ UAObjectType, CAS:1036, DrainDesignType ]
@@ -637,6 +677,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6632, ComponentClass, DrainTypeEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   DryerDesignType:
   - [ UAObjectType, CAS:1033, DryerDesignType ]
@@ -648,6 +690,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6625, LowestAmbientTemperature, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   FilterDesignType:
   - [ UAObjectType, CAS:1009, FilterDesignType ]
@@ -659,6 +703,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6589, FilterClass, FilterClassDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   ReceiverDesignType:
   - [ UAObjectType, CAS:1023, ReceiverDesignType ]
@@ -670,6 +716,8 @@ DefinedTypes:
     - [ UAVariable, CAS:7890, Volume, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   SensorDesignType:
   - [ UAObjectType, CAS:1031, SensorDesignType ]
@@ -685,6 +733,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6616, SoftSensor, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   SeparatorDesignType:
   - [ UAObjectType, CAS:1040, SeparatorDesignType ]
@@ -692,6 +742,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6638, ComponentClass, SeparatorTypeEnum, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   ValveDesignType:
   - [ UAObjectType, CAS:1032, ValveDesignType ]
@@ -703,6 +755,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6621, NumberOfPorts, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1044, DesignType ]
 
   EventsType:
   - [ UAObjectType, CAS:1020, EventsType ]
@@ -718,6 +772,8 @@ DefinedTypes:
       - [ UAObjectType, 10637, OffNormalAlarmType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAObject, CAS:5083, Service ]
     - HasTypeDefinition:
@@ -739,6 +795,8 @@ DefinedTypes:
 
   MaintenanceType:
   - [ UAObjectType, CAS:1028, MaintenanceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasComponent:
     - [ UAVariable, CAS:6292, RealTimeSinceLastService, Double, 0, 0 ]
     - HasModellingRule:
@@ -766,6 +824,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6066, OperatingState, Enumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   AirnetOperationalType:
   - [ UAObjectType, CAS:1002, AirnetOperationalType ]
@@ -817,6 +877,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6031, VolumeFlowRateUnavailable, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1006, OperationalType ]
 
   CompressorOperationalType:
   - [ UAObjectType, CAS:1045, CompressorOperationalType ]
@@ -824,6 +886,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6644, ActivePressureBand, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1006, OperationalType ]
   - HasComponent:
     - [ UAVariable, CAS:6646, FlowRateRatio, Double, 0, 0 ]
     - HasModellingRule:
@@ -847,6 +911,8 @@ DefinedTypes:
     - [ UAVariable, CAS:6693, CatalyticMaterialTemperature, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1006, OperationalType ]
 
   DrainOperationalType:
   - [ UAObjectType, CAS:1003, DrainOperationalType ]
@@ -854,9 +920,13 @@ DefinedTypes:
     - [ UAMethod, CAS:10530, DrainTest ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1006, OperationalType ]
 
   DryerOperationalType:
   - [ UAObjectType, CAS:1052, DryerOperationalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1006, OperationalType ]
   - HasComponent:
     - [ UAVariable, CAS:10670, OnOff, Boolean, 0, 0 ]
     - HasModellingRule:
@@ -880,6 +950,8 @@ DefinedTypes:
     - [ UAVariable, CAS:11343, PortUsed, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1006, OperationalType ]
 
   StatisticsType:
   - [ UAObjectType, CAS:1018, StatisticsType ]
@@ -903,9 +975,13 @@ DefinedTypes:
     - [ UAVariable, CAS:6001, RunningTimeToNextService, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
 
   CompressorStatisticsType:
   - [ UAObjectType, CAS:1027, CompressorStatisticsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1018, StatisticsType ]
   - HasComponent:
     - [ UAVariable, CAS:6083, LoadedTime, Double, 0, 0 ]
     - HasModellingRule:
@@ -923,6 +999,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1007, AirnetType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1006, MachineComponentsType ]
 
   ComponentsGroupType:
   - [ UAObjectType, CAS:1047, ComponentsGroupType ]
@@ -938,6 +1016,8 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1006, MachineComponentsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1006, MachineComponentsType ]
   - HasComponent:
     - [ UAObject, CAS:5011, Compressors ]
     - HasTypeDefinition:
@@ -1019,9 +1099,13 @@ DefinedTypes:
     - [ UAVariable, CAS:6012, Medium, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   AirnetType:
   - [ UAObjectType, CAS:1007, AirnetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
   - HasComponent:
     - [ UAObject, CAS:5051, Ambient ]
     - HasTypeDefinition:
@@ -1073,6 +1157,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1012, FluidQuantitiesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
   - HasComponent:
     - [ UAObject, CAS:5038, Configuration ]
     - HasTypeDefinition:
@@ -1128,8 +1214,15 @@ DefinedTypes:
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1018, StatisticsType ]
 
+  ChargingSystemType:
+  - [ UAObjectType, CAS:1005, ChargingSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
+
   CompressorType:
   - [ UAObjectType, CAS:1039, CompressorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
   - HasComponent:
     - [ UAObject, CAS:5058, Design ]
     - HasTypeDefinition:
@@ -1157,6 +1250,8 @@ DefinedTypes:
 
   ConverterType:
   - [ UAObjectType, CAS:1029, ConverterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
   - HasComponent:
     - [ UAObject, CAS:5054, Design ]
     - HasTypeDefinition:
@@ -1170,6 +1265,11 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
+  CoolingSystemType:
+  - [ UAObjectType, CAS:1001, CoolingSystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
+
   DrainType:
   - [ UAObjectType, CAS:1025, DrainType ]
   - HasComponent:
@@ -1178,6 +1278,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1036, DrainDesignType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
   - HasComponent:
     - [ UAObject, CAS:5158, Operational ]
     - HasTypeDefinition:
@@ -1199,6 +1301,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1033, DryerDesignType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
   - HasComponent:
     - [ UAObject, CAS:5160, Operational ]
     - HasTypeDefinition:
@@ -1214,6 +1318,13 @@ DefinedTypes:
       - [ UAObjectType, CAS:1009, FilterDesignType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
+
+  HeatRecoverySystemType:
+  - [ UAObjectType, CAS:1042, HeatRecoverySystemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
 
   ReceiverType:
   - [ UAObjectType, CAS:1022, ReceiverType ]
@@ -1223,6 +1334,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1023, ReceiverDesignType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
 
   SensorType:
   - [ UAObjectType, CAS:1015, SensorType ]
@@ -1250,6 +1363,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1006, OperationalType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
 
   SeparatorType:
   - [ UAObjectType, CAS:1026, SeparatorType ]
@@ -1265,6 +1380,8 @@ DefinedTypes:
       - [ UAObjectType, CAS:1013, FluidCircuitType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
 
   ValveType:
   - [ UAObjectType, CAS:1024, ValveType ]
@@ -1280,6 +1397,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, CAS:1053, ValveOperationalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CAS:1021, CASComponentType ]
 
   MCSType:
   - [ UAObjectType, CAS:1017, MCSType ]
@@ -1313,6 +1432,8 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, TopologyElementType ]
   - HasComponent:
     - [ UAObject, CAS:5021, Operational ]
     - HasTypeDefinition:

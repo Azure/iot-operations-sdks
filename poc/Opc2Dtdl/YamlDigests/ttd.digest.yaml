@@ -410,54 +410,76 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6031, CreationTime, UtcTime, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6029, HasTransferableDataOnFile, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6030, IsPartial, Boolean, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6037, JobOrder, ISA95JobOrderDataType, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6032, ProductInstanceUri, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
+    - HasStructuredComponent_reverse:
+      - [ UAVariableType, TTD:2003, TTDResultType, ResultDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6034, SampleId, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6035, TesterJobId, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6033, TesterSampleResultId, String, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6028, ResultMetaData, ResultMetaDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, Machinery.Result:2001, ResultType ]
 
   TTDResultReadyEventType:
   - [ UAObjectType, TTD:1006, TTDResultReadyEventType ]
@@ -467,6 +489,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, TTD:2003, TTDResultType, ResultDataType, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1006, TTDResultReadyEventType ]
     - HasStructuredComponent:
       - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasModellingRule:
@@ -479,54 +503,78 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6041, CreationTime, UtcTime, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6042, HasTransferableDataOnFile, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6043, IsPartial, Boolean, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6044, JobOrder, ISA95JobOrderDataType, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6045, ProductInstanceUri, String, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, TTD:6038, Result, ResultDataType, 0, 3 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6046, SampleId, String, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6047, TesterJobId, String, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6048, TesterSampleResultId, String, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6039, ResultMetaData, ResultMetaDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, TTD:1007, TTDResultManagementType ]
 
   JobStatisticsType:
   - [ UAObjectType, TTD:1009, JobStatisticsType ]
@@ -536,30 +584,42 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1009, JobStatisticsType ]
   - HasProperty:
     - [ UAVariable, TTD:6057, StartTime, UtcTime, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1009, JobStatisticsType ]
   - HasProperty:
     - [ UAVariable, TTD:6058, TotalInitializingTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1009, JobStatisticsType ]
   - HasProperty:
     - [ UAVariable, TTD:6059, TotalInterruptedTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1009, JobStatisticsType ]
   - HasProperty:
     - [ UAVariable, TTD:6060, TotalRunningTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1009, JobStatisticsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   MachineStatisticsType:
   - [ UAObjectType, TTD:1012, MachineStatisticsType ]
@@ -569,36 +629,50 @@ DefinedTypes:
     - [ UAMethod, TTD:7007, ResetStatistics ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1012, MachineStatisticsType ]
   - HasProperty:
     - [ UAVariable, TTD:6065, StartTime, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1012, MachineStatisticsType ]
   - HasStatisticComponent:
     - [ UAVariable, TTD:6061, TotalExecutingTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStatisticComponent_reverse:
+      - [ UAObjectType, TTD:1012, MachineStatisticsType ]
   - HasStatisticComponent:
     - [ UAVariable, TTD:6062, TotalNotAvailableTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStatisticComponent_reverse:
+      - [ UAObjectType, TTD:1012, MachineStatisticsType ]
   - HasStatisticComponent:
     - [ UAVariable, TTD:6063, TotalNotExecutingTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStatisticComponent_reverse:
+      - [ UAObjectType, TTD:1012, MachineStatisticsType ]
   - HasStatisticComponent:
     - [ UAVariable, TTD:6064, TotalOutOfServiceTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStatisticComponent_reverse:
+      - [ UAObjectType, TTD:1012, MachineStatisticsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   RecurrentPrognosisType:
   - [ UAObjectType, TTD:1004, RecurrentPrognosisType ]
@@ -608,18 +682,26 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1004, RecurrentPrognosisType ]
   - HasProperty:
     - [ UAVariable, TTD:6067, Interval, UtcTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1004, RecurrentPrognosisType ]
   - HasProperty:
     - [ UAVariable, TTD:6068, LastExecutionTime, UtcTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1004, RecurrentPrognosisType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:3, PrognosisType ]
 
   RecipeManagementType:
   - [ UAObjectType, TTD:1003, RecipeManagementType ]
@@ -627,6 +709,8 @@ DefinedTypes:
     - [ UAMethod, TTD:7004, DeleteRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
     - HasProperty:
       - [ UAVariable, TTD:6053, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -635,10 +719,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7004, DeleteRecipe ]
   - HasComponent:
     - [ UAMethod, TTD:7002, GetRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
     - HasProperty:
       - [ UAVariable, TTD:6050, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -647,6 +735,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7002, GetRecipe ]
     - HasProperty:
       - [ UAVariable, TTD:6051, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -655,10 +745,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7002, GetRecipe ]
   - HasComponent:
     - [ UAMethod, TTD:7001, GetRecipeIds ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
     - HasProperty:
       - [ UAVariable, TTD:6049, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -667,10 +761,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7001, GetRecipeIds ]
   - HasComponent:
     - [ UAMethod, TTD:7005, GetRecipes ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
     - HasProperty:
       - [ UAVariable, TTD:6054, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -679,12 +777,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7005, GetRecipes ]
   - HasProperty:
     - [ UAVariable, TTD:6016, RecipeIds, RecipeIdDataType, 1, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
   - HasComponent:
     - [ UAMethod, TTD:7003, SetRecipe ]
     - HasModellingRule:
@@ -698,6 +800,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7003, SetRecipe ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
   - HasComponent:
     - [ UAMethod, TTD:7006, SetRecipes ]
     - HasModellingRule:
@@ -711,6 +817,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7006, SetRecipes ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1003, RecipeManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   TTDResultManagementType:
   - [ UAObjectType, TTD:1007, TTDResultManagementType ]
@@ -718,6 +830,8 @@ DefinedTypes:
     - [ UAMethod, TTD:7009, GetResultById ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1007, TTDResultManagementType ]
     - HasProperty:
       - [ UAVariable, TTD:6111, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -727,6 +841,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7009, GetResultById ]
     - HasProperty:
       - [ UAVariable, TTD:6112, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -737,6 +853,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, TTD:7009, GetResultById ]
   - HasComponent:
     - [ UAObject, TTD:5042, Results ]
     - HasModellingRule:
@@ -749,6 +867,8 @@ DefinedTypes:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
         - [ UAVariableType, TTD:2003, TTDResultType, ResultDataType, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, TTD:5042, Results ]
       - HasStructuredComponent:
         - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasModellingRule:
@@ -761,54 +881,76 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6123, CreationTime, UtcTime, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6124, HasTransferableDataOnFile, Boolean, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6125, IsPartial, Boolean, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6126, JobOrder, JobOrderDataType, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6127, ProductInstanceUri, String, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, TTD:6120, <ResultVariable>, ResultDataType, 0, 3 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6128, SampleId, String, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6129, TesterJobId, String, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
         - HasStructuredComponent:
           - [ UAVariable, TTD:6130, TesterSampleResultId, String, 0, 3 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, TTD:6121, ResultMetaData, ResultMetaDataType, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1007, TTDResultManagementType ]
   - HasComponent:
     - [ UAObject, TTD:5043, ResultTransfer ]
     - HasModellingRule:
@@ -821,10 +963,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, TTD:5043, ResultTransfer ]
     - HasComponent:
       - [ UAMethod, TTD:7011, CloseAndCommit ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, TTD:5043, ResultTransfer ]
       - HasProperty:
         - [ UAVariable, TTD:6116, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -833,6 +979,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, TTD:7011, CloseAndCommit ]
       - HasProperty:
         - [ UAVariable, TTD:6117, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -841,10 +989,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, TTD:7011, CloseAndCommit ]
     - HasComponent:
       - [ UAMethod, TTD:7010, GenerateFileForRead ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, TTD:5043, ResultTransfer ]
       - HasProperty:
         - [ UAVariable, TTD:6113, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -853,6 +1005,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, TTD:7010, GenerateFileForRead ]
       - HasProperty:
         - [ UAVariable, TTD:6114, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -863,10 +1017,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, TTD:7010, GenerateFileForRead ]
     - HasComponent:
       - [ UAMethod, TTD:7012, GenerateFileForWrite ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, TTD:5043, ResultTransfer ]
       - HasProperty:
         - [ UAVariable, TTD:6118, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -875,6 +1033,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, TTD:7012, GenerateFileForWrite ]
       - HasProperty:
         - [ UAVariable, TTD:6119, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -884,6 +1044,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, TTD:7012, GenerateFileForWrite ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1007, TTDResultManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
   - GeneratesEvent:
     - [ UAObjectType, TTD:1006, TTDResultReadyEventType ]
 
@@ -895,36 +1061,50 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
   - HasAddIn:
     - [ UAObject, TTD:5044, Identification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
     - HasProperty:
       - [ UAVariable, TTD:6133, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, TTD:5044, Identification ]
     - HasProperty:
       - [ UAVariable, TTD:6132, ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, TTD:5044, Identification ]
     - HasProperty:
       - [ UAVariable, TTD:6134, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, TTD:5044, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
   - HasProperty:
     - [ UAVariable, TTD:6135, InstalledTesterModules, OptionalModuleDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
   - HasAddIn:
     - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -937,24 +1117,34 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
       - HasProperty:
         - [ UAVariable, TTD:6133, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, TTD:5044, Identification ]
       - HasProperty:
         - [ UAVariable, TTD:6132, ProductInstanceUri, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, TTD:5044, Identification ]
       - HasProperty:
         - [ UAVariable, TTD:6134, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, TTD:5044, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, TTD:5035, JobManagement ]
       - HasModellingRule:
@@ -973,66 +1163,90 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 2760, FiniteStateVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
           - HasProperty:
             - [ UAVariable, TTD:6003, Id, NodeId, 0, 0 ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, TTD:6002, CurrentState, LocalizedText, 0, 0 ]
         - HasComponent:
           - [ UAVariable, TTD:6004, EquipmentID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
+        - HasComponent_reverse:
+          - [ UAObject, TTD:5035, JobManagement ]
         - HasComponent:
           - [ UAVariable, TTD:6005, JobOrderList, ISA95JobOrderAndStateDataType, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, TTD:6006, MaterialClassID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, TTD:6007, MaterialDefinitionID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
         - HasProperty:
           - [ UAVariable, TTD:6008, MaxDownloadableJobOrders, UInt16, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, TTD:6009, PersonnelID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, TTD:6010, PhysicalAssetID, String, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
         - HasComponent:
           - [ UAVariable, TTD:6011, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5036, JobOrderControl ]
       - HasComponent:
         - [ UAObject, TTD:5037, JobOrderResults ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
+        - HasComponent_reverse:
+          - [ UAObject, TTD:5035, JobManagement ]
         - HasComponent:
           - [ UAMethod, TTD:7008, RequestJobResponseByJobOrderID ]
           - HasModellingRule:
@@ -1045,6 +1259,8 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7008, RequestJobResponseByJobOrderID ]
           - HasProperty:
             - [ UAVariable, TTD:6013, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1054,6 +1270,10 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7008, RequestJobResponseByJobOrderID ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5037, JobOrderResults ]
         - HasComponent:
           - [ UAMethod, TTD:7013, RequestJobResponseByJobOrderState ]
           - HasModellingRule:
@@ -1066,6 +1286,8 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7013, RequestJobResponseByJobOrderState ]
           - HasProperty:
             - [ UAVariable, TTD:6015, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1075,6 +1297,14 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7013, RequestJobResponseByJobOrderState ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5037, JobOrderResults ]
+      - HasAddIn_reverse:
+        - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
     - HasAddIn:
       - [ UAObject, TTD:5055, MachineryItemState ]
       - HasTypeDefinition:
@@ -1087,12 +1317,18 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, TTD:5055, MachineryItemState ]
         - HasProperty:
           - [ UAVariable, TTD:6137, Id, NodeId, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, TTD:6136, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, TTD:5001, MachineryOperationMode ]
       - HasTypeDefinition:
@@ -1105,12 +1341,18 @@ DefinedTypes:
           - [ UAVariableType, 2760, FiniteStateVariableType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, TTD:5001, MachineryOperationMode ]
         - HasProperty:
           - [ UAVariable, TTD:6027, Id, NodeId, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, TTD:6001, CurrentState, LocalizedText, 0, 0 ]
+      - HasAddIn_reverse:
+        - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, TTD:5041, ResultManagement ]
       - HasModellingRule:
@@ -1121,6 +1363,8 @@ DefinedTypes:
         - [ UAMethod, TTD:7019, GetResultById ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, TTD:5041, ResultManagement ]
         - HasProperty:
           - [ UAVariable, TTD:6095, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1130,6 +1374,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, TTD:7019, GetResultById ]
         - HasProperty:
           - [ UAVariable, TTD:6096, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1140,12 +1386,16 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, TTD:7019, GetResultById ]
       - HasComponent:
         - [ UAObject, TTD:5046, Results ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAObjectType, 61, FolderType ]
+        - HasComponent_reverse:
+          - [ UAObject, TTD:5041, ResultManagement ]
       - HasComponent:
         - [ UAObject, TTD:5047, ResultTransfer ]
         - HasModellingRule:
@@ -1158,10 +1408,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAObject, TTD:5047, ResultTransfer ]
         - HasComponent:
           - [ UAMethod, TTD:7020, CloseAndCommit ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5047, ResultTransfer ]
           - HasProperty:
             - [ UAVariable, TTD:6098, InputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1170,6 +1424,8 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7020, CloseAndCommit ]
           - HasProperty:
             - [ UAVariable, TTD:6099, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1178,10 +1434,14 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7020, CloseAndCommit ]
         - HasComponent:
           - [ UAMethod, TTD:7021, GenerateFileForRead ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5047, ResultTransfer ]
           - HasProperty:
             - [ UAVariable, TTD:6100, InputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1190,6 +1450,8 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7021, GenerateFileForRead ]
           - HasProperty:
             - [ UAVariable, TTD:6101, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1200,10 +1462,14 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7021, GenerateFileForRead ]
         - HasComponent:
           - [ UAMethod, TTD:7022, GenerateFileForWrite ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAObject, TTD:5047, ResultTransfer ]
           - HasProperty:
             - [ UAVariable, TTD:6102, InputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1212,6 +1478,8 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7022, GenerateFileForWrite ]
           - HasProperty:
             - [ UAVariable, TTD:6103, OutputArguments, Argument, 1, 0 ]
             - Arguments:
@@ -1221,42 +1489,60 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAMethod, TTD:7022, GenerateFileForWrite ]
+        - HasComponent_reverse:
+          - [ UAObject, TTD:5041, ResultManagement ]
+      - HasAddIn_reverse:
+        - [ UAObject, TTD:5045, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, TTD:5049, MachineStatistics ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, TTD:1012, MachineStatisticsType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
     - HasStatisticComponent:
       - [ UAVariable, TTD:6141, TotalExecutingTime, Duration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStatisticComponent_reverse:
+        - [ UAObject, TTD:5049, MachineStatistics ]
     - HasStatisticComponent:
       - [ UAVariable, TTD:6142, TotalNotAvailableTime, Duration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStatisticComponent_reverse:
+        - [ UAObject, TTD:5049, MachineStatistics ]
     - HasStatisticComponent:
       - [ UAVariable, TTD:6143, TotalNotExecutingTime, Duration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStatisticComponent_reverse:
+        - [ UAObject, TTD:5049, MachineStatistics ]
     - HasStatisticComponent:
       - [ UAVariable, TTD:6144, TotalOutOfServiceTime, Duration, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStatisticComponent_reverse:
+        - [ UAObject, TTD:5049, MachineStatistics ]
   - HasComponent:
     - [ UAObject, TTD:5050, Notification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, MachineTool:7, NotificationType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
   - HasComponent:
     - [ UAObject, TTD:5051, RecipeManagement ]
     - HasModellingRule:
@@ -1267,6 +1553,8 @@ DefinedTypes:
       - [ UAMethod, TTD:7014, GetRecipeIds ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, TTD:5051, RecipeManagement ]
       - HasProperty:
         - [ UAVariable, TTD:6145, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1275,15 +1563,25 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, TTD:7014, GetRecipeIds ]
     - HasProperty:
       - [ UAVariable, TTD:6017, RecipeIds, RecipeIdDataType, 1, 3 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, TTD:5051, RecipeManagement ]
+    - HasComponent_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
   - HasProperty:
     - [ UAVariable, TTD:6146, TestProcedureIds, TestProcedureIdDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, TTD:1010, TextileTestingDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

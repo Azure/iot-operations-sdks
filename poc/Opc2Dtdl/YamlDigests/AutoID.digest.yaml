@@ -237,33 +237,47 @@ DefinedTypes:
   - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
   - HasProperty:
     - [ UAVariable, AutoID:6199, GeographicalUnit, EUInformation, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, AutoID:6197, LengthUnit, EUInformation, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
   - HasProperty:
     - [ UAVariable, AutoID:6198, RotationalUnit, EUInformation, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
   - HasProperty:
     - [ UAVariable, AutoID:6200, SpeedUnit, EUInformation, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
 
   AutoIdDiagnosticsEventType:
   - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6090, DeviceName, String, 0, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -273,18 +287,28 @@ DefinedTypes:
   - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6091, AccessResult, AccessResult, 1, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6092, Client, String, 0, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, AutoID:6093, Command, String, 0, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -294,27 +318,49 @@ DefinedTypes:
   - [ UAObjectType, AutoID:1016, RfidAccessEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6094, AccessResult, RfidAccessResult, 1, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1016, RfidAccessEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
 
   AutoIdLogEntryEventType:
   - [ UAObjectType, AutoID:1017, AutoIdLogEntryEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
 
   AutoIdPresenceEventType:
   - [ UAObjectType, AutoID:1018, AutoIdPresenceEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1010, AutoIdDiagnosticsEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6095, Presence, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1018, AutoIdPresenceEventType ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
 
   AutoIdScanEventType:
   - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6049, DeviceName, String, 0, 0 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -325,60 +371,96 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
 
   OcrScanEventType:
   - [ UAObjectType, AutoID:1005, OcrScanEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1002, OcrReaderDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6041, ScanResult, OcrScanResult, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1005, OcrScanEventType ]
 
   OpticalScanEventType:
   - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
   - HasProperty:
     - [ UAVariable, AutoID:6147, ScanResult, OpticalScanResult, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
 
   OpticalVerifierScanEventType:
   - [ UAObjectType, AutoID:1013, OpticalVerifierScanEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1011, OpticalVerifierDeviceType ]
   - HasProperty:
     - [ UAVariable, AutoID:6227, ScanResult, OpticalVerifierScanResult, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1013, OpticalVerifierScanEventType ]
 
   RfidScanEventType:
   - [ UAObjectType, AutoID:1006, RfidScanEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6042, ScanResult, RfidScanResult, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1006, RfidScanEventType ]
 
   RtlsLocationEventType:
   - [ UAObjectType, AutoID:1014, RtlsLocationEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
   - HasProperty:
     - [ UAVariable, AutoID:6228, ScanResult, RtlsLocationResult, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1014, RtlsLocationEventType ]
 
   AutoIdDeviceType:
   - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1015, AutoIdAccessEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1017, AutoIdLogEntryEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6193, AutoIdModelVersion, String, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -389,24 +471,32 @@ DefinedTypes:
     - [ UAObjectType, AutoID:1004, AutoIdScanEventType ]
   - HasProperty:
     - [ UAVariable, AutoID:6026, DeviceInfo, String, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAVariable, AutoID:6128, DeviceLocation, Location, 0, 3 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasTypeDefinition:
       - [ UAVariableType, AutoID:2002, LocationVariableType, Location, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, AutoID:6127, DeviceLocationName, String, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasProperty:
     - [ UAVariable, AutoID:6124, DeviceName, String, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -415,10 +505,14 @@ DefinedTypes:
     - [ UAVariable, AutoID:6030, DeviceStatus, DeviceStatusEnumeration, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
     - [ UAObject, AutoID:5026, Diagnostics ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasComponent:
@@ -427,12 +521,16 @@ DefinedTypes:
         - [ UAVariable, AutoID:6103, Client, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5027, LastAccess ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, AutoID:6104, Command, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5027, LastAccess ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
@@ -441,8 +539,12 @@ DefinedTypes:
         - [ UAVariable, AutoID:6105, Identifier ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5027, LastAccess ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5026, Diagnostics ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -451,6 +553,8 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5027, LastAccess ]
     - HasComponent:
       - [ UAObject, AutoID:5032, Logbook ]
       - HasTypeDefinition:
@@ -459,12 +563,18 @@ DefinedTypes:
         - [ UAVariable, AutoID:6102, LastLogEntry, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5032, Logbook ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5026, Diagnostics ]
       - HasComponent:
         - [ UAVariable, AutoID:6101, LogColumns, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5032, Logbook ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasModellingRule:
@@ -477,8 +587,12 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5026, Diagnostics ]
   - HasComponent:
     - [ UAMethod, AutoID:7042, GetDeviceLocation ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasProperty:
       - [ UAVariable, AutoID:6130, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -487,6 +601,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7042, GetDeviceLocation ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -497,30 +613,42 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7042, GetDeviceLocation ]
   - HasComponent:
     - [ UAObject, AutoID:5054, IOData ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, AutoID:6055, LastScanData ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, AutoID:6096, LastScanTimestamp, UtcTime, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAObject, AutoID:5044, RuntimeParameters ]
     - HasComponent:
       - [ UAVariable, AutoID:6107, CodeTypes, UInt32, 1, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5044, RuntimeParameters ]
       - HasProperty:
         - [ UAVariable, AutoID:6108, EnumStrings, LocalizedText, 1, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, AutoID:6107, CodeTypes, UInt32, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -533,36 +661,48 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
     - HasComponent:
       - [ UAObject, AutoID:5033, ScanSettings ]
       - HasComponent:
         - [ UAVariable, AutoID:6109, CodeType, CodeTypeDataType, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5033, ScanSettings ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, AutoID:6111, Cycles, Int32, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5033, ScanSettings ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, AutoID:6110, DataAvailable, Boolean, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5033, ScanSettings ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasComponent:
         - [ UAVariable, AutoID:6112, Duration, Duration, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5033, ScanSettings ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, DI:1005, FunctionalGroupType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5044, RuntimeParameters ]
   - HasComponent:
     - [ UAMethod, AutoID:7008, Scan ]
     - HasProperty:
@@ -573,6 +713,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7008, Scan ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -584,12 +726,18 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7008, Scan ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - HasComponent:
     - [ UAVariable, AutoID:6099, ScanActive, Boolean, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - HasComponent:
     - [ UAMethod, AutoID:7009, ScanStart ]
     - HasProperty:
@@ -600,6 +748,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7009, ScanStart ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -610,10 +760,16 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7009, ScanStart ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - HasComponent:
     - [ UAMethod, AutoID:7010, ScanStop ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
 
   OcrReaderDeviceType:
   - [ UAObjectType, AutoID:1002, OcrReaderDeviceType ]
@@ -621,8 +777,12 @@ DefinedTypes:
     - [ UAObject, AutoID:5006, Images ]
     - Organizes:
       - [ UAObject, AutoID:5021, <ImageName> ]
+      - Organizes_reverse:
+        - [ UAObject, AutoID:5006, Images ]
       - HasComponent:
         - [ UAMethod, AutoID:7011, Close ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
         - HasProperty:
           - [ UAVariable, AutoID:6072, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -631,12 +791,16 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7011, Close ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, 11575, FileType ]
       - HasComponent:
         - [ UAMethod, AutoID:7012, GetPosition ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
         - HasProperty:
           - [ UAVariable, AutoID:6073, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -645,6 +809,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7012, GetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
@@ -655,6 +821,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7012, GetPosition ]
       - HasComponent:
         - [ UAMethod, AutoID:7019, Open ]
         - HasProperty:
@@ -665,8 +833,12 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7019, Open ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
         - HasProperty:
           - [ UAVariable, AutoID:6077, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -675,10 +847,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7019, Open ]
       - HasProperty:
         - [ UAVariable, AutoID:6078, OpenCount, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -694,6 +870,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7020, Read ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
@@ -704,6 +882,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7020, Read ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
       - HasComponent:
         - [ UAMethod, AutoID:7021, SetPosition ]
         - HasProperty:
@@ -715,26 +897,36 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7021, SetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
       - HasProperty:
         - [ UAVariable, AutoID:6082, Size, UInt64, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
       - HasProperty:
         - [ UAVariable, AutoID:6083, UserWritable, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
       - HasProperty:
         - [ UAVariable, AutoID:6084, Writable, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
       - HasComponent:
         - [ UAMethod, AutoID:7022, Write ]
         - HasProperty:
@@ -746,12 +938,20 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7022, Write ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5021, <ImageName> ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1002, OcrReaderDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1005, OcrScanEventType ]
   - HasComponent:
@@ -762,16 +962,22 @@ DefinedTypes:
       - [ UAVariable, AutoID:6134, MatchCode, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5043, RuntimeParameters ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1002, OcrReaderDeviceType ]
     - HasComponent:
       - [ UAVariable, AutoID:6133, TemplateName, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5043, RuntimeParameters ]
   - HasComponent:
     - [ UAMethod, AutoID:7001, Scan ]
     - HasProperty:
@@ -782,6 +988,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7001, Scan ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -793,6 +1001,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7001, Scan ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1002, OcrReaderDeviceType ]
 
   OpticalReaderDeviceType:
   - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
@@ -800,8 +1012,12 @@ DefinedTypes:
     - [ UAObject, AutoID:5001, Images ]
     - Organizes:
       - [ UAObject, AutoID:5020, <ImageName> ]
+      - Organizes_reverse:
+        - [ UAObject, AutoID:5001, Images ]
       - HasComponent:
         - [ UAMethod, AutoID:7002, Close ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
         - HasProperty:
           - [ UAVariable, AutoID:6002, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -810,12 +1026,16 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7002, Close ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAObjectType, 11575, FileType ]
       - HasComponent:
         - [ UAMethod, AutoID:7003, GetPosition ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
         - HasProperty:
           - [ UAVariable, AutoID:6003, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -824,6 +1044,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7003, GetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
@@ -834,6 +1056,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7003, GetPosition ]
       - HasComponent:
         - [ UAMethod, AutoID:7004, Open ]
         - HasProperty:
@@ -844,8 +1068,12 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7004, Open ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
         - HasProperty:
           - [ UAVariable, AutoID:6006, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -854,10 +1082,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7004, Open ]
       - HasProperty:
         - [ UAVariable, AutoID:6007, OpenCount, UInt16, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
@@ -873,6 +1105,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7005, Read ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasProperty:
@@ -883,6 +1117,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7005, Read ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
       - HasComponent:
         - [ UAMethod, AutoID:7006, SetPosition ]
         - HasProperty:
@@ -894,26 +1132,36 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7006, SetPosition ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
       - HasProperty:
         - [ UAVariable, AutoID:6011, Size, UInt64, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
       - HasProperty:
         - [ UAVariable, AutoID:6012, UserWritable, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
       - HasProperty:
         - [ UAVariable, AutoID:6013, Writable, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
       - HasComponent:
         - [ UAMethod, AutoID:7007, Write ]
         - HasProperty:
@@ -925,12 +1173,20 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, AutoID:7007, Write ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5020, <ImageName> ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1009, OpticalScanEventType ]
   - HasComponent:
@@ -941,16 +1197,22 @@ DefinedTypes:
       - [ UAVariable, AutoID:6136, MatchCode, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5045, RuntimeParameters ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
     - HasComponent:
       - [ UAVariable, AutoID:6135, TemplateName, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5045, RuntimeParameters ]
   - HasComponent:
     - [ UAMethod, AutoID:7043, Scan ]
     - HasProperty:
@@ -961,6 +1223,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7043, Scan ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -972,9 +1236,15 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7043, Scan ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
 
   OpticalVerifierDeviceType:
   - [ UAObjectType, AutoID:1011, OpticalVerifierDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1008, OpticalReaderDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1013, OpticalVerifierScanEventType ]
   - HasComponent:
@@ -987,6 +1257,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7054, Scan ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -998,23 +1270,33 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7054, Scan ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1011, OpticalVerifierDeviceType ]
 
   RfidReaderDeviceType:
   - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
   - HasProperty:
     - [ UAVariable, AutoID:6048, AntennaNames, AntennaNameIdPair, 1, 3 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAObject, AutoID:5038, Diagnostics ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
     - HasTypeDefinition:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasComponent:
       - [ UAObject, AutoID:5039, LastAccess ]
       - HasComponent:
         - [ UAVariable, AutoID:6114, Antenna, Int32, 0, 3 ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5039, LastAccess ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
@@ -1023,10 +1305,14 @@ DefinedTypes:
         - [ UAVariable, AutoID:6115, CurrentPowerLevel, Int32, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5039, LastAccess ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5038, Diagnostics ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasComponent:
@@ -1035,24 +1321,32 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5039, LastAccess ]
       - HasComponent:
         - [ UAVariable, AutoID:6117, Polarization, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5039, LastAccess ]
       - HasComponent:
         - [ UAVariable, AutoID:6113, RWData ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5039, LastAccess ]
       - HasComponent:
         - [ UAVariable, AutoID:6118, Strength, Int32, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, AutoID:5039, LastAccess ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -1067,6 +1361,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7017, KillTag ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1077,16 +1375,22 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7017, KillTag ]
   - HasComponent:
     - [ UAVariable, AutoID:6097, LastScanAntenna, Int32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
     - [ UAVariable, AutoID:6098, LastScanRSSI, Int32, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
@@ -1105,6 +1409,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7018, LockTag ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1115,6 +1423,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7018, LockTag ]
   - HasComponent:
     - [ UAMethod, AutoID:7014, ReadTag ]
     - HasProperty:
@@ -1130,6 +1440,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7014, ReadTag ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1141,16 +1453,26 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7014, ReadTag ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1016, RfidAccessEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1006, RfidScanEventType ]
   - HasComponent:
     - [ UAObject, AutoID:5042, RuntimeParameters ]
     - HasComponent:
       - [ UAVariable, AutoID:6119, CodeTypesRWData, UInt32, 1, 3 ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5042, RuntimeParameters ]
       - HasProperty:
         - [ UAVariable, AutoID:6120, EnumStrings, LocalizedText, 1, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, AutoID:6119, CodeTypesRWData, UInt32, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1163,6 +1485,8 @@ DefinedTypes:
       - [ UAVariable, AutoID:6126, EnableAntennas, UInt32, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5042, RuntimeParameters ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
@@ -1171,6 +1495,8 @@ DefinedTypes:
       - [ UAVariable, AutoID:6146, MinRssi, Int32, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5042, RuntimeParameters ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasModellingRule:
@@ -1181,10 +1507,16 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5042, RuntimeParameters ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
     - HasComponent:
       - [ UAVariable, AutoID:6121, TagTypes, UInt32, 1, 3 ]
       - HasProperty:
         - [ UAVariable, AutoID:6125, EnumStrings, LocalizedText, 1, 0 ]
+        - HasProperty_reverse:
+          - [ UAVariable, AutoID:6121, TagTypes, UInt32, 1, 3 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
@@ -1193,6 +1525,8 @@ DefinedTypes:
         - [ UAVariableType, 2376, MultiStateDiscreteType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, AutoID:5042, RuntimeParameters ]
   - HasComponent:
     - [ UAMethod, AutoID:7013, Scan ]
     - HasProperty:
@@ -1203,6 +1537,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7013, Scan ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1214,6 +1550,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7013, Scan ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
   - HasComponent:
     - [ UAMethod, AutoID:7016, SetTagPassword ]
     - HasProperty:
@@ -1228,6 +1568,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7016, SetTagPassword ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1238,6 +1580,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7016, SetTagPassword ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
   - HasComponent:
     - [ UAMethod, AutoID:7015, WriteTag ]
     - HasProperty:
@@ -1253,6 +1599,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7015, WriteTag ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1263,6 +1611,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7015, WriteTag ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
   - HasComponent:
     - [ UAMethod, AutoID:7023, WriteTagID ]
     - HasProperty:
@@ -1278,6 +1630,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7023, WriteTagID ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1288,17 +1642,25 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7023, WriteTagID ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1003, RfidReaderDeviceType ]
 
   RtlsDeviceType:
   - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
   - HasProperty:
     - [ UAVariable, AutoID:6214, GeographicalUnit, EUInformation, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
   - HasComponent:
     - [ UAMethod, AutoID:7056, GetLocation ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
     - HasProperty:
       - [ UAVariable, AutoID:6224, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1309,6 +1671,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7056, GetLocation ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1319,8 +1683,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7056, GetLocation ]
   - HasComponent:
     - [ UAMethod, AutoID:7058, GetSupportedLocationTypes ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1331,12 +1699,18 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7058, GetSupportedLocationTypes ]
   - HasComponent:
     - [ UAMethod, AutoID:7057, GetUnits ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasProperty:
     - [ UAVariable, AutoID:6217, LengthUnit, EUInformation, 0, 3 ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -1347,6 +1721,10 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, AutoID:1001, AutoIdDeviceType ]
   - GeneratesEvent:
     - [ UAObjectType, AutoID:1014, RtlsLocationEventType ]
   - HasComponent:
@@ -1359,6 +1737,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7055, Scan ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1370,9 +1750,15 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, AutoID:7055, Scan ]
+    - HasComponent_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]
   - HasProperty:
     - [ UAVariable, AutoID:6215, SpeedUnit, EUInformation, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, AutoID:1012, RtlsDeviceType ]

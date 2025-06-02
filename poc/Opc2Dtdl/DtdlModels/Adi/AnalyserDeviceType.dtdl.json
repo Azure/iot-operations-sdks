@@ -5,25 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Adi:AnalyserDeviceType;1",
+  "@id": "dtmi:opcua:ADI:AnalyserDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DI:DeviceType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "ParameterSet"
-    },
-    {
-      "@type": "Relationship",
-      "name": "MethodSet"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Identification",
-      "target": "dtmi:opcua:DI:FunctionalGroupType"
-    },
     {
       "@type": "Relationship",
       "name": "Configuration",

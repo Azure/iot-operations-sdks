@@ -5,9 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Fdi5:DirectDeviceAccessType;1",
+  "@id": "dtmi:opcua:FDI5:DirectDeviceAccessType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Fdi5/DirectDeviceAccessType/{commandName}",
+  "commandTopic": "opcua/FDI5/DirectDeviceAccessType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

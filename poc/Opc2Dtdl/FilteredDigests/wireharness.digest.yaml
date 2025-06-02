@@ -678,6 +678,23 @@ DefinedTypes:
           ArticleSpec: [ ISA95MaterialDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  ProductFinishedEventType:
+  - [ UAObjectType, WireHarness:1005, ProductFinishedEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+
+  RunCompleteEventType:
+  - [ UAObjectType, WireHarness:1008, RunCompleteEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+
+  WireHarnessMachineIdentificationType:
+  - [ UAObjectType, WireHarness:1003, WireHarnessMachineIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
 
   PartManagementType:
   - [ UAObjectType, WireHarness:1004, PartManagementType ]
@@ -733,6 +750,8 @@ DefinedTypes:
     - [ UAVariable, WireHarness:6027, Wires, ISA95MaterialDataType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   WireHarnessJobOrderReceiverSubStatesType:
   - [ UAObjectType, WireHarness:1006, WireHarnessJobOrderReceiverSubStatesType ]
@@ -855,6 +874,8 @@ DefinedTypes:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
 
   WireHarnessMachineType:
   - [ UAObjectType, WireHarness:1000, WireHarnessMachineType ]
@@ -876,3 +897,5 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, WireHarness:1004, PartManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

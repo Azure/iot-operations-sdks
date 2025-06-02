@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnEnc:EncoderAxisConfigType;1",
+  "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/PnEnc/EncoderAxisConfigType/{commandName}",
+  "commandTopic": "opcua/PNENC/EncoderAxisConfigType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:PnEnc:EncoderAxisConfigType:dataType:KeyValuePair;1",
+      "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1",
       "@type": "Object",
       "fields": [
         {
@@ -57,7 +57,7 @@
               "name": "AxisConfigParameters",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:EncoderAxisConfigType:dataType:KeyValuePair;1"
+                "elementSchema": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1"
               }
             }
           ]
@@ -73,7 +73,7 @@
               "name": "AxisConfigParametersResult",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:PnEnc:EncoderAxisConfigType:dataType:KeyValuePair;1"
+                "elementSchema": "dtmi:opcua:PNENC:EncoderAxisConfigType:dataType:KeyValuePair;1"
               }
             }
           ]

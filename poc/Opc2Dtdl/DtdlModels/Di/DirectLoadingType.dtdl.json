@@ -5,12 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Di:DirectLoadingType;1",
+  "@id": "dtmi:opcua:DI:DirectLoadingType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DI:PackageLoadingType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:Di:DirectLoadingType:dataType:UpdateBehavior;1",
+      "@id": "dtmi:opcua:DI:DirectLoadingType:dataType:UpdateBehavior;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -41,7 +42,7 @@
     {
       "@type": "Property",
       "name": "UpdateBehavior",
-      "schema": "dtmi:opcua:Di:DirectLoadingType:dataType:UpdateBehavior;1",
+      "schema": "dtmi:opcua:DI:DirectLoadingType:dataType:UpdateBehavior;1",
       "writable": false
     }
   ]

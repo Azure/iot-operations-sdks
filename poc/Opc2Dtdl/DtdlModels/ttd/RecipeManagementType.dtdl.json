@@ -5,18 +5,18 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:ttd:RecipeManagementType;1",
+  "@id": "dtmi:opcua:TTD:RecipeManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/ttd/RecipeManagementType/{commandName}",
+  "commandTopic": "opcua/TTD/RecipeManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1",
+      "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1",
       "@type": "Object",
       "fields": [
         {
           "name": "RecipeId",
-          "schema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeIdDataType;1"
+          "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
         },
         {
           "name": "RecipeContent",
@@ -29,7 +29,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeIdDataType;1",
+      "@id": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -109,7 +109,7 @@
           "fields": [
             {
               "name": "Recipe",
-              "schema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+              "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
             }
           ]
         }
@@ -128,7 +128,7 @@
               "name": "RecipeIds",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeIdDataType;1"
+                "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
               }
             }
           ]
@@ -148,7 +148,7 @@
               "name": "Recipes",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+                "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
               }
             }
           ]
@@ -166,7 +166,7 @@
           "fields": [
             {
               "name": "Recipe",
-              "schema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+              "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
             },
             {
               "name": "Overwrite",
@@ -189,7 +189,7 @@
               "name": "Recipes",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:ttd:RecipeManagementType:dataType:RecipeDataType;1"
+                "elementSchema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
               }
             },
             {

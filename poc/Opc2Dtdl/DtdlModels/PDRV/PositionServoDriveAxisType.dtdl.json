@@ -1,0 +1,35 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:PDRV:PositionServoDriveAxisType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PDRV:DriveAxisType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "EncoderChannelAuxiliary",
+      "target": "dtmi:opcua:PNENC:EncoderChannelType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EncoderChannelMechanic",
+      "target": "dtmi:opcua:PNENC:EncoderChannelType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EncoderChannelMotor",
+      "target": "dtmi:opcua:PNENC:EncoderChannelType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Homing"
+    }
+  ]
+}

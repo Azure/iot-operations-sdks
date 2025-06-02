@@ -91,6 +91,11 @@ DataTypes:
 
 DefinedTypes:
 
+  ISA95JobOrderStatusEventType:
+  - [ UAObjectType, isa95-jobcontrol:1006, ISA95JobOrderStatusEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+
   ISA95JobResponseProviderObjectType:
   - [ UAObjectType, isa95-jobcontrol:1003, ISA95JobResponseProviderObjectType ]
   - HasComponent:
@@ -114,6 +119,8 @@ DefinedTypes:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
     - [ UAMethod, isa95-jobcontrol:7014, RequestJobResponseByJobOrderState ]
     - HasModellingRule:
@@ -150,6 +157,8 @@ DefinedTypes:
           ReturnStatus: [ UInt64, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   ISA95EndedStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1005, ISA95EndedStateMachineType ]
@@ -165,6 +174,8 @@ DefinedTypes:
     - [ UAObject, isa95-jobcontrol:5058, FromCompletedToClosed ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   ISA95InterruptedStateMachineType:
   - [ UAObjectType, isa95-jobcontrol:1007, ISA95InterruptedStateMachineType ]
@@ -184,6 +195,8 @@ DefinedTypes:
     - [ UAObject, isa95-jobcontrol:5060, Suspended ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   ISA95JobOrderReceiverObjectType:
   - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
@@ -478,6 +491,8 @@ DefinedTypes:
     - [ UAVariable, isa95-jobcontrol:6034, WorkMaster, ISA95WorkMasterDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
 
   ISA95JobOrderReceiverSubStatesType:
   - [ UAObjectType, isa95-jobcontrol:1008, ISA95JobOrderReceiverSubStatesType ]
@@ -567,6 +582,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, isa95-jobcontrol:1007, ISA95InterruptedStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, isa95-jobcontrol:1002, ISA95JobOrderReceiverObjectType ]
   - HasComponent:
     - [ UAObject, isa95-jobcontrol:5063, NotAllowedToStart ]
     - HasTypeDefinition:
@@ -616,3 +633,5 @@ DefinedTypes:
     - [ UAObject, isa95-jobcontrol:5000, Waiting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]

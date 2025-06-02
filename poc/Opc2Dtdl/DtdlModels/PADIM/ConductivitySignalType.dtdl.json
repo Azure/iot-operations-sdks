@@ -7,17 +7,10 @@
   ],
   "@id": "dtmi:opcua:PADIM:ConductivitySignalType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "SignalCalibrationIdentifier"
-    },
-    {
-      "@type": "Relationship",
-      "name": "SignalConditionSet"
-    }
   ]
 }

@@ -1,0 +1,110 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Scales_V2:CatchweigherProductType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Scales_V2:ProductType;1",
+  "commandTopic": "opcua/Scales_V2/CatchweigherProductType/{commandName}",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "PresetHeight",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PresetLength",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "PresetWidth",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "TargetThroughput",
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Command",
+      "name": "AddZone",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ZoneName",
+              "schema": "string"
+            },
+            {
+              "name": "LowerLimit",
+              "schema": "double"
+            },
+            {
+              "name": "UpperLimit",
+              "schema": "double"
+            },
+            {
+              "name": "EngineeringUnits",
+              "schema": "string"
+            }
+          ]
+        }
+      },
+      "response": {
+        "@type": [ "CommandResponse", "Transparent" ],
+        "name": "output",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ZoneNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "RemoveZone",
+      "request": {
+        "@type": [ "CommandRequest", "Transparent" ],
+        "name": "input",
+        "schema": {
+          "@type": "Object",
+          "fields": [
+            {
+              "name": "ZoneNodeId",
+              "schema": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "@type": "Relationship",
+      "name": "Zones",
+      "target": "dtmi:opcua:Scales_V2:ZoneType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LastItem",
+      "target": "dtmi:opcua:Scales_V2:WeighingItemType"
+    }
+  ]
+}

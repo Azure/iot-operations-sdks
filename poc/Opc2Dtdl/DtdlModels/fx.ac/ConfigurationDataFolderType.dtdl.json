@@ -5,18 +5,19 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:ConfigurationDataFolderType;1",
+  "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/fx_ac/ConfigurationDataFolderType/{commandName}",
+  "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+  "commandTopic": "opcua/FX_AC/ConfigurationDataFolderType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdValuePair;1",
+      "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdValuePair;1",
       "@type": "Object",
       "fields": [
         {
           "name": "Key",
-          "schema": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdArray;1"
+          "schema": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdArray;1"
         },
         {
           "name": "Value",
@@ -25,7 +26,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdArray;1",
+      "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdArray;1",
       "@type": "Object",
       "fields": [
         {
@@ -92,7 +93,7 @@
               "name": "StoredVariables",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:fx_ac:ConfigurationDataFolderType:dataType:NodeIdValuePair;1"
+                "elementSchema": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdValuePair;1"
               }
             }
           ]

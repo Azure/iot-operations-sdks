@@ -5,20 +5,12 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Adi:SpectrometerDeviceType;1",
+  "@id": "dtmi:opcua:ADI:SpectrometerDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:ADI:AnalyserDeviceType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "ParameterSet"
-    },
-    {
-      "@type": "Relationship",
-      "name": "FactorySettings",
-      "target": "dtmi:opcua:DI:FunctionalGroupType"
-    }
   ]
 }

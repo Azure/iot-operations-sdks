@@ -7,14 +7,10 @@
   ],
   "@id": "dtmi:opcua:CAS:AirnetsType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:Machinery:MachineComponentsType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "Component",
-      "target": "dtmi:opcua:CAS:AirnetType"
-    }
   ]
 }

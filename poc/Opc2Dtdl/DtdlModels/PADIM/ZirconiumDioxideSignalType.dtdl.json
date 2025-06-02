@@ -7,13 +7,10 @@
   ],
   "@id": "dtmi:opcua:PADIM:ZirconiumDioxideSignalType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:PADIM:AnalyticalSignalType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "SignalConditionSet"
-    }
   ]
 }

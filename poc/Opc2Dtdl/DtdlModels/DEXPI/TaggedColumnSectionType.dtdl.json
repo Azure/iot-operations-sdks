@@ -7,34 +7,11 @@
   ],
   "@id": "dtmi:opcua:DEXPI:TaggedColumnSectionType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DEXPI:EquipmentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Property",
-      "name": "TagNameAssignmentClass",
-      "schema": "string",
-      "writable": true
-    },
-    {
-      "@type": "Property",
-      "name": "TagNamePrefixAssignmentClass",
-      "schema": "string",
-      "writable": true
-    },
-    {
-      "@type": "Property",
-      "name": "TagNameSequenceNumberAssignmentClass",
-      "schema": "string",
-      "writable": true
-    },
-    {
-      "@type": "Property",
-      "name": "TagNameSuffixAssignmentClass",
-      "schema": "string",
-      "writable": true
-    },
     {
       "@type": "Property",
       "name": "Height",

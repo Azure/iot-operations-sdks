@@ -1,0 +1,42 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:BACnet_V2:BACnetBinaryType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Present_Value",
+      "schema": "boolean",
+      "writable": true
+    },
+    {
+      "@type": "Relationship",
+      "name": "ChangeOfState",
+      "target": "dtmi:opcua:BACnet_V2:BACnetChangeOfStateCountType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "ElapsedActiveTime",
+      "target": "dtmi:opcua:BACnet_V2:BACnetElapsedActiveTimeType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "EventReporting",
+      "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "FaultEvaluation",
+      "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
+    }
+  ]
+}

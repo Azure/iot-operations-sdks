@@ -1,0 +1,3235 @@
+DataTypes:
+- UADataType: [ TMC.v2:3007, CommandEnumeration ]
+  Enums:
+    Abort: 0
+    Start: 1
+    Stop: 2
+    Reset: 3
+    Hold: 4
+    Unhold: 5
+    Clear: 6
+    Suspend: 7
+    Unsuspend: 8
+- UADataType: [ TMC.v2:3023, ControlModeEnumeration ]
+  Enums:
+    OTHER: 0
+    PRODUCTION: 1
+    MAINTENANCE: 2
+    MANUAL: 3
+    CHANGE OVER: 4
+    CLEAN: 5
+    SET UP: 6
+    EMPTY OUT: 7
+    REMOTE SERVICE: 8
+- UADataType: [ TMC.v2:3020, MaterialIntegrityAgentEnumeration ]
+  Enums:
+    None: 0
+    Local: 1
+    External: 2
+- UADataType: [ TMC.v2:3039, MaterialStockStatusEnumeration ]
+  Enums:
+    Unrestricted: 0
+    QualityInspection: 1
+    Blocked: 2
+- UADataType: [ TMC.v2:3040, MaterialValidationStatusEnumeration ]
+  Enums:
+    None: 0
+    Waiting: 1
+    Passed: 2
+    Failed: 3
+- UADataType: [ TMC.v2:3026, MotorDirectionEnumeration ]
+  Enums:
+    Clockwise: 0
+    CounterClockwise: 1
+- UADataType: [ TMC.v2:3005, ParameterDependencyEnumeration ]
+  Enums:
+    Machine: 0
+    Brand: 1
+    Machine and Brand: 2
+- UADataType: [ TMC.v2:3017, ProductionStatusEnumeration ]
+  Enums:
+    Other: 0
+    BrandChange: 1
+    Production: 2
+    NoProduction: 3
+- UADataType: [ TMC.v2:3008, StateEnumeration ]
+  Enums:
+    Stopped: 0
+    Resetting: 1
+    Idle: 2
+    Starting: 3
+    Execute: 4
+    Completing: 5
+    Complete: 6
+    Aborting: 7
+    Aborted: 8
+    Stopping: 9
+    Clearing: 10
+    Suspending: 11
+    Suspended: 12
+    Unsuspending: 13
+    Holding: 14
+    Held: 15
+    Unholding: 16
+- UADataType: [ TMC.v2:3015, StorageLogicEnumeration ]
+  Enums:
+    Other: 0
+    FIFO: 1
+    LIFO: 2
+    FEFO: 3
+- UADataType: [ TMC.v2:3035, StorageMixingLogicEnumeration ]
+  Enums:
+    Mixing: 0
+    NonMixingByProduct: 1
+    NonMixingByBatch: 2
+- UADataType: [ TMC.v2:3019, DataDescriptionType ]
+  Fields:
+    ID: [ String, 0 ]
+    MES_ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ TMC.v2:3003, DataDefinitionType ]
+  Fields:
+    EngineeringUnits: [ EUInformation, 0 ]
+    DisplayFormat: [ String, 0 ]
+    Dependency: [ ParameterDependencyEnumeration, 0 ]
+    DataType: [ String, 0 ]
+    UserSubset: [ Boolean, 0 ]
+    ControlRange: [ Range, 0 ]
+    AlarmRange: [ Range, 0 ]
+- UADataType: [ TMC.v2:3011, DataValueType ]
+  Bases:
+  - DataDescriptionType
+- UADataType: [ TMC.v2:3021, DataSetDefinitionType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Definitions: [ DataDefinitionType, 1 ]
+- UADataType: [ TMC.v2:3004, DataSetEntryType ]
+  Fields:
+    ID: [ String, 0 ]
+    Value: [ null, 0 ]
+- UADataType: [ TMC.v2:3018, DataSetType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Values: [ DataSetEntryType, 1 ]
+- UADataType: [ TMC.v2:3010, MaterialDefinitionType ]
+  Fields:
+    ID: [ String, 0 ]
+    MES_ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    BaseUnitOfMeasure: [ EUInformation, 0 ]
+    BatchManaged: [ Boolean, 0 ]
+    GroupID: [ String, 0 ]
+    ParentGroupID: [ String, 0 ]
+    ShelfLife: [ UInt32, 0 ]
+    Properties: [ DataValueType, 1 ]
+- UADataType: [ TMC.v2:3036, MaterialListItemType ]
+  Fields:
+    AssemblyID: [ String, 0 ]
+    MaterialPointID: [ String, 0 ]
+    MaterialPointMES_ID: [ String, 0 ]
+    MaterialSublot: [ MaterialSublotType, 0 ]
+    MaterialStockStatus: [ MaterialStockStatusEnumeration, 0 ]
+    FollowUpMaterials: [ MaterialSublotType, 1 ]
+- UADataType: [ TMC.v2:3037, MaterialListType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    Items: [ MaterialListItemType, 1 ]
+- UADataType: [ TMC.v2:3012, MaterialLotType ]
+  Fields:
+    ID: [ String, 0 ]
+    MES_ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    MaterialDefinition: [ MaterialDefinitionType, 0 ]
+    Status: [ MaterialStockStatusEnumeration, 0 ]
+    ProductionDate: [ UtcTime, 0 ]
+    BestUsedBeforeDate: [ UtcTime, 0 ]
+    Properties: [ DataValueType, 1 ]
+- UADataType: [ TMC.v2:3013, MaterialPointType ]
+  Fields:
+    ID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+    MaterialCapability: [ MaterialDefinitionType, 1 ]
+    ConnectedMaterialPoint: [ ExpandedNodeId, 0 ]
+    PropagatesProductionOrder: [ Boolean, 0 ]
+- UADataType: [ TMC.v2:3014, MaterialStorageBufferDataType ]
+  Fields:
+    ID: [ String, 0 ]
+    StoredMaterial: [ MaterialDefinitionType, 0 ]
+    EngineeringUnits: [ EUInformation, 0 ]
+    TotalStorageCapacity: [ Double, 0 ]
+    StorageLogic: [ StorageLogicEnumeration, 0 ]
+    MixingLogic: [ StorageMixingLogicEnumeration, 0 ]
+- UADataType: [ TMC.v2:3025, MaterialSublotType ]
+  Fields:
+    ID: [ String, 0 ]
+    MES_ID: [ String, 0 ]
+    MaterialLot: [ MaterialLotType, 0 ]
+    MaterialStorageLocationID: [ String, 0 ]
+    Quantity: [ Double, 0 ]
+    CarrierID: [ String, 0 ]
+    RelativePositionID: [ String, 0 ]
+    ParentSublotID: [ String, 0 ]
+    Sublots: [ MaterialSublotType, 1 ]
+- UADataType: [ TMC.v2:3002, MessageType ]
+  Fields:
+    ID: [ String, 0 ]
+    LocalText: [ LocalizedText, 0 ]
+- UADataType: [ TMC.v2:3029, RootCauseMessageType ]
+  Fields:
+    GroupID: [ String, 0 ]
+- UADataType: [ TMC.v2:3009, MethodExecutionFeedbackType ]
+  Fields:
+    Success: [ Boolean, 0 ]
+    Message: [ MessageType, 1 ]
+- UADataType: [ TMC.v2:3016, ProductionOrderHeaderType ]
+  Fields:
+    Number: [ String, 0 ]
+    ProducedMaterial: [ MaterialDefinitionType, 0 ]
+    TargetQuantity: [ Double, 0 ]
+    ContinueAtJobEnd: [ Boolean, 0 ]
+    TargetStartTime: [ UtcTime, 0 ]
+    TargetEndTime: [ UtcTime, 0 ]
+    DataSetID: [ String, 0 ]
+    DataSetDescription: [ LocalizedText, 0 ]
+    MaterialListID: [ String, 0 ]
+    MaterialListDescription: [ LocalizedText, 0 ]
+- UADataType: [ TMC.v2:3038, ProductionOrderType ]
+  Fields:
+    Header: [ ProductionOrderHeaderType, 0 ]
+    MaterialList: [ MaterialListType, 0 ]
+    DataSet: [ DataSetType, 0 ]
+- UADataType: [ TMC.v2:3006, OrchestrationProductionOrderType ]
+  Fields:
+    ActiveMachineModules: [ String, 1 ]
+- UADataType: [ TMC.v2:3030, RootCauseGroupType ]
+  Fields:
+    ID: [ String, 0 ]
+    ParentID: [ String, 0 ]
+    Description: [ LocalizedText, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+- UADataType: [ PackML:11, ProductionMaintenanceModeEnum ]
+  Enums:
+    Invalid: 0
+    Produce: 1
+    Maintenance: 2
+    Manual: 3
+- UADataType: [ PackML:15, PackMLAlarmDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Value: [ Int32, 0 ]
+    Message: [ String, 0 ]
+    Category: [ Int32, 0 ]
+    DateTime: [ UtcTime, 0 ]
+    AckDateTime: [ UtcTime, 0 ]
+    Trigger: [ Boolean, 0 ]
+- UADataType: [ PackML:14, PackMLCountDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Count: [ Int32, 0 ]
+    AccCount: [ Int32, 0 ]
+- UADataType: [ PackML:16, PackMLDescriptorDataType ]
+  Fields:
+    ID: [ Int32, 0 ]
+    Name: [ String, 0 ]
+    Unit: [ EUInformation, 0 ]
+    Value: [ Float, 0 ]
+- UADataType: [ PackML:17, PackMLIngredientsDataType ]
+  Fields:
+    IngredientID: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+- UADataType: [ PackML:18, PackMLProductDataType ]
+  Fields:
+    ProductID: [ Int32, 0 ]
+    ProcessVariables: [ PackMLDescriptorDataType, 1 ]
+    Ingredients: [ PackMLIngredientsDataType, 1 ]
+- UADataType: [ PackML:19, PackMLRemoteInterfaceDataType ]
+  Fields:
+    Number: [ Int32, 0 ]
+    ControlCmdNumber: [ Int32, 0 ]
+    CmdValue: [ Int32, 0 ]
+    Parameter: [ PackMLDescriptorDataType, 1 ]
+
+DefinedTypes:
+
+  ExternalAlarmType:
+  - [ UAObjectType, TMC.v2:1048, ExternalAlarmType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:10315, SetMessage ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:10316, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Message: [ LocalizedText, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:10317, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 10523, DiscreteAlarmType ]
+
+  LogbookEventType:
+  - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+
+  CarrierEnteredLogType:
+  - [ UAObjectType, TMC.v2:1085, CarrierEnteredLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  CarrierReleasedLogType:
+  - [ UAObjectType, TMC.v2:1087, CarrierReleasedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  CarrierSublotsChangeLogType:
+  - [ UAObjectType, TMC.v2:1055, CarrierSublotsChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  MachineContextLogType:
+  - [ UAObjectType, TMC.v2:1089, MachineContextLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  ControlModeChangeLogType:
+  - [ UAObjectType, TMC.v2:1010, ControlModeChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1089, MachineContextLogType ]
+
+  MachineModuleSpecificationChangeLogType:
+  - [ UAObjectType, TMC.v2:1022, MachineModuleSpecificationChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1089, MachineContextLogType ]
+
+  ProductionContextLogType:
+  - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1089, MachineContextLogType ]
+
+  DataSetChangeLogType:
+  - [ UAObjectType, TMC.v2:1017, DataSetChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  DefectDetectedLogType:
+  - [ UAObjectType, TMC.v2:1026, DefectDetectedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  DetectionModeChangeLogType:
+  - [ UAObjectType, TMC.v2:1045, DetectionModeChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  DowntimeLogType:
+  - [ UAObjectType, TMC.v2:1024, DowntimeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  MaterialContextLogType:
+  - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  IntegrityRejectedMaterialLogType:
+  - [ UAObjectType, TMC.v2:1039, IntegrityRejectedMaterialLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  LoadingPointUnloadedLogType:
+  - [ UAObjectType, TMC.v2:1032, LoadingPointUnloadedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  MaterialConsumedLogType:
+  - [ UAObjectType, TMC.v2:1033, MaterialConsumedLogType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6128, ConsumedMaterial, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:6683, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6142, ConsumedMaterialTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:9528, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  MaterialDispensedLogType:
+  - [ UAObjectType, TMC.v2:1084, MaterialDispensedLogType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:13573, DispensedMaterial, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:13579, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9003, DispensedMaterialTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:9073, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  MaterialOutputProducedLogType:
+  - [ UAObjectType, TMC.v2:1030, MaterialOutputProducedLogType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6284, ProducedMaterial, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7434, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6283, ProducedMaterialTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7431, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  MaterialRejectedLogType:
+  - [ UAObjectType, TMC.v2:1027, MaterialRejectedLogType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6272, RejectedMaterial, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:6627, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6279, RejectedMaterialTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7376, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  MaterialUnloadingRequiredLogType:
+  - [ UAObjectType, TMC.v2:1034, MaterialUnloadingRequiredLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  NewPresentedMaterialLogType:
+  - [ UAObjectType, TMC.v2:1038, NewPresentedMaterialLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1086, MaterialContextLogType ]
+
+  POStartedLogType:
+  - [ UAObjectType, TMC.v2:1091, POStartedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  POStoppedLogType:
+  - [ UAObjectType, TMC.v2:1092, POStoppedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  ProcessItemResetLogType:
+  - [ UAObjectType, TMC.v2:1031, ProcessItemResetLogType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6370, Avg, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8986, Max, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8988, Min, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8989, SamplingRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8992, Std, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8993, Total, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  RejectionModeChangeLogType:
+  - [ UAObjectType, TMC.v2:1029, RejectionModeChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  StateChangeLogType:
+  - [ UAObjectType, TMC.v2:1021, StateChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1011, ProductionContextLogType ]
+
+  RootCauseGroupListChangeLogType:
+  - [ UAObjectType, TMC.v2:1036, RootCauseGroupListChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1089, MachineContextLogType ]
+
+  RootCauseListChangeLogType:
+  - [ UAObjectType, TMC.v2:1014, RootCauseListChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1089, MachineContextLogType ]
+
+  StopReasonListChangeLogType:
+  - [ UAObjectType, TMC.v2:1015, StopReasonListChangeLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1089, MachineContextLogType ]
+
+  SubCarrierLoadedLogType:
+  - [ UAObjectType, TMC.v2:1078, SubCarrierLoadedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  SubCarrierLoadingEndedLogType:
+  - [ UAObjectType, TMC.v2:1079, SubCarrierLoadingEndedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  SubCarrierLoadingStartedLogType:
+  - [ UAObjectType, TMC.v2:1080, SubCarrierLoadingStartedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  SubCarrierUnloadedLogType:
+  - [ UAObjectType, TMC.v2:1081, SubCarrierUnloadedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  SubCarrierUnloadingEndedLogType:
+  - [ UAObjectType, TMC.v2:1082, SubCarrierUnloadingEndedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  SubCarrierUnloadingStartedLogType:
+  - [ UAObjectType, TMC.v2:1083, SubCarrierUnloadingStartedLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1006, LogbookEventType ]
+
+  ProductionOrderTransitionLogType:
+  - [ UAObjectType, TMC.v2:1088, ProductionOrderTransitionLogType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2311, TransitionEventType ]
+
+  CarrierType:
+  - [ UAObjectType, TMC.v2:1074, CarrierType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5643, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7007, EndSubCarrierLoading ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13434, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:13435, EndSubCarrierUnloading ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13436, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:13438, LoadSubCarrier ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13439, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ID: [ String, 0 ]
+          MESID: [ String, 0 ]
+          ParentCarrierID: [ String, 0 ]
+          Sublots: [ MaterialSublotType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13440, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:9178, LoadSublots ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6401, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Sublots: [ MaterialSublotType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9213, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:13442, StartSubCarrierLoading ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13443, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:13444, StartSubCarrierUnloading ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13445, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5644, SubCarriers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:13446, Sublots, MaterialSublotType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:13447, UnloadSubCarrier ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13448, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ID: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13449, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:10820, UnloadSublots ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:10821, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SublotIDs: [ String, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:10822, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  ControlModuleAggregatesType:
+  - [ UAObjectType, TMC.v2:1051, ControlModuleAggregatesType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6003, <AggregateItem> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7045, ResetAggregates ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6098, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MotorAggregatesType:
+  - [ UAObjectType, TMC.v2:1054, MotorAggregatesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1051, ControlModuleAggregatesType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7310, TotalRunningHours, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7311, TotalStartStopCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ValveAggregatesType:
+  - [ UAObjectType, TMC.v2:1053, ValveAggregatesType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7303, CycleCounter, UInt32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1051, ControlModuleAggregatesType ]
+
+  ControlModuleConfigurationType:
+  - [ UAObjectType, TMC.v2:1047, ControlModuleConfigurationType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6099, <ConfigurationItem> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  ControlModuleLiveStatusType:
+  - [ UAObjectType, TMC.v2:1050, ControlModuleLiveStatusType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7053, AcknowledgeAlarms ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6405, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5061, Alarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5595, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5050, Interlocks ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5063, Measurements ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5071, ProcessControlLoops ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7257, SendCommand ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7258, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Command: [ CommandEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7259, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7276, SetControlMode ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7279, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ControlMode: [ ControlModeEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7280, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5343, StateMachine ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1018, TMCStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  ControlModuleSetupType:
+  - [ UAObjectType, TMC.v2:1052, ControlModuleSetupType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7288, <SetupItem> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  AnalogInputSetupType:
+  - [ UAObjectType, TMC.v2:1056, AnalogInputSetupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1052, ControlModuleSetupType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7312, ForcedValue, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  DigitalInputSetupType:
+  - [ UAObjectType, TMC.v2:1057, DigitalInputSetupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1052, ControlModuleSetupType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7313, ForcedValue, Boolean, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MotorSetupType:
+  - [ UAObjectType, TMC.v2:1058, MotorSetupType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7317, Direction, MotorDirectionEnumeration, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1052, ControlModuleSetupType ]
+
+  ValveSetupType:
+  - [ UAObjectType, TMC.v2:1059, ValveSetupType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7318, PositionSetPoint, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1052, ControlModuleSetupType ]
+
+  DefectReasonType:
+  - [ UAObjectType, TMC.v2:1041, DefectReasonType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7291, DetectionCountMasterTotal, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7349, DetectionCountTotal, UInt64, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7428, SetDetectionMode ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6184, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Enable: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6189, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5196, UIInfo ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1020, UIInformationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  EquipmentModuleConfigurationType:
+  - [ UAObjectType, TMC.v2:1068, EquipmentModuleConfigurationType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9681, <ConfigurationItem> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  EquipmentModuleLiveStatusType:
+  - [ UAObjectType, TMC.v2:1069, EquipmentModuleLiveStatusType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11662, AcknowledgeAlarms ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11663, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5294, Alarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5593, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11701, SendCommand ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11702, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Command: [ CommandEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11703, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11704, SetControlMode ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11705, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ControlMode: [ ControlModeEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11706, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5348, StateMachine ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1018, TMCStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  EquipmentModuleSetupType:
+  - [ UAObjectType, TMC.v2:1070, EquipmentModuleSetupType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9682, <SetupItem> ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineModuleConfigurationType:
+  - [ UAObjectType, TMC.v2:1013, MachineModuleConfigurationType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7104, GetDataSetList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6425, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Dependency: [ ParameterDependencyEnumeration, 0 ]
+          UserSubset: [ Boolean, 0 ]
+          CompleteSet: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6429, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DataSetList: [ DataSetDefinitionType, 0 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7314, GetRootCauseGroupList ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7322, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RootCauseGroupList: [ RootCauseGroupType, 1 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7105, GetRootCauseList ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6210, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RootCauseList: [ RootCauseMessageType, 1 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7106, GetStopReasonList ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6306, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          StopReasonList: [ MessageType, 1 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:9030, SetDataSetListMESID ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9125, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          IDs: [ String, 1 ]
+          MESIDs: [ String, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:19982, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7072, SetRootCauseLists ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6326, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RootCauseList: [ RootCauseMessageType, 1 ]
+          RootCauseGroupList: [ RootCauseGroupType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6327, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineModuleHistoricalRecordType:
+  - [ UAObjectType, TMC.v2:1012, MachineModuleHistoricalRecordType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5057, MachineModuleSpecification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1002, MachineModuleSpecificationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineModuleLiveStatusType:
+  - [ UAObjectType, TMC.v2:1005, MachineModuleLiveStatusType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:12165, AcknowledgeAlarms ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12166, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:19795, Alarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:19796, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:19798, ResetAggregates ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:19799, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7052, SendCommand ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6241, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Command: [ CommandEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6385, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7044, SetControlMode ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6232, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ControlMode: [ ControlModeEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6389, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7056, SetIdleEnergySavingMode ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6246, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          IdleEnergySavingMode: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6393, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:19800, StateMachine ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1018, TMCStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineModuleProductionType:
+  - [ UAObjectType, TMC.v2:1009, MachineModuleProductionType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:22398, AbortProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22399, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToAbort: [ ProductionOrderHeaderType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22400, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:22537, AssignProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22538, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToAssign: [ ProductionOrderType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22539, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:22402, ClearProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22403, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:22404, CompleteProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22405, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22406, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7201, ResetProductionTotals ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6089, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:9653, StartAssignedProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9654, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POHeaderToStart: [ ProductionOrderHeaderType, 0 ]
+          SourceMaterialLoadingPointIDs: [ String, 1 ]
+          DestinationMaterialOutputPointIDs: [ String, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9655, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:22408, StartProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22409, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToStart: [ ProductionOrderType, 0 ]
+          SourceMaterialLoadingPointIDs: [ String, 1 ]
+          DestinationMaterialOutputPointIDs: [ String, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22410, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22472, StateMachine ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1001, MachineModuleProductionStateMachineType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:22411, UnassignProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22412, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToUnassign: [ ProductionOrderHeaderType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22413, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineModuleSetupType:
+  - [ UAObjectType, TMC.v2:1016, MachineModuleSetupType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5189, DataSetFolder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7042, LoadDataSet ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6437, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DataSet: [ DataSetType, 0 ]
+          IsCompleteDataSet: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6438, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7033, LoadMaterialList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6305, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          MaterialList: [ MaterialListType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6329, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5066, MechanicalAdjustments ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7034, ValidateDataSet ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6185, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DataSet: [ DataSetType, 0 ]
+          IsCompleteDataSet: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6186, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FailedValidationEntries: [ DataSetEntryType, 1 ]
+          FailedValidationMessages: [ MessageType, 1 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7043, ValidateMaterialList ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6331, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          MaterialList: [ MaterialListType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6332, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          FailedValidationEntries: [ MaterialListItemType, 1 ]
+          FailedValidationMessages: [ MessageType, 1 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineModuleSpecificationType:
+  - [ UAObjectType, TMC.v2:1002, MachineModuleSpecificationType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:12168, DeleteSpecificationRecord ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12169, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          SpecificationRecord: [ NodeId, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12170, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5067, Documentation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:9267, LoadMachineModuleDocumentation ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9268, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DocumentToBeLoaded: [ ByteString, 0 ]
+          DocumentName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9269, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:9270, RemoveMachineModuleDocumentation ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9271, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DocumentName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:9272, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7029, SetNewSpecification ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6180, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          NewMaterialLoadingPoints: [ MaterialPointType, 1 ]
+          NewMaterialStorageBuffers: [ MaterialStorageBufferDataType, 1 ]
+          NewMaterialOutputPoints: [ MaterialPointType, 1 ]
+          NewMaterialRejectionPoints: [ MaterialPointType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6367, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MaterialLocationType:
+  - [ UAObjectType, TMC.v2:1077, MaterialLocationType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5648, Carriers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5653, StateMachine ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1018, TMCStateMachineType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:11638, Sublots, MaterialSublotType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5660, UIInfo ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1020, UIInformationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  ProcessItemType:
+  - [ UAObjectType, TMC.v2:1046, ProcessItemType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6231, Avg, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5038, LimitAlarms ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 10060, NonExclusiveLevelAlarmType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6235, Max, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6236, Min, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:22388, ResetAggregates ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:22389, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6150, SamplingRate, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7290, Std, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7292, Total, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5029, UIInfo ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1020, UIInformationType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6021, Value, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  ProcessControlItemType:
+  - [ UAObjectType, TMC.v2:1040, ProcessControlItemType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6039, RemoteValue, Double, 0, 7 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7001, SetRemoteControl ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6041, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Enable: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6042, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1046, ProcessItemType ]
+
+  SensorFunctionType:
+  - [ UAObjectType, TMC.v2:1044, SensorFunctionType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5208, <DefectReason> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1041, DefectReasonType ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7437, LoadReferenceFeatures ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7443, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Features: [ ByteString, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6233, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7438, SensorValue, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7440, SetDetectionMode ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7441, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Enable: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7442, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5015, UIInfo ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1020, UIInformationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineModuleProductionStateMachineType:
+  - [ UAObjectType, TMC.v2:1001, MachineModuleProductionStateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22414, Aborted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22416, AbortedToComplete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9143, AbortedToCompleteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22420, Aborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22422, AbortingToAborted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9168, AbortingToAbortedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22426, Assigned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22428, AssignedToComplete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9172, AssignedToCompleteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22432, AssignedToStarting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9174, AssignedToStartingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22436, Complete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22438, CompleteToAssigned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9176, CompleteToAssignedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22442, Completing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22444, CompletingToAborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9179, CompletingToAbortingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22448, CompletingToComplete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9227, CompletingToCompleteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22452, Execute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22454, ExecuteToAborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9251, ExecuteToAbortingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22458, ExecuteToCompleting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9258, ExecuteToCompletingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6953, LastTransition, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22462, Starting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22464, StartingToAborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9345, StartingToAbortingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22468, StartingToExecute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:9373, StartingToExecuteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
+
+  TMCStateMachineType:
+  - [ UAObjectType, TMC.v2:1018, TMCStateMachineType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7109, Abort ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5540, Aborted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5176, AbortedSubstate ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2299, StateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5535, AbortedToCleared ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6800, AbortedToClearedGuard, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5553, Aborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5536, AbortingToAborted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6802, AbortingToAbortedGuard, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7121, Clear ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5539, Cleared ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5561, ClearedToAborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6804, ClearedToAbortingGuard, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7157, LastTransition, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5554, MachineState ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1019, TMCMachineStateMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+
+  TMCExecuteStateMachineType:
+  - [ UAObjectType, TMC.v2:1028, TMCExecuteStateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5679, Complete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5186, CompleteSubstate ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2299, StateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5693, CompleteToResetting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7365, CompleteToResettingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5681, Completing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5694, CompletingToComplete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7367, CompletingToCompleteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5682, Execute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5733, ExecuteSubstate ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2299, StateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5695, ExecuteToCompleting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7369, ExecuteToCompletingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5696, ExecuteToHolding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7371, ExecuteToHoldingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5697, ExecuteToSuspending ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7373, ExecuteToSuspendingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5683, Held ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5710, HeldToUnholding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7378, HeldToUnholdingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7350, Hold ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5684, Holding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5711, HoldingToHeld ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7380, HoldingToHeldGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5686, Idle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5187, IdleSubstate ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2299, StateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5712, IdleToStarting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7382, IdleToStartingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6229, LastTransition, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7351, Reset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5687, Resetting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5713, ResettingToIdle ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7393, ResettingToIdleGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7352, Start ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6935, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Parameter: [ PackMLDescriptorDataType, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5688, Starting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5714, StartingToExecute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7395, StartingToExecuteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5715, StartingToHolding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7397, StartingToHoldingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7353, Suspend ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5689, Suspended ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5716, SuspendedToHolding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7399, SuspendedToHoldingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5717, SuspendedToUnsuspending ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7401, SuspendedToUnsuspendingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5690, Suspending ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5718, SuspendingToHolding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7403, SuspendingToHoldingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5719, SuspendingToSuspended ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7405, SuspendingToSuspendedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7361, ToComplete ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7357, Unhold ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5691, Unholding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5720, UnholdingToExecute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7407, UnholdingToExecuteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5724, UnholdingToHolding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7409, UnholdingToHoldingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7358, Unsuspend ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5692, Unsuspending ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5729, UnsuspendingToExecute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7411, UnsuspendingToExecuteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5730, UnsuspendingToHolding ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7413, UnsuspendingToHoldingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PackML:1, PackMLExecuteStateMachineType ]
+
+  TMCMachineStateMachineType:
+  - [ UAObjectType, TMC.v2:1019, TMCMachineStateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5564, Clearing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5582, ClearingToStopped ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6915, ClearingToStoppedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5562, ExecuteState ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1028, TMCExecuteStateMachineType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6934, LastTransition, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7122, Reset ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5566, Running ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5591, RunningToStopping ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6918, RunningToStoppingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7149, Stop ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5567, Stopped ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5188, StoppedSubstate ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2299, StateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5592, StoppedToRunning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6920, StoppedToRunningGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5578, Stopping ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5594, StoppingToStopped ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6922, StoppingToStoppedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PackML:2, PackMLMachineStateMachineType ]
+
+  ProductionOrderExecutionStateMachineType:
+  - [ UAObjectType, TMC.v2:1072, ProductionOrderExecutionStateMachineType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5583, Aborted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5585, Aborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5313, AbortingToAborted ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7777, AbortingToAbortedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5541, Assigned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5314, AssignedToStarting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8656, AssignedToStartingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5315, AssignedToUnassigning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8659, AssignedToUnassigningGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5316, AssignedToUnreleasing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8663, AssignedToUnreleasingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5590, Assigning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5317, AssigningToAssigned ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8667, AssigningToAssignedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5584, Complete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5588, Completing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5318, CompletingToAborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8728, CompletingToAbortingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5319, CompletingToComplete ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8761, CompletingToCompleteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5548, Execute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5320, ExecuteToAborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8765, ExecuteToAbortingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5321, ExecuteToCompleting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8769, ExecuteToCompletingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7771, LastTransition, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5631, MachineModuleProductionOrders ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5520, Released ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5322, ReleasedToAssigning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8773, ReleasedToAssigningGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5323, ReleasedToUnreleasing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8776, ReleasedToUnreleasingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5617, Releasing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2309, InitialStateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5324, ReleasingToReleased ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8778, ReleasingToReleasedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5325, ReleasingToUnreleasing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8781, ReleasingToUnreleasingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5589, Starting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5326, StartingToAborting ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8783, StartingToAbortingGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5327, StartingToExecute ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8785, StartingToExecuteGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5587, Unassigning ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5328, UnassigningToReleased ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8787, UnassigningToReleasedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5533, Unreleased ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5329, UnreleasedToReleased ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8789, UnreleasedToReleasedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5586, Unreleasing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5330, UnreleasingToUnreleased ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:8791, UnreleasingToUnreleasedGuard, LocalizedText, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2771, FiniteStateMachineType ]
+
+  TMCDeviceType:
+  - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5086, UIInfo ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1020, UIInformationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
+
+  ControlModuleType:
+  - [ UAObjectType, TMC.v2:1062, ControlModuleType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5092, Aggregates ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1051, ControlModuleAggregatesType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5093, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1047, ControlModuleConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5035, LiveStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1050, ControlModuleLiveStatusType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5143, Setup ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1052, ControlModuleSetupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  AnalogInputType:
+  - [ UAObjectType, TMC.v2:1063, AnalogInputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1062, ControlModuleType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:10140, RawValue, Number, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5158, Setup ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1056, AnalogInputSetupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6212, Value, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  DigitalInputType:
+  - [ UAObjectType, TMC.v2:1064, DigitalInputType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1062, ControlModuleType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5162, Setup ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1057, DigitalInputSetupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:10188, Value, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  MotorType:
+  - [ UAObjectType, TMC.v2:1065, MotorType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5163, Aggregates ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1054, MotorAggregatesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1062, ControlModuleType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5258, Setup ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1058, MotorSetupType ]
+
+  SensorType:
+  - [ UAObjectType, TMC.v2:1066, SensorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1062, ControlModuleType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5263, Setup ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1052, ControlModuleSetupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+
+  ValveType:
+  - [ UAObjectType, TMC.v2:1067, ValveType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5264, Aggregates ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1053, ValveAggregatesType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5265, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1047, ControlModuleConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5293, Setup ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1059, ValveSetupType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1062, ControlModuleType ]
+
+  DefectDetectionSensorType:
+  - [ UAObjectType, TMC.v2:1025, DefectDetectionSensorType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5209, <SensorFunction> ]
+    - HasModellingRule:
+      - [ UAObject, 11510, MandatoryPlaceholder ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1044, SensorFunctionType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5570, Data ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7460, DetectionCountMasterTotal, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7461, DetectionCountTotal, UInt64, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7465, SetDetectionMode ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7467, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          Enable: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:7468, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  EquipmentModuleType:
+  - [ UAObjectType, TMC.v2:1071, EquipmentModuleType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5297, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1068, EquipmentModuleConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:7277, ControlModules ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5299, LiveStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1069, EquipmentModuleLiveStatusType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5463, ProcessControlLoops ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5465, ProcessItems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5303, Setup ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1070, EquipmentModuleSetupType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  MachineModuleType:
+  - [ UAObjectType, TMC.v2:1004, MachineModuleType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5121, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1013, MachineModuleConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5070, ControlModules ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5944, DefectDetectionSensors ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5951, EquipmentModules ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5126, LiveStatus ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1005, MachineModuleLiveStatusType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:21271, MaterialBuffers ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:21333, MaterialLoadingPoints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5284, MaterialLocations ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:21429, MaterialOutputPoints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:9127, MaterialRejectionPoints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:9186, PastSpecificationRecords ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:21484, ProcessControlLoops ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:22216, ProcessItems ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5098, Production ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1009, MachineModuleProductionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5056, Setup ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1016, MachineModuleSetupType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5122, Specification ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1002, MachineModuleSpecificationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  MaterialLoadingPointType:
+  - [ UAObjectType, TMC.v2:1003, MaterialLoadingPointType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7531, ActualDispensingRate, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7818, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:13546, ConsumedMaterialMasterTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:13548, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6121, ConsumedMaterialTotal, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:13366, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:13561, DispensedMaterialMasterTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:13563, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:13424, DispensedMaterialTotal, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:13555, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6238, DispensingRateState, LocalizedText, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6097, LoadedMaterial, MaterialSublotType, 1, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6067, NominalDispensingRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7575, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6061, PresentedMaterial, MaterialSublotType, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6065, PresentedMaterialValidationStatus, MaterialValidationStatusEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:13569, SetPresentedMaterialValidationStatus ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13570, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ValidationResult: [ MaterialValidationStatusEnumeration, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:13571, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  MaterialOutputPointType:
+  - [ UAObjectType, TMC.v2:1037, MaterialOutputPointType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7524, ActualProductionRate, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7778, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:10015, NominalProductionRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:10017, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6123, ProducedMaterial, MaterialSublotType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6354, ProducedMaterialMasterTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:6550, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7517, ProducedMaterialTotal, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7435, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6432, ProductionRateState, LocalizedText, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  MaterialRejectionPointType:
+  - [ UAObjectType, TMC.v2:1023, MaterialRejectionPointType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6254, RejectedMaterialMasterTotal, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:6274, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6282, RejectedMaterialRatio, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6273, RejectedMaterialTotal, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:6514, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6271, RejectionCountMasterTotal, UInt64, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6264, RejectionCountTotal, UInt64, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6281, RejectionsRatio, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:7063, SetRejectionMode ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6868, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          RejectionMode: [ Boolean, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:6917, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  MaterialStorageBufferType:
+  - [ UAObjectType, TMC.v2:1035, MaterialStorageBufferType ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6948, ActualLoadingRate, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7582, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7227, ActualUnloadingRate, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7648, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7810, LoadingRateState, LocalizedText, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:6073, NominalLoadingRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:20087, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:20099, NominalUnloadingRate, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:20101, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:7384, StoredLot, Double, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, TMC.v2:7475, ValueInBUoM, Double, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, TMC.v2:20081, UnloadingRateState, LocalizedText, 0, 5 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  ProcessControlLoopType:
+  - [ UAObjectType, TMC.v2:1049, ProcessControlLoopType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5028, ControlValue ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1040, ProcessControlItemType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5113, ExternalAlarms ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5031, ProcessValue ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1040, ProcessControlItemType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5032, SetPoint ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, TMC.v2:1040, ProcessControlItemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  ProductionOrderOrchestrationLayerType:
+  - [ UAObjectType, TMC.v2:1073, ProductionOrderOrchestrationLayerType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11949, AbortProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11950, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToAbort: [ ProductionOrderHeaderType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11951, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11952, AssignProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11953, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToAssign: [ ProductionOrderHeaderType, 0 ]
+          MachineModuleUserName: [ String, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11954, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11955, CompleteProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11956, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToComplete: [ ProductionOrderHeaderType, 0 ]
+          MachineModuleUserName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11957, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11958, GetDataSet ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11959, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POHeader: [ ProductionOrderHeaderType, 0 ]
+          MachineModuleUserName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11960, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          DataSet: [ DataSetType, 0 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11961, GetMaterialList ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11962, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POHeader: [ ProductionOrderHeaderType, 0 ]
+          MachineModuleUserName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11963, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          MaterialList: [ MaterialListType, 0 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:11964, GetProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11965, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POHeader: [ ProductionOrderHeaderType, 0 ]
+          MachineModuleUserName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:11966, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ProductionOrder: [ ProductionOrderType, 0 ]
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5507, ProductionOrders ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:12007, ReleaseProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12008, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToRelease: [ OrchestrationProductionOrderType, 0 ]
+          MachineModuleUserName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12009, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:12010, StartProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12011, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToStart: [ ProductionOrderHeaderType, 0 ]
+          MachineModuleUserName: [ String, 0 ]
+          SourceMaterialLoadingPointIDs: [ String, 1 ]
+          DestinationMaterialOutputPointIDs: [ String, 1 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12012, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:12013, UnassignProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12014, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToUnassign: [ ProductionOrderHeaderType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12015, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:12016, UnreleaseProductionOrder ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12017, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          POToUnrelease: [ ProductionOrderHeaderType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:12018, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, TMC.v2:1090, TMCDeviceType ]
+
+  UIInformationType:
+  - [ UAObjectType, TMC.v2:1020, UIInformationType ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:16541, DeleteUIResource ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:16748, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResourceName: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:16749, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, TMC.v2:16538, LoadUIResource ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:16539, InputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ResourceName: [ String, 0 ]
+          ResourceValue: [ String, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+    - HasProperty:
+      - [ UAVariable, TMC.v2:16540, OutputArguments, Argument, 1, 0 ]
+      - Arguments:
+          ExecutionFeedback: [ MethodExecutionFeedbackType, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5148, UIResources ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  UserInterfaceType:
+  - [ UAObjectType, TMC.v2:1043, UserInterfaceType ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5088, ControlPanelVURO ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5089, ControlPanelVURW ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5286, KPIVU ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5290, LoopVUReferences ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5291, OverVU ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, TMC.v2:5292, ZoomedVU ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 58, BaseObjectType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]

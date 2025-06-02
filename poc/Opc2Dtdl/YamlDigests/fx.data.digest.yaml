@@ -150,9 +150,15 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FX.Data:1025, AuditUpdateMethodResultEventType ]
   - HasProperty:
     - [ UAVariable, FX.Data:6324, StatusCodeId, StatusCode, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FX.Data:1025, AuditUpdateMethodResultEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2127, AuditUpdateMethodEventType ]

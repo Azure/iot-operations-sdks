@@ -7,14 +7,11 @@
   ],
   "@id": "dtmi:opcua:Robotics:SafetyStateType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DI:ComponentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "ParameterSet"
-    },
     {
       "@type": "Relationship",
       "name": "EmergencyStopFunctions"

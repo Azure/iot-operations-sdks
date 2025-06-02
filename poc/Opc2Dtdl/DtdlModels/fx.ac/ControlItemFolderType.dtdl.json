@@ -5,8 +5,9 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:fx_ac:ControlItemFolderType;1",
+  "@id": "dtmi:opcua:FX_AC:ControlItemFolderType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

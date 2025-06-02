@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:AnalogInputType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:TMC_v2:ControlModuleType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "RawValue",
+      "schema": "integer",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "Value",
+      "schema": "double",
+      "writable": false
+    }
+  ]
+}

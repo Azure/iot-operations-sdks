@@ -5,12 +5,12 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:PnEm:EnergySavingModeStatusType;1",
+  "@id": "dtmi:opcua:PNEM:EnergySavingModeStatusType;1",
   "@type": [ "Interface", "Mqtt" ],
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:PnEm:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
+      "@id": "dtmi:opcua:PNEM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:PnEm:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
+      "@id": "dtmi:opcua:PNEM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -58,13 +58,13 @@
     {
       "@type": "Property",
       "name": "CurrentTransitionData",
-      "schema": "dtmi:opcua:PnEm:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
+      "schema": "dtmi:opcua:PNEM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
       "writable": false
     },
     {
       "@type": "Property",
       "name": "StateInformation",
-      "schema": "dtmi:opcua:PnEm:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
+      "schema": "dtmi:opcua:PNEM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
       "writable": false
     }
   ]

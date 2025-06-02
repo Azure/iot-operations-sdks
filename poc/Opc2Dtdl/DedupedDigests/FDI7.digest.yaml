@@ -1,0 +1,282 @@
+DataTypes:
+- UADataType: [ FDI7:2048, EddDataTypeEnum ]
+  Enums:
+    BOOLEAN: 1
+    DOUBLE: 2
+    FLOAT: 3
+    INTEGER: 4
+    UNSIGNED_INTEGER: 5
+    DATE: 6
+    DATE_AND_TIME: 7
+    DURATION: 8
+    TIME: 9
+    TIME_VALUE: 10
+    BIT_ENUMERATED: 11
+    ENUMERATED: 12
+    ASCII: 13
+    BITSTRING: 14
+    EUC: 15
+    OCTET: 16
+    PACKED_ASCII: 17
+    PASSWORD: 18
+    VISIBLE: 19
+- UADataType: [ FDI7:2050, EddDataTypeInfo ]
+  Fields:
+    EddDataType: [ EddDataTypeEnum, 0 ]
+    Size: [ UInt32, 0 ]
+- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+  Enums:
+    NORMAL: 0
+    FAILURE: 1
+    CHECK_FUNCTION: 2
+    OFF_SPEC: 3
+    MAINTENANCE_REQUIRED: 4
+- UADataType: [ DI:6522, FetchResultDataType ]
+  Bases:
+  - Structure
+- UADataType: [ DI:15888, TransferResultErrorDataType ]
+  Fields:
+    Status: [ Int32, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:15889, TransferResultDataDataType ]
+  Fields:
+    SequenceNumber: [ Int32, 0 ]
+    EndOfResults: [ Boolean, 0 ]
+    ParameterDefs: [ ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, ParameterResultDataType ]
+  Fields:
+    NodePath: [ QualifiedName, 1 ]
+    StatusCode: [ StatusCode, 0 ]
+    Diagnostics: [ DiagnosticInfo, 0 ]
+- UADataType: [ DI:331, SoftwareVersionFileType ]
+  Enums:
+    Current: 0
+    Pending: 1
+    Fallback: 2
+- UADataType: [ DI:333, UpdateBehavior ]
+  Enums:
+    KeepsParameters: 0
+    WillDisconnect: 1
+    RequiresPowerCycle: 2
+    WillReboot: 3
+    NeedsPreparation: 4
+
+DefinedTypes:
+
+  Foundation_H1:
+  - [ UAObjectType, FDI7:1371, Foundation_H1 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  Foundation_HSE:
+  - [ UAObjectType, FDI7:1372, Foundation_HSE ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  Profibus_DP:
+  - [ UAObjectType, FDI7:1373, Profibus_DP ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  Profibus_PA:
+  - [ UAObjectType, FDI7:1374, Profibus_PA ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  Profinet_IO:
+  - [ UAObjectType, FDI7:1375, Profinet_IO ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  HART:
+  - [ UAObjectType, FDI7:1376, HART ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  ISA100_Wireless:
+  - [ UAObjectType, FDI7:1377, ISA100_Wireless ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  GenericProtocol:
+  - [ UAObjectType, FDI7:1378, GenericProtocol ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
+
+  ConnectionPoint_Foundation_H1:
+  - [ UAObjectType, FDI7:1380, ConnectionPoint_Foundation_H1 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  ConnectionPoint_Foundation_HSE:
+  - [ UAObjectType, FDI7:1424, ConnectionPoint_Foundation_HSE ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  ConnectionPoint_Profibus_DP:
+  - [ UAObjectType, FDI7:1467, ConnectionPoint_Profibus_DP ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  ConnectionPoint_Profinet_IO:
+  - [ UAObjectType, FDI7:1509, ConnectionPoint_Profinet_IO ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  ConnectionPoint_HART_TP5:
+  - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  ConnectionPoint_HART_TP6:
+  - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  ConnectionPoint_HART_TP7:
+  - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  ConnectionPoint_ISA100_Wireless:
+  - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  GenericConnectionPoint:
+  - [ UAObjectType, FDI7:1742, GenericConnectionPoint ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
+
+  CommunicationServerType:
+  - [ UAObjectType, FDI7:11, CommunicationServerType ]
+  - HasComponent:
+    - [ UAObject, FDI7:85, SubDevices ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
+
+  ServerCommunicationDeviceType:
+  - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
+
+  ServerCommunicationFFH1DeviceType:
+  - [ UAObjectType, FDI7:324, ServerCommunicationFFH1DeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:401, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:997, ServerCommunicationFFH1ServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+
+  ServerCommunicationFFHSEDeviceType:
+  - [ UAObjectType, FDI7:452, ServerCommunicationFFHSEDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:529, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1073, ServerCommunicationFFHSEServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+
+  ServerCommunicationPROFIBUSDeviceType:
+  - [ UAObjectType, FDI7:580, ServerCommunicationPROFIBUSDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:657, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1149, ServerCommunicationPROFIBUSServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+
+  ServerCommunicationPROFINETDeviceType:
+  - [ UAObjectType, FDI7:705, ServerCommunicationPROFINETDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:782, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1222, ServerCommunicationPROFINETServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+
+  ServerCommunicationHARType:
+  - [ UAObjectType, FDI7:830, ServerCommunicationHARType ]
+  - HasComponent:
+    - [ UAObject, FDI7:907, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:1295, ServerCommunicationHARTServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+
+  ServerCommunicationISA100_WirelessDeviceType:
+  - [ UAObjectType, FDI7:1788, ServerCommunicationISA100_WirelessDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1862, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:2057, ServerCommunicationISA100_WirelessServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+
+  ServerCommunicationGENERICDeviceType:
+  - [ UAObjectType, FDI7:1913, ServerCommunicationGENERICDeviceType ]
+  - HasComponent:
+    - [ UAObject, FDI7:1991, ServiceProvider ]
+    - HasTypeDefinition:
+      - [ UAObjectType, FDI7:2133, ServerCommunicationGENERICServiceType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+
+  ServerCommunicationServiceType:
+  - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
+
+  ServerCommunicationFFH1ServiceType:
+  - [ UAObjectType, FDI7:997, ServerCommunicationFFH1ServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+
+  ServerCommunicationFFHSEServiceType:
+  - [ UAObjectType, FDI7:1073, ServerCommunicationFFHSEServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+
+  ServerCommunicationPROFIBUSServiceType:
+  - [ UAObjectType, FDI7:1149, ServerCommunicationPROFIBUSServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+
+  ServerCommunicationPROFINETServiceType:
+  - [ UAObjectType, FDI7:1222, ServerCommunicationPROFINETServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+
+  ServerCommunicationHARTServiceType:
+  - [ UAObjectType, FDI7:1295, ServerCommunicationHARTServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+
+  ServerCommunicationISA100_WirelessServiceType:
+  - [ UAObjectType, FDI7:2057, ServerCommunicationISA100_WirelessServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+
+  ServerCommunicationGENERICServiceType:
+  - [ UAObjectType, FDI7:2133, ServerCommunicationGENERICServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]

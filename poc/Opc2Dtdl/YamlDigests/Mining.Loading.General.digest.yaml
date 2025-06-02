@@ -48,12 +48,18 @@ DefinedTypes:
     - [ UAVariable, Mining.Loading.General:6017, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, Mining.Loading.General:1002, LoadingMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.Loading.General:5002, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.Loading.General:1002, LoadingMachineType ]
     - HasComponent:
       - [ UAMethod, Mining.Loading.General:7003, PositioningComplete ]
       - HasModellingRule:
@@ -66,6 +72,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, Mining.Loading.General:7003, PositioningComplete ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Loading.General:5002, MethodSet ]
     - HasComponent:
       - [ UAMethod, Mining.Loading.General:7001, RequestForLoading ]
       - HasModellingRule:
@@ -78,6 +88,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, Mining.Loading.General:7001, RequestForLoading ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Loading.General:5002, MethodSet ]
     - HasComponent:
       - [ UAMethod, Mining.Loading.General:7002, StopLoading ]
       - HasModellingRule:
@@ -90,6 +104,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, Mining.Loading.General:7002, StopLoading ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Loading.General:5002, MethodSet ]
   - HasComponent:
     - [ UAObject, Mining.Loading.General:5003, ParameterSet ]
     - HasTypeDefinition:
@@ -108,42 +126,58 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAVariable, Mining.Loading.General:6001, ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6009, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAVariable, Mining.Loading.General:6001, ExclusionZone, 3DFrame, 1, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6010, X, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6009, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6011, Y, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6009, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6012, Z, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6009, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6019, Constant, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Loading.General:6001, ExclusionZone, 3DFrame, 1, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Loading.General:5003, ParameterSet ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6020, FixedBase, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Loading.General:6001, ExclusionZone, 3DFrame, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6013, Orientation, 3DOrientation, 0, 0 ]
         - HasTypeDefinition:
@@ -156,18 +190,26 @@ DefinedTypes:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6013, Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6015, B, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6013, Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6016, C, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6013, Orientation, 3DOrientation, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAVariable, Mining.Loading.General:6001, ExclusionZone, 3DFrame, 1, 0 ]
     - HasComponent:
       - [ UAVariable, Mining.Loading.General:6023, MachinePose, 3DFrame, 0, 0 ]
       - HasTypeDefinition:
@@ -180,42 +222,58 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAVariable, Mining.Loading.General:6023, MachinePose, 3DFrame, 0, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6024, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAVariable, Mining.Loading.General:6023, MachinePose, 3DFrame, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6025, X, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6024, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6026, Y, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6024, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6027, Z, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6024, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6033, Constant, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Loading.General:6023, MachinePose, 3DFrame, 0, 0 ]
       - HasProperty:
         - [ UAVariable, Mining.Loading.General:6034, FixedBase, Boolean, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, Mining.Loading.General:6023, MachinePose, 3DFrame, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.Loading.General:5003, ParameterSet ]
       - HasComponent:
         - [ UAVariable, Mining.Loading.General:6028, Orientation, 3DOrientation, 0, 0 ]
         - HasTypeDefinition:
@@ -228,15 +286,25 @@ DefinedTypes:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6028, Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6030, B, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6028, Orientation, 3DOrientation, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.Loading.General:6031, C, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.Loading.General:6028, Orientation, 3DOrientation, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAVariable, Mining.Loading.General:6023, MachinePose, 3DFrame, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, Mining.Loading.General:1002, LoadingMachineType ]

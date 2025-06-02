@@ -7,29 +7,10 @@
   ],
   "@id": "dtmi:opcua:CAS:CompressorType;1",
   "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:CAS:CASComponentType;1",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],
   "contents": [
-    {
-      "@type": "Relationship",
-      "name": "Design",
-      "target": "dtmi:opcua:CAS:CompressorDesignType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Identification",
-      "target": "dtmi:opcua:Machinery:MachineIdentificationType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Operational",
-      "target": "dtmi:opcua:CAS:CompressorOperationalType"
-    },
-    {
-      "@type": "Relationship",
-      "name": "Statistics",
-      "target": "dtmi:opcua:CAS:CompressorStatisticsType"
-    }
   ]
 }

@@ -5,13 +5,13 @@
     "dtmi:dtdl:extension:mqtt;4",
     "dtmi:dtdl:extension:historization;2"
   ],
-  "@id": "dtmi:opcua:Gds:DirectoryType;1",
+  "@id": "dtmi:opcua:GDS:DirectoryType;1",
   "@type": [ "Interface", "Mqtt" ],
-  "commandTopic": "opcua/Gds/DirectoryType/{commandName}",
+  "commandTopic": "opcua/GDS/DirectoryType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
-      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1",
+      "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1",
       "@type": "Object",
       "fields": [
         {
@@ -24,7 +24,7 @@
         },
         {
           "name": "ApplicationType",
-          "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationType;1"
+          "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationType;1"
         },
         {
           "name": "ApplicationNames",
@@ -54,7 +54,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationDescription;1",
+      "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationDescription;1",
       "@type": "Object",
       "fields": [
         {
@@ -71,7 +71,7 @@
         },
         {
           "name": "ApplicationType",
-          "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationType;1"
+          "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationType;1"
         },
         {
           "name": "GatewayServerUri",
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ServerOnNetwork;1",
+      "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ServerOnNetwork;1",
       "@type": "Object",
       "fields": [
         {
@@ -116,7 +116,7 @@
       ]
     },
     {
-      "@id": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationType;1",
+      "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationType;1",
       "@type": "Enum",
       "valueSchema": "integer",
       "enumValues": [
@@ -166,7 +166,7 @@
               "name": "Applications",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+                "elementSchema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1"
               }
             }
           ]
@@ -184,7 +184,7 @@
           "fields": [
             {
               "name": "Application",
-              "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+              "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1"
             }
           ]
         }
@@ -214,7 +214,7 @@
           "fields": [
             {
               "name": "Application",
-              "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+              "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1"
             }
           ]
         }
@@ -261,7 +261,7 @@
           "fields": [
             {
               "name": "Application",
-              "schema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationRecordDataType;1"
+              "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1"
             }
           ]
         }
@@ -328,7 +328,7 @@
               "name": "Applications",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Gds:DirectoryType:dataType:ApplicationDescription;1"
+                "elementSchema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationDescription;1"
               }
             }
           ]
@@ -388,7 +388,7 @@
               "name": "Servers",
               "schema": {
                 "@type": "Array",
-                "elementSchema": "dtmi:opcua:Gds:DirectoryType:dataType:ServerOnNetwork;1"
+                "elementSchema": "dtmi:opcua:GDS:DirectoryType:dataType:ServerOnNetwork;1"
               }
             }
           ]

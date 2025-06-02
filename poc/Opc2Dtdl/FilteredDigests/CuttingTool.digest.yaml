@@ -353,6 +353,11 @@ DataTypes:
 
 DefinedTypes:
 
+  CuttingToolFileType:
+  - [ UAObjectType, CuttingTool:1003, CuttingToolFileType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11575, FileType ]
+
   ToolMeasuringMachineType:
   - [ UAObjectType, CuttingTool:1021, ToolMeasuringMachineType ]
   - HasComponent:
@@ -367,6 +372,8 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, GMS:1002, GMSType ]
 
   ToolManufacturingMachineType:
   - [ UAObjectType, CuttingTool:1025, ToolManufacturingMachineType ]
@@ -382,3 +389,5 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MachineTool:13, MachineToolType ]

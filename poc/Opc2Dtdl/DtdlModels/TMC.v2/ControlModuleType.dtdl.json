@@ -1,0 +1,36 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:TMC_v2:ControlModuleType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+  ],
+  "contents": [
+    {
+      "@type": "Relationship",
+      "name": "Aggregates",
+      "target": "dtmi:opcua:TMC_v2:ControlModuleAggregatesType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Configuration",
+      "target": "dtmi:opcua:TMC_v2:ControlModuleConfigurationType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "LiveStatus",
+      "target": "dtmi:opcua:TMC_v2:ControlModuleLiveStatusType"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Setup",
+      "target": "dtmi:opcua:TMC_v2:ControlModuleSetupType"
+    }
+  ]
+}

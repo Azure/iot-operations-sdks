@@ -278,6 +278,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
   - HasComponent:
     - [ UAVariable, IJT.Base:6084, PhysicalQuantity, Byte, 0, 0 ]
     - HasModellingRule:
@@ -290,6 +292,12 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAVariable, IJT.Base:6084, PhysicalQuantity, Byte, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   JoiningSystemEventContentType:
   - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
@@ -299,30 +307,42 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
   - HasComponent:
     - [ UAVariable, IJT.Base:6030, EventCode, Int64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
   - HasComponent:
     - [ UAVariable, IJT.Base:6029, EventText, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
   - HasComponent:
     - [ UAVariable, IJT.Base:6025, JoiningTechnology, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
   - HasComponent:
     - [ UAVariable, IJT.Base:6279, ReportedValues, ReportedValueDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasComponent_reverse:
+      - [ UAVariableType, IJT.Base:2008, JoiningSystemEventContentType ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
 
   JoiningSystemResultType:
   - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
@@ -332,6 +352,8 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 63, BaseDataVariableType ]
+    - HasStructuredComponent_reverse:
+      - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
   - HasStructuredComponent:
     - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasTypeDefinition:
@@ -344,165 +366,253 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6137, AssociatedEntities, EntityDataType, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6124, Classification, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6101, Description, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6173, ExtendedMetaData, KeyValueDataType, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6135, InterventionType, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6136, IsGeneratedOffline, Boolean, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6098, JoiningTechnology, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6100, Name, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6010, OperationMode, Byte, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6138, ResultCounters, ResultCounterDataType, 1, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6160, ResultId, TrimmedString, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+    - HasStructuredComponent_reverse:
+      - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6099, SequenceNumber, Int64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6003, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, Machinery.Result:2001, ResultType ]
 
   AcceptedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1090, AcceptedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   AddedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1096, AddedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   AssetConnectedConditionClassType:
   - [ UAObjectType, IJT.Base:1018, AssetConnectedConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   AssetDisabledConditionClassType:
   - [ UAObjectType, IJT.Base:1027, AssetDisabledConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   AssetDisconnectedConditionClassType:
   - [ UAObjectType, IJT.Base:1021, AssetDisconnectedConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   AssetEnabledConditionClassType:
   - [ UAObjectType, IJT.Base:1024, AssetEnabledConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   AssetLocationConditionClassType:
   - [ UAObjectType, IJT.Base:1048, AssetLocationConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   CertificateConditionClassType:
   - [ UAObjectType, IJT.Base:1072, CertificateConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   ConfigurationChangeConditionClassType:
   - [ UAObjectType, IJT.Base:1030, ConfigurationChangeConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   DataValidationFailureConditionClassType:
   - [ UAObjectType, IJT.Base:1057, DataValidationFailureConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   ErrorConditionClassType:
   - [ UAObjectType, IJT.Base:1063, ErrorConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   ExpiredEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1081, ExpiredEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   HardwareConditionClassType:
   - [ UAObjectType, IJT.Base:1069, HardwareConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   IncompatibleEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1087, IncompatibleEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   InputValidationFailureConditionClassType:
   - [ UAObjectType, IJT.Base:1060, InputValidationFailureConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   InvalidEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1084, InvalidEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   JoiningSystemUserLoggedInConditionClassType:
   - [ UAObjectType, IJT.Base:1039, JoiningSystemUserLoggedInConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   JoiningSystemUserLoggedOutConditionClassType:
   - [ UAObjectType, IJT.Base:1042, JoiningSystemUserLoggedOutConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   LicenseConditionClassType:
   - [ UAObjectType, IJT.Base:1075, LicenseConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   LocationInZoneConditionClassType:
   - [ UAObjectType, IJT.Base:1051, LocationInZoneConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   LocationOutOfZoneConditionClassType:
   - [ UAObjectType, IJT.Base:1054, LocationOutOfZoneConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   MissingEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1078, MissingEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   ReceivedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1105, ReceivedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   RejectedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1093, RejectedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   RemovedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1102, RemovedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   SoftwareConditionClassType:
   - [ UAObjectType, IJT.Base:1066, SoftwareConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   ThresholdViolationConditionClassType:
   - [ UAObjectType, IJT.Base:1033, ThresholdViolationConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   ThresholdViolationResolvedConditionClassType:
   - [ UAObjectType, IJT.Base:1036, ThresholdViolationResolvedConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   UpdatedEntityConditionClassType:
   - [ UAObjectType, IJT.Base:1099, UpdatedEntityConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
 
   JoiningSystemConditionType:
   - [ UAObjectType, IJT.Base:1020, JoiningSystemConditionType ]
@@ -520,30 +630,44 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6177, JoiningSystemEventContent ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6282, EventCode, Int64, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6177, JoiningSystemEventContent ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6283, EventText, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6177, JoiningSystemEventContent ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1020, JoiningSystemConditionType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6284, JoiningTechnology, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6177, JoiningSystemEventContent ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6285, ReportedValues, ReportedValueDataType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6177, JoiningSystemEventContent ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2881, AcknowledgeableConditionType ]
 
   JoiningSystemEventType:
   - [ UAObjectType, IJT.Base:1006, JoiningSystemEventType ]
@@ -559,30 +683,44 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6039, JoiningSystemEventContent ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6276, EventCode, Int64, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6039, JoiningSystemEventContent ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6277, EventText, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6039, JoiningSystemEventContent ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1006, JoiningSystemEventType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6278, JoiningTechnology, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6039, JoiningSystemEventContent ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6280, ReportedValues, ReportedValueDataType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAVariable, IJT.Base:6039, JoiningSystemEventContent ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
 
   JoiningSystemResultReadyEventType:
   - [ UAObjectType, IJT.Base:1007, JoiningSystemResultReadyEventType ]
@@ -592,12 +730,16 @@ DefinedTypes:
       - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1007, JoiningSystemResultReadyEventType ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6210, ResultContent ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6001, Result, ResultDataType, 0, 3 ]
     - HasStructuredComponent:
       - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasTypeDefinition:
@@ -610,66 +752,94 @@ DefinedTypes:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6007, AssociatedEntities, EntityDataType, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6009, Classification, Byte, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6011, Description, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6023, InterventionType, Byte, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6032, IsGeneratedOffline, Boolean, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6048, JoiningTechnology, LocalizedText, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6052, Name, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6071, ResultCounters, ResultCounterDataType, 1, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6207, ResultId, TrimmedString, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+      - HasStructuredComponent_reverse:
+        - [ UAVariable, IJT.Base:6001, Result, ResultDataType, 0, 3 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6152, SequenceNumber, Int64, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6002, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
+  - GeneratesEvent_reverse:
+    - [ UAObjectType, IJT.Base:1022, JoiningSystemResultManagementType ]
 
   IJoiningAdditionalInformationType:
   - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
@@ -679,18 +849,28 @@ DefinedTypes:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6176, JoiningTechnology, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6452, SupplierCode, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5052, Identification ]
 
   IJoiningSystemAssetType:
   - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
@@ -706,30 +886,42 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5045, Health ]
     - HasComponent:
       - [ UAObject, IJT.Base:5114, DeviceHealthAlarms ]
       - HasTypeDefinition:
         - [ UAObjectType, 61, FolderType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5045, Health ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6083, ErrorCode, Int64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5045, Health ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6077, ErrorMessage, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5045, Health ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6082, ErrorTimestamp, UtcTime, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5045, Health ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
     - HasInterface:
       - [ UAObjectType, DI:15051, IDeviceHealthType ]
     - HasComponent:
@@ -738,6 +930,8 @@ DefinedTypes:
         - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5045, Health ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5052, Identification ]
     - HasTypeDefinition:
@@ -750,6 +944,10 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5052, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
     - HasInterface:
       - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
     - HasProperty:
@@ -758,24 +956,34 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5052, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6142, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5052, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6143, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5052, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6018, SupplierCode, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5052, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5147, LifetimeCounters ]
     - HasModellingRule:
@@ -788,24 +996,36 @@ DefinedTypes:
         - [ UAObject, 11510, MandatoryPlaceholder ]
       - HasTypeDefinition:
         - [ UAVariableType, DI:468, LifetimeVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5147, LifetimeCounters ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6165, EngineeringUnits, EUInformation, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6166, LimitValue, Number, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6167, StartValue, Number, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+    - HasAddIn_reverse:
+      - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
     - HasTypeDefinition:
@@ -824,6 +1044,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5052, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
       - HasInterface:
         - [ UAObjectType, IJT.Base:1017, IJoiningAdditionalInformationType ]
       - HasProperty:
@@ -832,24 +1056,34 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5052, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6142, Manufacturer, LocalizedText, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5052, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6143, SerialNumber, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5052, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6018, SupplierCode, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5052, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
     - HasAddIn:
       - [ UAObject, IJT.Base:5147, LifetimeCounters ]
       - HasModellingRule:
@@ -862,24 +1096,38 @@ DefinedTypes:
           - [ UAObject, 11510, MandatoryPlaceholder ]
         - HasTypeDefinition:
           - [ UAVariableType, DI:468, LifetimeVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5147, LifetimeCounters ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6165, EngineeringUnits, EUInformation, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6166, LimitValue, Number, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6167, StartValue, Number, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6164, <LifetimeVariable>, Number, 0, 3 ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+      - HasAddIn_reverse:
+        - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
     - HasAddIn:
       - [ UAObject, IJT.Base:5002, OperationCounters ]
       - HasModellingRule:
@@ -888,24 +1136,34 @@ DefinedTypes:
         - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
       - HasInterface:
         - [ UAObjectType, DI:480, IOperationCounterType ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6017, OperationCycleCounter, UInteger, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5002, OperationCounters ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6108, OperationDuration, Duration, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5002, OperationCounters ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6120, PowerOnDuration, Duration, 0, 3 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5002, OperationCounters ]
+      - HasAddIn_reverse:
+        - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, IJT.Base:5027, Maintenance ]
     - HasModellingRule:
@@ -924,36 +1182,52 @@ DefinedTypes:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5003, Calibration ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6028, CalibrationValue, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5003, Calibration ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6038, CertificateUri, UriString, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5003, Calibration ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6019, LastCalibration, UtcTime, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5003, Calibration ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6020, NextCalibration, UtcTime, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5003, Calibration ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6036, SensorScale, Double, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5003, Calibration ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5027, Maintenance ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
     - HasComponent:
       - [ UAObject, IJT.Base:5020, Service ]
       - HasModellingRule:
@@ -966,60 +1240,82 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6089, NextService, UtcTime, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6094, NumberOfServices, Int32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6110, RemainingCycles, Int32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6093, ServiceCycleCount, Int32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6092, ServiceCycleSpan, Int32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6050, ServiceOperationCycles, UInt64, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6076, ServicePlace, String, 0, 0 ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6049, ServiceReminderCycles, Int32, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6109, ServiceReminderDays, Int16, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5020, Service ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5027, Maintenance ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5002, OperationCounters ]
     - HasModellingRule:
@@ -1028,24 +1324,34 @@ DefinedTypes:
       - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
     - HasInterface:
       - [ UAObjectType, DI:480, IOperationCounterType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6017, OperationCycleCounter, UInteger, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5002, OperationCounters ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6108, OperationDuration, Duration, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5002, OperationCounters ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6120, PowerOnDuration, Duration, 0, 3 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5002, OperationCounters ]
+    - HasAddIn_reverse:
+      - [ UAObject, IJT.Base:5080, MachineryBuildingBlocks ]
   - HasComponent:
     - [ UAObject, IJT.Base:5015, Parameters ]
     - HasTypeDefinition:
@@ -1058,72 +1364,104 @@ DefinedTypes:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5015, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6008, Enabled, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5015, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6044, IOSignals, SignalDataType, 1, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5015, Parameters ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
 
   IAccessoryType:
   - [ UAObjectType, IJT.Base:1015, IAccessoryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5099, Identification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1015, IAccessoryType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6031, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5099, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6034, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5099, Identification ]
   - HasComponent:
     - [ UAObject, IJT.Base:5024, Parameters ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1015, IAccessoryType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6117, Type, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5024, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5034, <Accessory> ]
 
   IBatteryType:
   - [ UAObjectType, IJT.Base:1010, IBatteryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5151, Identification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1010, IBatteryType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6144, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5151, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6174, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5151, Identification ]
   - HasComponent:
     - [ UAObject, IJT.Base:5009, Parameters ]
     - HasModellingRule:
@@ -1136,12 +1474,16 @@ DefinedTypes:
         - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5009, Parameters ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6012, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6121, Capacity, Double, 0, 0 ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6013, PhysicalQuantity, Byte, 0, 0 ]
         - HasTypeDefinition:
@@ -1154,12 +1496,18 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6013, PhysicalQuantity, Byte, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAVariable, IJT.Base:6121, Capacity, Double, 0, 0 ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6122, ChargeCycleCount, Int64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5009, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6119, NominalVoltage, Double, 0, 0 ]
       - HasTypeDefinition:
@@ -1172,6 +1520,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6119, NominalVoltage, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5009, Parameters ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6021, PhysicalQuantity, Byte, 0, 0 ]
         - HasTypeDefinition:
@@ -1184,45 +1536,67 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6021, PhysicalQuantity, Byte, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAVariable, IJT.Base:6119, NominalVoltage, Double, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1010, IBatteryType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6123, StateOfCharge, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5009, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6125, StateOfHealth, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5009, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6126, Type, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5009, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5035, <Battery> ]
 
   ICableType:
   - [ UAObjectType, IJT.Base:1014, ICableType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5152, Identification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1014, ICableType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6178, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5152, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6179, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5152, Identification ]
   - HasComponent:
     - [ UAObject, IJT.Base:5010, Parameters ]
     - HasTypeDefinition:
@@ -1235,6 +1609,10 @@ DefinedTypes:
         - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5010, Parameters ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1014, ICableType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6130, Type, Byte, 0, 0 ]
       - HasTypeDefinition:
@@ -1247,33 +1625,49 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6130, Type, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5010, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5036, <Cable> ]
 
   IControllerType:
   - [ UAObjectType, IJT.Base:1003, IControllerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5086, Identification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1003, IControllerType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6024, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5086, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6027, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5086, Identification ]
   - HasComponent:
     - [ UAObject, IJT.Base:5006, Parameters ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1003, IControllerType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6128, Type, Byte, 0, 0 ]
       - HasTypeDefinition:
@@ -1286,6 +1680,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6128, Type, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5006, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5037, <Controller> ]
 
   IFeederType:
   - [ UAObjectType, IJT.Base:1012, IFeederType ]
@@ -1295,18 +1695,26 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1012, IFeederType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6180, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5153, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6181, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5153, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5011, Parameters ]
     - HasTypeDefinition:
@@ -1325,6 +1733,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6149, FeedingSpeed, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5011, Parameters ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6035, PhysicalQuantity, Byte, 0, 0 ]
         - HasTypeDefinition:
@@ -1337,18 +1749,28 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6035, PhysicalQuantity, Byte, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAVariable, IJT.Base:6149, FeedingSpeed, Double, 0, 0 ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6148, FillLevel, Byte, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5011, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6145, Material, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5011, Parameters ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1012, IFeederType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6146, Type, Byte, 0, 0 ]
       - HasTypeDefinition:
@@ -1361,6 +1783,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6146, Type, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5011, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5038, <Feeder> ]
 
   IMemoryDeviceType:
   - [ UAObjectType, IJT.Base:1013, IMemoryDeviceType ]
@@ -1370,42 +1798,60 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1013, IMemoryDeviceType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6182, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5154, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6187, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5154, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5013, Parameters ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1013, IMemoryDeviceType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6154, StorageCapacity, UInt64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5013, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6150, Type, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5013, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6155, UsedSpace, UInt64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5013, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5039, <MemoryDevice> ]
 
   IPowerSupplyType:
   - [ UAObjectType, IJT.Base:1009, IPowerSupplyType ]
@@ -1415,18 +1861,26 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1009, IPowerSupplyType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6188, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5155, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6189, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5155, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5012, Parameters ]
     - HasModellingRule:
@@ -1439,12 +1893,16 @@ DefinedTypes:
         - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5012, Parameters ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6054, EngineeringUnits, EUInformation, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6158, ActualPower, Double, 0, 0 ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6060, PhysicalQuantity, Byte, 0, 0 ]
         - HasTypeDefinition:
@@ -1457,12 +1915,18 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6060, PhysicalQuantity, Byte, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAVariable, IJT.Base:6158, ActualPower, Double, 0, 0 ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6156, InputSpecification, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5012, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6157, NominalPower, Double, 0, 0 ]
       - HasTypeDefinition:
@@ -1475,6 +1939,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6157, NominalPower, Double, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5012, Parameters ]
       - HasComponent:
         - [ UAVariable, IJT.Base:6073, PhysicalQuantity, Byte, 0, 0 ]
         - HasTypeDefinition:
@@ -1487,12 +1955,22 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAVariable, IJT.Base:6073, PhysicalQuantity, Byte, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAVariable, IJT.Base:6157, NominalPower, Double, 0, 0 ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6249, OutputSpecification, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5012, Parameters ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1009, IPowerSupplyType ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5040, <PowerSupply> ]
 
   ISensorType:
   - [ UAObjectType, IJT.Base:1011, ISensorType ]
@@ -1502,18 +1980,26 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1011, ISensorType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6190, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5156, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6198, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5156, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5014, Parameters ]
     - HasTypeDefinition:
@@ -1526,12 +2012,18 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5014, Parameters ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6171, OverloadCount, Int64, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5014, Parameters ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1011, ISensorType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6169, Type, Byte, 0, 0 ]
       - HasTypeDefinition:
@@ -1544,6 +2036,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6169, Type, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5014, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5041, <Sensor> ]
 
   IServoType:
   - [ UAObjectType, IJT.Base:1008, IServoType ]
@@ -1553,18 +2051,26 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1008, IServoType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6199, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5157, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6200, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5157, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5007, Parameters ]
     - HasTypeDefinition:
@@ -1577,6 +2083,12 @@ DefinedTypes:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5007, Parameters ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1008, IServoType ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5042, <Servo> ]
 
   ISoftwareType:
   - [ UAObjectType, IJT.Base:1019, ISoftwareType ]
@@ -1586,18 +2098,28 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1019, ISoftwareType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6201, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5158, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6202, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5158, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5101, <Software> ]
 
   ISubComponentType:
   - [ UAObjectType, IJT.Base:1016, ISubComponentType ]
@@ -1607,30 +2129,44 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1016, ISubComponentType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6203, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5159, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6204, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5159, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5019, Parameters ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1016, ISubComponentType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6185, Type, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 63, BaseDataVariableType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5019, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5043, <SubComponent> ]
 
   IToolType:
   - [ UAObjectType, IJT.Base:1004, IToolType ]
@@ -1640,24 +2176,34 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1004, IToolType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6205, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5160, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6206, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5160, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
   - HasComponent:
     - [ UAObject, IJT.Base:5008, Parameters ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1004, IToolType ]
     - HasComponent:
       - [ UAVariable, IJT.Base:6133, Type, Byte, 0, 0 ]
       - HasTypeDefinition:
@@ -1670,6 +2216,12 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAVariable, IJT.Base:6133, Type, Byte, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5008, Parameters ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5044, <Tool> ]
 
   IVirtualStationType:
   - [ UAObjectType, IJT.Base:1031, IVirtualStationType ]
@@ -1679,18 +2231,28 @@ DefinedTypes:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
       - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1031, IVirtualStationType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6209, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5161, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6233, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5161, Identification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, IJT.Base:1002, IJoiningSystemAssetType ]
+  - HasInterface_reverse:
+    - [ UAObject, IJT.Base:5088, <VirtualStation> ]
 
   JoiningSystemIdentificationType:
   - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
@@ -1698,66 +2260,90 @@ DefinedTypes:
     - [ UAVariable, IJT.Base:6234, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6242, Description, LocalizedText, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6241, IntegratorName, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1005, FunctionalGroupType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6244, JoiningTechnology, LocalizedText, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6458, Location, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6245, Manufacturer, LocalizedText, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6246, ManufacturerUri, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6247, Model, LocalizedText, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6240, Name, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6236, ProductInstanceUri, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6248, SystemId, String, 0, 3 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1029, JoiningSystemIdentificationType ]
 
   JoiningProcessManagementType:
   - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
@@ -1765,6 +2351,8 @@ DefinedTypes:
     - [ UAMethod, IJT.Base:7053, AbortJoiningProcess ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6368, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1775,6 +2363,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7053, AbortJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6369, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1784,10 +2374,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7053, AbortJoiningProcess ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7049, DecrementJoiningProcessCounter ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6360, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1798,6 +2392,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7049, DecrementJoiningProcessCounter ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6361, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1807,14 +2403,20 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7049, DecrementJoiningProcessCounter ]
   - HasProperty:
     - [ UAVariable, IJT.Base:6338, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7054, DeleteJoiningProcess ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6127, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1824,6 +2426,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7054, DeleteJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6140, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1833,10 +2437,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7054, DeleteJoiningProcess ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7047, DeselectJoiningProcess ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6356, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1845,6 +2453,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7047, DeselectJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6357, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1854,10 +2464,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7047, DeselectJoiningProcess ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7093, GetJoiningProcess ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6448, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1867,6 +2481,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7093, GetJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6449, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1878,10 +2494,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7093, GetJoiningProcess ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7043, GetJoiningProcessList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6348, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1890,6 +2510,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7043, GetJoiningProcessList ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6349, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1900,10 +2522,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7043, GetJoiningProcessList ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7044, GetJoiningProcessRevisionList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6350, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1913,6 +2539,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7044, GetJoiningProcessRevisionList ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6351, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1923,10 +2551,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7044, GetJoiningProcessRevisionList ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7048, IncrementJoiningProcessCounter ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6358, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1937,6 +2569,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7048, IncrementJoiningProcessCounter ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6359, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1946,6 +2580,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7048, IncrementJoiningProcessCounter ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7052, ResetJoiningProcess ]
     - HasModellingRule:
@@ -1959,6 +2595,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7052, ResetJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6367, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1968,6 +2606,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7052, ResetJoiningProcess ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7046, SelectJoiningProcess ]
     - HasModellingRule:
@@ -1981,6 +2623,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7046, SelectJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6355, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -1990,6 +2634,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7046, SelectJoiningProcess ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7042, SendJoiningProcess ]
     - HasModellingRule:
@@ -2004,6 +2652,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7042, SendJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6347, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2013,6 +2663,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7042, SendJoiningProcess ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7050, SetJoiningProcessCounter ]
     - HasModellingRule:
@@ -2027,6 +2681,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7050, SetJoiningProcessCounter ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6363, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2036,6 +2692,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7050, SetJoiningProcessCounter ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7045, SetJoiningProcessMapping ]
     - HasModellingRule:
@@ -2049,6 +2709,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7045, SetJoiningProcessMapping ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6353, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2058,6 +2720,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7045, SetJoiningProcessMapping ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7051, SetJoiningProcessSize ]
     - HasModellingRule:
@@ -2072,6 +2738,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7051, SetJoiningProcessSize ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6365, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2081,6 +2749,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7051, SetJoiningProcessSize ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7056, StartJoiningProcess ]
     - HasModellingRule:
@@ -2095,6 +2767,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7056, StartJoiningProcess ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6375, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2104,6 +2778,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7056, StartJoiningProcess ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7073, StartSelectedJoining ]
     - HasModellingRule:
@@ -2117,6 +2795,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7073, StartSelectedJoining ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6409, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2126,6 +2806,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7073, StartSelectedJoining ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1025, JoiningProcessManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JoiningSystemAssetMethodSetType:
   - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
@@ -2133,10 +2819,14 @@ DefinedTypes:
     - [ UAVariable, IJT.Base:6295, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7007, DisconnectAsset ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6047, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2146,6 +2836,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7007, DisconnectAsset ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6051, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2155,10 +2847,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7007, DisconnectAsset ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7006, EnableAsset ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6043, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2168,6 +2864,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7006, EnableAsset ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6046, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2177,10 +2875,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7006, EnableAsset ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7018, ExecuteOperation ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6086, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2192,6 +2894,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7018, ExecuteOperation ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6087, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2201,10 +2905,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7018, ExecuteOperation ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7019, GetErrorInformation ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6088, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2214,6 +2922,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7019, GetErrorInformation ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6102, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2224,10 +2934,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7019, GetErrorInformation ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7011, GetFeedbackFileList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6061, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2236,6 +2950,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7011, GetFeedbackFileList ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6062, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2246,10 +2962,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7011, GetFeedbackFileList ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7014, GetIdentifiers ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6069, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2259,6 +2979,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7014, GetIdentifiers ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6070, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2269,10 +2991,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7014, GetIdentifiers ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7013, GetIOSignals ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6067, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2282,6 +3008,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7013, GetIOSignals ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6068, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2292,6 +3020,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7013, GetIOSignals ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7008, RebootAsset ]
     - HasModellingRule:
@@ -2304,6 +3034,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7008, RebootAsset ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6055, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2313,6 +3045,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7008, RebootAsset ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7017, ResetIdentifiers ]
     - HasModellingRule:
@@ -2328,6 +3064,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7017, ResetIdentifiers ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6085, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2337,6 +3075,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7017, ResetIdentifiers ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7010, SendFeedback ]
     - HasModellingRule:
@@ -2352,6 +3094,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7010, SendFeedback ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6059, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2361,6 +3105,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7010, SendFeedback ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7015, SendIdentifiers ]
     - HasModellingRule:
@@ -2374,6 +3122,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7015, SendIdentifiers ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6078, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2383,6 +3133,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7015, SendIdentifiers ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7016, SendTextIdentifiers ]
     - HasModellingRule:
@@ -2396,6 +3150,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7016, SendTextIdentifiers ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6080, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2405,6 +3161,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7016, SendTextIdentifiers ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7005, SetCalibration ]
     - HasModellingRule:
@@ -2418,6 +3178,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7005, SetCalibration ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6041, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2427,6 +3189,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7005, SetCalibration ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7012, SetIOSignals ]
     - HasModellingRule:
@@ -2440,6 +3206,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7012, SetIOSignals ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6064, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2450,6 +3218,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7012, SetIOSignals ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7009, SetOfflineTimer ]
     - HasModellingRule:
@@ -2463,6 +3235,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7009, SetOfflineTimer ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6057, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2472,6 +3246,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7009, SetOfflineTimer ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7072, SetTime ]
     - HasModellingRule:
@@ -2485,6 +3263,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7072, SetTime ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6407, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -2494,6 +3274,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7072, SetTime ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1026, JoiningSystemAssetMethodSetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JoiningSystemType:
   - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
@@ -2503,6 +3289,8 @@ DefinedTypes:
       - [ UAObjectType, DI:1005, FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
     - HasComponent:
       - [ UAObject, IJT.Base:5016, Assets ]
       - HasModellingRule:
@@ -2521,6 +3309,8 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5032, Accessories ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1015, IAccessoryType ]
           - HasAddIn:
@@ -2529,24 +3319,36 @@ DefinedTypes:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5034, <Accessory> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6298, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5093, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6299, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5093, Identification ]
           - HasComponent:
             - [ UAObject, IJT.Base:5094, Parameters ]
             - HasTypeDefinition:
               - [ UAObjectType, 61, FolderType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5034, <Accessory> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5004, AssetManagement ]
       - HasComponent:
         - [ UAObject, IJT.Base:5029, Batteries ]
         - HasTypeDefinition:
@@ -2559,6 +3361,8 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5029, Batteries ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1010, IBatteryType ]
           - HasAddIn:
@@ -2567,18 +3371,24 @@ DefinedTypes:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5035, <Battery> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6300, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5127, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6301, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5127, Identification ]
           - HasComponent:
             - [ UAObject, IJT.Base:5128, Parameters ]
             - HasTypeDefinition:
@@ -2591,12 +3401,20 @@ DefinedTypes:
                 - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasComponent_reverse:
+                - [ UAObject, IJT.Base:5128, Parameters ]
             - HasComponent:
               - [ UAVariable, IJT.Base:6370, NominalVoltage, Double, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, IJT.Base:2011, JoiningDataVariableType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasComponent_reverse:
+                - [ UAObject, IJT.Base:5128, Parameters ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5035, <Battery> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5028, Cables ]
         - HasTypeDefinition:
@@ -2609,6 +3427,8 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5028, Cables ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1014, ICableType ]
           - HasAddIn:
@@ -2617,24 +3437,34 @@ DefinedTypes:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5036, <Cable> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6302, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5129, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6341, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5129, Identification ]
           - HasComponent:
             - [ UAObject, IJT.Base:5130, Parameters ]
             - HasTypeDefinition:
               - [ UAObjectType, 61, FolderType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5036, <Cable> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5018, Controllers ]
         - HasTypeDefinition:
@@ -2647,6 +3477,8 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11510, MandatoryPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5018, Controllers ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1003, IControllerType ]
           - HasAddIn:
@@ -2655,24 +3487,34 @@ DefinedTypes:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5037, <Controller> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6296, Manufacturer, LocalizedText, 0, 0 ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5077, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6297, SerialNumber, String, 0, 0 ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5077, Identification ]
           - HasComponent:
             - [ UAObject, IJT.Base:5092, Parameters ]
             - HasTypeDefinition:
               - [ UAObjectType, 61, FolderType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5037, <Controller> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5031, Feeders ]
         - HasTypeDefinition:
@@ -2685,24 +3527,32 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5031, Feeders ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5131, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5038, <Feeder> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6342, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5131, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6343, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5131, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1012, IFeederType ]
           - HasComponent:
@@ -2717,6 +3567,12 @@ DefinedTypes:
                 - [ UAVariableType, 63, BaseDataVariableType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasComponent_reverse:
+                - [ UAObject, IJT.Base:5132, Parameters ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5038, <Feeder> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5023, MemoryDevices ]
         - HasTypeDefinition:
@@ -2729,24 +3585,32 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5023, MemoryDevices ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5133, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5039, <MemoryDevice> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6344, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5133, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6345, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5133, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1013, IMemoryDeviceType ]
           - HasComponent:
@@ -2755,6 +3619,10 @@ DefinedTypes:
               - [ UAObjectType, 61, FolderType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5039, <MemoryDevice> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5030, PowerSupplies ]
         - HasTypeDefinition:
@@ -2767,24 +3635,32 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5030, PowerSupplies ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5135, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5040, <PowerSupply> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6372, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5135, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6373, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5135, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1009, IPowerSupplyType ]
           - HasComponent:
@@ -2799,6 +3675,12 @@ DefinedTypes:
                 - [ UAVariableType, 63, BaseDataVariableType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasComponent_reverse:
+                - [ UAObject, IJT.Base:5136, Parameters ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5040, <PowerSupply> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5025, Sensors ]
         - HasTypeDefinition:
@@ -2811,24 +3693,32 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5025, Sensors ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5137, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5041, <Sensor> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6391, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5137, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6404, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5137, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1011, ISensorType ]
           - HasComponent:
@@ -2837,6 +3727,10 @@ DefinedTypes:
               - [ UAObjectType, 61, FolderType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5041, <Sensor> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5022, Servos ]
         - HasTypeDefinition:
@@ -2849,24 +3743,32 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5022, Servos ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5139, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5042, <Servo> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6405, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5139, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6410, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5139, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1008, IServoType ]
           - HasComponent:
@@ -2881,12 +3783,20 @@ DefinedTypes:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5140, Parameters ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5042, <Servo> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6444, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5140, Parameters ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5001, SoftwareComponents ]
         - HasModellingRule:
@@ -2899,26 +3809,36 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5001, SoftwareComponents ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5143, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5101, <Software> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6447, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5143, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6450, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5143, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1019, ISoftwareType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5033, SubComponents ]
         - HasTypeDefinition:
@@ -2931,24 +3851,32 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5033, SubComponents ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5141, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5043, <SubComponent> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6445, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5141, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6446, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5141, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1016, ISubComponentType ]
           - HasComponent:
@@ -2957,6 +3885,10 @@ DefinedTypes:
               - [ UAObjectType, 61, FolderType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5043, <SubComponent> ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5021, Tools ]
         - HasTypeDefinition:
@@ -2969,24 +3901,32 @@ DefinedTypes:
             - [ UAObject, 11508, OptionalPlaceholder ]
           - HasTypeDefinition:
             - [ UAObjectType, 58, BaseObjectType ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5021, Tools ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5145, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5044, <Tool> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6454, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5145, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6455, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5145, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1004, IToolType ]
           - HasComponent:
@@ -2995,6 +3935,8 @@ DefinedTypes:
               - [ UAObjectType, 61, FolderType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAObject, IJT.Base:5044, <Tool> ]
             - HasComponent:
               - [ UAVariable, IJT.Base:6456, Type, Byte, 0, 0 ]
               - HasTypeDefinition:
@@ -3007,6 +3949,12 @@ DefinedTypes:
                   - [ UAVariableType, 68, PropertyType ]
                 - HasModellingRule:
                   - [ UAObject, 78, Mandatory ]
+                - HasProperty_reverse:
+                  - [ UAVariable, IJT.Base:6456, Type, Byte, 0, 0 ]
+              - HasComponent_reverse:
+                - [ UAObject, IJT.Base:5146, Parameters ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
       - HasComponent:
         - [ UAObject, IJT.Base:5087, VirtualStations ]
         - HasTypeDefinition:
@@ -3019,26 +3967,36 @@ DefinedTypes:
             - [ UAObjectType, 58, BaseObjectType ]
           - HasModellingRule:
             - [ UAObject, 11508, OptionalPlaceholder ]
+          - HasComponent_reverse:
+            - [ UAObject, IJT.Base:5087, VirtualStations ]
           - HasAddIn:
             - [ UAObject, IJT.Base:5144, Identification ]
             - HasTypeDefinition:
               - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasAddIn_reverse:
+              - [ UAObject, IJT.Base:5088, <VirtualStation> ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6451, Manufacturer, LocalizedText, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5144, Identification ]
             - HasProperty:
               - [ UAVariable, IJT.Base:6453, SerialNumber, String, 0, 0 ]
               - HasTypeDefinition:
                 - [ UAVariableType, 68, PropertyType ]
               - HasModellingRule:
                 - [ UAObject, 78, Mandatory ]
+              - HasProperty_reverse:
+                - [ UAObject, IJT.Base:5144, Identification ]
           - HasInterface:
             - [ UAObjectType, IJT.Base:1031, IVirtualStationType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5016, Assets ]
     - HasAddIn:
       - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasModellingRule:
@@ -3049,6 +4007,8 @@ DefinedTypes:
         - [ UAMethod, IJT.Base:7075, DisconnectAsset ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6412, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3058,6 +4018,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7075, DisconnectAsset ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6413, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3067,10 +4029,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7075, DisconnectAsset ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7076, EnableAsset ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6414, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3080,6 +4046,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7076, EnableAsset ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6415, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3089,10 +4057,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7076, EnableAsset ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7077, ExecuteOperation ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6416, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3104,6 +4076,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7077, ExecuteOperation ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6417, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3113,10 +4087,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7077, ExecuteOperation ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7078, GetErrorInformation ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6418, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3126,6 +4104,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7078, GetErrorInformation ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6419, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3136,10 +4116,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7078, GetErrorInformation ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7079, GetFeedbackFileList ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6420, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3148,6 +4132,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7079, GetFeedbackFileList ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6421, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3158,10 +4144,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7079, GetFeedbackFileList ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7081, GetIdentifiers ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6424, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3171,6 +4161,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7081, GetIdentifiers ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6425, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3181,10 +4173,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7081, GetIdentifiers ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7080, GetIOSignals ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6422, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3194,6 +4190,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7080, GetIOSignals ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6423, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3204,6 +4202,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7080, GetIOSignals ]
+      - HasAddIn_reverse:
+        - [ UAObject, IJT.Base:5004, AssetManagement ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7082, RebootAsset ]
         - HasModellingRule:
@@ -3216,6 +4218,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7082, RebootAsset ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6427, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3225,6 +4229,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7082, RebootAsset ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7083, ResetIdentifiers ]
         - HasModellingRule:
@@ -3240,6 +4248,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7083, ResetIdentifiers ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6429, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3249,6 +4259,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7083, ResetIdentifiers ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7084, SendFeedback ]
         - HasModellingRule:
@@ -3264,6 +4278,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7084, SendFeedback ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6431, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3273,6 +4289,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7084, SendFeedback ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7085, SendIdentifiers ]
         - HasModellingRule:
@@ -3286,6 +4306,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7085, SendIdentifiers ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6433, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3295,6 +4317,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7085, SendIdentifiers ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7086, SendTextIdentifiers ]
         - HasModellingRule:
@@ -3308,6 +4334,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7086, SendTextIdentifiers ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6435, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3317,6 +4345,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7086, SendTextIdentifiers ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7087, SetCalibration ]
         - HasModellingRule:
@@ -3330,6 +4362,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7087, SetCalibration ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6437, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3339,6 +4373,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7087, SetCalibration ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7088, SetIOSignals ]
         - HasModellingRule:
@@ -3352,6 +4390,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7088, SetIOSignals ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6439, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3362,6 +4402,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7088, SetIOSignals ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7089, SetOfflineTimer ]
         - HasModellingRule:
@@ -3375,6 +4419,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7089, SetOfflineTimer ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6441, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3384,6 +4430,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7089, SetOfflineTimer ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7090, SetTime ]
         - HasModellingRule:
@@ -3397,6 +4447,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7090, SetTime ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6443, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -3406,6 +4458,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7090, SetTime ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5124, MethodSet ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5026, Identification ]
     - HasTypeDefinition:
@@ -3418,12 +4474,18 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6195, IntegratorName, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasInterface:
       - [ UAObjectType, DI:15035, IVendorNameplateType ]
     - HasProperty:
@@ -3432,48 +4494,66 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6197, Location, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6223, Manufacturer, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6224, ManufacturerUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6237, Model, LocalizedText, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6193, Name, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6238, ProductInstanceUri, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6239, SystemId, String, 0, 3 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, IJT.Base:5026, Identification ]
+    - HasAddIn_reverse:
+      - [ UAObject, IJT.Base:5074, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
     - HasTypeDefinition:
@@ -3484,6 +4564,8 @@ DefinedTypes:
       - [ UAMethod, IJT.Base:7057, AbortJoiningProcess ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6376, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3494,6 +4576,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7057, AbortJoiningProcess ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6377, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3503,10 +4587,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7057, AbortJoiningProcess ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7058, DecrementJoiningProcessCounter ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6378, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3517,6 +4605,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7058, DecrementJoiningProcessCounter ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6379, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3526,10 +4616,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7058, DecrementJoiningProcessCounter ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7059, DeselectJoiningProcess ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6380, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3538,6 +4632,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7059, DeselectJoiningProcess ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6381, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3547,10 +4643,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7059, DeselectJoiningProcess ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7060, GetJoiningProcessList ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6382, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3559,6 +4659,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7060, GetJoiningProcessList ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6383, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3569,10 +4671,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7060, GetJoiningProcessList ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7061, GetJoiningProcessRevisionList ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6384, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3582,6 +4688,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7061, GetJoiningProcessRevisionList ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6385, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3592,10 +4700,14 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7061, GetJoiningProcessRevisionList ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7062, IncrementJoiningProcessCounter ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6386, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3606,6 +4718,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7062, IncrementJoiningProcessCounter ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6387, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3615,6 +4729,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7062, IncrementJoiningProcessCounter ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7063, ResetJoiningProcess ]
       - HasModellingRule:
@@ -3628,6 +4746,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7063, ResetJoiningProcess ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6389, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3637,6 +4757,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7063, ResetJoiningProcess ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7065, SelectJoiningProcess ]
       - HasModellingRule:
@@ -3650,6 +4774,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7065, SelectJoiningProcess ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6393, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3659,6 +4785,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7065, SelectJoiningProcess ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7066, SendJoiningProcess ]
       - HasModellingRule:
@@ -3673,6 +4803,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7066, SendJoiningProcess ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6395, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3682,6 +4814,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7066, SendJoiningProcess ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7067, SetJoiningProcessCounter ]
       - HasModellingRule:
@@ -3696,6 +4832,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7067, SetJoiningProcessCounter ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6397, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3705,6 +4843,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7067, SetJoiningProcessCounter ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7068, SetJoiningProcessMapping ]
       - HasModellingRule:
@@ -3718,6 +4860,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7068, SetJoiningProcessMapping ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6399, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3727,6 +4871,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7068, SetJoiningProcessMapping ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7069, SetJoiningProcessSize ]
       - HasModellingRule:
@@ -3741,6 +4889,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7069, SetJoiningProcessSize ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6401, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3750,6 +4900,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7069, SetJoiningProcessSize ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7070, StartJoiningProcess ]
       - HasModellingRule:
@@ -3764,6 +4918,8 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7070, StartJoiningProcess ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6403, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3773,6 +4929,10 @@ DefinedTypes:
           - [ UAObject, 78, Mandatory ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7070, StartJoiningProcess ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5113, JoiningProcessManagement ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5100, JointManagement ]
     - HasTypeDefinition:
@@ -3783,6 +4943,8 @@ DefinedTypes:
       - [ UAMethod, IJT.Base:7031, GetJoint ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6316, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3792,6 +4954,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7031, GetJoint ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6317, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3802,10 +4966,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7031, GetJoint ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7032, GetJointComponent ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6318, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3815,6 +4983,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7032, GetJointComponent ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6319, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3825,10 +4995,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7032, GetJointComponent ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7033, GetJointComponentList ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6320, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3837,6 +5011,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7033, GetJointComponentList ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6321, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3847,10 +5023,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7033, GetJointComponentList ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7034, GetJointDesign ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6322, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3860,6 +5040,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7034, GetJointDesign ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6323, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3870,10 +5052,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7034, GetJointDesign ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7035, GetJointDesignList ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6324, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3882,6 +5068,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7035, GetJointDesignList ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6325, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3892,10 +5080,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7035, GetJointDesignList ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7036, GetJointList ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6326, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3904,6 +5096,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7036, GetJointList ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6327, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3914,10 +5108,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7036, GetJointList ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7037, GetJointRevisionList ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6328, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3927,6 +5125,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7037, GetJointRevisionList ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6329, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3937,6 +5137,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7037, GetJointRevisionList ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7038, SelectJoint ]
       - HasModellingRule:
@@ -3951,6 +5155,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7038, SelectJoint ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6331, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3960,6 +5166,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7038, SelectJoint ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7039, SendJoint ]
       - HasModellingRule:
@@ -3973,6 +5183,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7039, SendJoint ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6333, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -3982,6 +5194,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7039, SendJoint ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7040, SendJointComponent ]
       - HasModellingRule:
@@ -3995,6 +5211,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7040, SendJointComponent ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6335, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4004,6 +5222,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7040, SendJointComponent ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7041, SendJointDesign ]
       - HasModellingRule:
@@ -4017,6 +5239,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7041, SendJointDesign ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6337, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4026,6 +5250,10 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7041, SendJointDesign ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5100, JointManagement ]
   - HasComponent:
     - [ UAObject, IJT.Base:5074, MachineryBuildingBlocks ]
     - HasModellingRule:
@@ -4044,12 +5272,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6195, IntegratorName, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasInterface:
         - [ UAObjectType, DI:15035, IVendorNameplateType ]
       - HasProperty:
@@ -4058,48 +5292,68 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6197, Location, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6223, Manufacturer, LocalizedText, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6224, ManufacturerUri, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6237, Model, LocalizedText, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6193, Name, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6238, ProductInstanceUri, String, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6239, SystemId, String, 0, 3 ]
         - HasTypeDefinition:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasProperty_reverse:
+          - [ UAObject, IJT.Base:5026, Identification ]
+      - HasAddIn_reverse:
+        - [ UAObject, IJT.Base:5074, MachineryBuildingBlocks ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
     - HasAddIn:
       - [ UAObject, IJT.Base:5005, ResultManagement ]
       - HasTypeDefinition:
@@ -4110,6 +5364,8 @@ DefinedTypes:
         - [ UAMethod, IJT.Base:7001, GetLatestResult ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5005, ResultManagement ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6106, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -4118,6 +5374,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7001, GetLatestResult ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6107, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -4128,10 +5386,14 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7001, GetLatestResult ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7002, GetResultById ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5005, ResultManagement ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6095, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -4141,6 +5403,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7002, GetResultById ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6096, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -4151,10 +5415,14 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7002, GetResultById ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5005, ResultManagement ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6097, InputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -4166,6 +5434,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6103, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -4176,6 +5446,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
       - HasComponent:
         - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
         - HasModellingRule:
@@ -4188,6 +5460,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
         - HasProperty:
           - [ UAVariable, IJT.Base:6105, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -4196,12 +5470,22 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5005, ResultManagement ]
+      - HasAddIn_reverse:
+        - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
       - HasComponent:
         - [ UAObject, IJT.Base:5078, Results ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAObjectType, 61, FolderType ]
+        - HasComponent_reverse:
+          - [ UAObject, IJT.Base:5005, ResultManagement ]
+      - HasAddIn_reverse:
+        - [ UAObject, IJT.Base:5074, MachineryBuildingBlocks ]
   - HasAddIn:
     - [ UAObject, IJT.Base:5005, ResultManagement ]
     - HasTypeDefinition:
@@ -4212,6 +5496,8 @@ DefinedTypes:
       - [ UAMethod, IJT.Base:7001, GetLatestResult ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5005, ResultManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6106, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4220,6 +5506,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7001, GetLatestResult ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6107, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4230,10 +5518,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7001, GetLatestResult ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7002, GetResultById ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5005, ResultManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6095, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4243,6 +5535,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7002, GetResultById ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6096, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4253,10 +5547,14 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7002, GetResultById ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5005, ResultManagement ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6097, InputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4268,6 +5566,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6103, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4278,6 +5578,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7003, GetResultIdListFiltered ]
     - HasComponent:
       - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
       - HasModellingRule:
@@ -4290,6 +5592,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
       - HasProperty:
         - [ UAVariable, IJT.Base:6105, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -4298,12 +5602,24 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, IJT.Base:7004, ReleaseResultHandle ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5005, ResultManagement ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, IJT.Base:1005, JoiningSystemType ]
     - HasComponent:
       - [ UAObject, IJT.Base:5078, Results ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
       - HasTypeDefinition:
         - [ UAObjectType, 61, FolderType ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5005, ResultManagement ]
+    - HasAddIn_reverse:
+      - [ UAObject, IJT.Base:5074, MachineryBuildingBlocks ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JointManagementType:
   - [ UAObjectType, IJT.Base:1023, JointManagementType ]
@@ -4311,10 +5627,14 @@ DefinedTypes:
     - [ UAVariable, IJT.Base:6339, DefaultInstanceBrowseName, QualifiedName, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
+    - HasProperty_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7055, DeleteJoint ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6141, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4325,6 +5645,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7055, DeleteJoint ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6151, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4334,10 +5656,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7055, DeleteJoint ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7071, DeleteJointComponent ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6162, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4347,6 +5673,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7071, DeleteJointComponent ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6163, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4356,10 +5684,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7071, DeleteJointComponent ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7064, DeleteJointDesign ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6153, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4369,6 +5701,8 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7064, DeleteJointDesign ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6161, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4378,10 +5712,14 @@ DefinedTypes:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7064, DeleteJointDesign ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7028, GetJoint ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6310, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4391,6 +5729,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7028, GetJoint ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6311, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4401,10 +5741,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7028, GetJoint ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7030, GetJointComponent ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6314, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4414,6 +5758,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7030, GetJointComponent ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6315, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4424,10 +5770,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7030, GetJointComponent ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7026, GetJointComponentList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6306, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4436,6 +5786,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7026, GetJointComponentList ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6307, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4446,10 +5798,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7026, GetJointComponentList ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7029, GetJointDesign ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6312, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4459,6 +5815,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7029, GetJointDesign ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6313, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4469,10 +5827,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7029, GetJointDesign ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7025, GetJointDesignList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6304, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4481,6 +5843,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7025, GetJointDesignList ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6305, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4491,10 +5855,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7025, GetJointDesignList ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7024, GetJointList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6235, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4503,6 +5871,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7024, GetJointList ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6303, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4513,10 +5883,14 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7024, GetJointList ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7027, GetJointRevisionList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6308, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4526,6 +5900,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7027, GetJointRevisionList ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6309, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4536,6 +5912,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7027, GetJointRevisionList ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7023, SelectJoint ]
     - HasModellingRule:
@@ -4550,6 +5928,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7023, SelectJoint ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6230, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4559,6 +5939,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7023, SelectJoint ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7020, SendJoint ]
     - HasModellingRule:
@@ -4572,6 +5956,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7020, SendJoint ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6184, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4581,6 +5967,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7020, SendJoint ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7022, SendJointComponent ]
     - HasModellingRule:
@@ -4594,6 +5984,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7022, SendJointComponent ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6228, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4603,6 +5995,10 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7022, SendJointComponent ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
   - HasComponent:
     - [ UAMethod, IJT.Base:7021, SendJointDesign ]
     - HasModellingRule:
@@ -4616,6 +6012,8 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7021, SendJointDesign ]
     - HasProperty:
       - [ UAVariable, IJT.Base:6191, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -4625,6 +6023,12 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAMethod, IJT.Base:7021, SendJointDesign ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1023, JointManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   JoiningSystemResultManagementType:
   - [ UAObjectType, IJT.Base:1022, JoiningSystemResultManagementType ]
@@ -4642,12 +6046,16 @@ DefinedTypes:
         - [ UAObject, 11508, OptionalPlaceholder ]
       - HasTypeDefinition:
         - [ UAVariableType, IJT.Base:2014, JoiningSystemResultType, ResultDataType, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, IJT.Base:5098, Results ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6211, ResultContent ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6225, <ResultVariable>, ResultDataType, 0, 0 ]
       - HasStructuredComponent:
         - [ UAVariable, IJT.Base:6226, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
         - HasModellingRule:
@@ -4660,3 +6068,11 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
+          - HasStructuredComponent_reverse:
+            - [ UAVariable, IJT.Base:6226, ResultMetaData, JoiningResultMetaDataType, 0, 0 ]
+        - HasStructuredComponent_reverse:
+          - [ UAVariable, IJT.Base:6225, <ResultVariable>, ResultDataType, 0, 0 ]
+    - HasComponent_reverse:
+      - [ UAObjectType, IJT.Base:1022, JoiningSystemResultManagementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]

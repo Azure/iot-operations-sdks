@@ -1,0 +1,74 @@
+{
+  "@context": [
+    "dtmi:dtdl:context;4#limitless",
+    "dtmi:dtdl:limits:onvif;1",
+    "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:historization;2"
+  ],
+  "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType;1",
+  "@type": [ "Interface", "Mqtt" ],
+  "payloadFormat": "Json/ecma/404",
+  "schemas": [
+    {
+      "@id": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType:dataType:Answer;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "Accepted",
+          "enumValue": 0
+        },
+        {
+          "name": "Delayed",
+          "enumValue": 1
+        },
+        {
+          "name": "AcceptedWithCondition",
+          "enumValue": 2
+        },
+        {
+          "name": "Denied",
+          "enumValue": 3
+        }
+      ]
+    }
+  ],
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "Answer",
+      "schema": "dtmi:opcua:Mining_ExternalStandards_IREDES:IRWorkOrderReplyGenType:dataType:Answer;1",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Condition",
+      "schema": "string",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Duration",
+      "schema": "duration",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Extra",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "Reason",
+      "schema": {
+        "@type": "Array",
+        "elementSchema": "string"
+      },
+      "writable": true
+    }
+  ]
+}

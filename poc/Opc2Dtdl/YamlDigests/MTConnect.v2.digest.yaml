@@ -1,0 +1,3204 @@
+DataTypes:
+- UADataType: [ MTConnect.v2:2618, AssetEventDataType ]
+  Fields:
+    AssetId: [ String, 0 ]
+    AssetType: [ String, 0 ]
+- UADataType: [ MTConnect.v2:2634, MTCategoryType ]
+  Enums:
+    EVENT: 0
+    CONDITION: 1
+    SAMPLE: 2
+- UADataType: [ MTConnect.v2:2635, MTCoordinateSystemType ]
+  Enums:
+    MACHINE: 0
+    WORK: 1
+- UADataType: [ MTConnect.v2:2633, MTRepresentationType ]
+  Enums:
+    DISCRETE: 0
+    TIME_SERIES: 1
+    VALUE: 2
+- UADataType: [ MTConnect.v2:2636, MTResetTriggerType ]
+  Enums:
+    ACTION_COMPLETE: 0
+    ANNUAL: 1
+    DAY: 2
+    MAINTENANCE: 3
+    MANUAL: 4
+    MONTH: 5
+    POWER_ON: 6
+    SHIFT: 7
+    WEEK: 8
+- UADataType: [ MTConnect.v2:2659, MTStatisticType ]
+  Enums:
+    AVERAGE: 0
+    MAXIMUM: 1
+    MEDIAN: 2
+    MINIMUM: 3
+    MODE: 4
+    RANGE: 5
+    ROOT_MEAN_SQUARE: 6
+    STANDARD_DEVIATION: 7
+- UADataType: [ MTConnect.v2:2653, MessageDataType ]
+  Fields:
+    NativeCode: [ String, 0 ]
+    Text: [ String, 0 ]
+- UADataType: [ MTConnect.v2:2637, ThreeSpaceSampleDataType ]
+  Fields:
+    X: [ Double, 0 ]
+    Y: [ Double, 0 ]
+    Z: [ Double, 0 ]
+- UADataType: [ MTConnect.v2:2669, MTSeverityDataType ]
+  Enums:
+    FAULT: 0
+    NORMAL: 1
+    WARNING: 2
+- UADataType: [ MTConnect.v2:2668, QualifierDataType ]
+  Enums:
+    HIGH: 0
+    LOW: 1
+- UADataType: [ MTConnect.v2:2197, ActiveStateDataType ]
+  Enums:
+    ACTIVE: 0
+    INACTIVE: 1
+- UADataType: [ MTConnect.v2:2198, AvailabilityDataType ]
+  Enums:
+    AVAILABLE: 0
+    UNAVAILABLE: 1
+- UADataType: [ MTConnect.v2:2199, AxisCouplingDataType ]
+  Enums:
+    MASTER: 0
+    SLAVE: 1
+    SYNCHRONOUS: 2
+    TANDEM: 3
+- UADataType: [ MTConnect.v2:2200, AxisStateDataType ]
+  Enums:
+    HOME: 0
+    PARKED: 1
+    STOPPED: 2
+    TRAVEL: 3
+- UADataType: [ MTConnect.v2:2202, CompositionStateDataType ]
+  Enums:
+    ACTIVE: 0
+    CLOSED: 1
+    DOWN: 2
+    INACTIVE: 3
+    LEFT: 4
+    OFF: 5
+    ON: 6
+    OPEN: 7
+    RIGHT: 8
+    TRANSITIONING: 9
+    UNLATCHED: 10
+    UP: 11
+- UADataType: [ MTConnect.v2:2203, ControllerModeDataType ]
+  Enums:
+    AUTOMATIC: 0
+    EDIT: 1
+    MANUAL: 2
+    MANUAL_DATA_INPUT: 3
+    SEMI_AUTOMATIC: 4
+- UADataType: [ MTConnect.v2:2205, DirectionDataType ]
+  Enums:
+    CLOCKWISE: 0
+    COUNTER_CLOCKWISE: 1
+    NEGATIVE: 2
+    POSITIVE: 3
+- UADataType: [ MTConnect.v2:2207, EmergencyStopDataType ]
+  Enums:
+    ARMED: 0
+    TRIGGERED: 1
+- UADataType: [ MTConnect.v2:2262, ExecutionDataType ]
+  Enums:
+    ACTIVE: 0
+    FEED_HOLD: 1
+    INTERRUPTED: 2
+    OPTIONAL_STOP: 3
+    READY: 4
+    PROGRAM_COMPLETED: 5
+    PROGRAM_STOPPED: 6
+    STOPPED: 7
+- UADataType: [ MTConnect.v2:2208, FunctionalModeDataType ]
+  Enums:
+    MAINTENANCE: 0
+    PRODUCTION: 1
+    PROCESS_DEVELOPMENT: 2
+    SETUP: 3
+    TEARDOWN: 4
+- UADataType: [ MTConnect.v2:2234, InterfaceStateDataType ]
+  Enums:
+    ACTIVE: 0
+    COMPLETE: 1
+    FAIL: 2
+    NOT_READY: 4
+    READY: 5
+- UADataType: [ MTConnect.v2:2230, InterfaceStatusDataType ]
+  Enums:
+    DISABLED: 0
+    ENABLED: 1
+- UADataType: [ MTConnect.v2:2204, OnOffDataType ]
+  Enums:
+    OFF: 0
+    ON: 1
+- UADataType: [ MTConnect.v2:2201, OpenStateDataType ]
+  Enums:
+    CLOSED: 0
+    OPEN: 1
+    UNLATCHED: 2
+- UADataType: [ MTConnect.v2:2209, PathModeDataType ]
+  Enums:
+    INDEPENDENT: 0
+    MASTER: 1
+    MIRROR: 2
+    SYNCHRONOUS: 3
+- UADataType: [ MTConnect.v2:2210, ProgramEditDataType ]
+  Enums:
+    ACTIVE: 0
+    NOT_READY: 1
+    READY: 2
+- UADataType: [ MTConnect.v2:2211, RotaryModeDataType ]
+  Enums:
+    CONTOUR: 0
+    INDEX: 1
+    SPINDLE: 2
+- UADataType: [ MTConnect.v2:2206, YesNoDataType ]
+  Enums:
+    NO: 0
+    YES: 1
+
+DefinedTypes:
+
+  MTAssetEventType:
+  - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2753, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2755, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2754, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2752, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2759, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2758, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2757, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2756, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2751, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2760, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2763, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2760, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2762, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2760, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2764, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2760, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2761, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2760, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, MTConnect.v2:2621, MTAssetEventType, AssetEventDataType, -1, 0 ]
+
+  MTControlledVocabEventType:
+  - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 2376, MultiStateDiscreteType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2773, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2775, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2774, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2772, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2779, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2778, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2777, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2776, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2771, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2780, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2783, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2780, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2782, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2780, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2784, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2780, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2781, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2780, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3090, ValueAsText, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2626, MTControlledVocabEventType, UInteger, -1, 0 ]
+
+  MTMessageType:
+  - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2793, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2795, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2794, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2792, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2799, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2798, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2797, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2796, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2791, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2800, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2803, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2800, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2802, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2800, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2804, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2800, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2801, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2800, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, MTConnect.v2:2471, MTMessageType, MessageDataType, -1, 0 ]
+
+  MTNumericEventType:
+  - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 2365, DataItemType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2807, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2809, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2808, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2806, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2813, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2812, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2811, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2810, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2805, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2814, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2817, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2814, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2816, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2814, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2818, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2814, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2815, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2814, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2822, CoordinateSystem, MTCoordinateSystemType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3671, Duration, Duration, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2823, InitialValue, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2826, MinimumDeltaFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2821, NativeUnits, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2824, ResetTrigger, MTResetTriggerType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3675, ResetTriggeredReason, MTResetTriggerType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2819, SignificantDigits, Int16, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2820, Statistic, MTStatisticType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2825, Units, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2438, MTNumericEventType, Number, -1, 0 ]
+
+  MTSampleType:
+  - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 17497, AnalogUnitType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2841, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2843, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2842, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2840, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2847, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2846, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2845, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2844, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2839, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2848, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2851, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2848, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2850, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2848, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2852, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2848, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2849, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2848, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2856, CoordinateSystem, MTCoordinateSystemType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3672, Duration, Duration, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2857, InitialValue, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2860, MinimumDeltaFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2855, NativeUnits, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2858, ResetTrigger, MTResetTriggerType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3676, ResetTriggeredReason, MTResetTriggerType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2853, SignificantDigits, Int16, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2854, Statistic, MTStatisticType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2859, Units, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2429, MTSampleType, Number, -1, 0 ]
+
+  MTStringEventType:
+  - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 63, BaseDataVariableType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2869, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2871, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2870, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2868, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2875, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2874, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2873, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2872, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2867, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2876, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2879, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2876, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2878, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2876, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2880, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2876, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2877, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2876, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, MTConnect.v2:2433, MTStringEventType, String, -1, 0 ]
+
+  MTThreeSpaceSampleType:
+  - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasSubtype_reverse:
+    - [ UAVariableType, 2365, DataItemType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2883, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2885, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2884, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2882, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2889, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2888, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2887, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2886, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2881, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2890, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2893, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2890, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2892, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2890, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2894, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2890, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2891, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2890, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2898, CoordinateSystem, MTCoordinateSystemType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3673, Duration, Duration, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2899, InitialValue, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2902, MinimumDeltaFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2897, NativeUnits, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2900, ResetTrigger, MTResetTriggerType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3677, ResetTriggeredReason, MTResetTriggerType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2895, SignificantDigits, Int16, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2896, Statistic, MTStatisticType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2901, Units, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2642, EngineeringUnits, EUInformation, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAVariableType, MTConnect.v2:2641, MTThreeSpaceSampleType, ThreeSpaceSampleDataType, -1, 0 ]
+
+  MTChannelType:
+  - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2063, CalibrationDate, UtcTime, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2065, CalibrationInitials, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2062, MTDescription, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2061, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2064, NextCalibrationDate, UtcTime, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2060, Number, Int32, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+
+  MTComponentType:
+  - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2023, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2024, NativeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2027, SampleInterval, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2026, SampleRate, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2025, Uuid, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2022, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2028, Description ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2740, Data, String, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2028, Description ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2739, Manufacturer, String, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2028, Description ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2738, SerialNumber, String, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2028, Description ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2737, Station, String, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2028, Description ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2029, Configuration ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2044, MTConfigurationType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - Organizes:
+    - [ UAObject, MTConnect.v2:2043, Compositions ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - Organizes_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - Organizes:
+    - [ UAObject, MTConnect.v2:2042, Components ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - Organizes_reverse:
+      - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  MTDeviceType:
+  - [ UAObjectType, MTConnect.v2:2015, MTDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2017, Iso841Class, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2015, MTDeviceType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3668, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2015, MTDeviceType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3669, Uuid, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2015, MTDeviceType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2016, Version, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2015, MTDeviceType ]
+
+  MTCompositionType:
+  - [ UAObjectType, MTConnect.v2:2067, MTCompositionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2069, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2067, MTCompositionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2071, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2067, MTCompositionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2070, Uuid, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2067, MTCompositionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2068, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2067, MTCompositionType ]
+
+  MTConfigurationType:
+  - [ UAObjectType, MTConnect.v2:2044, MTConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MTSensorConfigurationType:
+  - [ UAObjectType, MTConnect.v2:2046, MTSensorConfigurationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2044, MTConfigurationType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2048, CalibrationDate, UtcTime, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2046, MTSensorConfigurationType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2050, CalibrationInitials, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2046, MTSensorConfigurationType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2047, FirwareVersion, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2046, MTSensorConfigurationType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2049, NextCalibrationDate, UtcTime, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2046, MTSensorConfigurationType ]
+  - Organizes:
+    - [ UAObject, MTConnect.v2:2052, Channels ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - Organizes_reverse:
+      - [ UAObjectType, MTConnect.v2:2046, MTSensorConfigurationType ]
+
+  MTDescriptionType:
+  - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2057, Data, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2056, Manufacturer, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2055, SerialNumber, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2054, Station, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+
+  ActuatorType:
+  - [ UAObjectType, MTConnect.v2:2074, ActuatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  AuxiliariesType:
+  - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  BarFeederType:
+  - [ UAObjectType, MTConnect.v2:2082, BarFeederType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
+
+  EnvironmentalType:
+  - [ UAObjectType, MTConnect.v2:2102, EnvironmentalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
+
+  LoaderType:
+  - [ UAObjectType, MTConnect.v2:2112, LoaderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
+
+  SensorType:
+  - [ UAObjectType, MTConnect.v2:2134, SensorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
+
+  ToolingDeliveryType:
+  - [ UAObjectType, MTConnect.v2:2140, ToolingDeliveryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
+
+  WasteDisposalType:
+  - [ UAObjectType, MTConnect.v2:2142, WasteDisposalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
+
+  AxesType:
+  - [ UAObjectType, MTConnect.v2:2078, AxesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  LinearType:
+  - [ UAObjectType, MTConnect.v2:2110, LinearType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2078, AxesType ]
+
+  RotaryType:
+  - [ UAObjectType, MTConnect.v2:2132, RotaryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2078, AxesType ]
+
+  ChuckType:
+  - [ UAObjectType, MTConnect.v2:2086, ChuckType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2132, RotaryType ]
+
+  ControllerType:
+  - [ UAObjectType, MTConnect.v2:2088, ControllerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  PathType:
+  - [ UAObjectType, MTConnect.v2:2120, PathType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2088, ControllerType ]
+
+  DoorType:
+  - [ UAObjectType, MTConnect.v2:2096, DoorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  InterfacesType:
+  - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  BarFeederInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2080, BarFeederInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
+
+  ChuckInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2084, ChuckInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
+
+  DoorInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2094, DoorInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
+
+  MaterialHandlerInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2116, MaterialHandlerInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
+
+  ResourcesType:
+  - [ UAObjectType, MTConnect.v2:2130, ResourcesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  MaterialsType:
+  - [ UAObjectType, MTConnect.v2:2118, MaterialsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2130, ResourcesType ]
+
+  StockType:
+  - [ UAObjectType, MTConnect.v2:2136, StockType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2118, MaterialsType ]
+
+  PersonnelType:
+  - [ UAObjectType, MTConnect.v2:2122, PersonnelType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2130, ResourcesType ]
+
+  SystemsType:
+  - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+
+  CoolantType:
+  - [ UAObjectType, MTConnect.v2:2090, CoolantType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  DielectricType:
+  - [ UAObjectType, MTConnect.v2:2092, DielectricType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  ElectricType:
+  - [ UAObjectType, MTConnect.v2:2098, ElectricType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  EnclosureType:
+  - [ UAObjectType, MTConnect.v2:2100, EnclosureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  FeederType:
+  - [ UAObjectType, MTConnect.v2:2104, FeederType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  HydraulicType:
+  - [ UAObjectType, MTConnect.v2:2106, HydraulicType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  LubricationType:
+  - [ UAObjectType, MTConnect.v2:2114, LubricationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  PneumaticType:
+  - [ UAObjectType, MTConnect.v2:2124, PneumaticType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  ProcessPowerType:
+  - [ UAObjectType, MTConnect.v2:2126, ProcessPowerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  ProtectiveType:
+  - [ UAObjectType, MTConnect.v2:2128, ProtectiveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
+
+  MTConditionClassType:
+  - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
+
+  MTConstraintType:
+  - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2650, Maximum, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2649, Minimum, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2651, Nominal, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2648, Values, String, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+
+  MTEventClassType:
+  - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
+
+  MTMessageEventType:
+  - [ UAObjectType, MTConnect.v2:2656, MTMessageEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2041, BaseEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2657, NativeCode, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2656, MTMessageEventType ]
+
+  MTConditionEventType:
+  - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 2782, ConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4336, ActiveState, LocalizedText, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4327, DataItemId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4328, MTSeverity, MTSeverityDataType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4329, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4330, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4331, NativeCode, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4332, NativeSeverity, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:4333, Qualifier, QualifierDataType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+
+  MTConditionType:
+  - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2917, Category, MTCategoryType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2919, MTSubTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2918, MTTypeName, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2916, Name, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2923, PeriodFilter, Float, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2922, Representation, MTRepresentationType, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2921, SampleRate, Double, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2920, SourceData, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2915, XmlId, String, -1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  - HasComponent:
+    - [ UAObject, MTConnect.v2:2924, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2927, Maximum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2924, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2926, Minimum, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2924, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2928, Nominal, Float, -1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2924, Constraints ]
+    - HasProperty:
+      - [ UAVariable, MTConnect.v2:2925, Values, String, 1, 0 ]
+      - HasTypeDefinition:
+        - [ UAVariableType, 68, PropertyType ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+      - HasProperty_reverse:
+        - [ UAObject, MTConnect.v2:2924, Constraints ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+
+  MTDataItemClassType:
+  - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  MTMessageClassType:
+  - [ UAObjectType, MTConnect.v2:2427, MTMessageClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+
+  MTSampleClassType:
+  - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
+
+  AccelerationClassType:
+  - [ UAObjectType, MTConnect.v2:2265, AccelerationClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  AccumulatedTimeClassType:
+  - [ UAObjectType, MTConnect.v2:2267, AccumulatedTimeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  AmperageClassType:
+  - [ UAObjectType, MTConnect.v2:2273, AmperageClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  AngleClassType:
+  - [ UAObjectType, MTConnect.v2:2275, AngleClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  AngularAccelerationClassType:
+  - [ UAObjectType, MTConnect.v2:2269, AngularAccelerationClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  AngularVelocityClassType:
+  - [ UAObjectType, MTConnect.v2:2271, AngularVelocityClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  AxisFeedrateClassType:
+  - [ UAObjectType, MTConnect.v2:2277, AxisFeedrateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  ClockTimeClassType:
+  - [ UAObjectType, MTConnect.v2:2279, ClockTimeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  ConcentrationClassType:
+  - [ UAObjectType, MTConnect.v2:2281, ConcentrationClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  ConductivityClassType:
+  - [ UAObjectType, MTConnect.v2:2283, ConductivityClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  DisplacementClassType:
+  - [ UAObjectType, MTConnect.v2:2285, DisplacementClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  ElectricalEnergyClassType:
+  - [ UAObjectType, MTConnect.v2:2287, ElectricalEnergyClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  EquipmentTimerClassType:
+  - [ UAObjectType, MTConnect.v2:2289, EquipmentTimerClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  FillLevelClassType:
+  - [ UAObjectType, MTConnect.v2:2291, FillLevelClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  FlowClassType:
+  - [ UAObjectType, MTConnect.v2:2293, FlowClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  FrequencyClassType:
+  - [ UAObjectType, MTConnect.v2:2295, FrequencyClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  LengthClassType:
+  - [ UAObjectType, MTConnect.v2:2297, LengthClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  LinearForceClassType:
+  - [ UAObjectType, MTConnect.v2:2299, LinearForceClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  LoadClassType:
+  - [ UAObjectType, MTConnect.v2:2263, LoadClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  MassClassType:
+  - [ UAObjectType, MTConnect.v2:2301, MassClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  PathFeedrateClassType:
+  - [ UAObjectType, MTConnect.v2:2303, PathFeedrateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  PathPositionClassType:
+  - [ UAObjectType, MTConnect.v2:2305, PathPositionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  PHClassType:
+  - [ UAObjectType, MTConnect.v2:2307, PHClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  PositionClassType:
+  - [ UAObjectType, MTConnect.v2:2309, PositionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  PowerFactorClassType:
+  - [ UAObjectType, MTConnect.v2:2311, PowerFactorClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  PressureClassType:
+  - [ UAObjectType, MTConnect.v2:2313, PressureClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  ProcessTimerClassType:
+  - [ UAObjectType, MTConnect.v2:2315, ProcessTimerClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  ResistenceClassType:
+  - [ UAObjectType, MTConnect.v2:2317, ResistenceClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  RotaryVelocityClassType:
+  - [ UAObjectType, MTConnect.v2:2319, RotaryVelocityClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  SoundLevelClassType:
+  - [ UAObjectType, MTConnect.v2:2321, SoundLevelClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  StrainClassType:
+  - [ UAObjectType, MTConnect.v2:2323, StrainClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  TemperatureClassType:
+  - [ UAObjectType, MTConnect.v2:2325, TemperatureClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  TensionClassType:
+  - [ UAObjectType, MTConnect.v2:2327, TensionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  TiltClassType:
+  - [ UAObjectType, MTConnect.v2:2329, TiltClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  TorqueClassType:
+  - [ UAObjectType, MTConnect.v2:2331, TorqueClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  VelocityClassType:
+  - [ UAObjectType, MTConnect.v2:2335, VelocityClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  ViscosityClassType:
+  - [ UAObjectType, MTConnect.v2:2339, ViscosityClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  VoltageClassType:
+  - [ UAObjectType, MTConnect.v2:2341, VoltageClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  VoltAmpereClassType:
+  - [ UAObjectType, MTConnect.v2:2333, VoltAmpereClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  VoltAmpereReactiveClassType:
+  - [ UAObjectType, MTConnect.v2:2337, VoltAmpereReactiveClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  WattageClassType:
+  - [ UAObjectType, MTConnect.v2:2343, WattageClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+
+  MTControlledVocabEventClassType:
+  - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+
+  ActuatorStateClassType:
+  - [ UAObjectType, MTConnect.v2:2146, ActuatorStateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2949, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2197, ActiveStateDataType ]
+
+  AvailabilityClassType:
+  - [ UAObjectType, MTConnect.v2:2149, AvailabilityClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2955, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2198, AvailabilityDataType ]
+
+  AxisCouplingClassType:
+  - [ UAObjectType, MTConnect.v2:2152, AxisCouplingClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2961, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2199, AxisCouplingDataType ]
+
+  AxisInterlockClassType:
+  - [ UAObjectType, MTConnect.v2:2155, AxisInterlockClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2949, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2197, ActiveStateDataType ]
+
+  AxisStateClassType:
+  - [ UAObjectType, MTConnect.v2:2158, AxisStateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2967, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2200, AxisStateDataType ]
+
+  ChuckInterlockClassType:
+  - [ UAObjectType, MTConnect.v2:2161, ChuckInterlockClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2949, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2197, ActiveStateDataType ]
+
+  ChuckStateClassType:
+  - [ UAObjectType, MTConnect.v2:2164, ChuckStateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3027, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2201, OpenStateDataType ]
+
+  CloseChuckClassType:
+  - [ UAObjectType, MTConnect.v2:2256, CloseChuckClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  CloseDoorClassType:
+  - [ UAObjectType, MTConnect.v2:2250, CloseDoorClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  CompositionStateClassType:
+  - [ UAObjectType, MTConnect.v2:2173, CompositionStateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2973, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2202, CompositionStateDataType ]
+
+  ControllerModeClassType:
+  - [ UAObjectType, MTConnect.v2:2167, ControllerModeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2979, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2203, ControllerModeDataType ]
+
+  ControllerModeOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:2176, ControllerModeOverrideClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3021, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2204, OnOffDataType ]
+
+  DirectionClassType:
+  - [ UAObjectType, MTConnect.v2:2179, DirectionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2985, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2205, DirectionDataType ]
+
+  DoorStateClassType:
+  - [ UAObjectType, MTConnect.v2:2182, DoorStateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3027, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2201, OpenStateDataType ]
+
+  EmergencyStopClassType:
+  - [ UAObjectType, MTConnect.v2:2185, EmergencyStopClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2991, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2207, EmergencyStopDataType ]
+
+  EndOfBarClassType:
+  - [ UAObjectType, MTConnect.v2:2188, EndOfBarClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3051, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2206, YesNoDataType ]
+
+  EquipmentModeClassType:
+  - [ UAObjectType, MTConnect.v2:2191, EquipmentModeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3021, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2204, OnOffDataType ]
+
+  ExecutionClassType:
+  - [ UAObjectType, MTConnect.v2:2170, ExecutionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2997, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2262, ExecutionDataType ]
+
+  FunctionalModeClassType:
+  - [ UAObjectType, MTConnect.v2:2194, FunctionalModeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3003, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2208, FunctionalModeDataType ]
+
+  InterfaceStateClassType:
+  - [ UAObjectType, MTConnect.v2:2227, InterfaceStateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3015, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2230, InterfaceStatusDataType ]
+
+  MaterialChangeClassType:
+  - [ UAObjectType, MTConnect.v2:2235, MaterialChangeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  MaterialFeedClassType:
+  - [ UAObjectType, MTConnect.v2:2231, MaterialFeedClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  MaterialLoadClassType:
+  - [ UAObjectType, MTConnect.v2:2241, MaterialLoadClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  MaterialRetractClassType:
+  - [ UAObjectType, MTConnect.v2:2238, MaterialRetractClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  MaterialUnloadClassType:
+  - [ UAObjectType, MTConnect.v2:2244, MaterialUnloadClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  OpenChuckClassType:
+  - [ UAObjectType, MTConnect.v2:2253, OpenChuckClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  OpenDoorClassType:
+  - [ UAObjectType, MTConnect.v2:2247, OpenDoorClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  PartChangeClassType:
+  - [ UAObjectType, MTConnect.v2:2259, PartChangeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3009, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2234, InterfaceStateDataType ]
+
+  PathModeClassType:
+  - [ UAObjectType, MTConnect.v2:2215, PathModeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3033, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2209, PathModeDataType ]
+
+  PowerStateClassType:
+  - [ UAObjectType, MTConnect.v2:2218, PowerStateClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3021, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2204, OnOffDataType ]
+
+  ProgramEditClassType:
+  - [ UAObjectType, MTConnect.v2:2221, ProgramEditClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3039, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2210, ProgramEditDataType ]
+
+  RotaryModeClassType:
+  - [ UAObjectType, MTConnect.v2:2224, RotaryModeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:3045, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2211, RotaryModeDataType ]
+
+  SpindleInterlockClassType:
+  - [ UAObjectType, MTConnect.v2:2212, SpindleInterlockClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  - HasProperty:
+    - [ UAVariable, MTConnect.v2:2949, EnumStrings, LocalizedText, 1, 0 ]
+    - HasTypeDefinition:
+      - [ UAVariableType, 68, PropertyType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UADataType, MTConnect.v2:2197, ActiveStateDataType ]
+
+  MTNumericEventClassType:
+  - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+
+  AxisFeedrateOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:2347, AxisFeedrateOverrideClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+
+  BlockCountClassType:
+  - [ UAObjectType, MTConnect.v2:2349, BlockCountClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+
+  HardnessClassType:
+  - [ UAObjectType, MTConnect.v2:2351, HardnessClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+
+  LineNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2353, LineNumberClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+
+  PartCountClassType:
+  - [ UAObjectType, MTConnect.v2:2355, PartCountClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+
+  PathFeedrateOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:3628, PathFeedrateOverrideClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+
+  RotaryVelocityOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:2357, RotaryVelocityOverrideClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+
+  MTStringEventClassType:
+  - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+
+  AssetChangedClassType:
+  - [ UAObjectType, MTConnect.v2:2405, AssetChangedClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  AssetRemovedClassType:
+  - [ UAObjectType, MTConnect.v2:2407, AssetRemovedClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  BlockClassType:
+  - [ UAObjectType, MTConnect.v2:2363, BlockClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  CoupledAxesClassType:
+  - [ UAObjectType, MTConnect.v2:2365, CoupledAxesClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  LineClassType:
+  - [ UAObjectType, MTConnect.v2:2409, LineClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  LineLabelClassType:
+  - [ UAObjectType, MTConnect.v2:2367, LineLabelClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  MaterialClassType:
+  - [ UAObjectType, MTConnect.v2:2369, MaterialClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  MessageClassType:
+  - [ UAObjectType, MTConnect.v2:2403, MessageClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  OperatorIdClassType:
+  - [ UAObjectType, MTConnect.v2:2371, OperatorIdClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  PalletIdClassType:
+  - [ UAObjectType, MTConnect.v2:2373, PalletIdClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  PartIdClassType:
+  - [ UAObjectType, MTConnect.v2:2375, PartIdClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  PartNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2377, PartNumberClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ProgramClassType:
+  - [ UAObjectType, MTConnect.v2:2379, ProgramClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ProgramCommentClassType:
+  - [ UAObjectType, MTConnect.v2:2385, ProgramCommentClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ProgramEditNameClassType:
+  - [ UAObjectType, MTConnect.v2:2381, ProgramEditNameClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ProgramHeaderClassType:
+  - [ UAObjectType, MTConnect.v2:2383, ProgramHeaderClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  SerialNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2387, SerialNumberClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ToolAssetIdClassType:
+  - [ UAObjectType, MTConnect.v2:2389, ToolAssetIdClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ToolNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2391, ToolNumberClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ToolOffsetClassType:
+  - [ UAObjectType, MTConnect.v2:2393, ToolOffsetClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  UserClassType:
+  - [ UAObjectType, MTConnect.v2:2395, UserClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  WireClassType:
+  - [ UAObjectType, MTConnect.v2:2397, WireClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  WorkholdingClassType:
+  - [ UAObjectType, MTConnect.v2:2399, WorkholdingClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  WorkOffsetClassType:
+  - [ UAObjectType, MTConnect.v2:2401, WorkOffsetClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+
+  ActuatorClassType:
+  - [ UAObjectType, MTConnect.v2:2411, ActuatorClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+
+  CommunicationsClassType:
+  - [ UAObjectType, MTConnect.v2:2413, CommunicationsClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+
+  DataRangeClassType:
+  - [ UAObjectType, MTConnect.v2:2415, DataRangeClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+
+  HardwareClassType:
+  - [ UAObjectType, MTConnect.v2:2419, HardwareClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+
+  LogicProgramClassType:
+  - [ UAObjectType, MTConnect.v2:2417, LogicProgramClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+
+  MotionProgramClassType:
+  - [ UAObjectType, MTConnect.v2:2421, MotionProgramClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+
+  SystemClassType:
+  - [ UAObjectType, MTConnect.v2:2423, SystemClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+
+  MTDataItemSubClassType:
+  - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11163, BaseConditionClassType ]
+
+  AbsoluteSubClassType:
+  - [ UAObjectType, MTConnect.v2:2478, AbsoluteSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ActionSubClassType:
+  - [ UAObjectType, MTConnect.v2:2482, ActionSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ActualSubClassType:
+  - [ UAObjectType, MTConnect.v2:2480, ActualSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  AllSubClassType:
+  - [ UAObjectType, MTConnect.v2:2484, AllSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  AlternatingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2486, AlternatingSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  AScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2488, AScaleSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  AuxiliarySubClassType:
+  - [ UAObjectType, MTConnect.v2:2490, AuxiliarySubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  BadSubClassType:
+  - [ UAObjectType, MTConnect.v2:2492, BadSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  BrinellSubClassType:
+  - [ UAObjectType, MTConnect.v2:2494, BrinellSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  BScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2496, BScaleSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  CommandedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2498, CommandedSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ControlSubClassType:
+  - [ UAObjectType, MTConnect.v2:2502, ControlSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  CScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2504, CScaleSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  DelaySubClassType:
+  - [ UAObjectType, MTConnect.v2:2506, DelaySubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  DirectSubClassType:
+  - [ UAObjectType, MTConnect.v2:2508, DirectSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  DryRunSubClassType:
+  - [ UAObjectType, MTConnect.v2:2510, DryRunSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  DScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2512, DScaleSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  FixtureSubClassType:
+  - [ UAObjectType, MTConnect.v2:2514, FixtureSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  GoodSubClassType:
+  - [ UAObjectType, MTConnect.v2:2500, GoodSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  IncrementalSubClassType:
+  - [ UAObjectType, MTConnect.v2:2516, IncrementalSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  JobSubClassType:
+  - [ UAObjectType, MTConnect.v2:2518, JobSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  KineticSubClassType:
+  - [ UAObjectType, MTConnect.v2:2520, KineticSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  LateralSubClassType:
+  - [ UAObjectType, MTConnect.v2:2522, LateralSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  LeebSubClassType:
+  - [ UAObjectType, MTConnect.v2:2524, LeebSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  LengthSubClassType:
+  - [ UAObjectType, MTConnect.v2:2526, LengthSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  LinearSubClassType:
+  - [ UAObjectType, MTConnect.v2:2528, LinearSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  LineSubClassType:
+  - [ UAObjectType, MTConnect.v2:2530, LineSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  LoadedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2532, LoadedSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  MachineAxisLockSubClassType:
+  - [ UAObjectType, MTConnect.v2:2534, MachineAxisLockSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  MaintenanceSubClassType:
+  - [ UAObjectType, MTConnect.v2:2536, MaintenanceSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ManualUnclampSubClassType:
+  - [ UAObjectType, MTConnect.v2:2538, ManualUnclampSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  MaximumSubClassType:
+  - [ UAObjectType, MTConnect.v2:2540, MaximumSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  MinimumSubClassType:
+  - [ UAObjectType, MTConnect.v2:2542, MinimumSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  MohsSubClassType:
+  - [ UAObjectType, MTConnect.v2:2544, MohsSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  MoleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2546, MoleSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  MotionSubClassType:
+  - [ UAObjectType, MTConnect.v2:2548, MotionSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  NoScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2550, NoScaleSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  OperatingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2552, OperatingSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  OperatorSubClassType:
+  - [ UAObjectType, MTConnect.v2:2554, OperatorSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  OptionalStopSubClassType:
+  - [ UAObjectType, MTConnect.v2:2556, OptionalStopSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  OverrideSubClassType:
+  - [ UAObjectType, MTConnect.v2:2558, OverrideSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  PoweredSubClassType:
+  - [ UAObjectType, MTConnect.v2:2562, PoweredSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  PrimarySubClassType:
+  - [ UAObjectType, MTConnect.v2:2560, PrimarySubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ProbeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2564, ProbeSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ProcessSubClassType:
+  - [ UAObjectType, MTConnect.v2:2566, ProcessSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ProgrammedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2568, ProgrammedSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  RadialSubClassType:
+  - [ UAObjectType, MTConnect.v2:2570, RadialSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  RapidSubClassType:
+  - [ UAObjectType, MTConnect.v2:2572, RapidSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  RelativeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2574, RelativeSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  RemainingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2576, RemainingSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  RequestSubClassType:
+  - [ UAObjectType, MTConnect.v2:2578, RequestSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ResponseSubClassType:
+  - [ UAObjectType, MTConnect.v2:2580, ResponseSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  RockwellSubClassType:
+  - [ UAObjectType, MTConnect.v2:2582, RockwellSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  RotarySubClassType:
+  - [ UAObjectType, MTConnect.v2:2584, RotarySubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  SetUpSubClassType:
+  - [ UAObjectType, MTConnect.v2:2586, SetUpSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ShoreSubClassType:
+  - [ UAObjectType, MTConnect.v2:2588, ShoreSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  StandardSubClassType:
+  - [ UAObjectType, MTConnect.v2:2590, StandardSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  SwitchedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2592, SwitchedSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  TargetSubClassType:
+  - [ UAObjectType, MTConnect.v2:2594, TargetSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ToolChangeStopSubClassType:
+  - [ UAObjectType, MTConnect.v2:2596, ToolChangeStopSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ToolEdgeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2598, ToolEdgeSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ToolGroupSubClassType:
+  - [ UAObjectType, MTConnect.v2:2600, ToolGroupSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  ToolSubClassType:
+  - [ UAObjectType, MTConnect.v2:2602, ToolSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  UasbleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2604, UasbleSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  VerticalSubClassType:
+  - [ UAObjectType, MTConnect.v2:2606, VerticalSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  VickersSubClassType:
+  - [ UAObjectType, MTConnect.v2:2610, VickersSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  VolumeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2608, VolumeSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  WeightSubClassType:
+  - [ UAObjectType, MTConnect.v2:2612, WeightSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  WorkingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2614, WorkingSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+
+  WorkpieceSubClassType:
+  - [ UAObjectType, MTConnect.v2:2616, WorkpieceSubClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]

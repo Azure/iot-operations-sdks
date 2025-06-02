@@ -50,6 +50,8 @@ DefinedTypes:
       - [ UAObjectType, Mining.TransportDumping.General:1003, HaulageMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.TransportDumping.RearDumpTruck:1002, RearDumpTruckType ]
     - HasComponent:
       - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
       - HasTypeDefinition:
@@ -60,6 +62,8 @@ DefinedTypes:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7001, ClearSpot ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6014, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -68,6 +72,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7001, ClearSpot ]
       - HasComponent:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7002, JoinQueue ]
         - HasModellingRule:
@@ -80,6 +86,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7002, JoinQueue ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6016, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -88,10 +98,14 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7002, JoinQueue ]
       - HasComponent:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7003, LoadingComplete ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6017, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -100,6 +114,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7003, LoadingComplete ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5003, HaulageMachine ]
       - HasComponent:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7004, SetQueuePriority ]
         - HasModellingRule:
@@ -112,6 +130,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7004, SetQueuePriority ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6019, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -120,6 +140,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7004, SetQueuePriority ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
       - HasComponent:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7005, StartPositioning ]
         - HasModellingRule:
@@ -132,6 +156,8 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7005, StartPositioning ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6021, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -140,6 +166,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7005, StartPositioning ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
       - HasComponent:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7006, StartUnloading ]
         - HasModellingRule:
@@ -152,6 +182,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7006, StartUnloading ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
       - HasComponent:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7007, StopPositioning ]
         - HasModellingRule:
@@ -164,6 +198,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7007, StopPositioning ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
       - HasComponent:
         - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7008, StopUnloading ]
         - HasModellingRule:
@@ -176,6 +214,10 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAMethod, Mining.TransportDumping.RearDumpTruck:7008, StopUnloading ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5004, MethodSet ]
     - HasComponent:
       - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
       - HasTypeDefinition:
@@ -188,36 +230,48 @@ DefinedTypes:
           - [ UAVariableType, 17570, AnalogUnitRangeType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6026, EngineeringUnits, EUInformation, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6025, AsymmetryLoad, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6027, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6025, AsymmetryLoad, Double, 0, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6028, CurrentPayload, Double, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 17570, AnalogUnitRangeType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6029, EngineeringUnits, EUInformation, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6028, CurrentPayload, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6030, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6028, CurrentPayload, Double, 0, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6031, MachinePose, 3DFrame, 0, 0 ]
         - HasTypeDefinition:
@@ -230,42 +284,58 @@ DefinedTypes:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6031, MachinePose, 3DFrame, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6032, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6031, MachinePose, 3DFrame, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6033, X, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6032, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6034, Y, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6032, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6035, Z, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6032, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6064, Constant, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6031, MachinePose, 3DFrame, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6065, FixedBase, Boolean, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 80, Optional ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6031, MachinePose, 3DFrame, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6036, Orientation, 3DOrientation, 0, 0 ]
           - HasTypeDefinition:
@@ -278,18 +348,26 @@ DefinedTypes:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6036, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6038, B, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6036, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6039, C, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6036, Orientation, 3DOrientation, 0, 0 ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6031, MachinePose, 3DFrame, 0, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6040, MachineShape, 3DCartesianCoordinates, 1, 0 ]
         - HasTypeDefinition:
@@ -302,30 +380,42 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6040, MachineShape, 3DCartesianCoordinates, 1, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6042, X, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6040, MachineShape, 3DCartesianCoordinates, 1, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6043, Y, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6040, MachineShape, 3DCartesianCoordinates, 1, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6044, Z, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6040, MachineShape, 3DCartesianCoordinates, 1, 0 ]
       - HasComponent:
         - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6045, MachineVelocity, 3DVector, 0, 0 ]
         - HasTypeDefinition:
           - [ UAVariableType, 63, BaseDataVariableType ]
         - HasModellingRule:
           - [ UAObject, 80, Optional ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6046, Speed, Double, 0, 3 ]
           - HasTypeDefinition:
@@ -338,24 +428,36 @@ DefinedTypes:
               - [ UAObject, 78, Mandatory ]
             - HasTypeDefinition:
               - [ UAVariableType, 68, PropertyType ]
+            - HasProperty_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6046, Speed, Double, 0, 3 ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6045, MachineVelocity, 3DVector, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6048, X, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6045, MachineVelocity, 3DVector, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6049, Y, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6045, MachineVelocity, 3DVector, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6050, Z, Double, 0, 0 ]
           - HasTypeDefinition:
             - [ UAVariableType, 63, BaseDataVariableType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6045, MachineVelocity, 3DVector, 0, 0 ]
+      - HasComponent_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5003, HaulageMachine ]
       - HasComponent:
         - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6051, PayloadCapacity, Double, 0, 0 ]
         - HasTypeDefinition:
@@ -368,12 +470,18 @@ DefinedTypes:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6051, PayloadCapacity, Double, 0, 0 ]
         - HasProperty:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6053, EURange, Range, 0, 0 ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
           - HasTypeDefinition:
             - [ UAVariableType, 68, PropertyType ]
+          - HasProperty_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6051, PayloadCapacity, Double, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
       - HasComponent:
         - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6054, TailHeight, 3DFrame, 0, 0 ]
         - HasTypeDefinition:
@@ -386,24 +494,32 @@ DefinedTypes:
             - [ UAVariableType, 18774, 3DCartesianCoordinatesType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6054, TailHeight, 3DFrame, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6056, X, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6055, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6057, Y, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6055, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6058, Z, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6055, CartesianCoordinates, 3DCartesianCoordinates, 0, 0 ]
         - HasComponent:
           - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6059, Orientation, 3DOrientation, 0, 0 ]
           - HasTypeDefinition:
@@ -416,18 +532,28 @@ DefinedTypes:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6059, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6061, B, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6059, Orientation, 3DOrientation, 0, 0 ]
           - HasComponent:
             - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6062, C, Double, 0, 0 ]
             - HasTypeDefinition:
               - [ UAVariableType, 63, BaseDataVariableType ]
             - HasModellingRule:
               - [ UAObject, 78, Mandatory ]
+            - HasComponent_reverse:
+              - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6059, Orientation, 3DOrientation, 0, 0 ]
+          - HasComponent_reverse:
+            - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6054, TailHeight, 3DFrame, 0, 0 ]
+        - HasComponent_reverse:
+          - [ UAObject, Mining.TransportDumping.RearDumpTruck:5005, ParameterSet ]
   - HasAddIn:
     - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
     - HasTypeDefinition:
@@ -440,39 +566,57 @@ DefinedTypes:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6008, DeviceClass, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6009, Manufacturer, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6010, ManufacturerUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
+    - HasAddIn_reverse:
+      - [ UAObjectType, Mining.TransportDumping.RearDumpTruck:1002, RearDumpTruckType ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6011, Model, LocalizedText, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6012, ProductInstanceUri, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
     - HasProperty:
       - [ UAVariable, Mining.TransportDumping.RearDumpTruck:6013, SerialNumber, String, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
+      - HasProperty_reverse:
+        - [ UAObject, Mining.TransportDumping.RearDumpTruck:5002, MiningEquipmentIdentification ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]

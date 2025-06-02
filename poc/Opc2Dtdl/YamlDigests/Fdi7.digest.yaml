@@ -65,24 +65,38 @@ DefinedTypes:
 
   Foundation_H1:
   - [ UAObjectType, FDI7:1371, Foundation_H1 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   Foundation_HSE:
   - [ UAObjectType, FDI7:1372, Foundation_HSE ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   Profibus_DP:
   - [ UAObjectType, FDI7:1373, Profibus_DP ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   Profibus_PA:
   - [ UAObjectType, FDI7:1374, Profibus_PA ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   Profinet_IO:
   - [ UAObjectType, FDI7:1375, Profinet_IO ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   HART:
   - [ UAObjectType, FDI7:1376, HART ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   ISA100_Wireless:
   - [ UAObjectType, FDI7:1377, ISA100_Wireless ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   GenericProtocol:
   - [ UAObjectType, FDI7:1378, GenericProtocol ]
@@ -92,6 +106,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1378, GenericProtocol ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1006, ProtocolType ]
 
   ConnectionPoint_Foundation_H1:
   - [ UAObjectType, FDI7:1380, ConnectionPoint_Foundation_H1 ]
@@ -101,18 +119,26 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1380, ConnectionPoint_Foundation_H1 ]
   - HasProperty:
     - [ UAVariable, FDI7:1422, OrdinalNumber, Int32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1380, ConnectionPoint_Foundation_H1 ]
   - HasProperty:
     - [ UAVariable, FDI7:1423, SIFConnection, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1380, ConnectionPoint_Foundation_H1 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   ConnectionPoint_Foundation_HSE:
   - [ UAObjectType, FDI7:1424, ConnectionPoint_Foundation_HSE ]
@@ -122,12 +148,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1424, ConnectionPoint_Foundation_HSE ]
   - HasProperty:
     - [ UAVariable, FDI7:1466, OrdinalNumber, Int32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1424, ConnectionPoint_Foundation_HSE ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   ConnectionPoint_Profibus_DP:
   - [ UAObjectType, FDI7:1467, ConnectionPoint_Profibus_DP ]
@@ -137,6 +169,10 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1467, ConnectionPoint_Profibus_DP ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   ConnectionPoint_Profinet_IO:
   - [ UAObjectType, FDI7:1509, ConnectionPoint_Profinet_IO ]
@@ -146,24 +182,34 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1509, ConnectionPoint_Profinet_IO ]
   - HasProperty:
     - [ UAVariable, FDI7:1551, IPv4, Byte, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1509, ConnectionPoint_Profinet_IO ]
   - HasProperty:
     - [ UAVariable, FDI7:1552, DNSNAME, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1509, ConnectionPoint_Profinet_IO ]
   - HasProperty:
     - [ UAVariable, FDI7:1553, VALID, Boolean, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1509, ConnectionPoint_Profinet_IO ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   ConnectionPoint_HART_TP5:
   - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
@@ -173,36 +219,50 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1596, DevMfg, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1597, DevType, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1598, DevRev, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1599, DevTag, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
   - HasProperty:
     - [ UAVariable, FDI7:1600, DevPollAddr, Byte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1554, ConnectionPoint_HART_TP5 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   ConnectionPoint_HART_TP6:
   - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
@@ -212,36 +272,50 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1643, DevMfg, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1644, DevType, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1645, DevRev, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1646, DevTag, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
   - HasProperty:
     - [ UAVariable, FDI7:1647, DevPollAddr, Byte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1601, ConnectionPoint_HART_TP6 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   ConnectionPoint_HART_TP7:
   - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
@@ -251,36 +325,50 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1690, DevMfg, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1691, DevType, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1692, DevRev, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1693, DevTag, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
   - HasProperty:
     - [ UAVariable, FDI7:1694, DevPollAddr, Byte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1648, ConnectionPoint_HART_TP7 ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   ConnectionPoint_ISA100_Wireless:
   - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
@@ -290,36 +378,50 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1737, DevMfg, UInt32, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1738, DevType, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1739, DevRev, UInt16, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1740, DevTag, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
   - HasProperty:
     - [ UAVariable, FDI7:1741, DevPollAddr, Byte, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1695, ConnectionPoint_ISA100_Wireless ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   GenericConnectionPoint:
   - [ UAObjectType, FDI7:1742, GenericConnectionPoint ]
@@ -329,12 +431,18 @@ DefinedTypes:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1742, GenericConnectionPoint ]
   - HasProperty:
     - [ UAVariable, FDI7:1784, ProtocolIdentifier, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1742, GenericConnectionPoint ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:6308, ConnectionPointType ]
 
   CommunicationServerType:
   - [ UAObjectType, FDI7:11, CommunicationServerType ]
@@ -344,6 +452,8 @@ DefinedTypes:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:11, CommunicationServerType ]
   - HasComponent:
     - [ UAObject, FDI7:14, MethodSet ]
     - HasComponent:
@@ -356,8 +466,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:75, Initialize ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:14, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:77, Reset ]
       - HasProperty:
@@ -368,8 +482,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:77, Reset ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:14, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:79, AddComponent ]
       - HasProperty:
@@ -382,6 +500,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:79, AddComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:81, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -391,8 +511,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:79, AddComponent ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:14, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:82, RemoveComponent ]
       - HasProperty:
@@ -403,6 +527,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:82, RemoveComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:84, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -411,18 +537,28 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:82, RemoveComponent ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:14, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:11, CommunicationServerType ]
   - HasComponent:
     - [ UAObject, FDI7:85, SubDevices ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:11, CommunicationServerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
 
   ServerCommunicationDeviceType:
   - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
@@ -439,8 +575,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:157, Scan ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:96, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:159, ResetScan ]
       - HasProperty:
@@ -451,8 +591,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:159, ResetScan ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:96, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:164, AddComponent ]
       - HasProperty:
@@ -465,6 +609,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:164, AddComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:166, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -474,8 +620,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:164, AddComponent ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:96, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:167, RemoveComponent ]
       - HasProperty:
@@ -486,6 +636,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:167, RemoveComponent ]
       - HasProperty:
         - [ UAVariable, FDI7:169, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -494,18 +646,28 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:167, RemoveComponent ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:96, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
   - HasProperty:
     - [ UAVariable, FDI7:15001, ListOfCommunicationProfiles, String, 1, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
 
   ServerCommunicationFFH1DeviceType:
   - [ UAObjectType, FDI7:324, ServerCommunicationFFH1DeviceType ]
@@ -526,6 +688,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:398, SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:400, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -535,12 +699,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:398, SetAddress ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:327, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:324, ServerCommunicationFFH1DeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:401, ServiceProvider ]
     - HasComponent:
@@ -555,6 +725,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:440, Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:442, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -563,8 +735,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:440, Disconnect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:404, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:443, Connect ]
         - HasProperty:
@@ -580,6 +756,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:443, Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:445, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -589,8 +767,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:443, Connect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:404, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:446, Transfer ]
         - HasProperty:
@@ -607,6 +789,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:446, Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:448, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -617,64 +801,90 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:446, Transfer ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:404, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:424, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:425, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:429, HardwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:428, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:427, DeviceRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:426, DeviceManual, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:422, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:423, RevisionCounter, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:401, ServiceProvider ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI7:997, ServerCommunicationFFH1ServiceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:324, ServerCommunicationFFH1DeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
 
   ServerCommunicationFFHSEDeviceType:
   - [ UAObjectType, FDI7:452, ServerCommunicationFFHSEDeviceType ]
@@ -692,6 +902,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:526, SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:528, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -701,12 +913,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:526, SetAddress ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:455, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:452, ServerCommunicationFFHSEDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:529, ServiceProvider ]
     - HasComponent:
@@ -721,6 +939,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:568, Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:570, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -729,8 +949,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:568, Disconnect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:532, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:571, Connect ]
         - HasProperty:
@@ -744,6 +968,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:571, Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:573, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -753,8 +979,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:571, Connect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:532, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:574, Transfer ]
         - HasProperty:
@@ -771,6 +1001,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:574, Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:576, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -781,64 +1013,90 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:574, Transfer ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:532, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:552, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:553, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:557, HardwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:556, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:555, DeviceRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:554, DeviceManual, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:550, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:551, RevisionCounter, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:529, ServiceProvider ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI7:1073, ServerCommunicationFFHSEServiceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:452, ServerCommunicationFFHSEDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
 
   ServerCommunicationPROFIBUSDeviceType:
   - [ UAObjectType, FDI7:580, ServerCommunicationPROFIBUSDeviceType ]
@@ -855,6 +1113,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:654, SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:656, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -863,12 +1123,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:654, SetAddress ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:583, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:580, ServerCommunicationPROFIBUSDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:657, ServiceProvider ]
     - HasComponent:
@@ -883,6 +1149,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:696, Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:698, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -891,8 +1159,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:696, Disconnect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:660, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:699, Connect ]
         - HasProperty:
@@ -905,6 +1177,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:699, Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:701, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -913,8 +1187,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:699, Connect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:660, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:702, Transfer ]
         - HasProperty:
@@ -929,6 +1207,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:702, Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:704, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -939,64 +1219,90 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:702, Transfer ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:660, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:680, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:681, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:685, HardwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:684, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:683, DeviceRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:682, DeviceManual, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:678, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:679, RevisionCounter, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:657, ServiceProvider ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI7:1149, ServerCommunicationPROFIBUSServiceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:580, ServerCommunicationPROFIBUSDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
 
   ServerCommunicationPROFINETDeviceType:
   - [ UAObjectType, FDI7:705, ServerCommunicationPROFINETDeviceType ]
@@ -1016,6 +1322,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:779, SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:781, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1024,12 +1332,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:779, SetAddress ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:708, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:705, ServerCommunicationPROFINETDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:782, ServiceProvider ]
     - HasComponent:
@@ -1044,6 +1358,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:821, Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:823, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1052,8 +1368,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:821, Disconnect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:785, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:824, Connect ]
         - HasProperty:
@@ -1067,6 +1387,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:824, Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:826, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1075,8 +1397,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:824, Connect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:785, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:827, Transfer ]
         - HasProperty:
@@ -1093,6 +1419,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:827, Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:829, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1103,64 +1431,90 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:827, Transfer ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:785, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:805, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:806, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:810, HardwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:809, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:808, DeviceRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:807, DeviceManual, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:803, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:804, RevisionCounter, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:782, ServiceProvider ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI7:1222, ServerCommunicationPROFINETServiceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:705, ServerCommunicationPROFINETDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
 
   ServerCommunicationHARType:
   - [ UAObjectType, FDI7:830, ServerCommunicationHARType ]
@@ -1177,6 +1531,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:904, SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:906, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1185,12 +1541,18 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:904, SetAddress ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:833, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:830, ServerCommunicationHARType ]
   - HasComponent:
     - [ UAObject, FDI7:907, ServiceProvider ]
     - HasComponent:
@@ -1205,6 +1567,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:946, Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:948, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1213,8 +1577,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:946, Disconnect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:910, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:949, Connect ]
         - HasProperty:
@@ -1226,6 +1594,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:949, Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:951, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1234,8 +1604,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:949, Connect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:910, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:952, Transfer ]
         - HasProperty:
@@ -1248,6 +1622,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:952, Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:954, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1257,64 +1633,90 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:952, Transfer ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:910, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:930, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:931, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:935, HardwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:934, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:933, DeviceRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:932, DeviceManual, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:928, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:929, RevisionCounter, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:907, ServiceProvider ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI7:1295, ServerCommunicationHARTServiceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:830, ServerCommunicationHARType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
 
   ServerCommunicationISA100_WirelessDeviceType:
   - [ UAObjectType, FDI7:1788, ServerCommunicationISA100_WirelessDeviceType ]
@@ -1332,6 +1734,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:1901, Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:1903, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1340,8 +1744,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:1901, Disconnect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:1865, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:1904, Connect ]
         - HasProperty:
@@ -1354,6 +1762,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:1904, Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:1906, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1362,8 +1772,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:1904, Connect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:1865, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:1907, Transfer ]
         - HasProperty:
@@ -1381,6 +1795,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:1907, Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:1909, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1390,64 +1806,90 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:1907, Transfer ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:1865, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1885, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1886, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1890, HardwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1889, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1888, DeviceRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1887, DeviceManual, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1883, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:1884, RevisionCounter, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1862, ServiceProvider ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI7:2057, ServerCommunicationISA100_WirelessServiceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:1788, ServerCommunicationISA100_WirelessDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
 
   ServerCommunicationGENERICDeviceType:
   - [ UAObjectType, FDI7:1913, ServerCommunicationGENERICDeviceType ]
@@ -1464,6 +1906,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1988, SetAddress ]
       - HasProperty:
         - [ UAVariable, FDI7:1990, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1472,18 +1916,26 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1988, SetAddress ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1916, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:1913, ServerCommunicationGENERICDeviceType ]
   - HasProperty:
     - [ UAVariable, FDI7:1987, ProtocolIdentifier, String, 0, 0 ]
     - HasTypeDefinition:
       - [ UAVariableType, 68, PropertyType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasProperty_reverse:
+      - [ UAObjectType, FDI7:1913, ServerCommunicationGENERICDeviceType ]
   - HasComponent:
     - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasComponent:
@@ -1498,6 +1950,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:2030, Disconnect ]
         - HasProperty:
           - [ UAVariable, FDI7:2032, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1506,8 +1960,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:2030, Disconnect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:1994, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:2033, Connect ]
         - HasProperty:
@@ -1519,6 +1977,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:2033, Connect ]
         - HasProperty:
           - [ UAVariable, FDI7:2035, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1527,8 +1987,12 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:2033, Connect ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:1994, MethodSet ]
       - HasComponent:
         - [ UAMethod, FDI7:2036, Transfer ]
         - HasProperty:
@@ -1543,6 +2007,8 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:2036, Transfer ]
         - HasProperty:
           - [ UAVariable, FDI7:2038, OutputArguments, Argument, 1, 0 ]
           - Arguments:
@@ -1553,64 +2019,90 @@ DefinedTypes:
             - [ UAVariableType, 68, PropertyType ]
           - HasModellingRule:
             - [ UAObject, 78, Mandatory ]
+          - HasProperty_reverse:
+            - [ UAMethod, FDI7:2036, Transfer ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasComponent_reverse:
+          - [ UAObject, FDI7:1994, MethodSet ]
       - HasTypeDefinition:
         - [ UAObjectType, 58, BaseObjectType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2014, Manufacturer, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2015, Model, LocalizedText, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2019, HardwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2018, SoftwareRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2017, DeviceRevision, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2016, DeviceManual, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2012, SerialNumber, String, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasProperty:
       - [ UAVariable, FDI7:2013, RevisionCounter, Int32, 0, 0 ]
       - HasTypeDefinition:
         - [ UAVariableType, 68, PropertyType ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasProperty_reverse:
+        - [ UAObject, FDI7:1991, ServiceProvider ]
     - HasTypeDefinition:
       - [ UAObjectType, FDI7:2133, ServerCommunicationGENERICServiceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:1913, ServerCommunicationGENERICDeviceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:93, ServerCommunicationDeviceType ]
 
   ServerCommunicationServiceType:
   - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
@@ -1626,6 +2118,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:300, Disconnect ]
       - HasProperty:
         - [ UAVariable, FDI7:302, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1634,12 +2128,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:300, Disconnect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:236, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1002, DeviceType ]
 
   ServerCommunicationFFH1ServiceType:
   - [ UAObjectType, FDI7:997, ServerCommunicationFFH1ServiceType ]
@@ -1660,6 +2162,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1064, Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1066, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1669,8 +2173,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1064, Connect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1000, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1067, Transfer ]
       - HasProperty:
@@ -1687,6 +2195,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1067, Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1069, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1697,8 +2207,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1067, Transfer ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1000, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1070, GetPublishedData ]
       - HasProperty:
@@ -1710,6 +2224,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1070, GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:1072, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1723,12 +2239,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1070, GetPublishedData ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1000, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:997, ServerCommunicationFFH1ServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
 
   ServerCommunicationFFHSEServiceType:
   - [ UAObjectType, FDI7:1073, ServerCommunicationFFHSEServiceType ]
@@ -1747,6 +2271,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1140, Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1142, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1756,8 +2282,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1140, Connect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1076, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1143, Transfer ]
       - HasProperty:
@@ -1774,6 +2304,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1143, Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1145, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1784,8 +2316,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1143, Transfer ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1076, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1146, GetPublishedData ]
       - HasProperty:
@@ -1797,6 +2333,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1146, GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:1148, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1810,12 +2348,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1146, GetPublishedData ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1076, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:1073, ServerCommunicationFFHSEServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
 
   ServerCommunicationPROFIBUSServiceType:
   - [ UAObjectType, FDI7:1149, ServerCommunicationPROFIBUSServiceType ]
@@ -1833,6 +2379,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1216, Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1218, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1841,8 +2389,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1216, Connect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1152, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1219, Transfer ]
       - HasProperty:
@@ -1857,6 +2409,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1219, Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1221, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1867,12 +2421,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1219, Transfer ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1152, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:1149, ServerCommunicationPROFIBUSServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
 
   ServerCommunicationPROFINETServiceType:
   - [ UAObjectType, FDI7:1222, ServerCommunicationPROFINETServiceType ]
@@ -1891,6 +2453,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1289, Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1291, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1899,8 +2463,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1289, Connect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1225, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1292, Transfer ]
       - HasProperty:
@@ -1917,6 +2485,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1292, Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1294, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1927,12 +2497,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1292, Transfer ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1225, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:1222, ServerCommunicationPROFINETServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
 
   ServerCommunicationHARTServiceType:
   - [ UAObjectType, FDI7:1295, ServerCommunicationHARTServiceType ]
@@ -1949,6 +2527,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1362, Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:1364, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1957,8 +2537,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1362, Connect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1298, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1365, Transfer ]
       - HasProperty:
@@ -1971,6 +2555,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1365, Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:1367, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -1980,8 +2566,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1365, Transfer ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1298, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:1368, GetPublishedData ]
       - HasProperty:
@@ -1992,6 +2582,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1368, GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:1370, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2003,12 +2595,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:1368, GetPublishedData ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:1298, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:1295, ServerCommunicationHARTServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
 
   ServerCommunicationISA100_WirelessServiceType:
   - [ UAObjectType, FDI7:2057, ServerCommunicationISA100_WirelessServiceType ]
@@ -2026,6 +2626,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2124, Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:2126, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2034,8 +2636,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2124, Connect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:2060, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:2127, Transfer ]
       - HasProperty:
@@ -2053,6 +2659,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2127, Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:2129, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2062,8 +2670,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2127, Transfer ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:2060, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:2130, GetPublishedData ]
       - HasProperty:
@@ -2074,6 +2686,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2130, GetPublishedData ]
       - HasProperty:
         - [ UAVariable, FDI7:2132, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2087,12 +2701,20 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2130, GetPublishedData ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:2060, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:2057, ServerCommunicationISA100_WirelessServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]
 
   ServerCommunicationGENERICServiceType:
   - [ UAObjectType, FDI7:2133, ServerCommunicationGENERICServiceType ]
@@ -2109,6 +2731,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2200, Connect ]
       - HasProperty:
         - [ UAVariable, FDI7:2202, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2117,8 +2741,12 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2200, Connect ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:2136, MethodSet ]
     - HasComponent:
       - [ UAMethod, FDI7:2203, Transfer ]
       - HasProperty:
@@ -2133,6 +2761,8 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2203, Transfer ]
       - HasProperty:
         - [ UAVariable, FDI7:2205, OutputArguments, Argument, 1, 0 ]
         - Arguments:
@@ -2143,9 +2773,17 @@ DefinedTypes:
           - [ UAVariableType, 68, PropertyType ]
         - HasModellingRule:
           - [ UAObject, 78, Mandatory ]
+        - HasProperty_reverse:
+          - [ UAMethod, FDI7:2203, Transfer ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
+      - HasComponent_reverse:
+        - [ UAObject, FDI7:2136, MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
+    - HasComponent_reverse:
+      - [ UAObjectType, FDI7:2133, ServerCommunicationGENERICServiceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, FDI7:233, ServerCommunicationServiceType ]

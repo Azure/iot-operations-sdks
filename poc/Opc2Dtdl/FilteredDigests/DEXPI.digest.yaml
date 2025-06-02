@@ -252,6 +252,13 @@ DefinedTypes:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  BaseDEXPIObjectType:
+  - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
 
   PlantModelType:
   - [ UAObjectType, DEXPI:1068, PlantModelType ]
@@ -273,6 +280,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1072, PlantType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PlantType:
   - [ UAObjectType, DEXPI:1072, PlantType ]
@@ -312,6 +321,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1337, TaggedPlantItemType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   MetaDataType:
   - [ UAObjectType, DEXPI:1079, MetaDataType ]
@@ -463,6 +474,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1116, UnitIsa95NumberAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  SensingLocationType:
+  - [ UAObjectType, DEXPI:1117, SensingLocationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ProcessSignalGeneratingSystemType:
   - [ UAObjectType, DEXPI:1118, ProcessSignalGeneratingSystemType ]
@@ -486,6 +504,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1247, TransmitterType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PositionerType:
   - [ UAObjectType, DEXPI:1127, PositionerType ]
@@ -497,6 +517,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1129, DeviceTypeNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ProcessInstrumentationFunctionType:
   - [ UAObjectType, DEXPI:1130, ProcessInstrumentationFunctionType ]
@@ -574,6 +596,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1251, SignalConveyingFunctionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ProcessControlFunctionType:
   - [ UAObjectType, DEXPI:1152, ProcessControlFunctionType ]
@@ -651,6 +675,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1251, SignalConveyingFunctionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   SignalLineFunctionType:
   - [ UAObjectType, DEXPI:1174, SignalLineFunctionType ]
@@ -670,6 +696,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1178, SignalProcessControlFunctionsAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   MeasuringLineFunctionType:
   - [ UAObjectType, DEXPI:1181, MeasuringLineFunctionType ]
@@ -689,6 +717,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1185, SignalProcessControlFunctionsAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   InstrumentationLoopFunctionType:
   - [ UAObjectType, DEXPI:1188, InstrumentationLoopFunctionType ]
@@ -696,6 +726,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1190, InstrumentationLoopFunctionNumberAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PrimaryElementType:
   - [ UAObjectType, DEXPI:1195, PrimaryElementType ]
@@ -703,6 +735,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1196, SubTagNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ShutOffValveReferenceType:
   - [ UAObjectType, DEXPI:1197, ShutOffValveReferenceType ]
@@ -710,6 +744,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1198, SubTagNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ActuatingSystemType:
   - [ UAObjectType, DEXPI:1200, ActuatingSystemType ]
@@ -739,6 +775,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1127, PositionerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ProcessSignalGeneratingFunctionType:
   - [ UAObjectType, DEXPI:1210, ProcessSignalGeneratingFunctionType ]
@@ -750,6 +788,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1212, SensorTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  SignalConveyingFunctionTargetType:
+  - [ UAObjectType, DEXPI:1219, SignalConveyingFunctionTargetType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   OfflinePrimaryElementType:
   - [ UAObjectType, DEXPI:1220, OfflinePrimaryElementType ]
@@ -809,6 +854,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1236, LowerLimitHeatTracingTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1195, PrimaryElementType ]
 
   ActuatingFunctionType:
   - [ UAObjectType, DEXPI:1239, ActuatingFunctionType ]
@@ -816,6 +863,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1240, ActuatingFunctionNumberAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   TransmitterType:
   - [ UAObjectType, DEXPI:1247, TransmitterType ]
@@ -827,6 +876,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1249, DeviceTypeNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  SignalConveyingFunctionSourceType:
+  - [ UAObjectType, DEXPI:1250, SignalConveyingFunctionSourceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   SignalConveyingFunctionType:
   - [ UAObjectType, DEXPI:1251, SignalConveyingFunctionType ]
@@ -846,6 +902,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1255, SignalProcessControlFunctionsAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ControlledActuatorType:
   - [ UAObjectType, DEXPI:1258, ControlledActuatorType ]
@@ -865,6 +923,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1262, FailActionSpecialization, FailActionClassification, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  InlinePrimaryElementReferenceType:
+  - [ UAObjectType, DEXPI:1263, InlinePrimaryElementReferenceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1195, PrimaryElementType ]
 
   PlantSectionIso10209-2012Type:
   - [ UAObjectType, DEXPI:1265, PlantSectionIso10209-2012Type ]
@@ -876,6 +941,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1267, PlantSectionNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  AreaIsa95LocatedStructureType:
+  - [ UAObjectType, DEXPI:1270, AreaIsa95LocatedStructureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   IndustrialComplexIso10209-2012Type:
   - [ UAObjectType, DEXPI:1272, IndustrialComplexIso10209-2012Type ]
@@ -887,6 +959,18 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1274, IndustrialComplexNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PlantTrainLocatedStructureType:
+  - [ UAObjectType, DEXPI:1277, PlantTrainLocatedStructureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  ProcessPlantParentStructureType:
+  - [ UAObjectType, DEXPI:1279, ProcessPlantParentStructureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   SiteIsa95Type:
   - [ UAObjectType, DEXPI:1280, SiteIsa95Type ]
@@ -898,6 +982,18 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1282, SiteNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  IndustrialComplexIso10209-2012ParentStructureType:
+  - [ UAObjectType, DEXPI:1284, IndustrialComplexIso10209-2012ParentStructureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  TechnicalItemType:
+  - [ UAObjectType, DEXPI:1285, TechnicalItemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   AreaIsa95Type:
   - [ UAObjectType, DEXPI:1290, AreaIsa95Type ]
@@ -909,6 +1005,23 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1292, AreaNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PlantSystemLocatedStructureType:
+  - [ UAObjectType, DEXPI:1293, PlantSystemLocatedStructureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  TechnicalItemParentStructureType:
+  - [ UAObjectType, DEXPI:1295, TechnicalItemParentStructureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PlantSectionIso10209-2012ParentStructureType:
+  - [ UAObjectType, DEXPI:1296, PlantSectionIso10209-2012ParentStructureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PlantSystemType:
   - [ UAObjectType, DEXPI:1297, PlantSystemType ]
@@ -920,6 +1033,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1299, PlantSystemNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ProcessPlantType:
   - [ UAObjectType, DEXPI:1300, ProcessPlantType ]
@@ -931,6 +1046,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1302, ProcessPlantNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   Isa95EnterpriseType:
   - [ UAObjectType, DEXPI:1305, Isa95EnterpriseType ]
@@ -942,6 +1059,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1307, EnterpriseNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PlantStructureItemType:
+  - [ UAObjectType, DEXPI:1308, PlantStructureItemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PlantTrainType:
   - [ UAObjectType, DEXPI:1309, PlantTrainType ]
@@ -953,6 +1077,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1311, PlantTrainNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   EjectorPumpType:
   - [ UAObjectType, DEXPI:1312, EjectorPumpType ]
@@ -960,6 +1086,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1313, DesignCapacityMotiveFluid, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1716, PumpType ]
 
   KneaderType:
   - [ UAObjectType, DEXPI:1316, KneaderType ]
@@ -975,6 +1103,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1323, UpperLimitAllowableDesignPressureDrop, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1454, MixerType ]
 
   HeatExchangerType:
   - [ UAObjectType, DEXPI:1326, HeatExchangerType ]
@@ -990,6 +1120,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1333, DesignHeatTransferCoefficient, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   TaggedPlantItemType:
   - [ UAObjectType, DEXPI:1337, TaggedPlantItemType ]
@@ -1009,6 +1141,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1341, TagNameSuffixAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   RotaryPumpType:
   - [ UAObjectType, DEXPI:1342, RotaryPumpType ]
@@ -1026,6 +1160,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1656, DisplacerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1716, PumpType ]
 
   ThinFilmEvaporatorType:
   - [ UAObjectType, DEXPI:1350, ThinFilmEvaporatorType ]
@@ -1047,6 +1183,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1491, HeatExchangerRotorType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1326, HeatExchangerType ]
 
   NozzleType:
   - [ UAObjectType, DEXPI:1361, NozzleType ]
@@ -1076,6 +1214,13 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:2008, PipingNodeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  SpiralHeatExchangerType:
+  - [ UAObjectType, DEXPI:1369, SpiralHeatExchangerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1326, HeatExchangerType ]
 
   ColumnPackingsArrangementType:
   - [ UAObjectType, DEXPI:1370, ColumnPackingsArrangementType ]
@@ -1095,6 +1240,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1376, PackingTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ChamberOwnerType:
   - [ UAObjectType, DEXPI:1377, ChamberOwnerType ]
@@ -1104,6 +1251,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1523, ChamberType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ReciprocatingCompressorType:
   - [ UAObjectType, DEXPI:1379, ReciprocatingCompressorType ]
@@ -1121,6 +1270,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1656, DisplacerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1408, CompressorType ]
 
   SpecialCompressorType:
   - [ UAObjectType, DEXPI:1387, SpecialCompressorType ]
@@ -1146,6 +1297,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1636, CompressorEquipmentType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1408, CompressorType ]
 
   SubTaggedColumnSectionType:
   - [ UAObjectType, DEXPI:1399, SubTaggedColumnSectionType ]
@@ -1167,6 +1320,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1489, ColumnInternalsArrangementType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   CompressorType:
   - [ UAObjectType, DEXPI:1408, CompressorType ]
@@ -1178,6 +1333,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1412, DifferentialPressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   RotaryMixerType:
   - [ UAObjectType, DEXPI:1415, RotaryMixerType ]
@@ -1193,6 +1350,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1422, DesignShaftPower, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1454, MixerType ]
 
   VesselType:
   - [ UAObjectType, DEXPI:1425, VesselType ]
@@ -1200,6 +1359,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1426, NominalCapacityVolume, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   GasFilterType:
   - [ UAObjectType, DEXPI:1431, GasFilterType ]
@@ -1225,6 +1386,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1456, FilterUnitType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1619, FilterType ]
 
   PressureVesselType:
   - [ UAObjectType, DEXPI:1445, PressureVesselType ]
@@ -1232,6 +1395,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1446, CylinderLength, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1425, VesselType ]
 
   SpecialVesselType:
   - [ UAObjectType, DEXPI:1449, SpecialVesselType ]
@@ -1243,6 +1408,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1453, TypeNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1425, VesselType ]
 
   MixerType:
   - [ UAObjectType, DEXPI:1454, MixerType ]
@@ -1252,6 +1419,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1562, MixingElementAssemblyType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   FilterUnitType:
   - [ UAObjectType, DEXPI:1456, FilterUnitType ]
@@ -1287,6 +1456,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1475, UpperLimitPermeableParticleDiameter, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   AirCoolingSystemType:
   - [ UAObjectType, DEXPI:1478, AirCoolingSystemType ]
@@ -1308,6 +1479,18 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1491, HeatExchangerRotorType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1326, HeatExchangerType ]
+
+  ColumnInternalsArrangementType:
+  - [ UAObjectType, DEXPI:1489, ColumnInternalsArrangementType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  SiloType:
+  - [ UAObjectType, DEXPI:1490, SiloType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1425, VesselType ]
 
   HeatExchangerRotorType:
   - [ UAObjectType, DEXPI:1491, HeatExchangerRotorType ]
@@ -1315,6 +1498,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1492, MaterialOfConstructionCodeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ColumnSectionType:
   - [ UAObjectType, DEXPI:1494, ColumnSectionType ]
@@ -1332,6 +1517,13 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1489, ColumnInternalsArrangementType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PumpEquipmentType:
+  - [ UAObjectType, DEXPI:1502, PumpEquipmentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ReciprocatingPumpType:
   - [ UAObjectType, DEXPI:1503, ReciprocatingPumpType ]
@@ -1349,6 +1541,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1656, DisplacerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1716, PumpType ]
 
   TaggedColumnSectionType:
   - [ UAObjectType, DEXPI:1511, TaggedColumnSectionType ]
@@ -1382,6 +1576,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1489, ColumnInternalsArrangementType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   ChamberType:
   - [ UAObjectType, DEXPI:1523, ChamberType ]
@@ -1445,6 +1641,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1554, Width, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ElectricHeaterType:
   - [ UAObjectType, DEXPI:1557, ElectricHeaterType ]
@@ -1458,6 +1656,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1592, TubeBundleType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1326, HeatExchangerType ]
 
   MixingElementAssemblyType:
   - [ UAObjectType, DEXPI:1562, MixingElementAssemblyType ]
@@ -1469,6 +1669,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1565, MixingElementAssembly, Int64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   CentrifugalCompressorType:
   - [ UAObjectType, DEXPI:1566, CentrifugalCompressorType ]
@@ -1486,6 +1688,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1629, ImpellerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1408, CompressorType ]
 
   NozzleOwnerType:
   - [ UAObjectType, DEXPI:1574, NozzleOwnerType ]
@@ -1495,6 +1699,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1361, NozzleType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PlateAndShellHeatExchangerType:
   - [ UAObjectType, DEXPI:1576, PlateAndShellHeatExchangerType ]
@@ -1510,6 +1716,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1581, PlateWidth, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1326, HeatExchangerType ]
 
   CentrifugalPumpType:
   - [ UAObjectType, DEXPI:1584, CentrifugalPumpType ]
@@ -1527,6 +1735,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1629, ImpellerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1716, PumpType ]
 
   TubeBundleType:
   - [ UAObjectType, DEXPI:1592, TubeBundleType ]
@@ -1558,6 +1768,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1601, TubeNominalDiameterTypeRepresentationAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ColumnTraysArrangementType:
   - [ UAObjectType, DEXPI:1603, ColumnTraysArrangementType ]
@@ -1573,6 +1785,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1606, TrayTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   SpecialPumpType:
   - [ UAObjectType, DEXPI:1607, SpecialPumpType ]
@@ -1598,6 +1812,13 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1502, PumpEquipmentType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1716, PumpType ]
+
+  FilterType:
+  - [ UAObjectType, DEXPI:1619, FilterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   AirEjectorType:
   - [ UAObjectType, DEXPI:1620, AirEjectorType ]
@@ -1611,6 +1832,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1629, ImpellerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1408, CompressorType ]
 
   StaticMixerType:
   - [ UAObjectType, DEXPI:1625, StaticMixerType ]
@@ -1618,6 +1841,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1626, UpperLimitAllowableDesignPressureDrop, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1454, MixerType ]
 
   ImpellerType:
   - [ UAObjectType, DEXPI:1629, ImpellerType ]
@@ -1633,6 +1858,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1634, StageIdentifierAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  CompressorEquipmentType:
+  - [ UAObjectType, DEXPI:1636, CompressorEquipmentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   AgitatorType:
   - [ UAObjectType, DEXPI:1637, AgitatorType ]
@@ -1650,6 +1882,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1672, AgitatorRotorType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   AxialCompressorType:
   - [ UAObjectType, DEXPI:1645, AxialCompressorType ]
@@ -1667,6 +1901,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1629, ImpellerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1408, CompressorType ]
 
   ShellAndTubeHeatExchangerType:
   - [ UAObjectType, DEXPI:1653, ShellAndTubeHeatExchangerType ]
@@ -1680,6 +1916,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1592, TubeBundleType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1326, HeatExchangerType ]
 
   DisplacerType:
   - [ UAObjectType, DEXPI:1656, DisplacerType ]
@@ -1695,6 +1933,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1659, VolumePerStroke, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   TankType:
   - [ UAObjectType, DEXPI:1663, TankType ]
@@ -1702,6 +1942,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1664, CylinderLength, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1425, VesselType ]
 
   ProcessColumnType:
   - [ UAObjectType, DEXPI:1667, ProcessColumnType ]
@@ -1715,6 +1957,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1399, SubTaggedColumnSectionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   AgitatorRotorType:
   - [ UAObjectType, DEXPI:1672, AgitatorRotorType ]
@@ -1734,6 +1978,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1680, RotorTypeAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   EquipmentType:
   - [ UAObjectType, DEXPI:1682, EquipmentType ]
@@ -1769,6 +2015,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1361, NozzleType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   LiquidFilterType:
   - [ UAObjectType, DEXPI:1694, LiquidFilterType ]
@@ -1794,6 +2042,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1456, FilterUnitType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1619, FilterType ]
 
   RotaryCompressorType:
   - [ UAObjectType, DEXPI:1708, RotaryCompressorType ]
@@ -1811,6 +2061,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1656, DisplacerType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1408, CompressorType ]
 
   PumpType:
   - [ UAObjectType, DEXPI:1716, PumpType ]
@@ -1826,6 +2078,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1723, DifferentialPressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1682, EquipmentType ]
 
   PipingNetworkSystemType:
   - [ UAObjectType, DEXPI:1726, PipingNetworkSystemType ]
@@ -1909,6 +2163,23 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1938, PropertyBreakType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PipingNetworkSegmentItemType:
+  - [ UAObjectType, DEXPI:1754, PipingNetworkSegmentItemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  TurbineFlowMeterType:
+  - [ UAObjectType, DEXPI:1755, TurbineFlowMeterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
+
+  AngleValveType:
+  - [ UAObjectType, DEXPI:1756, AngleValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
 
   StrainerType:
   - [ UAObjectType, DEXPI:1757, StrainerType ]
@@ -1944,6 +2215,23 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1769, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  FunnelType:
+  - [ UAObjectType, DEXPI:1770, FunnelType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  NeedleValveType:
+  - [ UAObjectType, DEXPI:1771, NeedleValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  InLineMixerType:
+  - [ UAObjectType, DEXPI:1772, InLineMixerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
 
   CheckValveType:
   - [ UAObjectType, DEXPI:1773, CheckValveType ]
@@ -1979,6 +2267,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1785, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1995, PipingComponentType ]
 
   PipeConnectorSymbolType:
   - [ UAObjectType, DEXPI:1786, PipeConnectorSymbolType ]
@@ -1988,6 +2278,33 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:2008, PipingNodeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  FlangeType:
+  - [ UAObjectType, DEXPI:1788, FlangeType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  AngleBallValveType:
+  - [ UAObjectType, DEXPI:1789, AngleBallValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  BallValveType:
+  - [ UAObjectType, DEXPI:1790, BallValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  PlugValveType:
+  - [ UAObjectType, DEXPI:1791, PlugValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  CompensatorType:
+  - [ UAObjectType, DEXPI:1792, CompensatorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
 
   InlinePrimaryElementType:
   - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
@@ -2019,6 +2336,43 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1804, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1995, PipingComponentType ]
+
+  FlangedConnectionType:
+  - [ UAObjectType, DEXPI:1805, FlangedConnectionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  HoseType:
+  - [ UAObjectType, DEXPI:1806, HoseType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  PipingSourceItemType:
+  - [ UAObjectType, DEXPI:1807, PipingSourceItemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  AngleGlobeValveType:
+  - [ UAObjectType, DEXPI:1808, AngleGlobeValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  PositiveDisplacementFlowMeterType:
+  - [ UAObjectType, DEXPI:1809, PositiveDisplacementFlowMeterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
+
+  VariableAreaFlowMeterType:
+  - [ UAObjectType, DEXPI:1810, VariableAreaFlowMeterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
+
+  ElectromagneticFlowMeterType:
+  - [ UAObjectType, DEXPI:1811, ElectromagneticFlowMeterType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
 
   SteamTrapType:
   - [ UAObjectType, DEXPI:1812, SteamTrapType ]
@@ -2054,6 +2408,18 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1824, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  IlluminatedSightGlassType:
+  - [ UAObjectType, DEXPI:1825, IlluminatedSightGlassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  PipingTargetItemType:
+  - [ UAObjectType, DEXPI:1826, PipingTargetItemType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   FlowInPipeConnectorSymbolType:
   - [ UAObjectType, DEXPI:1827, FlowInPipeConnectorSymbolType ]
@@ -2063,6 +2429,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:2008, PipingNodeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   FlowOutPipeConnectorSymbolType:
   - [ UAObjectType, DEXPI:1829, FlowOutPipeConnectorSymbolType ]
@@ -2072,6 +2440,13 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:2008, PipingNodeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  SpringLoadedGlobeSafetyValveType:
+  - [ UAObjectType, DEXPI:1831, SpringLoadedGlobeSafetyValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1944, SafetyValveOrFittingType ]
 
   SilencerType:
   - [ UAObjectType, DEXPI:1832, SilencerType ]
@@ -2107,6 +2482,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1844, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   ShutOffValveType:
   - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
@@ -2150,6 +2527,73 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1859, OperationSpecialization, OperationClassification, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1995, PipingComponentType ]
+
+  DirectPipingConnectionType:
+  - [ UAObjectType, DEXPI:1860, DirectPipingConnectionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  FlowDetectorType:
+  - [ UAObjectType, DEXPI:1865, FlowDetectorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
+
+  ConicalStrainerType:
+  - [ UAObjectType, DEXPI:1866, ConicalStrainerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  SightGlassType:
+  - [ UAObjectType, DEXPI:1867, SightGlassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  BreatherValveType:
+  - [ UAObjectType, DEXPI:1868, BreatherValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1944, SafetyValveOrFittingType ]
+
+  GlobeValveType:
+  - [ UAObjectType, DEXPI:1869, GlobeValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  PipeFlangeSpacerType:
+  - [ UAObjectType, DEXPI:1870, PipeFlangeSpacerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  BlindFlangeType:
+  - [ UAObjectType, DEXPI:1871, BlindFlangeType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  RuptureDiscType:
+  - [ UAObjectType, DEXPI:1872, RuptureDiscType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1944, SafetyValveOrFittingType ]
+
+  StraightwayValveType:
+  - [ UAObjectType, DEXPI:1873, StraightwayValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  GlobeCheckValveType:
+  - [ UAObjectType, DEXPI:1874, GlobeCheckValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1773, CheckValveType ]
+
+  PipeTeeType:
+  - [ UAObjectType, DEXPI:1875, PipeTeeType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  SpringLoadedAngleGlobeSafetyValveType:
+  - [ UAObjectType, DEXPI:1876, SpringLoadedAngleGlobeSafetyValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1944, SafetyValveOrFittingType ]
 
   PipeFittingType:
   - [ UAObjectType, DEXPI:1877, PipeFittingType ]
@@ -2185,6 +2629,28 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1889, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1995, PipingComponentType ]
+
+  PipeType:
+  - [ UAObjectType, DEXPI:1890, PipeType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  VolumetricFlowDetectorType:
+  - [ UAObjectType, DEXPI:1895, VolumetricFlowDetectorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
+
+  PipeFlangeSpadeType:
+  - [ UAObjectType, DEXPI:1896, PipeFlangeSpadeType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  ClampedFlangeCouplingType:
+  - [ UAObjectType, DEXPI:1897, ClampedFlangeCouplingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
 
   PipingNetworkSegmentType:
   - [ UAObjectType, DEXPI:1898, PipingNetworkSegmentType ]
@@ -2292,6 +2758,18 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:1989, PipingConnectionType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PenetrationType:
+  - [ UAObjectType, DEXPI:1936, PenetrationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  SwingCheckValveType:
+  - [ UAObjectType, DEXPI:1937, SwingCheckValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1773, CheckValveType ]
 
   PropertyBreakType:
   - [ UAObjectType, DEXPI:1938, PropertyBreakType ]
@@ -2317,6 +2795,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:2008, PipingNodeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   SafetyValveOrFittingType:
   - [ UAObjectType, DEXPI:1944, SafetyValveOrFittingType ]
@@ -2344,6 +2824,23 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1952, SetPressureHigh, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1995, PipingComponentType ]
+
+  VenturiTubeType:
+  - [ UAObjectType, DEXPI:1955, VenturiTubeType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
+
+  FlowNozzleType:
+  - [ UAObjectType, DEXPI:1956, FlowNozzleType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1793, InlinePrimaryElementType ]
+
+  AnglePlugValveType:
+  - [ UAObjectType, DEXPI:1957, AnglePlugValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
 
   VentilationDeviceType:
   - [ UAObjectType, DEXPI:1958, VentilationDeviceType ]
@@ -2379,6 +2876,13 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1970, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PipeCouplingType:
+  - [ UAObjectType, DEXPI:1971, PipeCouplingType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
 
   FlameArrestorType:
   - [ UAObjectType, DEXPI:1972, FlameArrestorType ]
@@ -2394,6 +2898,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1975, FireResistantArtefactSpecialization, FireResistantArtefactClassification, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1944, SafetyValveOrFittingType ]
 
   OrificePlateType:
   - [ UAObjectType, DEXPI:1976, OrificePlateType ]
@@ -2429,6 +2935,18 @@ DefinedTypes:
     - [ UAVariable, DEXPI:1988, PipingComponentNameAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  PipingConnectionType:
+  - [ UAObjectType, DEXPI:1989, PipingConnectionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  ButterflyValveType:
+  - [ UAObjectType, DEXPI:1994, ButterflyValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
 
   PipingComponentType:
   - [ UAObjectType, DEXPI:1995, PipingComponentType ]
@@ -2462,6 +2980,23 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:2008, PipingNodeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
+
+  GateValveType:
+  - [ UAObjectType, DEXPI:2003, GateValveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1845, ShutOffValveType ]
+
+  PipeReducerType:
+  - [ UAObjectType, DEXPI:2004, PipeReducerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
+
+  LineBlindType:
+  - [ UAObjectType, DEXPI:2005, LineBlindType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1877, PipeFittingType ]
 
   PipingNodeOwnerType:
   - [ UAObjectType, DEXPI:2006, PipingNodeOwnerType ]
@@ -2471,6 +3006,8 @@ DefinedTypes:
       - [ UAObjectType, DEXPI:2008, PipingNodeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PipingNodeType:
   - [ UAObjectType, DEXPI:2008, PipingNodeType ]
@@ -2494,6 +3031,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2013, NominalDiameterTypeRepresentationAssignmentClass, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   RotationalSpeedType:
   - [ UAObjectType, DEXPI:2014, RotationalSpeedType ]
@@ -2505,6 +3044,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2017, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   HeatTransferCoefficientType:
   - [ UAObjectType, DEXPI:2018, HeatTransferCoefficientType ]
@@ -2516,6 +3057,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2021, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   TemperatureType:
   - [ UAObjectType, DEXPI:2022, TemperatureType ]
@@ -2527,6 +3070,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2025, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PhysicalQuantityType:
   - [ UAObjectType, DEXPI:2026, PhysicalQuantityType ]
@@ -2534,6 +3079,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2028, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   AreaType:
   - [ UAObjectType, DEXPI:2029, AreaType ]
@@ -2545,6 +3092,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2032, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   VolumeFlowRateType:
   - [ UAObjectType, DEXPI:2033, VolumeFlowRateType ]
@@ -2556,6 +3105,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2036, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PowerType:
   - [ UAObjectType, DEXPI:2037, PowerType ]
@@ -2567,6 +3118,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2040, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   LengthType:
   - [ UAObjectType, DEXPI:2041, LengthType ]
@@ -2578,6 +3131,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2044, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PercentageType:
   - [ UAObjectType, DEXPI:2045, PercentageType ]
@@ -2589,6 +3144,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2048, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   VolumeType:
   - [ UAObjectType, DEXPI:2049, VolumeType ]
@@ -2600,6 +3157,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2052, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   MassType:
   - [ UAObjectType, DEXPI:2053, MassType ]
@@ -2611,6 +3170,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2056, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   PressureType:
   - [ UAObjectType, DEXPI:2057, PressureType ]
@@ -2622,6 +3183,8 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2060, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]
 
   AngleType:
   - [ UAObjectType, DEXPI:2061, AngleType ]
@@ -2633,3 +3196,5 @@ DefinedTypes:
     - [ UAVariable, DEXPI:2064, Value, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DEXPI:1060, BaseDEXPIObjectType ]

@@ -44,6 +44,8 @@ DefinedTypes:
 
   HaulageMachineType:
   - [ UAObjectType, Mining.TransportDumping.General:1003, HaulageMachineType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Mining.General:1002, MiningEquipmentType ]
   - HasComponent:
     - [ UAObject, Mining.TransportDumping.General:5002, MethodSet ]
     - HasModellingRule:
