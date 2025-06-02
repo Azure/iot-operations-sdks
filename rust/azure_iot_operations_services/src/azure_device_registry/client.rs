@@ -807,6 +807,9 @@ where
     /// - inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the device name is empty.
+    /// 
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
     pub async fn create_or_update_discovered_device(
@@ -1223,6 +1226,7 @@ where
         asset_specification: DiscoveredAssetSpecification,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
+        // TODO: do we need to take device_name at all as an argument? It's in the DeviceRef in the DiscoveredAssetSpecification
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
