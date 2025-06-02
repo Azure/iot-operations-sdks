@@ -809,7 +809,7 @@ where
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the device name is empty.
-    /// 
+    ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
     pub async fn create_or_update_discovered_device(
