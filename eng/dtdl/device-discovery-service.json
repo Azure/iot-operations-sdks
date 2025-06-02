@@ -90,7 +90,7 @@
         {
           "@type": "Field",
           "name": "endpoints",
-          "schema": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoint;1"
+          "schema": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoints;1"
         },
         {
           "@type": "Field",
@@ -120,7 +120,7 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoint;1",
+      "@id": "dtmi:com:microsoft:akri:DiscoveredDeviceEndpoints;1",
       "@type": "Object",
       "fields": [
         {
@@ -223,7 +223,28 @@
         {
           "@type": [ "Field", "Required" ],
           "name": "code",
-          "schema": "string"
+          "schema": {
+            "@type": "Enum",
+            "valueSchema": "string",
+            "enumValues": [
+              {
+                "name": "BadRequest",
+                "enumValue": "BadRequest"
+              },
+              {
+                "name": "KubeError",
+                "enumValue": "KubeError"
+              },
+              {
+                "name": "InternalError",
+                "enumValue": "InternalError"
+              },
+              {
+                "name": "SerializationError",
+                "enumValue": "SerializationError"
+              }
+            ]
+          }
         },
         {
           "@type": [ "Field", "Required", "ErrorMessage" ],
