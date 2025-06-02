@@ -1,10 +1,10 @@
 * @jrdouceur
 * @avishekpant
 
-*.md    @ryanwinter
+@timtay-microsoft @olivakar @maximsemenov80 @cartertinney @vaavva @RLeclair @clecompt-msft
 
-dotnet  @timtay-microsoft @lev-i @olivakar @maximsemenov80
+dotnet  @timtay-microsoft @olivakar @maximsemenov80
 
 /rust   @cartertinney @vaavva @RLeclair
 
-/go @lev-i @clecompt-msft
+/go @clecompt-msft

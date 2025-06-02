@@ -35,7 +35,6 @@ internal class Program
             description: "Namespace for generated code (overrides namespace from model or annex file; required if no model)")
             { ArgumentHelpName = "NAMESPACE" };
 
-#if DEBUG
         var sharedOption = new Option<string?>(
             name: "--shared",
             description: "DTMI prefix of shared schemas")
@@ -45,7 +44,6 @@ internal class Program
             name: "--sdkPath",
             description: "Local path or feed URL for Azure.Iot.Operations.Protocol SDK")
             { ArgumentHelpName = "FILEPATH | URL" };
-#endif
 
         var langOption = new Option<string>(
             name: "--lang",
@@ -80,10 +78,8 @@ internal class Program
             workingDirOption,
             outDirOption,
             namespaceOption,
-#if DEBUG
             sharedOption,
             sdkPathOption,
-#endif
             langOption,
             thingOnlyOption,
             clientOnlyOption,
@@ -98,10 +94,8 @@ internal class Program
             workingDirOption,
             outDirOption,
             namespaceOption,
-#if DEBUG
             sharedOption,
             sdkPathOption,
-#endif
             langOption,
             thingOnlyOption,
             clientOnlyOption,
