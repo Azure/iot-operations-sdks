@@ -107,7 +107,7 @@ async fn run_device(
             }
             // Listen for a asset creation notifications
             res = asset_creation_observation.recv_notification() => {
-                if let Some((asset_client, _asset_deletion_token, dataset_creation_observation)) = res {
+                if let Some((asset_client, dataset_creation_observation)) = res {
                     log::info!("Asset created: {asset_client:?}");
 
                     // now we should update the status of the asset
