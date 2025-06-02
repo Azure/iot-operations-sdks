@@ -27,7 +27,7 @@ $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommand
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./TelemetryComplexSchemasSample --lang go
 
 [[ -d ./TelemetryPrimitiveSchemasSample ]] && rm -r ./TelemetryPrimitiveSchemasSample
-$gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample --lang go
+$gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample --resolver ../dtdl/resolver.json --lang go
 
 [[ -d ./TelemetryRawSingleSample ]] && rm -r ./TelemetryRawSingleSample
 $gen --modelFile ../dtdl/TelemetryRawSingle.json --outDir ./TelemetryRawSingleSample --lang go

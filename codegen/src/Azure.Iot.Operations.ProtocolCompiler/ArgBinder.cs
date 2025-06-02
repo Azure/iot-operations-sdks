@@ -13,6 +13,7 @@
         private readonly Option<string?> modelId;
         private readonly Option<string?> workingDir;
         private readonly Option<DirectoryInfo> outDir;
+        private readonly Option<FileInfo?> resolver;
         private readonly Option<string?> genNamespace;
         private readonly Option<string?> sharedPrefix;
         private readonly Option<string?> sdkPath;
@@ -30,6 +31,7 @@
         /// <param name="modelId">DTMI of Interface to use for codegen (not needed when model has only one Mqtt Interface).</param>
         /// <param name="workingDir">Directory for storing temporary files (relative to outDir unless path is rooted).</param>
         /// <param name="outDir">Directory for receiving generated code.</param>
+        /// <param name="resolver">Path to a JSON file defining how to resolve referenced identifiers in models.</param>
         /// <param name="genNamespace">Namespace for generated code.</param>
         /// <param name="sharedPrefix">DTMI prefix of shared schemas.</param>
         /// <param name="sdkPath">Local path or feed URL for Azure.Iot.Operations.Protocol SDK.</param>
@@ -42,6 +44,7 @@
             Option<string?> modelId,
             Option<string?> workingDir,
             Option<DirectoryInfo> outDir,
+            Option<FileInfo?> resolver,
             Option<string?> genNamespace,
             Option<string?> sharedPrefix,
             Option<string?> sdkPath,
@@ -56,6 +59,7 @@
             this.modelId = modelId;
             this.workingDir = workingDir;
             this.outDir = outDir;
+            this.resolver = resolver;
             this.genNamespace = genNamespace;
             this.sharedPrefix = sharedPrefix;
             this.sdkPath = sdkPath;
@@ -75,6 +79,7 @@
                 ModelId = bindingContext.ParseResult.GetValueForOption(this.modelId),
                 WorkingDir = bindingContext.ParseResult.GetValueForOption(this.workingDir),
                 OutDir = bindingContext.ParseResult.GetValueForOption(this.outDir)!,
+                ResolverConfig = bindingContext.ParseResult.GetValueForOption(this.resolver),
                 GenNamespace = bindingContext.ParseResult.GetValueForOption(this.genNamespace),
                 SharedPrefix = bindingContext.ParseResult.GetValueForOption(this.sharedPrefix),
                 SdkPath = bindingContext.ParseResult.GetValueForOption(this.sdkPath),

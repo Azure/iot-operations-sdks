@@ -9,11 +9,17 @@
 
     internal static class ModelSelector
     {
-        public static async Task<ContextualizedInterface> GetInterfaceAndModelContext(string[] modelTexts, string[] modelNames, Dtmi? modelDtmi, Action<string?> acceptHelpMessage)
+        public static async Task<ContextualizedInterface> GetInterfaceAndModelContext(string[] modelTexts, string[] modelNames, Dtmi? modelDtmi, FileInfo? resolverConfig, Action<string?> acceptHelpMessage)
         {
             ContextualizedInterface contextualizedInterface = new();
 
             ParsingOptions parsingOptions = new();
+
+            if (resolverConfig != null)
+            {
+                Resolver resolver = new Resolver(resolverConfig.FullName);
+                parsingOptions.DtmiResolverAsync = resolver.ResolveAsync;
+            }
 
             parsingOptions.ExtensionLimitContexts = new List<Dtmi> { new Dtmi("dtmi:dtdl:limits:onvif") };
 

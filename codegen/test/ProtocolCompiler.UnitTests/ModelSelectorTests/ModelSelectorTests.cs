@@ -30,6 +30,7 @@
                 new string[] { interfaceNoCotypeText },
                 new string[] { "NoCotype" },
                 null,
+                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -41,6 +42,7 @@
             ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
                 new string[] { interfaceMqttAlphaText },
                 new string[] { "Alpha" },
+                null,
                 null,
                 _ => { });
 
@@ -54,6 +56,7 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 null,
+                null,
                 _ => { });
 
             Assert.NotNull(contextualizedInterface.InterfaceId);
@@ -65,6 +68,7 @@
             ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
                 new string[] { interfaceMqttAlphaText, interfaceMqttBetaText },
                 new string[] { "Alpha", "Beta" },
+                null,
                 null,
                 _ => { });
 
@@ -78,6 +82,7 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiMqttBeta,
+                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -90,6 +95,7 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiMqttAlphaTelem,
+                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -102,6 +108,7 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiNoCotype,
+                null,
                 _ => { });
 
             Assert.Null(contextualizedInterface.InterfaceId);
@@ -114,6 +121,7 @@
                 new string[] { interfaceNoCotypeText, interfaceMqttAlphaText },
                 new string[] { "NoCotype", "Alpha" },
                 dtmiMqttAlpha,
+                null,
                 _ => { });
 
             Assert.NotNull(contextualizedInterface.InterfaceId);
@@ -126,6 +134,7 @@
                 new string[] { interfaceMqttAlphaText, interfaceMqttBetaText },
                 new string[] { "Alpha", "Beta" },
                 dtmiMqttAlpha,
+                null,
                 _ => { });
 
             Assert.NotNull(contextualizedInterface.InterfaceId);
@@ -137,6 +146,7 @@
             ModelSelector.ContextualizedInterface contextualizedInterface = await ModelSelector.GetInterfaceAndModelContext(
                 new string[] { interfaceExtendsBaseText },
                 new string[] { "Extends" },
+                null,
                 null,
                 _ => { });
 

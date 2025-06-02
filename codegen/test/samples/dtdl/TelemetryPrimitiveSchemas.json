@@ -6,34 +6,10 @@
     ],
     "@id": "dtmi:jsonTest:TelemetryPrimitiveSchemas;1",
     "@type": [ "Interface", "Mqtt" ],
+    "extends": "dtmi:jsonTest:TelemetryNativeSchemas;1",
     "payloadFormat": "Json/ecma/404",
     "telemetryTopic": "sample/{senderId}/telemetry/{telemetryName}",
     "contents": [
-      {
-        "@type": "Telemetry",
-        "name": "flipflop",
-        "schema": "boolean"
-      },
-      {
-        "@type": "Telemetry",
-        "name": "absoluteDistance",
-        "schema": "double"
-      },
-      {
-        "@type": "Telemetry",
-        "name": "relativeDistance",
-        "schema": "float"
-      },
-      {
-        "@type": "Telemetry",
-        "name": "count",
-        "schema": "integer"
-      },
-      {
-        "@type": "Telemetry",
-        "name": "totalCount",
-        "schema": "long"
-      },
       {
         "@type": "Telemetry",
         "name": "endDate",
@@ -53,11 +29,6 @@
         "@type": "Telemetry",
         "name": "allottedDuration",
         "schema": "duration"
-      },
-      {
-        "@type": "Telemetry",
-        "name": "notes",
-        "schema": "string"
       },
       {
         "@type": "Telemetry",

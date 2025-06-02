@@ -30,6 +30,11 @@ internal class Program
             description: "Directory for receiving generated code (or TD file if --thingOnly is specified)")
             { ArgumentHelpName = "DIRPATH" };
 
+        var resolverOption = new Option<FileInfo?>(
+            name: "--resolver",
+            description: "Path to a JSON file defining how to resolve referenced identifiers in models")
+            { ArgumentHelpName = "FILEPATH" };
+
         var namespaceOption = new Option<string?>(
             name: "--namespace",
             description: "Namespace for generated code (overrides namespace from model or annex file; required if no model)")
@@ -77,6 +82,7 @@ internal class Program
             modelIdOption,
             workingDirOption,
             outDirOption,
+            resolverOption,
             namespaceOption,
             sharedOption,
             sdkPathOption,
@@ -93,6 +99,7 @@ internal class Program
             modelIdOption,
             workingDirOption,
             outDirOption,
+            resolverOption,
             namespaceOption,
             sharedOption,
             sdkPathOption,
