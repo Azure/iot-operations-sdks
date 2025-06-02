@@ -6,6 +6,7 @@ namespace Yaml2Dtdl
     using System.Linq;
     using System.Text.Json;
     using System.Text.RegularExpressions;
+    using System.Threading;
     using DTDLParser;
 
     public class Resolver
@@ -17,12 +18,15 @@ namespace Yaml2Dtdl
 
         private static readonly Regex tokenRegex = new Regex(TokenRegexPattern, RegexOptions.Compiled);
 
+        private readonly string configPath;
         private readonly Regex dtmiRegex;
         private readonly string pathTemplate;
         private readonly string? wildcard;
 
         public Resolver(string configPath)
         {
+            this.configPath = configPath;
+
             if (!File.Exists(configPath))
             {
                 throw new Exception($"Resolver config file {configPath} not found");
@@ -70,8 +74,9 @@ namespace Yaml2Dtdl
                         path = path.Replace($"{{{groupIndex}}}", dtmiMatch.Groups[groupIndex].Captures[0].Value);
                     }
 
-                    string modelFolderPath = Path.GetDirectoryName(path) ?? ".";
-                    string modelFileName = Path.GetFileName(path) ?? "*.json";
+                    string relativePath = Path.Combine(Path.GetDirectoryName(configPath)!, path);
+                    string modelFolderPath = Path.GetDirectoryName(relativePath) ?? ".";
+                    string modelFileName = Path.GetFileName(relativePath) ?? "*.json";
                     string modelFilePath;
 
                     if (wildcard != null)
@@ -100,5 +105,21 @@ namespace Yaml2Dtdl
 
             return refJsonTexts;
         }
+
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+#pragma warning disable CS8425 // 'CancellationToken' is not decorated with the 'EnumeratorCancellation' attribute, so the cancellation token parameter from the generated 'IAsyncEnumerable<>.GetAsyncEnumerator' will be unconsumed
+        public async IAsyncEnumerable<string> ResolveAsync(IReadOnlyCollection<Dtmi> dtmis, CancellationToken _)
+        {
+            IEnumerable<string> values = Resolve(dtmis);
+            if (values != null)
+            {
+                foreach (string value in values)
+                {
+                    yield return value;
+                }
+            }
+        }
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+#pragma warning restore CS8425 // 'CancellationToken' is not decorated with the 'EnumeratorCancellation' attribute, so the cancellation token parameter from the generated 'IAsyncEnumerable<>.GetAsyncEnumerator' will be unconsumed
     }
 }
