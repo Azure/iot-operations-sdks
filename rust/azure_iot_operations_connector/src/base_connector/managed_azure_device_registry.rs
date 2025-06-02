@@ -15,8 +15,8 @@ use azure_iot_operations_services::{
     },
     schema_registry,
 };
-use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use chrono::{DateTime, Utc};
+use tokio::sync::mpsc::{self, UnboundedReceiver, UnboundedSender};
 use tokio_retry2::{Retry, RetryError};
 
 use crate::{
@@ -74,7 +74,7 @@ impl DeviceEndpointClientCreationObservation {
                 .await?;
 
             // and then get device update observation as well
-            let device_endpoint_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -472,7 +472,7 @@ impl AssetClientCreationObservation {
                 self.asset_create_observation.recv_notification().await?;
 
             // Get asset update observation as well
-            let asset_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let asset_update_observation =  match Retry::spawn(RETRY_STRATEGY.map(tokio_retry2::strategy::jitter).take(10), async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_asset_update_notifications(
@@ -603,7 +603,7 @@ pub struct AssetClient {
     // Internally used fields
     /// The internal observation for updates
     #[getter(skip)]
-    asset_update_observation: AssetUpdateObservation,
+    asset_update_observation: azure_device_registry::AssetUpdateObservation,
     /// Internal sender for when new datasets are created
     #[getter(skip)]
     dataset_creation_tx: UnboundedSender<(
@@ -612,12 +612,18 @@ pub struct AssetClient {
     )>,
     /// hashmap of current dataset names to their current definition and a sender to send dataset updates
     #[getter(skip)]
-    dataset_hashmap: HashMap<String, (Dataset, UnboundedSender<DatasetUpdateNotification>)>,
+    dataset_hashmap: HashMap<
+        String,
+        (
+            adr_models::Dataset,
+            UnboundedSender<DatasetUpdateNotification>,
+        ),
+    >,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
     /// The last definition of the asset that was received so we can filter out updates that only report status changes. Temporary
     #[getter(skip)]
-    last_specification: azure_device_registry::AssetSpecification,
+    last_specification: adr_models::AssetSpecification,
     /// Internal watch sender for releasing dataset create/update notifications
     #[getter(skip)]
     release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
@@ -629,7 +635,7 @@ impl AssetClient {
         asset_ref: AssetRef,
         device_specification: Arc<RwLock<DeviceSpecification>>,
         device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
-        asset_update_observation: AssetUpdateObservation,
+        asset_update_observation: azure_device_registry::AssetUpdateObservation,
         dataset_creation_tx: UnboundedSender<(DatasetClient, tokio::sync::watch::Receiver<()>)>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
@@ -922,18 +928,18 @@ impl AssetClient {
         (*self.device_status.read().unwrap()).clone()
     }
 
-    /// Internal helper function to create an [`azure_device_registry::AssetStatus`] from a Result and version
+    /// Internal helper function to create an [`adr_models::AssetStatus`] from a Result and version
     fn internal_asset_status(
         status: Result<(), AdrConfigError>,
         version: Option<u64>,
-    ) -> azure_device_registry::AssetStatus {
-        azure_device_registry::AssetStatus {
+    ) -> adr_models::AssetStatus {
+        adr_models::AssetStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version,
                 error: status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            ..azure_device_registry::AssetStatus::default()
+            ..adr_models::AssetStatus::default()
         }
     }
 
@@ -1001,13 +1007,13 @@ impl AssetClient {
     /// Creates a new [`DatasetClient`] for the given dataset definition,
     /// adds it to the dataset hashmap, and sends the create notification.
     /// If the dataset definition is invalid, it returns an error with the
-    /// `azure_device_registry::DatasetEventStreamStatus` that can be used to report the error.
+    /// `adr_models::DatasetEventStreamStatus` that can be used to report the error.
     #[allow(clippy::result_large_err)] // since we are immediately using the error value, not worth boxing
     fn setup_new_dataset(
         &mut self,
-        dataset_definition: Dataset,
+        dataset_definition: adr_models::Dataset,
         default_dataset_destinations: &[Arc<destination_endpoint::Destination>],
-    ) -> Result<(), azure_device_registry::DatasetEventStreamStatus> {
+    ) -> Result<(), adr_models::DatasetEventStreamStatus> {
         let (dataset_update_tx, dataset_update_rx) = mpsc::unbounded_channel();
 
         let new_dataset_client = DatasetClient::new(
@@ -1040,7 +1046,7 @@ impl AssetClient {
             // Don't give this dataset to the application or track it in our dataset_hashmap since
             // we can't forward data on it. If there's an update to the definition, they'll get the
             // create notification for it at that point if it's valid
-            azure_device_registry::DatasetEventStreamStatus {
+            adr_models::DatasetEventStreamStatus {
                 name: dataset_definition.name.clone(),
                 message_schema_reference,
                 error: Some(e),
@@ -1072,7 +1078,7 @@ impl AssetClient {
     /// Convenience function to report a vector of dataset errors to the ADR service
     async fn report_dataset_config_errors(
         &self,
-        dataset_config_errors: Vec<azure_device_registry::DatasetEventStreamStatus>,
+        dataset_config_errors: Vec<adr_models::DatasetEventStreamStatus>,
         specification_version: Option<u64>,
         log_identifier: &str,
     ) {
@@ -1086,10 +1092,10 @@ impl AssetClient {
                     .filter(|config| config.version == specification_version)
                     .cloned()
             });
-            let adr_asset_status = azure_device_registry::AssetStatus {
+            let adr_asset_status = adr_models::AssetStatus {
                 config: current_asset_config,
                 datasets: Some(dataset_config_errors),
-                ..azure_device_registry::AssetStatus::default()
+                ..adr_models::AssetStatus::default()
             };
             // send status update to the service
             log::debug!(
@@ -1131,7 +1137,7 @@ impl DatasetClientCreationObservation {
 }
 
 type DatasetUpdateNotification = (
-    Dataset,                                     // new Dataset definition
+    adr_models::Dataset,                         // new Dataset definition
     Vec<Arc<destination_endpoint::Destination>>, // new default dataset destinations
     tokio::sync::watch::Receiver<()>, // watch receiver for when the update notification should be released to the application
 );
@@ -1403,7 +1409,7 @@ impl DatasetClient {
             // wait until the udpate has been released. If the watch sender has been dropped, this means the Asset has been deleted/dropped
             watch_receiver.changed().await.ok()?;
             // create new forwarder, in case destination has changed
-            self.forwarder = match Forwarder::new_dataset_forwarder(
+            self.forwarder = match destination_endpoint::Forwarder::new_dataset_forwarder(
                 &updated_dataset.destinations,
                 &self.asset_ref.inbound_endpoint_name,
                 &default_destinations,
