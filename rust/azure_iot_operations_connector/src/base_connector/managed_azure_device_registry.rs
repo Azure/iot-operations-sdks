@@ -11,7 +11,7 @@ use std::{
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_services::{
     azure_device_registry::{
-        self, AssetUpdateObservation, DeviceUpdateObservation,
+        self,
         models::{self as adr_models},
     },
     schema_registry,
@@ -22,10 +22,10 @@ use tokio_retry2::{Retry, RetryError};
 use crate::{
     AdrConfigError, Data, DatasetRef, MessageSchema,
     base_connector::ConnectorContext,
-    destination_endpoint::{self, Forwarder},
-    filemount::azure_device_registry::{
-        AssetCreateObservation, AssetDeletionToken, AssetRef, DeviceEndpointCreateObservation,
-        DeviceEndpointRef,
+    destination_endpoint,
+    filemount::{
+        self,
+        azure_device_registry::{AssetDeletionToken, AssetRef, DeviceEndpointRef},
     },
 };
 
@@ -37,13 +37,18 @@ const RETRY_STRATEGY: tokio_retry2::strategy::ExponentialFactorBackoff =
 /// multiple underlying clients to get full device endpoint information.
 pub struct DeviceEndpointClientCreationObservation {
     connector_context: Arc<ConnectorContext>,
-    device_endpoint_create_observation: DeviceEndpointCreateObservation,
+    device_endpoint_create_observation:
+        filemount::azure_device_registry::DeviceEndpointCreateObservation,
 }
 impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
     pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Self {
+        // TODO: handle unwrap in a better way
         let device_endpoint_create_observation =
-            DeviceEndpointCreateObservation::new(connector_context.debounce_duration).unwrap();
+            filemount::azure_device_registry::DeviceEndpointCreateObservation::new(
+                connector_context.debounce_duration,
+            )
+            .unwrap();
 
         Self {
             connector_context,
@@ -70,7 +75,7 @@ impl DeviceEndpointClientCreationObservation {
                 .await?;
 
             // and then get device update observation as well and turn it into a DeviceEndpointClientUpdateObservation
-            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let device_endpoint_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<azure_device_registry::DeviceUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_device_update_notifications(
@@ -222,7 +227,7 @@ pub struct DeviceEndpointClient {
     status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
     /// The internal observation for updates
     #[getter(skip)]
-    device_update_observation: DeviceUpdateObservation,
+    device_update_observation: azure_device_registry::DeviceUpdateObservation,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -230,7 +235,7 @@ impl DeviceEndpointClient {
     pub(crate) fn new(
         device: adr_models::Device,
         device_endpoint_ref: DeviceEndpointRef,
-        device_update_observation: DeviceUpdateObservation,
+        device_update_observation: azure_device_registry::DeviceUpdateObservation,
         connector_context: Arc<ConnectorContext>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, String> {
@@ -441,7 +446,7 @@ impl DeviceEndpointClient {
 /// An Observation for asset creation events that uses
 /// multiple underlying clients to get full asset information.
 pub struct AssetClientCreationObservation {
-    asset_create_observation: AssetCreateObservation,
+    asset_create_observation: filemount::azure_device_registry::AssetCreateObservation,
     connector_context: Arc<ConnectorContext>,
     device_specification: Arc<RwLock<DeviceSpecification>>,
     device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
@@ -464,7 +469,7 @@ impl AssetClientCreationObservation {
                 self.asset_create_observation.recv_notification().await?;
 
             // Get asset update observation as well and turn it into a AssetClientUpdateObservation
-            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
+            let asset_client_update_observation =  match Retry::spawn(RETRY_STRATEGY.take(10), async || -> Result<azure_device_registry::AssetUpdateObservation, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .observe_asset_update_notifications(
@@ -577,7 +582,7 @@ impl AssetClientCreationObservation {
 /// multiple underlying clients to get full asset update information.
 #[allow(dead_code)]
 pub struct AssetClientUpdateObservation {
-    asset_update_observation: AssetUpdateObservation,
+    asset_update_observation: azure_device_registry::AssetUpdateObservation,
     connector_context: Arc<ConnectorContext>,
 }
 impl AssetClientUpdateObservation {
@@ -864,7 +869,7 @@ pub struct DatasetClient {
     #[getter(skip)]
     device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
     #[getter(skip)]
-    forwarder: Arc<Forwarder>,
+    forwarder: Arc<destination_endpoint::Forwarder>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
     /// Asset reference for internal use
@@ -885,7 +890,7 @@ impl DatasetClient {
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
-        let forwarder = Arc::new(Forwarder::new_dataset_forwarder(
+        let forwarder = Arc::new(destination_endpoint::Forwarder::new_dataset_forwarder(
             &dataset_definition.destinations,
             &asset_ref.inbound_endpoint_name,
             default_destinations,
@@ -1171,13 +1176,6 @@ impl DeviceSpecification {
             .get(inbound_endpoint_name)
             .cloned()
             .ok_or("Inbound endpoint not found on Device specification")?;
-        let recvd_outbound = recvd_endpoints
-            .outbound
-            // TODO: more elegant way to handle this
-            .unwrap_or(adr_models::OutboundEndpoints {
-                assigned: HashMap::new(),
-                unassigned: HashMap::new(),
-            });
 
         // update authentication to include the full file path for the credentials
         let authentication = match recvd_inbound.authentication {
@@ -1210,8 +1208,7 @@ impl DeviceSpecification {
                 trust_settings: recvd_inbound.trust_settings,
                 version: recvd_inbound.version,
             },
-            outbound_assigned: recvd_outbound.assigned,
-            outbound_unassigned: recvd_outbound.unassigned,
+            outbound: recvd_endpoints.outbound,
         };
 
         Ok(DeviceSpecification {
@@ -1237,9 +1234,7 @@ pub struct DeviceEndpoints {
     /// The 'inbound' Field.
     pub inbound: InboundEndpoint, // different from adr
     /// The 'outbound' Field.
-    pub outbound_assigned: HashMap<String, adr_models::OutboundEndpoint>,
-    /// The 'outboundUnassigned' Field.
-    pub outbound_unassigned: HashMap<String, adr_models::OutboundEndpoint>,
+    pub outbound: Option<adr_models::OutboundEndpoints>,
 }
 /// Represents an inbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
