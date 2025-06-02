@@ -5,5 +5,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record CreateDetectedAssetResponse
 {
-    public DetectedAssetResponseStatus Status { get; set; }
+    public required string DiscoveryId { get; set; }
+
+    public required ulong Version { get; set; }
 }

@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("endpoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DeviceEndpointSchema? Endpoints { get; set; } = default;
+        public DeviceEndpointsSchema? Endpoints { get; set; } = default;
 
         /// <summary>
         /// The 'externalDeviceId' Field.
@@ -52,7 +52,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("lastTransitionTime")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? LastTransitionTime { get; set; } = default;
+        public DateTime? LastTransitionTime { get; set; } = default;
 
         /// <summary>
         /// The 'manufacturer' Field.

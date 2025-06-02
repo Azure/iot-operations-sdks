@@ -13,10 +13,7 @@ use azure_iot_operations_protocol::{
     },
     telemetry,
 };
-use azure_iot_operations_services::{
-    azure_device_registry::{self, MessageSchemaReference},
-    state_store,
-};
+use azure_iot_operations_services::{azure_device_registry::models as adr_models, state_store};
 use chrono::{DateTime, Utc};
 use thiserror::Error;
 
@@ -58,7 +55,7 @@ pub enum ErrorKind {
 /// A [`Forwarder`] forwards [`Data`] to a destination defined in a dataset or asset
 #[derive(Debug)]
 pub(crate) struct Forwarder {
-    message_schema_reference: Option<MessageSchemaReference>,
+    message_schema_reference: Option<adr_models::MessageSchemaReference>,
     destination: ForwarderDestination,
     connector_context: Arc<ConnectorContext>,
 }
@@ -71,7 +68,7 @@ impl Forwarder {
     /// the destination from the definitions. This can be used to report the error
     /// to the ADR service on the dataset's status
     pub(crate) fn new_dataset_forwarder(
-        dataset_destinations: &[azure_device_registry::DatasetDestination],
+        dataset_destinations: &[adr_models::DatasetDestination],
         inbound_endpoint_name: &str,
         default_destinations: &[Arc<Destination>],
         connector_context: Arc<ConnectorContext>,
@@ -245,7 +242,7 @@ impl Forwarder {
     /// calling `send_data`
     pub(crate) fn update_message_schema_reference(
         &mut self,
-        message_schema_reference: Option<MessageSchemaReference>,
+        message_schema_reference: Option<adr_models::MessageSchemaReference>,
     ) {
         // Add the message schema URI to the forwarder
         self.message_schema_reference = message_schema_reference;
@@ -276,7 +273,7 @@ pub(crate) enum Destination {
 }
 
 impl Destination {
-    /// Creates a list of new [`Destination`]s from a list of [`azure_device_registry::DatasetDestination`]s.
+    /// Creates a list of new [`Destination`]s from a list of [`azure_device_registry::models::DatasetDestination`]s.
     /// At this time, this list cannot have more than one element. If there are no items in the list,
     /// this function will return an empty Vec. This isn't an error, since a default destination may or
     /// may not exist in the definition.
@@ -285,7 +282,7 @@ impl Destination {
     /// [`AdrConfigError`] if the destination is `Mqtt` and the topic is invalid.
     /// This can be used to report the error to the ADR service on the status
     pub(crate) fn new_dataset_destinations(
-        dataset_destinations: &[azure_device_registry::DatasetDestination],
+        dataset_destinations: &[adr_models::DatasetDestination],
         inbound_endpoint_name: &str,
         connector_context: &Arc<ConnectorContext>,
     ) -> Result<Vec<Self>, AdrConfigError> {
@@ -296,7 +293,7 @@ impl Destination {
             // for now, this vec will only ever be length 1
             let definition_destination = &dataset_destinations[0];
             let destination = match definition_destination.target {
-                azure_device_registry::DatasetTarget::BrokerStateStore => {
+                adr_models::DatasetTarget::BrokerStateStore => {
                     Destination::BrokerStateStore {
                         // TODO: validate key not empty?
                         key: definition_destination
@@ -306,7 +303,7 @@ impl Destination {
                             .expect("Key must be present if Target is BrokerStateStore"),
                     }
                 }
-                azure_device_registry::DatasetTarget::Mqtt => {
+                adr_models::DatasetTarget::Mqtt => {
                     let telemetry_sender_options = telemetry::sender::OptionsBuilder::default()
                         .topic_pattern(
                             definition_destination
@@ -335,18 +332,18 @@ impl Destination {
                         message: Some(e.to_string()),
                     })?;
                     Destination::Mqtt {
-                        qos: definition_destination.configuration.qos,
+                        qos: definition_destination.configuration.qos.map(Into::into),
                         retain: definition_destination
                             .configuration
                             .retain
                             .as_ref()
-                            .map(|r| matches!(r, azure_device_registry::Retain::Keep)),
+                            .map(|r| matches!(r, adr_models::Retain::Keep)),
                         ttl: definition_destination.configuration.ttl,
                         inbound_endpoint_name: inbound_endpoint_name.to_string(),
                         telemetry_sender,
                     }
                 }
-                azure_device_registry::DatasetTarget::Storage => {
+                adr_models::DatasetTarget::Storage => {
                     Err(AdrConfigError {
                         code: None,
                         details: None,

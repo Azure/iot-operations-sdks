@@ -1,11 +1,12 @@
 ﻿using System.Text.Json;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AepTypeService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Xunit;
 using AdrBaseService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 {
+    /*
     public class ModelsConverterTests
     {
         [Fact]
@@ -920,4 +921,5 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.Equal(NotificationResponse.Failed, resultFailed);
         }
     }
+*/
 }

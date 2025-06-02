@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             private readonly UpdateAssetStatusCommandExecutor updateAssetStatusCommandExecutor;
             private readonly SetNotificationPreferenceForDeviceUpdatesCommandExecutor setNotificationPreferenceForDeviceUpdatesCommandExecutor;
             private readonly SetNotificationPreferenceForAssetUpdatesCommandExecutor setNotificationPreferenceForAssetUpdatesCommandExecutor;
-            private readonly CreateDetectedAssetCommandExecutor createDetectedAssetCommandExecutor;
+            private readonly CreateOrUpdateDiscoveredAssetCommandExecutor createOrUpdateDiscoveredAssetCommandExecutor;
             private readonly DeviceUpdateEventTelemetrySender deviceUpdateEventTelemetrySender;
             private readonly AssetUpdateEventTelemetrySender assetUpdateEventTelemetrySender;
 
@@ -42,8 +42,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="topicTokenMap">
             /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
             /// for topic tokens such as "modelId" which should be the same for the duration of this service's lifetime. Note that
-            /// additional topic tokens can be specified when starting the service with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/> and
-            /// can be specified per-telemetry message.
+            /// additional topic tokens can be specified per-telemetry message.
             /// </param>
             public Service(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
@@ -62,7 +61,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 this.updateAssetStatusCommandExecutor = new UpdateAssetStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = UpdateAssetStatusInt };
                 this.setNotificationPreferenceForDeviceUpdatesCommandExecutor = new SetNotificationPreferenceForDeviceUpdatesCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = SetNotificationPreferenceForDeviceUpdatesInt };
                 this.setNotificationPreferenceForAssetUpdatesCommandExecutor = new SetNotificationPreferenceForAssetUpdatesCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = SetNotificationPreferenceForAssetUpdatesInt };
-                this.createDetectedAssetCommandExecutor = new CreateDetectedAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateDetectedAssetInt };
+                this.createOrUpdateDiscoveredAssetCommandExecutor = new CreateOrUpdateDiscoveredAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = CreateOrUpdateDiscoveredAssetInt };
                 this.deviceUpdateEventTelemetrySender = new DeviceUpdateEventTelemetrySender(applicationContext, mqttClient);
                 this.assetUpdateEventTelemetrySender = new AssetUpdateEventTelemetrySender(applicationContext, mqttClient);
 
@@ -76,7 +75,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.setNotificationPreferenceForAssetUpdatesCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                        this.createDetectedAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createOrUpdateDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deviceUpdateEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.assetUpdateEventTelemetrySender.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
@@ -88,7 +87,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.setNotificationPreferenceForAssetUpdatesCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
-                this.createDetectedAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.createOrUpdateDiscoveredAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
             }
 
             public GetDeviceCommandExecutor GetDeviceCommandExecutor { get => this.getDeviceCommandExecutor; }
@@ -103,7 +102,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public SetNotificationPreferenceForAssetUpdatesCommandExecutor SetNotificationPreferenceForAssetUpdatesCommandExecutor { get => this.setNotificationPreferenceForAssetUpdatesCommandExecutor; }
 
-            public CreateDetectedAssetCommandExecutor CreateDetectedAssetCommandExecutor { get => this.createDetectedAssetCommandExecutor; }
+            public CreateOrUpdateDiscoveredAssetCommandExecutor CreateOrUpdateDiscoveredAssetCommandExecutor { get => this.createOrUpdateDiscoveredAssetCommandExecutor; }
 
             public DeviceUpdateEventTelemetrySender DeviceUpdateEventTelemetrySender { get => this.deviceUpdateEventTelemetrySender; }
 
@@ -121,7 +120,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public abstract Task<ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>> SetNotificationPreferenceForAssetUpdatesAsync(SetNotificationPreferenceForAssetUpdatesRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
-            public abstract Task<ExtendedResponse<CreateDetectedAssetResponsePayload>> CreateDetectedAssetAsync(CreateDetectedAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+            public abstract Task<ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload>> CreateOrUpdateDiscoveredAssetAsync(CreateOrUpdateDiscoveredAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             /// <summary>
             /// Send telemetry.
@@ -174,20 +173,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <summary>
             /// Begin accepting command invocations for all command executors.
             /// </summary>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
-            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
             /// <param name="preferredDispatchConcurrency">The dispatch concurrency count for the command response cache to use.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
-            /// <remarks>
-            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make command executors only
-            /// accept commands over a specific topic.
-            ///
-            /// Note that a given command executor can only be started with one set of topic token replacements. If you want a command executor
-            /// to only handle commands for several specific sets of topic token values (as opposed to all possible topic token values), then you will
-            /// instead need to create a command executor per topic token set.
-            /// </remarks>
             public async Task StartAsync(int? preferredDispatchConcurrency = null, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -203,7 +190,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                     this.updateAssetStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.setNotificationPreferenceForAssetUpdatesCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
-                    this.createDetectedAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
+                    this.createOrUpdateDiscoveredAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken)).ConfigureAwait(false);
             }
 
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -215,13 +202,25 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                     this.updateAssetStatusCommandExecutor.StopAsync(cancellationToken),
                     this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.StopAsync(cancellationToken),
                     this.setNotificationPreferenceForAssetUpdatesCommandExecutor.StopAsync(cancellationToken),
-                    this.createDetectedAssetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.createOrUpdateDiscoveredAssetCommandExecutor.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
-            private async Task<ExtendedResponse<GetDeviceResponsePayload>> GetDeviceInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetDeviceResponseSchema>> GetDeviceInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<GetDeviceResponsePayload> extended = await this.GetDeviceAsync(req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<GetDeviceResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<GetDeviceResponsePayload> extended = await this.GetDeviceAsync(req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<GetDeviceResponseSchema>
+                    {
+                        Response = new GetDeviceResponseSchema { Device = extended.Response.Device },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<GetDeviceResponseSchema>.CreateFromResponse(new GetDeviceResponseSchema { GetDeviceError = intEx.AkriServiceError });
+                }
             }
 
             private async Task<ExtendedResponse<GetAssetResponsePayload>> GetAssetInt(ExtendedRequest<GetAssetRequestPayload> req, CancellationToken cancellationToken)
@@ -254,10 +253,22 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
             }
 
-            private async Task<ExtendedResponse<CreateDetectedAssetResponsePayload>> CreateDetectedAssetInt(ExtendedRequest<CreateDetectedAssetRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>> CreateOrUpdateDiscoveredAssetInt(ExtendedRequest<CreateOrUpdateDiscoveredAssetRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<CreateDetectedAssetResponsePayload> extended = await this.CreateDetectedAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<CreateDetectedAssetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload> extended = await this.CreateOrUpdateDiscoveredAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>
+                    {
+                        Response = new CreateOrUpdateDiscoveredAssetResponseSchema { DiscoveredAssetResponse = extended.Response.DiscoveredAssetResponse },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>.CreateFromResponse(new CreateOrUpdateDiscoveredAssetResponseSchema { CreateOrUpdateDiscoveredAssetError = intEx.AkriServiceError });
+                }
             }
 
             public async ValueTask DisposeAsync()
@@ -268,7 +279,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.updateAssetStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandExecutor.DisposeAsync().ConfigureAwait(false);
-                await this.createDetectedAssetCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredAssetCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
                 await this.assetUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
@@ -281,7 +292,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.updateAssetStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.createDetectedAssetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredAssetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.assetUpdateEventTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
             }
@@ -297,7 +308,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             private readonly UpdateAssetStatusCommandInvoker updateAssetStatusCommandInvoker;
             private readonly SetNotificationPreferenceForDeviceUpdatesCommandInvoker setNotificationPreferenceForDeviceUpdatesCommandInvoker;
             private readonly SetNotificationPreferenceForAssetUpdatesCommandInvoker setNotificationPreferenceForAssetUpdatesCommandInvoker;
-            private readonly CreateDetectedAssetCommandInvoker createDetectedAssetCommandInvoker;
+            private readonly CreateOrUpdateDiscoveredAssetCommandInvoker createOrUpdateDiscoveredAssetCommandInvoker;
             private readonly DeviceUpdateEventTelemetryReceiver deviceUpdateEventTelemetryReceiver;
             private readonly AssetUpdateEventTelemetryReceiver assetUpdateEventTelemetryReceiver;
 
@@ -308,8 +319,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="mqttClient">The MQTT client to use.</param>
             /// <param name="topicTokenMap">
             /// The topic token replacement map to use for all operations by default. Generally, this will include the token values
-            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime. Note that
-            /// additional topic tokens can be specified when starting the client with <see cref="StartAsync(Dictionary{string, string}?, int?, CancellationToken)"/>.
+            /// for topic tokens such as "modelId" which should be the same for the duration of this client's lifetime.
             /// </param>
             public Client(ApplicationContext applicationContext, IMqttPubSubClient mqttClient, Dictionary<string, string>? topicTokenMap = null)
             {
@@ -364,12 +374,12 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.setNotificationPreferenceForAssetUpdatesCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
-                this.createDetectedAssetCommandInvoker = new CreateDetectedAssetCommandInvoker(applicationContext, mqttClient);
+                this.createOrUpdateDiscoveredAssetCommandInvoker = new CreateOrUpdateDiscoveredAssetCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
-                        this.createDetectedAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.createOrUpdateDiscoveredAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.deviceUpdateEventTelemetryReceiver = new DeviceUpdateEventTelemetryReceiver(applicationContext, mqttClient) { OnTelemetryReceived = this.ReceiveTelemetry };
@@ -402,7 +412,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public SetNotificationPreferenceForAssetUpdatesCommandInvoker SetNotificationPreferenceForAssetUpdatesCommandInvoker { get => this.setNotificationPreferenceForAssetUpdatesCommandInvoker; }
 
-            public CreateDetectedAssetCommandInvoker CreateDetectedAssetCommandInvoker { get => this.createDetectedAssetCommandInvoker; }
+            public CreateOrUpdateDiscoveredAssetCommandInvoker CreateOrUpdateDiscoveredAssetCommandInvoker { get => this.createOrUpdateDiscoveredAssetCommandInvoker; }
 
             public DeviceUpdateEventTelemetryReceiver DeviceUpdateEventTelemetryReceiver { get => this.deviceUpdateEventTelemetryReceiver; }
 
@@ -442,12 +452,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<GetDeviceResponsePayload>(this.getDeviceCommandInvoker.InvokeCommandAsync(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetDeviceResponsePayload>(this.GetDeviceInt(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
             /// Invoke a command.
             /// </summary>
+            /// <param name="request">The data for this command request.</param>
             /// <param name="requestMetadata">The metadata for this command request.</param>
             /// <param name="additionalTopicTokenMap">
             /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
@@ -481,6 +492,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <summary>
             /// Invoke a command.
             /// </summary>
+            /// <param name="request">The data for this command request.</param>
             /// <param name="requestMetadata">The metadata for this command request.</param>
             /// <param name="additionalTopicTokenMap">
             /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
@@ -514,6 +526,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <summary>
             /// Invoke a command.
             /// </summary>
+            /// <param name="request">The data for this command request.</param>
             /// <param name="requestMetadata">The metadata for this command request.</param>
             /// <param name="additionalTopicTokenMap">
             /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
@@ -547,6 +560,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <summary>
             /// Invoke a command.
             /// </summary>
+            /// <param name="request">The data for this command request.</param>
             /// <param name="requestMetadata">The metadata for this command request.</param>
             /// <param name="additionalTopicTokenMap">
             /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
@@ -580,6 +594,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <summary>
             /// Invoke a command.
             /// </summary>
+            /// <param name="request">The data for this command request.</param>
             /// <param name="requestMetadata">The metadata for this command request.</param>
             /// <param name="additionalTopicTokenMap">
             /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
@@ -613,6 +628,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <summary>
             /// Invoke a command.
             /// </summary>
+            /// <param name="request">The data for this command request.</param>
             /// <param name="requestMetadata">The metadata for this command request.</param>
             /// <param name="additionalTopicTokenMap">
             /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
@@ -621,7 +637,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<CreateDetectedAssetResponsePayload> CreateDetectedAssetAsync(CreateDetectedAssetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(CreateOrUpdateDiscoveredAssetRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -640,25 +656,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<CreateDetectedAssetResponsePayload>(this.createDetectedAssetCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<CreateOrUpdateDiscoveredAssetResponsePayload>(this.CreateOrUpdateDiscoveredAssetInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
             /// Begin accepting telemetry for all telemetry receivers.
             /// </summary>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacements to use in addition to any topic tokens specified in the constructor. If this map
-            /// contains any keys that topic tokens provided in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
             /// <param name="cancellationToken">Cancellation token.</param>
-            /// <remarks>
-            /// Specifying custom topic tokens in <paramref name="additionalTopicTokenMap"/> allows you to make telemetry receivers only
-            /// accept telemetry over a specific topic.
-            ///
-            /// Note that a given telemetry receiver can only be started with one set of topic token replacements. If you want a telemetry receiver
-            /// to only handle telemetry for several specific sets of topic token values (as opposed to all possible topic token values), then you will
-            /// instead need to create a telemetry receiver per topic token set.
-            /// </remarks>
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
@@ -677,6 +681,58 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                     this.assetUpdateEventTelemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
+            private async Task<ExtendedResponse<GetDeviceResponsePayload>> GetDeviceInt(EmptyJson request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<GetDeviceResponseSchema> extended = await this.getDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.GetDeviceError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.GetDeviceError);
+                }
+                else if (extended.Response.Device == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<GetDeviceResponsePayload>
+                    {
+                        Response = new GetDeviceResponsePayload { Device = extended.Response.Device.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload>> CreateOrUpdateDiscoveredAssetInt(CreateOrUpdateDiscoveredAssetRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema> extended = await this.createOrUpdateDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.CreateOrUpdateDiscoveredAssetError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.CreateOrUpdateDiscoveredAssetError);
+                }
+                else if (extended.Response.DiscoveredAssetResponse == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload>
+                    {
+                        Response = new CreateOrUpdateDiscoveredAssetResponsePayload { DiscoveredAssetResponse = extended.Response.DiscoveredAssetResponse.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.getDeviceCommandInvoker.DisposeAsync().ConfigureAwait(false);
@@ -685,7 +741,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.updateAssetStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.createDetectedAssetCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredAssetCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
@@ -698,7 +754,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 await this.updateAssetStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.createDetectedAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.deviceUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
             }

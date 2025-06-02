@@ -20,6 +20,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public List<AssetDatasetDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
 
         /// <summary>
+        /// The 'datasetConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("datasetConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DatasetConfiguration { get; set; } = default;
+
+        /// <summary>
         /// The 'dataSource' Field.
         /// </summary>
         [JsonPropertyName("dataSource")]
@@ -31,7 +38,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetDestinationSchemaElementSchema>? Destinations { get; set; } = default;
+        public List<DatasetDestination>? Destinations { get; set; } = default;
 
         /// <summary>
         /// The 'name' Field.

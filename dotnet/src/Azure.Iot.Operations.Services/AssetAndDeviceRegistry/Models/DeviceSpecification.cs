@@ -15,7 +15,7 @@ public record DeviceSpecification
 
         public string? ExternalDeviceId { get; set; }
 
-        public string? LastTransitionTime { get; set; }
+        public DateTime? LastTransitionTime { get; set; }
 
         public string? Manufacturer { get; set; }
 
