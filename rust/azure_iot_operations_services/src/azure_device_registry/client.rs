@@ -804,7 +804,7 @@ where
     /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
-    /// - inbound endpoint names are invalid.
+    /// - inbound endpoint type is invalid for the topic.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
