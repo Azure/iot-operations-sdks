@@ -27,7 +27,7 @@ $gen --modelFile ../dtdl/TelemetryAndCommand.json --outDir ./TelemetryAndCommand
 $gen --modelFile ../dtdl/TelemetryComplexSchemas.json --outDir ./TelemetryComplexSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
 [[ -d ./TelemetryPrimitiveSchemasSample ]] && rm -r ./TelemetryPrimitiveSchemasSample
-$gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
+$gen --modelFile ../dtdl/TelemetryPrimitiveSchemas.json --outDir ./TelemetryPrimitiveSchemasSample --resolver ../dtdl/resolver.json --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
 
 [[ -d ./TelemetryRawSingleSample ]] && rm -r ./TelemetryRawSingleSample
 $gen --modelFile ../dtdl/TelemetryRawSingle.json --outDir ./TelemetryRawSingleSample --lang csharp --sdkPath ../../../../dotnet/src/Azure.Iot.Operations.Protocol
