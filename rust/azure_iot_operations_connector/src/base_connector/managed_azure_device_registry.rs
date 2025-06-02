@@ -1319,7 +1319,7 @@ pub struct AssetSpecification {
     /// The description of the asset.
     pub description: Option<String>,
     /// A reference to the Device and Endpoint within the device
-    pub device_ref: adr_models::DeviceEndpointRef,
+    pub device_ref: adr_models::DeviceRef,
     /// Reference to a list of discovered assets
     pub discovered_asset_refs: Vec<String>, // if None, we can represent as empty vec
     /// The display name of the asset.
