@@ -94,8 +94,6 @@ namespace Azure.Iot.Operations.ProtocolCompiler
                         modelFilePath = Path.Combine(modelFolderPath, modelFileName);
                     }
 
-                    Console.WriteLine($"model file path is {modelFilePath}");
-
                     if (File.Exists(modelFilePath))
                     {
                         string jsonText = File.ReadAllText(modelFilePath);
