@@ -47,6 +47,23 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
+    public async Task GetDeviceThrowsAkriServiceErrorExceptionWhenDeviceNotFoundAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<AkriServiceErrorException>(
+            () => client.GetDeviceAsync("non-existent-device", "my-rest-endpoint"));
+
+        _output.WriteLine($"Expected exception: {exception.Message}");
+        Assert.NotNull(exception.AkriServiceError);
+        Assert.Equal("KubeError", exception.AkriServiceError.Code);
+    }
+
+    [Fact]
     public async Task CanUpdateDeviceStatusAsync()
     {
         // Arrange
@@ -323,7 +340,7 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
-    public async Task CanCreateDetectedAssetAsync()
+    public async Task CanCreateOrUpdateDiscoveredAssetAsync()
     {
         // Arrange
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
@@ -339,6 +356,27 @@ public class AdrServiceClientIntegrationTests
         Assert.NotNull(result);
         Assert.NotEmpty(result.DiscoveryId);
         _output.WriteLine($"Detected asset created with DiscoveryId: {result.DiscoveryId}");
+    }
+
+    [Fact]
+    public async Task CanCreateOrUpdateDiscoveredDeviceAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        var request = CreateCreateDiscoveredDeviceRequest();
+
+        // Act
+        var response = await client.CreateOrUpdateDiscoveredDeviceAsync(request, "my-rest-endpoint");
+
+        // Assert
+        Assert.NotNull(response);
+        Assert.NotNull(response.DiscoveryId);
+        Assert.NotEmpty(response.DiscoveryId);
+        Assert.Equal("test-discovered-device", response.DiscoveryId);
+        _output.WriteLine($"Discovered device created with name: {response.DiscoveryId}");
     }
 
     [Fact]
@@ -728,4 +766,44 @@ public class AdrServiceClientIntegrationTests
         };
     }
 
+    private CreateDiscoveredAssetEndpointProfileRequest CreateCreateDiscoveredDeviceRequest()
+    {
+        return new CreateDiscoveredAssetEndpointProfileRequest
+        {
+            Name = "test-discovered-device",
+            Manufacturer = "Test Manufacturer",
+            Model = "Test Model",
+            OperatingSystem = "Linux",
+            OperatingSystemVersion = "1.0",
+            ExternalDeviceId = "external-device-id-123",
+            Endpoints = new DiscoveredDeviceEndpoint
+            {
+                Inbound = new Dictionary<string, DiscoveredDeviceInboundEndpoint>
+                {
+                    {
+                        TestEndpointName,
+                        new DiscoveredDeviceInboundEndpoint
+                        {
+                            Address = "http://example.com",
+                            EndpointType = "rest",
+                            Version = "1.0",
+                            SupportedAuthenticationMethods = new List<string> { "Basic", "OAuth2" }
+                        }
+                    }
+                },
+                Outbound = new DiscoveredDeviceOutboundEndpoints
+                {
+                    Assigned = new Dictionary<string, DeviceOutboundEndpoint>
+                    {
+                        { "outbound-endpoint-1", new DeviceOutboundEndpoint { Address = "http://outbound.example.com", EndpointType = "rest" } }
+                    }
+                }
+            },
+            Attributes = new Dictionary<string, string>
+            {
+                { "attribute1", "value1" },
+                { "attribute2", "value2" }
+            }
+        };
+    }
 }
