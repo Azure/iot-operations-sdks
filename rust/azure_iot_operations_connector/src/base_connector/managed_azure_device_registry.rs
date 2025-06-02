@@ -629,13 +629,13 @@ impl AssetClient {
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
         let dataset_definitions = asset.specification.datasets.clone();
-        let unlocked_specification = AssetSpecification::from(asset.specification.clone());
-        let specification_version = unlocked_specification.version;
+        let specification = AssetSpecification::from(asset.specification.clone());
+        let specification_version = specification.version;
 
         // Create the default dataset destinations from the asset definition
         let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
             match destination_endpoint::Destination::new_dataset_destinations(
-                &unlocked_specification.default_datasets_destinations,
+                &specification.default_datasets_destinations,
                 &asset_ref.inbound_endpoint_name,
                 &connector_context,
             ) {
@@ -664,7 +664,7 @@ impl AssetClient {
         // Create the AssetClient so that we can use the same helper functions for processing the datasets as we do during the update flow
         let mut asset_client = AssetClient {
             asset_ref,
-            specification: Arc::new(RwLock::new(unlocked_specification)),
+            specification: Arc::new(RwLock::new(specification)),
             status,
             device_specification,
             device_status,
