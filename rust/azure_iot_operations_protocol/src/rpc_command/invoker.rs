@@ -323,6 +323,8 @@ where
             UserProperty::ProtocolVersion,
             UserProperty::SupportedMajorVersions,
             UserProperty::RequestProtocolVersion,
+            UserProperty::ApplicationErrorCode,
+            UserProperty::ApplicationErrorPayload,
         ];
         let mut response_custom_user_data = vec![];
         let mut response_aio_data = HashMap::new();

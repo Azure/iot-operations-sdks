@@ -54,6 +54,8 @@ struct ResponseArguments {
     request_protocol_version: Option<String>,
     cached_key: Option<CacheKey>,
     cached_entry_status: CacheEntryStatus,
+    application_error_code: Option<String>,
+    application_error_payload: Option<String>,
 }
 
 /// Command Executor Request struct.
@@ -670,6 +672,8 @@ where
                         request_protocol_version: None,
                         cached_key: None,
                         cached_entry_status: CacheEntryStatus::NotFound,
+                        application_error_code: None,
+                        application_error_payload: None,
                     };
 
                     // Get message expiry interval
@@ -1172,6 +1176,20 @@ where
                 user_properties.push((
                     UserProperty::RequestProtocolVersion.to_string(),
                     request_protocol_version,
+                ));
+            }
+
+            if let Some(application_error_code) = response_arguments.application_error_code {
+                user_properties.push((
+                    UserProperty::ApplicationErrorCode.to_string(),
+                    application_error_code,
+                ));
+            }
+
+            if let Some(application_error_payload) = response_arguments.application_error_payload {
+                user_properties.push((
+                    UserProperty::ApplicationErrorPayload.to_string(),
+                    application_error_payload,
                 ));
             }
 

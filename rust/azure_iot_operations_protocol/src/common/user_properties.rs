@@ -37,6 +37,12 @@ pub enum UserProperty {
     /// This property is only used when a command executor rejects a command invocation because the
     /// requested protocol version either wasn't supported or was malformed.
     RequestProtocolVersion,
+    /// Custom user-defined application error code.
+    /// This property is defined by the application and is opaque to the RPC protocol.
+    ApplicationErrorCode,
+    /// Custom user-defined application error message.
+    /// This property is defined by the application and is opaque to the RPC protocol.
+    ApplicationErrorPayload,
 }
 
 impl Display for UserProperty {
@@ -53,6 +59,8 @@ impl Display for UserProperty {
             UserProperty::ProtocolVersion => write!(f, "__protVer"),
             UserProperty::SupportedMajorVersions => write!(f, "__supProtMajVer"),
             UserProperty::RequestProtocolVersion => write!(f, "__requestProtVer"),
+            UserProperty::ApplicationErrorCode => write!(f, "AppErrCode"),
+            UserProperty::ApplicationErrorPayload => write!(f, "AppErrPayload"),
         }
     }
 }
@@ -72,6 +80,8 @@ impl FromStr for UserProperty {
             "__protVer" => Ok(UserProperty::ProtocolVersion),
             "__supProtMajVer" => Ok(UserProperty::SupportedMajorVersions),
             "__requestProtVer" => Ok(UserProperty::RequestProtocolVersion),
+            "AppErrCode" => Ok(UserProperty::ApplicationErrorCode),
+            "AppErrPayload" => Ok(UserProperty::ApplicationErrorPayload),
             _ => Err(()),
         }
     }
