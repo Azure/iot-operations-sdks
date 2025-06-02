@@ -310,7 +310,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(CreateDiscoveredAssetEndpointProfileRequest request,
+    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(CreateDiscoveredDeviceRequest request,
         string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

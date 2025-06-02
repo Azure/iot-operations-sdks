@@ -153,7 +153,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered device endpoint profile.</returns>
     Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(
-        CreateDiscoveredAssetEndpointProfileRequest request,
+        CreateDiscoveredDeviceRequest request,
         string inboundEndpointType,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);

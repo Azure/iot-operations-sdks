@@ -3,7 +3,7 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record CreateDiscoveredAssetEndpointProfileRequest
+public record CreateDiscoveredDeviceRequest
 {
     public required string Name { get; set; }
 
