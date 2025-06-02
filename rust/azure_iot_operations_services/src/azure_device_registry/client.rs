@@ -1287,12 +1287,12 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::azure_device_registry::models::DeviceRef;
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
     use azure_iot_operations_mqtt::session::SessionManagedClient;
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;
     use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind;
-    use crate::azure_device_registry::models::DeviceRef;
     use test_case::test_case;
 
     const DEVICE_NAME: &str = "test-device";
@@ -1646,7 +1646,10 @@ mod tests {
     #[test_case("", INBOUND_ENDPOINT_NAME)]
     #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
-    async fn test_create_or_update_discovered_asset_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
+    async fn test_create_or_update_discovered_asset_invalid_topic_tokens(
+        device_name: &str,
+        endpoint_name: &str,
+    ) {
         let adr_client = create_adr_client();
         let result = adr_client
             .create_or_update_discovered_asset(
