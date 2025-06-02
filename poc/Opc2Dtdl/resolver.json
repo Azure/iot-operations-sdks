@@ -1,0 +1,5 @@
+{
+  "regex": "^dtmi:opcua:(\\w+):(\\w+)(?:;\\d+)?$",
+  "path": "./DtdlModels/{1}/{2}.dtdl.json",
+  "wild": "_"
+}

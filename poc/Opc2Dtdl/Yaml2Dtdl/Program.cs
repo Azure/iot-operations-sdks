@@ -17,13 +17,13 @@
         private const string destFileSuffix = ".dtdl.json";
 
         private static readonly IDeserializer deserializer;
-        private static readonly ModelParser modelParser;
 
         private static readonly Uri badDtmiOrTermValidationId = new Uri("dtmi:dtdl:parsingError:badDtmiOrTerm");
         private static readonly Uri idRefBadDtmiOrTermValidationId = new Uri("dtmi:dtdl:parsingError:idRefBadDtmiOrTerm");
 
         private static string sourceRoot = string.Empty;
         private static string destRoot = string.Empty;
+        private static string resolverConfig = string.Empty;
 
         static Program()
         {
@@ -38,43 +38,26 @@
                 .WithTypeConverter(new OpcUaDefinedTypeConverter())
                 .WithTypeConverter(new StringIntTupleTypeConverter())
                 .Build();
-
-            DtmiResolver dtmiResolver = (IReadOnlyCollection<Dtmi> dtmis) =>
-            {
-                var refJsonTexts = new List<string>();
-
-                foreach (Dtmi dtmi in dtmis)
-                {
-                    if (TypeConverter.TryDecomposeModelId(dtmi.AbsoluteUri, out string specName, out string typeName))
-                    {
-                        string modelFolderPath = Directory.GetDirectories(destRoot, specName.Replace('_', '*')).First(d => Path.GetFileName(d).Length == specName.Length);
-                        string modelFileName = $"{typeName}{destFileSuffix}";
-                        string modelFilePath = Path.Combine(modelFolderPath, modelFileName);
-                        string jsonText = File.ReadAllText(modelFilePath);
-                        refJsonTexts.Add(jsonText);
-                    }
-                }
-
-                return refJsonTexts;
-            };
-
-            ParsingOptions parsingOptions = new ParsingOptions() { DtmiResolver = dtmiResolver, AllowUndefinedExtensions = WhenToAllow.Always };
-            parsingOptions.ExtensionLimitContexts.Add(new Dtmi("dtmi:dtdl:limits:onvif"));
-            modelParser = new ModelParser(parsingOptions);
         }
 
         static void Main(string[] args)
         {
-            if (args.Length < 2)
+            if (args.Length < 3)
             {
-                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> [ <MAX_ERRORS> ]");
+                Console.WriteLine("usage: Yaml2Dtdl <SOURCE_ROOT> <DEST_ROOT> <RESOLVER> [ <MAX_ERRORS> ]");
                 return;
             }
 
             sourceRoot = args[0];
             destRoot = args[1];
+            resolverConfig = args[2];
 
-            int maxErrors = args.Length > 2 ? int.Parse(args[2]) : defaultMaxErrors;
+            int maxErrors = args.Length > 3 ? int.Parse(args[3]) : defaultMaxErrors;
+
+            Resolver resolver = new Resolver(resolverConfig);
+            ParsingOptions parsingOptions = new ParsingOptions() { DtmiResolver = resolver.Resolve, AllowUndefinedExtensions = WhenToAllow.Always };
+            parsingOptions.ExtensionLimitContexts.Add(new Dtmi("dtmi:dtdl:limits:onvif"));
+            ModelParser modelParser = new ModelParser(parsingOptions);
 
             List<string> invalidModels = new List<string>();
             HashSet<string> unrecognizedTypes = new HashSet<string>();
@@ -110,7 +93,7 @@
             {
                 foreach (string modelFilePath in Directory.GetFiles(modelFolderPath, $"*{destFileSuffix}"))
                 {
-                    CheckDtdl(modelFilePath, invalidModels, unrecognizedTypes, undefinedIdentifiers, maxErrors);
+                    CheckDtdl(modelFilePath, invalidModels, unrecognizedTypes, undefinedIdentifiers, modelParser, maxErrors);
                 }
             }
 
@@ -191,7 +174,7 @@
             }
         }
 
-        private static void CheckDtdl(string modelFilePath, List<string> invalidModels, HashSet<string> unrecognizedTypes, HashSet<string> undefinedIdentifiers, int maxErrors)
+        private static void CheckDtdl(string modelFilePath, List<string> invalidModels, HashSet<string> unrecognizedTypes, HashSet<string> undefinedIdentifiers, ModelParser modelParser, int maxErrors)
         {
             DtdlParseLocator parseLocator = (int parseIndex, int parseLine, out string sourceName, out int sourceLine) =>
             {
