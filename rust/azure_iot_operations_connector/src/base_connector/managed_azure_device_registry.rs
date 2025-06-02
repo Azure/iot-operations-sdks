@@ -43,6 +43,7 @@ pub struct DeviceEndpointClientCreationObservation {
 impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
     pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Self {
+        // TODO: handle unwrap in a better way
         let device_endpoint_create_observation =
             filemount::azure_device_registry::DeviceEndpointCreateObservation::new(
                 connector_context.debounce_duration,
