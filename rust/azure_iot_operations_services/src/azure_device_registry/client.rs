@@ -1291,6 +1291,7 @@ mod tests {
 
     const DEVICE_NAME: &str = "test-device";
     const INBOUND_ENDPOINT_NAME: &str = "test-endpoint";
+    const INBOUNT_ENDPOINT_TYPE: &str = "test-endpoint-type";
     const ASSET_NAME: &str = "test-asset";
     const DURATION: Duration = Duration::from_secs(10);
 
@@ -1319,8 +1320,24 @@ mod tests {
         .unwrap()
     }
 
+        #[test]
+    fn test_client_options_builder_default_auto_ack() {
+        let options = ClientOptionsBuilder::default().build().unwrap();
+        assert!(options.notification_auto_ack);
+    }
+
     #[test]
-    fn test_new_client() {
+    fn test_client_options_builder_custom_auto_ack() {
+        let options = ClientOptionsBuilder::default()
+            .notification_auto_ack(false)
+            .build()
+            .unwrap();
+
+        assert!(!options.notification_auto_ack);
+    }
+
+    #[test]
+    fn invalid_id_new_client() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .hostname("localhost")
             .client_id("+++")
@@ -1717,21 +1734,33 @@ mod tests {
         ));
     }
 
-    #[test]
-    fn test_client_options_builder_default_auto_ack() {
-        let options = ClientOptionsBuilder::default().build().unwrap();
-        assert!(options.notification_auto_ack);
+    #[test_case(""; "empty endpoint type")]
+    #[tokio::test]
+    async fn test_create_or_update_discovered_device_invalid_topic_tokens(endpoint_type: &str) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .create_or_update_discovered_device(
+                DEVICE_NAME.to_string(),
+                DiscoveredDeviceSpecification::default(),
+                endpoint_type.to_string(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+
     }
 
-    #[test]
-    fn test_client_options_builder_custom_auto_ack() {
-        let options = ClientOptionsBuilder::default()
-            .notification_auto_ack(false)
-            .build()
-            .unwrap();
 
-        assert!(!options.notification_auto_ack);
-    }
+
+
+
+
+
+
 
     #[test]
     fn test_get_base_service_topic_tokens() {
