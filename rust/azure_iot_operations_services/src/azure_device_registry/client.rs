@@ -741,8 +741,7 @@ where
             .await
         {
             Ok(Ok(_)) => Ok(DeviceUpdateObservation(rx)),
-            Ok(Err(e)) => {
-                // If the observe request wasn't successful, remove it from our dispatcher
+            error_branches => {
                 if self
                     .device_update_notification_dispatcher
                     .unregister_receiver(&receiver_id)
@@ -755,23 +754,12 @@ where
                         "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
                     );
                 }
-                Err(Error(ErrorKind::from(e)))
-            }
-            Err(e) => {
-                // If the observe request wasn't successful, remove it from our dispatcher
-                if self
-                    .device_update_notification_dispatcher
-                    .unregister_receiver(&receiver_id)
-                {
-                    log::debug!(
-                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
-                    );
-                } else {
-                    log::debug!(
-                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
-                    );
+
+                match error_branches {
+                    Ok(Err(e)) => Err(Error(ErrorKind::from(e))),
+                    Err(e) => Err(Error(ErrorKind::from(e))),
+                    Ok(Ok(_)) => unreachable!(), // This case should not happen, as we already checked this in the first match branch
                 }
-                Err(Error(ErrorKind::from(e)))
             }
         }
     }
@@ -1182,7 +1170,7 @@ where
 
         match result {
             Ok(Ok(_)) => Ok(AssetUpdateObservation(rx)),
-            Ok(Err(e)) => {
+            error_branches => {
                 // If the observe request wasn't successful, remove it from our dispatcher
                 if self
                     .asset_update_notification_dispatcher
@@ -1196,23 +1184,11 @@ where
                         "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
                     );
                 }
-                Err(Error(ErrorKind::from(e)))
-            }
-            Err(e) => {
-                // If the observe request wasn't successful, remove it from our dispatcher
-                if self
-                    .asset_update_notification_dispatcher
-                    .unregister_receiver(&receiver_id)
-                {
-                    log::debug!(
-                        "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
-                    );
-                } else {
-                    log::debug!(
-                        "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
-                    );
+                match error_branches {
+                    Ok(Err(e)) => Err(Error(ErrorKind::from(e))),
+                    Err(e) => Err(Error(ErrorKind::from(e))),
+                    Ok(Ok(_)) => unreachable!(), // This case should not happen, as we already checked this in the first match branch
                 }
-                Err(Error(ErrorKind::from(e)))
             }
         }
     }
