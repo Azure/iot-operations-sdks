@@ -18,19 +18,8 @@ use crate::azure_device_registry::{
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
 
 /// Represents a Device in the Azure Device Registry service.
-#[derive(Clone, Debug)]
-pub struct Device {
-    /// The 'name' Field.
-    pub name: String,
-    /// The 'specification' Field.
-    pub specification: DeviceSpecification,
-    /// The 'status' Field.S
-    pub status: Option<DeviceStatus>,
-}
-
 #[derive(Debug, Clone)]
-/// Represents the specification of a device in the Azure Device Registry service.
-pub struct DeviceSpecification {
+pub struct Device {
     /// The 'attributes' Field.
     pub attributes: HashMap<String, String>, // if None in generated model, we can represent as empty hashmap
     /// The 'discoveredDeviceRef' Field.
@@ -181,29 +170,15 @@ pub enum Authentication {
 }
 
 // ~~ From impls ~~
+impl From<base_client_gen::DeviceUpdateEventTelemetry> for Device {
+    fn from(value: base_client_gen::DeviceUpdateEventTelemetry) -> Self {
+        value.device_update_event.device.into()
+    }
+}
+
 impl From<base_client_gen::Device> for Device {
     fn from(value: base_client_gen::Device) -> Self {
         Device {
-            name: value.name,
-            specification: value.specification.into(),
-            status: value.status.map(Into::into),
-        }
-    }
-}
-
-impl From<base_client_gen::DeviceUpdateEventTelemetry> for Device {
-    fn from(value: base_client_gen::DeviceUpdateEventTelemetry) -> Self {
-        Device {
-            name: value.device_update_event.device.name,
-            specification: value.device_update_event.device.specification.into(),
-            status: value.device_update_event.device.status.map(Into::into),
-        }
-    }
-}
-
-impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
-    fn from(value: base_client_gen::DeviceSpecificationSchema) -> Self {
-        DeviceSpecification {
             attributes: value.attributes.unwrap_or_default(),
             discovered_device_ref: value.discovered_device_ref,
             enabled: value.enabled,

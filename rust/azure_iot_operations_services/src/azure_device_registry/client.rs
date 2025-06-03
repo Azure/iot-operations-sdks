@@ -569,7 +569,7 @@ where
         Ok(response.payload.device.into())
     }
 
-    /// Updates a [`Device`]'s status in the Azure Device Registry service.
+    /// Updates a Device's status in the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
@@ -577,7 +577,7 @@ where
     /// * `status` - A [`DeviceStatus`] containing all status information for the device.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the updated [`Device`] once updated.
+    /// Returns the updated [`DeviceStatus`] once updated.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -586,13 +586,16 @@ where
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn update_device_plus_endpoint_status(
         &self,
         device_name: String,
         inbound_endpoint_name: String,
         status: DeviceStatus,
         timeout: Duration,
-    ) -> Result<Device, Error> {
+    ) -> Result<DeviceStatus, Error> {
         let status_payload = base_client_gen::UpdateDeviceStatusRequestPayload {
             device_status_update: status.into(),
         };
@@ -611,8 +614,9 @@ where
             .update_device_status_command_invoker
             .invoke(update_device_status_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
-        Ok(response.payload.updated_device.into())
+        Ok(response.payload.updated_device_status.into())
     }
 
     /// Starts observation of a [`Device`]'s updates from the Azure Device Registry service.
@@ -637,8 +641,8 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the observation was not accepted by the service.
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn observe_device_update_notifications(
         &self,
         device_name: String,
@@ -673,28 +677,22 @@ where
             .invoke(observe_request)
             .await
         {
-            Ok(response) => {
-                match response.payload.notification_preference_response {
-                    base_client_gen::NotificationPreferenceResponse::Accepted => {
-                        Ok(DeviceUpdateObservation(rx))
-                    }
-                    base_client_gen::NotificationPreferenceResponse::Failed => {
-                        // If the observe request wasn't successful, remove it from our dispatcher
-                        if self
-                            .device_update_notification_dispatcher
-                            .unregister_receiver(&receiver_id)
-                        {
-                            log::debug!(
-                                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
-                            );
-                        } else {
-                            log::debug!(
-                                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
-                            );
-                        }
-                        Err(Error(ErrorKind::ObservationError))
-                    }
+            Ok(Ok(response)) => Ok(DeviceUpdateObservation(rx)),
+            Ok(Err(e)) => {
+                // If the observe request wasn't successful, remove it from our dispatcher
+                if self
+                    .device_update_notification_dispatcher
+                    .unregister_receiver(&receiver_id)
+                {
+                    log::debug!(
+                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
+                    );
+                } else {
+                    log::debug!(
+                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
+                    );
                 }
+                Err(Error(ErrorKind::from(e)))
             }
             Err(e) => {
                 // If the observe request wasn't successful, remove it from our dispatcher
@@ -732,8 +730,8 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the unobservation was not accepted by the service.
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn unobserve_device_update_notifications(
         &self,
         device_name: String,
@@ -760,29 +758,24 @@ where
             .notify_on_device_update_command_invoker
             .invoke(unobserve_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
-        match response.payload.notification_preference_response {
-            base_client_gen::NotificationPreferenceResponse::Accepted => {
-                let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
-                // Remove it from our dispatcher
-                if self
-                    .device_update_notification_dispatcher
-                    .unregister_receiver(&receiver_id)
-                {
-                    log::debug!(
-                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
-                    );
-                } else {
-                    log::debug!(
-                        "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
-                    );
-                }
-                Ok(())
-            }
-            base_client_gen::NotificationPreferenceResponse::Failed => {
-                Err(Error(ErrorKind::ObservationError))
-            }
+
+        // unobserve was successful, remove this device from our dispatcher
+        let receiver_id = Self::hash_device_endpoint(&device_name, &inbound_endpoint_name);
+        if self
+            .device_update_notification_dispatcher
+            .unregister_receiver(&receiver_id)
+        {
+            log::debug!(
+                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` removed from observed list"
+            );
+        } else {
+            log::debug!(
+                "Device `{device_name:?}` with inbound endpoint `{inbound_endpoint_name:?}` not in observed list"
+            );
         }
+        Ok(())
     }
 
     /// Creates or updates a discovered device in the Azure Device Registry service.
