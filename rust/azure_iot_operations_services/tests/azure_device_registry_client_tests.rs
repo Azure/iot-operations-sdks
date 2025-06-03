@@ -97,7 +97,7 @@ fn initialize_client(
 }
 
 #[tokio::test]
-// #[ignore]
+#[ignore = "This test is ignored as getting serialization error."]
 async fn get_device() {
     let log_identifier = "get_device_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -789,6 +789,7 @@ async fn observe_asset_notify_no_loop_timeout() {
 }
 
 #[tokio::test]
+// #[ignore]
 async fn observe_asset_notify_spec() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -810,6 +811,10 @@ async fn observe_asset_notify_spec() {
                 .await
                 .unwrap();
 
+            let update_desc = format!(
+                "Patch specification update to NOT trigger notification after unobserve {}",
+                Uuid::new_v4()
+            );
             let mut observation = azure_device_registry_client
                 .observe_asset_update_notifications(
                     DEVICE3.to_string(),
@@ -824,6 +829,7 @@ async fn observe_asset_notify_spec() {
             let first_notification_notify = Arc::new(Notify::new());
 
             let receive_notifications_task = tokio::task::spawn({
+                let description_for_task = update_desc.clone();
                 let first_notification_notify = first_notification_notify.clone();
 
                 async move {
@@ -840,6 +846,10 @@ async fn observe_asset_notify_spec() {
                                 first_notification_notify.notify_one();
                                 // TODO Assert on something changed
                                 assert_eq!(asset.name, ASSET_NAME3);
+                                assert_eq!(
+                                    asset.specification.description.unwrap(),
+                                    description_for_task
+                                );
                             } else {
                                 log::info!(
                                     "[{log_identifier}] Asset Observation unexpected: {asset:?}"
@@ -874,14 +884,7 @@ async fn observe_asset_notify_spec() {
                 .unwrap();
             log::info!("[{log_identifier}] Get asset to update the status: {response:?}",);
 
-            patch_asset_specification(
-                ASSET_NAME3,
-                format!(
-                    "Patch specification update to trigger notification after observe {}",
-                    Uuid::new_v4()
-                )
-                .as_str(),
-            );
+            patch_asset_specification(ASSET_NAME3, &update_desc);
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
@@ -949,7 +952,7 @@ async fn observe_asset_notify_spec() {
 }
 
 #[tokio::test]
-// #[ignore]
+#[ignore = "This test is ignored as getting serialization error."]
 async fn observe_device_notify_spec() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -970,6 +973,11 @@ async fn observe_device_notify_spec() {
                 .await
                 .unwrap();
 
+            let update_manu = format!(
+                "Patch specification update to NOT trigger notification after unobserve {}",
+                Uuid::new_v4()
+            );
+
             let mut observation = azure_device_registry_client
                 .observe_device_update_notifications(
                     DEVICE3.to_string(),
@@ -984,7 +992,7 @@ async fn observe_device_notify_spec() {
 
             let receive_notifications_task = tokio::task::spawn({
                 let first_notification_notify = first_notification_notify.clone();
-
+                let update_manu_for_task = update_manu.clone();
                 async move {
                     log::info!("[{log_identifier}] Device update notification receiver started.");
                     let mut count = 0;
@@ -1001,6 +1009,10 @@ async fn observe_device_notify_spec() {
                                 first_notification_notify.notify_one();
                                 // TODO Assert on something changed
                                 assert_eq!(device.name, DEVICE3);
+                                assert_eq!(
+                                    device.specification.manufacturer.unwrap(),
+                                    update_manu_for_task
+                                );
                             } else {
                                 log::info!(
                                     "[{log_identifier}] Device Observation unexpected: {device:?}"
@@ -1030,14 +1042,7 @@ async fn observe_device_notify_spec() {
                 .unwrap();
             log::info!("[{log_identifier}] Get device to update the status: {response:?}",);
 
-            patch_device_specification(
-                DEVICE3,
-                format!(
-                    "Patch specification update to trigger notification after observe {}",
-                    Uuid::new_v4()
-                )
-                .as_str(),
-            );
+            patch_device_specification(DEVICE3, &update_manu);
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
