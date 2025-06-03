@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// </inheritdoc>
-        public Task<Device> UpdateDeviceStatusAsync(
+        public Task<DeviceStatus> UpdateDeviceStatusAsync(
             string deviceName,
             string inboundEndpointName,
             DeviceStatus status,
@@ -123,7 +123,7 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// </inheritdoc>
-        public Task<Asset> UpdateAssetStatusAsync(
+        public Task<AssetStatus> UpdateAssetStatusAsync(
             string deviceName,
             string inboundEndpointName,
             UpdateAssetStatusRequest request,
@@ -161,7 +161,7 @@ namespace Azure.Iot.Operations.Connector
 
         private Task AssetUpdateReceived(string assetName, Asset asset)
         {
-            AssetChanged?.Invoke(this, new(asset.Specification.DeviceRef.DeviceName, asset.Specification.DeviceRef.EndpointName, asset.Name, ChangeType.Updated, asset));
+            AssetChanged?.Invoke(this, new(asset.DeviceRef.DeviceName, asset.DeviceRef.EndpointName, assetName, ChangeType.Updated, asset));
             return Task.CompletedTask;
         }
 
@@ -174,10 +174,10 @@ namespace Azure.Iot.Operations.Connector
             }
             else if (e.ChangeType == AssetFileMonitorChangeType.Created)
             {
-                var notificationResponse = await _client.ObserveAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
-
-                if (notificationResponse == NotificationResponse.Accepted)
+                try
                 {
+                    await _client.ObserveAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
+
                     if (!_observedAssets.ContainsKey(e.DeviceName))
                     {
                         _observedAssets.TryAdd(e.DeviceName, new());
@@ -191,8 +191,10 @@ namespace Azure.Iot.Operations.Connector
                     var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, new GetAssetRequest() { AssetName = e.AssetName });
                     AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
                 }
-
-                //TODO what if response is negative?
+                catch (AkriServiceErrorException) //TODO what if response is negative?
+                { }
+                catch (AkriMqttException)
+                { }
             }
         }
 
@@ -205,16 +207,18 @@ namespace Azure.Iot.Operations.Connector
             }
             else if (e.ChangeType == AssetFileMonitorChangeType.Created)
             {
-                var notificationResponse = await _client.ObserveDeviceEndpointUpdatesAsync(e.DeviceName, e.InboundEndpointName);
-
-                if (notificationResponse == NotificationResponse.Accepted)
+                try
                 {
+                    await _client.ObserveDeviceEndpointUpdatesAsync(e.DeviceName, e.InboundEndpointName);
+
                     _observedDevices.TryAdd(e.DeviceName, _dummyByte);
                     var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
                     DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
                 }
-
-                //TODO what if response is negative?
+                catch (AkriServiceErrorException) //TODO what if response is negative?
+                { }
+                catch (AkriMqttException)
+                { }
             }
         }
     }

@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetDatasetSchemaElement
+public record AssetDataset
 {
     public List<AssetDatasetDataPointSchemaElement>? DataPoints { get; set; }
 

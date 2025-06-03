@@ -26,7 +26,7 @@ namespace EventDrivenTcpThermostatConnector
         {
             _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
 
-            if (args.Asset.Specification.Events == null)
+            if (args.Asset.Events == null)
             {
                 // If the asset has no datasets to sample, then do nothing
                 _logger.LogError("Asset with name {0} does not have the expected event", args.AssetName);
@@ -34,7 +34,7 @@ namespace EventDrivenTcpThermostatConnector
             }
 
             // This sample only has one asset with one event
-            var assetEvent = args.Asset.Specification.Events[0];
+            var assetEvent = args.Asset.Events[0];
 
             if (assetEvent.EventNotifier == null || !int.TryParse(assetEvent.EventNotifier, out int port))
             {
@@ -46,20 +46,20 @@ namespace EventDrivenTcpThermostatConnector
             await OpenTcpConnectionAsync(args, assetEvent, port);
         }
 
-        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEventSchemaElement assetEvent, int port)
+        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEvent assetEvent, int port)
         {
             _tcpConnectionCancellationToken = new();
             try
             {
                 //tcp-service.azure-iot-operations.svc.cluster.local:80
-                if (args.Device.Specification.Endpoints == null
-                    || args.Device.Specification.Endpoints.Inbound == null)
+                if (args.Device.Endpoints == null
+                    || args.Device.Endpoints.Inbound == null)
                 {
                     _logger.LogError("Missing TCP server address configuration");
                     return;
                 }
 
-                string host = args.Device.Specification.Endpoints.Inbound["my-tcp-endpoint"].Address.Split(":")[0];
+                string host = args.Device.Endpoints.Inbound["my-tcp-endpoint"].Address.Split(":")[0];
                 _logger.LogInformation("Attempting to open TCP client with address {0} and port {1}", host, port);
                 using TcpClient client = new();
                 await client.ConnectAsync(host, port, _tcpConnectionCancellationToken.Token);

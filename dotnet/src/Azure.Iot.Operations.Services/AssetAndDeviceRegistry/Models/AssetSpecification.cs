@@ -11,7 +11,7 @@ public record AssetSpecification
 
     public Dictionary<string, string>? Attributes { get; set; }
 
-    public List<AssetDatasetSchemaElement>? Datasets { get; set; }
+    public List<AssetDataset>? Datasets { get; set; }
 
     public JsonDocument? DefaultDatasetsConfiguration { get; set; }
 
@@ -39,7 +39,7 @@ public record AssetSpecification
 
     public bool? Enabled { get; set; }
 
-    public List<AssetEventSchemaElement>? Events { get; set; }
+    public List<AssetEvent>? Events { get; set; }
 
     public string? ExternalAssetId { get; set; }
 

@@ -9,7 +9,7 @@ public record CreateDiscoveredDeviceRequest
 
     public Dictionary<string, string>? Attributes { get; set; }
 
-    public DiscoveredDeviceEndpoint? Endpoints { get; set; }
+    public DiscoveredDeviceEndpoints? Endpoints { get; set; }
 
     public string? ExternalDeviceId { get; set; }
 

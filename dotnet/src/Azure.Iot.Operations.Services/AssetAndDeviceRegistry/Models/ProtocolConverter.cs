@@ -236,9 +236,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static DeviceDiscoveryService.DiscoveredDeviceEndpoint ToProtocol(this Models.DiscoveredDeviceEndpoint source)
+    internal static DeviceDiscoveryService.DiscoveredDeviceEndpoints ToProtocol(this Models.DiscoveredDeviceEndpoints source)
     {
-        return new DeviceDiscoveryService.DiscoveredDeviceEndpoint
+        return new DeviceDiscoveryService.DiscoveredDeviceEndpoints
         {
             Inbound = source.Inbound?.ToDictionary(x => x.Key, x => x.Value.ToProtocol()),
             Outbound = source.Outbound?.ToProtocol(),

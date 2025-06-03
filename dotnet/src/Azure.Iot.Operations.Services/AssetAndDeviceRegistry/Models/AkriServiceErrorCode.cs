@@ -3,7 +3,10 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record NotificationResponse
+public enum AkriServiceErrorCode
 {
-    public required string ResponsePayload { get; set; }
+    BadRequest = 0,
+    InternalError = 1,
+    KubeError = 2,
+    SerializationError = 3,
 }

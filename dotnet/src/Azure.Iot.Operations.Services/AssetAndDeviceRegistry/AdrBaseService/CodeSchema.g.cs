@@ -9,11 +9,15 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
     [JsonConverter(typeof(JsonStringEnumMemberConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public enum NotificationPreferenceResponse
+    public enum CodeSchema
     {
-        [EnumMember(Value = @"Accepted")]
-        Accepted = 0,
-        [EnumMember(Value = @"Failed")]
-        Failed = 1,
+        [EnumMember(Value = @"BadRequest")]
+        BadRequest = 0,
+        [EnumMember(Value = @"InternalError")]
+        InternalError = 1,
+        [EnumMember(Value = @"KubeError")]
+        KubeError = 2,
+        [EnumMember(Value = @"SerializationError")]
+        SerializationError = 3,
     }
 }

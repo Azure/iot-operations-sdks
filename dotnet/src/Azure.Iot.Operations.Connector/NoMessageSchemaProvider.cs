@@ -12,12 +12,12 @@ namespace Azure.Iot.Operations.Connector
             return new NoMessageSchemaProvider();
         };
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string datasetName, AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string datasetName, AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             return Task.FromResult((ConnectorMessageSchema?)null);
         }
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string eventName, AssetEventSchemaElement assetEvent, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string eventName, AssetEvent assetEvent, CancellationToken cancellationToken = default)
         {
             return Task.FromResult((ConnectorMessageSchema?)null);
         }

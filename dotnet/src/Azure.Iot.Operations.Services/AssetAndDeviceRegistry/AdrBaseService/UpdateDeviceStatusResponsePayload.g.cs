@@ -15,24 +15,24 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// <summary>
         /// The Command response argument.
         /// </summary>
-        [JsonPropertyName("updatedDevice")]
+        [JsonPropertyName("updatedDeviceStatus")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public Device UpdatedDevice { get; set; } = default!;
+        public DeviceStatus UpdatedDeviceStatus { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (UpdatedDevice is null)
+            if (UpdatedDeviceStatus is null)
             {
-                throw new ArgumentNullException("updatedDevice field cannot be null");
+                throw new ArgumentNullException("updatedDeviceStatus field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (UpdatedDevice is null)
+            if (UpdatedDeviceStatus is null)
             {
-                throw new ArgumentNullException("updatedDevice field cannot be null");
+                throw new ArgumentNullException("updatedDeviceStatus field cannot be null");
             }
         }
     }

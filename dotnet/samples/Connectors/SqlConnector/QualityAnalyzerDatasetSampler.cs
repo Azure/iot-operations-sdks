@@ -24,7 +24,7 @@ namespace SqlQualityAnalyzerConnectorApp
             _credentials = deviceCredentials;
         }
 
-        public async Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public async Task<byte[]> SampleDatasetAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace SqlQualityAnalyzerConnectorApp
             }
         }
 
-        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(TimeSpan.FromSeconds(1));
         }

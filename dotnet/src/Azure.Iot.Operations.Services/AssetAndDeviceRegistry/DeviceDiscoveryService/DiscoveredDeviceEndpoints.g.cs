@@ -10,7 +10,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DiscoveredDeviceEndpoint
+    public partial class DiscoveredDeviceEndpoints
     {
         /// <summary>
         /// The 'inbound' Field.
