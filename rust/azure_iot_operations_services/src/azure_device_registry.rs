@@ -78,6 +78,7 @@ pub struct DeviceUpdateObservation(Receiver<(Device, Option<AckToken>)>);
 
 impl DeviceUpdateObservation {
     /// Receives an updated [`Device`] or [`None`] if there will be no more notifications.
+    /// Receives [`None`] if the unobservation was successful.
     ///
     /// If there are notifications:
     /// - Returns Some([`Device`], [`Option<AckToken>`]) on success
@@ -96,6 +97,7 @@ pub struct AssetUpdateObservation(Receiver<(Asset, Option<AckToken>)>);
 
 impl AssetUpdateObservation {
     /// Receives an updated [`Asset`] or [`None`] if there will be no more notifications.
+    /// Receives [`None`] if the unobservation was successful.
     ///
     /// If there are notifications:
     /// - Returns Some([`Asset`], [`Option<AckToken>`]) on success
