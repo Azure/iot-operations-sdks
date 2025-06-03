@@ -339,15 +339,18 @@
     {
       "@id": "dtmi:com:microsoft:akri:AssetDeviceRef;1",
       "@type": "Object",
+      "description": "A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.",
       "fields": [
         {
           "@type": ["Field", "Required"],
           "name": "deviceName",
+          "description": "Name of the device resource",
           "schema": "string"
         },
         {
           "@type": ["Field", "Required"],
           "name": "endpointName",
+          "description": "The name of endpoint to use",
           "schema": "string"
         }
       ]
@@ -359,11 +362,13 @@
         {
           "@type": ["Field", "Required"],
           "name": "address",
+          "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "endpointType",
+          "description": "Type of connection used for the messaging endpoint.",
           "schema": "string"
         }
       ]
@@ -375,11 +380,13 @@
         {
           "@type": ["Field", "Required"],
           "name": "configuration",
+          "description": "The destination configuration.",
           "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
         },
         {
           "@type": ["Field", "Required"],
           "name": "target",
+          "description": "The target destination.",
           "schema": "dtmi:com:microsoft:akri:DatasetTarget;1"
         }
       ]
@@ -391,11 +398,13 @@
         {
           "@type": ["Field", "Required"],
           "name": "configuration",
+          "description": "The destination configuration.",
           "schema": "dtmi:com:microsoft:akri:DestinationConfiguration;1"
         },
         {
           "@type": ["Field", "Required"],
           "name": "target",
+          "description": "The target destination.",
           "schema": "dtmi:com:microsoft:akri:EventStreamTarget;1"
         }
       ]
@@ -407,31 +416,37 @@
         {
           "@type": "Field",
           "name": "key",
+          "description": "The BrokerStateStore destination configuration key.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "path",
+          "description": "The Storage destination configuration path.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "qos",
+          "description": "The MQTT QoS setting.",
           "schema": "dtmi:com:microsoft:akri:Qos;1"
         },
         {
           "@type": "Field",
           "name": "retain",
+          "description": "When set to 'Keep', messages published to an MQTT broker will have the retain flag set.",
           "schema": "dtmi:com:microsoft:akri:Retain;1"
         },
         {
           "@type": "Field",
           "name": "topic",
+          "description": "The MQTT topic.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "ttl",
+          "description": "The MQTT TTL setting.",
           "schema": "unsignedLong"
         }
       ]
@@ -467,38 +482,26 @@
       ]
     },
     {
-      "@id": "dtmi:com:microsoft:akri:Topic;1",
-      "@type": "Object",
-      "fields": [
-        {
-          "@type": ["Field", "Required"],
-          "name": "path",
-          "schema": "string"
-        },
-        {
-          "@type": "Field",
-          "name": "retain",
-          "schema": "dtmi:com:microsoft:akri:Retain;1"
-        }
-      ]
-    },
-    {
       "@id": "dtmi:com:microsoft:akri:MessageSchemaReference;1",
       "@type": "Object",
+      "description": "The message schema reference object.",
       "fields": [
         {
           "@type": ["Field", "Required"],
           "name": "schemaName",
+          "description": "The reference to the message schema name.",
           "schema": "string"
         },
         {
           "@type": ["Field", "Required"],
           "name": "schemaRegistryNamespace",
+          "description": "The reference to the message schema registry namespace.",
           "schema": "string"
         },
         {
           "@type": ["Field", "Required"],
           "name": "schemaVersion",
+          "description": "The reference to the message schema version.",
           "schema": "string"
         }
       ]
@@ -510,11 +513,13 @@
         {
           "@type": "Field",
           "name": "code",
+          "description": "Error code for classification of errors (ex: '400', '404', '500', etc.).",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "details",
+          "description": "Array of event statuses that describe the status of each event.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -523,21 +528,25 @@
                 {
                   "@type": "Field",
                   "name": "code",
+                  "description": "Multi-part error code for classification and root causing of errors (ex: 400.200.100.432).",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "correlationId",
+                  "description": "Unique identifier for the transaction to aid in debugging.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "info",
+                  "description": "Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "message",
+                  "description": "Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).",
                   "schema": "string"
                 }
               ]
@@ -547,6 +556,7 @@
         {
           "@type": "Field",
           "name": "innerError",
+          "description": "A set of key-value pairs that contain service specific details set by the service.",
           "schema": {
             "@type": "Map",
             "mapKey": {
@@ -562,6 +572,7 @@
         {
           "@type": "Field",
           "name": "message",
+          "description": "Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).",
           "schema": "string"
         }
       ]
@@ -622,10 +633,12 @@
     {
       "@id": "dtmi:com:microsoft:akri:Device;1",
       "@type": "Object",
+      "description": "Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.",
       "fields": [
         {
           "@type": "Field",
           "name": "attributes",
+          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
           "schema": {
             "@type": "Map",
             "mapKey": {
@@ -641,17 +654,20 @@
         {
           "@type": "Field",
           "name": "discoveredDeviceRef",
+          "description": "Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "enabled",
+          "description": "Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.",
           "schema": "boolean"
         },
         {
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:DeviceEndpoints;1",
           "name": "endpoints",
+          "description": "Connection endpoint url a device can use to connect to a service.",
           "schema": {
             "@type": "Object",
             "fields": [
@@ -672,22 +688,26 @@
                         {
                           "@type": "Field",
                           "name": "additionalConfiguration",
+                          "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).",
                           "schema": "string"
                         },
                         {
                           "@type": [ "Field", "Required" ],
                           "name": "address",
+                          "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "authentication",
+                          "description": "Definition of the client authentication mechanism to the host.",
                           "schema": {
                             "@type": "Object",
                             "fields": [
                               {
                                 "@type": [ "Field", "Required" ],
                                 "name": "method",
+                                "description": "Defines the method to authenticate the user of the client at the server.",
                                 "schema": {
                                   "@type": "Enum",
                                   "valueSchema": "string",
@@ -710,17 +730,20 @@
                               {
                                 "@type": "Field",
                                 "name": "usernamePasswordCredentials",
+                                "description": "The credentials for authentication mode UsernamePassword.",
                                 "schema": {
                                   "@type": "Object",
                                   "fields": [
                                     {
                                       "@type": [ "Field", "Required" ],
                                       "name": "usernameSecretName",
+                                      "description": "The name of the secret containing the username.",
                                       "schema": "string"
                                     },
                                     {
                                       "@type": [ "Field", "Required" ],
                                       "name": "passwordSecretName",
+                                      "description": "The name of the secret containing the password.",
                                       "schema": "string"
                                     }
                                   ]
@@ -729,12 +752,14 @@
                               {
                                 "@type": "Field",
                                 "name": "x509Credentials",
+                                "description": "The x509 certificate for authentication mode Certificate.",
                                 "schema": {
                                   "@type": "Object",
                                   "fields": [
                                     {
                                       "@type": [ "Field", "Required" ],
                                       "name": "certificateSecretName",
+                                      "description": "The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).",
                                       "schema": "string"
                                     }
                                   ]
@@ -747,22 +772,26 @@
                           "@type": [ "Field", "Required" ],
                           "@id": "dtmi:com:microsoft:akri:DeviceInboundEndpointType;1",
                           "name": "endpointType",
+                          "description": "Type of connection endpoint.",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "trustSettings",
+                          "description": "Trust settings for the endpoint.",
                           "schema": {
                             "@type": "Object",
                             "fields": [
                               {
                                 "@type": "Field",
                                 "name": "issuerList",
+                                "description": "Secret reference to the issuers list to trust.",
                                 "schema": "string"
                               },
                               {
                                 "@type": "Field",
                                 "name": "trustList",
+                                "description": "Secret reference to certificates list to trust.",
                                 "schema": "string"
                               }
                             ]
@@ -771,6 +800,7 @@
                         {
                           "@type": "Field",
                           "name": "version",
+                          "description": "Version associated with device endpoint.",
                           "schema": "string"
                         }
                       ]
@@ -781,12 +811,14 @@
               {
                 "@type": "Field",
                 "name": "outbound",
+                "description": "Set of endpoints for device to connect to.",
                 "schema": {
                   "@type": "Object",
                   "fields": [
                     {
                       "@type": ["Field", "Required"],
                       "name": "assigned",
+                      "description": "Device messaging endpoint model.",
                       "schema": {
                         "@type": "Map",
                         "mapKey": {
@@ -802,6 +834,7 @@
                     {
                       "@type": "Field",
                       "name": "unassigned",
+                      "description": "Device messaging endpoint model.",
                       "schema": {
                         "@type": "Map",
                         "mapKey": {
@@ -823,41 +856,49 @@
         {
           "@type": "Field",
           "name": "externalDeviceId",
+          "description": "The unique identifier of the device.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastTransitionTime",
+          "description": "A timestamp that is updated each time the resource is modified.",
           "schema": "dateTime"
         },
         {
           "@type": "Field",
           "name": "manufacturer",
+          "description": "Hardware manufacturer name.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "model",
+          "description": "Model name.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "operatingSystem",
+          "description": "Operating system name.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "operatingSystemVersion",
+          "description": "Operating system version.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "uuid",
+          "description": "Gets a unique identifier for this resource.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "version",
+          "description": "An integer that is incremented each time the resource is modified.",
           "schema": "unsignedLong"
         }
       ]
@@ -881,11 +922,13 @@
               {
                 "@type": "Field",
                 "name": "lastTransitionTime",
+                "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
                 "schema": "dateTime"
               },
               {
                 "@type": "Field",
                 "name": "version",
+                "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
                 "schema": "unsignedLong"
               }
             ]
@@ -895,6 +938,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:DeviceStatusEndpoint;1",
           "name": "endpoints",
+          "description": "Defines the device status for inbound/outbound endpoints.",
           "schema": {
             "@type": "Object",
             "fields": [
@@ -910,6 +954,7 @@
                   },
                   "mapValue": {
                     "name": "inboundEndpointStatus",
+                    "description": "Defines the device status for specific endpoint.",
                     "schema": {
                       "@type": "Object",
                       "fields": [
@@ -935,6 +980,7 @@
         {
           "@type": "Field",
           "name": "assetTypeRefs",
+          "description": "URI or type definition ids in companion spec.",
           "schema": {
             "@type": "Array",
             "elementSchema": "string"
@@ -943,6 +989,7 @@
         {
           "@type": "Field",
           "name": "attributes",
+          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
           "schema": {
             "@type": "Map",
             "mapKey": {
@@ -959,6 +1006,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetDataset;1",
           "name": "datasets",
+          "description": "Array of data sets that are part of the asset. Each data set describes the data points that make up the set.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -976,21 +1024,25 @@
                         {
                           "@type": "Field",
                           "name": "dataPointConfiguration",
+                          "description": "Stringified JSON that contains connector-specific configuration for the data point.",
                           "schema": "string"
                         },
                         {
                           "@type": ["Field", "Required"],
                           "name": "dataSource",
+                          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.",
                           "schema": "string"
                         },
                         {
                           "@type": ["Field", "Required"],
                           "name": "name",
+                          "description": "The name of the data point.",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "typeRef",
+                          "description": "URI or type definition id in companion spec.",
                           "schema": "string"
                         }
                       ]
@@ -1000,16 +1052,19 @@
                 {
                   "@type": "Field",
                   "name": "dataSource",
+                  "description": "The address of the source of the data in the dataset (e.g. URL) so that a client can access the data source on the asset.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "datasetConfiguration",
+                  "description": "Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "destinations",
+                  "description": "Destinations for a Dataset.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": "dtmi:com:microsoft:akri:DatasetDestination;1"
@@ -1018,11 +1073,13 @@
                 {
                   "@type": ["Field", "Required"],
                   "name": "name",
+                  "description": "Name of the dataset.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "typeRef",
+                  "description": "URI or type definition id in companion spec.",
                   "schema": "string"
                 }
               ]
@@ -1032,11 +1089,13 @@
         {
           "@type": "Field",
           "name": "defaultDatasetsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultDatasetsDestinations",
+          "description": "Default destinations for a Dataset.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DatasetDestination;1"
@@ -1045,11 +1104,13 @@
         {
           "@type": "Field",
           "name": "defaultEventsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultEventsDestinations",
+          "description": "Default destinations for an Event.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1058,16 +1119,19 @@
         {
           "@type": "Field",
           "name": "defaultManagementGroupsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultStreamsConfiguration",
+          "description": "Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "defaultStreamsDestinations",
+          "description": "Default destinations for a Stream.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1076,16 +1140,19 @@
         {
           "@type": "Field",
           "name": "description",
+          "description": "Human-readable description of the asset.",
           "schema": "string"
         },
         {
           "@type": ["Field", "Required"],
           "name": "deviceRef",
+          "description": "A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.",
           "schema": "dtmi:com:microsoft:akri:AssetDeviceRef;1"
         },
         {
           "@type": "Field",
           "name": "discoveredAssetRefs",
+          "description": "Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided.",
           "schema": {
             "@type": "Array",
             "elementSchema": "string"
@@ -1094,22 +1161,26 @@
         {
           "@type": "Field",
           "name": "displayName",
+          "description": "Human-readable display name.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "documentationUri",
+          "description": "Reference to the documentation.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "enabled",
+          "description": "Enabled/Disabled status of the asset.",
           "schema": "boolean"
         },
         {
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetEvent;1",
           "name": "events",
+          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -1119,6 +1190,7 @@
                   "@type": "Field",
                   "@id": "dtmi:com:microsoft:akri:AssetEventDataPoint;1",
                   "name": "dataPoints",
+                  "description": "Array of data points that are part of the event. Each data point can have per-data-point configuration.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": {
@@ -1127,16 +1199,19 @@
                         {
                           "@type": "Field",
                           "name": "dataPointConfiguration",
+                          "description": "Stringified JSON that contains connector-specific configuration for the data point.",
                           "schema": "string"
                         },
                         {
                           "@type": ["Field", "Required"],
                           "name": "dataSource",
+                          "description": "The address of the source of the data in the event (e.g. URL) so that a client can access the data source on the asset.",
                           "schema": "string"
                         },
                         {
                           "@type": ["Field", "Required"],
                           "name": "name",
+                          "description": "The name of the data point.",
                           "schema": "string"
                         }
                       ]
@@ -1146,6 +1221,7 @@
                 {
                   "@type": "Field",
                   "name": "destinations",
+                  "description": "Destinations for an Event.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1154,21 +1230,25 @@
                 {
                   "@type": "Field",
                   "name": "eventConfiguration",
+                  "description": "Stringified JSON that contains connector-specific configuration for the specific event.",
                   "schema": "string"
                 },
                 {
                   "@type": ["Field", "Required"],
                   "name": "eventNotifier",
+                  "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the notifier on the asset.",
                   "schema": "string"
                 },
                 {
                   "@type": ["Field", "Required"],
                   "name": "name",
+                  "description": "The name of the event.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "typeRef",
+                  "description": "URI or type definition id in companion spec.",
                   "schema": "string"
                 }
               ]
@@ -1178,22 +1258,26 @@
         {
           "@type": "Field",
           "name": "externalAssetId",
+          "description": "Asset id provided by the customer.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "hardwareRevision",
+          "description": "Revision number of the hardware.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastTransitionTime",
+          "description": "A read-only timestamp that is updated each time the resource is modified from the cloud.",
           "schema": "dateTime"
         },
         {
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetManagementGroup;1",
           "name": "managementGroups",
+          "description": "Array of management groups that are part of the asset.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -1203,6 +1287,7 @@
                   "@type": "Field",
                   "@id": "dtmi:com:microsoft:akri:AssetManagementGroupAction;1",
                   "name": "actions",
+                  "description": "Actions for this management group.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": {
@@ -1211,36 +1296,43 @@
                         {
                           "@type": "Field",
                           "name": "actionConfiguration",
+                          "description": "Configuration for the action.",
                           "schema": "string"
                         },
                         {
                           "@type": ["Field", "Required"],
                           "name": "actionType",
+                          "description": "Type of the action.",
                           "schema": "dtmi:com:microsoft:akri:AssetManagementGroupActionType;1"
                         },
                         {
                           "@type": ["Field", "Required"],
                           "name": "name",
+                          "description": "Name of the action.",
                           "schema": "string"
                         },
                         {
                           "@type": ["Field", "Required"],
                           "name": "targetUri",
+                          "description": "TargetUri of action.",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "timeOutInSeconds",
+                          "description": "Time out in seconds for the action",
                           "schema": "unsignedInteger"
                         },
                         {
                           "@type": "Field",
                           "name": "topic",
+                          "description": "The MQTT topic.",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "typeRef",
+                          "description": "URI or type definition id in companion spec.",
                           "schema": "string"
                         }
                       ]
@@ -1250,26 +1342,31 @@
                 {
                   "@type": "Field",
                   "name": "defaultTimeOutInSeconds",
+                  "description": "Default time out in seconds for the management group.",
                   "schema": "unsignedInteger"
                 },
                 {
                   "@type": "Field",
                   "name": "defaultTopic",
+                  "description": "The default MQTT topic for the management group.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "managementGroupConfiguration",
+                  "description": "Configuration for the mangement group.",
                   "schema": "string"
                 },
                 {
                   "@type": ["Field", "Required"],
                   "name": "name",
+                  "description": "Name of the management group.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "typeRef",
+                  "description": "URI or type definition id in companion spec.",
                   "schema": "string"
                 }
               ]
@@ -1279,37 +1376,44 @@
         {
           "@type": "Field",
           "name": "manufacturer",
+          "description": "Asset manufacturer name.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "manufacturerUri",
+          "description": "Asset manufacturer URI.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "model",
+          "description": "Asset model name.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "productCode",
+          "description": "Asset product code.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "serialNumber",
+          "description": "Asset serial number.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "softwareRevision",
+          "description": "Revision number of the software.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetStream;1",
           "name": "streams",
+          "description": "Array of streams that are part of the asset. Each stream can have per-stream configuration.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -1318,6 +1422,7 @@
                 {
                   "@type": "Field",
                   "name": "destinations",
+                  "description": "Destinations for a Stream.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1326,16 +1431,19 @@
                 {
                   "@type": ["Field", "Required"],
                   "name": "name",
+                  "description": "The name of the stream definition.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "streamConfiguration",
+                  "description": "Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "typeRef",
+                  "description": "URI or type definition id in companion spec.",
                   "schema": "string"
                 }
               ]
@@ -1345,11 +1453,13 @@
         {
           "@type": "Field",
           "name": "uuid",
+          "description": "Globally unique, immutable, non-reusable id.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "version",
+          "description": "A read-only integer that is incremented each time the resource is modified the cloud.",
           "schema": "unsignedLong"
         }
       ]
@@ -1373,11 +1483,13 @@
               {
                 "@type": "Field",
                 "name": "lastTransitionTime",
+                "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
                 "schema": "dateTime"
               },
               {
                 "@type": "Field",
                 "name": "version",
+                "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
                 "schema": "unsignedLong"
               }
             ]
@@ -1387,6 +1499,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetDatasetStatus;1",
           "name": "datasets",
+          "description": "Array of dataset statuses that describe the status of each dataset.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
@@ -1396,6 +1509,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetEventStatus;1",
           "name": "events",
+          "description": "Array of event statuses that describe the status of each event.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
@@ -1405,6 +1519,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetManagementGroupStatus;1",
           "name": "managementGroups",
+          "description": "Array of management group statuses that describe the status of each management group.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -1427,16 +1542,19 @@
                         {
                           "@type": ["Field", "Required"],
                           "name": "name",
+                          "description": "The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "requestMessageSchemaReference",
+                          "description": "The request message schema reference object.",
                           "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
                         },
                         {
                           "@type": "Field",
                           "name": "responseMessageSchemaReference",
+                          "description": "The response message schema reference object.",
                           "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
                         }
                       ]
@@ -1446,6 +1564,7 @@
                 {
                   "@type": ["Field", "Required"],
                   "name": "name",
+                  "description": "The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.",
                   "schema": "string"
                 }
               ]
@@ -1456,6 +1575,7 @@
           "@type": "Field",
           "@id": "dtmi:com:microsoft:akri:AssetStreamStatus;1",
           "name": "streams",
+          "description": "Array of stream statuses that describe the status of each stream.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:AssetDatasetEventStreamStatus;1"
@@ -1470,11 +1590,13 @@
         {
           "@type": "Field",
           "name": "error",
+          "description": "The configuration error",
           "schema": "dtmi:com:microsoft:akri:ConfigError;1"
         },
         {
           "@type": "Field",
           "name": "messageSchemaReference",
+          "description": "The message schema reference object.",
           "schema": "dtmi:com:microsoft:akri:MessageSchemaReference;1"
         },
         {
