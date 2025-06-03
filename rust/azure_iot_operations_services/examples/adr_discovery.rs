@@ -103,7 +103,7 @@ async fn do_discovery(
             },
         ),
     ]);
-    let device_spec = models::DiscoveredDeviceSpecification {
+    let device = models::DiscoveredDevice {
         attributes: HashMap::default(),
         endpoints: Some(models::DiscoveredDeviceEndpoints {
             inbound: discovered_inbound_endpoints,
@@ -121,7 +121,7 @@ async fn do_discovery(
     match client
         .create_or_update_discovered_device(
             device_name,
-            device_spec,
+            device,
             "myEndpointType".to_string(),
             Duration::from_secs(10),
         )
