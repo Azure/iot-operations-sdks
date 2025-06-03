@@ -1,11 +1,54 @@
-﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-
-public record DestinationConfiguration
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
-    public string? Key { get; set; }
-    public string? Path { get; set; }
-    public QoS? Qos { get; set; }
-    public Retain? Retain { get; set; }
-    public string? Topic { get; set; }
-    public ulong? Ttl { get; set; }
+    using System;
+    using System.Collections.Generic;
+    using System.Text.Json.Serialization;
+    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+
+    
+    public partial class DestinationConfiguration
+    {
+        /// <summary>
+        /// The BrokerStateStore destination configuration key.
+        /// </summary>
+        [JsonPropertyName("key")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Key { get; set; } = default;
+
+        /// <summary>
+        /// The Storage destination configuration path.
+        /// </summary>
+        [JsonPropertyName("path")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Path { get; set; } = default;
+
+        /// <summary>
+        /// The MQTT QoS setting.
+        /// </summary>
+        [JsonPropertyName("qos")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public Qos? Qos { get; set; } = default;
+
+        /// <summary>
+        /// When set to 'Keep', messages published to an MQTT broker will have the retain flag set.
+        /// </summary>
+        [JsonPropertyName("retain")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public Retain? Retain { get; set; } = default;
+
+        /// <summary>
+        /// The MQTT topic.
+        /// </summary>
+        [JsonPropertyName("topic")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Topic { get; set; } = default;
+
+        /// <summary>
+        /// The MQTT TTL setting.
+        /// </summary>
+        [JsonPropertyName("ttl")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public ulong? Ttl { get; set; } = default;
+
+    }
 }

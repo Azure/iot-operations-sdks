@@ -1,7 +1,15 @@
-﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-
-public enum EventStreamTarget
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
-    Mqtt = 0,
-    Storage = 1,
+    using System.Runtime.Serialization;
+    using System.Text.Json.Serialization;
+
+    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    
+    public enum EventStreamTarget
+    {
+        [EnumMember(Value = @"Mqtt")]
+        Mqtt = 0,
+        [EnumMember(Value = @"Storage")]
+        Storage = 1,
+    }
 }
