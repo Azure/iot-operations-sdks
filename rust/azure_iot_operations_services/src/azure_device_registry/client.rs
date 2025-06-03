@@ -13,8 +13,7 @@ use derive_builder::Builder;
 use tokio::sync::Notify;
 
 use crate::azure_device_registry::models::{
-    Asset, AssetStatus, Device, DeviceStatus, DiscoveredAssetSpecification,
-    DiscoveredDeviceSpecification,
+    Asset, AssetStatus, Device, DeviceStatus, DiscoveredAssetSpecification, DiscoveredDevice,
 };
 use crate::azure_device_registry::{
     AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
@@ -793,7 +792,7 @@ where
     ///
     /// # Arguments
     /// * `device_name` - The name of the discovered device.
-    /// * `device_specification` - The specification of the discovered device.
+    /// * `device` - The specification of the discovered device.
     /// * `inbound_endpoint_type` - The type of the inbound endpoint.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -815,7 +814,7 @@ where
     pub async fn create_or_update_discovered_device(
         &self,
         device_name: String,
-        device_specification: DiscoveredDeviceSpecification,
+        device: DiscoveredDevice,
         inbound_endpoint_type: String,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
@@ -827,7 +826,7 @@ where
         let payload = discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestPayload {
             discovered_device_request:
                 discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestSchema {
-                    discovered_device: device_specification.into(),
+                    discovered_device: device.into(),
                     discovered_device_name: device_name,
                 },
         };
@@ -1330,8 +1329,8 @@ mod tests {
         .unwrap()
     }
 
-    fn create_dummy_discovered_device_specification() -> DiscoveredDeviceSpecification {
-        DiscoveredDeviceSpecification {
+    fn create_dummy_discovered_device() -> DiscoveredDevice {
+        DiscoveredDevice {
             attributes: HashMap::default(),
             endpoints: None,
             external_device_id: None,
@@ -1840,7 +1839,7 @@ mod tests {
         let result = adr_client
             .create_or_update_discovered_device(
                 DEVICE_NAME.to_string(),
-                create_dummy_discovered_device_specification(),
+                create_dummy_discovered_device(),
                 endpoint_type.to_string(),
                 DURATION,
             )
@@ -1858,7 +1857,7 @@ mod tests {
         let result = adr_client
             .create_or_update_discovered_device(
                 String::new(),
-                create_dummy_discovered_device_specification(),
+                create_dummy_discovered_device(),
                 INBOUNT_ENDPOINT_TYPE.to_string(),
                 DURATION,
             )
@@ -1876,7 +1875,7 @@ mod tests {
         let result = adr_client
             .create_or_update_discovered_device(
                 DEVICE_NAME.to_string(),
-                create_dummy_discovered_device_specification(),
+                create_dummy_discovered_device(),
                 INBOUNT_ENDPOINT_TYPE.to_string(),
                 Duration::from_secs(0),
             )

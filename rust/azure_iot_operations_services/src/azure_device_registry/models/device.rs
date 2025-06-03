@@ -58,8 +58,8 @@ pub struct DeviceSpecification {
 }
 
 #[derive(Debug, Clone)]
-/// Represents a discovered device specification in the Azure Device Registry service.
-pub struct DiscoveredDeviceSpecification {
+/// Represents a discovered device in the Azure Device Registry service.
+pub struct DiscoveredDevice {
     /// The 'attributes' Field.
     pub attributes: HashMap<String, String>, // if empty hashmap, we can represent as None on generated model
     /// The 'endpoints' Field.
@@ -220,8 +220,8 @@ impl From<base_client_gen::DeviceSpecificationSchema> for DeviceSpecification {
     }
 }
 
-impl From<DiscoveredDeviceSpecification> for discovery_client_gen::DiscoveredDevice {
-    fn from(value: DiscoveredDeviceSpecification) -> Self {
+impl From<DiscoveredDevice> for discovery_client_gen::DiscoveredDevice {
+    fn from(value: DiscoveredDevice) -> Self {
         discovery_client_gen::DiscoveredDevice {
             attributes: value.attributes.option_map_into(),
             endpoints: value.endpoints.map(Into::into),
