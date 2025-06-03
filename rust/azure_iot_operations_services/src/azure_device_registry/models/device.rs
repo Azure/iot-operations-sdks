@@ -243,9 +243,9 @@ impl From<base_client_gen::DeviceEndpointsSchema> for DeviceEndpoints {
     }
 }
 
-impl From<DiscoveredDeviceEndpoints> for discovery_client_gen::DiscoveredDeviceEndpoint {
+impl From<DiscoveredDeviceEndpoints> for discovery_client_gen::DiscoveredDeviceEndpoints {
     fn from(value: DiscoveredDeviceEndpoints) -> Self {
-        discovery_client_gen::DiscoveredDeviceEndpoint {
+        discovery_client_gen::DiscoveredDeviceEndpoints {
             inbound: value.inbound.option_map_into(),
             outbound: value.outbound.map(Into::into),
         }

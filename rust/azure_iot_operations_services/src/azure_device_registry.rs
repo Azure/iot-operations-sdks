@@ -154,9 +154,24 @@ pub struct Details {
 impl From<discovery_client_gen::AkriServiceError> for base_client_gen::AkriServiceError {
     fn from(value: discovery_client_gen::AkriServiceError) -> Self {
         base_client_gen::AkriServiceError {
-            code: value.code,
+            code: value.code.into(),
             message: value.message,
             timestamp: value.timestamp,
+        }
+    }
+}
+
+impl From<discovery_client_gen::CodeSchema> for base_client_gen::CodeSchema {
+    fn from(value: discovery_client_gen::CodeSchema) -> Self {
+        match value {
+            discovery_client_gen::CodeSchema::BadRequest => base_client_gen::CodeSchema::BadRequest,
+            discovery_client_gen::CodeSchema::InternalError => {
+                base_client_gen::CodeSchema::InternalError
+            }
+            discovery_client_gen::CodeSchema::KubeError => base_client_gen::CodeSchema::KubeError,
+            discovery_client_gen::CodeSchema::SerializationError => {
+                base_client_gen::CodeSchema::SerializationError
+            }
         }
     }
 }
