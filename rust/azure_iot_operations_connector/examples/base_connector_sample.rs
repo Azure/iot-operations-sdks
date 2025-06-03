@@ -60,9 +60,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 // This function runs in a loop, waiting for device creation notifications.
 async fn run_program(mut device_creation_observation: DeviceEndpointClientCreationObservation) {
     // Wait for a device creation notification
-    while let Some((device_endpoint_client, asset_creation_observation)) =
-        device_creation_observation.recv_notification().await
-    {
+    while let Some(device_endpoint_client) = device_creation_observation.recv_notification().await {
         log::info!("Device created: {device_endpoint_client:?}");
 
         // now we should update the status of the device
@@ -74,19 +72,13 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
 
         // Start handling the assets for this device endpoint
         // if we didn't accept the inbound endpoint, then we still want to run this to wait for updates
-        tokio::task::spawn(run_device(
-            device_endpoint_client,
-            asset_creation_observation,
-        ));
+        tokio::task::spawn(run_device(device_endpoint_client));
     }
     panic!("device_creation_observer has been dropped");
 }
 
 // This function runs in a loop, waiting for asset creation notifications.
-async fn run_device(
-    mut device_endpoint_client: DeviceEndpointClient,
-    mut asset_creation_observation: AssetClientCreationObservation,
-) {
+async fn run_device(mut device_endpoint_client: DeviceEndpointClient) {
     loop {
         tokio::select! {
             biased;
@@ -106,7 +98,7 @@ async fn run_device(
                 }
             }
             // Listen for a asset creation notifications
-            res = asset_creation_observation.recv_notification() => {
+            res = device_endpoint_client.recv_asset_creation_notification() => {
                 if let Some((asset_client, dataset_creation_observation)) = res {
                     log::info!("Asset created: {asset_client:?}");
 

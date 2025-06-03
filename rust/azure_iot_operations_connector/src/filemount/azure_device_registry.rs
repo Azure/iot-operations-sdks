@@ -156,6 +156,7 @@ impl DeviceEndpointCreateObservation {
 }
 
 /// Represents an observation for asset creation events.
+#[derive(Debug)]
 pub struct AssetCreateObservation {
     /// A channel for receiving notifications about asset creation events.
     asset_creation_rx: UnboundedReceiver<(AssetRef, CancellationToken)>,
