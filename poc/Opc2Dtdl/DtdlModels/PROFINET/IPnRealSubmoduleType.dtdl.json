@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:PROFINET:IPnSubmoduleType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=1020",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnDeviceDiagnosisDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3019",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -104,7 +107,8 @@
     },
     {
       "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelTypeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3010",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -143,7 +147,8 @@
     },
     {
       "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelAccumulativeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3011",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -158,7 +163,8 @@
     },
     {
       "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelMaintenanceEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3012",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -181,7 +187,8 @@
     },
     {
       "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelSpecifierEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3013",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -204,7 +211,8 @@
     },
     {
       "@id": "dtmi:opcua:PROFINET:IPnRealSubmoduleType:dataType:PnChannelDirectionEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PROFINET;i=3014",
       "valueSchema": "integer",
       "enumValues": [
         {

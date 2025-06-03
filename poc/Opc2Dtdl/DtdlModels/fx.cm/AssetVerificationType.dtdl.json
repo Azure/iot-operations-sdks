@@ -3,16 +3,19 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_CM:AssetVerificationType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1247",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifier;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3012",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -33,7 +36,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifierValuePair;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=3005",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -57,7 +61,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:AssetVerificationResultEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1037",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -80,7 +85,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:AssetVerificationModeEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1029",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -99,7 +105,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeId;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=24106",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -115,7 +122,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePath;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1047",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -129,7 +137,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePathElement;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.CM;i=1051",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -155,7 +164,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableQualifiedName;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

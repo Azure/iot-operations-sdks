@@ -3,18 +3,21 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scales_V2:LaboratoryScaleType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:Scales_V2:SimpleScaleType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=15",
   "commandTopic": "opcua/Scales_V2/LaboratoryScaleType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:Scales_V2:LaboratoryScaleType:dataType:DraftShieldType;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=65",
       "valueSchema": "integer",
       "enumValues": [
         {

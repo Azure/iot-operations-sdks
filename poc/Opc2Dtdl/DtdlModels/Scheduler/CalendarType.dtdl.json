@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scheduler:CalendarType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=37",
   "commandTopic": "opcua/Scheduler/CalendarType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:Scheduler:CalendarType:dataType:CalendarEntryType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=72",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -29,7 +32,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:CalendarType:dataType:DateType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=73",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -55,7 +59,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:CalendarType:dataType:Month;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=74",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -122,7 +127,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:CalendarType:dataType:DateRangeType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=80",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -138,7 +144,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:CalendarType:dataType:DayOfMonth;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=76",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -285,7 +292,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:CalendarType:dataType:DayOfWeek;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=78",
       "valueSchema": "integer",
       "enumValues": [
         {

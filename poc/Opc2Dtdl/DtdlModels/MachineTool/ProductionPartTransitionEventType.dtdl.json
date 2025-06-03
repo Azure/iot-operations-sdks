@@ -3,16 +3,19 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=27",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:PartQuality;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=63",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -39,7 +42,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:ProcessIrregularity;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineTool;i=62",
       "valueSchema": "integer",
       "enumValues": [
         {

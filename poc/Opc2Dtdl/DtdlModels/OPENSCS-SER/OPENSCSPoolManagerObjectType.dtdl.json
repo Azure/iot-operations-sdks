@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15032",
   "commandTopic": "opcua/OPENSCS_SER/OPENSCSPoolManagerObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -29,7 +32,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -84,7 +88,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15005",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -118,7 +123,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15143",
       "valueSchema": "integer",
       "enumValues": [
         {

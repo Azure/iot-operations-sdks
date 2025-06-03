@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Pumps:SystemRequirementsType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=1022",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:ExplosionZoneOptionSet;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3015",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -44,7 +47,8 @@
     },
     {
       "@id": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:FieldbusEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3005",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -251,7 +255,8 @@
     },
     {
       "@id": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:OperatingModeEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3006",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -270,7 +275,8 @@
     },
     {
       "@id": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:ControlModeEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Pumps;i=3008",
       "valueSchema": "integer",
       "enumValues": [
         {

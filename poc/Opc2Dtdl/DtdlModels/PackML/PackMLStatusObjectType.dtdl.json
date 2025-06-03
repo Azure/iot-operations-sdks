@@ -3,16 +3,19 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PackML:PackMLStatusObjectType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=4",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=16",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -38,7 +41,8 @@
     },
     {
       "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLProductDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=18",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -65,7 +69,8 @@
     },
     {
       "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLIngredientsDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=17",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -84,7 +89,8 @@
     },
     {
       "@id": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLRemoteInterfaceDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PackML;i=19",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

@@ -3,18 +3,21 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1006",
   "commandTopic": "opcua/PNRIO/RioPaAnalogOutputChannelType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioPaAnalogOutputConfigDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3018",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -45,7 +48,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioAnalogDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3020",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -76,7 +80,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioChannelModeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3007",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -95,7 +100,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioPaAnalogProcessValueDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3024",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -116,7 +122,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioPaAnalogValueDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3027",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -132,7 +139,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioSignalTypeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3005",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -171,7 +179,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioPaAnalogOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3006",
       "valueSchema": "integer",
       "enumValues": [
         {

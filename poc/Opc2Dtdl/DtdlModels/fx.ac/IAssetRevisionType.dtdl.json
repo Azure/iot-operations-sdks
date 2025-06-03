@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_AC:IAssetRevisionType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=9",
   "commandTopic": "opcua/FX_AC/IAssetRevisionType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:AssetVerificationModeEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1029",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -32,7 +35,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:KeyValuePair;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -48,7 +52,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:IAssetRevisionType:dataType:AssetVerificationResultEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1037",
       "valueSchema": "integer",
       "enumValues": [
         {

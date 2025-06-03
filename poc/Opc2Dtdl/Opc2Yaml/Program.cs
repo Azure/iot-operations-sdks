@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Xml;
+    using SpecMapper;
 
     public enum ExpansionCondition
     {
@@ -133,20 +134,7 @@
         {
             ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
 
-            return GetSpecNameFromUri(specDoc.RootElement.SelectSingleNode("//opc:Model", specDoc.NamespaceManager)!.Attributes!["ModelUri"]!.Value);
-        }
-
-        private static string GetSpecName1(string specFileName)
-        {
-            foreach (string sourceFilePrefix in sourceFilePrefixes)
-            {
-                if (specFileName.StartsWith(sourceFilePrefix, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return specFileName.Substring(sourceFilePrefix.Length, specFileName.Length - sourceFilePrefix.Length - sourceFileSuffix.Length);
-                }
-            }
-
-            return specFileName.Substring(0, specFileName.Length - sourceFileSuffix.Length);
+            return SpecMapper.GetSpecNameFromUri(specDoc.RootElement.SelectSingleNode("//opc:Model", specDoc.NamespaceManager)!.Attributes!["ModelUri"]!.Value);
         }
 
         private static IEnumerable<ManagedXmlDocument> EnumerateRequiredModels(string specName, Dictionary<string, SpecFile> specFiles, HashSet<string>? visitedSpecs = null)
@@ -178,7 +166,7 @@
                     continue;
                 }
 
-                foreach (ManagedXmlDocument xmlDoc in EnumerateRequiredModels(GetSpecNameFromUri(modelUri), specFiles, visitedSpecs))
+                foreach (ManagedXmlDocument xmlDoc in EnumerateRequiredModels(SpecMapper.GetSpecNameFromUri(modelUri), specFiles, visitedSpecs))
                 {
                     yield return xmlDoc;
                 }
@@ -218,19 +206,6 @@
             }
         }
 
-        private static string GetSpecNameFromUri(string modelUri) => modelUri switch
-        {
-            "http://fdi-cooperation.com/OPCUA/FDI5/" => "FDI5",
-            "http://fdi-cooperation.com/OPCUA/FDI7/" => "FDI7",
-            "http://opcfoundation.org/UA/AML/" => "AMLBaseTypes",
-            "http://opcfoundation.org/UA/Dictionary/IRDI" => "IRDI",
-            "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/" => "isa95-jobcontrol",
-            "http://sercos.org/UA/" => "sercos",
-            "http://vdma.org/UA/LaserSystem-Example/" => "LaserSystem-Example",
-            "http://www.OPCFoundation.org/UA/2013/01/ISA95" => "ISA95",
-            string uri => uri.Substring(modelUriPrefix.Length, uri.Length - modelUriPrefix.Length - (uri.EndsWith('/') ? 1 : 0)).Replace('/', '.'),
-        };
-
         private static Dictionary<string, string> GetNamespaceMap(ManagedXmlDocument specDoc)
         {
             XmlNode? namespaceNode = specDoc.RootElement.SelectSingleNode("descendant::opc:NamespaceUris", specDoc.NamespaceManager);
@@ -242,7 +217,7 @@
             foreach (XmlNode dtNode in namespaceNode.SelectNodes("child::opc:Uri", specDoc.NamespaceManager)!)
             {
                 ++ix;
-                namespaceMap[ix.ToString()] = GetSpecNameFromUri(dtNode.InnerText);
+                namespaceMap[ix.ToString()] = SpecMapper.GetSpecNameFromUri(dtNode.InnerText);
             }
 
             return namespaceMap;

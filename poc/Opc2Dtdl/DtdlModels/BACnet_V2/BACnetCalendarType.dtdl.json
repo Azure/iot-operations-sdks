@@ -3,18 +3,21 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1008",
   "commandTopic": "opcua/BACnet_V2/BACnetCalendarType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetCalendarEntry;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3016",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -35,7 +38,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDate;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3017",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -61,7 +65,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDateRange;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3009",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -77,7 +82,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetWeekNDay;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3024",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -98,7 +104,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDay;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3021",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -133,7 +140,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetMonth;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3014",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -200,7 +208,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDayOfMonth;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3025",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -347,7 +356,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDayOfWeek;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103036",
       "valueSchema": "integer",
       "enumValues": [
         {

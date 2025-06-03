@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1013",
   "commandTopic": "opcua/TMC_v2/MachineModuleConfigurationType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3005",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -32,7 +35,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3021",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -56,7 +60,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataDefinitionType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3003",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -97,7 +102,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=884",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -113,7 +119,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -132,7 +139,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseGroupType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3030",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -153,7 +161,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:RootCauseMessageType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3029",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -164,7 +173,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MessageType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

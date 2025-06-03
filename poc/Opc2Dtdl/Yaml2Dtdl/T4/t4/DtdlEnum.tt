@@ -2,7 +2,8 @@
 <#@ import namespace="System.Collections.Generic" #>
     {
       "@id": "<#=TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)#>",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)#>",
       "valueSchema": "integer",
       "enumValues": [
 <# int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { #>

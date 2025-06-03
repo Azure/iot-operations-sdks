@@ -25,7 +25,9 @@ namespace Yaml2Dtdl
         {
             this.Write("    {\r\n      \"@id\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.objType.BrowseName)));
-            this.Write("\",\r\n      \"@type\": \"Object\",\r\n      \"fields\": [\r\n");
+            this.Write("\",\r\n      \"@type\": [ \"Object\", \"Congruence\" ],\r\n      \"typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.objType.NodeId)));
+            this.Write("\",\r\n      \"fields\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, (string, int)> field in this.objType.Fields) { 
             this.Write("        {\r\n          \"@type\": [ \"Field\", \"Required\" ],\r\n          \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(field.Key)));

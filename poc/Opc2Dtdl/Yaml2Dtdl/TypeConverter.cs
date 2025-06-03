@@ -4,6 +4,7 @@ namespace Yaml2Dtdl
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using SpecMapper;
 
     public class TypeConverter
     {
@@ -133,6 +134,15 @@ namespace Yaml2Dtdl
                     return $"\"{GetDataTypeDtmiFromBrowseName(modelId, nextType)}\"";
                 }
             }
+        }
+
+        public static string GetTypeRefFromNodeId(string nodeId)
+        {
+            int sepIx = nodeId.IndexOf(':');
+            string? specName = sepIx < 0 ? null : nodeId.Substring(0, sepIx);
+            string idNum = nodeId.Substring(sepIx + 1);
+            string uri = SpecMapper.GetUriFromSpecName(specName);
+            return $"nsu={uri};i={idNum}";
         }
 
         public static HashSet<string> BuiltInTypes { get => builtInTypeMap.Keys.ToHashSet(); }

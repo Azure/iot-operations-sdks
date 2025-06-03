@@ -3,18 +3,21 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:BACnet_V2:BACnetObjectType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=101006",
   "commandTopic": "opcua/BACnet_V2/BACnetEventEnrollmentType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameter;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3050",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -90,7 +93,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameter;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3051",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -121,7 +125,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultCharacterstring;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103030",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -132,7 +137,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfBitstring;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103005",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -156,7 +162,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=12755",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -172,7 +179,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfState;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103009",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -191,7 +199,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPropertyStates;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3028",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -267,7 +276,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPolarity;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3007",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -282,7 +292,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventEnumType;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3029",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -329,7 +340,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetBinaryPV;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3005",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -344,7 +356,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfValue;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103037",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -365,7 +378,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterCommandFailure;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103039",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -381,7 +395,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103002",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -407,7 +422,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPropertyIdentifier;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3046",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -1962,7 +1978,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterFloatingLimit;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103040",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -1993,7 +2010,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterOutOfRange;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103041",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2019,7 +2037,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventFaultParameterExtended;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103031",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2043,7 +2062,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterExtendedParameters;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3068",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2117,7 +2137,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetTime;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3019",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2143,7 +2164,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDate;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3017",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2169,7 +2191,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDayOfWeek;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103036",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2208,7 +2231,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDayOfMonth;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3025",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2355,7 +2379,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetMonth;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3014",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2422,7 +2447,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterBufferReady;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103042",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2438,7 +2464,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedRange;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3067",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2459,7 +2486,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterDoubleOutOfRange;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3058",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2485,7 +2513,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterSignedOutOfRange;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3059",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2511,7 +2540,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedOutOfRange;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103043",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2537,7 +2567,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfCharacterString;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3066",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2556,7 +2587,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfLifeSafety;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3027",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2577,7 +2609,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyOperation;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3044",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2624,7 +2657,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultLifeSafety;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103032",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2643,7 +2677,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultState;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103033",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2657,7 +2692,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultStatusFlags;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=103034",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -2671,7 +2707,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramRequest;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3030",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2702,7 +2739,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramStates;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3031",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2733,7 +2771,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramError;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3032",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2760,7 +2799,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetReliability;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3001",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2827,7 +2867,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3003",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2858,7 +2899,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceStatus;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3033",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2889,7 +2931,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyMode;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3035",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -2956,7 +2999,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyState;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3036",
       "valueSchema": "integer",
       "enumValues": [
         {

@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:EquipmentModuleLiveStatusType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1069",
   "commandTopic": "opcua/TMC_v2/EquipmentModuleLiveStatusType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:TMC_v2:EquipmentModuleLiveStatusType:dataType:MethodExecutionFeedbackType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3009",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -32,7 +35,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:EquipmentModuleLiveStatusType:dataType:CommandEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3007",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -75,7 +79,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:EquipmentModuleLiveStatusType:dataType:ControlModeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3023",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -118,7 +123,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:EquipmentModuleLiveStatusType:dataType:MessageType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3002",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

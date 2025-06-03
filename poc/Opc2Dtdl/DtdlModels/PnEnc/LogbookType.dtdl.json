@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNENC:LogbookType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=1010",
   "commandTopic": "opcua/PNENC/LogbookType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3013",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -59,7 +62,8 @@
     },
     {
       "@id": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNENC;i=3003",
       "valueSchema": "integer",
       "enumValues": [
         {

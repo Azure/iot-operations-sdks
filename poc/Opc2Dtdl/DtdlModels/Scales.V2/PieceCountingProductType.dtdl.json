@@ -3,18 +3,21 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scales_V2:PieceCountingProductType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:Scales_V2:ProductType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=12",
   "commandTopic": "opcua/Scales_V2/PieceCountingProductType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:Scales_V2:PieceCountingProductType:dataType:WeightType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scales.V2;i=55",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

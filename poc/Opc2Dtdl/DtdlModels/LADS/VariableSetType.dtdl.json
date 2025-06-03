@@ -3,12 +3,14 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:LADS:VariableSetType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:LADS:SetType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/LADS;i=1041",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

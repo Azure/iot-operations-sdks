@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=1002",
   "commandTopic": "opcua/isa95_jobcontrol/ISA95JobOrderReceiverObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderAndStateDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3015",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -32,7 +35,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3007",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -56,7 +60,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95ParameterDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3003",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -93,7 +98,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3008",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -175,7 +181,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PersonnelDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3011",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -217,7 +224,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95EquipmentDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3005",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -259,7 +267,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PropertyDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3002",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -296,7 +305,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95StateDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3006",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -317,7 +327,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95PhysicalAssetDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3012",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -359,7 +370,8 @@
     },
     {
       "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95MaterialDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2;i=3010",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

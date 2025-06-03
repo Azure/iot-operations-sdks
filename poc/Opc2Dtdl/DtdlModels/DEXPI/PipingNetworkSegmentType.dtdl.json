@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:DEXPI:BaseDEXPIObjectType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1898",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentFlowClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1002",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -28,7 +31,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:HeatTracingTypeClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1038",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -55,7 +59,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:JacketedPipeClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1052",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -70,7 +75,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:NominalDiameterStandardClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1032",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -337,7 +343,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:OnHoldClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1008",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -352,7 +359,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PrimarySecondaryPipingNetworkSegmentClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1042",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -367,7 +375,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:SiphonClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1000",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -382,7 +391,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:PipingNetworkSegmentType:dataType:PipingNetworkSegmentSlopeClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1034",
       "valueSchema": "integer",
       "enumValues": [
         {

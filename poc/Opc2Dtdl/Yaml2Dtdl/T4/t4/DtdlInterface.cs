@@ -23,16 +23,26 @@ namespace Yaml2Dtdl
         public virtual string TransformText()
         {
  int ix; 
-            this.Write("{\r\n  \"@context\": [\r\n    \"dtmi:dtdl:context;4#limitless\",\r\n    \"dtmi:dtdl:limits:o" +
-                    "nvif;1\",\r\n    \"dtmi:dtdl:extension:mqtt;4\",\r\n    \"dtmi:dtdl:extension:historizat" +
-                    "ion;2\",\r\n    \"dtmi:dtdl:extension:requirement;1\"\r\n  ],\r\n  \"@id\": \"");
+            this.Write(@"{
+  ""@context"": [
+    ""dtmi:dtdl:context;4#limitless"",
+    ""dtmi:dtdl:limits:onvif;1"",
+    ""dtmi:dtdl:extension:mqtt;4"",
+    ""dtmi:dtdl:extension:opcua;1"",
+    ""dtmi:dtdl:extension:historization;2"",
+    ""dtmi:dtdl:extension:requirement;1""
+  ],
+  ""@id"": """);
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
-            this.Write(";1\",\r\n  \"@type\": [ \"Interface\", \"Mqtt\" ],\r\n");
+            this.Write(";1\",\r\n  \"@type\": [ \"Interface\", \"Mqtt\", \"Congruence\" ],\r\n");
  foreach (string supertypeId in this.supertypeIds) { 
             this.Write("  \"extends\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(supertypeId));
             this.Write(";1\",\r\n");
  } 
+            this.Write("  \"typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.definedType.NodeId)));
+            this.Write("\",\r\n");
  if (this.dtdlCommands.Count > 0) { 
             this.Write("  \"commandTopic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.topicBase));

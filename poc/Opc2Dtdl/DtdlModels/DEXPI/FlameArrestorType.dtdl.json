@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:DEXPI:FlameArrestorType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:DEXPI:SafetyValveOrFittingType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1972",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:DetonationProofArtefactClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1024",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -28,7 +31,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:ExplosionProofArtefactClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1014",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -43,7 +47,8 @@
     },
     {
       "@id": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:FireResistantArtefactClassification;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DEXPI;i=1006",
       "valueSchema": "integer",
       "enumValues": [
         {

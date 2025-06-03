@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scheduler:ScheduleType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=52",
   "commandTopic": "opcua/Scheduler/ScheduleType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=70",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -37,7 +40,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:SpecialEventPeriodType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=71",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -53,7 +57,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:CalendarEntryType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=72",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -69,7 +74,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=73",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -95,7 +101,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:Month;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=74",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -162,7 +169,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeActionsType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=81",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -181,7 +189,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:TimeType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=85",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -202,7 +211,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:BaseActionType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=82",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -213,7 +223,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DateRangeType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=80",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -229,7 +240,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DayOfMonth;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=76",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -376,7 +388,8 @@
     },
     {
       "@id": "dtmi:opcua:Scheduler:ScheduleType:dataType:DayOfWeek;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Scheduler;i=78",
       "valueSchema": "integer",
       "enumValues": [
         {

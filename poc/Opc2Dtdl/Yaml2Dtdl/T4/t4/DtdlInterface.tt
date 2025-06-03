@@ -5,14 +5,16 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "<#=this.modelId#>;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
 <# foreach (string supertypeId in this.supertypeIds) { #>
   "extends": "<#=supertypeId#>;1",
 <# } #>
+  "typeRef": "<#=TypeConverter.GetTypeRefFromNodeId(this.definedType.NodeId)#>",
 <# if (this.dtdlCommands.Count > 0) { #>
   "commandTopic": "<#=this.topicBase#>/{commandName}",
 <# } #>

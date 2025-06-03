@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=1025",
   "commandTopic": "opcua/IJT_Base/JoiningProcessManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3029",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -34,7 +37,8 @@
     },
     {
       "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3016",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -53,7 +57,8 @@
     },
     {
       "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3024",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -107,7 +112,8 @@
     },
     {
       "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:EntityDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/IJT.Base;i=3010",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

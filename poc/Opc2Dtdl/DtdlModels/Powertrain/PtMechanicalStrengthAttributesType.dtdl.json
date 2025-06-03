@@ -3,12 +3,14 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Powertrain:PtMechanicalStrengthAttributesType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:Powertrain:PtCommonAssetAttributesType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/Powertrain;i=17136",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
   ],

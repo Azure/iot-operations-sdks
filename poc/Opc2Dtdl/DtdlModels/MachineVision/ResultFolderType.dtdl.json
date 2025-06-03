@@ -3,16 +3,19 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision:ResultFolderType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1016",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ResultDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -101,7 +104,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:BinaryIdBaseDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -132,7 +136,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:JobIdDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -143,7 +148,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ResultIdDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -154,7 +160,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:MeasIdDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -170,7 +177,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:PartIdDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -186,7 +194,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ProductIdDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -202,7 +211,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ProcessingTimesDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

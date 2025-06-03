@@ -25,8 +25,9 @@ namespace Yaml2Dtdl
         {
             this.Write("    {\r\n      \"@id\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.enumType.BrowseName)));
-            this.Write("\",\r\n      \"@type\": \"Enum\",\r\n      \"valueSchema\": \"integer\",\r\n      \"enumValues\": " +
-                    "[\r\n");
+            this.Write("\",\r\n      \"@type\": [ \"Enum\", \"Congruence\" ],\r\n      \"typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetTypeRefFromNodeId(this.enumType.NodeId)));
+            this.Write("\",\r\n      \"valueSchema\": \"integer\",\r\n      \"enumValues\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, int> intEnum in this.enumType.Enums) { 
             this.Write("        {\r\n          \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(intEnum.Key)));

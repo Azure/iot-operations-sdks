@@ -3,18 +3,21 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetAutomaticTimeSynchronizationMasterType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=1052",
   "commandTopic": "opcua/BACnet_V2/BACnetAutomaticTimeSynchronizationMasterType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetAutomaticTimeSynchronizationMasterType:dataType:BACnetRecipient;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3054",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -30,7 +33,8 @@
     },
     {
       "@id": "dtmi:opcua:BACnet_V2:BACnetAutomaticTimeSynchronizationMasterType:dataType:BACnetAddress;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2;i=3022",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

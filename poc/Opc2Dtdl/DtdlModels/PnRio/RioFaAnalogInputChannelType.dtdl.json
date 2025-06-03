@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:PNRIO:RioChannelType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=1003",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioFaAnalogInputConfigDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3017",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -49,7 +52,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioFaAnalogProcessValueDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3025",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -60,7 +64,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioSignalTypeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3005",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -99,7 +104,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioSubstitutePolicyEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3006",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -122,7 +128,8 @@
     },
     {
       "@id": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioAnalogDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/PNRIO;i=3020",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

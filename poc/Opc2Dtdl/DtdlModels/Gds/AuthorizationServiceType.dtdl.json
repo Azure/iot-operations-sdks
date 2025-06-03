@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:GDS:AuthorizationServiceType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=966",
   "commandTopic": "opcua/GDS/AuthorizationServiceType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenPolicy;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=304",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -44,7 +47,8 @@
     },
     {
       "@id": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserIdentityToken;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=316",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -55,7 +59,8 @@
     },
     {
       "@id": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenType;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=303",
       "valueSchema": "integer",
       "enumValues": [
         {

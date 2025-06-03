@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:CommercialKitchenEquipment:KitchenDeviceParameterType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=1018",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:MultiFunctionPanModeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3011",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -84,7 +87,8 @@
     },
     {
       "@id": "dtmi:opcua:CommercialKitchenEquipment:MultiFunctionPanParameterType:dataType:SpecialFunctionModeEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment;i=3012",
       "valueSchema": "integer",
       "enumValues": [
         {

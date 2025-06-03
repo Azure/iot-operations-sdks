@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:TMC_v2:TMCDeviceType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=1037",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialSublotType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3025",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -67,7 +70,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialLotType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3012",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -116,7 +120,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialDefinitionType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3010",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -170,7 +175,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialStockStatusEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3039",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -189,7 +195,8 @@
     },
     {
       "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:DataDescriptionType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/TMC.v2;i=3019",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

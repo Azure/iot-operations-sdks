@@ -3,16 +3,19 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=1004",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:IntervalRange;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3008",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -43,7 +46,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:SubscriberQosDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3012",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -62,7 +66,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3006",
       "valueSchema": "integer",
       "enumValues": [
         {

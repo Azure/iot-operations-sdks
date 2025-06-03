@@ -3,18 +3,21 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MDIS:MDISChokeObjectType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:MDIS:MDISBaseObjectType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1066",
   "commandTopic": "opcua/MDIS/MDISChokeObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeMoveEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -29,7 +32,8 @@
     },
     {
       "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SetCalculatedPositionEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -52,7 +56,8 @@
     },
     {
       "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SEMEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -71,7 +76,8 @@
     },
     {
       "@id": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeCommandEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=701",
       "valueSchema": "integer",
       "enumValues": [
         {

@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:GDS:DirectoryType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=13",
   "commandTopic": "opcua/GDS/DirectoryType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/GDS;i=1",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -63,7 +66,8 @@
     },
     {
       "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationDescription;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=308",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -107,7 +111,8 @@
     },
     {
       "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ServerOnNetwork;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=12189",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -136,7 +141,8 @@
     },
     {
       "@id": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationType;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=307",
       "valueSchema": "integer",
       "enumValues": [
         {

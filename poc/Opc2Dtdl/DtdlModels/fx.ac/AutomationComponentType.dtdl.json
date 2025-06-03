@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_AC:AutomationComponentType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=2",
   "commandTopic": "opcua/FX_AC/AutomationComponentType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AggregatedHealthDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3003",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -29,7 +32,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3005",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -52,7 +56,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.AC;i=3010",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -75,7 +80,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FxCommandMask;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1024",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -118,7 +124,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1048",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -155,7 +162,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdValuePair;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1028",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -171,7 +179,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:KeyValuePair;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=14533",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -187,7 +196,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1037",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -210,7 +220,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationModeEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1029",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -229,7 +240,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdArray;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1034",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -248,7 +260,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1044",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -293,7 +306,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=3011",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -309,7 +323,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=3009",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -361,7 +376,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:RelatedEndpointDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=3003",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -385,7 +401,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:PortableQualifiedName;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=24105",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -401,7 +418,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=1038",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -433,7 +451,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointConfigurationResultDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=3008",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -506,7 +525,8 @@
     },
     {
       "@id": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/FX.Data;i=3002",
       "valueSchema": "integer",
       "enumValues": [
         {

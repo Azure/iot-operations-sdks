@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
   "extends": "dtmi:opcua:DI:FunctionalGroupType;1",
+  "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=1004",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:DeviceHealthEnumeration;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/DI;i=6244",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -40,7 +43,8 @@
     },
     {
       "@id": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:SEMI_E10SystemStateDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/MachineVision.AMCM;i=3002",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15062",
   "commandTopic": "opcua/OPENSCS_SER/OPENSCSEventManagerObjectType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15006",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -35,7 +38,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSKeyValueDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15010",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -51,7 +55,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15001",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -106,7 +111,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSCollectionDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15005",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -140,7 +146,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=15143",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -195,7 +202,8 @@
     },
     {
       "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER;i=3003",
       "fields": [
         {
           "@type": [ "Field", "Required" ],

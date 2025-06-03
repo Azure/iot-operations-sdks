@@ -3,17 +3,20 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
+    "dtmi:dtdl:extension:opcua;1",
     "dtmi:dtdl:extension:historization;2",
     "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
-  "@type": [ "Interface", "Mqtt" ],
+  "@type": [ "Interface", "Mqtt", "Congruence" ],
+  "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=1004",
   "commandTopic": "opcua/Machinery_Result/ResultManagementType/{commandName}",
   "payloadFormat": "Json/ecma/404",
   "schemas": [
     {
       "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3008",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -32,7 +35,8 @@
     },
     {
       "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultMetaDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3007",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -144,7 +148,8 @@
     },
     {
       "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ProcessingTimesDataType;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3006",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -170,7 +175,8 @@
     },
     {
       "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilter;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=586",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -184,7 +190,8 @@
     },
     {
       "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilterElement;1",
-      "@type": "Object",
+      "@type": [ "Object", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=583",
       "fields": [
         {
           "@type": [ "Field", "Required" ],
@@ -203,7 +210,8 @@
     },
     {
       "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:FilterOperator;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA;i=576",
       "valueSchema": "integer",
       "enumValues": [
         {
@@ -282,7 +290,8 @@
     },
     {
       "@id": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultEvaluationEnum;1",
-      "@type": "Enum",
+      "@type": [ "Enum", "Congruence" ],
+      "typeRef": "nsu=http://opcfoundation.org/UA/Machinery.Result;i=3002",
       "valueSchema": "integer",
       "enumValues": [
         {
