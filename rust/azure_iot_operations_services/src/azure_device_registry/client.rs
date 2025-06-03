@@ -52,6 +52,7 @@ where
     shutdown_notifier: Arc<Notify>,
     // device
     get_device_command_invoker: Arc<base_client_gen::GetDeviceCommandInvoker<C>>,
+    get_device_status_command_invoker: Arc<base_client_gen::GetDeviceStatusCommandInvoker<C>>,
     update_device_status_command_invoker: Arc<base_client_gen::UpdateDeviceStatusCommandInvoker<C>>,
     notify_on_device_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForDeviceUpdatesCommandInvoker<C>>,
@@ -60,6 +61,7 @@ where
     device_update_notification_dispatcher: Arc<Dispatcher<(Device, Option<AckToken>)>>,
     // asset
     get_asset_command_invoker: Arc<base_client_gen::GetAssetCommandInvoker<C>>,
+    get_asset_status_command_invoker: Arc<base_client_gen::GetAssetStatusCommandInvoker<C>>,
     update_asset_status_command_invoker: Arc<base_client_gen::UpdateAssetStatusCommandInvoker<C>>,
     notify_on_asset_update_command_invoker:
         Arc<base_client_gen::SetNotificationPreferenceForAssetUpdatesCommandInvoker<C>>,
@@ -171,6 +173,13 @@ where
                 client.clone(),
                 &command_options_base,
             )),
+            get_device_status_command_invoker: Arc::new(
+                base_client_gen::GetDeviceStatusCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &command_options_base,
+                ),
+            ),
             update_device_status_command_invoker: Arc::new(
                 base_client_gen::UpdateDeviceStatusCommandInvoker::new(
                     application_context.clone(),
@@ -198,6 +207,13 @@ where
                 client.clone(),
                 &command_options_base,
             )),
+            get_asset_status_command_invoker: Arc::new(
+                base_client_gen::GetAssetStatusCommandInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &command_options_base,
+                ),
+            ),
             update_asset_status_command_invoker: Arc::new(
                 base_client_gen::UpdateAssetStatusCommandInvoker::new(
                     application_context.clone(),
@@ -276,16 +292,20 @@ where
         // Shut down invokers
         let mut errors = Vec::new();
 
-        let (result1, result2, result3, result4, result5, result6) = tokio::join!(
+        let (result1, result2, result3, result4, result5, result6, result7, result8) = tokio::join!(
             self.get_device_command_invoker.shutdown(),
+            self.get_device_status_command_invoker.shutdown(),
             self.update_device_status_command_invoker.shutdown(),
             self.notify_on_device_update_command_invoker.shutdown(),
             self.get_asset_command_invoker.shutdown(),
+            self.get_asset_status_command_invoker.shutdown(),
             self.update_asset_status_command_invoker.shutdown(),
             self.notify_on_asset_update_command_invoker.shutdown()
         );
 
-        for result in [result1, result2, result3, result4, result5, result6] {
+        for result in [
+            result1, result2, result3, result4, result5, result6, result7, result8,
+        ] {
             if let Err(e) = result {
                 errors.push(e);
             }
@@ -567,6 +587,49 @@ where
             .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
         Ok(response.payload.device.into())
+    }
+
+    /// Retrieves a [`DeviceStatus`] from the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`DeviceStatus`] if the device was found.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
+    /// if timeout is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    pub async fn get_device_status(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        timeout: Duration,
+    ) -> Result<DeviceStatus, Error> {
+        let get_device_status_request = base_client_gen::GetDeviceStatusRequestBuilder::default()
+            .topic_tokens(Self::get_base_service_topic_tokens(
+                device_name,
+                inbound_endpoint_name,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_device_status_command_invoker
+            .invoke(get_device_status_request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.device_status.into())
     }
 
     /// Updates a Device's status in the Azure Device Registry service.
@@ -917,6 +980,64 @@ where
             .map_err(ErrorKind::from)?;
 
         Ok(response.payload.asset.into())
+    }
+
+    /// Retrieves an [`AssetStatus`] from the Azure Device Registry service.
+    ///
+    /// # Arguments
+    /// * `device_name` - The name of the device.
+    /// * `inbound_endpoint_name` - The name of the inbound endpoint.
+    /// * `asset_name` - The name of the asset.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns an [`AssetStatus`] if the the asset was found.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
+    /// if timeout is 0 or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
+    /// - device or inbound endpoint names are invalid.
+    /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
+    pub async fn get_asset_status(
+        &self,
+        device_name: String,
+        inbound_endpoint_name: String,
+        asset_name: String,
+        timeout: Duration,
+    ) -> Result<AssetStatus, Error> {
+        if asset_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "asset_name must not be empty".to_string(),
+            )));
+        }
+        let get_status_request_payload =
+            base_client_gen::GetAssetStatusRequestPayload { asset_name };
+        let get_status_request = base_client_gen::GetAssetStatusRequestBuilder::default()
+            .payload(get_status_request_payload)
+            .map_err(ErrorKind::from)?
+            .timeout(timeout)
+            .topic_tokens(Self::get_base_service_topic_tokens(
+                device_name,
+                inbound_endpoint_name,
+            ))
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_asset_status_command_invoker
+            .invoke(get_status_request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+
+        Ok(response.payload.asset_status.into())
     }
 
     /// Updates the status of an Asset in the Azure Device Registry service.
