@@ -21,23 +21,23 @@ pub struct AssetStatus {
     #[builder(default = "None")]
     pub config: Option<AssetConfigStatusSchema>,
 
-    /// The 'datasets' Field.
+    /// Array of dataset statuses that describe the status of each dataset.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub datasets: Option<Vec<AssetDatasetEventStreamStatus>>,
 
-    /// The 'events' Field.
+    /// Array of event statuses that describe the status of each event.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub events: Option<Vec<AssetDatasetEventStreamStatus>>,
 
-    /// The 'managementGroups' Field.
+    /// Array of management group statuses that describe the status of each management group.
     #[serde(rename = "managementGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub management_groups: Option<Vec<AssetManagementGroupStatusSchemaElementSchema>>,
 
-    /// The 'streams' Field.
+    /// Array of stream statuses that describe the status of each stream.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub streams: Option<Vec<AssetDatasetEventStreamStatus>>,

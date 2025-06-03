@@ -10,15 +10,11 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::retain::Retain;
+use super::asset_status::AssetStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct Topic {
-    /// The 'path' Field.
-    pub path: String,
-
-    /// The 'retain' Field.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub retain: Option<Retain>,
+pub struct GetAssetStatusResponsePayload {
+    /// The Command response argument.
+    #[serde(rename = "assetStatus")]
+    pub asset_status: AssetStatus,
 }

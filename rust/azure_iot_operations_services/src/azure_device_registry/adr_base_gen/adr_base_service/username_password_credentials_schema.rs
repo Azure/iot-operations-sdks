@@ -13,11 +13,11 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UsernamePasswordCredentialsSchema {
-    /// The 'passwordSecretName' Field.
+    /// The name of the secret containing the password.
     #[serde(rename = "passwordSecretName")]
     pub password_secret_name: String,
 
-    /// The 'usernameSecretName' Field.
+    /// The name of the secret containing the username.
     #[serde(rename = "usernameSecretName")]
     pub username_secret_name: String,
 }
