@@ -44,6 +44,7 @@ impl Error {
     }
 }
 
+// TODO: Revisit this error story. A lot of strange overlap in validation errors.
 /// Represents the kinds of errors that occur in the Azure Device Registry Client implementation.
 #[derive(Error, Debug)]
 #[allow(clippy::large_enum_variant)]

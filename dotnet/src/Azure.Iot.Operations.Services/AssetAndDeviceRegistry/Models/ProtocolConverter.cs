@@ -222,7 +222,7 @@ internal static class ProtocolConverter
     };
 }
 
-    internal static DiscoveredDevice ToProtocol(this CreateDiscoveredAssetEndpointProfileRequest source)
+    internal static DiscoveredDevice ToProtocol(this CreateDiscoveredDeviceRequest source)
     {
         return new  DiscoveredDevice
         {
