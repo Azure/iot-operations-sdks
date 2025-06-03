@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DeviceOutboundEndpoint : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'address' Field.
+        /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
         /// </summary>
         [JsonPropertyName("address")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Address { get; set; } = default!;
 
         /// <summary>
-        /// The 'endpointType' Field.
+        /// Type of connection used for the messaging endpoint.
         /// </summary>
         [JsonPropertyName("endpointType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

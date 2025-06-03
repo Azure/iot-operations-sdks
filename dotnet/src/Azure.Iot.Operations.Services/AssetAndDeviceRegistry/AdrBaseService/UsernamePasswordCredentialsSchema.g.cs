@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class UsernamePasswordCredentialsSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'passwordSecretName' Field.
+        /// The name of the secret containing the password.
         /// </summary>
         [JsonPropertyName("passwordSecretName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string PasswordSecretName { get; set; } = default!;
 
         /// <summary>
-        /// The 'usernameSecretName' Field.
+        /// The name of the secret containing the username.
         /// </summary>
         [JsonPropertyName("usernameSecretName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

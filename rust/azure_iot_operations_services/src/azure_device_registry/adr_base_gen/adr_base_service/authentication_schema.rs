@@ -16,16 +16,16 @@ use super::x509credentials_schema::X509credentialsSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AuthenticationSchema {
-    /// The 'method' Field.
+    /// Defines the method to authenticate the user of the client at the server.
     pub method: MethodSchema,
 
-    /// The 'usernamePasswordCredentials' Field.
+    /// The credentials for authentication mode UsernamePassword.
     #[serde(rename = "usernamePasswordCredentials")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub username_password_credentials: Option<UsernamePasswordCredentialsSchema>,
 
-    /// The 'x509Credentials' Field.
+    /// The x509 certificate for authentication mode Certificate.
     #[serde(rename = "x509Credentials")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

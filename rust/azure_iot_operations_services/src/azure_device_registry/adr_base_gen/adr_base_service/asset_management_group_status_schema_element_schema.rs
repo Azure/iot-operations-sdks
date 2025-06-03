@@ -19,6 +19,6 @@ pub struct AssetManagementGroupStatusSchemaElementSchema {
     #[builder(default = "None")]
     pub actions: Option<Vec<AssetManagementGroupActionStatusSchemaElementSchema>>,
 
-    /// The 'name' Field.
+    /// The name of the managementgroup. Must be unique within the status.managementGroup array. This name is used to correlate between the spec and status management group information.
     pub name: String,
 }

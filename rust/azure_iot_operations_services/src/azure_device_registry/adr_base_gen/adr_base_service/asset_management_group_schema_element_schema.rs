@@ -14,33 +14,33 @@ use super::asset_management_group_action_schema_element_schema::AssetManagementG
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetManagementGroupSchemaElementSchema {
-    /// The 'actions' Field.
+    /// Actions for this management group.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub actions: Option<Vec<AssetManagementGroupActionSchemaElementSchema>>,
 
-    /// The 'defaultTimeOutInSeconds' Field.
+    /// Default time out in seconds for the management group.
     #[serde(rename = "defaultTimeOutInSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_time_out_in_seconds: Option<u32>,
 
-    /// The 'defaultTopic' Field.
+    /// The default MQTT topic for the management group.
     #[serde(rename = "defaultTopic")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_topic: Option<String>,
 
-    /// The 'managementGroupConfiguration' Field.
+    /// Configuration for the mangement group.
     #[serde(rename = "managementGroupConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub management_group_configuration: Option<String>,
 
-    /// The 'name' Field.
+    /// Name of the management group.
     pub name: String,
 
-    /// The 'typeRef' Field.
+    /// URI or type definition id in companion spec.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

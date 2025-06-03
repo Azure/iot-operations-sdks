@@ -10,36 +10,29 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class Topic : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class GetAssetStatusResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'path' Field.
+        /// The Command response argument.
         /// </summary>
-        [JsonPropertyName("path")]
+        [JsonPropertyName("assetStatus")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public string Path { get; set; } = default!;
-
-        /// <summary>
-        /// The 'retain' Field.
-        /// </summary>
-        [JsonPropertyName("retain")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Retain? Retain { get; set; } = default;
+        public AssetStatus AssetStatus { get; set; } = default!;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (Path is null)
+            if (AssetStatus is null)
             {
-                throw new ArgumentNullException("path field cannot be null");
+                throw new ArgumentNullException("assetStatus field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (Path is null)
+            if (AssetStatus is null)
             {
-                throw new ArgumentNullException("path field cannot be null");
+                throw new ArgumentNullException("assetStatus field cannot be null");
             }
         }
     }

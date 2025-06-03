@@ -2,7 +2,7 @@
 
 #nullable enable
 
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 {
     using System;
     using System.Collections.Generic;
@@ -10,21 +10,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class DiscoveredDeviceEndpoint
+    public partial class UpdateAssetStatusResponseSchema
     {
         /// <summary>
-        /// The 'inbound' Field.
+        /// The 'updateAssetStatusError' Field.
         /// </summary>
-        [JsonPropertyName("inbound")]
+        [JsonPropertyName("updateAssetStatusError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Dictionary<string, DiscoveredDeviceInboundEndpointSchema>? Inbound { get; set; } = default;
+        public AkriServiceError? UpdateAssetStatusError { get; set; } = default;
 
         /// <summary>
-        /// The 'outbound' Field.
+        /// The 'updatedAssetStatus' Field.
         /// </summary>
-        [JsonPropertyName("outbound")]
+        [JsonPropertyName("updatedAssetStatus")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DiscoveredDeviceOutboundEndpointsSchema? Outbound { get; set; } = default;
+        public AssetStatus? UpdatedAssetStatus { get; set; } = default;
 
     }
 }

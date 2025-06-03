@@ -10,15 +10,30 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class SetNotificationPreferenceForAssetUpdatesResponsePayload
+    public partial class SetNotificationPreferenceForAssetUpdatesResponsePayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The Command response argument.
         /// </summary>
-        [JsonPropertyName("notificationPreferenceResponse")]
+        [JsonPropertyName("responsePayload")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public NotificationPreferenceResponse NotificationPreferenceResponse { get; set; } = default!;
+        public string ResponsePayload { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (ResponsePayload is null)
+            {
+                throw new ArgumentNullException("responsePayload field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (ResponsePayload is null)
+            {
+                throw new ArgumentNullException("responsePayload field cannot be null");
+            }
+        }
     }
 }

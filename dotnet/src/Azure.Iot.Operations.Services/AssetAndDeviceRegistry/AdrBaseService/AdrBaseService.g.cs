@@ -25,7 +25,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly GetDeviceCommandExecutor getDeviceCommandExecutor;
+            private readonly GetDeviceStatusCommandExecutor getDeviceStatusCommandExecutor;
             private readonly GetAssetCommandExecutor getAssetCommandExecutor;
+            private readonly GetAssetStatusCommandExecutor getAssetStatusCommandExecutor;
             private readonly UpdateDeviceStatusCommandExecutor updateDeviceStatusCommandExecutor;
             private readonly UpdateAssetStatusCommandExecutor updateAssetStatusCommandExecutor;
             private readonly SetNotificationPreferenceForDeviceUpdatesCommandExecutor setNotificationPreferenceForDeviceUpdatesCommandExecutor;
@@ -56,7 +58,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
 
                 this.getDeviceCommandExecutor = new GetDeviceCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetDeviceInt };
+                this.getDeviceStatusCommandExecutor = new GetDeviceStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetDeviceStatusInt };
                 this.getAssetCommandExecutor = new GetAssetCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetAssetInt };
+                this.getAssetStatusCommandExecutor = new GetAssetStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = GetAssetStatusInt };
                 this.updateDeviceStatusCommandExecutor = new UpdateDeviceStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = UpdateDeviceStatusInt };
                 this.updateAssetStatusCommandExecutor = new UpdateAssetStatusCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = UpdateAssetStatusInt };
                 this.setNotificationPreferenceForDeviceUpdatesCommandExecutor = new SetNotificationPreferenceForDeviceUpdatesCommandExecutor(applicationContext, mqttClient) { OnCommandReceived = SetNotificationPreferenceForDeviceUpdatesInt };
@@ -70,7 +74,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.getDeviceCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.getDeviceStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.getAssetCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                        this.getAssetStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.updateDeviceStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
@@ -82,7 +88,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
 
                 this.getDeviceCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.getDeviceStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.getAssetCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
+                this.getAssetStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.updateDeviceStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.updateAssetStatusCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
                 this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.TopicTokenMap.TryAdd("executorId", clientId);
@@ -92,7 +100,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public GetDeviceCommandExecutor GetDeviceCommandExecutor { get => this.getDeviceCommandExecutor; }
 
+            public GetDeviceStatusCommandExecutor GetDeviceStatusCommandExecutor { get => this.getDeviceStatusCommandExecutor; }
+
             public GetAssetCommandExecutor GetAssetCommandExecutor { get => this.getAssetCommandExecutor; }
+
+            public GetAssetStatusCommandExecutor GetAssetStatusCommandExecutor { get => this.getAssetStatusCommandExecutor; }
 
             public UpdateDeviceStatusCommandExecutor UpdateDeviceStatusCommandExecutor { get => this.updateDeviceStatusCommandExecutor; }
 
@@ -110,7 +122,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public abstract Task<ExtendedResponse<GetDeviceResponsePayload>> GetDeviceAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
+            public abstract Task<ExtendedResponse<GetDeviceStatusResponsePayload>> GetDeviceStatusAsync(CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+
             public abstract Task<ExtendedResponse<GetAssetResponsePayload>> GetAssetAsync(GetAssetRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
+
+            public abstract Task<ExtendedResponse<GetAssetStatusResponsePayload>> GetAssetStatusAsync(GetAssetStatusRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
             public abstract Task<ExtendedResponse<UpdateDeviceStatusResponsePayload>> UpdateDeviceStatusAsync(UpdateDeviceStatusRequestPayload request, CommandRequestMetadata requestMetadata, CancellationToken cancellationToken);
 
@@ -185,7 +201,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 await Task.WhenAll(
                     this.getDeviceCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.getDeviceStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.getAssetCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
+                    this.getAssetStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.updateDeviceStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.updateAssetStatusCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
                     this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.StartAsync(preferredDispatchConcurrency, cancellationToken),
@@ -197,7 +215,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             {
                 await Task.WhenAll(
                     this.getDeviceCommandExecutor.StopAsync(cancellationToken),
+                    this.getDeviceStatusCommandExecutor.StopAsync(cancellationToken),
                     this.getAssetCommandExecutor.StopAsync(cancellationToken),
+                    this.getAssetStatusCommandExecutor.StopAsync(cancellationToken),
                     this.updateDeviceStatusCommandExecutor.StopAsync(cancellationToken),
                     this.updateAssetStatusCommandExecutor.StopAsync(cancellationToken),
                     this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.StopAsync(cancellationToken),
@@ -223,34 +243,130 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
             }
 
-            private async Task<ExtendedResponse<GetAssetResponsePayload>> GetAssetInt(ExtendedRequest<GetAssetRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetDeviceStatusResponseSchema>> GetDeviceStatusInt(ExtendedRequest<EmptyJson> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<GetAssetResponsePayload> extended = await this.GetAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<GetAssetResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<GetDeviceStatusResponsePayload> extended = await this.GetDeviceStatusAsync(req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<GetDeviceStatusResponseSchema>
+                    {
+                        Response = new GetDeviceStatusResponseSchema { DeviceStatus = extended.Response.DeviceStatus },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<GetDeviceStatusResponseSchema>.CreateFromResponse(new GetDeviceStatusResponseSchema { GetDeviceStatusError = intEx.AkriServiceError });
+                }
             }
 
-            private async Task<ExtendedResponse<UpdateDeviceStatusResponsePayload>> UpdateDeviceStatusInt(ExtendedRequest<UpdateDeviceStatusRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetAssetResponseSchema>> GetAssetInt(ExtendedRequest<GetAssetRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<UpdateDeviceStatusResponsePayload> extended = await this.UpdateDeviceStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<UpdateDeviceStatusResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<GetAssetResponsePayload> extended = await this.GetAssetAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<GetAssetResponseSchema>
+                    {
+                        Response = new GetAssetResponseSchema { Asset = extended.Response.Asset },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<GetAssetResponseSchema>.CreateFromResponse(new GetAssetResponseSchema { GetAssetError = intEx.AkriServiceError });
+                }
             }
 
-            private async Task<ExtendedResponse<UpdateAssetStatusResponsePayload>> UpdateAssetStatusInt(ExtendedRequest<UpdateAssetStatusRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<GetAssetStatusResponseSchema>> GetAssetStatusInt(ExtendedRequest<GetAssetStatusRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<UpdateAssetStatusResponsePayload> extended = await this.UpdateAssetStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<UpdateAssetStatusResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<GetAssetStatusResponsePayload> extended = await this.GetAssetStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<GetAssetStatusResponseSchema>
+                    {
+                        Response = new GetAssetStatusResponseSchema { AssetStatus = extended.Response.AssetStatus },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<GetAssetStatusResponseSchema>.CreateFromResponse(new GetAssetStatusResponseSchema { GetAssetStatusError = intEx.AkriServiceError });
+                }
             }
 
-            private async Task<ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload>> SetNotificationPreferenceForDeviceUpdatesInt(ExtendedRequest<SetNotificationPreferenceForDeviceUpdatesRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<UpdateDeviceStatusResponseSchema>> UpdateDeviceStatusInt(ExtendedRequest<UpdateDeviceStatusRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForDeviceUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<UpdateDeviceStatusResponsePayload> extended = await this.UpdateDeviceStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<UpdateDeviceStatusResponseSchema>
+                    {
+                        Response = new UpdateDeviceStatusResponseSchema { UpdatedDeviceStatus = extended.Response.UpdatedDeviceStatus },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<UpdateDeviceStatusResponseSchema>.CreateFromResponse(new UpdateDeviceStatusResponseSchema { UpdateDeviceStatusError = intEx.AkriServiceError });
+                }
             }
 
-            private async Task<ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>> SetNotificationPreferenceForAssetUpdatesInt(ExtendedRequest<SetNotificationPreferenceForAssetUpdatesRequestPayload> req, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<UpdateAssetStatusResponseSchema>> UpdateAssetStatusInt(ExtendedRequest<UpdateAssetStatusRequestPayload> req, CancellationToken cancellationToken)
             {
-                ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForAssetUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
-                return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload> { Response = extended.Response, ResponseMetadata = extended.ResponseMetadata };
+                try
+                {
+                    ExtendedResponse<UpdateAssetStatusResponsePayload> extended = await this.UpdateAssetStatusAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<UpdateAssetStatusResponseSchema>
+                    {
+                        Response = new UpdateAssetStatusResponseSchema { UpdatedAssetStatus = extended.Response.UpdatedAssetStatus },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<UpdateAssetStatusResponseSchema>.CreateFromResponse(new UpdateAssetStatusResponseSchema { UpdateAssetStatusError = intEx.AkriServiceError });
+                }
+            }
+
+            private async Task<ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>> SetNotificationPreferenceForDeviceUpdatesInt(ExtendedRequest<SetNotificationPreferenceForDeviceUpdatesRequestPayload> req, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForDeviceUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>
+                    {
+                        Response = new SetNotificationPreferenceForDeviceUpdatesResponseSchema { ResponsePayload = extended.Response.ResponsePayload },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>.CreateFromResponse(new SetNotificationPreferenceForDeviceUpdatesResponseSchema { SetNotificationPreferenceForDeviceUpdatesError = intEx.AkriServiceError });
+                }
+            }
+
+            private async Task<ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>> SetNotificationPreferenceForAssetUpdatesInt(ExtendedRequest<SetNotificationPreferenceForAssetUpdatesRequestPayload> req, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload> extended = await this.SetNotificationPreferenceForAssetUpdatesAsync(req.Request!, req.RequestMetadata!, cancellationToken);
+
+                    return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>
+                    {
+                        Response = new SetNotificationPreferenceForAssetUpdatesResponseSchema { ResponsePayload = extended.Response.ResponsePayload },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+                catch (AkriServiceErrorException intEx)
+                {
+                    return ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>.CreateFromResponse(new SetNotificationPreferenceForAssetUpdatesResponseSchema { SetNotificationPreferenceForAssetUpdatesError = intEx.AkriServiceError });
+                }
             }
 
             private async Task<ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>> CreateOrUpdateDiscoveredAssetInt(ExtendedRequest<CreateOrUpdateDiscoveredAssetRequestPayload> req, CancellationToken cancellationToken)
@@ -274,7 +390,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async ValueTask DisposeAsync()
             {
                 await this.getDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.getDeviceStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.getAssetCommandExecutor.DisposeAsync().ConfigureAwait(false);
+                await this.getAssetStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.updateDeviceStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.updateAssetStatusCommandExecutor.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync().ConfigureAwait(false);
@@ -287,7 +405,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async ValueTask DisposeAsync(bool disposing)
             {
                 await this.getDeviceCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.getDeviceStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.getAssetCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.getAssetStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.updateDeviceStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.updateAssetStatusCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
@@ -303,7 +423,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             private ApplicationContext applicationContext;
             private IMqttPubSubClient mqttClient;
             private readonly GetDeviceCommandInvoker getDeviceCommandInvoker;
+            private readonly GetDeviceStatusCommandInvoker getDeviceStatusCommandInvoker;
             private readonly GetAssetCommandInvoker getAssetCommandInvoker;
+            private readonly GetAssetStatusCommandInvoker getAssetStatusCommandInvoker;
             private readonly UpdateDeviceStatusCommandInvoker updateDeviceStatusCommandInvoker;
             private readonly UpdateAssetStatusCommandInvoker updateAssetStatusCommandInvoker;
             private readonly SetNotificationPreferenceForDeviceUpdatesCommandInvoker setNotificationPreferenceForDeviceUpdatesCommandInvoker;
@@ -334,12 +456,28 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                         this.getDeviceCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
+                this.getDeviceStatusCommandInvoker = new GetDeviceStatusCommandInvoker(applicationContext, mqttClient);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.getDeviceStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
                 this.getAssetCommandInvoker = new GetAssetCommandInvoker(applicationContext, mqttClient);
                 if (topicTokenMap != null)
                 {
                     foreach (string topicTokenKey in topicTokenMap.Keys)
                     {
                         this.getAssetCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
+                    }
+                }
+                this.getAssetStatusCommandInvoker = new GetAssetStatusCommandInvoker(applicationContext, mqttClient);
+                if (topicTokenMap != null)
+                {
+                    foreach (string topicTokenKey in topicTokenMap.Keys)
+                    {
+                        this.getAssetStatusCommandInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
                 this.updateDeviceStatusCommandInvoker = new UpdateDeviceStatusCommandInvoker(applicationContext, mqttClient);
@@ -402,7 +540,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
             public GetDeviceCommandInvoker GetDeviceCommandInvoker { get => this.getDeviceCommandInvoker; }
 
+            public GetDeviceStatusCommandInvoker GetDeviceStatusCommandInvoker { get => this.getDeviceStatusCommandInvoker; }
+
             public GetAssetCommandInvoker GetAssetCommandInvoker { get => this.getAssetCommandInvoker; }
+
+            public GetAssetStatusCommandInvoker GetAssetStatusCommandInvoker { get => this.getAssetStatusCommandInvoker; }
 
             public UpdateDeviceStatusCommandInvoker UpdateDeviceStatusCommandInvoker { get => this.updateDeviceStatusCommandInvoker; }
 
@@ -458,6 +600,39 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             /// <summary>
             /// Invoke a command.
             /// </summary>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
+            public RpcCallAsync<GetDeviceStatusResponsePayload> GetDeviceStatusAsync(CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
+                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+
+                return new RpcCallAsync<GetDeviceStatusResponsePayload>(this.GetDeviceStatusInt(new EmptyJson(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+            }
+
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
             /// <param name="request">The data for this command request.</param>
             /// <param name="requestMetadata">The metadata for this command request.</param>
             /// <param name="additionalTopicTokenMap">
@@ -486,7 +661,41 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<GetAssetResponsePayload>(this.getAssetCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<GetAssetResponsePayload>(this.GetAssetInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+            }
+
+            /// <summary>
+            /// Invoke a command.
+            /// </summary>
+            /// <param name="request">The data for this command request.</param>
+            /// <param name="requestMetadata">The metadata for this command request.</param>
+            /// <param name="additionalTopicTokenMap">
+            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
+            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
+            /// </param>
+            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            /// <returns>The command response.</returns>
+            public RpcCallAsync<GetAssetStatusResponsePayload> GetAssetStatusAsync(GetAssetStatusRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            {
+                string? clientId = this.mqttClient.ClientId;
+                if (string.IsNullOrEmpty(clientId))
+                {
+                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
+                }
+
+                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
+                additionalTopicTokenMap ??= new();
+
+                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
+                foreach (string key in additionalTopicTokenMap.Keys)
+                {
+                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
+                }
+
+                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
+
+                return new RpcCallAsync<GetAssetStatusResponsePayload>(this.GetAssetStatusInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -520,7 +729,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<UpdateDeviceStatusResponsePayload>(this.updateDeviceStatusCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<UpdateDeviceStatusResponsePayload>(this.UpdateDeviceStatusInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -554,7 +763,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<UpdateAssetStatusResponsePayload>(this.updateAssetStatusCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<UpdateAssetStatusResponsePayload>(this.UpdateAssetStatusInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -588,7 +797,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<SetNotificationPreferenceForDeviceUpdatesResponsePayload>(this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<SetNotificationPreferenceForDeviceUpdatesResponsePayload>(this.SetNotificationPreferenceForDeviceUpdatesInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -622,7 +831,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<SetNotificationPreferenceForAssetUpdatesResponsePayload>(this.setNotificationPreferenceForAssetUpdatesCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<SetNotificationPreferenceForAssetUpdatesResponsePayload>(this.SetNotificationPreferenceForAssetUpdatesInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -707,6 +916,188 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
                 }
             }
 
+            private async Task<ExtendedResponse<GetDeviceStatusResponsePayload>> GetDeviceStatusInt(EmptyJson request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<GetDeviceStatusResponseSchema> extended = await this.getDeviceStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.GetDeviceStatusError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.GetDeviceStatusError);
+                }
+                else if (extended.Response.DeviceStatus == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<GetDeviceStatusResponsePayload>
+                    {
+                        Response = new GetDeviceStatusResponsePayload { DeviceStatus = extended.Response.DeviceStatus.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<GetAssetResponsePayload>> GetAssetInt(GetAssetRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<GetAssetResponseSchema> extended = await this.getAssetCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.GetAssetError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.GetAssetError);
+                }
+                else if (extended.Response.Asset == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<GetAssetResponsePayload>
+                    {
+                        Response = new GetAssetResponsePayload { Asset = extended.Response.Asset.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<GetAssetStatusResponsePayload>> GetAssetStatusInt(GetAssetStatusRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<GetAssetStatusResponseSchema> extended = await this.getAssetStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.GetAssetStatusError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.GetAssetStatusError);
+                }
+                else if (extended.Response.AssetStatus == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<GetAssetStatusResponsePayload>
+                    {
+                        Response = new GetAssetStatusResponsePayload { AssetStatus = extended.Response.AssetStatus.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<UpdateDeviceStatusResponsePayload>> UpdateDeviceStatusInt(UpdateDeviceStatusRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<UpdateDeviceStatusResponseSchema> extended = await this.updateDeviceStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.UpdateDeviceStatusError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.UpdateDeviceStatusError);
+                }
+                else if (extended.Response.UpdatedDeviceStatus == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<UpdateDeviceStatusResponsePayload>
+                    {
+                        Response = new UpdateDeviceStatusResponsePayload { UpdatedDeviceStatus = extended.Response.UpdatedDeviceStatus.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<UpdateAssetStatusResponsePayload>> UpdateAssetStatusInt(UpdateAssetStatusRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<UpdateAssetStatusResponseSchema> extended = await this.updateAssetStatusCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.UpdateAssetStatusError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.UpdateAssetStatusError);
+                }
+                else if (extended.Response.UpdatedAssetStatus == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<UpdateAssetStatusResponsePayload>
+                    {
+                        Response = new UpdateAssetStatusResponsePayload { UpdatedAssetStatus = extended.Response.UpdatedAssetStatus.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload>> SetNotificationPreferenceForDeviceUpdatesInt(SetNotificationPreferenceForDeviceUpdatesRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema> extended = await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.SetNotificationPreferenceForDeviceUpdatesError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.SetNotificationPreferenceForDeviceUpdatesError);
+                }
+                else if (extended.Response.ResponsePayload == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponsePayload>
+                    {
+                        Response = new SetNotificationPreferenceForDeviceUpdatesResponsePayload { ResponsePayload = extended.Response.ResponsePayload.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
+            private async Task<ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>> SetNotificationPreferenceForAssetUpdatesInt(SetNotificationPreferenceForAssetUpdatesRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            {
+                ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema> extended = await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
+                if (extended.Response.SetNotificationPreferenceForAssetUpdatesError != null)
+                {
+                    throw new AkriServiceErrorException(extended.Response.SetNotificationPreferenceForAssetUpdatesError);
+                }
+                else if (extended.Response.ResponsePayload == null)
+                {
+                    throw new AkriMqttException("Command response has neither normal nor error payload content")
+                    {
+                        Kind = AkriMqttErrorKind.PayloadInvalid,
+                        IsShallow = false,
+                        IsRemote = false,
+                    };
+                }
+                else
+                {
+                    return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponsePayload>
+                    {
+                        Response = new SetNotificationPreferenceForAssetUpdatesResponsePayload { ResponsePayload = extended.Response.ResponsePayload.Value() },
+                        ResponseMetadata = extended.ResponseMetadata,
+                    };
+                }
+            }
+
             private async Task<ExtendedResponse<CreateOrUpdateDiscoveredAssetResponsePayload>> CreateOrUpdateDiscoveredAssetInt(CreateOrUpdateDiscoveredAssetRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema> extended = await this.createOrUpdateDiscoveredAssetCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
@@ -736,7 +1127,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async ValueTask DisposeAsync()
             {
                 await this.getDeviceCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.getDeviceStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.getAssetCommandInvoker.DisposeAsync().ConfigureAwait(false);
+                await this.getAssetStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.updateDeviceStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.updateAssetStatusCommandInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync().ConfigureAwait(false);
@@ -749,7 +1142,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
             public async ValueTask DisposeAsync(bool disposing)
             {
                 await this.getDeviceCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.getDeviceStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.getAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.getAssetStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.updateDeviceStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.updateAssetStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
                 await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);

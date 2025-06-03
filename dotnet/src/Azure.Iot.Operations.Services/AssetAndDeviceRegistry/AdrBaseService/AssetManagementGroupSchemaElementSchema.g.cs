@@ -13,35 +13,35 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetManagementGroupSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'actions' Field.
+        /// Actions for this management group.
         /// </summary>
         [JsonPropertyName("actions")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<AssetManagementGroupActionSchemaElementSchema>? Actions { get; set; } = default;
 
         /// <summary>
-        /// The 'defaultTimeOutInSeconds' Field.
+        /// Default time out in seconds for the management group.
         /// </summary>
         [JsonPropertyName("defaultTimeOutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public uint? DefaultTimeOutInSeconds { get; set; } = default;
 
         /// <summary>
-        /// The 'defaultTopic' Field.
+        /// The default MQTT topic for the management group.
         /// </summary>
         [JsonPropertyName("defaultTopic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DefaultTopic { get; set; } = default;
 
         /// <summary>
-        /// The 'managementGroupConfiguration' Field.
+        /// Configuration for the mangement group.
         /// </summary>
         [JsonPropertyName("managementGroupConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ManagementGroupConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The 'name' Field.
+        /// Name of the management group.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -49,7 +49,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// The 'typeRef' Field.
+        /// URI or type definition id in companion spec.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
