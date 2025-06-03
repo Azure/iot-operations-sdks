@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_CM:AssetVerificationType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,14 +15,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Node",
           "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeId;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Alias",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IdentifierBrowsePath",
           "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableRelativePath;1"
         }
@@ -32,10 +36,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeIdentifier;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ArrayIndex",
           "schema": {
             "@type": "Array",
@@ -43,6 +49,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -95,10 +102,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NamespaceUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Identifier",
           "schema": "string"
         }
@@ -109,6 +118,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Elements",
           "schema": {
             "@type": "Array",
@@ -122,18 +132,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ReferenceTypeId",
           "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableNodeId;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsInverse",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IncludeSubtypes",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TargetName",
           "schema": "dtmi:opcua:FX_CM:AssetVerificationType:dataType:PortableQualifiedName;1"
         }
@@ -144,10 +158,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NamespaceUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         }

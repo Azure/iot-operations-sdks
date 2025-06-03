@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:GDS:CertificateDirectoryType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -23,18 +24,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateGroupId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateTypeId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateRequest",
               "schema": "bytes"
             }
@@ -48,6 +53,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RequestId",
               "schema": "string"
             }
@@ -65,22 +71,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateGroupId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateTypeId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SubjectName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "DomainNames",
               "schema": {
                 "@type": "Array",
@@ -88,10 +99,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PrivateKeyFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PrivateKeyPassword",
               "schema": "string"
             }
@@ -105,6 +118,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RequestId",
               "schema": "string"
             }
@@ -122,10 +136,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RequestId",
               "schema": "string"
             }
@@ -139,14 +155,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Certificate",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PrivateKey",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IssuerCertificates",
               "schema": {
                 "@type": "Array",
@@ -167,10 +186,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Certificate",
               "schema": "bytes"
             }
@@ -188,6 +209,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             }
@@ -201,6 +223,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateGroupIds",
               "schema": {
                 "@type": "Array",
@@ -221,10 +244,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateGroupId",
               "schema": "string"
             }
@@ -238,6 +263,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateTypeIds",
               "schema": {
                 "@type": "Array",
@@ -245,6 +271,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Certificates",
               "schema": {
                 "@type": "Array",
@@ -265,10 +292,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateGroupId",
               "schema": "string"
             }
@@ -282,6 +311,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "TrustListId",
               "schema": "string"
             }
@@ -299,14 +329,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateGroupId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateTypeId",
               "schema": "string"
             }
@@ -320,6 +353,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "UpdateRequired",
               "schema": "boolean"
             }
@@ -337,6 +371,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Certificate",
               "schema": "bytes"
             }
@@ -350,10 +385,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CertificateStatus",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ValidityTime",
               "schema": "time"
             }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,22 +15,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Min",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Max",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Increment",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Multiplier",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Unit",
           "schema": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType:dataType:FxTimeUnitsEnum;1"
         }
@@ -40,10 +46,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "QosCategory",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DatagramQos",
           "schema": {
             "@type": "Array",

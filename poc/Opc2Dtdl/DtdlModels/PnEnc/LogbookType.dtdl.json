@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNENC:LogbookType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,34 +16,42 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "FaultSituationNumber",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventNumber",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventType",
           "schema": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventCode",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventText",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventComing",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventGoing",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventAcknowledged",
           "schema": "time"
         }
@@ -92,6 +101,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ActiveDiagnosis",
               "schema": {
                 "@type": "Array",
@@ -112,6 +122,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CurrentLogEntries",
               "schema": {
                 "@type": "Array",
@@ -132,22 +143,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LogbookFilterOptions",
               "schema": "unsignedByte"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "FaultSituationNumber",
               "schema": "unsignedByte"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "EventType",
               "schema": "dtmi:opcua:PNENC:LogbookType:dataType:EventTypeEnumeration;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "EventCode",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "EventAppearanceInterval",
               "schema": "duration"
             }
@@ -161,6 +177,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FilteredLogEntries",
               "schema": {
                 "@type": "Array",
@@ -181,6 +198,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FaultSituationNumber",
               "schema": "unsignedByte"
             }
@@ -194,6 +212,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "HistoricLogEntries",
               "schema": {
                 "@type": "Array",

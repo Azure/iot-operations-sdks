@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:DefectDetectionSensorType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,10 +17,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Success",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Message",
           "schema": {
             "@type": "Array",
@@ -33,10 +36,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LocalText",
           "schema": "string"
         }
@@ -66,6 +71,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Enable",
               "schema": "boolean"
             }
@@ -79,6 +85,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:DefectDetectionSensorType:dataType:MethodExecutionFeedbackType;1"
             }

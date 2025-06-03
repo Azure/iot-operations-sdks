@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Machinery_Result:ResultManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultMetaData",
           "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultMetaDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultContent",
           "schema": {
             "@type": "Array",
@@ -32,66 +35,82 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HasTransferableDataOnFile",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsPartial",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsSimulated",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultState",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StepId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PartId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExternalRecipeId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "InternalRecipeId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExternalConfigurationId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "InternalConfigurationId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CreationTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProcessingTimes",
           "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ProcessingTimesDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultUri",
           "schema": {
             "@type": "Array",
@@ -99,18 +118,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultEvaluation",
           "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultEvaluationEnum;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultEvaluationCode",
           "schema": "long"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultEvaluationDetails",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "FileFormat",
           "schema": {
             "@type": "Array",
@@ -124,18 +147,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "StartTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EndTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AcquisitionDuration",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProcessingDuration",
           "schema": "duration"
         }
@@ -146,6 +173,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Elements",
           "schema": {
             "@type": "Array",
@@ -159,10 +187,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "FilterOperator",
           "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:FilterOperator;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "FilterOperands",
           "schema": {
             "@type": "Array",
@@ -285,6 +315,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Timeout",
               "schema": "integer"
             }
@@ -298,14 +329,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Result",
               "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -323,10 +357,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Timeout",
               "schema": "integer"
             }
@@ -340,14 +376,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Result",
               "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ResultDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -365,10 +404,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Filter",
               "schema": "dtmi:opcua:Machinery_Result:ResultManagementType:dataType:ContentFilter;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OrderedBy",
               "schema": {
                 "@type": "Array",
@@ -376,10 +417,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxResults",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Timeout",
               "schema": "integer"
             }
@@ -393,10 +436,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultIdList",
               "schema": {
                 "@type": "Array",
@@ -404,6 +449,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -421,6 +467,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             }
@@ -434,6 +481,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }

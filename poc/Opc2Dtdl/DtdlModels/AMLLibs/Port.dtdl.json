@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:AMLLibs:Port;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -25,15 +26,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "Cardinality",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "MinOccur",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "MaxOccur",
             "schema": "unsignedInteger"
           }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Glass_Flat:ProductionType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -22,14 +23,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Target",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Source",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Before",
               "schema": "boolean"
             }
@@ -47,6 +51,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "string"
             }
@@ -64,14 +69,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Name",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InputMaterial",
               "schema": {
                 "@type": "Array",
@@ -79,6 +87,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OutputMaterial",
               "schema": {
                 "@type": "Array",
@@ -95,6 +104,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobNodeId",
               "schema": "string"
             }

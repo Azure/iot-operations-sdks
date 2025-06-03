@@ -6,6 +6,7 @@
       "fields": [
 <# int ix = 1; foreach (KeyValuePair<string, (string, int)> field in this.objType.Fields) { #>
         {
+          "@type": [ "Field", "Required" ],
           "name": "<#=TypeConverter.LegalizeName(field.Key)#>",
           "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, field.Value.Item1, field.Value.Item2, 10)#>
         }<#=ix < this.objType.Fields.Count ? "," : ""#>

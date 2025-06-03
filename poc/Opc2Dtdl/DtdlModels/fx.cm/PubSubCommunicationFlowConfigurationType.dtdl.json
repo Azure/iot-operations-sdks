@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,6 +16,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NetworkInterface",
           "schema": "string"
         }
@@ -25,10 +27,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "QosCategory",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TransmitQos",
           "schema": {
             "@type": "Array",
@@ -36,6 +40,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ReceiveQos",
           "schema": {
             "@type": "Array",

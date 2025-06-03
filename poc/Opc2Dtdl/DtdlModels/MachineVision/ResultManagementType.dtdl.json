@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision:ResultManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,6 +16,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         }
@@ -25,66 +27,82 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HasTransferableDataOnFile",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsPartial",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsSimulated",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultState",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MeasId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PartId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExternalRecipeId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "InternalRecipeId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExternalConfigurationId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "InternalConfigurationId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobId",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CreationTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProcessingTimes",
           "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProcessingTimesDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ResultContent",
           "schema": {
             "@type": "Array",
@@ -98,10 +116,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -112,10 +132,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -126,22 +148,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Version",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Hash",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HashAlgorithm",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -152,10 +179,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -166,6 +195,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         }
@@ -176,18 +206,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "StartTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EndTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AcquisitionDuration",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProcessingDuration",
           "schema": "duration"
         }
@@ -205,10 +239,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Timeout",
               "schema": "integer"
             }
@@ -222,14 +258,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Result",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -247,10 +286,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ResultIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Timeout",
               "schema": "integer"
             }
@@ -264,66 +305,82 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "HasTransferableDataOnFile",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IsPartial",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IsSimulated",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultState",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MeasId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PartId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalRecipeId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalRecipeId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalConfigurationId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalConfigurationId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CreationTime",
               "schema": "time"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProcessingTimes",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProcessingTimesDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultContent",
               "schema": {
                 "@type": "Array",
@@ -331,6 +388,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -348,50 +406,62 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultState",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MeasId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:MeasIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PartId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:PartIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalRecipeId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalRecipeId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalConfigurationId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalConfigurationId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:ProductIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobId",
               "schema": "dtmi:opcua:MachineVision:ResultManagementType:dataType:JobIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxResults",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StartIndex",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Timeout",
               "schema": "integer"
             }
@@ -405,18 +475,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "IsComplete",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultCount",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultList",
               "schema": {
                 "@type": "Array",
@@ -424,6 +498,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -441,6 +516,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultHandle",
               "schema": "unsignedInteger"
             }
@@ -454,6 +530,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }

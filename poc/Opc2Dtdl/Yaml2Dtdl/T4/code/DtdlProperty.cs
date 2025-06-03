@@ -19,16 +19,18 @@ namespace Yaml2Dtdl
         private bool isWritable;
         private bool isHistorized;
 
-        public (string?, int) Variable { get; }
+        public record VariableInfo(string? Datatype, int ValueRank, bool IsOptional);
 
-        public Dictionary<string, (string?, int)> SubVariables { get; }
+        public VariableInfo Variable { get; }
+
+        public Dictionary<string, VariableInfo> SubVariables { get; }
 
         public DtdlProperty(string modelId, OpcUaDefinedType definedType, TypeConverter typeConverter)
         {
             this.modelId = modelId;
             this.definedType = definedType;
 
-            this.Variable = ( definedType.Datatype, definedType.ValueRank );
+            this.Variable = new VariableInfo(definedType.Datatype, definedType.ValueRank, GetIsOptional(definedType));
             this.SubVariables = GetSubVariables();
 
             this.typeConverter = typeConverter;
@@ -37,8 +39,11 @@ namespace Yaml2Dtdl
             this.isHistorized = (definedType.AccessLevel & historyMask) != 0;
         }
 
-        private Dictionary<string, (string?, int)> GetSubVariables() => definedType.Contents
+        private Dictionary<string, VariableInfo> GetSubVariables() => definedType.Contents
             .Where(c => c.Relationship == "HasComponent" && c.DefinedType.NodeType == "UAVariable")
-            .ToDictionary(c => c.DefinedType.BrowseName, c => (c.DefinedType.Datatype, c.DefinedType.ValueRank));
+            .ToDictionary(c => c.DefinedType.BrowseName, c => new VariableInfo(c.DefinedType.Datatype, c.DefinedType.ValueRank, GetIsOptional(c.DefinedType)));
+
+        private bool GetIsOptional(OpcUaDefinedType definedType) =>
+            definedType.Contents.Any(c => c.Relationship == "HasModellingRule" && c.DefinedType.NodeId == TypeConverter.ModelingRuleOptionalNodeId);
     }
 }

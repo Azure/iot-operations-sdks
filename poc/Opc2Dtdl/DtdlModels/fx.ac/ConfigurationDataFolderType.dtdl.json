@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_AC:ConfigurationDataFolderType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,10 +17,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "dtmi:opcua:FX_AC:ConfigurationDataFolderType:dataType:NodeIdArray;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -30,10 +33,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Node",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ArrayIndex",
           "schema": {
             "@type": "Array",
@@ -54,6 +59,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "VariablesToClear",
               "schema": {
                 "@type": "Array",
@@ -70,6 +76,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Results",
               "schema": {
                 "@type": "Array",
@@ -90,6 +97,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "StoredVariables",
               "schema": {
                 "@type": "Array",
@@ -110,6 +118,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "VariablesToStore",
               "schema": {
                 "@type": "Array",
@@ -126,6 +135,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Results",
               "schema": {
                 "@type": "Array",

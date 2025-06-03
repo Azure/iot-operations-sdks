@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scales_V2:PieceCountingProductType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,14 +17,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Gross",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Net",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Tare",
           "schema": "double"
         }
@@ -137,6 +141,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "TargetItemCount",
               "schema": "unsignedInteger"
             }
@@ -154,14 +159,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "TargetPieceCount",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PlusTolerance",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MinusTolerance",
               "schema": "unsignedInteger"
             }

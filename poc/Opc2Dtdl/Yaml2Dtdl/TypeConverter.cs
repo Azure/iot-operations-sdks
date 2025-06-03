@@ -7,6 +7,8 @@ namespace Yaml2Dtdl
 
     public class TypeConverter
     {
+        public const string ModelingRuleOptionalNodeId = "80";
+
         private const string defaultType = "string";
 
         // Per https://reference.opcfoundation.org/Core/Part6/v104/docs/5

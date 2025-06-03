@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:ECM:EnergyMeasurementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -19,7 +20,7 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "MeasurementValue",
             "schema": {
               "@type": "Map",
@@ -34,10 +35,12 @@
             }
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }

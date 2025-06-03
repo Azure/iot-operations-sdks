@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,58 +17,72 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Change_of_bitstring",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfBitstring;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Change_of_state",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfState;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Change_of_value",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfValue;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Command_failure",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterCommandFailure;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Floating_limit",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterFloatingLimit;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Out_of_range",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterOutOfRange;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Extended",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventFaultParameterExtended;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Buffer_ready",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterBufferReady;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Unsigned_range",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedRange;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Double_out_of_range",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterDoubleOutOfRange;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Signed_out_of_range",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterSignedOutOfRange;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Unsigned_out_of_range",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterUnsignedOutOfRange;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Change_of_characterstring",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfCharacterString;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Change_of_life_safety",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameterChangeOfLifeSafety;1"
         }
@@ -78,22 +93,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Fault_characterstring",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultCharacterstring;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Fault_life_safety",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultLifeSafety;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Fault_state",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultState;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Fault_status_flags",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameterFaultStatusFlags;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Fault_extended",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventFaultParameterExtended;1"
         }
@@ -104,6 +124,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Fault_characterstring",
           "schema": "string"
         }
@@ -114,14 +135,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Bitmask",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "List_of_bitstring_values",
           "schema": {
             "@type": "Array",
@@ -135,10 +159,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ValidBits",
           "schema": "bytes"
         }
@@ -149,10 +175,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "List_of_values",
           "schema": {
             "@type": "Array",
@@ -166,58 +194,72 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "BooleanValue",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BinaryValue",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetBinaryPV;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EventType",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventEnumType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Polarity",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPolarity;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProgramChange",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramRequest;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProgramState",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramStates;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProgramError",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetProgramError;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Reliability",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetReliability;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "State",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventState;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SystemStatus",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceStatus;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Units",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UnsignedValue",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LifeSafetyMode",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyMode;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LifeSafetyState",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyState;1"
         }
@@ -305,14 +347,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Cov_criteria_bitmask",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Cov_criteria_referenced_property_increment",
           "schema": "float"
         }
@@ -323,10 +368,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Feedback_property_reference",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
         }
@@ -337,18 +384,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ObjectIdentifier",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PropertyIdentifier",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetPropertyIdentifier;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PropertyArrayIndex",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DeviceIdentifier",
           "schema": "unsignedInteger"
         }
@@ -1914,22 +1965,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Setpoint_reference",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Low_diff_limit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "High_diff_limit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Deadband",
           "schema": "double"
         }
@@ -1940,18 +1996,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Low_limit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "High_limit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Deadband",
           "schema": "double"
         }
@@ -1962,14 +2022,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "VendorId",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Extended_fault_type",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Parameters",
           "schema": {
             "@type": "Array",
@@ -1983,22 +2046,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Real",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Unsigned",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Boolean",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Double",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Octed",
           "schema": {
             "@type": "Array",
@@ -2006,34 +2074,42 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CharacterString",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BitString",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:OptionSet;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Enum",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Date",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDate;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetTime;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ObjectIdentifier",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Reference",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Integer",
           "schema": "integer"
         }
@@ -2044,18 +2120,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Hour",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Minute",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Second",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Hundredths",
           "schema": "unsignedByte"
         }
@@ -2066,18 +2146,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Year",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Month",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetMonth;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DayOfMonth",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDayOfMonth;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DayOfWeek",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDayOfWeek;1"
         }
@@ -2341,10 +2425,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Notification_threshold",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Previous_notification_count",
           "schema": "unsignedInteger"
         }
@@ -2355,14 +2441,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Low_limit",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "High_limit",
           "schema": "unsignedInteger"
         }
@@ -2373,18 +2462,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Low_limit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "High_limit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Deadband",
           "schema": "double"
         }
@@ -2395,18 +2488,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Low_limit",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "High_limit",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Deadband",
           "schema": "unsignedInteger"
         }
@@ -2417,18 +2514,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Low_limit",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "High_limit",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Deadband",
           "schema": "unsignedInteger"
         }
@@ -2439,10 +2540,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Time_delay",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AlarmValues",
           "schema": {
             "@type": "Array",
@@ -2456,14 +2559,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NewState",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyState;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "NewMode",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyMode;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "OperationExtended",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetLifeSafetyOperation;1"
         }
@@ -2521,6 +2627,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "List_of_fault_values",
           "schema": {
             "@type": "Array",
@@ -2528,6 +2635,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Mode_property_reference",
           "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetDeviceObjectPropertyReference;1"
         }
@@ -2538,6 +2646,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "List_of_fault_values",
           "schema": {
             "@type": "Array",
@@ -2551,6 +2660,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status_flags_reference",
           "schema": {
             "@type": "Array",
@@ -2959,6 +3069,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EventParameters",
               "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetEventParameter;1"
             }
@@ -2976,6 +3087,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FaultParameters",
               "schema": "dtmi:opcua:BACnet_V2:BACnetEventEnrollmentType:dataType:BACnetFaultParameter;1"
             }

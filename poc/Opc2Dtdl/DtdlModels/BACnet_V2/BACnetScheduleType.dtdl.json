@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetScheduleType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,18 +17,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ObjectIdentifier",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PropertyIdentifier",
           "schema": "dtmi:opcua:BACnet_V2:BACnetScheduleType:dataType:BACnetPropertyIdentifier;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PropertyArrayIndex",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DeviceIdentifier",
           "schema": "unsignedInteger"
         }
@@ -1612,6 +1617,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DeviceObjectPropertyReferences",
               "schema": {
                 "@type": "Array",
@@ -1628,6 +1634,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FirstFailedElementNumber",
               "schema": "unsignedInteger"
             }
@@ -1645,6 +1652,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DeviceObjectPropertyReferences",
               "schema": {
                 "@type": "Array",
@@ -1661,6 +1669,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FirstFailedElementNumber",
               "schema": "unsignedInteger"
             }

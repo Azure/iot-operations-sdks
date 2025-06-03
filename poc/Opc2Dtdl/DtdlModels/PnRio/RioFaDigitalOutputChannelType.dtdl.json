@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNRIO:RioFaDigitalOutputChannelType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,30 +16,37 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "SignalType",
           "schema": "dtmi:opcua:PNRIO:RioFaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "WireCheckEnabled",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SupplyVoltageCheckEnabled",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LoadVoltageCheckEnabled",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstitutePolicy",
           "schema": "dtmi:opcua:PNRIO:RioFaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstituteValue",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstituteTime",
           "schema": "float"
         }
@@ -49,6 +57,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quality",
           "schema": "unsignedByte"
         }

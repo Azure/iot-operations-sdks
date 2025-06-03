@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_AC:AutomationComponentType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "AggregatedDeviceHealth",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AggregatedOperationalHealth",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
         }
@@ -118,18 +121,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "AssetToVerify",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationMode",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationModeEnum;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExpectedVerificationResult",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExpectedVerificationVariables",
           "schema": {
             "@type": "Array",
@@ -137,6 +144,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExpectedAdditionalVerificationVariables",
           "schema": {
             "@type": "Array",
@@ -150,10 +158,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:NodeIdArray;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -164,10 +174,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -220,10 +232,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Node",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ArrayIndex",
           "schema": {
             "@type": "Array",
@@ -237,14 +251,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "FunctionalEntityNode",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConnectionEndpoint",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointDefinitionDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExpectedVerificationVariables",
           "schema": {
             "@type": "Array",
@@ -252,6 +269,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ControlGroups",
           "schema": {
             "@type": "Array",
@@ -259,6 +277,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConfigurationData",
           "schema": {
             "@type": "Array",
@@ -266,6 +285,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CommunicationLinks",
           "schema": "bytes"
         }
@@ -276,10 +296,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Parameter",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:ConnectionEndpointParameterDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Node",
           "schema": "string"
         }
@@ -290,14 +312,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConnectionEndpointTypeId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "InputVariableIds",
           "schema": {
             "@type": "Array",
@@ -305,6 +330,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "OutputVariableIds",
           "schema": {
             "@type": "Array",
@@ -312,18 +338,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsPersistent",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CleanupTimeout",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RelatedEndpoint",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:RelatedEndpointDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsPreconfigured",
           "schema": "boolean"
         }
@@ -334,10 +364,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Address",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConnectionEndpointPath",
           "schema": {
             "@type": "Array",
@@ -345,6 +377,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConnectionEndpointName",
           "schema": "string"
         }
@@ -355,10 +388,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NamespaceUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         }
@@ -369,14 +404,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationStatus",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationResult",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AssetVerificationResultEnum;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationVariablesErrors",
           "schema": {
             "@type": "Array",
@@ -384,6 +422,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationAdditionalVariablesErrors",
           "schema": {
             "@type": "Array",
@@ -397,26 +436,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConnectionEndpointId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "FunctionalEntityNodeResult",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConnectionEndpointResult",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationResult",
           "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FunctionalEntityVerificationResultEnum;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationStatus",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "VerificationVariablesErrors",
           "schema": {
             "@type": "Array",
@@ -424,6 +469,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EstablishControlResult",
           "schema": {
             "@type": "Array",
@@ -431,6 +477,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConfigurationDataResult",
           "schema": {
             "@type": "Array",
@@ -438,6 +485,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ReassignControlResult",
           "schema": {
             "@type": "Array",
@@ -445,10 +493,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CommunicationLinksResult",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EnableCommunicationResult",
           "schema": "integer"
         }
@@ -482,15 +532,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "AggregatedHealth",
             "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AggregatedHealthDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AggregatedDeviceHealth",
             "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AggregatedOperationalHealth",
             "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
           }
@@ -508,6 +560,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ConnectionEndpoints",
               "schema": {
                 "@type": "Array",
@@ -515,6 +568,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Remove",
               "schema": "boolean"
             }
@@ -528,6 +582,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Results",
               "schema": {
                 "@type": "Array",
@@ -548,10 +603,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CommandMask",
               "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:FxCommandMask;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "AssetVerifications",
               "schema": {
                 "@type": "Array",
@@ -559,6 +616,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ConnectionEndpointConfigurations",
               "schema": {
                 "@type": "Array",
@@ -566,6 +624,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReserveCommunicationIds",
               "schema": {
                 "@type": "Array",
@@ -573,6 +632,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CommunicationConfigurations",
               "schema": {
                 "@type": "Array",
@@ -589,6 +649,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "AssetVerificationResults",
               "schema": {
                 "@type": "Array",
@@ -596,6 +657,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ConnectionEndpointConfigurationResults",
               "schema": {
                 "@type": "Array",
@@ -603,6 +665,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReserveCommunicationIdsResults",
               "schema": {
                 "@type": "Array",
@@ -610,6 +673,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CommunicationConfigurationResults",
               "schema": {
                 "@type": "Array",

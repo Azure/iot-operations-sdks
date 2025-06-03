@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:IJT_Base:JoiningSystemEventType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,26 +15,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityOriginId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsExternal",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityType",
           "schema": "short"
         }
@@ -44,30 +51,37 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "PhysicalQuantity",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CurrentValue",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PreviousValue",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LowLimit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HighLimit",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         }

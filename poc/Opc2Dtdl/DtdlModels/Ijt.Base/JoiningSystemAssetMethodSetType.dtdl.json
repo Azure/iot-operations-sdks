@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:IJT_Base:JoiningSystemAssetMethodSetType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,26 +16,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityOriginId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsExternal",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityType",
           "schema": "short"
         }
@@ -45,18 +52,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "SignalId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SignalValue",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SignalDescription",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SignalType",
           "schema": "short"
         }
@@ -67,30 +78,37 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "LastCalibration",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CalibrationPlace",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "NextCalibration",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CalibrationValue",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SensorScale",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CertificateUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         }
@@ -108,10 +126,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Disconnect",
               "schema": "boolean"
             }
@@ -125,10 +145,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -146,10 +168,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Enable",
               "schema": "boolean"
             }
@@ -163,10 +187,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -184,18 +210,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OperationType",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OperationText",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "VendorName",
               "schema": "string"
             }
@@ -209,10 +239,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -230,10 +262,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ErrorId",
               "schema": "string"
             }
@@ -247,14 +281,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ErrorContent",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -272,6 +309,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             }
@@ -285,6 +323,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FeedbackFileList",
               "schema": {
                 "@type": "Array",
@@ -292,10 +331,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -313,10 +354,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IdentifierNames",
               "schema": {
                 "@type": "Array",
@@ -333,6 +376,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EntityList",
               "schema": {
                 "@type": "Array",
@@ -340,10 +384,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -361,10 +407,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SignalIdList",
               "schema": {
                 "@type": "Array",
@@ -381,6 +429,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SignalList",
               "schema": {
                 "@type": "Array",
@@ -388,10 +437,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -409,6 +460,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             }
@@ -422,10 +474,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -443,10 +497,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IdentifierList",
               "schema": {
                 "@type": "Array",
@@ -454,10 +510,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResetAll",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResetLatest",
               "schema": "boolean"
             }
@@ -471,10 +529,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -492,18 +552,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "FeedbackType",
               "schema": "short"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "FeedbackText",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "FeedbackFile",
               "schema": "string"
             }
@@ -517,10 +581,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -538,10 +604,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "EntityList",
               "schema": {
                 "@type": "Array",
@@ -558,10 +626,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -579,10 +649,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IdentifierList",
               "schema": {
                 "@type": "Array",
@@ -599,10 +671,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -620,10 +694,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CalibrationData",
               "schema": "dtmi:opcua:IJT_Base:JoiningSystemAssetMethodSetType:dataType:CalibrationDataType;1"
             }
@@ -637,10 +713,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -658,10 +736,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SignalList",
               "schema": {
                 "@type": "Array",
@@ -678,6 +758,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SignalStatusList",
               "schema": {
                 "@type": "Array",
@@ -685,10 +766,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -706,10 +789,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OfflineTimer",
               "schema": "duration"
             }
@@ -723,10 +808,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -744,10 +831,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InputTime",
               "schema": "time"
             }
@@ -761,10 +850,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }

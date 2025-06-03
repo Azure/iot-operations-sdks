@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FDI5:DirectDeviceAccessType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -22,6 +23,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Context",
               "schema": "string"
             }
@@ -35,6 +37,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InitDirectAccessError",
               "schema": "integer"
             }
@@ -52,10 +55,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SendData",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReceiveData",
               "schema": "string"
             }
@@ -69,6 +74,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "TransferError",
               "schema": "integer"
             }
@@ -86,6 +92,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InvalidateCache",
               "schema": "boolean"
             }
@@ -99,6 +106,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EndDirectAccessError",
               "schema": "integer"
             }

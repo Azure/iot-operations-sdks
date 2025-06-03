@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:AutoID:AutoIdDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,18 +17,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NMEA",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Local",
           "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocalCoordinate;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "WGS84",
           "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:WGS84Coordinate;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         }
@@ -84,18 +89,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Duration",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Cycles",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DataAvailable",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LocationType",
           "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocationTypeEnumeration;1"
         }
@@ -106,18 +115,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "CodeType",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ScanData",
           "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanData;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Timestamp",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Location",
           "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1"
         }
@@ -128,18 +141,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ByteString",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "String",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Epc",
           "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanDataEpc;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Custom",
           "schema": "string"
         }
@@ -150,18 +167,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "PC",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UId",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "XPC_W1",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "XPC_W2",
           "schema": "unsignedShort"
         }
@@ -267,26 +288,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "X",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Y",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Z",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Timestamp",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DilutionOfPrecision",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UsefulPrecision",
           "schema": "integer"
         }
@@ -297,38 +324,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "N_S_Hemisphere",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Latitude",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "E_W_Hemisphere",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Longitude",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Altitude",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Timestamp",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DilutionOfPrecision",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UsefulPrecisionLatLon",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UsefulPrecisionAlt",
           "schema": "integer"
         }
@@ -376,6 +412,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LocationType",
               "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:LocationTypeEnumeration;1"
             }
@@ -389,6 +426,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Location",
               "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1"
             }
@@ -406,6 +444,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Settings",
               "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanSettings;1"
             }
@@ -419,6 +458,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Results",
               "schema": {
                 "@type": "Array",
@@ -426,6 +466,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }
@@ -443,6 +484,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Settings",
               "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:ScanSettings;1"
             }
@@ -456,6 +498,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }

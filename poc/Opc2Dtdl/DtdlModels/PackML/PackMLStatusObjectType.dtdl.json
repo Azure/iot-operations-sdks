@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PackML:PackMLStatusObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,18 +15,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Unit",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "float"
         }
@@ -36,10 +41,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductID",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProcessVariables",
           "schema": {
             "@type": "Array",
@@ -47,6 +54,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Ingredients",
           "schema": {
             "@type": "Array",
@@ -60,10 +68,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "IngredientID",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Parameter",
           "schema": {
             "@type": "Array",
@@ -77,18 +87,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Number",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ControlCmdNumber",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CmdValue",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Parameter",
           "schema": {
             "@type": "Array",

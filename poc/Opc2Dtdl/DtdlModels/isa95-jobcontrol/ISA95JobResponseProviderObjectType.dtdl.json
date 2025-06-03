@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,26 +16,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobResponseID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobOrderID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StartTime",
           "schema": "dateTime"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EndTime",
           "schema": "dateTime"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobState",
           "schema": {
             "@type": "Array",
@@ -42,6 +49,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobResponseData",
           "schema": {
             "@type": "Array",
@@ -49,6 +57,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PersonnelActuals",
           "schema": {
             "@type": "Array",
@@ -56,6 +65,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EquipmentActuals",
           "schema": {
             "@type": "Array",
@@ -63,6 +73,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PhysicalAssetActuals",
           "schema": {
             "@type": "Array",
@@ -70,6 +81,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialActuals",
           "schema": {
             "@type": "Array",
@@ -83,14 +95,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "BrowsePath",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StateText",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StateNumber",
           "schema": "unsignedInteger"
         }
@@ -101,14 +116,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -116,10 +134,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Subparameters",
           "schema": {
             "@type": "Array",
@@ -133,10 +153,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -144,18 +166,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PersonnelUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -169,14 +195,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -184,10 +213,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Subproperties",
           "schema": {
             "@type": "Array",
@@ -201,10 +232,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -212,18 +245,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EquipmentUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -237,10 +274,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -248,18 +287,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PhysicalAssetUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -273,22 +316,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialClassID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialDefinitionID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialLotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialSublotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -296,18 +344,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -337,6 +389,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             }
@@ -350,10 +403,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobResponse",
               "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -371,6 +426,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderState",
               "schema": {
                 "@type": "Array",
@@ -387,6 +443,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobResponses",
               "schema": {
                 "@type": "Array",
@@ -394,6 +451,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }

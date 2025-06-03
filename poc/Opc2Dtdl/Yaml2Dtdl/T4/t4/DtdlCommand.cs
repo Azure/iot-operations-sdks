@@ -37,7 +37,8 @@ namespace Yaml2Dtdl
  } 
             this.Write("        \"schema\": {\r\n          \"@type\": \"Object\",\r\n          \"fields\": [\r\n");
  ix = 1; foreach (KeyValuePair<string, (string, int)> inputArg in this.InputArgs) { 
-            this.Write("            {\r\n              \"name\": \"");
+            this.Write("            {\r\n              \"@type\": [ \"Field\", \"Required\" ],\r\n              \"na" +
+                    "me\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(inputArg.Key));
             this.Write("\",\r\n              \"schema\": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, inputArg.Value.Item1, inputArg.Value.Item2, 14)));
@@ -57,7 +58,8 @@ namespace Yaml2Dtdl
  } 
             this.Write("        \"schema\": {\r\n          \"@type\": \"Object\",\r\n          \"fields\": [\r\n");
  ix = 1; foreach (KeyValuePair<string, (string, int)> outputArg in this.OutputArgs) { 
-            this.Write("            {\r\n              \"name\": \"");
+            this.Write("            {\r\n              \"@type\": [ \"Field\", \"Required\" ],\r\n              \"na" +
+                    "me\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(outputArg.Key));
             this.Write("\",\r\n              \"schema\": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, outputArg.Value.Item1, outputArg.Value.Item2, 14)));

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:GDS:DirectoryType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,18 +16,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationType",
           "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationNames",
           "schema": {
             "@type": "Array",
@@ -34,10 +39,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DiscoveryUrls",
           "schema": {
             "@type": "Array",
@@ -45,6 +52,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ServerCapabilities",
           "schema": {
             "@type": "Array",
@@ -58,30 +66,37 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationName",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationType",
           "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "GatewayServerUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DiscoveryProfileUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DiscoveryUrls",
           "schema": {
             "@type": "Array",
@@ -95,18 +110,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "RecordId",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ServerName",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DiscoveryUrl",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ServerCapabilities",
           "schema": {
             "@type": "Array",
@@ -150,6 +169,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationUri",
               "schema": "string"
             }
@@ -163,6 +183,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Applications",
               "schema": {
                 "@type": "Array",
@@ -183,6 +204,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Application",
               "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1"
             }
@@ -196,6 +218,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             }
@@ -213,6 +236,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Application",
               "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1"
             }
@@ -230,6 +254,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             }
@@ -247,6 +272,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationId",
               "schema": "string"
             }
@@ -260,6 +286,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Application",
               "schema": "dtmi:opcua:GDS:DirectoryType:dataType:ApplicationRecordDataType;1"
             }
@@ -277,30 +304,37 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "StartingRecordId",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxRecordsToReturn",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationType",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Capabilities",
               "schema": {
                 "@type": "Array",
@@ -317,14 +351,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LastCounterResetTime",
               "schema": "time"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NextRecordId",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Applications",
               "schema": {
                 "@type": "Array",
@@ -345,26 +382,32 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "StartingRecordId",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxRecordsToReturn",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplicationUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ServerCapabilities",
               "schema": {
                 "@type": "Array",
@@ -381,10 +424,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LastCounterResetTime",
               "schema": "time"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Servers",
               "schema": {
                 "@type": "Array",

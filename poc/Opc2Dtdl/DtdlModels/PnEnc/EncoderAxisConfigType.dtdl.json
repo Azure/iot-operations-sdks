@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNENC:EncoderAxisConfigType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -54,6 +57,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "AxisConfigParameters",
               "schema": {
                 "@type": "Array",
@@ -70,6 +74,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "AxisConfigParametersResult",
               "schema": {
                 "@type": "Array",

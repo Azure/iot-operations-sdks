@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:AutoID:RtlsDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,18 +17,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ByteString",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "String",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Epc",
           "schema": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:ScanDataEpc;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Custom",
           "schema": "string"
         }
@@ -61,18 +66,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Speed",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Heading",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Rotation",
           "schema": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:Rotation;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ReceiveTime",
           "schema": "time"
         }
@@ -83,14 +92,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Yaw",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Pitch",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Roll",
           "schema": "double"
         }
@@ -101,18 +113,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "PC",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UId",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "XPC_W1",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "XPC_W2",
           "schema": "unsignedShort"
         }
@@ -130,14 +146,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:ScanData;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "LocationType",
               "schema": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:LocationTypeEnumeration;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CodeType",
               "schema": "string"
             }
@@ -151,6 +170,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Result",
               "schema": "dtmi:opcua:AutoID:RtlsDeviceType:dataType:RtlsLocationResult;1"
             }
@@ -168,6 +188,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SupportedLocationTypes",
               "schema": {
                 "@type": "Array",

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Device",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Address",
           "schema": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType:dataType:BACnetAddress;1"
         }
@@ -29,10 +32,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NetworkNumber",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MacAddress",
           "schema": "bytes"
         }
@@ -50,6 +55,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RestartNotificationRecipients",
               "schema": {
                 "@type": "Array",
@@ -66,6 +72,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FirstFailedElementNumber",
               "schema": "unsignedInteger"
             }
@@ -83,6 +90,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RestartNotificationRecipients",
               "schema": {
                 "@type": "Array",
@@ -99,6 +107,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FirstFailedElementNumber",
               "schema": "unsignedInteger"
             }

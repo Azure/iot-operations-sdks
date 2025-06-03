@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision:ConfigurationFolderType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,18 +15,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "HasTransferableDataOnFile",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExternalId",
           "schema": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:BinaryIdBaseDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "InternalId",
           "schema": "dtmi:opcua:MachineVision:ConfigurationFolderType:dataType:BinaryIdBaseDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LastModified",
           "schema": "time"
         }
@@ -36,22 +41,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Version",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Hash",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HashAlgorithm",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }

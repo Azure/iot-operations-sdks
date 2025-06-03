@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_CM:ConnectionManagerType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -78,10 +79,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Action",
               "schema": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxEditEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ConnectionConfigurationSets",
               "schema": {
                 "@type": "Array",
@@ -98,6 +101,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Results",
               "schema": {
                 "@type": "Array",
@@ -118,10 +122,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Action",
               "schema": "dtmi:opcua:FX_CM:ConnectionManagerType:dataType:FxProcessEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ConnectionConfigurationSets",
               "schema": {
                 "@type": "Array",
@@ -138,6 +144,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Results",
               "schema": {
                 "@type": "Array",

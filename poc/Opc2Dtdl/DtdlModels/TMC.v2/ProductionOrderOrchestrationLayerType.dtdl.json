@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,42 +17,52 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Number",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProducedMaterial",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialDefinitionType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TargetQuantity",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ContinueAtJobEnd",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TargetStartTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TargetEndTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DataSetID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DataSetDescription",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialListID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialListDescription",
           "schema": "string"
         }
@@ -62,10 +73,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Success",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Message",
           "schema": {
             "@type": "Array",
@@ -79,10 +92,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LocalText",
           "schema": "string"
         }
@@ -93,14 +108,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Values",
           "schema": {
             "@type": "Array",
@@ -114,10 +132,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -128,14 +148,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Items",
           "schema": {
             "@type": "Array",
@@ -149,26 +172,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "AssemblyID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialPointID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialPointMES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialSublot",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialSublotType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialStockStatus",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialStockStatusEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "FollowUpMaterials",
           "schema": {
             "@type": "Array",
@@ -201,38 +230,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialLot",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialLotType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialStorageLocationID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CarrierID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RelativePositionID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentSublotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Sublots",
           "schema": {
             "@type": "Array",
@@ -246,34 +284,42 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialDefinition",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialDefinitionType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialStockStatusEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductionDate",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BestUsedBeforeDate",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -287,14 +333,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -305,14 +354,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Header",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialList",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialListType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DataSet",
           "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:DataSetType;1"
         }
@@ -323,6 +375,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ActiveMachineModules",
           "schema": {
             "@type": "Array",
@@ -336,38 +389,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BaseUnitOfMeasure",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BatchManaged",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "GroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentGroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ShelfLife",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -388,6 +450,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POToAbort",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             }
@@ -401,6 +464,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -418,10 +482,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POToAssign",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MachineModuleUserName",
               "schema": {
                 "@type": "Array",
@@ -438,6 +504,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -455,10 +522,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POToComplete",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MachineModuleUserName",
               "schema": "string"
             }
@@ -472,6 +541,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -489,10 +559,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POHeader",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MachineModuleUserName",
               "schema": "string"
             }
@@ -506,10 +578,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DataSet",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:DataSetType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -527,10 +601,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POHeader",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MachineModuleUserName",
               "schema": "string"
             }
@@ -544,10 +620,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaterialList",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MaterialListType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -565,10 +643,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POHeader",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MachineModuleUserName",
               "schema": "string"
             }
@@ -582,10 +662,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductionOrder",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -603,10 +685,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POToRelease",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:OrchestrationProductionOrderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MachineModuleUserName",
               "schema": "string"
             }
@@ -620,6 +704,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -637,14 +722,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POToStart",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MachineModuleUserName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SourceMaterialLoadingPointIDs",
               "schema": {
                 "@type": "Array",
@@ -652,6 +740,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "DestinationMaterialOutputPointIDs",
               "schema": {
                 "@type": "Array",
@@ -668,6 +757,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -685,6 +775,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POToUnassign",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             }
@@ -698,6 +789,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -715,6 +807,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "POToUnrelease",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:ProductionOrderHeaderType;1"
             }
@@ -728,6 +821,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:ProductionOrderOrchestrationLayerType:dataType:MethodExecutionFeedbackType;1"
             }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision:RecipeManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -48,22 +51,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Version",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Hash",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HashAlgorithm",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -81,10 +89,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
             }
@@ -98,22 +108,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Recipe",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Product",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "TransferRequired",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -131,26 +146,32 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IsPrepared",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:TriStateBooleanDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxResults",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StartIndex",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Timeout",
               "schema": "integer"
             }
@@ -164,18 +185,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "IsComplete",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultCount",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeList",
               "schema": {
                 "@type": "Array",
@@ -183,6 +208,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -200,6 +226,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
             }
@@ -213,10 +240,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -234,10 +263,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalIdIn",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             }
@@ -251,14 +282,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalIdOut",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IsCompleted",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -276,6 +310,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeHandle",
               "schema": "unsignedInteger"
             }
@@ -289,6 +324,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -306,6 +342,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             }
@@ -319,6 +356,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -336,10 +374,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
             }
@@ -353,6 +393,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -370,6 +411,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:ProductIdDataType;1"
             }
@@ -383,10 +425,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -404,10 +448,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExternalId",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalIdIn",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             }
@@ -421,10 +467,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "InternalIdOut",
               "schema": "dtmi:opcua:MachineVision:RecipeManagementType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }

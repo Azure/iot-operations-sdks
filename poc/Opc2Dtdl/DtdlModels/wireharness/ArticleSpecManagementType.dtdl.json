@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:WireHarness:ArticleSpecManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,22 +16,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialClassID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialDefinitionID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialLotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialSublotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -38,18 +44,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -63,14 +73,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -78,10 +91,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Subproperties",
           "schema": {
             "@type": "Array",
@@ -111,6 +126,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ArticleSpec",
               "schema": "dtmi:opcua:WireHarness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
             }
@@ -128,6 +144,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ArticleSpec",
               "schema": "dtmi:opcua:WireHarness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
             }

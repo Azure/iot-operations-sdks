@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FDI5:EditContextType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -34,10 +35,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Path",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SelectionFlags",
           "schema": "unsignedInteger"
         }
@@ -48,10 +51,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RegisteredNodes",
           "schema": {
             "@type": "Array",
@@ -65,22 +70,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NodeStatus",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "OnlineContextNodeId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "OnlineDeviceNodeId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "OfflineContextNodeId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "OfflineDeviceNodeId",
           "schema": "string"
         }
@@ -91,10 +101,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TransferIncidents",
           "schema": {
             "@type": "Array",
@@ -108,14 +120,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ContextNodeId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StatusCode",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Diagnostics",
           "schema": "bytes"
         }
@@ -133,10 +148,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ParentId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "TargetWindowMode",
               "schema": "dtmi:opcua:FDI5:EditContextType:dataType:WindowModeType;1"
             }
@@ -150,10 +167,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EditContextId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "GetEditContextStatus",
               "schema": "integer"
             }
@@ -171,10 +190,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EditContextId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NodesToRegister",
               "schema": {
                 "@type": "Array",
@@ -191,6 +212,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RegisterNodesStatus",
               "schema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1"
             }
@@ -208,10 +230,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EditContextId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NodesToRegister",
               "schema": {
                 "@type": "Array",
@@ -228,6 +252,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RegisterNodesStatus",
               "schema": "dtmi:opcua:FDI5:EditContextType:dataType:RegisterNodesResult;1"
             }
@@ -245,6 +270,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EditContextId",
               "schema": "string"
             }
@@ -258,6 +284,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplyStatus",
               "schema": "dtmi:opcua:FDI5:EditContextType:dataType:ApplyResult;1"
             }
@@ -275,6 +302,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EditContextId",
               "schema": "string"
             }
@@ -288,6 +316,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResetStatus",
               "schema": "integer"
             }
@@ -305,6 +334,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EditContextId",
               "schema": "string"
             }
@@ -318,6 +348,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DiscardStatus",
               "schema": "integer"
             }

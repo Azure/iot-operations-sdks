@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:ECM:IEnergyProfileE3Type;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,14 +15,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "L1",
           "schema": "float"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "L2",
           "schema": "float"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "L3",
           "schema": "float"
         }
@@ -32,14 +36,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "L1L2",
           "schema": "float"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "L2L3",
           "schema": "float"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "L3L1",
           "schema": "float"
         }
@@ -54,15 +61,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "AcActivePowerPe",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }
@@ -77,15 +86,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "AcCurrentPe",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }
@@ -100,15 +111,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "AcPowerFactorPe",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }
@@ -123,15 +136,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "AcReactivePowerPe",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }
@@ -146,15 +161,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "AcVoltagePe",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }
@@ -169,15 +186,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "AcVoltagePp",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }

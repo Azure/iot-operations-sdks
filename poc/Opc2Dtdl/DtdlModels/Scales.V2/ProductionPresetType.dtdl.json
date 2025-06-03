@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scales_V2:ProductionPresetType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -31,14 +32,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductType",
               "schema": "string"
             }
@@ -52,6 +56,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductNodeId",
               "schema": "string"
             }
@@ -69,6 +74,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "string"
             }
@@ -86,6 +92,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "string"
             }
@@ -103,6 +110,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "string"
             }
@@ -120,6 +128,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "string"
             }

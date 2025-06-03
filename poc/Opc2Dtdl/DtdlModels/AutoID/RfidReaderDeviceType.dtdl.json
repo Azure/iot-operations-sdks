@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:AutoID:RfidReaderDeviceType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,18 +17,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ByteString",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "String",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Epc",
           "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanDataEpc;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Custom",
           "schema": "string"
         }
@@ -206,18 +211,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "PC",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UId",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "XPC_W1",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "XPC_W2",
           "schema": "unsignedShort"
         }
@@ -247,14 +256,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CodeType",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "KillPassword",
               "schema": "bytes"
             }
@@ -268,6 +280,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }
@@ -285,30 +298,37 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CodeType",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Password",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Region",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidLockRegionEnumeration;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Lock",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidLockOperationEnumeration;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Offset",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Length",
               "schema": "unsignedInteger"
             }
@@ -322,6 +342,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }
@@ -339,26 +360,32 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CodeType",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Region",
               "schema": "unsignedShort"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Offset",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Length",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Password",
               "schema": "bytes"
             }
@@ -372,10 +399,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResultData",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }
@@ -393,22 +422,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CodeType",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PasswordType",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:RfidPasswordTypeEnumeration;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "AccessPassword",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NewPassword",
               "schema": "bytes"
             }
@@ -422,6 +456,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }
@@ -439,26 +474,32 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CodeType",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Region",
               "schema": "unsignedShort"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Offset",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Data",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Password",
               "schema": "bytes"
             }
@@ -472,6 +513,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }
@@ -489,26 +531,32 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Identifier",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:ScanData;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CodeType",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NewUId",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "AFI",
               "schema": "unsignedByte"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Toggle",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Password",
               "schema": "bytes"
             }
@@ -522,6 +570,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "dtmi:opcua:AutoID:RfidReaderDeviceType:dataType:AutoIdOperationStatusEnumeration;1"
             }

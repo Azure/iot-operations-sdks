@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNRIO:RioPaDigitalChannelGroupType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -32,10 +33,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SimulationEnabled",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Index",
               "schema": "short"
             }
@@ -53,14 +56,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Value",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Qualifier",
               "schema": "unsignedByte"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Index",
               "schema": "short"
             }

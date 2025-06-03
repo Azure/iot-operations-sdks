@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:IJT_Base:JoiningProcessManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,14 +16,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "JoiningProcessId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JoiningProcessOriginId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SelectionName",
           "schema": "string"
         }
@@ -33,10 +37,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "JoiningProcessMetaData",
           "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessMetaDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JoiningProcessContent",
           "schema": {
             "@type": "Array",
@@ -50,38 +56,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "JoiningProcessId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JoiningProcessOriginId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CreationTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LastUpdatedTime",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JoiningTechnology",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Classification",
           "schema": "short"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AssociatedEntities",
           "schema": {
             "@type": "Array",
@@ -95,26 +110,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityOriginId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IsExternal",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EntityType",
           "schema": "short"
         }
@@ -132,14 +153,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "AbortMessage",
               "schema": "string"
             }
@@ -153,10 +177,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -174,14 +200,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "DecrementCount",
               "schema": "unsignedInteger"
             }
@@ -195,10 +224,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -216,10 +247,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
@@ -233,10 +266,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -254,6 +289,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             }
@@ -267,10 +303,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -288,10 +326,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessId",
               "schema": "string"
             }
@@ -305,18 +345,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcess",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SelectionName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -334,6 +378,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             }
@@ -347,6 +392,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessList",
               "schema": {
                 "@type": "Array",
@@ -354,10 +400,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -375,10 +423,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessOriginId",
               "schema": "string"
             }
@@ -392,6 +442,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessList",
               "schema": {
                 "@type": "Array",
@@ -399,10 +450,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -420,14 +473,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "IncrementCount",
               "schema": "unsignedInteger"
             }
@@ -441,10 +497,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -462,10 +520,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
@@ -479,10 +539,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -500,10 +562,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
@@ -517,10 +581,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -538,14 +604,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcess",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SelectionName",
               "schema": "string"
             }
@@ -559,10 +628,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -580,14 +651,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CounterValue",
               "schema": "unsignedInteger"
             }
@@ -601,10 +675,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -622,10 +698,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             }
@@ -639,10 +717,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -660,14 +740,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxCounterSize",
               "schema": "unsignedInteger"
             }
@@ -681,10 +764,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -702,14 +787,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "JoiningProcessIdentification",
               "schema": "dtmi:opcua:IJT_Base:JoiningProcessManagementType:dataType:JoiningProcessIdentificationDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "AssociatedEntities",
               "schema": {
                 "@type": "Array",
@@ -726,10 +814,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }
@@ -747,10 +837,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductInstanceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "DeselectAfterJoining",
               "schema": "boolean"
             }
@@ -764,10 +856,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Status",
               "schema": "long"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "StatusMessage",
               "schema": "string"
             }

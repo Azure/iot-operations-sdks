@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -29,10 +32,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -43,22 +48,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Version",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Hash",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HashAlgorithm",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -69,10 +79,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -83,6 +95,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         }
@@ -100,10 +113,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Cause",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CauseDescription",
               "schema": "string"
             }
@@ -117,6 +132,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -134,14 +150,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Activate",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Cause",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CauseDescription",
               "schema": "string"
             }
@@ -155,6 +174,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -172,22 +192,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "MeasId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PartId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Parameters",
               "schema": {
                 "@type": "Array",
@@ -204,10 +229,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -225,22 +252,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "MeasId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:MeasIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PartId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:PartIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:BinaryIdBaseDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:ProductIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Parameters",
               "schema": {
                 "@type": "Array",
@@ -257,10 +289,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobId",
               "schema": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType:dataType:JobIdDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -278,10 +312,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Cause",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CauseDescription",
               "schema": "string"
             }
@@ -295,6 +331,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }

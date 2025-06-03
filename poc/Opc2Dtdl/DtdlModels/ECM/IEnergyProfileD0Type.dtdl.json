@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:ECM:IEnergyProfileD0Type;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -18,15 +19,17 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "DcCurrent",
             "schema": "float"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "AccuracyClass",
             "schema": "unsignedInteger"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Resource",
             "schema": "unsignedInteger"
           }

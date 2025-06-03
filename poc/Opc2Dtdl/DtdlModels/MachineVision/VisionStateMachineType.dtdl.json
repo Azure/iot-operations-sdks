@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision:VisionStateMachineType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -22,6 +23,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": "string"
             }
@@ -39,10 +41,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Cause",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CauseDescription",
               "schema": "string"
             }
@@ -56,6 +60,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -73,10 +78,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Cause",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CauseDescription",
               "schema": "string"
             }
@@ -90,6 +97,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }
@@ -107,6 +115,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Error",
               "schema": "integer"
             }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:MaterialOutputPointType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,38 +16,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialLot",
           "schema": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialLotType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialStorageLocationID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CarrierID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RelativePositionID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentSublotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Sublots",
           "schema": {
             "@type": "Array",
@@ -60,34 +70,42 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialDefinition",
           "schema": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialDefinitionType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status",
           "schema": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialStockStatusEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductionDate",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BestUsedBeforeDate",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -101,38 +119,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BaseUnitOfMeasure",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BatchManaged",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "GroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentGroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ShelfLife",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -165,14 +192,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -187,11 +217,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "ActualProductionRate",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -206,11 +237,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "NominalProductionRate",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -231,11 +263,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "ProducedMaterialMasterTotal",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -250,11 +283,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "ProducedMaterialTotal",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }

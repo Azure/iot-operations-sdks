@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:MaterialLoadingPointType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,38 +17,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialLot",
           "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialLotType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialStorageLocationID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CarrierID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RelativePositionID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentSublotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Sublots",
           "schema": {
             "@type": "Array",
@@ -84,10 +94,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Success",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Message",
           "schema": {
             "@type": "Array",
@@ -101,10 +113,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LocalText",
           "schema": "string"
         }
@@ -115,34 +129,42 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialDefinition",
           "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialDefinitionType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status",
           "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialStockStatusEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductionDate",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BestUsedBeforeDate",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -156,38 +178,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BaseUnitOfMeasure",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BatchManaged",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "GroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentGroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ShelfLife",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -220,14 +251,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -242,11 +276,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "ActualDispensingRate",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -261,11 +296,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "ConsumedMaterialMasterTotal",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -280,11 +316,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "ConsumedMaterialTotal",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -299,11 +336,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "DispensedMaterialMasterTotal",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -318,11 +356,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "DispensedMaterialTotal",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -352,11 +391,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "NominalDispensingRate",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ValueInBUoM",
             "schema": "double"
           }
@@ -386,6 +426,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ValidationResult",
               "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialValidationStatusEnumeration;1"
             }
@@ -399,6 +440,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MethodExecutionFeedbackType;1"
             }

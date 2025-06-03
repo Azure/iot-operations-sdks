@@ -8,20 +8,27 @@
 <# } #>
       "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))#>",
 <# if (this.SubVariables.Count == 0) { #>
-      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Item1, this.Variable.Item2, definedType.BrowseName, 6)#>,
+      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 6)#>,
 <# } else { #>
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
+<# if (this.Variable.IsOptional) { #>
             "@type": [ "Field", "Subject" ],
+<# } else { #>
+            "@type": [ "Field", "Subject", "Required" ],
+<# } #>
             "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))#>",
-            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Item1, this.Variable.Item2, definedType.BrowseName, 12)#>
+            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 12)#>
           },
-<# int ix = 1; foreach (KeyValuePair<string, (string, int)> subVar in this.SubVariables) { #>
+<# int ix = 1; foreach (KeyValuePair<string, VariableInfo> subVar in this.SubVariables) { #>
           {
+<# if (!subVar.Value.IsOptional) { #>
+            "@type": [ "Field", "Required" ],
+<# } #>
             "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(subVar.Key))#>",
-            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Value.Item1, subVar.Value.Item2, 12)#>
+            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Value.Datatype, subVar.Value.ValueRank, 12)#>
           }<#=ix < this.SubVariables.Count ? "," : ""#>
 <# ix++; } #>
         ]

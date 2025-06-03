@@ -27,7 +27,7 @@ namespace Yaml2Dtdl
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.GetDataTypeDtmiFromBrowseName(this.modelId, this.objType.BrowseName)));
             this.Write("\",\r\n      \"@type\": \"Object\",\r\n      \"fields\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, (string, int)> field in this.objType.Fields) { 
-            this.Write("        {\r\n          \"name\": \"");
+            this.Write("        {\r\n          \"@type\": [ \"Field\", \"Required\" ],\r\n          \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(field.Key)));
             this.Write("\",\r\n          \"schema\": ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, field.Value.Item1, field.Value.Item2, 10)));

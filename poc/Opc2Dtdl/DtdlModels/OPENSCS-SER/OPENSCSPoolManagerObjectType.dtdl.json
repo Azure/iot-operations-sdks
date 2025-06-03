@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -84,22 +87,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "State",
           "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AssociatedPoolID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SerialNumbers",
           "schema": {
             "@type": "Array",
@@ -175,18 +183,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollectionID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Count",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -194,6 +206,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RequestToken",
               "schema": "string"
             }
@@ -207,14 +220,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnedRequestToken",
               "schema": "string"
             }
@@ -232,18 +248,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollectionID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Count",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -251,6 +271,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RequestToken",
               "schema": "string"
             }
@@ -264,14 +285,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnedRequestToken",
               "schema": "string"
             }
@@ -289,18 +313,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollectionID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Count",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -308,6 +336,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RequestToken",
               "schema": "string"
             }
@@ -321,14 +350,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnedRequestToken",
               "schema": "string"
             }
@@ -346,10 +378,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -357,6 +391,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             }
@@ -370,6 +405,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -387,10 +423,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -398,6 +436,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             }
@@ -411,6 +450,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -428,10 +468,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -439,6 +481,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             }
@@ -452,6 +495,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -469,10 +513,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -480,6 +526,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             }
@@ -493,6 +540,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -510,10 +558,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PoolSelectionCriteria",
               "schema": {
                 "@type": "Array",
@@ -521,6 +571,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             }
@@ -534,6 +585,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSPoolManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }

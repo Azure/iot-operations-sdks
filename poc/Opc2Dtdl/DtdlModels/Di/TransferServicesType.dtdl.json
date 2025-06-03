@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:DI:TransferServicesType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -22,10 +23,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "TransferID",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InitTransferStatus",
               "schema": "integer"
             }
@@ -43,10 +46,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "TransferID",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "InitTransferStatus",
               "schema": "integer"
             }
@@ -64,18 +69,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "TransferID",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SequenceNumber",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxParameterResultsToReturn",
               "schema": "integer"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OmitGoodResults",
               "schema": "boolean"
             }
@@ -89,6 +98,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FetchResultData",
               "schema": "bytes"
             }

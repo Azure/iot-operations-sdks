@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobsType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,22 +16,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "NominalParts",
           "schema": "unsignedLong"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "NominalBoxParts",
           "schema": "unsignedLong"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExpectedCycleTime",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MouldId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "NumCavities",
           "schema": "unsignedInteger"
         }
@@ -41,30 +47,37 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobName",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobDescription",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobClassification",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "CustomerName",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductionDatasetName",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductionDatasetDescription",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Material",
           "schema": {
             "@type": "Array",
@@ -72,6 +85,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductName",
           "schema": {
             "@type": "Array",
@@ -79,6 +93,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ProductDescription",
           "schema": {
             "@type": "Array",
@@ -86,18 +101,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobPriority",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PlannedStart",
           "schema": "dateTime"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PlannedProductionTime",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LatestEnd",
           "schema": "dateTime"
         }
@@ -115,6 +134,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobList",
               "schema": {
                 "@type": "Array",
@@ -135,6 +155,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobList",
               "schema": {
                 "@type": "Array",

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Success",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Message",
           "schema": {
             "@type": "Array",
@@ -32,14 +35,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialCapability",
           "schema": {
             "@type": "Array",
@@ -47,10 +53,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ConnectedMaterialPoint",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PropagatesProductionOrder",
           "schema": "boolean"
         }
@@ -61,38 +69,47 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BaseUnitOfMeasure",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "BatchManaged",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "GroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentGroupID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ShelfLife",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -106,14 +123,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MES_ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -124,26 +144,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StoredMaterial",
           "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MaterialDefinitionType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TotalStorageCapacity",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StorageLogic",
           "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageLogicEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MixingLogic",
           "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:StorageMixingLogicEnumeration;1"
         }
@@ -196,10 +222,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LocalText",
           "schema": "string"
         }
@@ -217,6 +245,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SpecificationRecord",
               "schema": "string"
             }
@@ -230,6 +259,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -247,10 +277,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DocumentToBeLoaded",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "DocumentName",
               "schema": "string"
             }
@@ -264,6 +296,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -281,6 +314,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DocumentName",
               "schema": "string"
             }
@@ -294,6 +328,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -311,6 +346,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "NewMaterialLoadingPoints",
               "schema": {
                 "@type": "Array",
@@ -318,6 +354,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NewMaterialStorageBuffers",
               "schema": {
                 "@type": "Array",
@@ -325,6 +362,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NewMaterialOutputPoints",
               "schema": {
                 "@type": "Array",
@@ -332,6 +370,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "NewMaterialRejectionPoints",
               "schema": {
                 "@type": "Array",
@@ -348,6 +387,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType:dataType:MethodExecutionFeedbackType;1"
             }

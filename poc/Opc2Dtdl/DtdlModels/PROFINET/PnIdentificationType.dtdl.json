@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PROFINET:PnIdentificationType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -41,6 +42,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Date",
               "schema": "dateTime"
             }
@@ -58,6 +60,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Descriptor",
               "schema": "string"
             }
@@ -75,14 +78,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Tag_Selector",
               "schema": "dtmi:opcua:PROFINET:PnIdentificationType:dataType:IMTagSelectorEnumeration;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Tag_Function",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Tag_Location",
               "schema": "string"
             }

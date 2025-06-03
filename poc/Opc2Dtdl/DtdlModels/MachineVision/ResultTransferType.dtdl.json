@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MachineVision:ResultTransferType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,6 +16,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultIdDataType;1"
         }
@@ -25,6 +27,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         }
@@ -42,6 +45,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "GenerateOptions",
               "schema": "dtmi:opcua:MachineVision:ResultTransferType:dataType:ResultTransferOptions;1"
             }
@@ -55,14 +59,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FileNodeId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "FileHandle",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CompletionStateMachine",
               "schema": "string"
             }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TTD:RecipeManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,14 +16,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "RecipeId",
           "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeIdDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RecipeContent",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ContentEncoding",
           "schema": "string"
         }
@@ -33,34 +37,42 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Type",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Comment",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ModifiedDate",
           "schema": "time"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Version",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Validated",
           "schema": "boolean"
         }
@@ -78,6 +90,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeId",
               "schema": "string"
             }
@@ -95,6 +108,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeId",
               "schema": "string"
             }
@@ -108,6 +122,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Recipe",
               "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
             }
@@ -125,6 +140,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeIds",
               "schema": {
                 "@type": "Array",
@@ -145,6 +161,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Recipes",
               "schema": {
                 "@type": "Array",
@@ -165,10 +182,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Recipe",
               "schema": "dtmi:opcua:TTD:RecipeManagementType:dataType:RecipeDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Overwrite",
               "schema": "boolean"
             }
@@ -186,6 +205,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Recipes",
               "schema": {
                 "@type": "Array",
@@ -193,6 +213,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Overwrite",
               "schema": "boolean"
             }

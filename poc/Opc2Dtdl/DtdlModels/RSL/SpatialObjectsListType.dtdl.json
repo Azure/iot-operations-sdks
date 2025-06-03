@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:RSL:SpatialObjectsListType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -18,11 +19,12 @@
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Subject", "Required" ],
             "name": "WorldFrame",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Base",
             "schema": "string"
           }

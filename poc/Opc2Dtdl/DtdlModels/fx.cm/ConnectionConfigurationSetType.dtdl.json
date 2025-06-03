@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,10 +15,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ApplicationUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PushTargetFolder",
           "schema": {
             "@type": "Array",
@@ -25,26 +28,32 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EndpointUrl",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityPolicyUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UserTokenType",
           "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenPolicy;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RequestedKeyCount",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RetryInterval",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PushTargetProperties",
           "schema": {
             "@type": "Array",
@@ -52,6 +61,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityGroups",
           "schema": {
             "@type": "Array",
@@ -65,10 +75,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Name",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityGroupFolder",
           "schema": {
             "@type": "Array",
@@ -76,26 +88,32 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "KeyLifetime",
           "schema": "duration"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityPolicyUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaxFutureKeyCount",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaxPastKeyCount",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityGroupId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "RolePermissions",
           "schema": {
             "@type": "Array",
@@ -103,6 +121,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "GroupProperties",
           "schema": {
             "@type": "Array",
@@ -116,10 +135,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "RoleId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Permissions",
           "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PermissionType;1"
         }
@@ -205,18 +226,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Address",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityPolicyUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ServerUri",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UsePushModel",
           "schema": "boolean"
         }
@@ -227,22 +252,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "PolicyId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TokenType",
           "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:UserTokenType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IssuedTokenType",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IssuerEndpointUrl",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityPolicyUri",
           "schema": "string"
         }
@@ -276,10 +306,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -317,18 +349,22 @@
             "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Address",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "SecurityPolicyUri",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "ServerUri",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "UsePushModel",
             "schema": "boolean"
           }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Glass_Flat:SpacerType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -24,6 +25,7 @@
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "FillLevel",
             "schema": "double"
           }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Robotics:LoadType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -14,10 +15,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "CartesianCoordinates",
           "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Orientation",
           "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1"
         }
@@ -28,14 +31,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "X",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Y",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Z",
           "schema": "double"
         }
@@ -46,14 +52,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "A",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "B",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "C",
           "schema": "double"
         }
@@ -64,14 +73,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "X",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Y",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Z",
           "schema": "double"
         }
@@ -97,10 +109,12 @@
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DFrame;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "CartesianCoordinates",
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Orientation",
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1"
           }
@@ -120,14 +134,17 @@
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DVector;1"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "X",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Y",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Required" ],
             "name": "Z",
             "schema": "double"
           }

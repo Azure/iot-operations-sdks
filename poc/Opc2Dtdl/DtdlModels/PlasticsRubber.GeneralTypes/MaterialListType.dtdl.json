@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialListType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -22,14 +23,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Name",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Density",
               "schema": "double"
             }
@@ -47,6 +51,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetCalendarType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,14 +17,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Date",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDate;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DateRange",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDateRange;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "WeekNDay",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetWeekNDay;1"
         }
@@ -34,18 +38,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Year",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Month",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetMonth;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DayOfMonth",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDayOfMonth;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DayOfWeek",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDayOfWeek;1"
         }
@@ -56,10 +64,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "StartDate",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDate;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EndTime",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDate;1"
         }
@@ -70,14 +80,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Month",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetMonth;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Day",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDay;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DayOfWeek",
           "schema": "dtmi:opcua:BACnet_V2:BACnetCalendarType:dataType:BACnetDayOfWeek;1"
         }
@@ -389,6 +402,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CalendarEntries",
               "schema": {
                 "@type": "Array",
@@ -405,6 +419,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FirstFailedElementNumber",
               "schema": "unsignedInteger"
             }
@@ -422,6 +437,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CalendarEntries",
               "schema": {
                 "@type": "Array",
@@ -438,6 +454,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FirstFailedElementNumber",
               "schema": "unsignedInteger"
             }

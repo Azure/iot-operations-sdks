@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:GDS:AuthorizationServiceType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,22 +16,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "PolicyId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "TokenType",
           "schema": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserTokenType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IssuedTokenType",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "IssuerEndpointUrl",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SecurityPolicyUri",
           "schema": "string"
         }
@@ -41,6 +47,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "PolicyId",
           "schema": "string"
         }
@@ -81,14 +88,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ServiceUri",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ServiceCertificate",
               "schema": "bytes"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "UserTokenPolicies",
               "schema": {
                 "@type": "Array",
@@ -109,10 +119,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "IdentityToken",
               "schema": "dtmi:opcua:GDS:AuthorizationServiceType:dataType:UserIdentityToken;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ResourceId",
               "schema": "string"
             }
@@ -126,6 +138,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "AccessToken",
               "schema": "string"
             }

@@ -89,10 +89,10 @@ namespace Yaml2Dtdl
         {
             foreach (DtdlProperty dtdlProperty in this.dtdlProperties)
             {
-                AddIfNotBuiltIn(pendingTypeStrings, dtdlProperty.Variable.Item1);
-                foreach (KeyValuePair<string, (string?, int)> inputArg in dtdlProperty.SubVariables)
+                AddIfNotBuiltIn(pendingTypeStrings, dtdlProperty.Variable.Datatype);
+                foreach (KeyValuePair<string, DtdlProperty.VariableInfo> inputArg in dtdlProperty.SubVariables)
                 {
-                    AddIfNotBuiltIn(pendingTypeStrings, inputArg.Value.Item1);
+                    AddIfNotBuiltIn(pendingTypeStrings, inputArg.Value.Datatype);
                 }
             }
         }

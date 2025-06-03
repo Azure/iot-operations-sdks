@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,6 +16,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "LabelCollection",
           "schema": {
             "@type": "Array",
@@ -22,6 +24,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LabelCollectionProperties",
           "schema": {
             "@type": "Array",
@@ -35,10 +38,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -104,22 +109,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "State",
           "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSSerialNumberStateEnum;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AssociatedPoolID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SerialNumbers",
           "schema": {
             "@type": "Array",
@@ -188,10 +198,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LabelProperties",
           "schema": {
             "@type": "Array",
@@ -212,14 +224,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -236,6 +251,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -253,14 +269,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -277,6 +296,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -294,14 +314,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -318,6 +341,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -335,14 +359,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -359,6 +386,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -376,14 +404,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -400,6 +431,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -417,14 +449,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -441,6 +476,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -458,14 +494,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -482,6 +521,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -499,14 +539,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -523,6 +566,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -540,14 +584,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "LabelCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -564,6 +611,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -581,14 +629,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNCollection",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSCollectionDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OPENSCSEventContext",
               "schema": {
                 "@type": "Array",
@@ -605,6 +656,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSEventManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }

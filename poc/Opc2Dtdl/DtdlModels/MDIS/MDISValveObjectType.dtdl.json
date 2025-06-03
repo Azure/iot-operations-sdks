@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MDIS:MDISValveObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -151,22 +152,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Direction",
               "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:CommandEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OverrideInterlock",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SEM",
               "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SEMEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Signature",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ShutdownRequest",
               "schema": "boolean"
             }

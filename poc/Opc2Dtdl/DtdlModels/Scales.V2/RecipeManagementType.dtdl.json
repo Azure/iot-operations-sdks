@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scales_V2:RecipeManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -22,10 +23,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeId",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeName",
               "schema": "string"
             }
@@ -39,6 +42,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeNodeId",
               "schema": "string"
             }
@@ -56,6 +60,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RecipeId",
               "schema": "string"
             }

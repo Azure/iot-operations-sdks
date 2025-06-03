@@ -25,7 +25,7 @@ namespace Yaml2Dtdl
  int ix; 
             this.Write("{\r\n  \"@context\": [\r\n    \"dtmi:dtdl:context;4#limitless\",\r\n    \"dtmi:dtdl:limits:o" +
                     "nvif;1\",\r\n    \"dtmi:dtdl:extension:mqtt;4\",\r\n    \"dtmi:dtdl:extension:historizat" +
-                    "ion;2\"\r\n  ],\r\n  \"@id\": \"");
+                    "ion;2\",\r\n    \"dtmi:dtdl:extension:requirement;1\"\r\n  ],\r\n  \"@id\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.modelId));
             this.Write(";1\",\r\n  \"@type\": [ \"Interface\", \"Mqtt\" ],\r\n");
  foreach (string supertypeId in this.supertypeIds) { 

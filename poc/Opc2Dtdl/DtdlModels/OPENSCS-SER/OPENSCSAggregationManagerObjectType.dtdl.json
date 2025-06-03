@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentElement",
           "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentElementCollection",
           "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSLabelCollectionDataType;1"
         }
@@ -29,10 +32,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Key",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -98,10 +103,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LabelProperties",
           "schema": {
             "@type": "Array",
@@ -115,6 +122,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "LabelCollection",
           "schema": {
             "@type": "Array",
@@ -122,6 +130,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LabelCollectionProperties",
           "schema": {
             "@type": "Array",
@@ -142,6 +151,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "AggregationElement",
               "schema": {
                 "@type": "Array",
@@ -149,14 +159,17 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ParentSNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PackedElementSNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "AggregationContext",
               "schema": {
                 "@type": "Array",
@@ -173,6 +186,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }
@@ -190,6 +204,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "AggregationElement",
               "schema": {
                 "@type": "Array",
@@ -197,14 +212,17 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ParentSNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PackedElementSNFormat",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "AggregationContext",
               "schema": {
                 "@type": "Array",
@@ -221,6 +239,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "dtmi:opcua:OPENSCS_SER:OPENSCSAggregationManagerObjectType:dataType:OPENSCSReturnEnum;1"
             }

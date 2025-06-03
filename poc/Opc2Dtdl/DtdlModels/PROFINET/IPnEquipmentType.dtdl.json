@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PROFINET:IPnEquipmentType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,70 +16,87 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "API",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Slot",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Subslot",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ChannelNumber",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Type",
           "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelTypeEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Accumulative",
           "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelAccumulativeEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Maintenance",
           "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelMaintenanceEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Specifier",
           "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelSpecifierEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Direction",
           "schema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnChannelDirectionEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UserStructureIdentifier",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ChannelErrorType",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExtChannelErrorType",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ExtChannelAddValue",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "QualifiedChannelQualifier",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ManufacturerData",
           "schema": "bytes"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Message",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HelpText",
           "schema": "string"
         }

@@ -34,21 +34,30 @@ namespace Yaml2Dtdl
             this.Write("\",\r\n");
  if (this.SubVariables.Count == 0) { 
             this.Write("      \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Item1, this.Variable.Item2, definedType.BrowseName, 6)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 6)));
             this.Write(",\r\n");
  } else { 
             this.Write("      \"schema\": {\r\n        \"@type\": [ \"Object\", \"Detail\" ],\r\n        \"fields\": [\r" +
-                    "\n          {\r\n            \"@type\": [ \"Field\", \"Subject\" ],\r\n            \"name\": " +
-                    "\"");
+                    "\n          {\r\n");
+ if (this.Variable.IsOptional) { 
+            this.Write("            \"@type\": [ \"Field\", \"Subject\" ],\r\n");
+ } else { 
+            this.Write("            \"@type\": [ \"Field\", \"Subject\", \"Required\" ],\r\n");
+ } 
+            this.Write("            \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))));
             this.Write("\",\r\n            \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Item1, this.Variable.Item2, definedType.BrowseName, 12)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 12)));
             this.Write("\r\n          },\r\n");
- int ix = 1; foreach (KeyValuePair<string, (string, int)> subVar in this.SubVariables) { 
-            this.Write("          {\r\n            \"name\": \"");
+ int ix = 1; foreach (KeyValuePair<string, VariableInfo> subVar in this.SubVariables) { 
+            this.Write("          {\r\n");
+ if (!subVar.Value.IsOptional) { 
+            this.Write("            \"@type\": [ \"Field\", \"Required\" ],\r\n");
+ } 
+            this.Write("            \"name\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(subVar.Key))));
             this.Write("\",\r\n            \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Value.Item1, subVar.Value.Item2, 12)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Value.Datatype, subVar.Value.ValueRank, 12)));
             this.Write("\r\n          }");
             this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.SubVariables.Count ? "," : ""));
             this.Write("\r\n");

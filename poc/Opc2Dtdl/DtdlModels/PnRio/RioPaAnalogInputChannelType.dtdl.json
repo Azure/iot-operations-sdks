@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,30 +17,37 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Damping",
           "schema": "float"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SignalType",
           "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioSignalTypeEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "WireCheckEnabled",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstitutePolicy",
           "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstituteValue",
           "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioAnalogDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HighLimit",
           "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioAnalogDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LowLimit",
           "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioAnalogDataType;1"
         }
@@ -50,22 +58,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Float_32",
           "schema": "float"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Int_16",
           "schema": "short"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Int_32",
           "schema": "integer"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UInt_16",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UInt_32",
           "schema": "unsignedInteger"
         }
@@ -95,14 +108,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quality",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "NE_107",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status_full",
           "schema": "unsignedByte"
         }
@@ -113,10 +129,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioAnalogDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Qualifier",
           "schema": "unsignedByte"
         }
@@ -238,6 +256,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ManualProcessValue",
               "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioAnalogDataType;1"
             }
@@ -255,6 +274,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Mode",
               "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioChannelModeEnumeration;1"
             }
@@ -272,6 +292,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SimulationEnabled",
               "schema": "boolean"
             }
@@ -289,10 +310,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Value",
               "schema": "dtmi:opcua:PNRIO:RioPaAnalogInputChannelType:dataType:RioAnalogDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Qualifier",
               "schema": "unsignedByte"
             }

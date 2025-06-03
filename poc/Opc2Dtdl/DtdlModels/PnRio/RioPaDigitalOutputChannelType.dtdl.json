@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -16,26 +17,32 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "SignalType",
           "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioSignalTypeEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "WireCheckEnabled",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "InversionEnabled",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstitutePolicy",
           "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioSubstitutePolicyEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstituteValue",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "SubstituteTime",
           "schema": "float"
         }
@@ -65,14 +72,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quality",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "NE_107",
           "schema": "unsignedByte"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Status_full",
           "schema": "unsignedByte"
         }
@@ -83,10 +93,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Qualifier",
           "schema": "unsignedByte"
         }
@@ -220,6 +232,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ManualOutValue",
               "schema": "boolean"
             }
@@ -237,6 +250,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Mode",
               "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1"
             }
@@ -254,6 +268,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "SimulationEnabled",
               "schema": "boolean"
             }
@@ -271,10 +286,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Value",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Qualifier",
               "schema": "unsignedByte"
             }

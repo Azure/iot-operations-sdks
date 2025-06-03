@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobGroupsType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,14 +16,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialId",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialLot",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "HopperId",
           "schema": "string"
         }
@@ -40,22 +44,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Description",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "EquipmentDescription",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductionDatasetName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaterialMapping",
               "schema": {
                 "@type": "Array",
@@ -63,22 +72,27 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Priority",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PlannedStart",
               "schema": "time"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PlannedProductionTime",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "PlannedSetUpTime",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "LatestEnd",
               "schema": "time"
             }
@@ -92,6 +106,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobGroupNodeId",
               "schema": "string"
             }
@@ -109,6 +124,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }
@@ -126,6 +142,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }
@@ -143,6 +160,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }
@@ -160,6 +178,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }

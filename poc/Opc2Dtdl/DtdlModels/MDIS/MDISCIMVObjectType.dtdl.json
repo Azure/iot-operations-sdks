@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:MDIS:MDISCIMVObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -174,6 +175,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Initial",
               "schema": "float"
             }
@@ -191,14 +193,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "FlowRate",
               "schema": "float"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SEM",
               "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ShutdownRequest",
               "schema": "boolean"
             }
@@ -216,18 +221,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Direction",
               "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Delta",
               "schema": "float"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SEM",
               "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ShutdownRequest",
               "schema": "boolean"
             }
@@ -245,14 +254,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Mode",
               "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SEM",
               "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ShutdownRequest",
               "schema": "boolean"
             }
@@ -270,14 +282,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Position",
               "schema": "float"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SEM",
               "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:SEMEnum;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ShutdownRequest",
               "schema": "boolean"
             }

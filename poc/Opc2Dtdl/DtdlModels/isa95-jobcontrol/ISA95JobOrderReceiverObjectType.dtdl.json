@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobOrder",
           "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "State",
           "schema": {
             "@type": "Array",
@@ -32,14 +35,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Parameters",
           "schema": {
             "@type": "Array",
@@ -53,14 +59,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -68,10 +77,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Subparameters",
           "schema": {
             "@type": "Array",
@@ -85,10 +96,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobOrderID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -96,6 +109,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "WorkMasterID",
           "schema": {
             "@type": "Array",
@@ -103,18 +117,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StartTime",
           "schema": "dateTime"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EndTime",
           "schema": "dateTime"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Priority",
           "schema": "short"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "JobOrderParameters",
           "schema": {
             "@type": "Array",
@@ -122,6 +140,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PersonnelRequirements",
           "schema": {
             "@type": "Array",
@@ -129,6 +148,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EquipmentRequirements",
           "schema": {
             "@type": "Array",
@@ -136,6 +156,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PhysicalAssetRequirements",
           "schema": {
             "@type": "Array",
@@ -143,6 +164,7 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialRequirements",
           "schema": {
             "@type": "Array",
@@ -156,10 +178,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -167,18 +191,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PersonnelUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -192,10 +220,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -203,18 +233,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EquipmentUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -228,14 +262,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -243,10 +280,12 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Subproperties",
           "schema": {
             "@type": "Array",
@@ -260,14 +299,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "BrowsePath",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StateText",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "StateNumber",
           "schema": "unsignedInteger"
         }
@@ -278,10 +320,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -289,18 +333,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PhysicalAssetUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -314,22 +362,27 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialClassID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialDefinitionID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialLotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialSublotID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": {
             "@type": "Array",
@@ -337,18 +390,22 @@
           }
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "MaterialUse",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Quantity",
           "schema": "decimal"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Properties",
           "schema": {
             "@type": "Array",
@@ -432,10 +489,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -452,6 +511,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -469,10 +529,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -489,6 +551,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -506,10 +569,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -526,6 +591,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -543,10 +609,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -563,6 +631,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -580,10 +649,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -600,6 +671,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -617,10 +689,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -637,6 +711,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -654,10 +729,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -674,6 +751,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -691,10 +769,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrderID",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -711,6 +791,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -728,10 +809,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrder",
               "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -748,6 +831,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -765,10 +849,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrder",
               "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -785,6 +871,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }
@@ -802,10 +889,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobOrder",
               "schema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderDataType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Comment",
               "schema": {
                 "@type": "Array",
@@ -822,6 +911,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnStatus",
               "schema": "unsignedLong"
             }

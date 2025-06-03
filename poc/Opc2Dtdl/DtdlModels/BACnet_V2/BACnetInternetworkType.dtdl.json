@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:BACnet_V2:BACnetInternetworkType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -38,18 +39,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ObjectIdentifier",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PropertyIdentifier",
           "schema": "dtmi:opcua:BACnet_V2:BACnetInternetworkType:dataType:BACnetPropertyIdentifier;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "PropertyArrayIndex",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DeviceIdentifier",
           "schema": "unsignedInteger"
         }
@@ -1622,6 +1627,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Address",
               "schema": "string"
             }
@@ -1639,6 +1645,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DeviceObject",
               "schema": "string"
             }
@@ -1656,6 +1663,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "BACnetDeviceIds",
               "schema": {
                 "@type": "Array",
@@ -1663,6 +1671,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "OpcUaObjectIds",
               "schema": {
                 "@type": "Array",
@@ -1683,18 +1692,22 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "WaitTimeInSeconds",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ApplyRange",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "DeviceRangeLow",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "DeviceRangeHigh",
               "schema": "unsignedInteger"
             }
@@ -1708,6 +1721,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DeviceAddressBindings",
               "schema": {
                 "@type": "Array",
@@ -1715,6 +1729,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MaxAPDULengthAccepted",
               "schema": {
                 "@type": "Array",
@@ -1722,6 +1737,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SegmentationSupported",
               "schema": {
                 "@type": "Array",
@@ -1729,6 +1745,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "VendorIdentifier",
               "schema": {
                 "@type": "Array",
@@ -1749,6 +1766,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Time",
               "schema": "time"
             }
@@ -1766,6 +1784,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "BACnetIds",
               "schema": {
                 "@type": "Array",
@@ -1782,6 +1801,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "OpcUaIds",
               "schema": {
                 "@type": "Array",

@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:Scheduler:CalendarType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Date",
           "schema": "dtmi:opcua:Scheduler:CalendarType:dataType:DateType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DateRange",
           "schema": "dtmi:opcua:Scheduler:CalendarType:dataType:DateRangeType;1"
         }
@@ -29,18 +32,22 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Year",
           "schema": "unsignedShort"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Month",
           "schema": "dtmi:opcua:Scheduler:CalendarType:dataType:Month;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DayOfMonth",
           "schema": "dtmi:opcua:Scheduler:CalendarType:dataType:DayOfMonth;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DayOfWeek",
           "schema": "dtmi:opcua:Scheduler:CalendarType:dataType:DayOfWeek;1"
         }
@@ -118,10 +125,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "StartDate",
           "schema": "dtmi:opcua:Scheduler:CalendarType:dataType:DateType;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "EndDate",
           "schema": "dtmi:opcua:Scheduler:CalendarType:dataType:DateType;1"
         }
@@ -331,6 +340,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CalendarEntries",
               "schema": {
                 "@type": "Array",
@@ -347,6 +357,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EntryResults",
               "schema": {
                 "@type": "Array",
@@ -367,6 +378,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CalendarEntries",
               "schema": {
                 "@type": "Array",
@@ -383,6 +395,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EntryResults",
               "schema": {
                 "@type": "Array",

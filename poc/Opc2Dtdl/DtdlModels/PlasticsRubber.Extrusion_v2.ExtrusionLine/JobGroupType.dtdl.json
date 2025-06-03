@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobGroupType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -15,10 +16,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Id",
           "schema": "unsignedInteger"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Value",
           "schema": "string"
         }
@@ -54,34 +57,42 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Description",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CustomerName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductName",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ProductDescription",
               "schema": "string"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Strand",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "Sequence",
               "schema": "unsignedInteger"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ParameterSetting",
               "schema": {
                 "@type": "Array",
@@ -89,10 +100,12 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "SetOutput",
               "schema": "double"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "LotSize",
               "schema": "double"
             }
@@ -106,6 +119,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "JobNodeId",
               "schema": "string"
             }
@@ -123,6 +137,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }
@@ -140,6 +155,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }
@@ -157,6 +173,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }
@@ -174,6 +191,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Id",
               "schema": "string"
             }

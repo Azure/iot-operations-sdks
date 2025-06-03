@@ -6,8 +6,6 @@ namespace Yaml2Dtdl
 
     public partial class DtdlCommand
     {
-        private const string ModelingRuleOptionalNodeId = "80";
-
         private string modelId;
         private OpcUaDefinedType definedType;
         private TypeConverter typeConverter;
@@ -42,6 +40,6 @@ namespace Yaml2Dtdl
         private bool GetIsOptional(string browseName) => definedType.Contents.Any(
             c => c.Relationship == "HasProperty" &&
             c.DefinedType.BrowseName == browseName &&
-            c.DefinedType.Contents.Any(cc => cc.Relationship == "HasModellingRule" && cc.DefinedType.NodeId == ModelingRuleOptionalNodeId));
+            c.DefinedType.Contents.Any(cc => cc.Relationship == "HasModellingRule" && cc.DefinedType.NodeId == TypeConverter.ModelingRuleOptionalNodeId));
     }
 }

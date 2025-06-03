@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:PNEM:EnergyStandbyManagementType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -34,10 +35,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "CurrentTimeToOperate",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnCode",
               "schema": "unsignedByte"
             }
@@ -55,6 +58,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "PauseTime",
               "schema": "duration"
             }
@@ -68,22 +72,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ModeID",
               "schema": "unsignedByte"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CurrentTimeToDestination",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RegularTimeToOperate",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "TimeMinLengthToStay",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnCode",
               "schema": "unsignedByte"
             }
@@ -101,6 +110,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ModeID",
               "schema": "unsignedByte"
             }
@@ -114,22 +124,27 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "EffectiveModeID",
               "schema": "unsignedByte"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CurrentTimeToDestination",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RegularTimeToOperate",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "TimeMinLengthOfStay",
               "schema": "duration"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ReturnCode",
               "schema": "unsignedByte"
             }

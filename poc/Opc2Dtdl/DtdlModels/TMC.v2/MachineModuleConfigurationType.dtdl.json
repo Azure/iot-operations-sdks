@@ -3,7 +3,8 @@
     "dtmi:dtdl:context;4#limitless",
     "dtmi:dtdl:limits:onvif;1",
     "dtmi:dtdl:extension:mqtt;4",
-    "dtmi:dtdl:extension:historization;2"
+    "dtmi:dtdl:extension:historization;2",
+    "dtmi:dtdl:extension:requirement;1"
   ],
   "@id": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType;1",
   "@type": [ "Interface", "Mqtt" ],
@@ -34,14 +35,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Definitions",
           "schema": {
             "@type": "Array",
@@ -55,30 +59,37 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "EngineeringUnits",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DisplayFormat",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Dependency",
           "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "DataType",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "UserSubset",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ControlRange",
           "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "AlarmRange",
           "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:Range;1"
         }
@@ -89,10 +100,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Low",
           "schema": "double"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "High",
           "schema": "double"
         }
@@ -103,10 +116,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "Success",
           "schema": "boolean"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Message",
           "schema": {
             "@type": "Array",
@@ -120,14 +135,17 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "ParentID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "Description",
           "schema": "string"
         }
@@ -138,6 +156,7 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "GroupID",
           "schema": "string"
         }
@@ -148,10 +167,12 @@
       "@type": "Object",
       "fields": [
         {
+          "@type": [ "Field", "Required" ],
           "name": "ID",
           "schema": "string"
         },
         {
+          "@type": [ "Field", "Required" ],
           "name": "LocalText",
           "schema": "string"
         }
@@ -169,14 +190,17 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "Dependency",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:ParameterDependencyEnumeration;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "UserSubset",
               "schema": "boolean"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "CompleteSet",
               "schema": "boolean"
             }
@@ -190,10 +214,12 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "DataSetList",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:DataSetDefinitionType;1"
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -211,6 +237,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RootCauseGroupList",
               "schema": {
                 "@type": "Array",
@@ -218,6 +245,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -235,6 +263,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RootCauseList",
               "schema": {
                 "@type": "Array",
@@ -242,6 +271,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -259,6 +289,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "StopReasonList",
               "schema": {
                 "@type": "Array",
@@ -266,6 +297,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -283,6 +315,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "IDs",
               "schema": {
                 "@type": "Array",
@@ -290,6 +323,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "MESIDs",
               "schema": {
                 "@type": "Array",
@@ -306,6 +340,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
             }
@@ -323,6 +358,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "RootCauseList",
               "schema": {
                 "@type": "Array",
@@ -330,6 +366,7 @@
               }
             },
             {
+              "@type": [ "Field", "Required" ],
               "name": "RootCauseGroupList",
               "schema": {
                 "@type": "Array",
@@ -346,6 +383,7 @@
           "@type": "Object",
           "fields": [
             {
+              "@type": [ "Field", "Required" ],
               "name": "ExecutionFeedback",
               "schema": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType:dataType:MethodExecutionFeedbackType;1"
             }
