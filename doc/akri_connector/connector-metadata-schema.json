@@ -221,40 +221,6 @@
       "languageVersion"
     ]
   },
-  "resourceRequirements": {
-    "type": "object",
-    "description": "The resource requirements to run this connector (per pod)",
-    "properties": {
-      "requests": {
-        "type": "object",
-        "description": "The lower bounds for resources that should be allocated to a connector pod",
-        "properties": {
-          "cpu": {
-            "type": "string",
-            "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
-          },
-          "memory": {
-            "type": "string",
-            "description": "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
-          }
-        }
-      },
-      "limits": {
-        "type": "object",
-        "description": "The upper bounds for resources that can be allocated to a connector pod",
-        "properties": {
-          "cpu": {
-            "type": "string",
-            "description": "Compute processing specified in units of Kubernetes CPUs as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu"
-          },
-          "memory": {
-            "type": "string",
-            "description": "The number of bytes written as described in https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory"
-          }
-        }
-      }
-    }
-  },
   "aioMetadata": {
     "type": "object",
     "description": "The AIO requirements to run this connector",
