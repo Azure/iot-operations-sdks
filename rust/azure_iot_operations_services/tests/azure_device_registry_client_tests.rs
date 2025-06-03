@@ -344,20 +344,19 @@ async fn observe_asset_update_notifications() {
                             if count == 1 {
                                 // Signal that we got the first notification
                                 first_notification_notify.notify_one();
-                                // TODO Assert on something changed
                                 assert_eq!(asset.name, ASSET_NAME3);
                                 assert_eq!(
                                     asset.specification.description.unwrap(),
                                     description_for_task
                                 );
                             } else {
-                                log::info!(
-                                    "[{log_identifier}] Asset Observation unexpected: {asset:?}"
+                                log::error!(
+                                    "[{log_identifier}] Asset Update notification unexpected: {asset:?}"
                                 );
                                 // Should not receive more than 1 notification
                                 assert!(
                                     count < 2,
-                                    "Received unexpected additional asset observation notification"
+                                    "Received unexpected additional asset update notification"
                                 );
                             }
                         } else {
@@ -385,10 +384,9 @@ async fn observe_asset_update_notifications() {
             assert!(result.is_ok(), "Failed to patch asset specification");
 
             // Wait for first notification with timeout (e.g., 30 seconds)
-            let notification_timeout = Duration::from_secs(30);
             let notified_future = first_notification_notify.notified();
             let did_receive_1_notification_or_timeout =
-                tokio::time::timeout(notification_timeout, notified_future).await;
+                tokio::time::timeout(Duration::from_secs(30), notified_future).await;
 
             azure_device_registry_client
                 .unobserve_asset_update_notifications(
@@ -415,12 +413,12 @@ async fn observe_asset_update_notifications() {
                 assert!(result.is_ok(), "Failed to patch asset specification");
             }
 
-            let notification_count = match receive_notifications_task.await {
+            match receive_notifications_task.await {
                 Ok(count) => {
                     log::info!(
                         "[{log_identifier}] Notification receiver task completed with count: {count}"
                     );
-                    count
+                    assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
                 Err(e) => {
                     log::error!(
@@ -432,11 +430,11 @@ async fn observe_asset_update_notifications() {
                 }
             };
 
-            // Verify we got exactly 1 notification (only from the first update, not the second)
-            assert_eq!(
-                notification_count, 1,
-                "Expected exactly 1 notification, got {notification_count}",
-            );
+            // // Verify we got exactly 1 notification (only from the first update, not the second)
+            // assert_eq!(
+            //     notification_count, 1,
+            //     "Expected exactly 1 notification, got {notification_count}",
+            // );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -507,20 +505,19 @@ async fn observe_device_update_notifications() {
                             if count == 1 {
                                 // Signal that we got the first notification
                                 first_notification_notify.notify_one();
-                                // TODO Assert on something changed
                                 assert_eq!(device.name, DEVICE3);
                                 assert_eq!(
                                     device.specification.manufacturer.unwrap(),
                                     update_manu_for_task
                                 );
                             } else {
-                                log::info!(
-                                    "[{log_identifier}] Device Observation unexpected: {device:?}"
+                                log::error!(
+                                    "[{log_identifier}] Device update notification unexpected: {device:?}"
                                 );
                                 // Should not receive more than 1 notification
                                 assert!(
                                     count < 2,
-                                    "Received unexpected additional device observation notification"
+                                    "Received unexpected additional device update notification"
                                 );
                             }
                         } else {
@@ -548,10 +545,9 @@ async fn observe_device_update_notifications() {
             assert!(result.is_ok(), "Failed to patch device specification");
 
             // Wait for first notification with timeout (e.g., 30 seconds)
-            let notification_timeout = Duration::from_secs(30);
             let notified_future = first_notification_notify.notified();
             let did_receive_1_notification_or_timeout =
-                tokio::time::timeout(notification_timeout, notified_future).await;
+                tokio::time::timeout(Duration::from_secs(30), notified_future).await;
 
             azure_device_registry_client
                 .unobserve_device_update_notifications(
@@ -576,13 +572,12 @@ async fn observe_device_update_notifications() {
             );
                 assert!(result.is_ok(), "Failed to patch device specification");
             }
-
-            let notification_count = match receive_notifications_task.await {
+            match receive_notifications_task.await {
                 Ok(count) => {
                     log::info!(
                         "[{log_identifier}] Notification receiver task completed with count: {count}"
                     );
-                    count
+                    assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
                 Err(e) => {
                     log::error!(
@@ -595,10 +590,10 @@ async fn observe_device_update_notifications() {
             };
 
             // Verify we got exactly 1 notification (only from the first update, not the second)
-            assert_eq!(
-                notification_count, 1,
-                "Expected exactly 1 notification, got {notification_count}",
-            );
+            // assert_eq!(
+            //     notification_count, 1,
+            //     "Expected exactly 1 notification, got {notification_count}",
+            // );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
