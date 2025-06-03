@@ -223,7 +223,7 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
     /// # Errors
     /// Returns an Error with the `String` "`application_error_code` cannot be empty" if `application_error_code` is an empty string.
     pub fn add_application_error_headers(
-        mut response: Response<TResp>,
+        response: &mut Response<TResp>,
         application_error_code: String,
         application_error_payload: String,
     ) -> Result<(), String> {
@@ -1804,6 +1804,47 @@ mod tests {
         assert_eq!(status, CacheEntryStatus::NotFound);
         let status = cache.get(&new_key);
         assert_eq!(status, CacheEntryStatus::Cached(new_entry));
+    }
+
+    #[test]
+    fn test_response_add_empty_payload_code_success() {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let mut binding = ResponseBuilder::default();
+        let mut response = binding.payload(mock_response_payload).unwrap().build().unwrap();
+
+        assert!(ResponseBuilder::add_application_error_headers(&mut response, "500".into(), "".into()).is_ok());
+        assert_eq!(response.custom_user_data.len(), 1);
+    }
+
+    #[test]
+    fn test_response_add_empty_error_code_error() {
+        let mut mock_response_payload = MockPayload::new();
+        mock_response_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let mut binding = ResponseBuilder::default();
+        let mut response = binding.payload(mock_response_payload).unwrap().build().unwrap();
+
+        assert!(ResponseBuilder::add_application_error_headers(&mut response, "".into(), "Some error".into()).is_err());
     }
 }
 
