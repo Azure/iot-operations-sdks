@@ -274,20 +274,21 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
             let response = result.unwrap();
             assert_eq!(response.custom_user_data.len(), 2);
 
-            let mut user_error_headers_checksum = 0;
+            let mut app_err_code_header_count = 0;
+            let mut app_err_payload_header_count = 0;
             for (key, value) in response.custom_user_data {
                 if key == "AppErrCode" {
                     assert_eq!(value, "345");
-                    user_error_headers_checksum += 1;
+                    app_err_code_header_count += 1;
                 }
 
                 if key == "AppErrPayload" {
                     assert_eq!(value, "Failed543");
-                    user_error_headers_checksum += 1000;
+                    app_err_payload_header_count += 1;
                 }
             }
-
-            assert_eq!(user_error_headers_checksum, 1001);
+            assert_eq!(app_err_code_header_count, 1);
+            assert_eq!(app_err_payload_header_count, 1);
 
             // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
             assert!(receive_requests_task.await.is_ok());
@@ -377,20 +378,21 @@ async fn command_response_apperrorcode_no_apperrorpayload_network_tests() {
 
             assert_eq!(response.custom_user_data.len(), 1);
 
-            let mut user_error_headers_checksum = 0;
+            let mut app_err_code_header_count = 0;
+            let mut app_err_payload_header_count = 0;
             for (key, value) in response.custom_user_data {
                 if key == "AppErrCode" {
                     assert_eq!(value, "345");
-                    user_error_headers_checksum += 1;
+                    app_err_code_header_count += 1;
                 }
 
                 if key == "AppErrPayload" {
-                    assert_eq!(value, "");
-                    user_error_headers_checksum += 1000;
+                    app_err_payload_header_count += 1;
                 }
             }
 
-            assert_eq!(user_error_headers_checksum, 1);
+            assert_eq!(app_err_code_header_count, 1);
+            assert_eq!(app_err_payload_header_count, 0);
 
             // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
             assert!(receive_requests_task.await.is_ok());
