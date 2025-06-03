@@ -3,7 +3,6 @@
 
 #![cfg(feature = "azure_device_registry")]
 
-use std::collections::HashMap;
 use std::process::Command;
 use std::sync::Arc;
 use std::{env, time::Duration};
@@ -375,19 +374,13 @@ async fn observe_asset_update_notifications() {
                 }
             });
 
-            let response = azure_device_registry_client
-                .get_asset(
-                    DEVICE3.to_string(),
-                    ENDPOINT3.to_string(),
-                    ASSET_NAME3.to_string(),
-                    TIMEOUT,
-                )
-                .await
-                .unwrap();
-            log::info!("[{log_identifier}] Get asset to update the status: {response:?}",);
-
-            let result = patch_asset_specification(ASSET_NAME3, &update_desc);
-            assert!(result.is_ok(), "Failed to patch asset specification");
+            match patch_asset_specification(ASSET_NAME3, &update_desc) {
+                Ok(()) => log::info!("Asset patched successfully"),
+                Err(e) => {
+                    log::error!("Failed to patch asset specification: {}", e);
+                    panic!("Failed to patch asset specification: {}", e);
+                }
+            }
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
@@ -428,9 +421,11 @@ async fn observe_asset_update_notifications() {
                 }
                 Err(e) => {
                     log::error!(
-                        "[{log_identifier}] Notification receiver task failed on receiving unexpected counts: {e:?}"
+                        "[{log_identifier}] Notification receiver task failed due to unexpected counts or mismatch notification: {e:?}"
                     );
-                    panic!("Notification receiver task failed on receiving unexpected counts");
+                    panic!(
+                        "Notification receiver task failed due to unexpected counts or mismatch notification"
+                    );
                 }
             };
 
@@ -539,14 +534,13 @@ async fn observe_device_update_notifications() {
                 }
             });
 
-            let response = azure_device_registry_client
-                .get_device(DEVICE3.to_string(), ENDPOINT3.to_string(), TIMEOUT)
-                .await
-                .unwrap();
-            log::info!("[{log_identifier}] Get device to update the status: {response:?}",);
-
-            let result = patch_device_specification(DEVICE3, &update_manu);
-            assert!(result.is_ok(), "Failed to patch device specification");
+            match patch_device_specification(DEVICE3, &update_manu) {
+                Ok(()) => log::info!("Device patched successfully"),
+                Err(e) => {
+                    log::error!("Failed to patch device specification: {}", e);
+                    panic!("Failed to patch device specification: {}", e);
+                }
+            }
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
@@ -586,9 +580,11 @@ async fn observe_device_update_notifications() {
                 }
                 Err(e) => {
                     log::error!(
-                        "[{log_identifier}] Notification receiver task failed on receiving unexpected counts: {e:?}"
+                        "[{log_identifier}] Notification receiver task failed due to unexpected counts or mismatch notification: {e:?}"
                     );
-                    panic!("Notification receiver task failed on receiving unexpected counts");
+                    panic!(
+                        "Notification receiver task failed due to unexpected counts or mismatch notification"
+                    );
                 }
             };
 
@@ -634,8 +630,8 @@ fn patch_asset_specification(
         .expect("Failed to execute kubectl patch command");
 
     if output.status.success() {
-        println!("Asset patched successfully!");
-        println!("Output: {}", String::from_utf8_lossy(&output.stdout));
+        log::info!("Asset patched successfully!");
+        log::info!("Output: {}", String::from_utf8_lossy(&output.stdout));
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
@@ -665,8 +661,8 @@ fn patch_device_specification(
         .expect("Failed to execute kubectl patch command");
 
     if output.status.success() {
-        println!("Device patched successfully!");
-        println!("Output: {}", String::from_utf8_lossy(&output.stdout));
+        log::info!("Device patched successfully!");
+        log::info!("Output: {}", String::from_utf8_lossy(&output.stdout));
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
