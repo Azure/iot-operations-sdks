@@ -180,7 +180,7 @@
       {
         "type": "string",
         "description": "One of the CPU architectures this connector image was built for. For example: 'linux/amd64', 'linux/arm64', or 'windows/amd64'"
-      }  
+      }
     ],
     "minItems": 1,
     "uniqueItems": true
@@ -341,24 +341,22 @@
       }
     ]
   },
+  "required": [
+    "name",
+    "version",
+    "supportedArchitectures",
+    "inboundEndpoints"
+  ],
   "oneOf": [
-        {
-          "required": [
-            "name",
-            "version",
-            "imageConfigurationSettings",
-            "supportedArchitectures",
-            "inboundEndpoints"
-          ]
-        },
-        {
-          "required": [
-            "name",
-            "version",
-            "helmConfigurationSettings",
-            "supportedArchitectures",
-            "inboundEndpoints"
-          ]
-        }
+    {
+      "required": [
+        "imageConfigurationSettings"
+      ]
+    },
+    {
+      "required": [
+        "helmConfigurationSettings"
+      ]
+    }
   ]
 }
