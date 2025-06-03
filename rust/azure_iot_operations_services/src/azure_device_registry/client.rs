@@ -1562,6 +1562,61 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_get_asset_status_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_asset_status(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                String::new(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::ValidationError(_))
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_get_asset_status_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
+        let adr_client: Client<SessionManagedClient> = create_adr_client();
+        let result = adr_client
+            .get_asset_status(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                ASSET_NAME.to_string(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_asset_status_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_asset_status(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                Duration::from_secs(0),
+            )
+            .await;
+        assert!(matches!(
+            result.unwrap_err(),
+            Error(ErrorKind::InvalidRequestArgument(_))
+        ));
+    }
+
+    #[tokio::test]
     async fn test_update_asset_status_empty_asset_name() {
         let adr_client = create_adr_client();
         let result = adr_client
@@ -1817,6 +1872,38 @@ mod tests {
         let adr_client = create_adr_client();
         let result = adr_client
             .get_device(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                Duration::from_secs(0),
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().kind(),
+            ErrorKind::InvalidRequestArgument(_)
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_get_device_status_invalid_topic_tokens(device_name: &str, endpoint_name: &str) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_device_status(device_name.to_string(), endpoint_name.to_string(), DURATION)
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_get_device_status_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .get_device_status(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 Duration::from_secs(0),
