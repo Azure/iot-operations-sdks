@@ -386,7 +386,8 @@ async fn observe_asset_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Get asset to update the status: {response:?}",);
 
-            patch_asset_specification(ASSET_NAME3, &update_desc);
+            let result = patch_asset_specification(ASSET_NAME3, &update_desc);
+            assert!(result.is_ok(), "Failed to patch asset specification");
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
@@ -455,7 +456,7 @@ async fn observe_asset_update_notifications() {
 
 #[tokio::test]
 #[ignore = "This test is ignored as getting serialization error."]
-async fn observe_device_notify_spec() {
+async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
         return;
@@ -544,7 +545,8 @@ async fn observe_device_notify_spec() {
                 .unwrap();
             log::info!("[{log_identifier}] Get device to update the status: {response:?}",);
 
-            patch_device_specification(DEVICE3, &update_manu);
+            let result = patch_device_specification(DEVICE3, &update_manu);
+            assert!(result.is_ok(), "Failed to patch device specification");
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
@@ -610,7 +612,10 @@ async fn observe_device_notify_spec() {
     );
 }
 
-fn patch_asset_specification(asset_name: &str, description: &str) {
+fn patch_asset_specification(
+    asset_name: &str,
+    description: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
     let patch_json = format!(r#"{{"spec":{{"description":"{description}"}}}}"#);
 
     let output = Command::new("kubectl")
@@ -631,12 +636,17 @@ fn patch_asset_specification(asset_name: &str, description: &str) {
     if output.status.success() {
         println!("Asset patched successfully!");
         println!("Output: {}", String::from_utf8_lossy(&output.stdout));
+        Ok(())
     } else {
-        eprintln!("Patch failed: {}", String::from_utf8_lossy(&output.stderr));
+        let error_msg = String::from_utf8_lossy(&output.stderr);
+        Err(format!("Patch failed: {}", error_msg).into())
     }
 }
 
-fn patch_device_specification(device_name: &str, manufacturer: &str) {
+fn patch_device_specification(
+    device_name: &str,
+    manufacturer: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
     let patch_json = format!(r#"{{"spec":{{"manufacturer":"{manufacturer}"}}}}"#);
 
     let output = Command::new("kubectl")
@@ -657,7 +667,9 @@ fn patch_device_specification(device_name: &str, manufacturer: &str) {
     if output.status.success() {
         println!("Device patched successfully!");
         println!("Output: {}", String::from_utf8_lossy(&output.stdout));
+        Ok(())
     } else {
-        eprintln!("Patch failed: {}", String::from_utf8_lossy(&output.stderr));
+        let error_msg = String::from_utf8_lossy(&output.stderr);
+        Err(format!("Patch failed: {}", error_msg).into())
     }
 }
