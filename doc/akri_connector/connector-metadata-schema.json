@@ -59,6 +59,7 @@
     },
     "imageConfigurationSettings": {
       "type": "object",
+      "description": "The docker image details for this connector image. Must provide either this or helmConfigurationSettings.",
       "properties": {
         "containerRegistryName": {
           "type": "string",
@@ -96,6 +97,7 @@
     },
     "helmConfigurationSettings": {
       "type": "object",
+      "description": "The helm chart details for this connector image. Must provide either this or imageConfigurationSettings.",
       "properties": {
         "containerRegistryName": {
           "type": "string",
@@ -333,11 +335,24 @@
       }
     ]
   },
-  "required": [
-    "name",
-    "version",
-    "imageConfigurationSettings",
-    "supportedArchitectures",
-    "inboundEndpoints"
+  "oneOf": [
+        {
+          "required": [
+            "name",
+            "version",
+            "imageConfigurationSettings",
+            "supportedArchitectures",
+            "inboundEndpoints"
+          ]
+        },
+        {
+          "required": [
+            "name",
+            "version",
+            "helmConfigurationSettings",
+            "supportedArchitectures",
+            "inboundEndpoints"
+          ]
+        }
   ]
 }
