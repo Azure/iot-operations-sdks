@@ -766,9 +766,9 @@ public class AdrServiceClientIntegrationTests
         };
     }
 
-    private CreateDiscoveredAssetEndpointProfileRequest CreateCreateDiscoveredDeviceRequest()
+    private CreateDiscoveredDeviceRequest CreateCreateDiscoveredDeviceRequest()
     {
-        return new CreateDiscoveredAssetEndpointProfileRequest
+        return new CreateDiscoveredDeviceRequest
         {
             Name = "test-discovered-device",
             Manufacturer = "Test Manufacturer",
@@ -785,7 +785,7 @@ public class AdrServiceClientIntegrationTests
                         new DiscoveredDeviceInboundEndpoint
                         {
                             Address = "http://example.com",
-                            EndpointType = "rest",
+                            EndpointType = "my-rest-endpoint",
                             Version = "1.0",
                             SupportedAuthenticationMethods = new List<string> { "Basic", "OAuth2" }
                         }

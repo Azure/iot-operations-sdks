@@ -804,8 +804,11 @@ where
     /// if timeout is 0 or > `u32::max`.
     ///
     /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if:
-    /// - inbound endpoint names are invalid.
+    /// - inbound endpoint type is invalid for the topic.
     /// - there are any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the device name is empty.
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Azure Device Registry service.
@@ -816,6 +819,11 @@ where
         inbound_endpoint_type: String,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
+        if device_name.trim().is_empty() {
+            return Err(Error(ErrorKind::ValidationError(
+                "device_name must not be empty".to_string(),
+            )));
+        }
         let payload = discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestPayload {
             discovered_device_request:
                 discovery_client_gen::CreateOrUpdateDiscoveredDeviceRequestSchema {
@@ -1218,6 +1226,7 @@ where
         asset_specification: DiscoveredAssetSpecification,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
+        // TODO: do we need to take device_name at all as an argument? It's in the DeviceRef in the DiscoveredAssetSpecification
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1282,6 +1291,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::azure_device_registry::models::DeviceRef;
     use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
     use azure_iot_operations_mqtt::session::SessionManagedClient;
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
@@ -1291,6 +1301,7 @@ mod tests {
 
     const DEVICE_NAME: &str = "test-device";
     const INBOUND_ENDPOINT_NAME: &str = "test-endpoint";
+    const INBOUNT_ENDPOINT_TYPE: &str = "test-endpoint-type";
     const ASSET_NAME: &str = "test-asset";
     const DURATION: Duration = Duration::from_secs(10);
 
@@ -1319,8 +1330,51 @@ mod tests {
         .unwrap()
     }
 
+    fn create_dummy_discovered_device_specification() -> DiscoveredDeviceSpecification {
+        DiscoveredDeviceSpecification {
+            attributes: HashMap::default(),
+            endpoints: None,
+            external_device_id: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+        }
+    }
+
+    fn create_dummy_discovered_asset_specification() -> DiscoveredAssetSpecification {
+        let device_ref = DeviceRef {
+            device_name: DEVICE_NAME.to_string(),
+            endpoint_name: INBOUND_ENDPOINT_NAME.to_string(),
+        };
+        DiscoveredAssetSpecification {
+            asset_type_refs: vec![],
+            attributes: HashMap::default(),
+            datasets: vec![],
+            default_datasets_configuration: None,
+            default_datasets_destinations: vec![],
+            default_events_configuration: None,
+            default_events_destinations: vec![],
+            default_management_groups_configuration: None,
+            default_streams_configuration: None,
+            default_streams_destinations: vec![],
+            device_ref,
+            documentation_uri: None,
+            events: vec![],
+            hardware_revision: None,
+            management_groups: vec![],
+            manufacturer: None,
+            manufacturer_uri: None,
+            model: None,
+            product_code: None,
+            serial_number: None,
+            software_revision: None,
+            streams: vec![],
+        }
+    }
+
     #[test]
-    fn test_new_client() {
+    fn invalid_id_new_client() {
         let connection_settings = MqttConnectionSettingsBuilder::default()
             .hostname("localhost")
             .client_id("+++")
@@ -1574,6 +1628,68 @@ mod tests {
         ));
     }
 
+    #[tokio::test]
+    async fn test_create_or_update_discovered_asset_empty_asset_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .create_or_update_discovered_asset(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                String::new(),
+                create_dummy_discovered_asset_specification(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[test_case("", INBOUND_ENDPOINT_NAME)]
+    #[test_case(DEVICE_NAME, "")]
+    #[tokio::test]
+    async fn test_create_or_update_discovered_asset_invalid_topic_tokens(
+        device_name: &str,
+        endpoint_name: &str,
+    ) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .create_or_update_discovered_asset(
+                device_name.to_string(),
+                endpoint_name.to_string(),
+                ASSET_NAME.to_string(),
+                create_dummy_discovered_asset_specification(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_create_or_update_discovered_asset_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .create_or_update_discovered_asset(
+                DEVICE_NAME.to_string(),
+                INBOUND_ENDPOINT_NAME.to_string(),
+                ASSET_NAME.to_string(),
+                create_dummy_discovered_asset_specification(),
+                Duration::from_secs(0),
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().kind(),
+            ErrorKind::InvalidRequestArgument(_)
+        ));
+    }
+
     #[test_case("", INBOUND_ENDPOINT_NAME)]
     #[test_case(DEVICE_NAME, "")]
     #[tokio::test]
@@ -1708,6 +1824,60 @@ mod tests {
             .unobserve_device_update_notifications(
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
+                Duration::from_secs(0),
+            )
+            .await;
+        assert!(matches!(
+            result.unwrap_err().kind(),
+            ErrorKind::InvalidRequestArgument(_)
+        ));
+    }
+
+    #[test_case(""; "empty endpoint type")]
+    #[tokio::test]
+    async fn test_create_or_update_discovered_device_invalid_topic_tokens(endpoint_type: &str) {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .create_or_update_discovered_device(
+                DEVICE_NAME.to_string(),
+                create_dummy_discovered_device_specification(),
+                endpoint_type.to_string(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::AIOProtocolError(ref e) if matches!(e.kind, AIOProtocolErrorKind::ConfigurationInvalid)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_create_or_update_discovered_device_empty_device_name() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .create_or_update_discovered_device(
+                String::new(),
+                create_dummy_discovered_device_specification(),
+                INBOUNT_ENDPOINT_TYPE.to_string(),
+                DURATION,
+            )
+            .await;
+
+        assert!(matches!(
+            result.unwrap_err().0,
+            ErrorKind::ValidationError(_)
+        ));
+    }
+
+    #[tokio::test]
+    async fn test_create_or_update_discovered_device_zero_timeout() {
+        let adr_client = create_adr_client();
+        let result = adr_client
+            .create_or_update_discovered_device(
+                DEVICE_NAME.to_string(),
+                create_dummy_discovered_device_specification(),
+                INBOUNT_ENDPOINT_TYPE.to_string(),
                 Duration::from_secs(0),
             )
             .await;
