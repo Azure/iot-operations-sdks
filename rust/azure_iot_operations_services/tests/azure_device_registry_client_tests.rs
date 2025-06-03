@@ -19,19 +19,19 @@ use uuid::Uuid;
 use azure_iot_operations_services::azure_device_registry::models::AssetStatus;
 use azure_iot_operations_services::azure_device_registry::{self, ConfigError, StatusConfig};
 
-const DEVICE1: &str = "my-thermostat";
-const DEVICE2: &str = "test-thermostat";
-const ENDPOINT1: &str = "my-rest-endpoint";
-const ENDPOINT2: &str = "my-coap-endpoint";
-const ASSET_NAME1: &str = "my-rest-thermostat-asset";
-const ASSET_NAME2: &str = "my-coap-thermostat-asset";
+// const DEVICE1: &str = "my-thermostat";
+// const DEVICE2: &str = "test-thermostat";
+// const ENDPOINT1: &str = "my-rest-endpoint";
+// const ENDPOINT2: &str = "my-coap-endpoint";
+// const ASSET_NAME1: &str = "my-rest-thermostat-asset";
+// const ASSET_NAME2: &str = "my-coap-thermostat-asset";
 // Unique names to avoid conflicts for specificaion updates
 const ASSET_NAME3: &str = "unique-rest-thermostat-asset";
 const ENDPOINT3: &str = "unique-endpoint";
 const DEVICE3: &str = "unique-thermostat";
 #[allow(dead_code)]
 const ENDPOINT_TYPE: &str = "rest-thermostat";
-const TYPE: &str = "thermostat";
+// const TYPE: &str = "thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
 
 // Test Scenarios:
@@ -1674,10 +1674,10 @@ async fn observe_device_notify_spec() {
 }
 
 fn patch_asset_specification(asset_name: &str, description: &str) {
-    let patch_json = format!(r#"{{"spec":{{"description":"{}"}}}}"#, description);
+    let patch_json = format!(r#"{{"spec":{{"description":"{description}"}}}}"#);
 
     let output = Command::new("kubectl")
-        .args(&[
+        .args([
             "patch",
             "assets.namespaces.deviceregistry.microsoft.com",
             asset_name,
@@ -1700,10 +1700,10 @@ fn patch_asset_specification(asset_name: &str, description: &str) {
 }
 
 fn patch_device_specification(device_name: &str, manufacturer: &str) {
-    let patch_json = format!(r#"{{"spec":{{"manufacturer":"{}"}}}}"#, manufacturer);
+    let patch_json = format!(r#"{{"spec":{{"manufacturer":"{manufacturer}"}}}}"#);
 
     let output = Command::new("kubectl")
-        .args(&[
+        .args([
             "patch",
             "devices.namespaces.deviceregistry.microsoft.com",
             device_name,
