@@ -13,7 +13,7 @@ use derive_builder::Builder;
 use tokio::sync::Notify;
 
 use crate::azure_device_registry::models::{
-    Asset, AssetStatus, Device, DeviceStatus, DiscoveredAssetSpecification, DiscoveredDevice,
+    Asset, AssetStatus, Device, DeviceStatus, DiscoveredAsset, DiscoveredDevice,
 };
 use crate::azure_device_registry::{
     AssetUpdateObservation, DeviceUpdateObservation, Error, ErrorKind,
@@ -442,7 +442,7 @@ where
                                 device_name,
                                 inbound_endpoint_name,
                             );
-                            match device_update_notification_dispatcher.dispatch(&receiver_id, (device_update_telemetry.payload.into(), ack_token)) {
+                            match device_update_notification_dispatcher.dispatch(&receiver_id, (device_update_telemetry.payload.device_update_event.device.into(), ack_token)) {
                                 Ok(()) => {
                                     log::debug!("Device Update Notification dispatched for device {device_name:?} and inbound endpoint {inbound_endpoint_name:?}");
                                 }
@@ -677,7 +677,7 @@ where
             .invoke(observe_request)
             .await
         {
-            Ok(Ok(response)) => Ok(DeviceUpdateObservation(rx)),
+            Ok(Ok(_)) => Ok(DeviceUpdateObservation(rx)),
             Ok(Err(e)) => {
                 // If the observe request wasn't successful, remove it from our dispatcher
                 if self
@@ -754,7 +754,7 @@ where
                 .timeout(timeout)
                 .build()
                 .map_err(ErrorKind::from)?;
-        let response = self
+        let _ = self
             .notify_on_device_update_command_invoker
             .invoke(unobserve_request)
             .await
@@ -882,6 +882,9 @@ where
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn get_asset(
         &self,
         device_name: String,
@@ -910,12 +913,13 @@ where
             .get_asset_command_invoker
             .invoke(command_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
 
         Ok(response.payload.asset.into())
     }
 
-    /// Updates the status of an [`Asset`] in the Azure Device Registry service.
+    /// Updates the status of an Asset in the Azure Device Registry service.
     ///
     /// # Arguments
     /// * `device_name` - The name of the device.
@@ -924,7 +928,7 @@ where
     /// * `status` - An [`AssetStatus`] containing the status of an asset for the update.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the updated [`Asset`] once updated.
+    /// Returns the updated [`AssetStatus`] once updated.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -936,6 +940,9 @@ where
     ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn update_asset_status(
         &self,
         device_name: String,
@@ -943,7 +950,7 @@ where
         asset_name: String,
         status: AssetStatus,
         timeout: Duration,
-    ) -> Result<Asset, Error> {
+    ) -> Result<AssetStatus, Error> {
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -971,9 +978,10 @@ where
             .update_asset_status_command_invoker
             .invoke(command_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
 
-        Ok(response.payload.updated_asset.into())
+        Ok(response.payload.updated_asset_status.into())
     }
 
     /// Starts observation of an [`Asset`]'s updates from the Azure Device Registry service.
@@ -999,11 +1007,11 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the observation was not accepted by the service.
-    ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn observe_asset_update_notifications(
         &self,
         device_name: String,
@@ -1052,27 +1060,22 @@ where
             .await;
 
         match result {
-            Ok(response) => {
-                if let base_client_gen::NotificationPreferenceResponse::Accepted =
-                    response.payload.notification_preference_response
+            Ok(Ok(_)) => Ok(AssetUpdateObservation(rx)),
+            Ok(Err(e)) => {
+                // If the observe request wasn't successful, remove it from our dispatcher
+                if self
+                    .asset_update_notification_dispatcher
+                    .unregister_receiver(&receiver_id)
                 {
-                    Ok(AssetUpdateObservation(rx))
+                    log::debug!(
+                        "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
+                    );
                 } else {
-                    // If the observe request wasn't successful, remove it from our dispatcher
-                    if self
-                        .asset_update_notification_dispatcher
-                        .unregister_receiver(&receiver_id)
-                    {
-                        log::debug!(
-                            "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
-                        );
-                    } else {
-                        log::debug!(
-                            "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
-                        );
-                    }
-                    Err(Error(ErrorKind::ObservationError))
+                    log::debug!(
+                        "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
+                    );
                 }
+                Err(Error(ErrorKind::from(e)))
             }
             Err(e) => {
                 // If the observe request wasn't successful, remove it from our dispatcher
@@ -1111,11 +1114,11 @@ where
     /// - device or inbound endpoint names are invalid.
     /// - there are any underlying errors from the AIO RPC protocol.
     ///
-    /// [`struct@Error`] of kind [`ObservationError`](ErrorKind::ObservationError)
-    /// if the unobservation was not accepted by the service.
-    ///
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
     /// if the asset name is empty.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Azure Device Registry service.
     pub async fn unobserve_asset_update_notifications(
         &self,
         device_name: String,
@@ -1149,38 +1152,29 @@ where
                 .build()
                 .map_err(ErrorKind::from)?;
 
-        let response = self
+        let _ = self
             .notify_on_asset_update_command_invoker
             .invoke(command_request)
             .await
+            .map_err(ErrorKind::from)?
             .map_err(ErrorKind::from)?;
 
-        match response.payload.notification_preference_response {
-            base_client_gen::NotificationPreferenceResponse::Accepted => {
-                let receiver_id = Self::hash_device_endpoint_asset(
-                    &device_name,
-                    &inbound_endpoint_name,
-                    &asset_name,
-                );
-                // Remove it from our dispatcher
-                if self
-                    .asset_update_notification_dispatcher
-                    .unregister_receiver(&receiver_id)
-                {
-                    log::debug!(
-                        "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
-                    );
-                } else {
-                    log::debug!(
-                        "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
-                    );
-                }
-                Ok(())
-            }
-            base_client_gen::NotificationPreferenceResponse::Failed => {
-                Err(Error(ErrorKind::ObservationError))
-            }
+        // unobserve was successful, remove this asset from our dispatcher
+        let receiver_id =
+            Self::hash_device_endpoint_asset(&device_name, &inbound_endpoint_name, &asset_name);
+        if self
+            .asset_update_notification_dispatcher
+            .unregister_receiver(&receiver_id)
+        {
+            log::debug!(
+                "Device, Endpoint and Asset combination removed from observed list: {receiver_id:?}"
+            );
+        } else {
+            log::debug!(
+                "Device, Endpoint and Asset combination not in observed list: {receiver_id:?}"
+            );
         }
+        Ok(())
     }
 
     /// Creates or updates a discovered asset in the Azure Device Registry service.
@@ -1192,7 +1186,7 @@ where
     /// * `device_name` - The name of the device.
     /// * `inbound_endpoint_name` - The name of the inbound endpoint.
     /// * `asset_name` - The name of the discovered asset.
-    /// * `asset_specification` - The specification of the discovered asset.
+    /// * `asset` - The specification of the discovered asset.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns a tuple containing the discovery ID and version of the discovered asset.
@@ -1215,10 +1209,10 @@ where
         device_name: String,
         inbound_endpoint_name: String,
         asset_name: String,
-        asset_specification: DiscoveredAssetSpecification,
+        asset: DiscoveredAsset,
         timeout: Duration,
     ) -> Result<(String, u64), Error> {
-        // TODO: do we need to take device_name at all as an argument? It's in the DeviceRef in the DiscoveredAssetSpecification
+        // TODO: do we need to take device_name at all as an argument? It's in the DeviceRef in the DiscoveredAsset
         if asset_name.trim().is_empty() {
             return Err(Error(ErrorKind::ValidationError(
                 "asset_name must not be empty".to_string(),
@@ -1227,7 +1221,7 @@ where
 
         let payload = base_client_gen::CreateOrUpdateDiscoveredAssetRequestPayload {
             discovered_asset_request: base_client_gen::CreateOrUpdateDiscoveredAssetRequestSchema {
-                discovered_asset: asset_specification.into(),
+                discovered_asset: asset.into(),
                 discovered_asset_name: asset_name,
             },
         };
@@ -1334,12 +1328,12 @@ mod tests {
         }
     }
 
-    fn create_dummy_discovered_asset_specification() -> DiscoveredAssetSpecification {
+    fn create_dummy_discovered_asset() -> DiscoveredAsset {
         let device_ref = DeviceRef {
             device_name: DEVICE_NAME.to_string(),
             endpoint_name: INBOUND_ENDPOINT_NAME.to_string(),
         };
-        DiscoveredAssetSpecification {
+        DiscoveredAsset {
             asset_type_refs: vec![],
             attributes: HashMap::default(),
             datasets: vec![],
@@ -1628,7 +1622,7 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 String::new(),
-                create_dummy_discovered_asset_specification(),
+                create_dummy_discovered_asset(),
                 DURATION,
             )
             .await;
@@ -1652,7 +1646,7 @@ mod tests {
                 device_name.to_string(),
                 endpoint_name.to_string(),
                 ASSET_NAME.to_string(),
-                create_dummy_discovered_asset_specification(),
+                create_dummy_discovered_asset(),
                 DURATION,
             )
             .await;
@@ -1671,7 +1665,7 @@ mod tests {
                 DEVICE_NAME.to_string(),
                 INBOUND_ENDPOINT_NAME.to_string(),
                 ASSET_NAME.to_string(),
-                create_dummy_discovered_asset_specification(),
+                create_dummy_discovered_asset(),
                 Duration::from_secs(0),
             )
             .await;

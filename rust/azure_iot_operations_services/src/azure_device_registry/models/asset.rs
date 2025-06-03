@@ -12,21 +12,9 @@ use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
 use crate::azure_device_registry::{ConfigError, StatusConfig};
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
-
 /// Represents an Asset in the Azure Device Registry service.
 #[derive(Clone, Debug)]
 pub struct Asset {
-    /// The name of the asset.
-    pub name: String,
-    /// The 'specification' Field.
-    pub specification: AssetSpecification,
-    /// The 'status' Field.
-    pub status: Option<AssetStatus>,
-}
-
-/// Represents the specification of an Asset in the Azure Device Registry service.
-#[derive(Clone, Debug)]
-pub struct AssetSpecification {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// A set of key-value pairs that contain custom attributes
@@ -89,9 +77,9 @@ pub struct AssetSpecification {
     pub version: Option<u64>,
 }
 
-/// Represents the partial specification of an Discovered Asset in the Azure Device Registry service.
+/// Represents a Discovered Asset in the Azure Device Registry service.
 #[derive(Clone, Debug)]
-pub struct DiscoveredAssetSpecification {
+pub struct DiscoveredAsset {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if empty, we can represent as None on generated model.
     /// A set of key-value pairs that contain custom attributes
@@ -609,16 +597,6 @@ impl From<Retain> for base_client_gen::Retain {
     }
 }
 
-impl From<base_client_gen::Asset> for Asset {
-    fn from(value: base_client_gen::Asset) -> Self {
-        Asset {
-            name: value.name,
-            specification: value.specification.into(),
-            status: value.status.map(Into::into),
-        }
-    }
-}
-
 impl From<base_client_gen::AssetStatus> for AssetStatus {
     fn from(value: base_client_gen::AssetStatus) -> Self {
         AssetStatus {
@@ -677,9 +655,9 @@ impl From<base_client_gen::MessageSchemaReference> for MessageSchemaReference {
     }
 }
 
-impl From<base_client_gen::AssetSpecificationSchema> for AssetSpecification {
-    fn from(value: base_client_gen::AssetSpecificationSchema) -> Self {
-        AssetSpecification {
+impl From<base_client_gen::Asset> for Asset {
+    fn from(value: base_client_gen::Asset) -> Self {
+        Asset {
             asset_type_refs: value.asset_type_refs.unwrap_or_default(),
             attributes: value.attributes.unwrap_or_default(),
             datasets: value.datasets.option_vec_into().unwrap_or_default(),
@@ -726,8 +704,8 @@ impl From<base_client_gen::AssetSpecificationSchema> for AssetSpecification {
     }
 }
 
-impl From<DiscoveredAssetSpecification> for base_client_gen::DiscoveredAsset {
-    fn from(value: DiscoveredAssetSpecification) -> Self {
+impl From<DiscoveredAsset> for base_client_gen::DiscoveredAsset {
+    fn from(value: DiscoveredAsset) -> Self {
         base_client_gen::DiscoveredAsset {
             asset_type_refs: value.asset_type_refs.option_vec_into(),
             attributes: value.attributes.option_map_into(),

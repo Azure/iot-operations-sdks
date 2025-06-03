@@ -170,12 +170,6 @@ pub enum Authentication {
 }
 
 // ~~ From impls ~~
-impl From<base_client_gen::DeviceUpdateEventTelemetry> for Device {
-    fn from(value: base_client_gen::DeviceUpdateEventTelemetry) -> Self {
-        value.device_update_event.device.into()
-    }
-}
-
 impl From<base_client_gen::Device> for Device {
     fn from(value: base_client_gen::Device) -> Self {
         Device {
