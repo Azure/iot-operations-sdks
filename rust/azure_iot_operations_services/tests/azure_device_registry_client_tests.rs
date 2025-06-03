@@ -25,12 +25,10 @@ const ENDPOINT1: &str = "my-rest-endpoint";
 const ENDPOINT2: &str = "my-coap-endpoint";
 const ASSET_NAME1: &str = "my-rest-thermostat-asset";
 const ASSET_NAME2: &str = "my-coap-thermostat-asset";
-// Unique names to avoid conflicts for specificaion updates
+// Unique names to avoid conflicts for spec updates
 const ASSET_NAME3: &str = "unique-rest-thermostat-asset";
 const ENDPOINT3: &str = "unique-endpoint";
 const DEVICE3: &str = "unique-thermostat";
-#[allow(dead_code)]
-const ENDPOINT_TYPE: &str = "rest-thermostat";
 const TYPE: &str = "thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
 
@@ -149,7 +147,7 @@ async fn update_device_plus_endpoint_status() {
     let updated_status = DeviceStatus {
         config: Some(StatusConfig {
             error: Some(ConfigError {
-                message: Some(message.clone()),
+                message: Some(message),
                 ..ConfigError::default()
             }),
             ..StatusConfig::default()
@@ -302,18 +300,20 @@ async fn observe_asset_update_notifications() {
     let test_task = tokio::task::spawn({
         async move {
             // This unobserve is to ensure we start the test with a clean state
-            azure_device_registry_client
-                .unobserve_asset_update_notifications(
-                    DEVICE3.to_string(),
-                    ENDPOINT3.to_string(),
-                    ASSET_NAME3.to_string(),
-                    TIMEOUT,
-                )
-                .await
-                .unwrap();
+            assert!(
+                azure_device_registry_client
+                    .unobserve_asset_update_notifications(
+                        DEVICE3.to_string(),
+                        ENDPOINT3.to_string(),
+                        ASSET_NAME3.to_string(),
+                        TIMEOUT,
+                    )
+                    .await
+                    .is_ok()
+            );
 
             let update_desc = format!(
-                "Patch specification update to NOT trigger notification after unobserve {}",
+                "Patch specification update to trigger notification during observe {}",
                 Uuid::new_v4()
             );
             let mut observation = azure_device_registry_client
@@ -337,10 +337,9 @@ async fn observe_asset_update_notifications() {
                     log::info!("[{log_identifier}] Asset update notification receiver started.");
                     let mut count = 0;
                     loop {
-                        let notification_result = observation.recv_notification().await;
-                        if let Some((asset, _)) = notification_result {
+                        if let Some((asset, _)) = observation.recv_notification().await {
                             count += 1;
-                            log::info!("[{log_identifier}] Asset Observation received: {asset:?}");
+                            log::info!("[{log_identifier}] Asset Update received: {asset:?}");
 
                             if count == 1 {
                                 // Signal that we got the first notification
@@ -374,13 +373,16 @@ async fn observe_asset_update_notifications() {
                 }
             });
 
-            match patch_asset_specification(ASSET_NAME3, &update_desc) {
-                Ok(()) => log::info!("Asset patched successfully"),
-                Err(e) => {
-                    log::error!("Failed to patch asset specification: {}", e);
-                    panic!("Failed to patch asset specification: {}", e);
-                }
-            }
+            // match patch_asset_specification(ASSET_NAME3, &update_desc) {
+            //     Ok(()) => log::info!("Asset patched successfully"),
+            //     Err(e) => {
+            //         log::error!("Failed to patch asset specification: {}", e);
+            //         panic!("Failed to patch asset specification: {}", e);
+            //     }
+            // }
+
+            let result = patch_asset_specification(ASSET_NAME3, &update_desc);
+            assert!(result.is_ok(), "Failed to patch asset specification");
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
@@ -401,16 +403,17 @@ async fn observe_asset_update_notifications() {
 
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
-            }
 
-            patch_asset_specification(
-                ASSET_NAME3,
-                format!(
-                    "Patch specification update to NOT trigger notification after unobserve {}",
-                    Uuid::new_v4()
-                )
-                .as_str(),
-            );
+                let result = patch_asset_specification(
+                    ASSET_NAME3,
+                    format!(
+                        "Patch specification update to NOT trigger notification during unobserve {}",
+                        Uuid::new_v4()
+                    )
+                    .as_str(),
+                );
+                assert!(result.is_ok(), "Failed to patch asset specification");
+            }
 
             let notification_count = match receive_notifications_task.await {
                 Ok(count) => {
@@ -472,7 +475,7 @@ async fn observe_device_update_notifications() {
                 .unwrap();
 
             let update_manu = format!(
-                "Patch specification update to NOT trigger notification after unobserve {}",
+                "Patch specification update to trigger notification during observe {}",
                 Uuid::new_v4()
             );
 
@@ -495,8 +498,7 @@ async fn observe_device_update_notifications() {
                     log::info!("[{log_identifier}] Device update notification receiver started.");
                     let mut count = 0;
                     loop {
-                        let notification_result = observation.recv_notification().await;
-                        if let Some((device, _)) = notification_result {
+                        if let Some((device, _)) = observation.recv_notification().await {
                             count += 1;
                             log::info!(
                                 "[{log_identifier}] Device Observation received: {device:?}"
@@ -534,13 +536,16 @@ async fn observe_device_update_notifications() {
                 }
             });
 
-            match patch_device_specification(DEVICE3, &update_manu) {
-                Ok(()) => log::info!("Device patched successfully"),
-                Err(e) => {
-                    log::error!("Failed to patch device specification: {}", e);
-                    panic!("Failed to patch device specification: {}", e);
-                }
-            }
+            // match patch_device_specification(DEVICE3, &update_manu) {
+            //     Ok(()) => log::info!("Device patched successfully"),
+            //     Err(e) => {
+            //         log::error!("Failed to patch device specification: {}", e);
+            //         panic!("Failed to patch device specification: {}", e);
+            //     }
+            // }
+
+            let result = patch_device_specification(DEVICE3, &update_manu);
+            assert!(result.is_ok(), "Failed to patch device specification");
 
             // Wait for first notification with timeout (e.g., 30 seconds)
             let notification_timeout = Duration::from_secs(30);
@@ -560,16 +565,17 @@ async fn observe_device_update_notifications() {
 
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
-            }
 
-            patch_device_specification(
-                DEVICE3,
-                format!(
-                    "Patch specification update to NOT trigger notification after unobserve {}",
+                let result = patch_asset_specification(
+                    ASSET_NAME3,
+                    format!(
+                    "Patch specification update to NOT trigger notification during unobserve {}",
                     Uuid::new_v4()
                 )
                 .as_str(),
             );
+                assert!(result.is_ok(), "Failed to patch device specification");
+            }
 
             let notification_count = match receive_notifications_task.await {
                 Ok(count) => {
@@ -608,10 +614,7 @@ async fn observe_device_update_notifications() {
     );
 }
 
-fn patch_asset_specification(
-    asset_name: &str,
-    description: &str,
-) -> Result<(), Box<dyn std::error::Error>> {
+fn patch_asset_specification(asset_name: &str, description: &str) -> Result<(), String> {
     let patch_json = format!(r#"{{"spec":{{"description":"{description}"}}}}"#);
 
     let output = Command::new("kubectl")
@@ -635,14 +638,11 @@ fn patch_asset_specification(
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
-        Err(format!("Patch failed: {}", error_msg).into())
+        Err(format!("Patch failed: {error_msg}"))
     }
 }
 
-fn patch_device_specification(
-    device_name: &str,
-    manufacturer: &str,
-) -> Result<(), Box<dyn std::error::Error>> {
+fn patch_device_specification(device_name: &str, manufacturer: &str) -> Result<(), String> {
     let patch_json = format!(r#"{{"spec":{{"manufacturer":"{manufacturer}"}}}}"#);
 
     let output = Command::new("kubectl")
@@ -666,6 +666,6 @@ fn patch_device_specification(
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
-        Err(format!("Patch failed: {}", error_msg).into())
+        Err(format!("Patch failed: {error_msg}"))
     }
 }
