@@ -327,6 +327,10 @@
                 }
               }
             ]
+          },
+          "version": {
+            "type": "string",
+            "description": "The version of this inbound endpoint."
           }
         },
         "required": [
