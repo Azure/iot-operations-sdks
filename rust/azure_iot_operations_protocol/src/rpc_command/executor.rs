@@ -212,6 +212,42 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
         }
         Ok(())
     }
+
+    /// Helper function to add user-defined application error headers to `response`.
+    ///
+    /// `application_error_code` required to be a non-empty `String`.
+    /// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `response`.
+    ///
+    /// Returns `Ok()` if `application_error_code` is not an empty `String`.
+    ///
+    /// # Errors
+    /// Returns an Error with the `String` "`application_error_code` cannot be empty" if `application_error_code` is an empty string.
+    pub fn add_application_error_headers(
+        mut response: Response<TResp>,
+        application_error_code: String,
+        application_error_payload: String,
+    ) -> Result<(), String> {
+        if application_error_code.is_empty() {
+            return Err("application_error_code cannot be empty".into());
+        }
+
+        let app_error_code_property = "AppErrCode";
+
+        response
+            .custom_user_data
+            .push((app_error_code_property.to_string(), application_error_code));
+
+        if !application_error_payload.is_empty() {
+            let app_error_payload_property = "AppErrPayload";
+
+            response.custom_user_data.push((
+                app_error_payload_property.to_string(),
+                application_error_payload,
+            ));
+        }
+
+        Ok(())
+    }
 }
 
 /// Command Executor Cache Key struct.
