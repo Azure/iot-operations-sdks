@@ -1821,9 +1821,16 @@ mod tests {
             .times(1);
 
         let mut binding = ResponseBuilder::default();
-        let mut response = binding.payload(mock_response_payload).unwrap().build().unwrap();
+        let mut response = binding
+            .payload(mock_response_payload)
+            .unwrap()
+            .build()
+            .unwrap();
 
-        assert!(ResponseBuilder::add_application_error_headers(&mut response, "500".into(), "".into()).is_ok());
+        assert!(
+            ResponseBuilder::add_application_error_headers(&mut response, "500".into(), "".into())
+                .is_ok()
+        );
         assert_eq!(response.custom_user_data.len(), 1);
     }
 
@@ -1842,9 +1849,20 @@ mod tests {
             .times(1);
 
         let mut binding = ResponseBuilder::default();
-        let mut response = binding.payload(mock_response_payload).unwrap().build().unwrap();
+        let mut response = binding
+            .payload(mock_response_payload)
+            .unwrap()
+            .build()
+            .unwrap();
 
-        assert!(ResponseBuilder::add_application_error_headers(&mut response, "".into(), "Some error".into()).is_err());
+        assert!(
+            ResponseBuilder::add_application_error_headers(
+                &mut response,
+                "".into(),
+                "Some error".into()
+            )
+            .is_err()
+        );
     }
 }
 

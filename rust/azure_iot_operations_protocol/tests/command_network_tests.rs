@@ -209,7 +209,6 @@ async fn command_basic_invoke_response_network_tests() {
     );
 }
 
-
 /// Tests application error code and payload headers
 #[tokio::test]
 async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
@@ -240,7 +239,14 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
                             .unwrap()
                             .build()
                             .unwrap();
-                        assert!(rpc_command::executor::ResponseBuilder::add_application_error_headers(&mut response, "345".into(), "Failed543".into()).is_ok());
+                        assert!(
+                            rpc_command::executor::ResponseBuilder::add_application_error_headers(
+                                &mut response,
+                                "345".into(),
+                                "Failed543".into()
+                            )
+                            .is_ok()
+                        );
                         assert!(request.complete(response).await.is_ok());
                     }
 
@@ -261,13 +267,13 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
                 .timeout(Duration::from_secs(2))
                 .build()
                 .unwrap();
-            
+
             let result = invoker.invoke(request).await;
             // Validate contents of the response match expected based on what was sent
             assert!(result.is_ok(), "result: {result:?}");
             let response = result.unwrap();
             assert_eq!(response.custom_user_data.len(), 2);
-            
+
             let mut user_error_headers_checksum = 0;
             for (key, value) in response.custom_user_data {
                 if key == "AppErrCode" {
@@ -308,9 +314,10 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
 #[tokio::test]
 async fn command_response_apperrorcode_no_apperrorpayload_network_tests() {
     let invoker_id = "command_response_apperrorcode_no_apperrorpayload_network_tests-rust";
-    let Ok((session, invoker, mut executor, exit_handle)) =
-        setup_test::<EmptyPayload, EmptyPayload>(invoker_id, "protocol/tests/apperrorcodeonly/command")
-    else {
+    let Ok((session, invoker, mut executor, exit_handle)) = setup_test::<EmptyPayload, EmptyPayload>(
+        invoker_id,
+        "protocol/tests/apperrorcodeonly/command",
+    ) else {
         // Network tests disabled, skipping tests
         return;
     };
@@ -334,7 +341,14 @@ async fn command_response_apperrorcode_no_apperrorpayload_network_tests() {
                             .unwrap()
                             .build()
                             .unwrap();
-                        assert!(rpc_command::executor::ResponseBuilder::add_application_error_headers(&mut response, "345".into(), "".into()).is_ok());
+                        assert!(
+                            rpc_command::executor::ResponseBuilder::add_application_error_headers(
+                                &mut response,
+                                "345".into(),
+                                "".into()
+                            )
+                            .is_ok()
+                        );
                         assert!(request.complete(response).await.is_ok());
                     }
 
@@ -355,14 +369,14 @@ async fn command_response_apperrorcode_no_apperrorpayload_network_tests() {
                 .timeout(Duration::from_secs(2))
                 .build()
                 .unwrap();
-            
+
             let result = invoker.invoke(request).await;
             // Validate contents of the response match expected based on what was sent
             assert!(result.is_ok(), "result: {result:?}");
             let response = result.unwrap();
 
             assert_eq!(response.custom_user_data.len(), 1);
-            
+
             let mut user_error_headers_checksum = 0;
             for (key, value) in response.custom_user_data {
                 if key == "AppErrCode" {
