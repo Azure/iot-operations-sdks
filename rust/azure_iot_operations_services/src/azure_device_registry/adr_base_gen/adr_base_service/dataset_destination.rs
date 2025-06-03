@@ -15,9 +15,9 @@ use super::destination_configuration::DestinationConfiguration;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DatasetDestination {
-    /// The destination configuration.
+    /// The 'configuration' Field.
     pub configuration: DestinationConfiguration,
 
-    /// The target destination.
+    /// The 'target' Field.
     pub target: DatasetTarget,
 }

@@ -3,10 +3,6 @@
 
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 
-use azure_iot_operations_stub_services::{
-    OutputDirectoryManager, create_service_session,
-    schema_registry::{self},
-};
 use log::LevelFilter;
 use log4rs::{
     Config,
@@ -14,6 +10,10 @@ use log4rs::{
     config::{Appender, Logger, Root},
     encode::pattern::PatternEncoder,
     init_config,
+};
+use azure_iot_operations_stub_services::{
+    OutputDirectoryManager, create_service_session,
+    schema_registry::{self},
 };
 
 const HOSTNAME: &str = "localhost";

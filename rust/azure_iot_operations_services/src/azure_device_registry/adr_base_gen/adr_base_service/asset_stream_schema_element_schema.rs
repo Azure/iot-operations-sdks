@@ -14,21 +14,21 @@ use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetStreamSchemaElementSchema {
-    /// Destinations for a Stream.
+    /// The 'destinations' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<EventStreamDestination>>,
 
-    /// The name of the stream definition.
+    /// The 'name' Field.
     pub name: String,
 
-    /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.
+    /// The 'streamConfiguration' Field.
     #[serde(rename = "streamConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub stream_configuration: Option<String>,
 
-    /// URI or type definition id in companion spec.
+    /// The 'typeRef' Field.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -14,23 +14,23 @@ use super::details_schema_element_schema::DetailsSchemaElementSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ConfigError {
-    /// Error code for classification of errors (ex: '400', '404', '500', etc.).
+    /// The 'code' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub code: Option<String>,
 
-    /// Array of event statuses that describe the status of each event.
+    /// The 'details' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub details: Option<Vec<DetailsSchemaElementSchema>>,
 
-    /// A set of key-value pairs that contain service specific details set by the service.
+    /// The 'innerError' Field.
     #[serde(rename = "innerError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub inner_error: Option<HashMap<String, String>>,
 
-    /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
+    /// The 'message' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub message: Option<String>,

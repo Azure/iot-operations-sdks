@@ -14,11 +14,11 @@ use super::device_outbound_endpoint::DeviceOutboundEndpoint;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct OutboundSchema {
-    /// Device messaging endpoint model.
+    /// The 'assigned' Field.
     #[builder(default)]
     pub assigned: HashMap<String, DeviceOutboundEndpoint>,
 
-    /// Device messaging endpoint model.
+    /// The 'unassigned' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub unassigned: Option<HashMap<String, DeviceOutboundEndpoint>>,

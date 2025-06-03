@@ -15,12 +15,12 @@ use super::message_schema_reference::MessageSchemaReference;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetDatasetEventStreamStatus {
-    /// The configuration error
+    /// The 'error' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub error: Option<ConfigError>,
 
-    /// The message schema reference object.
+    /// The 'messageSchemaReference' Field.
     #[serde(rename = "messageSchemaReference")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

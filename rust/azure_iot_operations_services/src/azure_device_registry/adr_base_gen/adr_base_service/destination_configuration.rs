@@ -15,32 +15,32 @@ use super::retain::Retain;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DestinationConfiguration {
-    /// The BrokerStateStore destination configuration key.
+    /// The 'key' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub key: Option<String>,
 
-    /// The Storage destination configuration path.
+    /// The 'path' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub path: Option<String>,
 
-    /// The MQTT QoS setting.
+    /// The 'qos' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub qos: Option<Qos>,
 
-    /// When set to 'Keep', messages published to an MQTT broker will have the retain flag set.
+    /// The 'retain' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub retain: Option<Retain>,
 
-    /// The MQTT topic.
+    /// The 'topic' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub topic: Option<String>,
 
-    /// The MQTT TTL setting.
+    /// The 'ttl' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub ttl: Option<u64>,

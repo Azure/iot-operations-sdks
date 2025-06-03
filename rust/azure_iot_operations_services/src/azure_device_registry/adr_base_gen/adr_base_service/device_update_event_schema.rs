@@ -16,8 +16,4 @@ use super::device::Device;
 pub struct DeviceUpdateEventSchema {
     /// The 'device' Field.
     pub device: Device,
-
-    /// The 'deviceName' Field.
-    #[serde(rename = "deviceName")]
-    pub device_name: String,
 }

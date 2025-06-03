@@ -21,27 +21,27 @@ pub struct AssetDatasetSchemaElementSchema {
     #[builder(default = "None")]
     pub data_points: Option<Vec<AssetDatasetDataPointSchemaElementSchema>>,
 
-    /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.
+    /// The 'datasetConfiguration' Field.
     #[serde(rename = "datasetConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub dataset_configuration: Option<String>,
 
-    /// The address of the source of the data in the dataset (e.g. URL) so that a client can access the data source on the asset.
+    /// The 'dataSource' Field.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_source: Option<String>,
 
-    /// Destinations for a Dataset.
+    /// The 'destinations' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<DatasetDestination>>,
 
-    /// Name of the dataset.
+    /// The 'name' Field.
     pub name: String,
 
-    /// URI or type definition id in companion spec.
+    /// The 'typeRef' Field.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

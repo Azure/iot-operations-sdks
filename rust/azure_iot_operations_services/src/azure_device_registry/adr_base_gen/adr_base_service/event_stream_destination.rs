@@ -15,9 +15,9 @@ use super::event_stream_target::EventStreamTarget;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct EventStreamDestination {
-    /// The destination configuration.
+    /// The 'configuration' Field.
     pub configuration: DestinationConfiguration,
 
-    /// The target destination.
+    /// The 'target' Field.
     pub target: EventStreamTarget,
 }

@@ -20,7 +20,7 @@ pub struct DeviceEndpointsSchema {
     #[builder(default = "None")]
     pub inbound: Option<HashMap<String, InboundSchemaMapValueSchema>>,
 
-    /// Set of endpoints for device to connect to.
+    /// The 'outbound' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub outbound: Option<OutboundSchema>,

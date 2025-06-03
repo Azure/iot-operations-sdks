@@ -10,73 +10,19 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::device_endpoints_schema::DeviceEndpointsSchema;
+use super::device_specification_schema::DeviceSpecificationSchema;
+use super::device_status::DeviceStatus;
 
-/// Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Device {
-    /// A set of key-value pairs that contain custom attributes set by the customer.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub attributes: Option<HashMap<String, String>>,
+    /// The 'name' Field.
+    pub name: String,
 
-    /// Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.
-    #[serde(rename = "discoveredDeviceRef")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub discovered_device_ref: Option<String>,
+    /// The 'specification' Field.
+    pub specification: DeviceSpecificationSchema,
 
-    /// Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.
+    /// The 'status' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub enabled: Option<bool>,
-
-    /// Connection endpoint url a device can use to connect to a service.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub endpoints: Option<DeviceEndpointsSchema>,
-
-    /// The unique identifier of the device.
-    #[serde(rename = "externalDeviceId")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub external_device_id: Option<String>,
-
-    /// A timestamp that is updated each time the resource is modified.
-    #[serde(rename = "lastTransitionTime")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub last_transition_time: Option<DateTime<Utc>>,
-
-    /// Hardware manufacturer name.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub manufacturer: Option<String>,
-
-    /// Model name.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub model: Option<String>,
-
-    /// Operating system name.
-    #[serde(rename = "operatingSystem")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub operating_system: Option<String>,
-
-    /// Operating system version.
-    #[serde(rename = "operatingSystemVersion")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub operating_system_version: Option<String>,
-
-    /// Gets a unique identifier for this resource.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub uuid: Option<String>,
-
-    /// An integer that is incremented each time the resource is modified.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub version: Option<u64>,
+    pub status: Option<DeviceStatus>,
 }

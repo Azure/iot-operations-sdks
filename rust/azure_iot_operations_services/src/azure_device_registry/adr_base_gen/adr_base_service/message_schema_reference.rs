@@ -11,18 +11,17 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
-/// The message schema reference object.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct MessageSchemaReference {
-    /// The reference to the message schema name.
+    /// The 'schemaName' Field.
     #[serde(rename = "schemaName")]
     pub schema_name: String,
 
-    /// The reference to the message schema registry namespace.
+    /// The 'schemaRegistryNamespace' Field.
     #[serde(rename = "schemaRegistryNamespace")]
     pub schema_registry_namespace: String,
 
-    /// The reference to the message schema version.
+    /// The 'schemaVersion' Field.
     #[serde(rename = "schemaVersion")]
     pub schema_version: String,
 }

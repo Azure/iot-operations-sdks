@@ -20,16 +20,16 @@ pub struct AssetManagementGroupActionStatusSchemaElementSchema {
     #[builder(default = "None")]
     pub error: Option<ConfigError>,
 
-    /// The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.
+    /// The 'name' Field.
     pub name: String,
 
-    /// The request message schema reference object.
+    /// The 'requestMessageSchemaReference' Field.
     #[serde(rename = "requestMessageSchemaReference")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub request_message_schema_reference: Option<MessageSchemaReference>,
 
-    /// The response message schema reference object.
+    /// The 'responseMessageSchemaReference' Field.
     #[serde(rename = "responseMessageSchemaReference")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

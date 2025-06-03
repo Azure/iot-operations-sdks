@@ -19,13 +19,13 @@ pub struct DeviceStatusConfigSchema {
     #[builder(default = "None")]
     pub error: Option<ConfigError>,
 
-    /// A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.
+    /// The 'lastTransitionTime' Field.
     #[serde(rename = "lastTransitionTime")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub last_transition_time: Option<DateTime<Utc>>,
 
-    /// A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.
+    /// The 'version' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub version: Option<u64>,
