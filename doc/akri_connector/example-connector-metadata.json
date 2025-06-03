@@ -73,7 +73,7 @@
       },
       "assets": [
         {
-          "name": "myRestAsset",
+          "assetName": "myRestAsset",
           "configSchemas": {
             "datasetConfigSchema": {
               "schema": {

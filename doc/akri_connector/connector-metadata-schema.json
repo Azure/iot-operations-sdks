@@ -295,8 +295,9 @@
               {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string"
+                  "assetName": {
+                    "type": "string",
+                    "description": "The name of the asset"
                   },
                   "configSchemas": {
                     "type": "object",
