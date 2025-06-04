@@ -354,15 +354,6 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.Topic ToProtocol(this Topic source)
-    {
-        return new AdrBaseService.Topic
-        {
-            Path = source.Path,
-            Retain = source.Retain?.ToProtocol()
-        };
-    }
-
     internal static AdrBaseService.Retain ToProtocol(this Retain source)
     {
         return (AdrBaseService.Retain)(int)source;
