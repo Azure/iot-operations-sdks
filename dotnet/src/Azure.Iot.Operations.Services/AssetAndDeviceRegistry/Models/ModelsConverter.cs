@@ -16,6 +16,40 @@ internal static class ModelsConverter
         AllowTrailingCommas = true,
     };
 
+    internal static CreateOrUpdateDiscoveredAssetResponsePayload ToModel(this AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload source)
+    {
+        return new()
+        {
+            DiscoveredAssetResponse = source.DiscoveredAssetResponse.ToModel()
+        };
+    }
+
+    internal static DiscoveredAssetResponseSchema ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
+    {
+        return new()
+        {
+            DiscoveryId = source.DiscoveryId,
+            Version = source.Version,
+        };
+    }
+
+    internal static DiscoveredDeviceResponseSchema ToModel(this DeviceDiscoveryService.DiscoveredDeviceResponseSchema source)
+    {
+        return new()
+        {
+            DiscoveryId = source.DiscoveryId,
+            Version = source.Version,
+        };
+    }
+
+    internal static CreateOrUpdateDiscoveredDeviceResponsePayload ToModel(this DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceResponsePayload source)
+    {
+        return new()
+        {
+            DiscoveredDeviceResponse = source.DiscoveredDeviceResponse.ToModel(),
+        };
+    }
+
     internal static SetNotificationPreferenceForAssetUpdatesResponsePayload ToModel(this AdrBaseService.SetNotificationPreferenceForAssetUpdatesResponsePayload source)
     {
         return new()
@@ -78,15 +112,6 @@ internal static class ModelsConverter
             Streams = source.Streams?.Select(x => x.ToModel()).ToList(),
             Uuid = source.Uuid,
             Version = source.Version,
-        };
-    }
-
-    internal static CreateDetectedAssetResponse ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
-    {
-        return new CreateDetectedAssetResponse
-        {
-            DiscoveryId = source.DiscoveryId,
-            Version = source.Version
         };
     }
 
@@ -485,15 +510,6 @@ internal static class ModelsConverter
             Assigned = new Dictionary<string, DeviceOutboundEndpoint>(source.Assigned.Select(x => new KeyValuePair<string, DeviceOutboundEndpoint>(x.Key, x.Value.ToModel()))),
             Unassigned = new Dictionary<string, DeviceOutboundEndpoint>(source.Unassigned?.Select(x => new KeyValuePair<string, DeviceOutboundEndpoint>(x.Key, x.Value.ToModel())) ??
                                                                         new Dictionary<string, DeviceOutboundEndpoint>())
-        };
-    }
-
-    internal static  CreateDiscoveredAssetEndpointProfileResponse ToModel(this DiscoveredDeviceResponseSchema source)
-    {
-        return new CreateDiscoveredAssetEndpointProfileResponse
-        {
-            DiscoveryId = source.DiscoveryId,
-            Version = source.Version
         };
     }
 }

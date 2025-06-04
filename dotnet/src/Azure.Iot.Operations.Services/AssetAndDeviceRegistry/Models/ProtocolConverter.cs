@@ -17,6 +17,29 @@ internal static class ProtocolConverter
         };
     }
 
+    public static DeviceDiscoveryService.DiscoveredDevice ToProtocol(this Models.DiscoveredDevice source)
+    {
+        return new()
+        {
+            Attributes = source.Attributes,
+            Endpoints = source.Endpoints?.ToProtocol(),
+            ExternalDeviceId = source.ExternalDeviceId,
+            Manufacturer = source.Manufacturer,
+            Model = source.Model,
+            OperatingSystem = source.OperatingSystem,
+            OperatingSystemVersion = source.OperatingSystemVersion,
+        };
+    }
+
+    public static DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestSchema ToProtocol(this Models.CreateOrUpdateDiscoveredDeviceRequestSchema source)
+    {
+        return new()
+        {
+            DiscoveredDevice = source.DiscoveredDevice.ToProtocol(),
+            DiscoveredDeviceName = source.DiscoveredDeviceName,
+        };
+    }
+
     public static UpdateAssetStatusRequestPayload ToProtocol(this UpdateAssetStatusRequest source)
     {
         return new UpdateAssetStatusRequestPayload
@@ -214,25 +237,11 @@ internal static class ProtocolConverter
 }
 
     internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef source)
-{
-    return new AdrBaseService.AssetDeviceRef
     {
-        DeviceName = source.DeviceName,
-        EndpointName = source.EndpointName
-    };
-}
-
-    internal static DiscoveredDevice ToProtocol(this CreateDiscoveredDeviceRequest source)
-    {
-        return new  DiscoveredDevice
+        return new AdrBaseService.AssetDeviceRef
         {
-            Attributes = source.Attributes,
-            Endpoints = source.Endpoints?.ToProtocol(),
-            Manufacturer = source.Manufacturer,
-            Model = source.Model,
-            ExternalDeviceId = source.ExternalDeviceId,
-            OperatingSystem = source.OperatingSystem,
-            OperatingSystemVersion = source.OperatingSystemVersion
+            DeviceName = source.DeviceName,
+            EndpointName = source.EndpointName
         };
     }
 

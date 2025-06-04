@@ -250,6 +250,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         }
     }
 
+    /// <inheritdoc />
     public async Task<AssetStatus> GetAssetStatusAsync(string deviceName, string inboundEndpointName, string assetName, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -285,7 +286,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public async Task<CreateDetectedAssetResponse> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request,
+    public async Task<Models.CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName, string inboundEndpointName, CreateOrUpdateDiscoveredAssetRequest request,
         TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -306,7 +307,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
                 additionalTopicTokenMap,
                 commandTimeout ?? _defaultTimeout,
                 cancellationToken);
-            return result.DiscoveredAssetResponse.ToModel();
+            return result.ToModel();
         }
         catch (AkriServiceErrorException exception)
         {
@@ -316,7 +317,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public async Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(CreateDiscoveredDeviceRequest request,
+    public async Task<Models.CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(Models.CreateOrUpdateDiscoveredDeviceRequestSchema request,
         string inboundEndpointType, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -328,12 +329,12 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _inboundEpTypeTokenKey, inboundEndpointType },
         };
 
-        var req = new CreateOrUpdateDiscoveredDeviceRequestPayload
+        var req = new DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestPayload
         {
-            DiscoveredDeviceRequest = new CreateOrUpdateDiscoveredDeviceRequestSchema
+            DiscoveredDeviceRequest = new DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestSchema
             {
-                DiscoveredDevice = request.ToProtocol(),
-                DiscoveredDeviceName = request.Name,
+                DiscoveredDevice = request.DiscoveredDevice.ToProtocol(),
+                DiscoveredDeviceName = request.DiscoveredDeviceName,
             }
         };
 
@@ -345,7 +346,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
                 additionalTopicTokenMap,
                 commandTimeout ?? _defaultTimeout,
                 cancellationToken);
-            return result.DiscoveredDeviceResponse.ToModel();
+            return result.ToModel();
         }
         catch (DeviceDiscoveryService.AkriServiceErrorException exception)
         {

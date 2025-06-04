@@ -17,7 +17,6 @@ using Xunit.Abstractions;
 [Trait("Category", "ADR")]
 public class AdrServiceClientIntegrationTests
 {
-    /*
     private readonly ITestOutputHelper _output;
     private const string ConnectorClientId = "test-connector-client";
     private const string TestDevice_1_Name = "my-thermostat";
@@ -39,7 +38,7 @@ public class AdrServiceClientIntegrationTests
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
         // Act
-        var device = (await client.GetDeviceAsync(TestDevice_1_Name, "my-rest-endpoint")).Device;
+        var device = await client.GetDeviceAsync(TestDevice_1_Name, "my-rest-endpoint");
 
         // Assert
         _output.WriteLine($"Device: {TestDevice_1_Name}");
@@ -94,7 +93,7 @@ public class AdrServiceClientIntegrationTests
         };
 
         // Act
-        DeviceStatus updatedDevice = (await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status)).UpdatedDeviceStatus;
+        DeviceStatus updatedDevice = await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
 
         // Assert
         Assert.NotNull(updatedDevice);
@@ -212,7 +211,7 @@ public class AdrServiceClientIntegrationTests
         await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
 
         // Act
-        var asset = (await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, TestAssetName)).Asset;
+        var asset = await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Assert
         _output.WriteLine($"Asset: {TestAssetName}");
@@ -238,9 +237,8 @@ public class AdrServiceClientIntegrationTests
 
         // Assert
         Assert.NotNull(updatedAsset);
-        Assert.NotNull(updatedAsset.UpdatedAssetStatus);
-        Assert.NotNull(updatedAsset.UpdatedAssetStatus.Config);
-        Assert.Equal(expectedTime, updatedAsset.UpdatedAssetStatus.Config.LastTransitionTime);
+        Assert.NotNull(updatedAsset.Config);
+        Assert.Equal(expectedTime, updatedAsset.Config.LastTransitionTime);
     }
 
     [Fact]
@@ -514,7 +512,7 @@ public class AdrServiceClientIntegrationTests
             TestDevice_1_Name, TestEndpointName, updateRequest);
 
         // Get asset to verify state after update
-        var asset = (await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, TestAssetName)).Asset;
+        var asset = await client.GetAssetAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
 
         // Cleanup
         await client.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.Off);
@@ -769,7 +767,7 @@ public class AdrServiceClientIntegrationTests
 
     private CreateOrUpdateDiscoveredDeviceRequestSchema CreateCreateDiscoveredDeviceRequest()
     {
-        return new CreateOrUpdateDiscoveredDeviceRequest
+        return new CreateOrUpdateDiscoveredDeviceRequestSchema
         {
             DiscoveredDeviceName = "test-discovered-device",
             DiscoveredDevice = new()
@@ -810,5 +808,4 @@ public class AdrServiceClientIntegrationTests
             }
         };
     }
-    */
 }
