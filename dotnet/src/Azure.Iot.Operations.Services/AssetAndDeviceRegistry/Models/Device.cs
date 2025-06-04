@@ -1,99 +1,31 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record Device
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+        public Dictionary<string, string>? Attributes { get; set; }
 
-    /// <summary>
-    /// Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.
-    /// </summary>
-    
-    public partial class Device
-    {
-        /// <summary>
-        /// A set of key-value pairs that contain custom attributes set by the customer.
-        /// </summary>
-        [JsonPropertyName("attributes")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Dictionary<string, string>? Attributes { get; set; } = default;
+        public string? DiscoveredDeviceRef { get; set; }
 
-        /// <summary>
-        /// Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.
-        /// </summary>
-        [JsonPropertyName("discoveredDeviceRef")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DiscoveredDeviceRef { get; set; } = default;
+        public bool? Enabled { get; set; }
 
-        /// <summary>
-        /// Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.
-        /// </summary>
-        [JsonPropertyName("enabled")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool? Enabled { get; set; } = default;
+        public DeviceEndpoints? Endpoints { get; set; }
 
-        /// <summary>
-        /// Connection endpoint url a device can use to connect to a service.
-        /// </summary>
-        [JsonPropertyName("endpoints")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DeviceEndpoints? Endpoints { get; set; } = default;
+        public string? ExternalDeviceId { get; set; }
 
-        /// <summary>
-        /// The unique identifier of the device.
-        /// </summary>
-        [JsonPropertyName("externalDeviceId")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ExternalDeviceId { get; set; } = default;
+        public DateTime? LastTransitionTime { get; set; }
 
-        /// <summary>
-        /// A timestamp that is updated each time the resource is modified.
-        /// </summary>
-        [JsonPropertyName("lastTransitionTime")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DateTime? LastTransitionTime { get; set; } = default;
+        public string? Manufacturer { get; set; }
 
-        /// <summary>
-        /// Hardware manufacturer name.
-        /// </summary>
-        [JsonPropertyName("manufacturer")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Manufacturer { get; set; } = default;
+        public string? Model { get; set; }
 
-        /// <summary>
-        /// Model name.
-        /// </summary>
-        [JsonPropertyName("model")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Model { get; set; } = default;
+        public string? OperatingSystem { get; set; }
 
-        /// <summary>
-        /// Operating system name.
-        /// </summary>
-        [JsonPropertyName("operatingSystem")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? OperatingSystem { get; set; } = default;
+        public string? OperatingSystemVersion { get; set; }
 
-        /// <summary>
-        /// Operating system version.
-        /// </summary>
-        [JsonPropertyName("operatingSystemVersion")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? OperatingSystemVersion { get; set; } = default;
+        public string? Uuid { get; set; }
 
-        /// <summary>
-        /// Gets a unique identifier for this resource.
-        /// </summary>
-        [JsonPropertyName("uuid")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Uuid { get; set; } = default;
-
-        /// <summary>
-        /// An integer that is incremented each time the resource is modified.
-        /// </summary>
-        [JsonPropertyName("version")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public ulong? Version { get; set; } = default;
-
-    }
+        public ulong? Version { get; set; }
 }

@@ -1,17 +1,8 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
-{
-    using System.Runtime.Serialization;
-    using System.Text.Json.Serialization;
+﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
-    
-    public enum AssetManagementGroupActionType
-    {
-        [EnumMember(Value = @"Call")]
-        Call = 0,
-        [EnumMember(Value = @"Read")]
-        Read = 1,
-        [EnumMember(Value = @"Write")]
-        Write = 2,
-    }
+public enum AssetManagementGroupActionType
+{
+    Call = 0,
+    Read = 1,
+    Write = 2,
 }

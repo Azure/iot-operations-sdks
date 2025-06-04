@@ -1,70 +1,13 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record MessageSchemaReference
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public required string SchemaName { get; set; }
 
-    /// <summary>
-    /// The message schema reference object.
-    /// </summary>
-    
-    public partial class MessageSchemaReference : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// The reference to the message schema name.
-        /// </summary>
-        [JsonPropertyName("schemaName")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string SchemaName { get; set; } = default!;
+    public required string SchemaRegistryNamespace { get; set; }
 
-        /// <summary>
-        /// The reference to the message schema registry namespace.
-        /// </summary>
-        [JsonPropertyName("schemaRegistryNamespace")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string SchemaRegistryNamespace { get; set; } = default!;
-
-        /// <summary>
-        /// The reference to the message schema version.
-        /// </summary>
-        [JsonPropertyName("schemaVersion")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string SchemaVersion { get; set; } = default!;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (SchemaName is null)
-            {
-                throw new ArgumentNullException("schemaName field cannot be null");
-            }
-            if (SchemaRegistryNamespace is null)
-            {
-                throw new ArgumentNullException("schemaRegistryNamespace field cannot be null");
-            }
-            if (SchemaVersion is null)
-            {
-                throw new ArgumentNullException("schemaVersion field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (SchemaName is null)
-            {
-                throw new ArgumentNullException("schemaName field cannot be null");
-            }
-            if (SchemaRegistryNamespace is null)
-            {
-                throw new ArgumentNullException("schemaRegistryNamespace field cannot be null");
-            }
-            if (SchemaVersion is null)
-            {
-                throw new ArgumentNullException("schemaVersion field cannot be null");
-            }
-        }
-    }
+    public required string SchemaVersion { get; set; }
 }

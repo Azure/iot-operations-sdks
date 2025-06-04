@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public DeviceStatusConfigSchema? Config { get; set; } = default;
 
         /// <summary>
-        /// Defines the device status for inbound/outbound endpoints.
+        /// The 'endpoints' Field.
         /// </summary>
         [JsonPropertyName("endpoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

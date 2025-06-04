@@ -1,49 +1,12 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record AssetDatasetEventStreamStatus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public ConfigError? Error { get; set; }
+    public MessageSchemaReference? MessageSchemaReference { get; set; }
 
-    
-    public partial class AssetDatasetEventStreamStatus : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// The configuration error
-        /// </summary>
-        [JsonPropertyName("error")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public ConfigError? Error { get; set; } = default;
-
-        /// <summary>
-        /// The message schema reference object.
-        /// </summary>
-        [JsonPropertyName("messageSchemaReference")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public MessageSchemaReference? MessageSchemaReference { get; set; } = default;
-
-        /// <summary>
-        /// The 'name' Field.
-        /// </summary>
-        [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string Name { get; set; } = default!;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-        }
-    }
+    public required string Name { get; set; }
 }

@@ -1,47 +1,17 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record AssetStatus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public AssetConfigStatus? Config { get; set; }
 
-    
-    public partial class AssetStatus
-    {
-        /// <summary>
-        /// The 'config' Field.
-        /// </summary>
-        [JsonPropertyName("config")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public AssetConfigStatus? Config { get; set; } = default;
+    public List<AssetDatasetEventStreamStatus>? Datasets { get; set; }
 
-        /// <summary>
-        /// Array of dataset statuses that describe the status of each dataset.
-        /// </summary>
-        [JsonPropertyName("datasets")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetEventStreamStatus>? Datasets { get; set; } = default;
+    public List<AssetDatasetEventStreamStatus>? Events { get; set; }
 
-        /// <summary>
-        /// Array of event statuses that describe the status of each event.
-        /// </summary>
-        [JsonPropertyName("events")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetEventStreamStatus>? Events { get; set; } = default;
+    public List<AssetManagementGroupStatusSchemaElement>? ManagementGroups { get; set; }
 
-        /// <summary>
-        /// Array of management group statuses that describe the status of each management group.
-        /// </summary>
-        [JsonPropertyName("managementGroups")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetManagementGroupStatusSchemaElement>? ManagementGroups { get; set; } = default;
-
-        /// <summary>
-        /// Array of stream statuses that describe the status of each stream.
-        /// </summary>
-        [JsonPropertyName("streams")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetDatasetEventStreamStatus>? Streams { get; set; } = default;
-
-    }
+    public List<AssetDatasetEventStreamStatus>? Streams { get; set; }
 }

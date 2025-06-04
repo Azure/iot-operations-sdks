@@ -9,14 +9,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-    /// <summary>
-    /// A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.
-    /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
     public partial class AssetDeviceRef : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Name of the device resource
+        /// The 'deviceName' Field.
         /// </summary>
         [JsonPropertyName("deviceName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -24,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string DeviceName { get; set; } = default!;
 
         /// <summary>
-        /// The name of endpoint to use
+        /// The 'endpointName' Field.
         /// </summary>
         [JsonPropertyName("endpointName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

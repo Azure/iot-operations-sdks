@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetManagementGroupActionSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Configuration for the action.
+        /// The 'actionConfiguration' Field.
         /// </summary>
         [JsonPropertyName("actionConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? ActionConfiguration { get; set; } = default;
 
         /// <summary>
-        /// Type of the action.
+        /// The 'actionType' Field.
         /// </summary>
         [JsonPropertyName("actionType")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public AssetManagementGroupActionType ActionType { get; set; } = default!;
 
         /// <summary>
-        /// Name of the action.
+        /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -36,7 +36,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// TargetUri of action.
+        /// The 'targetUri' Field.
         /// </summary>
         [JsonPropertyName("targetUri")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -44,21 +44,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string TargetUri { get; set; } = default!;
 
         /// <summary>
-        /// Time out in seconds for the action
+        /// The 'timeOutInSeconds' Field.
         /// </summary>
         [JsonPropertyName("timeOutInSeconds")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public uint? TimeOutInSeconds { get; set; } = default;
 
         /// <summary>
-        /// The MQTT topic.
+        /// The 'topic' Field.
         /// </summary>
         [JsonPropertyName("topic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Topic { get; set; } = default;
 
         /// <summary>
-        /// URI or type definition id in companion spec.
+        /// The 'typeRef' Field.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

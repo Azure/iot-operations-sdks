@@ -1,35 +1,9 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record X509Credentials
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
-
-    
-    public partial class X509Credentials : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).
-        /// </summary>
-        [JsonPropertyName("certificateSecretName")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string CertificateSecretName { get; set; } = default!;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (CertificateSecretName is null)
-            {
-                throw new ArgumentNullException("certificateSecretName field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (CertificateSecretName is null)
-            {
-                throw new ArgumentNullException("certificateSecretName field cannot be null");
-            }
-        }
-    }
+    public string? CertificateSecretName { get; set; }
 }

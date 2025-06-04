@@ -1,17 +1,11 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
-{
-    using System.Runtime.Serialization;
-    using System.Text.Json.Serialization;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
-    
-    public enum Method
-    {
-        [EnumMember(Value = @"Anonymous")]
-        Anonymous = 0,
-        [EnumMember(Value = @"Certificate")]
-        Certificate = 1,
-        [EnumMember(Value = @"UsernamePassword")]
-        UsernamePassword = 2,
-    }
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public enum Method
+{
+    Anonymous = 0,
+    Certificate = 1,
+    UsernamePassword = 2
 }

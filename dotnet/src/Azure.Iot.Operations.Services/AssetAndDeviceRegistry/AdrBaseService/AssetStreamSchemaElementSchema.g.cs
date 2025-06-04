@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetStreamSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Destinations for a Stream.
+        /// The 'destinations' Field.
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<EventStreamDestination>? Destinations { get; set; } = default;
 
         /// <summary>
-        /// The name of the stream definition.
+        /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,14 +28,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.
+        /// The 'streamConfiguration' Field.
         /// </summary>
         [JsonPropertyName("streamConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? StreamConfiguration { get; set; } = default;
 
         /// <summary>
-        /// URI or type definition id in companion spec.
+        /// The 'typeRef' Field.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

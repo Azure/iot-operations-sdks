@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DatasetDestination : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The destination configuration.
+        /// The 'configuration' Field.
         /// </summary>
         [JsonPropertyName("configuration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public DestinationConfiguration Configuration { get; set; } = default!;
 
         /// <summary>
-        /// The target destination.
+        /// The 'target' Field.
         /// </summary>
         [JsonPropertyName("target")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

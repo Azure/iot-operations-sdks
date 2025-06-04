@@ -1,72 +1,14 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record DiscoveredDeviceInboundEndpoint
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public string? AdditionalConfiguration { get; set; }
 
-    
-    public partial class DiscoveredDeviceInboundEndpoint : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// The 'additionalConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("additionalConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? AdditionalConfiguration { get; set; } = default;
+    public required string Address { get; set; }
 
-        /// <summary>
-        /// The 'address' Field.
-        /// </summary>
-        [JsonPropertyName("address")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string Address { get; set; } = default!;
+    public required string EndpointType { get; set; }
 
-        /// <summary>
-        /// The 'endpointType' Field.
-        /// </summary>
-        [JsonPropertyName("endpointType")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string EndpointType { get; set; } = default!;
+    public List<string>? SupportedAuthenticationMethods { get; set; }
 
-        /// <summary>
-        /// The 'supportedAuthenticationMethods' Field.
-        /// </summary>
-        [JsonPropertyName("supportedAuthenticationMethods")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<string>? SupportedAuthenticationMethods { get; set; } = default;
-
-        /// <summary>
-        /// The 'version' Field.
-        /// </summary>
-        [JsonPropertyName("version")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Version { get; set; } = default;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (Address is null)
-            {
-                throw new ArgumentNullException("address field cannot be null");
-            }
-            if (EndpointType is null)
-            {
-                throw new ArgumentNullException("endpointType field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (Address is null)
-            {
-                throw new ArgumentNullException("address field cannot be null");
-            }
-            if (EndpointType is null)
-            {
-                throw new ArgumentNullException("endpointType field cannot be null");
-            }
-        }
-    }
+    public string? Version { get; set; }
 }

@@ -13,28 +13,28 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class ConfigError
     {
         /// <summary>
-        /// Error code for classification of errors (ex: '400', '404', '500', etc.).
+        /// The 'code' Field.
         /// </summary>
         [JsonPropertyName("code")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Code { get; set; } = default;
 
         /// <summary>
-        /// Array of event statuses that describe the status of each event.
+        /// The 'details' Field.
         /// </summary>
         [JsonPropertyName("details")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DetailsSchemaElementSchema>? Details { get; set; } = default;
 
         /// <summary>
-        /// A set of key-value pairs that contain service specific details set by the service.
+        /// The 'innerError' Field.
         /// </summary>
         [JsonPropertyName("innerError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Dictionary<string, string>? InnerError { get; set; } = default;
 
         /// <summary>
-        /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
+        /// The 'message' Field.
         /// </summary>
         [JsonPropertyName("message")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

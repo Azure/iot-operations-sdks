@@ -13,42 +13,42 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DestinationConfiguration
     {
         /// <summary>
-        /// The BrokerStateStore destination configuration key.
+        /// The 'key' Field.
         /// </summary>
         [JsonPropertyName("key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Key { get; set; } = default;
 
         /// <summary>
-        /// The Storage destination configuration path.
+        /// The 'path' Field.
         /// </summary>
         [JsonPropertyName("path")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Path { get; set; } = default;
 
         /// <summary>
-        /// The MQTT QoS setting.
+        /// The 'qos' Field.
         /// </summary>
         [JsonPropertyName("qos")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Qos? Qos { get; set; } = default;
 
         /// <summary>
-        /// When set to 'Keep', messages published to an MQTT broker will have the retain flag set.
+        /// The 'retain' Field.
         /// </summary>
         [JsonPropertyName("retain")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public Retain? Retain { get; set; } = default;
 
         /// <summary>
-        /// The MQTT topic.
+        /// The 'topic' Field.
         /// </summary>
         [JsonPropertyName("topic")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Topic { get; set; } = default;
 
         /// <summary>
-        /// The MQTT TTL setting.
+        /// The 'ttl' Field.
         /// </summary>
         [JsonPropertyName("ttl")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

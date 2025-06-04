@@ -13,14 +13,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AssetDatasetDataPointSchemaElementSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Stringified JSON that contains connector-specific configuration for the data point.
+        /// The 'dataPointConfiguration' Field.
         /// </summary>
         [JsonPropertyName("dataPointConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DataPointConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset.
+        /// The 'dataSource' Field.
         /// </summary>
         [JsonPropertyName("dataSource")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string DataSource { get; set; } = default!;
 
         /// <summary>
-        /// The name of the data point.
+        /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -36,7 +36,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// URI or type definition id in companion spec.
+        /// The 'typeRef' Field.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

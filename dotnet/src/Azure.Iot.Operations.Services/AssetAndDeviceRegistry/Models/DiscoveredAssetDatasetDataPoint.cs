@@ -1,64 +1,19 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Text.Json;
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record DiscoveredAssetDatasetDataPoint
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public JsonDocument? DataPointConfiguration { get; set; }
 
-    
-    public partial class DiscoveredAssetDatasetDataPoint : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// The 'dataPointConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("dataPointConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? DataPointConfiguration { get; set; } = default;
+    public required string DataSource { get; set; }
 
-        /// <summary>
-        /// The 'dataSource' Field.
-        /// </summary>
-        [JsonPropertyName("dataSource")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string DataSource { get; set; } = default!;
+    public DateTime? LastUpdatedOn { get; set; }
 
-        /// <summary>
-        /// The 'lastUpdatedOn' Field.
-        /// </summary>
-        [JsonPropertyName("lastUpdatedOn")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DateTime? LastUpdatedOn { get; set; } = default;
+    public required string? Name { get; set; }
 
-        /// <summary>
-        /// The 'name' Field.
-        /// </summary>
-        [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Name { get; set; } = default;
-
-        /// <summary>
-        /// The 'typeRef' Field.
-        /// </summary>
-        [JsonPropertyName("typeRef")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? TypeRef { get; set; } = default;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (DataSource is null)
-            {
-                throw new ArgumentNullException("dataSource field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (DataSource is null)
-            {
-                throw new ArgumentNullException("dataSource field cannot be null");
-            }
-        }
-    }
+    public string? TypeRef { get; set; }
 }

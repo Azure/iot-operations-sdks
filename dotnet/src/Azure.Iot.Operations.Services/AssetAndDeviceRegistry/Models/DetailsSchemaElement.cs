@@ -1,40 +1,15 @@
-﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record DetailsSchemaElement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public string? Code { get; set; }
 
-    
-    public partial class DetailsSchemaElement
-    {
-        /// <summary>
-        /// Multi-part error code for classification and root causing of errors (ex: 400.200.100.432).
-        /// </summary>
-        [JsonPropertyName("code")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Code { get; set; } = default;
+    public string? CorrelationId { get; set; }
 
-        /// <summary>
-        /// Unique identifier for the transaction to aid in debugging.
-        /// </summary>
-        [JsonPropertyName("correlationId")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? CorrelationId { get; set; } = default;
+    public string? Info { get; set; }
 
-        /// <summary>
-        /// Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).
-        /// </summary>
-        [JsonPropertyName("info")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Info { get; set; } = default;
-
-        /// <summary>
-        /// Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).
-        /// </summary>
-        [JsonPropertyName("message")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Message { get; set; } = default;
-
-    }
+    public string? Message { get; set; }
 }

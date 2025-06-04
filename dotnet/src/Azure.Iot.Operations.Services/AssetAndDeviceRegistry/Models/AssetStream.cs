@@ -1,57 +1,17 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Text.Json;
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public class AssetStream
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public List<EventStreamDestination>? Destinations { get; set; } = default;
 
-    
-    public partial class AssetStream : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// Destinations for a Stream.
-        /// </summary>
-        [JsonPropertyName("destinations")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<EventStreamDestination>? Destinations { get; set; } = default;
+    public string Name { get; set; } = default!;
 
-        /// <summary>
-        /// The name of the stream definition.
-        /// </summary>
-        [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string Name { get; set; } = default!;
+    public JsonDocument? StreamConfiguration { get; set; } = default;
 
-        /// <summary>
-        /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.
-        /// </summary>
-        [JsonPropertyName("streamConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? StreamConfiguration { get; set; } = default;
-
-        /// <summary>
-        /// URI or type definition id in companion spec.
-        /// </summary>
-        [JsonPropertyName("typeRef")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? TypeRef { get; set; } = default;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-        }
-    }
+    public string? TypeRef { get; set; } = default;
 }

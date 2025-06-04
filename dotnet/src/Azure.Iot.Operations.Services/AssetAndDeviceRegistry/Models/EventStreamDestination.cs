@@ -1,43 +1,7 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record EventStreamDestination
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
-
-    
-    public partial class EventStreamDestination : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// The destination configuration.
-        /// </summary>
-        [JsonPropertyName("configuration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public DestinationConfiguration Configuration { get; set; } = default!;
-
-        /// <summary>
-        /// The target destination.
-        /// </summary>
-        [JsonPropertyName("target")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public EventStreamTarget Target { get; set; } = default!;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (Configuration is null)
-            {
-                throw new ArgumentNullException("configuration field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (Configuration is null)
-            {
-                throw new ArgumentNullException("configuration field cannot be null");
-            }
-        }
-    }
+    public required DestinationConfiguration Configuration { get; set; }
+    public EventStreamTarget Target { get; set; }
 }

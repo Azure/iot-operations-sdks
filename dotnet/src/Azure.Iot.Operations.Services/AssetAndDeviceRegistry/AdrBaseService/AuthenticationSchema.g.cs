@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class AuthenticationSchema
     {
         /// <summary>
-        /// Defines the method to authenticate the user of the client at the server.
+        /// The 'method' Field.
         /// </summary>
         [JsonPropertyName("method")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,14 +21,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public MethodSchema Method { get; set; } = default!;
 
         /// <summary>
-        /// The credentials for authentication mode UsernamePassword.
+        /// The 'usernamePasswordCredentials' Field.
         /// </summary>
         [JsonPropertyName("usernamePasswordCredentials")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public UsernamePasswordCredentialsSchema? UsernamePasswordCredentials { get; set; } = default;
 
         /// <summary>
-        /// The x509 certificate for authentication mode Certificate.
+        /// The 'x509Credentials' Field.
         /// </summary>
         [JsonPropertyName("x509Credentials")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

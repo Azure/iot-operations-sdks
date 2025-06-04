@@ -13,28 +13,28 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class DetailsSchemaElementSchema
     {
         /// <summary>
-        /// Multi-part error code for classification and root causing of errors (ex: 400.200.100.432).
+        /// The 'code' Field.
         /// </summary>
         [JsonPropertyName("code")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Code { get; set; } = default;
 
         /// <summary>
-        /// Unique identifier for the transaction to aid in debugging.
+        /// The 'correlationId' Field.
         /// </summary>
         [JsonPropertyName("correlationId")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? CorrelationId { get; set; } = default;
 
         /// <summary>
-        /// Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).
+        /// The 'info' Field.
         /// </summary>
         [JsonPropertyName("info")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Info { get; set; } = default;
 
         /// <summary>
-        /// Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).
+        /// The 'message' Field.
         /// </summary>
         [JsonPropertyName("message")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

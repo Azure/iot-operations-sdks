@@ -1,19 +1,9 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record DeviceStatusInboundEndpointSchemaMapValue
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
-
-    
-    public partial class DeviceStatusInboundEndpointSchemaMapValue
-    {
-        /// <summary>
-        /// The 'error' Field.
-        /// </summary>
-        [JsonPropertyName("error")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public ConfigError? Error { get; set; } = default;
-
-    }
+    public ConfigError? Error { get; set; }
 }

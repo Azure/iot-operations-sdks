@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class X509credentialsSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).
+        /// The 'certificateSecretName' Field.
         /// </summary>
         [JsonPropertyName("certificateSecretName")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

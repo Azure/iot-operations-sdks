@@ -1,15 +1,10 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
-{
-    using System.Runtime.Serialization;
-    using System.Text.Json.Serialization;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
-    
-    public enum Retain
-    {
-        [EnumMember(Value = @"Keep")]
-        Keep = 0,
-        [EnumMember(Value = @"Never")]
-        Never = 1,
-    }
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public enum Retain
+{
+    Keep = 0,
+    Never = 1
 }

@@ -1,17 +1,9 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public class AkriServiceErrorException(AkriServiceError akriServiceError) : Exception(akriServiceError.Message)
 {
-    using System;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
-
-    
-    public partial class AkriServiceErrorException : Exception
-    {
-        public AkriServiceErrorException(AkriServiceError akriServiceError)
-            : base(akriServiceError.Message)
-        {
-            AkriServiceError = akriServiceError;
-        }
-
-        public AkriServiceError AkriServiceError { get; }
-    }
+    public AkriServiceError AkriServiceError { get; } = akriServiceError;
 }

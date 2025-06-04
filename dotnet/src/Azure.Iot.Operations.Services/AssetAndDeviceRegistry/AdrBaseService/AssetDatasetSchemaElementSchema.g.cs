@@ -20,28 +20,28 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public List<AssetDatasetDataPointSchemaElementSchema>? DataPoints { get; set; } = default;
 
         /// <summary>
-        /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.
+        /// The 'datasetConfiguration' Field.
         /// </summary>
         [JsonPropertyName("datasetConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DatasetConfiguration { get; set; } = default;
 
         /// <summary>
-        /// The address of the source of the data in the dataset (e.g. URL) so that a client can access the data source on the asset.
+        /// The 'dataSource' Field.
         /// </summary>
         [JsonPropertyName("dataSource")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? DataSource { get; set; } = default;
 
         /// <summary>
-        /// Destinations for a Dataset.
+        /// The 'destinations' Field.
         /// </summary>
         [JsonPropertyName("destinations")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public List<DatasetDestination>? Destinations { get; set; } = default;
 
         /// <summary>
-        /// Name of the dataset.
+        /// The 'name' Field.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -49,7 +49,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public string Name { get; set; } = default!;
 
         /// <summary>
-        /// URI or type definition id in companion spec.
+        /// The 'typeRef' Field.
         /// </summary>
         [JsonPropertyName("typeRef")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

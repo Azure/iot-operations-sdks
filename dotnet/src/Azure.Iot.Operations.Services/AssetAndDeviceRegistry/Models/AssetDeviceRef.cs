@@ -1,53 +1,11 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record AssetDeviceRef
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public required string DeviceName { get; set; }
 
-    /// <summary>
-    /// A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.
-    /// </summary>
-    public partial class AssetDeviceRef : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// Name of the device resource
-        /// </summary>
-        [JsonPropertyName("deviceName")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string DeviceName { get; set; } = default!;
-
-        /// <summary>
-        /// The name of endpoint to use
-        /// </summary>
-        [JsonPropertyName("endpointName")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string EndpointName { get; set; } = default!;
-
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (DeviceName is null)
-            {
-                throw new ArgumentNullException("deviceName field cannot be null");
-            }
-            if (EndpointName is null)
-            {
-                throw new ArgumentNullException("endpointName field cannot be null");
-            }
-        }
-
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (DeviceName is null)
-            {
-                throw new ArgumentNullException("deviceName field cannot be null");
-            }
-            if (EndpointName is null)
-            {
-                throw new ArgumentNullException("endpointName field cannot be null");
-            }
-        }
-    }
+    public required string EndpointName { get; set; }
 }

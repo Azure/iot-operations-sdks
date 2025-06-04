@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class OutboundSchema : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Device messaging endpoint model.
+        /// The 'assigned' Field.
         /// </summary>
         [JsonPropertyName("assigned")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         public Dictionary<string, DeviceOutboundEndpoint> Assigned { get; set; } = default!;
 
         /// <summary>
-        /// Device messaging endpoint model.
+        /// The 'unassigned' Field.
         /// </summary>
         [JsonPropertyName("unassigned")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

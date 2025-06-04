@@ -1,183 +1,106 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using System.Text.Json;
+
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+
+public record DiscoveredAsset
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
-    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+    public List<string>? AssetTypeRefs { get; set; }
 
-    
-    public partial class DiscoveredAsset : IJsonOnDeserialized, IJsonOnSerializing
-    {
-        /// <summary>
-        /// The 'assetTypeRefs' Field.
-        /// </summary>
-        [JsonPropertyName("assetTypeRefs")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<string>? AssetTypeRefs { get; set; } = default;
+    public Dictionary<string, string>? Attributes { get; set; }
 
-        /// <summary>
-        /// The 'attributes' Field.
-        /// </summary>
-        [JsonPropertyName("attributes")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Dictionary<string, string>? Attributes { get; set; } = default;
 
-        /// <summary>
-        /// The 'datasets' Field.
-        /// </summary>
-        [JsonPropertyName("datasets")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DiscoveredAssetDataset>? Datasets { get; set; } = default;
+    public string? AssetName { get; set; }
 
-        /// <summary>
-        /// The 'defaultDatasetsConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("defaultDatasetsConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? DefaultDatasetsConfiguration { get; set; } = default;
+    public List<DiscoveredAssetDataset>? Datasets { get; set; }
 
-        /// <summary>
-        /// The 'defaultDatasetsDestinations' Field.
-        /// </summary>
-        [JsonPropertyName("defaultDatasetsDestinations")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DatasetDestination>? DefaultDatasetsDestinations { get; set; } = default;
+    public JsonDocument? DefaultDatasetsConfiguration { get; set; }
 
-        /// <summary>
-        /// The 'defaultEventsConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("defaultEventsConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? DefaultEventsConfiguration { get; set; } = default;
+    public List<DatasetDestination>? DefaultDatasetsDestinations { get; set; }
 
-        /// <summary>
-        /// The 'defaultEventsDestinations' Field.
-        /// </summary>
-        [JsonPropertyName("defaultEventsDestinations")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<EventStreamDestination>? DefaultEventsDestinations { get; set; } = default;
+    public JsonDocument? DefaultEventsConfiguration { get; set; }
 
-        /// <summary>
-        /// The 'defaultManagementGroupsConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("defaultManagementGroupsConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? DefaultManagementGroupsConfiguration { get; set; } = default;
+    public List<EventStreamDestination>? DefaultEventsDestinations { get; set; }
 
-        /// <summary>
-        /// The 'defaultStreamsConfiguration' Field.
-        /// </summary>
-        [JsonPropertyName("defaultStreamsConfiguration")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public JsonDocument? DefaultStreamsConfiguration { get; set; } = default;
+    public JsonDocument? DefaultManagementGroupsConfiguration { get; set; }
 
-        /// <summary>
-        /// The 'defaultStreamsDestinations' Field.
-        /// </summary>
-        [JsonPropertyName("defaultStreamsDestinations")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<EventStreamDestination>? DefaultStreamsDestinations { get; set; } = default;
+    public JsonDocument? DefaultStreamsConfiguration { get; set; }
 
-        /// <summary>
-        /// The 'deviceRef' Field.
-        /// </summary>
-        [JsonPropertyName("deviceRef")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public AssetDeviceRef DeviceRef { get; set; } = default!;
+    public List<EventStreamDestination>? DefaultStreamsDestinations { get; set; }
 
-        /// <summary>
-        /// The 'documentationUri' Field.
-        /// </summary>
-        [JsonPropertyName("documentationUri")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DocumentationUri { get; set; } = default;
+    public required AssetDeviceRef DeviceRef { get; set; }
 
-        /// <summary>
-        /// The 'events' Field.
-        /// </summary>
-        [JsonPropertyName("events")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DiscoveredAssetEvent>? Events { get; set; } = default;
+    public Topic? DefaultTopic { get; set; }
 
-        /// <summary>
-        /// The 'hardwareRevision' Field.
-        /// </summary>
-        [JsonPropertyName("hardwareRevision")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? HardwareRevision { get; set; } = default;
+    public string? DocumentationUri { get; set; }
 
-        /// <summary>
-        /// The 'managementGroups' Field.
-        /// </summary>
-        [JsonPropertyName("managementGroups")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DiscoveredAssetManagementGroup>? ManagementGroups { get; set; } = default;
+    public List<DetectedAssetEventSchemaElement>? Events { get; set; }
 
-        /// <summary>
-        /// Asset manufacturer name.
-        /// </summary>
-        [JsonPropertyName("manufacturer")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Manufacturer { get; set; } = default;
+    public string? HardwareRevision { get; set; }
 
-        /// <summary>
-        /// URI to the manufacturer of the asset.
-        /// </summary>
-        [JsonPropertyName("manufacturerUri")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ManufacturerUri { get; set; } = default;
+    public List<DiscoveredAssetManagementGroup>? ManagementGroups { get; set; }
+    public string? Manufacturer { get; set; }
 
-        /// <summary>
-        /// Asset model name.
-        /// </summary>
-        [JsonPropertyName("model")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? Model { get; set; } = default;
+    public string? ManufacturerUri { get; set; }
 
-        /// <summary>
-        /// Asset product code.
-        /// </summary>
-        [JsonPropertyName("productCode")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ProductCode { get; set; } = default;
+    public string? Model { get; set; }
 
-        /// <summary>
-        /// Asset serial number.
-        /// </summary>
-        [JsonPropertyName("serialNumber")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? SerialNumber { get; set; } = default;
+    public string? ProductCode { get; set; }
 
-        /// <summary>
-        /// Revision number of the software.
-        /// </summary>
-        [JsonPropertyName("softwareRevision")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? SoftwareRevision { get; set; } = default;
+    public string? SerialNumber { get; set; }
 
-        /// <summary>
-        /// The 'streams' Field.
-        /// </summary>
-        [JsonPropertyName("streams")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<DiscoveredAssetStream>? Streams { get; set; } = default;
+    public string? SoftwareRevision { get; set; }
 
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (DeviceRef is null)
-            {
-                throw new ArgumentNullException("deviceRef field cannot be null");
-            }
-        }
+    public List<DiscoveredAssetStream>? Streams { get; set; }
+}
 
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (DeviceRef is null)
-            {
-                throw new ArgumentNullException("deviceRef field cannot be null");
-            }
-        }
-    }
+public class DiscoveredAssetStream
+{
+    public List<EventStreamDestination>? Destinations { get; set; } = default;
+
+    public DateTime? LastUpdatedOn { get; set; } = default;
+
+    public string Name { get; set; } = default!;
+
+    public JsonDocument? StreamConfiguration { get; set; } = default;
+
+    public string? TypeRef { get; set; } = default;
+}
+
+public class DiscoveredAssetManagementGroup
+{
+    public List<DiscoveredAssetManagementGroupAction>? Actions { get; set; } = default;
+
+    public uint? DefaultTimeOutInSeconds { get; set; } = default;
+
+    public string? DefaultTopic { get; set; } = default;
+
+    public DateTime? LastUpdatedOn { get; set; } = default;
+
+    public JsonDocument? ManagementGroupConfiguration { get; set; } = default;
+
+    public string Name { get; set; } = default!;
+
+    public string? TypeRef { get; set; } = default;
+}
+
+public class DiscoveredAssetManagementGroupAction
+{
+    public JsonDocument? ActionConfiguration { get; set; } = default;
+
+    public AssetManagementGroupActionType ActionType { get; set; } = default!;
+
+    public DateTime? LastUpdatedOn { get; set; } = default;
+
+    public string Name { get; set; } = default!;
+
+    public string TargetUri { get; set; } = default!;
+
+    public uint? TimeOutInSeconds { get; set; } = default;
+
+    public string? Topic { get; set; } = default;
+
+    public string? TypeRef { get; set; } = default;
 }

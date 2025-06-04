@@ -1,15 +1,7 @@
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
-{
-    using System.Runtime.Serialization;
-    using System.Text.Json.Serialization;
+﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
-    
-    public enum Qos
-    {
-        [EnumMember(Value = @"Qos0")]
-        Qos0 = 0,
-        [EnumMember(Value = @"Qos1")]
-        Qos1 = 1,
-    }
+public enum QoS
+{
+    Qos0 = 0,
+    Qos1 = 1,
 }
