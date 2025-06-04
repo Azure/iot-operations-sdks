@@ -131,7 +131,6 @@ async fn get_device() {
 }
 
 #[tokio::test]
-// #[ignore]
 async fn update_device_plus_endpoint_status() {
     let log_identifier = "update_device_plus_endpoint_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -165,7 +164,7 @@ async fn update_device_plus_endpoint_status() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Updated Response Device: {updated_device:?}",);
+            log::info!("[{log_identifier}] Updated Response Device: {updated_device:?}");
 
             assert_eq!(updated_device.name, DEVICE2);
             assert_eq!(updated_device.specification.attributes["deviceId"], DEVICE2);
@@ -229,7 +228,6 @@ async fn get_asset() {
 }
 
 #[tokio::test]
-// #[ignore]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -288,7 +286,6 @@ async fn update_asset_status() {
 }
 
 #[tokio::test]
-// #[ignore]
 async fn observe_asset_update_notifications() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -325,7 +322,7 @@ async fn observe_asset_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Asset update observation completed.",);
+            log::info!("[{log_identifier}] Asset update observation completed.");
 
             let first_notification_notify = Arc::new(Notify::new());
 
@@ -339,9 +336,11 @@ async fn observe_asset_update_notifications() {
                     loop {
                         if let Some((asset, _)) = observation.recv_notification().await {
                             count += 1;
-                            log::info!("[{log_identifier}] Asset Update received: {asset:?}");
 
                             if count == 1 {
+                                log::info!(
+                                    "[{log_identifier}] Asset Update notification expected: {asset:?}"
+                                );
                                 // Signal that we got the first notification
                                 first_notification_notify.notify_one();
                                 assert_eq!(asset.name, ASSET_NAME3);
@@ -432,7 +431,6 @@ async fn observe_asset_update_notifications() {
 }
 
 #[tokio::test]
-// #[ignore = "This test is ignored as getting serialization error."]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -453,7 +451,7 @@ async fn observe_device_update_notifications() {
                 .await
                 .unwrap();
 
-            let update_manu = format!(
+            let update_manufacturer = format!(
                 "Patch specification update to trigger notification during observe {}",
                 Uuid::new_v4()
             );
@@ -466,22 +464,24 @@ async fn observe_device_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Device update observation: {observation:?}",);
+            log::info!("[{log_identifier}] Device update observation completed.",);
 
             let first_notification_notify = Arc::new(Notify::new());
 
             let receive_notifications_task = tokio::task::spawn({
                 let first_notification_notify = first_notification_notify.clone();
-                let update_manu_for_task = update_manu.clone();
+                let update_manu_for_task = update_manufacturer.clone();
                 async move {
                     log::info!("[{log_identifier}] Device update notification receiver started.");
                     let mut count = 0;
                     loop {
                         if let Some((device, _)) = observation.recv_notification().await {
                             count += 1;
-                            log::info!("[{log_identifier}] Device update received: {device:?}");
 
                             if count == 1 {
+                                log::info!(
+                                    "[{log_identifier}] Device update notification expected: {device:?}"
+                                );
                                 // Signal that we got the first notification
                                 first_notification_notify.notify_one();
                                 assert_eq!(device.name, DEVICE3);
@@ -513,7 +513,7 @@ async fn observe_device_update_notifications() {
             });
 
             assert!(
-                patch_device_specification(log_identifier, DEVICE3, &update_manu).is_ok(),
+                patch_device_specification(log_identifier, DEVICE3, &update_manufacturer).is_ok(),
                 "Failed to patch device specification"
             );
 
@@ -532,7 +532,7 @@ async fn observe_device_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Device update unobservation: {:?}", ());
+            log::info!("[{log_identifier}] Device update unobservation was completed.");
 
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
