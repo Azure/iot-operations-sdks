@@ -325,7 +325,7 @@ async fn observe_asset_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Asset update observation: {observation:?}",);
+            log::info!("[{log_identifier}] Asset update observation completed.",);
 
             let first_notification_notify = Arc::new(Notify::new());
 
@@ -364,10 +364,6 @@ async fn observe_asset_update_notifications() {
                             break;
                         }
                     }
-
-                    log::info!(
-                        "[{log_identifier}] Asset update notification receiver closed with count: {count}"
-                    );
                     count
                 }
             });
@@ -380,7 +376,7 @@ async fn observe_asset_update_notifications() {
             //     }
             // }
             assert!(
-                patch_asset_specification(ASSET_NAME3, &update_desc).is_ok(),
+                patch_asset_specification(log_identifier, ASSET_NAME3, &update_desc).is_ok(),
                 "Failed to patch asset specification"
             );
 
@@ -400,12 +396,13 @@ async fn observe_asset_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Asset update unobservation: {:?}", ());
+            log::info!("[{log_identifier}] Asset update unobservation completed");
 
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
 
-                assert!( patch_asset_specification(
+                assert!(patch_asset_specification(
+                    log_identifier,
                     ASSET_NAME3,
                     format!(
                         "Patch specification update to NOT trigger notification during unobserve {}",
@@ -417,15 +414,9 @@ async fn observe_asset_update_notifications() {
 
             match receive_notifications_task.await {
                 Ok(count) => {
-                    log::info!(
-                        "[{log_identifier}] Notification receiver task completed with count: {count}"
-                    );
                     assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
-                Err(e) => {
-                    log::error!(
-                        "[{log_identifier}] Notification receiver task failed due to unexpected counts or mismatch notification: {e:?}"
-                    );
+                Err(_e) => {
                     panic!(
                         "Notification receiver task failed due to unexpected counts or mismatch notification"
                     );
@@ -542,7 +533,7 @@ async fn observe_device_update_notifications() {
             // }
 
             assert!(
-                patch_device_specification(DEVICE3, &update_manu).is_ok(),
+                patch_device_specification(log_identifier, DEVICE3, &update_manu).is_ok(),
                 "Failed to patch device specification"
             );
 
@@ -566,7 +557,7 @@ async fn observe_device_update_notifications() {
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
 
-                assert!(patch_device_specification(
+                assert!(patch_device_specification(log_identifier,
                     DEVICE3,
                     format!(
                         "Patch specification update to NOT trigger notification during unobserve {}",
@@ -577,15 +568,9 @@ async fn observe_device_update_notifications() {
             }
             match receive_notifications_task.await {
                 Ok(count) => {
-                    log::info!(
-                        "[{log_identifier}] Notification receiver task completed with count: {count}"
-                    );
                     assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
-                Err(e) => {
-                    log::error!(
-                        "[{log_identifier}] Notification receiver task failed due to unexpected counts or mismatch notification: {e:?}"
-                    );
+                Err(_e) => {
                     panic!(
                         "Notification receiver task failed due to unexpected counts or mismatch notification"
                     );
@@ -612,7 +597,11 @@ async fn observe_device_update_notifications() {
     );
 }
 
-fn patch_asset_specification(asset_name: &str, description: &str) -> Result<(), String> {
+fn patch_asset_specification(
+    log_identifier: &str,
+    asset_name: &str,
+    description: &str,
+) -> Result<(), String> {
     let patch_json = format!(r#"{{"spec":{{"description":"{description}"}}}}"#);
 
     let output = Command::new("kubectl")
@@ -636,11 +625,19 @@ fn patch_asset_specification(asset_name: &str, description: &str) -> Result<(), 
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
-        Err(format!("Patch failed: {error_msg}"))
+        log::error!(
+            "[{log_identifier}] Failed to patch asset specification: {}",
+            error_msg
+        );
+        Err(error_msg.to_string())
     }
 }
 
-fn patch_device_specification(device_name: &str, manufacturer: &str) -> Result<(), String> {
+fn patch_device_specification(
+    log_identifier: &str,
+    device_name: &str,
+    manufacturer: &str,
+) -> Result<(), String> {
     let patch_json = format!(r#"{{"spec":{{"manufacturer":"{manufacturer}"}}}}"#);
 
     let output = Command::new("kubectl")
@@ -664,6 +661,10 @@ fn patch_device_specification(device_name: &str, manufacturer: &str) -> Result<(
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
-        Err(format!("Patch failed: {error_msg}"))
+        log::error!(
+            "[{log_identifier}] Failed to patch device specification: {}",
+            error_msg
+        );
+        Err(error_msg.to_string())
     }
 }
