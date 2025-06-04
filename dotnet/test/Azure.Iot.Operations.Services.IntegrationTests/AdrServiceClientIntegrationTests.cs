@@ -472,7 +472,7 @@ public class AdrServiceClientIntegrationTests
 
         // Start observing asset updates
         var observeResponse = await client.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
-        Assert.Equal("TODO", observeResponse.ResponsePayload);
+        Assert.Equal("Accepted", observeResponse.ResponsePayload);
 
         // Act - Update asset with multiple event streams including an error case
         var updateRequest = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
@@ -574,7 +574,7 @@ public class AdrServiceClientIntegrationTests
 
         // Start observing asset updates
         var observeResponse = await client.SetNotificationPreferenceForAssetUpdatesAsync(TestDevice_1_Name, TestEndpointName, TestAssetName, NotificationPreference.On);
-        Assert.Equal("TODO", observeResponse.ResponsePayload);
+        Assert.Equal("Accepted", observeResponse.ResponsePayload);
 
         // Act - Phase 1: Send an update and verify it's received
         var updateRequest1 = CreateUpdateAssetStatusRequest(DateTime.UtcNow);
