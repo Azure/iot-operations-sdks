@@ -66,7 +66,7 @@ public class AdrServiceClientIntegrationTests
         Assert.Equal(Code.KubeError, exception.AkriServiceError.Code);
     }
 
-    [Fact]
+    [Fact (Skip = "service doesn't support Update APIs yet")]
     public async Task CanUpdateDeviceStatusAsync()
     {
         // Arrange
@@ -101,7 +101,7 @@ public class AdrServiceClientIntegrationTests
         Assert.Equal(expectedTime, updatedDevice.Config.LastTransitionTime);
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task TriggerDeviceTelemetryEventWhenObservedAsync()
     {
         // Arrange
@@ -135,7 +135,7 @@ public class AdrServiceClientIntegrationTests
         }
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task DoNotTriggerTelemetryEventAfterUnobserveDeviceAsync()
     {
         // Arrange
@@ -220,7 +220,7 @@ public class AdrServiceClientIntegrationTests
         Assert.Single(asset.Datasets);
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task CanUpdateAssetStatusAsync()
     {
         // Arrange
@@ -657,13 +657,14 @@ public class AdrServiceClientIntegrationTests
         var latestEvent = postReconnectEvents[^1];
         Assert.NotNull(latestEvent.Events);
         var eventData = latestEvent.Events.Find(e => e.Name == "post-reconnect-event");
+        Assert.NotNull(eventData);
         //Assert.NotNull(eventData?.MessageSchemaReference);
         //Assert.Equal("reconnect-schema", eventData.MessageSchemaReference.SchemaName);
         //Assert.Equal("test-namespace", eventData.MessageSchemaReference.SchemaRegistryNamespace);
         //Assert.Equal("2.0", eventData.MessageSchemaReference.SchemaVersion);
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task ReceiveTelemetryForProperDeviceUpdateWhenMultipleDevicesUpdated()
     {
         // Arrange
