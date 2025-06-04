@@ -206,7 +206,7 @@ async fn get_asset() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Response: {asset:?}",);
+            log::info!("[{log_identifier}] Response: {asset:?}");
 
             assert_eq!(asset.name, ASSET_NAME1);
             assert_eq!(asset.specification.attributes["assetId"], ASSET_NAME1);
@@ -379,6 +379,7 @@ async fn observe_asset_update_notifications() {
             )
             .await;
 
+            // unobserve regardless of whether the notification was received or not for cleanup purposes
             azure_device_registry_client
                 .unobserve_asset_update_notifications(
                     DEVICE3.to_string(),
@@ -390,6 +391,7 @@ async fn observe_asset_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Asset update unobservation completed");
 
+            // If the first notification wasn't received, skip directly to asserting that the count is wrong instead of sending a second update
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
 
@@ -407,7 +409,7 @@ async fn observe_asset_update_notifications() {
             match receive_notifications_task.await {
                 Ok(count) => {
                     // Verify we got exactly 1 notification (only from the first update, not the second)
-                    assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
+                    assert_eq!(count, 1, "Expected exactly 1 notification, got {count}");
                 }
                 Err(e) => {
                     panic!(
@@ -524,6 +526,7 @@ async fn observe_device_update_notifications() {
             )
             .await;
 
+            // unobserve regardless of whether the notification was received or not for cleanup purposes
             azure_device_registry_client
                 .unobserve_device_update_notifications(
                     DEVICE3.to_string(),
@@ -534,6 +537,7 @@ async fn observe_device_update_notifications() {
                 .unwrap();
             log::info!("[{log_identifier}] Device update unobservation was completed.");
 
+            // If the first notification wasn't received, skip directly to asserting that the count is wrong instead of sending a second update
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
 
@@ -549,7 +553,7 @@ async fn observe_device_update_notifications() {
             match receive_notifications_task.await {
                 // Verify we got exactly 1 notification (only from the first update, not the second)
                 Ok(count) => {
-                    assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
+                    assert_eq!(count, 1, "Expected exactly 1 notification, got {count}");
                 }
                 Err(e) => {
                     panic!(
