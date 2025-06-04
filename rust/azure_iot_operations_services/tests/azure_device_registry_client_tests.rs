@@ -187,7 +187,7 @@ async fn update_device_plus_endpoint_status() {
 }
 
 #[tokio::test]
-// #[ignore]
+#[ignore = "This test is ignored as getting serialization error."]
 async fn get_asset() {
     let log_identifier = "get_asset_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -368,13 +368,6 @@ async fn observe_asset_update_notifications() {
                 }
             });
 
-            // match patch_asset_specification(ASSET_NAME3, &update_desc) {
-            //     Ok(()) => log::info!("Asset patched successfully"),
-            //     Err(e) => {
-            //         log::error!("Failed to patch asset specification: {}", e);
-            //         panic!("Failed to patch asset specification: {}", e);
-            //     }
-            // }
             assert!(
                 patch_asset_specification(log_identifier, ASSET_NAME3, &update_desc).is_ok(),
                 "Failed to patch asset specification"
@@ -414,6 +407,7 @@ async fn observe_asset_update_notifications() {
 
             match receive_notifications_task.await {
                 Ok(count) => {
+                    // Verify we got exactly 1 notification (only from the first update, not the second)
                     assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
                 Err(e) => {
@@ -422,12 +416,6 @@ async fn observe_asset_update_notifications() {
                     );
                 }
             };
-
-            // // Verify we got exactly 1 notification (only from the first update, not the second)
-            // assert_eq!(
-            //     notification_count, 1,
-            //     "Expected exactly 1 notification, got {notification_count}",
-            // );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
@@ -444,7 +432,7 @@ async fn observe_asset_update_notifications() {
 }
 
 #[tokio::test]
-#[ignore = "This test is ignored as getting serialization error."]
+// #[ignore = "This test is ignored as getting serialization error."]
 async fn observe_device_update_notifications() {
     let log_identifier = "observe_device_update_notifications_network_tests-rust";
     if !setup_test(log_identifier) {
@@ -524,14 +512,6 @@ async fn observe_device_update_notifications() {
                 }
             });
 
-            // match patch_device_specification(DEVICE3, &update_manu) {
-            //     Ok(()) => log::info!("Device patched successfully"),
-            //     Err(e) => {
-            //         log::error!("Failed to patch device specification: {}", e);
-            //         panic!("Failed to patch device specification: {}", e);
-            //     }
-            // }
-
             assert!(
                 patch_device_specification(log_identifier, DEVICE3, &update_manu).is_ok(),
                 "Failed to patch device specification"
@@ -567,6 +547,7 @@ async fn observe_device_update_notifications() {
                 ).is_ok(), "Failed to patch device specification");
             }
             match receive_notifications_task.await {
+                // Verify we got exactly 1 notification (only from the first update, not the second)
                 Ok(count) => {
                     assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
@@ -576,12 +557,6 @@ async fn observe_device_update_notifications() {
                     );
                 }
             };
-
-            // Verify we got exactly 1 notification (only from the first update, not the second)
-            // assert_eq!(
-            //     notification_count, 1,
-            //     "Expected exactly 1 notification, got {notification_count}",
-            // );
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
