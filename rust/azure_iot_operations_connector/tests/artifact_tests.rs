@@ -78,7 +78,7 @@ fn local_connector_artifacts_tls() {
                 .into_os_string()
                 .into_string()
                 .unwrap();
-            assert_eq!(mcs.client_id(), "connector-id-id_suffix");
+            assert_eq!(mcs.client_id(), "connector_id-id_suffix");
             assert_eq!(mcs.hostname(), "someHostName");
             assert_eq!(mcs.tcp_port(), 1234);
             assert_eq!(mcs.keep_alive(), &Duration::from_secs(10));
