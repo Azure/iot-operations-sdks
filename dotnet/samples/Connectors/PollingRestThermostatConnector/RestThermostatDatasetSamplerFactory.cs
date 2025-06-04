@@ -26,20 +26,20 @@ namespace RestThermostatConnector
         {
             if (dataset.Name.Equals("thermostat_status"))
             {
-                if (device.Specification.Endpoints != null
-                    && device.Specification.Endpoints.Inbound != null
-                    && device.Specification.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
+                if (device.Endpoints != null
+                    && device.Endpoints.Inbound != null
+                    && device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
                 {
                     var httpClient = new HttpClient()
                     {
                         BaseAddress = new Uri(inboundEndpoint.Address),
                     };
 
-                    return new ThermostatStatusDatasetSampler(httpClient, asset.Name, credentials);
+                    return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName ?? "TODO", credentials);
                 }
             }
 
-            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.Name}");
+            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.DisplayName ?? "TODO"}");
         }
     }
 }

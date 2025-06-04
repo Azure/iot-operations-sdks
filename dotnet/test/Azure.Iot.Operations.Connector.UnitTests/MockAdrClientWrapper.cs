@@ -34,7 +34,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return mockClientWrapper.Object.GetAssetNames(deviceName, inboundEndpointName);
         }
 
-        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(InboundSchemaMapValue inboundEndpoint)
         {
             return mockClientWrapper.Object.GetEndpointCredentials(inboundEndpoint);
         }
@@ -74,12 +74,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return mockClientWrapper.Object.UnobserveDevicesAsync(cancellationToken);
         }
 
-        public Task<Asset> UpdateAssetStatusAsync(string deviceName, string inboundEndpointName, UpdateAssetStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        public Task<AssetStatus> UpdateAssetStatusAsync(string deviceName, string inboundEndpointName, UpdateAssetStatusRequest request, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return mockClientWrapper.Object.UpdateAssetStatusAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
         }
 
-        public Task<Device> UpdateDeviceStatusAsync(string deviceName, string inboundEndpointName, DeviceStatus status, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
+        public Task<DeviceStatus> UpdateDeviceStatusAsync(string deviceName, string inboundEndpointName, DeviceStatus status, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return mockClientWrapper.Object.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
         }

@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     
-    public partial class GetAssetStatusRequestPayload : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class GetAssetStatusRequest : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The Command request argument.

@@ -14,9 +14,9 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
     internal event Func<string, Models.Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
     internal event Func<string, Models.Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 
-    public override async Task ReceiveTelemetry(string senderId, DeviceUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    public override async Task ReceiveTelemetry(string senderId, AdrBaseService.DeviceUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
-        string deviceName = telemetry.DeviceUpdateEvent.Device.Name ?? string.Empty;
+        string deviceName = telemetry.DeviceUpdateEvent.DeviceName;
         Models.Device device = telemetry.DeviceUpdateEvent.Device.ToModel();
 
         if (OnReceiveDeviceUpdateEventTelemetry != null)
@@ -25,7 +25,7 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
         }
     }
 
-    public override async Task ReceiveTelemetry(string senderId, AssetUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
+    public override async Task ReceiveTelemetry(string senderId, AdrBaseService.AssetUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
         string assetName = telemetry.AssetUpdateEvent.AssetName;
         Models.Asset asset = telemetry.AssetUpdateEvent.Asset.ToModel();

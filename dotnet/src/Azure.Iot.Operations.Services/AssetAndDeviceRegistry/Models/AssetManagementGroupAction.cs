@@ -2,17 +2,18 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-    public partial class AssetManagementGroupActionSchemaElement : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class AssetManagementGroupAction : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// Configuration for the action.
         /// </summary>
         [JsonPropertyName("actionConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ActionConfiguration { get; set; } = default;
+        public JsonDocument? ActionConfiguration { get; set; } = default;
 
         /// <summary>
         /// Type of the action.

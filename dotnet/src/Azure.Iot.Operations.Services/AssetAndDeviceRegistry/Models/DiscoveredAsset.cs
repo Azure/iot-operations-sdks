@@ -2,6 +2,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
@@ -34,7 +35,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("defaultDatasetsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DefaultDatasetsConfiguration { get; set; } = default;
+        public JsonDocument? DefaultDatasetsConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'defaultDatasetsDestinations' Field.
@@ -48,7 +49,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("defaultEventsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DefaultEventsConfiguration { get; set; } = default;
+        public JsonDocument? DefaultEventsConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'defaultEventsDestinations' Field.
@@ -62,14 +63,14 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("defaultManagementGroupsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DefaultManagementGroupsConfiguration { get; set; } = default;
+        public JsonDocument? DefaultManagementGroupsConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'defaultStreamsConfiguration' Field.
         /// </summary>
         [JsonPropertyName("defaultStreamsConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DefaultStreamsConfiguration { get; set; } = default;
+        public JsonDocument? DefaultStreamsConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'defaultStreamsDestinations' Field.

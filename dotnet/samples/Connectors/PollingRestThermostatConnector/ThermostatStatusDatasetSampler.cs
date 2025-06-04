@@ -33,11 +33,11 @@ namespace RestThermostatConnector
         {
             try
             {
-                AssetDatasetDataPointSchemaElement httpServerDesiredTemperatureDataPoint = dataset.DataPointsDictionary!["desiredTemperature"];
+                AssetDatasetDataPointSchemaElement httpServerDesiredTemperatureDataPoint = dataset.DataPoints!.Where(x => x.Name.Equals("desiredTemperature"))!.First();
                 HttpMethod httpServerDesiredTemperatureHttpMethod = HttpMethod.Parse(httpServerDesiredTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerDesiredTemperatureRequestPath = httpServerDesiredTemperatureDataPoint.DataSource!;
 
-                AssetDatasetDataPointSchemaElement httpServerCurrentTemperatureDataPoint = dataset.DataPointsDictionary!["currentTemperature"];
+                AssetDatasetDataPointSchemaElement httpServerCurrentTemperatureDataPoint = dataset.DataPoints!.Where(x => x.Name.Equals("currentTemperature"))!.First();
                 HttpMethod httpServerCurrentTemperatureHttpMethod = HttpMethod.Parse(httpServerCurrentTemperatureDataPoint.DataPointConfiguration!.RootElement.GetProperty("HttpRequestMethod").GetString());
                 string httpServerCurrentTemperatureRequestPath = httpServerCurrentTemperatureDataPoint.DataSource!;
 

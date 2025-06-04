@@ -18,16 +18,16 @@ namespace SqlQualityAnalyzerConnectorApp
         {
             if (dataset.Name.Equals("qualityanalyzer_data"))
             {
-                if (device.Specification.Endpoints != null
-                    && device.Specification.Endpoints.Inbound != null
-                    && device.Specification.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
+                if (device.Endpoints != null
+                    && device.Endpoints.Inbound != null
+                    && device.Endpoints.Inbound.TryGetValue(inboundEndpointName, out var inboundEndpoint))
                 {
                     string connectionString = inboundEndpoint.Address;
-                    return new QualityAnalyzerDatasetSampler(connectionString, asset.Name, deviceCredentials);
+                    return new QualityAnalyzerDatasetSampler(connectionString, asset.DisplayName ?? "TODO", deviceCredentials);
                 }
             }
 
-            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.Name}");
+            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.DisplayName ?? "TODO"}");
         }
     }
 }

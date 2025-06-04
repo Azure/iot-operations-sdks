@@ -2,6 +2,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
@@ -41,7 +42,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("managementGroupConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ManagementGroupConfiguration { get; set; } = default;
+        public JsonDocument? ManagementGroupConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'name' Field.

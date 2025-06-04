@@ -15,23 +15,10 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> ObserveDeviceEndpointUpdatesAsync(
+    Task<SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(
         string deviceName,
         string inboundEndpointName,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Stops observing updates for a specific device endpoint.
-    /// </summary>
-    /// <param name="deviceName">The name of the device.</param>
-    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-    /// <param name="commandTimeout">Optional timeout for the command.</param>
-    /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> UnobserveDeviceEndpointUpdatesAsync(
-        string deviceName,
-        string inboundEndpointName,
+        Models.NotificationPreference notificationPreference,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
@@ -43,7 +30,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the device details.</returns>
-    Task<Device> GetDeviceAsync(
+    Task<GetDeviceResponsePayload> GetDeviceAsync(
         string deviceName,
         string inboundEndpointName,
         TimeSpan? commandTimeout = null,
@@ -58,7 +45,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the updated device details.</returns>
-    Task<Device> UpdateDeviceStatusAsync(
+    Task<UpdateDeviceStatusResponsePayload> UpdateDeviceStatusAsync(
         string deviceName,
         string inboundEndpointName,
         DeviceStatus status,
@@ -74,26 +61,11 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> ObserveAssetUpdatesAsync(
+    Task<SetNotificationPreferenceForAssetUpdatesResponsePayload> SetNotificationPreferenceForAssetUpdatesAsync(
         string deviceName,
         string inboundEndpointName,
         string assetName,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Stops observing updates for a specific asset.
-    /// </summary>
-    /// <param name="deviceName">The name of the device.</param>
-    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-    /// <param name="assetName">The name of the asset.</param>
-    /// <param name="commandTimeout">Optional timeout for the command.</param>
-    /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> UnobserveAssetUpdatesAsync(
-        string deviceName,
-        string inboundEndpointName,
-        string assetName,
+        Models.NotificationPreference notificationPreference,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
@@ -102,14 +74,14 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-    /// <param name="request">The request containing asset retrieval parameters.</param>
+    /// <param name="assetName">The name of the asset to get.</param>
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the asset details.</returns>
-    Task<Asset> GetAssetAsync(
+    Task<GetAssetResponsePayload> GetAssetAsync(
         string deviceName,
         string inboundEndpointName,
-        GetAssetRequest request,
+        string assetName,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
@@ -122,7 +94,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the updated asset details.</returns>
-    Task<Asset> UpdateAssetStatusAsync(
+    Task<UpdateAssetStatusResponsePayload> UpdateAssetStatusAsync(
         string deviceName,
         string inboundEndpointName,
         UpdateAssetStatusRequest request,
@@ -138,7 +110,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered asset.</returns>
-    Task<CreateDetectedAssetResponse> CreateOrUpdateDiscoveredAssetAsync(string deviceName,
+    Task<CreateOrUpdateDiscoveredAssetResponsePayload> CreateOrUpdateDiscoveredAssetAsync(string deviceName,
         string inboundEndpointName,
         CreateOrUpdateDiscoveredAssetRequest request,
         TimeSpan? commandTimeout = null,
@@ -152,8 +124,8 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the response for the created discovered device endpoint profile.</returns>
-    Task<CreateDiscoveredAssetEndpointProfileResponse> CreateOrUpdateDiscoveredDeviceAsync(
-        CreateDiscoveredDeviceRequest request,
+    Task<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(
+        CreateOrUpdateDiscoveredDeviceRequestPayload request,
         string inboundEndpointType,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);

@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 string deviceName = compositeDeviceName.Split('_')[0];
                 string inboundEndpointName = compositeDeviceName.Split('_')[1];
-                await _client.UnobserveDeviceEndpointUpdatesAsync(deviceName, inboundEndpointName, null, cancellationToken);
+                await _client.SetNotificationPreferenceForDeviceUpdatesAsync(deviceName, inboundEndpointName, NotificationPreference.Off, null, cancellationToken);
             }
 
             _observedDevices.Clear();
@@ -73,7 +73,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 foreach (string assetNameToUnobserve in assetNames)
                 {
-                    await _client.UnobserveAssetUpdatesAsync(deviceName, inboundEndpointName, assetNameToUnobserve, null, cancellationToken);
+                    await _client.SetNotificationPreferenceForAssetUpdatesAsync(deviceName, inboundEndpointName, assetNameToUnobserve, NotificationPreference.Off, null, cancellationToken);
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     string deviceName = compositeDeviceName.Split('_')[0];
                     string inboundEndpointName = compositeDeviceName.Split('_')[1];
-                    await _client.UnobserveAssetUpdatesAsync(deviceName, inboundEndpointName, observedAssetName, null, cancellationToken);
+                    await _client.SetNotificationPreferenceForAssetUpdatesAsync(deviceName, inboundEndpointName, observedAssetName, NotificationPreference.Off, null, cancellationToken);
                 }
             }
 
@@ -99,38 +99,40 @@ namespace Azure.Iot.Operations.Connector
             {
                 string deviceName = compositeDeviceName.Split('_')[0];
                 string inboundEndpointName = compositeDeviceName.Split('_')[1];
-                await _client.UnobserveDeviceEndpointUpdatesAsync(deviceName, inboundEndpointName, null, cancellationToken);
+                await _client.SetNotificationPreferenceForDeviceUpdatesAsync(deviceName, inboundEndpointName, NotificationPreference.Off, null, cancellationToken);
             }
 
             _observedDevices.Clear();
         }
 
         /// </inheritdoc>
-        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(InboundSchemaMapValue inboundEndpoint)
         {
             return _monitor.GetEndpointCredentials(inboundEndpoint);
         }
 
         /// </inheritdoc>
-        public Task<Device> UpdateDeviceStatusAsync(
+        public async Task<DeviceStatus> UpdateDeviceStatusAsync(
             string deviceName,
             string inboundEndpointName,
             DeviceStatus status,
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            return _client.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
+            var result = await _client.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
+            return result.UpdatedDeviceStatus;
         }
 
         /// </inheritdoc>
-        public Task<Asset> UpdateAssetStatusAsync(
+        public async Task<AssetStatus> UpdateAssetStatusAsync(
             string deviceName,
             string inboundEndpointName,
             UpdateAssetStatusRequest request,
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            return _client.UpdateAssetStatusAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
+            var result = await _client.UpdateAssetStatusAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
+            return result.UpdatedAssetStatus;
         }
 
         /// </inheritdoc>
@@ -161,7 +163,7 @@ namespace Azure.Iot.Operations.Connector
 
         private Task AssetUpdateReceived(string assetName, Asset asset)
         {
-            AssetChanged?.Invoke(this, new(asset.Specification.DeviceRef.DeviceName, asset.Specification.DeviceRef.EndpointName, asset.Name, ChangeType.Updated, asset));
+            AssetChanged?.Invoke(this, new(asset.DeviceRef.DeviceName, asset.DeviceRef.EndpointName, assetName, ChangeType.Updated, asset));
             return Task.CompletedTask;
         }
 
@@ -169,15 +171,15 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
             {
-                await _client.UnobserveAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
+                await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.Off);
                 AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == AssetFileMonitorChangeType.Created)
             {
-                var notificationResponse = await _client.ObserveAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
+                var notificationResponse = await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.On);
 
-                if (notificationResponse == NotificationResponse.Accepted)
-                {
+                //if (notificationResponse == NotificationResponse.Accepted) //TODO values?
+                //{
                     if (!_observedAssets.ContainsKey(e.DeviceName))
                     {
                         _observedAssets.TryAdd(e.DeviceName, new());
@@ -188,9 +190,9 @@ namespace Azure.Iot.Operations.Connector
                         assets.Add(e.AssetName);
                     }
 
-                    var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, new GetAssetRequest() { AssetName = e.AssetName });
-                    AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
-                }
+                    var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
+                    AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset.Asset));
+                //}
 
                 //TODO what if response is negative?
             }
@@ -200,19 +202,19 @@ namespace Azure.Iot.Operations.Connector
         {
             if (e.ChangeType == AssetFileMonitorChangeType.Deleted)
             {
-                await _client.UnobserveDeviceEndpointUpdatesAsync(e.DeviceName, e.InboundEndpointName);
+                await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.Off);
                 DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Deleted, null));
             }
             else if (e.ChangeType == AssetFileMonitorChangeType.Created)
             {
-                var notificationResponse = await _client.ObserveDeviceEndpointUpdatesAsync(e.DeviceName, e.InboundEndpointName);
+                var notificationResponse = await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.On);
 
-                if (notificationResponse == NotificationResponse.Accepted)
-                {
+                //if (notificationResponse == NotificationResponse.Accepted) //TODO check values? No longer an enum
+                //{
                     _observedDevices.TryAdd(e.DeviceName, _dummyByte);
                     var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
-                    DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
-                }
+                    DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device.Device));
+                //}
 
                 //TODO what if response is negative?
             }

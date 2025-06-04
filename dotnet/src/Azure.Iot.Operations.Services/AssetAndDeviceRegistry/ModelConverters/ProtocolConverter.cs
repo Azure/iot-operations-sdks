@@ -1,25 +1,63 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.ModelConverters;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using DeviceDiscoveryService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
 
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.ModelConverters;
 
 internal static class ProtocolConverter
 {
-    public static GetAssetRequestPayload ToProtocol(this GetAssetRequest source)
+    public static DeviceDiscoveryService.DiscoveredDeviceInboundEndpointSchema ToProtocol(this Models.DiscoveredDeviceInboundEndpoint source)
     {
-        return new GetAssetRequestPayload
+        return new()
+        {
+            AdditionalConfiguration = source.AdditionalConfiguration,
+            Address = source.Address,
+            SupportedAuthenticationMethods = source.SupportedAuthenticationMethods,
+            EndpointType = source.EndpointType,
+            Version = source.Version,
+        };
+    }
+
+    public static DeviceDiscoveryService.DiscoveredDeviceEndpoints ToProtocol(this Models.DiscoveredDeviceEndpoints source)
+    {
+        return new()
+        {
+            Inbound = source.Inbound?.ToDictionary(x => x.Key, x => x.Value.ToProtocol()),
+            Outbound = source.Outbound?.ToProtocol()
+        };
+    }
+
+    public static DeviceDiscoveryService.DiscoveredDevice ToProtocol(this Models.DiscoveredDevice source)
+    {
+        return new DeviceDiscoveryService.DiscoveredDevice()
+        {
+            Attributes = source.Attributes,
+            Endpoints = source.Endpoints?.ToProtocol(),
+            ExternalDeviceId = source.ExternalDeviceId,
+            Manufacturer = source.Manufacturer,
+            Model = source.Model,
+            OperatingSystem = source.OperatingSystem,
+            OperatingSystemVersion = source.OperatingSystemVersion,
+        };
+    }
+
+    public static AdrBaseService.GetAssetRequestPayload ToProtocol(this Models.GetAssetRequestPayload source)
+    {
+        return new AdrBaseService.GetAssetRequestPayload
         {
             AssetName = source.AssetName
         };
     }
 
-    public static UpdateAssetStatusRequestPayload ToProtocol(this UpdateAssetStatusRequest source)
+    public static AdrBaseService.UpdateAssetStatusRequestPayload ToProtocol(this UpdateAssetStatusRequest source)
     {
-        return new UpdateAssetStatusRequestPayload
+        return new AdrBaseService.UpdateAssetStatusRequestPayload
         {
             AssetStatusUpdate = new UpdateAssetStatusRequestSchema
             {
@@ -29,9 +67,9 @@ internal static class ProtocolConverter
         };
     }
 
-    public static CreateOrUpdateDiscoveredAssetRequestPayload ToProtocol(this CreateOrUpdateDiscoveredAssetRequest source)
+    public static AdrBaseService.CreateOrUpdateDiscoveredAssetRequestPayload ToProtocol(this CreateOrUpdateDiscoveredAssetRequest source)
     {
-        return new CreateOrUpdateDiscoveredAssetRequestPayload
+        return new AdrBaseService.CreateOrUpdateDiscoveredAssetRequestPayload
         {
             DiscoveredAssetRequest = new CreateOrUpdateDiscoveredAssetRequestSchema
             {
@@ -41,7 +79,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAsset ToProtocol(this DiscoveredAsset source)
+    internal static AdrBaseService.DiscoveredAsset ToProtocol(this Models.DiscoveredAsset source)
     {
         return new AdrBaseService.DiscoveredAsset
         {
@@ -70,7 +108,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetEvent ToProtocol(this DetectedAssetEventSchemaElement source)
+    internal static AdrBaseService.DiscoveredAssetEvent ToProtocol(this Models.DiscoveredAssetEvent source)
     {
         return new AdrBaseService.DiscoveredAssetEvent
         {
@@ -84,7 +122,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetEventDataPoint ToProtocol(this DiscoveredAssetEventDataPoint source)
+    internal static AdrBaseService.DiscoveredAssetEventDataPoint ToProtocol(this Models.DiscoveredAssetEventDataPoint source)
     {
         return new AdrBaseService.DiscoveredAssetEventDataPoint
         {
@@ -94,12 +132,12 @@ internal static class ProtocolConverter
             Name = source.Name,
         };
     }
-    internal static AdrBaseService.DiscoveredAssetDataset ToProtocol(this DiscoveredAssetDataset source)
+    internal static AdrBaseService.DiscoveredAssetDataset ToProtocol(this Models.DiscoveredAssetDataset source)
     {
         return new AdrBaseService.DiscoveredAssetDataset
         {
             Name = source.Name,
-            DatasetConfiguration = source.DataSetConfiguration?.RootElement.ToString(),
+            DatasetConfiguration = source.DatasetConfiguration?.RootElement.ToString(),
             LastUpdatedOn = source.LastUpdatedOn,
             Destinations = source.Destinations?.Select(x => x.ToProtocol()).ToList(),
             DataPoints = source.DataPoints?.Select(x => x.ToProtocol()).ToList(),
@@ -108,7 +146,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this DiscoveredAssetDatasetDataPoint source)
+    internal static AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this Models.DiscoveredAssetDatasetDataPoint source)
     {
         return new AdrBaseService.DiscoveredAssetDatasetDataPoint
         {
@@ -120,7 +158,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetStream ToProtocol(this DiscoveredAssetStream source)
+    internal static AdrBaseService.DiscoveredAssetStream ToProtocol(this Models.DiscoveredAssetStream source)
     {
         return new AdrBaseService.DiscoveredAssetStream
         {
@@ -132,7 +170,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this DiscoveredAssetManagementGroup source)
+    internal static AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this Models.DiscoveredAssetManagementGroup source)
 {
     return new AdrBaseService.DiscoveredAssetManagementGroup
     {
@@ -147,7 +185,7 @@ internal static class ProtocolConverter
     };
 }
 
-    internal static AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(this DiscoveredAssetManagementGroupAction source)
+    internal static AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(this Models.DiscoveredAssetManagementGroupAction source)
 {
     return new AdrBaseService.DiscoveredAssetManagementGroupAction
     {
@@ -162,12 +200,12 @@ internal static class ProtocolConverter
     };
 }
 
-    internal static AdrBaseService. AssetManagementGroupActionType ToProtocol(this AssetManagementGroupActionType source)
+    internal static AdrBaseService. AssetManagementGroupActionType ToProtocol(this Models.AssetManagementGroupActionType source)
 {
     return (AdrBaseService.AssetManagementGroupActionType)(int)source;
 }
 
-    internal static AdrBaseService.DatasetDestination ToProtocol(this DatasetDestination source)
+    internal static AdrBaseService.DatasetDestination ToProtocol(this Models.DatasetDestination source)
 {
     return new AdrBaseService.DatasetDestination
     {
@@ -176,12 +214,12 @@ internal static class ProtocolConverter
     };
 }
 
-    internal static AdrBaseService.DatasetTarget ToProtocol(this DatasetTarget source)
+    internal static AdrBaseService.DatasetTarget ToProtocol(this Models.DatasetTarget source)
 {
     return (AdrBaseService.DatasetTarget)(int)source;
 }
 
-    internal static AdrBaseService.EventStreamDestination ToProtocol(this EventStreamDestination source)
+    internal static AdrBaseService.EventStreamDestination ToProtocol(this Models.EventStreamDestination source)
 {
     return new AdrBaseService.EventStreamDestination
     {
@@ -190,12 +228,12 @@ internal static class ProtocolConverter
     };
 }
 
-    internal static AdrBaseService.EventStreamTarget ToProtocol(this EventStreamTarget source)
+    internal static AdrBaseService.EventStreamTarget ToProtocol(this Models.EventStreamTarget source)
 {
     return (AdrBaseService.EventStreamTarget)(int)source;
 }
 
-    internal static AdrBaseService.DestinationConfiguration ToProtocol(this DestinationConfiguration source)
+    internal static AdrBaseService.DestinationConfiguration ToProtocol(this Models.DestinationConfiguration source)
 {
     return new AdrBaseService.DestinationConfiguration
     {
@@ -208,44 +246,21 @@ internal static class ProtocolConverter
     };
 }
 
-    internal static AdrBaseService.Qos ToProtocol(this QoS source)
+    internal static AdrBaseService.Qos ToProtocol(this Models.Qos source)
 {
     return (AdrBaseService.Qos)(int)source;
 }
 
-    internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef source)
-{
-    return new AdrBaseService.AssetDeviceRef
+    internal static AdrBaseService.AssetDeviceRef ToProtocol(this Models.AssetDeviceRef source)
     {
-        DeviceName = source.DeviceName,
-        EndpointName = source.EndpointName
-    };
-}
-
-    internal static DiscoveredDevice ToProtocol(this CreateDiscoveredDeviceRequest source)
-    {
-        return new  DiscoveredDevice
+        return new AdrBaseService.AssetDeviceRef
         {
-            Attributes = source.Attributes,
-            Endpoints = source.Endpoints?.ToProtocol(),
-            Manufacturer = source.Manufacturer,
-            Model = source.Model,
-            ExternalDeviceId = source.ExternalDeviceId,
-            OperatingSystem = source.OperatingSystem,
-            OperatingSystemVersion = source.OperatingSystemVersion
+            DeviceName = source.DeviceName,
+            EndpointName = source.EndpointName
         };
     }
 
-    internal static DeviceDiscoveryService.DiscoveredDeviceEndpoint ToProtocol(this Models.DiscoveredDeviceEndpoint source)
-    {
-        return new DeviceDiscoveryService.DiscoveredDeviceEndpoint
-        {
-            Inbound = source.Inbound?.ToDictionary(x => x.Key, x => x.Value.ToProtocol()),
-            Outbound = source.Outbound?.ToProtocol(),
-        };
-    }
-
-    internal static  DiscoveredDeviceOutboundEndpointsSchema ToProtocol(this Models.DiscoveredDeviceOutboundEndpoints source)
+    internal static  DiscoveredDeviceOutboundEndpointsSchema ToProtocol(this DiscoveredDeviceOutboundEndpoints source)
     {
         return new DiscoveredDeviceOutboundEndpointsSchema
         {
@@ -261,20 +276,7 @@ internal static class ProtocolConverter
             EndpointType = source.EndpointType,
         };
     }
-
-    internal static DiscoveredDeviceInboundEndpointSchema ToProtocol(this DiscoveredDeviceInboundEndpoint source)
-    {
-        return new DiscoveredDeviceInboundEndpointSchema
-        {
-            AdditionalConfiguration = source.AdditionalConfiguration,
-            Address = source.Address,
-            EndpointType = source.EndpointType,
-            SupportedAuthenticationMethods = source.SupportedAuthenticationMethods,
-            Version = source.Version
-        };
-    }
-
-    public static AdrBaseService.DeviceStatus ToProtocol(this DeviceStatus source)
+    public static AdrBaseService.DeviceStatus ToProtocol(this Models.DeviceStatus source)
     {
         return new AdrBaseService.DeviceStatus
         {
@@ -283,7 +285,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.AssetStatus ToProtocol(this AssetStatus source)
+    internal static AdrBaseService.AssetStatus ToProtocol(this Models.AssetStatus source)
     {
         return new AdrBaseService.AssetStatus
         {
@@ -325,7 +327,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.AssetDatasetEventStreamStatus ToProtocol(this AssetDatasetEventStreamStatus source)
+    internal static AdrBaseService.AssetDatasetEventStreamStatus ToProtocol(this Models.AssetDatasetEventStreamStatus source)
     {
         return new AdrBaseService.AssetDatasetEventStreamStatus
         {
@@ -335,7 +337,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.MessageSchemaReference ToProtocol(this MessageSchemaReference source)
+    internal static AdrBaseService.MessageSchemaReference ToProtocol(this Models.MessageSchemaReference source)
     {
         return new AdrBaseService.MessageSchemaReference
         {
@@ -345,16 +347,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.Topic ToProtocol(this Topic source)
-    {
-        return new AdrBaseService.Topic
-        {
-            Path = source.Path,
-            Retain = source.Retain?.ToProtocol()
-        };
-    }
-
-    internal static AdrBaseService.Retain ToProtocol(this Retain source)
+    internal static AdrBaseService.Retain ToProtocol(this Models.Retain source)
     {
         return (AdrBaseService.Retain)(int)source;
     }
@@ -373,9 +366,7 @@ internal static class ProtocolConverter
     {
         return new DeviceStatusEndpointSchema
         {
-            Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValueSchema>(
-                source.Inbound?.Select(x => new KeyValuePair<string, DeviceStatusInboundEndpointSchemaMapValueSchema>(x.Key, x.Value.ToProtocol())) ??
-                new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValueSchema>())
+            Inbound = source.Inbound?.ToDictionary(x => x.Key, x => x.Value.ToProtocol()),
         };
     }
 
@@ -387,7 +378,7 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.ConfigError ToProtocol(this ConfigError source)
+    internal static AdrBaseService.ConfigError ToProtocol(this Models.ConfigError source)
     {
         return new AdrBaseService.ConfigError
         {
@@ -398,9 +389,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DetailsSchemaElementSchema ToProtocol(this DetailsSchemaElement source)
+    internal static DetailsSchemaElementSchema ToProtocol(this DetailsSchemaElement source)
     {
-        return new AdrBaseService.DetailsSchemaElementSchema
+        return new DetailsSchemaElementSchema
         {
             Code = source.Code,
             Message = source.Message,

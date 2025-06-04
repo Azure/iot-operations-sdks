@@ -2,6 +2,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
@@ -27,7 +28,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("eventConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? EventConfiguration { get; set; } = default;
+        public JsonDocument? EventConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'eventNotifier' Field.

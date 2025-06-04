@@ -2,18 +2,19 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     
-    public partial class AssetManagementGroupSchemaElement : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class AssetManagementGroup : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// Actions for this management group.
         /// </summary>
         [JsonPropertyName("actions")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetManagementGroupActionSchemaElement>? Actions { get; set; } = default;
+        public List<AssetManagementGroupAction>? Actions { get; set; } = default;
 
         /// <summary>
         /// Default time out in seconds for the management group.
@@ -34,7 +35,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("managementGroupConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? ManagementGroupConfiguration { get; set; } = default;
+        public JsonDocument? ManagementGroupConfiguration { get; set; } = default;
 
         /// <summary>
         /// Name of the management group.

@@ -2,6 +2,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Text.Json;
     using System.Text.Json.Serialization;
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
@@ -35,7 +36,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("streamConfiguration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? StreamConfiguration { get; set; } = default;
+        public JsonDocument? StreamConfiguration { get; set; } = default;
 
         /// <summary>
         /// The 'typeRef' Field.

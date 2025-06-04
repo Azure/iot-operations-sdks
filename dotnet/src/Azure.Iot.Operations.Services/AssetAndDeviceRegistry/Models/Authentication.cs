@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("x509Credentials")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public X509credentials? X509credentials { get; set; } = default;
+        public X509Credentials? X509credentials { get; set; } = default;
 
     }
 }

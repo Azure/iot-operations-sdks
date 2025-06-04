@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     
-    public partial class X509credentials : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class X509Credentials : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).

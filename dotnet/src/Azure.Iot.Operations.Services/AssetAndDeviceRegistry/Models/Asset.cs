@@ -155,7 +155,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("managementGroups")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetManagementGroupSchemaElement>? ManagementGroups { get; set; } = default;
+        public List<AssetManagementGroup>? ManagementGroups { get; set; } = default;
 
         /// <summary>
         /// Asset manufacturer name.
@@ -204,7 +204,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
         /// </summary>
         [JsonPropertyName("streams")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<AssetStreamSchemaElement>? Streams { get; set; } = default;
+        public List<AssetStream>? Streams { get; set; } = default;
 
         /// <summary>
         /// Globally unique, immutable, non-reusable id.
