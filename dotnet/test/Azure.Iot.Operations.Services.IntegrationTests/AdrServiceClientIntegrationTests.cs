@@ -50,6 +50,41 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
+    public async Task CanGetDeviceStatusAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        // Act
+        var deviceStatus = await client.GetDeviceStatusAsync(TestDevice_1_Name, "my-rest-endpoint");
+
+        // Assert
+        _output.WriteLine($"Device: {TestDevice_1_Name}");
+        Assert.NotNull(deviceStatus.Endpoints);
+        Assert.NotNull(deviceStatus.Endpoints.Inbound);
+        Assert.Single(deviceStatus.Endpoints.Inbound);
+    }
+
+    [Fact]
+    public async Task CanGetAssetStatusAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
+
+        // Act
+        var assetStatus = await client.GetAssetStatusAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
+
+        // Assert
+        _output.WriteLine($"Device: {TestDevice_1_Name}");
+        Assert.NotNull(assetStatus.Datasets);
+        Assert.Single(assetStatus.Datasets);
+    }
+
+    [Fact]
     public async Task GetDeviceThrowsAkriServiceErrorExceptionWhenDeviceNotFoundAsync()
     {
         // Arrange
@@ -404,10 +439,6 @@ public class AdrServiceClientIntegrationTests
             if (asset.Events is { Count: > 0 })
             {
                 _output.WriteLine($"Events count: {asset.Events.Count}");
-                foreach (var evt in asset.Events)
-                {
-                    //_output.WriteLine($"Event: {evt.Name}, Schema: {evt.MessageSchemaReference?.SchemaName}");
-                }
                 eventReceived.TrySetResult(true);
             }
             return Task.CompletedTask;
@@ -456,10 +487,6 @@ public class AdrServiceClientIntegrationTests
         Assert.Contains(latestEvent.Events, e => e.Name == "temperature-event");
 
         var eventData = latestEvent.Events.Find(e => e.Name == "temperature-event");
-        //Assert.NotNull(eventData?.MessageSchemaReference);
-        //Assert.Equal("temperature-schema", eventData.MessageSchemaReference.SchemaName);
-        //Assert.Equal("test-namespace", eventData.MessageSchemaReference.SchemaRegistryNamespace);
-        //Assert.Equal("1.0", eventData.MessageSchemaReference.SchemaVersion);
     }
 
     [Fact]
@@ -526,18 +553,10 @@ public class AdrServiceClientIntegrationTests
         // Verify valid event stream
         var validEvent = asset.Events.Find(e => e.Name == "valid-event");
         Assert.NotNull(validEvent);
-        //Assert.NotNull(validEvent.MessageSchemaReference);
-        //Assert.Equal("valid-schema", validEvent.MessageSchemaReference.SchemaName);
 
         // Verify error event stream
         var errorEvent = asset.Events.Find(e => e.Name == "error-event");
         Assert.NotNull(errorEvent);
-        //Assert.NotNull(errorEvent.Error);
-        //Assert.Equal("event-error-code", errorEvent.Error.Code);
-        //Assert.Equal("Event stream configuration error", errorEvent.Error.Message);
-        //Assert.NotNull(errorEvent.Error.Details);
-        //Assert.Single(errorEvent.Error.Details);
-        //Assert.Equal("validation-error", errorEvent.Error.Details[0].Code);
     }
 
     [Fact]
