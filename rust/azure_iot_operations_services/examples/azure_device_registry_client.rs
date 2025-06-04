@@ -12,6 +12,13 @@ use azure_iot_operations_services::azure_device_registry::{self, models};
 
 use env_logger::Builder;
 
+/// Replace these values with the actual values for your device, inbound endpoint, and asset.
+/// They must be present in the Azure Device Registry Service for the example to work correctly.
+const DEVICE_NAME: &str = "my-thermostat";
+const INBOUND_ENDPOINT_NAME: &str = "my-rest-endpoint";
+const ASSET_NAME: &str = "my-rest-thermostat-asset";
+const VALID_ENDPOINT_TYPE: &str = "rest-thermostat";
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
@@ -59,17 +66,14 @@ async fn azure_device_registry_operations(
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
-    let device_name = "my-thermostat".to_string();
-    let inbound_endpoint_name = "my-rest-endpoint".to_string();
-    let asset_name = "my-rest-thermostat-asset".to_string();
-    let timeout = Duration::from_secs(1000);
+    let timeout = Duration::from_secs(10);
 
     // observe for updates for our Device + Inbound Endpoint
     // TODO: uncomment once service supports this
     // match azure_device_registry_client
     //     .observe_device_update_notifications(
-    //         device_name.clone(),
-    //         inbound_endpoint_name.clone(),
+    //         DEVICE_NAME.to_string(),
+    //         INBOUND_ENDPOINT_NAME.to_string(),
     //         timeout,
     //     )
     //     .await
@@ -94,9 +98,9 @@ async fn azure_device_registry_operations(
     // TODO: uncomment once service supports this
     // match azure_device_registry_client
     //     .observe_asset_update_notifications(
-    //         device_name.clone(),
-    //         inbound_endpoint_name.clone(),
-    //         asset_name.clone(),
+    //         DEVICE_NAME.to_string(),
+    //         INBOUND_ENDPOINT_NAME.to_string(),
+    //         ASSET_NAME.to_string(),
     //         timeout,
     //     )
     //     .await
@@ -119,14 +123,22 @@ async fn azure_device_registry_operations(
 
     // Get Device + Inbound Endpoint details and send status update
     match azure_device_registry_client
-        .get_device(device_name.clone(), inbound_endpoint_name.clone(), timeout)
+        .get_device(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            timeout,
+        )
         .await
     {
         Ok(device) => {
             log::info!("Device details: {device:?}");
             // get the current status so that we can update it in place
             let mut device_status = match azure_device_registry_client
-                .get_device_status(device_name.clone(), inbound_endpoint_name.clone(), timeout)
+                .get_device_status(
+                    DEVICE_NAME.to_string(),
+                    INBOUND_ENDPOINT_NAME.to_string(),
+                    timeout,
+                )
                 .await
             {
                 Ok(status) => {
@@ -153,7 +165,7 @@ async fn azure_device_registry_operations(
 
             let mut endpoint_statuses = HashMap::new();
             for (endpoint_name, endpoint) in device.endpoints.unwrap().inbound {
-                if endpoint.endpoint_type == "rest-thermostat" {
+                if endpoint.endpoint_type == VALID_ENDPOINT_TYPE {
                     log::info!("Endpoint '{endpoint_name}' accepted");
                     // adding endpoint to status hashmap with None ConfigError to show that we accept the endpoint with no errors
                     endpoint_statuses.insert(endpoint_name, None);
@@ -177,8 +189,8 @@ async fn azure_device_registry_operations(
             // TODO: uncomment once service supports this
             // match azure_device_registry_client
             //     .update_device_plus_endpoint_status(
-            //         device_name.clone(),
-            //         inbound_endpoint_name.clone(),
+            //         DEVICE_NAME.to_string(),
+            //         INBOUND_ENDPOINT_NAME.to_string(),
             //         device_status,
             //         timeout,
             //     )
@@ -200,10 +212,10 @@ async fn azure_device_registry_operations(
     // Get Asset details and send status update
     match azure_device_registry_client
         .get_asset(
-            device_name.clone(),
-            inbound_endpoint_name.clone(),
-            asset_name.clone(),
-            Duration::from_secs(10),
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            ASSET_NAME.to_string(),
+            timeout,
         )
         .await
     {
@@ -212,10 +224,10 @@ async fn azure_device_registry_operations(
             // get the current status so that we can update it in place
             let mut asset_status = match azure_device_registry_client
                 .get_asset_status(
-                    device_name.clone(),
-                    inbound_endpoint_name.clone(),
-                    asset_name.clone(),
-                    Duration::from_secs(10),
+                    DEVICE_NAME.to_string(),
+                    INBOUND_ENDPOINT_NAME.to_string(),
+                    ASSET_NAME.to_string(),
+                    timeout,
                 )
                 .await
             {
@@ -254,11 +266,11 @@ async fn azure_device_registry_operations(
             // TODO: uncomment once service supports this
             // match azure_device_registry_client
             //     .update_asset_status(
-            //         device_name.clone(),
-            //         inbound_endpoint_name.clone(),
-            //         asset_name.clone(),
+            //         DEVICE_NAME.to_string(),
+            //         INBOUND_ENDPOINT_NAME.to_string(),
+            //         ASSET_NAME.to_string(),
             //         asset_status,
-            //         Duration::from_secs(10),
+            //         timeout,
             //     )
             //     .await
             // {
@@ -279,8 +291,8 @@ async fn azure_device_registry_operations(
     // TODO: uncomment once service supports this
     // match azure_device_registry_client
     //     .unobserve_device_update_notifications(
-    //         device_name.clone(),
-    //         inbound_endpoint_name.clone(),
+    //         DEVICE_NAME.to_string(),
+    //         INBOUND_ENDPOINT_NAME.to_string(),
     //         timeout,
     //     )
     //     .await
@@ -297,9 +309,9 @@ async fn azure_device_registry_operations(
     // TODO: uncomment once service supports this
     // match azure_device_registry_client
     //     .unobserve_asset_update_notifications(
-    //         device_name.clone(),
-    //         inbound_endpoint_name.clone(),
-    //         asset_name.clone(),
+    //         DEVICE_NAME.to_string(),
+    //         INBOUND_ENDPOINT_NAME.to_string(),
+    //         ASSET_NAME.to_string(),
     //         timeout,
     //     )
     //     .await
