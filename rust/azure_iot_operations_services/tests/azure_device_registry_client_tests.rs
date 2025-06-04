@@ -117,7 +117,7 @@ async fn get_device() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            assert!(exit_handle.try_exit().await.is_ok());
         }
     });
 
@@ -173,7 +173,7 @@ async fn update_device_plus_endpoint_status() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            assert!(exit_handle.try_exit().await.is_ok());
         }
     });
 
@@ -215,7 +215,7 @@ async fn get_asset() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            assert!(exit_handle.try_exit().await.is_ok());
         }
     });
 
@@ -242,7 +242,7 @@ async fn update_asset_status() {
     let updated_status = AssetStatus {
         config: Some(StatusConfig {
             error: Some(ConfigError {
-                message: Some(message.clone()),
+                message: Some(message),
                 ..ConfigError::default()
             }),
             ..StatusConfig::default()
@@ -274,7 +274,7 @@ async fn update_asset_status() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            exit_handle.try_exit().await.unwrap();
+            assert!(exit_handle.try_exit().await.is_ok());
         }
     });
 
@@ -379,14 +379,17 @@ async fn observe_asset_update_notifications() {
             //         panic!("Failed to patch asset specification: {}", e);
             //     }
             // }
-
-            let result = patch_asset_specification(ASSET_NAME3, &update_desc);
-            assert!(result.is_ok(), "Failed to patch asset specification");
+            assert!(
+                patch_asset_specification(ASSET_NAME3, &update_desc).is_ok(),
+                "Failed to patch asset specification"
+            );
 
             // Wait for first notification with timeout (e.g., 30 seconds)
-            let notified_future = first_notification_notify.notified();
-            let did_receive_1_notification_or_timeout =
-                tokio::time::timeout(Duration::from_secs(30), notified_future).await;
+            let did_receive_1_notification_or_timeout = tokio::time::timeout(
+                Duration::from_secs(30),
+                first_notification_notify.notified(),
+            )
+            .await;
 
             azure_device_registry_client
                 .unobserve_asset_update_notifications(
@@ -402,15 +405,14 @@ async fn observe_asset_update_notifications() {
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
 
-                let result = patch_asset_specification(
+                assert!( patch_asset_specification(
                     ASSET_NAME3,
                     format!(
                         "Patch specification update to NOT trigger notification during unobserve {}",
                         Uuid::new_v4()
                     )
                     .as_str(),
-                );
-                assert!(result.is_ok(), "Failed to patch asset specification");
+                ).is_ok(), "Failed to patch asset specification");
             }
 
             match receive_notifications_task.await {
@@ -438,7 +440,7 @@ async fn observe_asset_update_notifications() {
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            exit_handle.try_exit().await.unwrap();
+            assert!(exit_handle.try_exit().await.is_ok());
         }
     });
     assert!(
@@ -498,9 +500,7 @@ async fn observe_device_update_notifications() {
                     loop {
                         if let Some((device, _)) = observation.recv_notification().await {
                             count += 1;
-                            log::info!(
-                                "[{log_identifier}] Device Observation received: {device:?}"
-                            );
+                            log::info!("[{log_identifier}] Device update received: {device:?}");
 
                             if count == 1 {
                                 // Signal that we got the first notification
@@ -541,13 +541,17 @@ async fn observe_device_update_notifications() {
             //     }
             // }
 
-            let result = patch_device_specification(DEVICE3, &update_manu);
-            assert!(result.is_ok(), "Failed to patch device specification");
+            assert!(
+                patch_device_specification(DEVICE3, &update_manu).is_ok(),
+                "Failed to patch device specification"
+            );
 
             // Wait for first notification with timeout (e.g., 30 seconds)
-            let notified_future = first_notification_notify.notified();
-            let did_receive_1_notification_or_timeout =
-                tokio::time::timeout(Duration::from_secs(30), notified_future).await;
+            let did_receive_1_notification_or_timeout = tokio::time::timeout(
+                Duration::from_secs(30),
+                first_notification_notify.notified(),
+            )
+            .await;
 
             azure_device_registry_client
                 .unobserve_device_update_notifications(
@@ -562,15 +566,14 @@ async fn observe_device_update_notifications() {
             if did_receive_1_notification_or_timeout.is_ok() {
                 log::info!("[{log_identifier}] First notification received successfully");
 
-                let result = patch_asset_specification(
-                    ASSET_NAME3,
+                assert!(patch_device_specification(
+                    DEVICE3,
                     format!(
-                    "Patch specification update to NOT trigger notification during unobserve {}",
-                    Uuid::new_v4()
-                )
-                .as_str(),
-            );
-                assert!(result.is_ok(), "Failed to patch device specification");
+                        "Patch specification update to NOT trigger notification during unobserve {}",
+                        Uuid::new_v4()
+                    )
+                    .as_str(),
+                ).is_ok(), "Failed to patch device specification");
             }
             match receive_notifications_task.await {
                 Ok(count) => {
@@ -597,7 +600,7 @@ async fn observe_device_update_notifications() {
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            exit_handle.try_exit().await.unwrap();
+            assert!(exit_handle.try_exit().await.is_ok());
         }
     });
     assert!(
