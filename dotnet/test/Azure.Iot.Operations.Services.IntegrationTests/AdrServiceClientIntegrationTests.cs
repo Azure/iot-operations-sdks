@@ -276,7 +276,7 @@ public class AdrServiceClientIntegrationTests
         Assert.Equal(expectedTime, updatedAsset.Config.LastTransitionTime);
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task TriggerAssetTelemetryEventWhenObservedAsync()
     {
         // Arrange
@@ -310,7 +310,7 @@ public class AdrServiceClientIntegrationTests
         }
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task DoNotTriggerTelemetryEventAfterUnobserveAssetAsync()
     {
         // Arrange
@@ -489,7 +489,7 @@ public class AdrServiceClientIntegrationTests
         var eventData = latestEvent.Events.Find(e => e.Name == "temperature-event");
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task MultipleEventStreamsAndErrorHandling()
     {
         // Arrange
@@ -559,7 +559,7 @@ public class AdrServiceClientIntegrationTests
         Assert.NotNull(errorEvent);
     }
 
-    [Fact]
+    [Fact(Skip = "service doesn't support Update APIs yet")]
     public async Task ObservationsPersistAfterReconnection()
     {
         // Arrange
