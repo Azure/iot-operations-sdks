@@ -766,7 +766,7 @@ public class AdrServiceClientIntegrationTests
         };
     }
 
-    private CreateOrUpdateDiscoveredDeviceRequest CreateCreateDiscoveredDeviceRequest()
+    private CreateOrUpdateDiscoveredDeviceRequestSchema CreateCreateDiscoveredDeviceRequest()
     {
         return new CreateOrUpdateDiscoveredDeviceRequest
         {

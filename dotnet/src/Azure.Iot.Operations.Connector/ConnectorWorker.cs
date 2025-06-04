@@ -242,7 +242,7 @@ namespace Azure.Iot.Operations.Connector
             await _mqttClient.DisconnectAsync(null, CancellationToken.None);
         }
 
-        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElement dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElementSchema dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 

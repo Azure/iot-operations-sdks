@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Connector
             return Task.FromResult((ConnectorMessageSchema?)null);
         }
 
-        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string eventName, AssetEventSchemaElement assetEvent, CancellationToken cancellationToken = default)
+        public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string eventName, AssetEventSchemaElementSchema assetEvent, CancellationToken cancellationToken = default)
         {
             return Task.FromResult((ConnectorMessageSchema?)null);
         }

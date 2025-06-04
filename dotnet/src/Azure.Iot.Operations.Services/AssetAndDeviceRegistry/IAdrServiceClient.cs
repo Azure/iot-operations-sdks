@@ -15,23 +15,27 @@ public interface IAdrServiceClient : IAsyncDisposable
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> ObserveDeviceEndpointUpdatesAsync(
+    Task<SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(
         string deviceName,
         string inboundEndpointName,
+        Models.NotificationPreference notificationPreference,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Stops observing updates for a specific device endpoint.
+    /// Observes updates for a specific asset.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
+    /// <param name="assetName">The name of the asset.</param>
     /// <param name="commandTimeout">Optional timeout for the command.</param>
     /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> UnobserveDeviceEndpointUpdatesAsync(
+    Task<SetNotificationPreferenceForAssetUpdatesResponsePayload> SetNotificationPreferenceForAssetUpdatesAsync(
         string deviceName,
         string inboundEndpointName,
+        string assetName,
+        Models.NotificationPreference notificationPreference,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 

@@ -45,8 +45,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public async Task<NotificationResponse> ObserveDeviceEndpointUpdatesAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<Models.SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(string deviceName, string inboundEndpointName, Models.NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -60,25 +59,27 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
-        var notificationRequest = new SetNotificationPreferenceForDeviceUpdatesRequestPayload
+        var notificationRequest = new AdrBaseService.SetNotificationPreferenceForDeviceUpdatesRequestPayload
         {
-            NotificationPreferenceRequest = NotificationPreference.On
+            NotificationPreferenceRequest = (AdrBaseService.NotificationPreference)(int)notificationPreference
         };
 
-        return await CallSetNotificationPreferencesForDevice(commandTimeout, cancellationToken, notificationRequest, additionalTopicTokenMap);
+        var result = await _adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
+            notificationRequest,
+            null,
+            additionalTopicTokenMap,
+            commandTimeout ?? _defaultTimeout,
+            cancellationToken);
+        return result.ToModel();
     }
 
-    /// <inheritdoc />
-    public async Task<NotificationResponse> UnobserveDeviceEndpointUpdatesAsync(string deviceName, string inboundEndpointName, TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
+    public async Task<Models.SetNotificationPreferenceForAssetUpdatesResponsePayload> SetNotificationPreferenceForAssetUpdatesAsync(string deviceName, string inboundEndpointName, string assetName, Models.NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        if (_observedEndpoints.TryRemove($"{deviceName}_{inboundEndpointName}", out _) && _observedEndpoints.IsEmpty)
-        {
-            await _adrBaseServiceClient.DeviceUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
-        }
+        _observedAssets[$"{deviceName}_{inboundEndpointName}_{assetName}"] = _dummyByte;
+        await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
 
         Dictionary<string, string> additionalTopicTokenMap = new()
         {
@@ -86,32 +87,22 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
             { _deviceNameTokenKey, deviceName },
             { _endpointNameTokenKey, inboundEndpointName }
         };
-        var notificationRequest = new SetNotificationPreferenceForDeviceUpdatesRequestPayload
+        var notificationRequest = new AdrBaseService.SetNotificationPreferenceForAssetUpdatesRequestPayload
         {
-            NotificationPreferenceRequest = NotificationPreference.Off
+            NotificationPreferenceRequest = new AdrBaseService.SetNotificationPreferenceForAssetUpdatesRequestSchema
+            {
+                AssetName = assetName,
+                NotificationPreference = (AdrBaseService.NotificationPreference)(int)notificationPreference
+            }
         };
 
-        return await CallSetNotificationPreferencesForDevice(commandTimeout, cancellationToken, notificationRequest, additionalTopicTokenMap);
-    }
-
-    private async Task<NotificationResponse> CallSetNotificationPreferencesForDevice(TimeSpan? commandTimeout, CancellationToken cancellationToken,
-        SetNotificationPreferenceForDeviceUpdatesRequestPayload notificationRequest, Dictionary<string, string> additionalTopicTokenMap)
-    {
-        try
-        {
-            var result = await _adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
-                notificationRequest,
-                null,
-                additionalTopicTokenMap,
-                commandTimeout ?? _defaultTimeout,
-                cancellationToken);
-            return result.ToModel();
-        }
-        catch (AkriServiceErrorException exception)
-        {
-            var error = exception.AkriServiceError.ToModel();
-            throw new Models.AkriServiceErrorException(error);
-        }
+        var result = await _adrBaseServiceClient.SetNotificationPreferenceForAssetUpdatesAsync(
+            notificationRequest,
+            null,
+            additionalTopicTokenMap,
+            commandTimeout ?? _defaultTimeout,
+            cancellationToken);
+        return result.ToModel();
     }
 
     /// <inheritdoc />
@@ -197,86 +188,6 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
                 commandTimeout ?? _defaultTimeout,
                 cancellationToken);
             return result.DeviceStatus.ToModel();
-        }
-        catch (AkriServiceErrorException exception)
-        {
-            var error = exception.AkriServiceError.ToModel();
-            throw new Models.AkriServiceErrorException(error);
-        }
-    }
-
-    /// <inheritdoc />
-    public async Task<NotificationResponse> ObserveAssetUpdatesAsync(string deviceName, string inboundEndpointName, string assetName,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        _observedAssets[$"{deviceName}_{inboundEndpointName}_{assetName}"] = _dummyByte;
-        await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
-
-        Dictionary<string, string> additionalTopicTokenMap = new()
-        {
-            { _connectorClientIdTokenKey, clientId },
-            { _deviceNameTokenKey, deviceName },
-            { _endpointNameTokenKey, inboundEndpointName }
-        };
-        var notificationRequest = new SetNotificationPreferenceForAssetUpdatesRequestPayload
-        {
-            NotificationPreferenceRequest = new SetNotificationPreferenceForAssetUpdatesRequestSchema
-            {
-                AssetName = assetName,
-                NotificationPreference = NotificationPreference.On
-            }
-        };
-
-        return await CallSetNotificationPreferenceForAsset(commandTimeout, cancellationToken, notificationRequest, additionalTopicTokenMap);
-    }
-
-    /// <inheritdoc />
-    public async Task<NotificationResponse> UnobserveAssetUpdatesAsync(string deviceName, string inboundEndpointName, string assetName,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        ObjectDisposedException.ThrowIf(_disposed, this);
-
-        if (_observedAssets.TryRemove($"{deviceName}_{inboundEndpointName}_{assetName}", out _) && _observedAssets.IsEmpty)
-        {
-            await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StopAsync(cancellationToken);
-        }
-
-        Dictionary<string, string> additionalTopicTokenMap = new()
-        {
-            { _connectorClientIdTokenKey, clientId },
-            { _deviceNameTokenKey, deviceName },
-            { _endpointNameTokenKey, inboundEndpointName }
-        };
-        var notificationRequest = new SetNotificationPreferenceForAssetUpdatesRequestPayload
-        {
-            NotificationPreferenceRequest = new SetNotificationPreferenceForAssetUpdatesRequestSchema
-            {
-                AssetName = assetName,
-                NotificationPreference = NotificationPreference.Off
-            }
-        };
-
-        return await CallSetNotificationPreferenceForAsset(commandTimeout, cancellationToken, notificationRequest, additionalTopicTokenMap);
-    }
-
-    private async Task<NotificationResponse> CallSetNotificationPreferenceForAsset(TimeSpan? commandTimeout, CancellationToken cancellationToken,
-        SetNotificationPreferenceForAssetUpdatesRequestPayload notificationRequest, Dictionary<string, string> additionalTopicTokenMap)
-    {
-        try
-        {
-            SetNotificationPreferenceForAssetUpdatesResponsePayload result = await _adrBaseServiceClient.SetNotificationPreferenceForAssetUpdatesAsync(
-                notificationRequest,
-                null,
-                additionalTopicTokenMap,
-                commandTimeout ?? _defaultTimeout,
-                cancellationToken);
-            return result.ToModel();
         }
         catch (AkriServiceErrorException exception)
         {

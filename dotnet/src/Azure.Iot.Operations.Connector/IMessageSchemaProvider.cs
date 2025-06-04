@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="dataset">The dataset.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The message schema to register for data sampled from this dataset. If null, no message schema will be registered for this dataset.</returns>
-        Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string datasetName, AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default);
+        Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string datasetName, AssetDatasetSchemaElementSchema dataset, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get the message schema associated with this event. If provided, the connector will register this message schema prior to forwarding any event telemetry for this event.

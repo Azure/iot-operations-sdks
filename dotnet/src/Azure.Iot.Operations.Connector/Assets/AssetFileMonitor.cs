@@ -265,7 +265,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         }
 
         /// <inheritdoc/>
-        public EndpointCredentials GetEndpointCredentials(InboundSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(InboundSchemaMapValueSchema inboundEndpoint)
         {
             EndpointCredentials deviceCredentials = new();
 

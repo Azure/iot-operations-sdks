@@ -106,7 +106,7 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// </inheritdoc>
-        public EndpointCredentials GetEndpointCredentials(InboundSchemaMapValue inboundEndpoint)
+        public EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint)
         {
             return _monitor.GetEndpointCredentials(inboundEndpoint);
         }
