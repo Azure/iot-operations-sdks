@@ -10,8 +10,6 @@ use azure_iot_operations_mqtt::{
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{self, models};
 
-use env_logger::Builder;
-
 /// Replace these values with the actual values for your device, inbound endpoint, and asset.
 /// They must be present in the Azure Device Registry Service for the example to work correctly.
 const DEVICE_NAME: &str = "my-thermostat";
@@ -21,7 +19,7 @@ const VALID_ENDPOINT_TYPE: &str = "rest-thermostat";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    Builder::new()
+    env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
