@@ -24,7 +24,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
@@ -32,7 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id("adr-client-app")
         .hostname("localhost")
-        .tcp_port(1889u16)
+        .tcp_port(1883u16)
         .use_tls(false)
         .build()?;
     let session_options = SessionOptionsBuilder::default()
