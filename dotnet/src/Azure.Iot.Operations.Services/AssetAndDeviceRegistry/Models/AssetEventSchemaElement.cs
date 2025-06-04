@@ -13,7 +13,9 @@ public record AssetEventSchemaElement
 
     public required string Name { get; set; }
 
+    public string? TypeRef { get; set; }
+
     public List<AssetEventDataPointSchemaElement>? DataPoints { get; set; }
 
-    public List<AssetEventDestinationSchemaElement>? Destinations { get; set; }
+    public List<EventStreamDestination>? Destinations { get; set; }
 }

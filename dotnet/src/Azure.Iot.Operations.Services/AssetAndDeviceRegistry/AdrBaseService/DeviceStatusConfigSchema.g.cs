@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
         /// </summary>
         [JsonPropertyName("lastTransitionTime")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? LastTransitionTime { get; set; } = default;
+        public DateTime? LastTransitionTime { get; set; } = default;
 
         /// <summary>
         /// The 'version' Field.
