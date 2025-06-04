@@ -3,5 +3,8 @@
     "keepAliveSeconds": 10,
     "maxInflightMessages": 10,
     "protocol": "mqtt",
-    "sessionExpirySeconds": 20
+    "sessionExpirySeconds": 20,
+    "tls": {
+        "mode": "Disabled"
+    }
 }
