@@ -14,7 +14,7 @@ namespace PollingTelemetryConnectorTemplate
             return new DatasetSamplerFactory();
         };
 
-        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, EndpointCredentials? endpointCredentials)
+        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? endpointCredentials)
         {
             // this method should return the appropriate dataset sampler implementation for the provided asset + dataset. This
             // method may be called multiple times if the asset or dataset changes in any way over time.

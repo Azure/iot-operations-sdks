@@ -119,7 +119,7 @@ internal static class ModelsConverter
     {
         return new Models.AkriServiceError
         {
-            Code = (AkriServiceErrorCode)(int)source.Code,
+            Code = (Code)(int)source.Code,
             Message = source.Message,
             Timestamp = source.Timestamp,
         };
@@ -129,7 +129,7 @@ internal static class ModelsConverter
     {
         return new Models.AkriServiceError
         {
-            Code = (AkriServiceErrorCode)(int)source.Code,
+            Code = (Code)(int)source.Code,
             Message = source.Message,
             Timestamp = source.Timestamp,
         };

@@ -22,7 +22,7 @@ namespace RestThermostatConnector
         /// <param name="dataset">The dataset that a sampler is needed for.</param>
         /// <param name="authentication">The authentication to use when connecting to the device with this asset.</param>
         /// <returns>The dataset sampler for the provided dataset.</returns>
-        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDataset dataset, EndpointCredentials? credentials)
+        public IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? credentials)
         {
             if (dataset.Name.Equals("thermostat_status"))
             {
@@ -35,11 +35,11 @@ namespace RestThermostatConnector
                         BaseAddress = new Uri(inboundEndpoint.Address),
                     };
 
-                    return new ThermostatStatusDatasetSampler(httpClient, asset.DisplayName ?? "TODO", credentials);
+                    return new ThermostatStatusDatasetSampler(httpClient, assetName, credentials);
                 }
             }
 
-            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {asset.DisplayName ?? "TODO"}");
+            throw new InvalidOperationException($"Unrecognized dataset with name {dataset.Name} on asset with name {assetName}");
         }
     }
 }

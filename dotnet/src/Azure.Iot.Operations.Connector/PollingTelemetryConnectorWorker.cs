@@ -52,7 +52,7 @@ namespace Azure.Iot.Operations.Connector
                     credentials = _assetMonitor.GetEndpointCredentials(inboundEndpoint);
                 }
 
-                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.Asset, dataset, credentials);
+                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.AssetName, args.Asset, dataset, credentials);
 
                 TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 
