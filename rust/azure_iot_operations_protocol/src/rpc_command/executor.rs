@@ -213,40 +213,48 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
         Ok(())
     }
 
-    /// Helper function to add user-defined application error headers to `response`.
+    /// Helper function to add user-defined application error headers to the [`Response`].
     ///
     /// `application_error_code` required to be a non-empty `String`.
-    /// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `response`.
+    /// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `response`. It is conventionally, but not necessarily, a stringified JSON object/value/array.
     ///
     /// Returns `Ok()` if `application_error_code` is not an empty `String`.
     ///
     /// # Errors
     /// Returns an Error with the `String` "`application_error_code` cannot be empty" if `application_error_code` is an empty string.
-    pub fn add_application_error_headers(
-        response: &mut Response<TResp>,
+    ///
+    /// # Panics
+    /// If the [`ResponseBuilder::custom_user_data`] is None, which should not be possible.
+    pub fn application_error_headers(
+        &mut self,
         application_error_code: String,
         application_error_payload: String,
-    ) -> Result<(), String> {
-        if application_error_code.is_empty() {
-            return Err("application_error_code cannot be empty".into());
+    ) -> Result<&mut Self, AIOProtocolError> {
+        if application_error_code.trim().is_empty() {
+            return Err(AIOProtocolError::new_configuration_invalid_error(
+                None,
+                "application_error_code",
+                Value::String(application_error_code),
+                Some("application_error_code cannot be empty".into()),
+                None,
+            ));
         }
 
-        let app_error_code_property = "AppErrCode";
+        self.custom_user_data.get_or_insert(Vec::new());
 
-        response
-            .custom_user_data
-            .push((app_error_code_property.to_string(), application_error_code));
+        self.custom_user_data.as_mut().unwrap().push((
+            crate::common::user_properties::APPLICATION_ERROR_CODE_HEADER.into(),
+            application_error_code,
+        ));
 
-        if !application_error_payload.is_empty() {
-            let app_error_payload_property = "AppErrPayload";
-
-            response.custom_user_data.push((
-                app_error_payload_property.to_string(),
+        if !application_error_payload.trim().is_empty() {
+            self.custom_user_data.as_mut().unwrap().push((
+                crate::common::user_properties::APPLICATION_ERROR_PAYLOAD_HEADER.into(),
                 application_error_payload,
             ));
         }
 
-        Ok(())
+        Ok(self)
     }
 }
 
@@ -1807,7 +1815,7 @@ mod tests {
     }
 
     #[test]
-    fn test_response_add_empty_payload_code_success() {
+    fn test_response_add_empty_error_payload_success() {
         let mut mock_response_payload = MockPayload::new();
         mock_response_payload
             .expect_serialize()
@@ -1821,16 +1829,14 @@ mod tests {
             .times(1);
 
         let mut binding = ResponseBuilder::default();
-        let mut response = binding
+        let response = binding
             .payload(mock_response_payload)
+            .unwrap()
+            .application_error_headers("500".into(), "  ".into())
             .unwrap()
             .build()
             .unwrap();
 
-        assert!(
-            ResponseBuilder::add_application_error_headers(&mut response, "500".into(), "".into())
-                .is_ok()
-        );
         assert_eq!(response.custom_user_data.len(), 1);
     }
 
@@ -1849,20 +1855,17 @@ mod tests {
             .times(1);
 
         let mut binding = ResponseBuilder::default();
-        let mut response = binding
-            .payload(mock_response_payload)
-            .unwrap()
-            .build()
-            .unwrap();
+        let response_builder = binding.payload(mock_response_payload).unwrap();
 
         assert!(
-            ResponseBuilder::add_application_error_headers(
-                &mut response,
-                "".into(),
-                "Some error".into()
-            )
-            .is_err()
+            response_builder
+                .application_error_headers(String::new(), "Some error".into())
+                .is_err()
         );
+
+        let response = response_builder.build().unwrap();
+
+        assert_eq!(response.custom_user_data.len(), 0);
     }
 }
 

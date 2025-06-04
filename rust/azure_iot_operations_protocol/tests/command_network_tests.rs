@@ -60,7 +60,7 @@ fn setup_test<
 
     let connection_settings = MqttConnectionSettingsBuilder::default()
         .client_id(client_id)
-        .hostname("172.22.0.3")
+        .hostname("localhost")
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .clean_start(true)
@@ -234,19 +234,14 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
                         assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
 
                         // send response
-                        let mut response = rpc_command::executor::ResponseBuilder::default()
+                        let response = rpc_command::executor::ResponseBuilder::default()
                             .payload(EmptyPayload::default())
+                            .unwrap()
+                            .application_error_headers("345".into(), "Failed543".into())
                             .unwrap()
                             .build()
                             .unwrap();
-                        assert!(
-                            rpc_command::executor::ResponseBuilder::add_application_error_headers(
-                                &mut response,
-                                "345".into(),
-                                "Failed543".into()
-                            )
-                            .is_ok()
-                        );
+
                         assert!(request.complete(response).await.is_ok());
                     }
 
@@ -276,7 +271,7 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
 
             let mut app_err_code_header_count = 0;
             let mut app_err_payload_header_count = 0;
-            for (key, value) in response.custom_user_data {
+            for (key, value) in &response.custom_user_data {
                 if key == "AppErrCode" {
                     assert_eq!(value, "345");
                     app_err_code_header_count += 1;
@@ -290,109 +285,9 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
             assert_eq!(app_err_code_header_count, 1);
             assert_eq!(app_err_payload_header_count, 1);
 
-            // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
-            assert!(receive_requests_task.await.is_ok());
-
-            // cleanup should be successful
-            assert!(invoker.shutdown().await.is_ok());
-
-            exit_handle.try_exit().await.unwrap();
-        }
-    });
-
-    // if an assert fails in the test task, propagate the panic to end the test,
-    // while still running the test task and the session to completion on the happy path
-    assert!(
-        tokio::try_join!(
-            async move { test_task.await.map_err(|e| { e.to_string() }) },
-            async move { session.run().await.map_err(|e| { e.to_string() }) }
-        )
-        .is_ok()
-    );
-}
-
-/// Tests application error code header only, without payload
-#[tokio::test]
-async fn command_response_apperrorcode_no_apperrorpayload_network_tests() {
-    let invoker_id = "command_response_apperrorcode_no_apperrorpayload_network_tests-rust";
-    let Ok((session, invoker, mut executor, exit_handle)) = setup_test::<EmptyPayload, EmptyPayload>(
-        invoker_id,
-        "protocol/tests/apperrorcodeonly/command",
-    ) else {
-        // Network tests disabled, skipping tests
-        return;
-    };
-    let monitor = session.create_connection_monitor();
-
-    let test_task = tokio::task::spawn({
-        async move {
-            // async task to receive command requests on executor
-            let receive_requests_task = tokio::task::spawn({
-                async move {
-                    let mut count = 0;
-                    if let Some(Ok(request)) = executor.recv().await {
-                        count += 1;
-
-                        // Validate contents of the request match expected based on what was sent
-                        assert_eq!(request.invoker_id, Some(String::from(invoker_id)));
-
-                        // send response
-                        let mut response = rpc_command::executor::ResponseBuilder::default()
-                            .payload(EmptyPayload::default())
-                            .unwrap()
-                            .build()
-                            .unwrap();
-                        assert!(
-                            rpc_command::executor::ResponseBuilder::add_application_error_headers(
-                                &mut response,
-                                "345".into(),
-                                "".into()
-                            )
-                            .is_ok()
-                        );
-                        assert!(request.complete(response).await.is_ok());
-                    }
-
-                    // only the 1 expected request should occur (checks that recv() didn't return None when it shouldn't have)
-                    assert_eq!(count, 1);
-                    // cleanup should be successful
-                    assert!(executor.shutdown().await.is_ok());
-                }
-            });
-            // briefly wait after connection to let executor subscribe before sending requests
-            monitor.connected().await;
-            tokio::time::sleep(Duration::from_secs(1)).await;
-
-            // Send request with empty payload
-            let request = rpc_command::invoker::RequestBuilder::default()
-                .payload(EmptyPayload::default())
-                .unwrap()
-                .timeout(Duration::from_secs(2))
-                .build()
-                .unwrap();
-
-            let result = invoker.invoke(request).await;
-            // Validate contents of the response match expected based on what was sent
-            assert!(result.is_ok(), "result: {result:?}");
-            let response = result.unwrap();
-
-            assert_eq!(response.custom_user_data.len(), 1);
-
-            let mut app_err_code_header_count = 0;
-            let mut app_err_payload_header_count = 0;
-            for (key, value) in response.custom_user_data {
-                if key == "AppErrCode" {
-                    assert_eq!(value, "345");
-                    app_err_code_header_count += 1;
-                }
-
-                if key == "AppErrPayload" {
-                    app_err_payload_header_count += 1;
-                }
-            }
-
-            assert_eq!(app_err_code_header_count, 1);
-            assert_eq!(app_err_payload_header_count, 0);
+            let (app_error_code, app_error_payload) = response.application_error_headers();
+            assert_eq!(app_error_code, Some("345".into()));
+            assert_eq!(app_error_payload, Some("Failed543".into()));
 
             // wait for the receive_requests_task to finish to ensure any failed asserts are captured.
             assert!(receive_requests_task.await.is_ok());

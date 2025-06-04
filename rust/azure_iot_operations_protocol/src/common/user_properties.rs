@@ -11,6 +11,12 @@ use std::{
 /// Users cannot set this property on the invoker. For more details, see: [shared_subscriptions.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/shared-subscriptions.md).
 pub(crate) const PARTITION_KEY: &str = "$partition";
 
+/// Name of the user-defined Application Error Code header.
+pub(crate) const APPLICATION_ERROR_CODE_HEADER: &str = "AppErrCode";
+
+/// Name of the user-defined Application Error Payload header.
+pub(crate) const APPLICATION_ERROR_PAYLOAD_HEADER: &str = "AppErrPayload";
+
 /// Enum representing the system properties.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum UserProperty {

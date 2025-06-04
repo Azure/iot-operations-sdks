@@ -160,6 +160,30 @@ where
     pub timestamp: Option<HybridLogicalClock>,
 }
 
+impl<TResp: PayloadSerialize> Response<TResp> {
+    /// Helper function to return the application error code and payload, if present in the response [`Response::custom_user_data`].
+    ///
+    /// Returns a [`(Option<String>, Option<String>)`] tuple where:
+    /// - the first element is the application error code (or [`None`] if not present), and
+    /// - the second element is the application error payload (or [`None`] if not present).
+    pub fn application_error_headers(self) -> (Option<String>, Option<String>) {
+        let mut app_error_code: Option<String> = None;
+        let mut app_error_payload: Option<String> = None;
+
+        for (key, value) in self.custom_user_data {
+            if key == crate::common::user_properties::APPLICATION_ERROR_CODE_HEADER {
+                app_error_code = Some(value.clone());
+            }
+
+            if key == crate::common::user_properties::APPLICATION_ERROR_PAYLOAD_HEADER {
+                app_error_payload = Some(value.clone());
+            }
+        }
+
+        (app_error_code, app_error_payload)
+    }
+}
+
 /// Represents an error reported by a remote executor
 #[derive(thiserror::Error, Debug, Clone)]
 #[error("Remote Error status code: {status_code:?}")]
@@ -1989,6 +2013,78 @@ mod tests {
             .build();
 
         assert!(request_builder_result.is_err());
+    }
+
+    /// Tests success: Response::application_error_headers() returns no Application Error Code and Payload since it has none.
+    #[tokio::test]
+    async fn test_no_app_error_code_and_payload() {
+        let user_data: Vec<(String, String)> = Vec::new();
+
+        let response = Response {
+            payload: MockPayload::default(),
+            content_type: None,
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+            custom_user_data: user_data,
+            timestamp: None,
+        };
+
+        let (application_error_code, application_error_payload) =
+            response.application_error_headers();
+        assert!(application_error_code.is_none());
+        assert!(application_error_payload.is_none());
+    }
+
+    /// Tests success: Response contains both Application Error Code and Payload.
+    #[tokio::test]
+    async fn test_response_with_app_error_code_and_payload() {
+        let error_code_content = "5888";
+        let error_payload_content = "5888 is a fictitious error code";
+
+        let user_data = vec![
+            ("AppErrCode".into(), error_code_content.into()),
+            ("AppErrPayload".into(), error_payload_content.into()),
+        ];
+
+        let response = Response {
+            payload: MockPayload::default(),
+            content_type: None,
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+            custom_user_data: user_data,
+            timestamp: None,
+        };
+
+        assert_eq!(response.custom_user_data.len(), 2);
+
+        let (application_error_code, application_error_payload) =
+            response.application_error_headers();
+        assert_eq!(application_error_code, Some(error_code_content.into()));
+        assert_eq!(
+            application_error_payload,
+            Some(error_payload_content.into())
+        );
+    }
+
+    /// Tests success: Response contains both Application Error Code and Payload.
+    #[tokio::test]
+    async fn test_response_with_app_error_code_but_no_payload() {
+        let error_code_content = "5888";
+
+        let user_data = vec![("AppErrCode".into(), error_code_content.into())];
+
+        let response = Response {
+            payload: MockPayload::default(),
+            content_type: None,
+            format_indicator: FormatIndicator::UnspecifiedBytes,
+            custom_user_data: user_data,
+            timestamp: None,
+        };
+
+        assert_eq!(response.custom_user_data.len(), 1);
+
+        let (application_error_code, application_error_payload) =
+            response.application_error_headers();
+        assert_eq!(application_error_code, Some(error_code_content.into()));
+        assert!(application_error_payload.is_none());
     }
 }
 
