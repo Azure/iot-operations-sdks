@@ -3,20 +3,19 @@
 use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
-use azure_iot_operations_protocol::application::ApplicationContext;
 use iso8601_duration;
 
-use super::get_request_payload::GetRequestPayload;
-use super::get_response_payload::GetResponsePayload;
+use super::super::common_types::options::CommandExecutorOptions;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::super::common_types::common_options::CommandOptions;
+use super::get_request_payload::GetRequestPayload;
+use super::get_response_payload::GetResponsePayload;
 
-pub type GetRequest =
-    rpc_command::executor::Request<GetRequestPayload, GetResponsePayload>;
+pub type GetRequest = rpc_command::executor::Request<GetRequestPayload, GetResponsePayload>;
 pub type GetResponse = rpc_command::executor::Response<GetResponsePayload>;
 pub type GetResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
@@ -37,10 +36,7 @@ impl GetResponseBuilder {
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(
-        &mut self,
-        payload: GetResponsePayload,
-    ) -> Result<&mut Self, AIOProtocolError> {
+    pub fn payload(&mut self, payload: GetResponsePayload) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(payload)?;
         Ok(self)
     }
@@ -49,16 +45,14 @@ impl GetResponseBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
+    #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<GetResponse, GetResponseBuilderError> {
         self.inner_builder.build()
     }
 }
 
 /// Command Executor for `get`
-pub struct GetCommandExecutor<C>(
-    rpc_command::Executor<GetRequestPayload, GetResponsePayload, C>,
-)
+pub struct GetCommandExecutor<C>(rpc_command::Executor<GetRequestPayload, GetResponsePayload, C>)
 where
     C: ManagedClient + Clone + Send + Sync + 'static,
     C::PubReceiver: Send + Sync + 'static;
@@ -72,7 +66,11 @@ where
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(application_context: ApplicationContext, client: C, options: &CommandOptions) -> Self {
+    pub fn new(
+        application_context: ApplicationContext,
+        client: C,
+        options: &CommandExecutorOptions,
+    ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());
@@ -92,6 +90,13 @@ where
         let executor_options = executor_options_builder
             .request_topic_pattern(REQUEST_TOPIC_PATTERN)
             .command_name("get")
+            .cacheable_duration(
+                "P1D"
+                    .parse::<iso8601_duration::Duration>()
+                    .unwrap()
+                    .to_std()
+                    .expect("TTL defined in DTDL schema exceeded maximum value"),
+            )
             .is_idempotent(true)
             .topic_token_map(topic_token_map)
             .build()
