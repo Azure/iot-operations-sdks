@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-#![allow(dead_code)]
 
 //! Types for extracting Connector configurations from an Akri deployment
 
