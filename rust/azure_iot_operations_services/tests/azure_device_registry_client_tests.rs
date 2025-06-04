@@ -416,9 +416,9 @@ async fn observe_asset_update_notifications() {
                 Ok(count) => {
                     assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
-                Err(_e) => {
+                Err(e) => {
                     panic!(
-                        "Notification receiver task failed due to unexpected counts or mismatch notification"
+                        "Notification receiver task failed due to unexpected counts or mismatch notification: {e}"
                     );
                 }
             };
@@ -570,9 +570,9 @@ async fn observe_device_update_notifications() {
                 Ok(count) => {
                     assert_eq!(count, 1, "Expected exactly 1 notification, got {count}",);
                 }
-                Err(_e) => {
+                Err(e) => {
                     panic!(
-                        "Notification receiver task failed due to unexpected counts or mismatch notification"
+                        "Notification receiver task failed due to unexpected counts or mismatch notification: {e}"
                     );
                 }
             };
@@ -625,10 +625,7 @@ fn patch_asset_specification(
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
-        log::error!(
-            "[{log_identifier}] Failed to patch asset specification: {}",
-            error_msg
-        );
+        log::error!("[{log_identifier}] Failed to patch asset specification: {error_msg}");
         Err(error_msg.to_string())
     }
 }
@@ -661,10 +658,7 @@ fn patch_device_specification(
         Ok(())
     } else {
         let error_msg = String::from_utf8_lossy(&output.stderr);
-        log::error!(
-            "[{log_identifier}] Failed to patch device specification: {}",
-            error_msg
-        );
+        log::error!("[{log_identifier}] Failed to patch device specification: {error_msg}");
         Err(error_msg.to_string())
     }
 }
