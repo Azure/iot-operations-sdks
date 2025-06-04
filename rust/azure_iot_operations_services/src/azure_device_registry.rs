@@ -111,9 +111,9 @@ impl AssetUpdateObservation {
 pub struct StatusConfig {
     /// Error details for status.
     pub error: Option<ConfigError>,
-    /// The last time the configuration has been modified.
+    /// A timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// The version of the Device or Asset configuration.
+    /// The version of the Device or Asset configuration that this Status pertains to.
     pub version: Option<u64>,
 }
 
@@ -122,26 +122,26 @@ pub struct StatusConfig {
 #[error("Configuration error")]
 /// Represents an error in the configuration of an asset or device.
 pub struct ConfigError {
-    /// Error code for classification of errors (ex: ''400'', ''404'', ''500'', etc.).
+    /// Error code for classification of errors (ex: '400', '404', '500', etc.).
     pub code: Option<String>,
     /// Array of event statuses that describe the status of each event.
     pub details: Option<Vec<Details>>,
-    /// The inner error, if any.
+    /// A set of key-value pairs that contain service specific details set by the service.
     pub inner_error: Option<HashMap<String, String>>,
-    /// The message of the error.
+    /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
     pub message: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Default)]
 /// Represents the details of an error.
 pub struct Details {
-    /// The multi part error code for root cause analysis.
+    /// Multi-part error code for classification and root causing of errors (ex: 400.200.100.432).
     pub code: Option<String>,
-    /// The correlation ID of the details.
+    /// Unique identifier for the transaction to aid in debugging.
     pub correlation_id: Option<String>,
-    /// Any helpful information associated with the details.
+    /// Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).
     pub info: Option<String>,
-    /// The error message of the details.
+    /// Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).
     pub message: Option<String>,
 }
 
