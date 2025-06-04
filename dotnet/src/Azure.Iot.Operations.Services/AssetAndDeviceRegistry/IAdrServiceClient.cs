@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 public interface IAdrServiceClient : IAsyncDisposable
 {
     /// <summary>
-    /// Observes updates for a specific device endpoint.
+    /// Observe or unobserve updates for a specific device endpoint.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
@@ -23,7 +23,7 @@ public interface IAdrServiceClient : IAsyncDisposable
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Observes updates for a specific asset.
+    /// Observe or unobserve updates for a specific asset.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
     /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
