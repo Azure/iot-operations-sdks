@@ -74,7 +74,7 @@ namespace Azure.Iot.Operations.Connector.Assets
         /// </summary>
         /// <param name="inboundEndpoint">The endpoint whose credentials should be returned.</param>
         /// <returns>The credentials for the endpoint</returns>
-        EndpointCredentials GetEndpointCredentials(InboundSchemaMapValue inboundEndpoint);
+        EndpointCredentials GetEndpointCredentials(InboundEndpointSchemaMapValue inboundEndpoint);
 
         /// <summary>
         /// Stop all observation of assets and/or devices.

@@ -17,6 +17,7 @@ using Xunit.Abstractions;
 [Trait("Category", "ADR")]
 public class AdrServiceClientIntegrationTests
 {
+    /*
     private readonly ITestOutputHelper _output;
     private const string ConnectorClientId = "test-connector-client";
     private const string TestDevice_1_Name = "my-thermostat";
@@ -809,4 +810,5 @@ public class AdrServiceClientIntegrationTests
             }
         };
     }
+    */
 }

@@ -16,6 +16,22 @@ internal static class ModelsConverter
         AllowTrailingCommas = true,
     };
 
+    internal static SetNotificationPreferenceForAssetUpdatesResponsePayload ToModel(this AdrBaseService.SetNotificationPreferenceForAssetUpdatesResponsePayload source)
+    {
+        return new()
+        {
+            ResponsePayload = source.ResponsePayload
+        };
+    }
+
+    internal static SetNotificationPreferenceForDeviceUpdatesResponsePayload ToModel(this AdrBaseService.SetNotificationPreferenceForDeviceUpdatesResponsePayload source)
+    {
+        return new()
+        {
+            ResponsePayload = source.ResponsePayload
+        };
+    }
+
     internal static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
     {
         return new AssetStatus

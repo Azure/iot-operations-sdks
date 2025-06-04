@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System;
+using System.Collections.Concurrent;
+using Azure.Iot.Operations.Connector.Assets;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Azure.Iot.Operations.Connector.Assets;
-using System.Collections.Concurrent;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -119,8 +120,7 @@ namespace Azure.Iot.Operations.Connector
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            var result = await _client.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
-            return result.UpdatedDeviceStatus;
+            return await _client.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, status, commandTimeout, cancellationToken);
         }
 
         /// </inheritdoc>
@@ -131,8 +131,7 @@ namespace Azure.Iot.Operations.Connector
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            var result = await _client.UpdateAssetStatusAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
-            return result.UpdatedAssetStatus;
+            return await _client.UpdateAssetStatusAsync(deviceName, inboundEndpointName, request, commandTimeout, cancellationToken);
         }
 
         /// </inheritdoc>
@@ -178,8 +177,8 @@ namespace Azure.Iot.Operations.Connector
             {
                 var notificationResponse = await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.On);
 
-                //if (notificationResponse == NotificationResponse.Accepted) //TODO values?
-                //{
+                if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
+                {
                     if (!_observedAssets.ContainsKey(e.DeviceName))
                     {
                         _observedAssets.TryAdd(e.DeviceName, new());
@@ -191,8 +190,8 @@ namespace Azure.Iot.Operations.Connector
                     }
 
                     var asset = await _client.GetAssetAsync(e.DeviceName, e.InboundEndpointName, e.AssetName);
-                    AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset.Asset));
-                //}
+                    AssetChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, e.AssetName, ChangeType.Created, asset));
+                }
 
                 //TODO what if response is negative?
             }
@@ -209,12 +208,12 @@ namespace Azure.Iot.Operations.Connector
             {
                 var notificationResponse = await _client.SetNotificationPreferenceForDeviceUpdatesAsync(e.DeviceName, e.InboundEndpointName, NotificationPreference.On);
 
-                //if (notificationResponse == NotificationResponse.Accepted) //TODO check values? No longer an enum
-                //{
+                if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
+                {
                     _observedDevices.TryAdd(e.DeviceName, _dummyByte);
                     var device = await _client.GetDeviceAsync(e.DeviceName, e.InboundEndpointName);
-                    DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device.Device));
-                //}
+                    DeviceChanged?.Invoke(this, new(e.DeviceName, e.InboundEndpointName, ChangeType.Created, device));
+                }
 
                 //TODO what if response is negative?
             }

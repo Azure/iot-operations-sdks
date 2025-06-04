@@ -84,38 +84,6 @@ public interface IAdrServiceClient : IAsyncDisposable
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Observes updates for a specific asset.
-    /// </summary>
-    /// <param name="deviceName">The name of the device.</param>
-    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-    /// <param name="assetName">The name of the asset.</param>
-    /// <param name="commandTimeout">Optional timeout for the command.</param>
-    /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> ObserveAssetUpdatesAsync(
-        string deviceName,
-        string inboundEndpointName,
-        string assetName,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Stops observing updates for a specific asset.
-    /// </summary>
-    /// <param name="deviceName">The name of the device.</param>
-    /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
-    /// <param name="assetName">The name of the asset.</param>
-    /// <param name="commandTimeout">Optional timeout for the command.</param>
-    /// <param name="cancellationToken">Optional cancellation token.</param>
-    /// <returns>A task that represents the asynchronous operation, containing the notification response.</returns>
-    Task<NotificationResponse> UnobserveAssetUpdatesAsync(
-        string deviceName,
-        string inboundEndpointName,
-        string assetName,
-        TimeSpan? commandTimeout = null,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Retrieves details of a specific asset.
     /// </summary>
     /// <param name="deviceName">The name of the device.</param>
@@ -127,7 +95,7 @@ public interface IAdrServiceClient : IAsyncDisposable
     Task<Asset> GetAssetAsync(
         string deviceName,
         string inboundEndpointName,
-        GetAssetRequest request,
+        string assetName,
         TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default);
 

@@ -197,7 +197,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
     }
 
     /// <inheritdoc />
-    public async Task<Asset> GetAssetAsync(string deviceName, string inboundEndpointName, GetAssetRequest request, TimeSpan? commandTimeout = null,
+    public async Task<Asset> GetAssetAsync(string deviceName, string inboundEndpointName, string assetName, TimeSpan? commandTimeout = null,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -211,7 +211,7 @@ public class AdrServiceClient(ApplicationContext applicationContext, IMqttPubSub
         };
 
         var result = await _adrBaseServiceClient.GetAssetAsync(
-            request.ToProtocol(),
+            new() { AssetName = assetName },
             null,
             additionalTopicTokenMap,
             commandTimeout ?? _defaultTimeout,

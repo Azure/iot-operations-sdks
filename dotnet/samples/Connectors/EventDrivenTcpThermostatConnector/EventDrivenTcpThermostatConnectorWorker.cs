@@ -46,7 +46,7 @@ namespace EventDrivenTcpThermostatConnector
             await OpenTcpConnectionAsync(args, assetEvent, port);
         }
 
-        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEventSchemaElement assetEvent, int port)
+        private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, AssetEvent assetEvent, int port)
         {
             _tcpConnectionCancellationToken = new();
             try

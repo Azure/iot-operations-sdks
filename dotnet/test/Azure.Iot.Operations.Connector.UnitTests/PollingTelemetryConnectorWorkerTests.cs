@@ -66,7 +66,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -85,7 +85,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -160,7 +160,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -179,7 +179,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     },
                                     new DatasetDestination()
@@ -271,7 +271,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                     Datasets = new()
                         {
                             {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -290,7 +290,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopics[i],
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -393,7 +393,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -412,7 +412,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic1,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -431,7 +431,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -450,7 +450,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic2,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -531,7 +531,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -550,7 +550,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -633,7 +633,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -652,7 +652,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -736,7 +736,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -755,7 +755,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic1,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -843,7 +843,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -862,7 +862,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -937,7 +937,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -956,7 +956,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic1,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
@@ -975,7 +975,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -994,7 +994,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                         Configuration = new()
                                         {
                                             Topic = expectedMqttTopic2,
-                                            Qos = Qos.Qos1
+                                            Qos = QoS.Qos1
                                         }
                                     }
                                 }
