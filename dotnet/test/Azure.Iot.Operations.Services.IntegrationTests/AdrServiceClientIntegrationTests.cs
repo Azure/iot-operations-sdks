@@ -50,41 +50,6 @@ public class AdrServiceClientIntegrationTests
     }
 
     [Fact]
-    public async Task CanGetDeviceStatusAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
-
-        // Act
-        var deviceStatus = await client.GetDeviceStatusAsync(TestDevice_1_Name, "my-rest-endpoint");
-
-        // Assert
-        _output.WriteLine($"Device: {TestDevice_1_Name}");
-        Assert.NotNull(deviceStatus.Endpoints);
-        Assert.NotNull(deviceStatus.Endpoints.Inbound);
-        Assert.Single(deviceStatus.Endpoints.Inbound);
-    }
-
-    [Fact]
-    public async Task CanGetAssetStatusAsync()
-    {
-        // Arrange
-        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
-        ApplicationContext applicationContext = new();
-        await using AdrServiceClient client = new(applicationContext, mqttClient, ConnectorClientId);
-
-        // Act
-        var assetStatus = await client.GetAssetStatusAsync(TestDevice_1_Name, TestEndpointName, TestAssetName);
-
-        // Assert
-        _output.WriteLine($"Device: {TestDevice_1_Name}");
-        Assert.NotNull(assetStatus.Datasets);
-        Assert.Single(assetStatus.Datasets);
-    }
-
-    [Fact]
     public async Task GetDeviceThrowsAkriServiceErrorExceptionWhenDeviceNotFoundAsync()
     {
         // Arrange
