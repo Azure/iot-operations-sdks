@@ -218,9 +218,9 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
 ///
 /// `custom_user_data` can be an empty Vec or an existing Vec of custom user data. This function will add the application error headers to this Vec.
 /// `application_error_code` required to be a non-empty `String`.
-/// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `response`. It is conventionally, but not necessarily, a stringified JSON object/value/array.
-///
-/// Returns `Ok(())` if the properties are added to `custom_user_data`.
+/// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `custom_user_data`. It is conventionally, but not necessarily, a stringified JSON object/value/array.
+/// 
+/// Returns `Ok(())` if the properties are added to `custom_user_data`. If an error is returned, `custom_user_data`` won't get modified.
 ///
 /// # Errors
 /// Returns an Error with the `String` "`application_error_code` cannot be empty" if `application_error_code` is an empty string.
