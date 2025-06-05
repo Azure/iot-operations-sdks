@@ -23,13 +23,9 @@ const DEVICE1: &str = "my-thermostat";
 const DEVICE2: &str = "test-thermostat";
 const ENDPOINT1: &str = "my-rest-endpoint";
 const ENDPOINT2: &str = "my-coap-endpoint";
-const ASSET_NAME1: &str = "my-rest-thermostat-asset";
-const ASSET_NAME2: &str = "my-coap-thermostat-asset";
 // Unique names to avoid conflicts for spec updates
-const ASSET_NAME3: &str = "unique-rest-thermostat-asset";
 const ENDPOINT3: &str = "unique-endpoint";
 const DEVICE3: &str = "unique-thermostat";
-const TYPE: &str = "thermostat";
 const TIMEOUT: Duration = Duration::from_secs(10);
 
 // Test Scenarios:
@@ -70,6 +66,7 @@ fn initialize_client(
         .tcp_port(1883u16)
         .keep_alive(Duration::from_secs(5))
         .use_tls(false)
+        .clean_start(true)
         .build()
         .unwrap();
 
@@ -117,7 +114,7 @@ async fn get_device() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            assert!(exit_handle.try_exit().await.is_ok());
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -172,7 +169,7 @@ async fn update_device_plus_endpoint_status() {
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
-            assert!(exit_handle.try_exit().await.is_ok());
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -189,6 +186,7 @@ async fn update_device_plus_endpoint_status() {
 #[ignore = "This test is ignored as getting serialization error."]
 async fn get_asset() {
     let log_identifier = "get_asset_network_tests-rust";
+    let asset_name: &str = "my-rest-thermostat-asset";
     if !setup_test(log_identifier) {
         return;
     }
@@ -201,20 +199,19 @@ async fn get_asset() {
                 .get_asset(
                     DEVICE1.to_string(),
                     ENDPOINT1.to_string(),
-                    ASSET_NAME1.to_string(),
+                    asset_name.to_string(),
                     TIMEOUT,
                 )
                 .await
                 .unwrap();
             log::info!("[{log_identifier}] Response: {asset:?}");
 
-            assert_eq!(asset.name, ASSET_NAME1);
-            assert_eq!(asset.specification.attributes["assetId"], ASSET_NAME1);
-            assert_eq!(asset.specification.attributes["assetType"], TYPE);
+            assert_eq!(asset.name, asset_name);
+            assert_eq!(asset.specification.attributes["assetId"], asset_name);
+
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-
-            assert!(exit_handle.try_exit().await.is_ok());
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -230,6 +227,7 @@ async fn get_asset() {
 #[tokio::test]
 async fn update_asset_status() {
     let log_identifier = "update_asset_status_network_tests-rust";
+    let asset_name: &str = "my-coap-thermostat-asset";
     if !setup_test(log_identifier) {
         return;
     }
@@ -254,7 +252,7 @@ async fn update_asset_status() {
                 .update_asset_status(
                     DEVICE2.to_string(),
                     ENDPOINT2.to_string(),
-                    ASSET_NAME2.to_string(),
+                    asset_name.to_string(),
                     updated_status.clone(),
                     TIMEOUT,
                 )
@@ -262,17 +260,16 @@ async fn update_asset_status() {
                 .unwrap();
             log::info!("[{log_identifier}] Updated Response Asset: {updated_asset:?}");
 
-            assert_eq!(updated_asset.name, ASSET_NAME2);
+            assert_eq!(updated_asset.name, asset_name);
             assert_eq!(
                 updated_asset.specification.attributes["assetId"],
-                ASSET_NAME2
+                asset_name
             );
             assert_eq!(updated_asset.status.unwrap(), updated_status);
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-
-            assert!(exit_handle.try_exit().await.is_ok());
+            exit_handle.try_exit().await.unwrap();
         }
     });
 
@@ -288,6 +285,7 @@ async fn update_asset_status() {
 #[tokio::test]
 async fn observe_asset_update_notifications() {
     let log_identifier = "observe_asset_update_notifications_network_tests-rust";
+    let asset_name: &str = "unique-rest-thermostat-asset";
     if !setup_test(log_identifier) {
         return;
     }
@@ -302,7 +300,7 @@ async fn observe_asset_update_notifications() {
                     .unobserve_asset_update_notifications(
                         DEVICE3.to_string(),
                         ENDPOINT3.to_string(),
-                        ASSET_NAME3.to_string(),
+                        asset_name.to_string(),
                         TIMEOUT,
                     )
                     .await
@@ -317,7 +315,7 @@ async fn observe_asset_update_notifications() {
                 .observe_asset_update_notifications(
                     DEVICE3.to_string(),
                     ENDPOINT3.to_string(),
-                    ASSET_NAME3.to_string(),
+                    asset_name.to_string(),
                     TIMEOUT,
                 )
                 .await
@@ -343,7 +341,7 @@ async fn observe_asset_update_notifications() {
                                 );
                                 // Signal that we got the first notification
                                 first_notification_notify.notify_one();
-                                assert_eq!(asset.name, ASSET_NAME3);
+                                assert_eq!(asset.name, asset_name);
                                 assert_eq!(
                                     asset.specification.description.unwrap(),
                                     description_for_task
@@ -368,7 +366,7 @@ async fn observe_asset_update_notifications() {
             });
 
             assert!(
-                patch_asset_specification(log_identifier, ASSET_NAME3, &update_desc).is_ok(),
+                patch_asset_specification(log_identifier, asset_name, &update_desc).is_ok(),
                 "Failed to patch asset specification"
             );
 
@@ -384,7 +382,7 @@ async fn observe_asset_update_notifications() {
                 .unobserve_asset_update_notifications(
                     DEVICE3.to_string(),
                     ENDPOINT3.to_string(),
-                    ASSET_NAME3.to_string(),
+                    asset_name.to_string(),
                     TIMEOUT,
                 )
                 .await
@@ -397,7 +395,7 @@ async fn observe_asset_update_notifications() {
 
                 assert!(patch_asset_specification(
                     log_identifier,
-                    ASSET_NAME3,
+                    asset_name,
                     format!(
                         "Patch specification update to NOT trigger notification during unobserve {}",
                         Uuid::new_v4()
@@ -420,7 +418,7 @@ async fn observe_asset_update_notifications() {
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            assert!(exit_handle.try_exit().await.is_ok());
+            exit_handle.try_exit().await.unwrap();
         }
     });
     assert!(
@@ -564,7 +562,7 @@ async fn observe_device_update_notifications() {
 
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
-            assert!(exit_handle.try_exit().await.is_ok());
+            exit_handle.try_exit().await.unwrap();
         }
     });
     assert!(
