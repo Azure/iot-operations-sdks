@@ -344,13 +344,13 @@
         {
           "@type": ["Field", "Required"],
           "name": "deviceName",
-          "description": "Name of the device resource",
+          "description": "Name of the device resource.",
           "schema": "string"
         },
         {
           "@type": ["Field", "Required"],
           "name": "endpointName",
-          "description": "The name of endpoint to use",
+          "description": "The name of endpoint to use.",
           "schema": "string"
         }
       ]
@@ -362,7 +362,7 @@
         {
           "@type": ["Field", "Required"],
           "name": "address",
-          "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
+          "description": "The endpoint address to connect to.",
           "schema": "string"
         },
         {
@@ -507,6 +507,29 @@
       ]
     },
     {
+      "@id": "dtmi:com:microsoft:akri:ConfigStatus;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": "Field",
+          "name": "error",
+          "schema": "dtmi:com:microsoft:akri:ConfigError;1"
+        },
+        {
+          "@type": "Field",
+          "name": "lastTransitionTime",
+          "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
+          "schema": "dateTime"
+        },
+        {
+          "@type": "Field",
+          "name": "version",
+          "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
+          "schema": "unsignedLong"
+        }
+      ]
+    },
+    {
       "@id": "dtmi:com:microsoft:akri:ConfigError;1",
       "@type": "Object",
       "fields": [
@@ -519,7 +542,7 @@
         {
           "@type": "Field",
           "name": "details",
-          "description": "Array of event statuses that describe the status of each event.",
+          "description": "Array of error details that describe the status of each error.",
           "schema": {
             "@type": "Array",
             "elementSchema": {
@@ -550,22 +573,6 @@
                   "schema": "string"
                 }
               ]
-            }
-          }
-        },
-        {
-          "@type": "Field",
-          "name": "innerError",
-          "description": "A set of key-value pairs that contain service specific details set by the service.",
-          "schema": {
-            "@type": "Map",
-            "mapKey": {
-              "name": "innerErrorKey",
-              "schema": "string"
-            },
-            "mapValue": {
-              "name": "innerErrorValue",
-              "schema": "string"
             }
           }
         },
@@ -688,7 +695,7 @@
                         {
                           "@type": "Field",
                           "name": "additionalConfiguration",
-                          "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).",
+                          "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).",
                           "schema": "string"
                         },
                         {
@@ -700,7 +707,7 @@
                         {
                           "@type": "Field",
                           "name": "authentication",
-                          "description": "Definition of the client authentication mechanism to the host.",
+                          "description": "Defines the client authentication mechanism to the server.",
                           "schema": {
                             "@type": "Object",
                             "fields": [
@@ -778,16 +785,10 @@
                         {
                           "@type": "Field",
                           "name": "trustSettings",
-                          "description": "Trust settings for the endpoint.",
+                          "description": "Defines server trust settings for the endpoint.",
                           "schema": {
                             "@type": "Object",
                             "fields": [
-                              {
-                                "@type": "Field",
-                                "name": "issuerList",
-                                "description": "Secret reference to the issuers list to trust.",
-                                "schema": "string"
-                              },
                               {
                                 "@type": "Field",
                                 "name": "trustList",
@@ -856,37 +857,37 @@
         {
           "@type": "Field",
           "name": "externalDeviceId",
-          "description": "The unique identifier of the device.",
+          "description": "The Device ID provided by the customer.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastTransitionTime",
-          "description": "A timestamp that is updated each time the resource is modified.",
+          "description": "A timestamp (in UTC) that is updated each time the resource is modified.",
           "schema": "dateTime"
         },
         {
           "@type": "Field",
           "name": "manufacturer",
-          "description": "Hardware manufacturer name.",
+          "description": "Device manufacturer.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "model",
-          "description": "Model name.",
+          "description": "Device model.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "operatingSystem",
-          "description": "Operating system name.",
+          "description": "Device operating system.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "operatingSystemVersion",
-          "description": "Operating system version.",
+          "description": "Device operating system version.",
           "schema": "string"
         },
         {
@@ -909,30 +910,8 @@
       "fields": [
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:DeviceStatusConfig;1",
           "name": "config",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": "Field",
-                "name": "error",
-                "schema": "dtmi:com:microsoft:akri:ConfigError;1"
-              },
-              {
-                "@type": "Field",
-                "name": "lastTransitionTime",
-                "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
-                "schema": "dateTime"
-              },
-              {
-                "@type": "Field",
-                "name": "version",
-                "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
-                "schema": "unsignedLong"
-              }
-            ]
-          }
+          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
           "@type": "Field",
@@ -980,7 +959,7 @@
         {
           "@type": "Field",
           "name": "assetTypeRefs",
-          "description": "URI or type definition ids in companion spec.",
+          "description": "URIs or type definition IDs.",
           "schema": {
             "@type": "Array",
             "elementSchema": "string"
@@ -1042,7 +1021,7 @@
                         {
                           "@type": "Field",
                           "name": "typeRef",
-                          "description": "URI or type definition id in companion spec.",
+                          "description": "URI or type definition ID.",
                           "schema": "string"
                         }
                       ]
@@ -1052,7 +1031,7 @@
                 {
                   "@type": "Field",
                   "name": "dataSource",
-                  "description": "The address of the source of the data in the dataset (e.g. URL) so that a client can access the data source on the asset.",
+                  "description": "Name of the data source within a dataset.",
                   "schema": "string"
                 },
                 {
@@ -1064,7 +1043,7 @@
                 {
                   "@type": "Field",
                   "name": "destinations",
-                  "description": "Destinations for a Dataset.",
+                  "description": "Destinations for a dataset.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": "dtmi:com:microsoft:akri:DatasetDestination;1"
@@ -1079,7 +1058,7 @@
                 {
                   "@type": "Field",
                   "name": "typeRef",
-                  "description": "URI or type definition id in companion spec.",
+                  "description": "URI or type definition ID.",
                   "schema": "string"
                 }
               ]
@@ -1095,7 +1074,7 @@
         {
           "@type": "Field",
           "name": "defaultDatasetsDestinations",
-          "description": "Default destinations for a Dataset.",
+          "description": "Default destinations for a dataset.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:DatasetDestination;1"
@@ -1110,7 +1089,7 @@
         {
           "@type": "Field",
           "name": "defaultEventsDestinations",
-          "description": "Default destinations for an Event.",
+          "description": "Default destinations for an event.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1131,7 +1110,7 @@
         {
           "@type": "Field",
           "name": "defaultStreamsDestinations",
-          "description": "Default destinations for a Stream.",
+          "description": "Default destinations for a stream.",
           "schema": {
             "@type": "Array",
             "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1146,7 +1125,7 @@
         {
           "@type": ["Field", "Required"],
           "name": "deviceRef",
-          "description": "A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.",
+          "description": "Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.",
           "schema": "dtmi:com:microsoft:akri:AssetDeviceRef;1"
         },
         {
@@ -1167,7 +1146,7 @@
         {
           "@type": "Field",
           "name": "documentationUri",
-          "description": "Reference to the documentation.",
+          "description": "Asset documentation reference.",
           "schema": "string"
         },
         {
@@ -1221,7 +1200,7 @@
                 {
                   "@type": "Field",
                   "name": "destinations",
-                  "description": "Destinations for an Event.",
+                  "description": "Destinations for an event.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": "dtmi:com:microsoft:akri:EventStreamDestination"
@@ -1248,7 +1227,7 @@
                 {
                   "@type": "Field",
                   "name": "typeRef",
-                  "description": "URI or type definition id in companion spec.",
+                  "description": "URI or type definition ID.",
                   "schema": "string"
                 }
               ]
@@ -1258,19 +1237,19 @@
         {
           "@type": "Field",
           "name": "externalAssetId",
-          "description": "Asset id provided by the customer.",
+          "description": "Asset ID provided by the customer.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "hardwareRevision",
-          "description": "Revision number of the hardware.",
+          "description": "Asset hardware revision number.",
           "schema": "string"
         },
         {
           "@type": "Field",
           "name": "lastTransitionTime",
-          "description": "A read-only timestamp that is updated each time the resource is modified from the cloud.",
+          "description": "A timestamp (in UTC) that is updated each time the resource is modified.",
           "schema": "dateTime"
         },
         {
@@ -1287,7 +1266,7 @@
                   "@type": "Field",
                   "@id": "dtmi:com:microsoft:akri:AssetManagementGroupAction;1",
                   "name": "actions",
-                  "description": "Actions for this management group.",
+                  "description": "Array of actions that are part of the management group. Each action can have an individual configuration.",
                   "schema": {
                     "@type": "Array",
                     "elementSchema": {
@@ -1314,25 +1293,25 @@
                         {
                           "@type": ["Field", "Required"],
                           "name": "targetUri",
-                          "description": "TargetUri of action.",
+                          "description": "The target URI on which a client can invoke the specific action.",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "timeOutInSeconds",
-                          "description": "Time out in seconds for the action",
+                          "description": "Response timeout for the action.",
                           "schema": "unsignedInteger"
                         },
                         {
                           "@type": "Field",
                           "name": "topic",
-                          "description": "The MQTT topic.",
+                          "description": "The MQTT topic path on which a client will receive the request for the action.",
                           "schema": "string"
                         },
                         {
                           "@type": "Field",
                           "name": "typeRef",
-                          "description": "URI or type definition id in companion spec.",
+                          "description": "URI or type definition ID.",
                           "schema": "string"
                         }
                       ]
@@ -1342,19 +1321,19 @@
                 {
                   "@type": "Field",
                   "name": "defaultTimeOutInSeconds",
-                  "description": "Default time out in seconds for the management group.",
+                  "description": "Default response timeout for all actions that are part of the management group.",
                   "schema": "unsignedInteger"
                 },
                 {
                   "@type": "Field",
                   "name": "defaultTopic",
-                  "description": "The default MQTT topic for the management group.",
+                  "description": "Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.",
                   "schema": "string"
                 },
                 {
                   "@type": "Field",
                   "name": "managementGroupConfiguration",
-                  "description": "Configuration for the mangement group.",
+                  "description": "Stringified JSON that contains connector-specific configuration for the management group.",
                   "schema": "string"
                 },
                 {
@@ -1366,7 +1345,7 @@
                 {
                   "@type": "Field",
                   "name": "typeRef",
-                  "description": "URI or type definition id in companion spec.",
+                  "description": "URI or type definition ID.",
                   "schema": "string"
                 }
               ]
@@ -1376,7 +1355,7 @@
         {
           "@type": "Field",
           "name": "manufacturer",
-          "description": "Asset manufacturer name.",
+          "description": "Asset manufacturer.",
           "schema": "string"
         },
         {
@@ -1388,7 +1367,7 @@
         {
           "@type": "Field",
           "name": "model",
-          "description": "Asset model name.",
+          "description": "Asset model.",
           "schema": "string"
         },
         {
@@ -1406,7 +1385,7 @@
         {
           "@type": "Field",
           "name": "softwareRevision",
-          "description": "Revision number of the software.",
+          "description": "Asset software revision number.",
           "schema": "string"
         },
         {
@@ -1431,7 +1410,7 @@
                 {
                   "@type": ["Field", "Required"],
                   "name": "name",
-                  "description": "The name of the stream definition.",
+                  "description": "Name of the stream definition.",
                   "schema": "string"
                 },
                 {
@@ -1443,7 +1422,7 @@
                 {
                   "@type": "Field",
                   "name": "typeRef",
-                  "description": "URI or type definition id in companion spec.",
+                  "description": "URI or type definition ID.",
                   "schema": "string"
                 }
               ]
@@ -1470,30 +1449,9 @@
       "fields": [
         {
           "@type": "Field",
-          "@id": "dtmi:com:microsoft:akri:AssetConfigStatus;1",
           "name": "config",
-          "schema": {
-            "@type": "Object",
-            "fields": [
-              {
-                "@type": "Field",
-                "name": "error",
-                "schema": "dtmi:com:microsoft:akri:ConfigError;1"
-              },
-              {
-                "@type": "Field",
-                "name": "lastTransitionTime",
-                "description": "A read only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud.",
-                "schema": "dateTime"
-              },
-              {
-                "@type": "Field",
-                "name": "version",
-                "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
-                "schema": "unsignedLong"
-              }
-            ]
-          }
+          "description": "Defines the asset status config properties.",
+          "schema": "dtmi:com:microsoft:akri:ConfigStatus;1"
         },
         {
           "@type": "Field",
