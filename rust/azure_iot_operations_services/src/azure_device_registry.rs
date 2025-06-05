@@ -4,7 +4,6 @@
 //! Types for Azure Device Registry operations.
 
 use core::fmt::Debug;
-use std::collections::HashMap;
 
 use azure_iot_operations_mqtt::interface::AckToken;
 use azure_iot_operations_protocol::{common::aio_protocol_error::AIOProtocolError, rpc_command};
@@ -108,7 +107,7 @@ impl AssetUpdateObservation {
 // ~~~~~~~~~~~~~~~~~~Status/ConfigError DTDL Equivalent Structs~~~~~~~~~~~~~
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the configuration status.
-pub struct StatusConfig {
+pub struct ConfigStatus {
     /// Error details for status.
     pub error: Option<ConfigError>,
     /// The last time the configuration has been modified.
@@ -126,8 +125,6 @@ pub struct ConfigError {
     pub code: Option<String>,
     /// Array of event statuses that describe the status of each event.
     pub details: Option<Vec<Details>>,
-    /// The inner error, if any.
-    pub inner_error: Option<HashMap<String, String>>,
     /// The message of the error.
     pub message: Option<String>,
 }
@@ -173,29 +170,9 @@ impl From<discovery_client_gen::CodeSchema> for base_client_gen::CodeSchema {
     }
 }
 
-impl From<StatusConfig> for base_client_gen::DeviceStatusConfigSchema {
-    fn from(value: StatusConfig) -> Self {
-        base_client_gen::DeviceStatusConfigSchema {
-            version: value.version,
-            error: value.error.map(Into::into),
-            last_transition_time: value.last_transition_time,
-        }
-    }
-}
-
-impl From<base_client_gen::DeviceStatusConfigSchema> for StatusConfig {
-    fn from(value: base_client_gen::DeviceStatusConfigSchema) -> Self {
-        StatusConfig {
-            version: value.version,
-            error: value.error.map(Into::into),
-            last_transition_time: value.last_transition_time,
-        }
-    }
-}
-
-impl From<StatusConfig> for base_client_gen::AssetConfigStatusSchema {
-    fn from(value: StatusConfig) -> Self {
-        base_client_gen::AssetConfigStatusSchema {
+impl From<ConfigStatus> for base_client_gen::ConfigStatus {
+    fn from(value: ConfigStatus) -> Self {
+        base_client_gen::ConfigStatus {
             error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
@@ -203,9 +180,9 @@ impl From<StatusConfig> for base_client_gen::AssetConfigStatusSchema {
     }
 }
 
-impl From<base_client_gen::AssetConfigStatusSchema> for StatusConfig {
-    fn from(value: base_client_gen::AssetConfigStatusSchema) -> Self {
-        StatusConfig {
+impl From<base_client_gen::ConfigStatus> for ConfigStatus {
+    fn from(value: base_client_gen::ConfigStatus) -> Self {
+        ConfigStatus {
             error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
@@ -219,7 +196,6 @@ impl From<ConfigError> for base_client_gen::ConfigError {
             code: value.code,
             message: value.message,
             details: value.details.option_vec_into(),
-            inner_error: value.inner_error,
         }
     }
 }
@@ -230,7 +206,6 @@ impl From<base_client_gen::ConfigError> for ConfigError {
             code: value.code,
             message: value.message,
             details: value.details.option_vec_into(),
-            inner_error: value.inner_error,
         }
     }
 }

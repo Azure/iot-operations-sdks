@@ -7,7 +7,7 @@ use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
-use crate::azure_device_registry::{ConfigError, StatusConfig};
+use crate::azure_device_registry::{ConfigError, ConfigStatus};
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
@@ -134,6 +134,8 @@ pub struct DiscoveredInboundEndpoint {
     pub address: String,
     /// The 'endpointType' Field.
     pub endpoint_type: String,
+    /// The 'lastUpdatedOn' Field.
+    pub last_updated_on: Option<DateTime<Utc>>,
     /// The 'supportedAuthenticationMethods' Field.
     pub supported_authentication_methods: Vec<String>,
     /// The 'version' Field.
@@ -143,8 +145,6 @@ pub struct DiscoveredInboundEndpoint {
 #[derive(Debug, Clone)]
 /// Represents the trust settings for an endpoint.
 pub struct TrustSettings {
-    /// The 'issuerList' Field.
-    pub issuer_list: Option<String>,
     /// The 'trustList' Field.
     pub trust_list: Option<String>,
 }
@@ -287,6 +287,7 @@ impl From<DiscoveredInboundEndpoint>
             additional_configuration: value.additional_configuration,
             address: value.address,
             endpoint_type: value.endpoint_type,
+            last_updated_on: value.last_updated_on,
             supported_authentication_methods: value
                 .supported_authentication_methods
                 .option_vec_into(),
@@ -298,7 +299,6 @@ impl From<DiscoveredInboundEndpoint>
 impl From<base_client_gen::TrustSettingsSchema> for TrustSettings {
     fn from(value: base_client_gen::TrustSettingsSchema) -> Self {
         TrustSettings {
-            issuer_list: value.issuer_list,
             trust_list: value.trust_list,
         }
     }
@@ -345,7 +345,7 @@ impl From<base_client_gen::AuthenticationSchema> for Authentication {
 /// Represents the observed status of a Device in the ADR Service.
 pub struct DeviceStatus {
     ///  Defines the status config properties.
-    pub config: Option<StatusConfig>,
+    pub config: Option<ConfigStatus>,
     /// Defines the device status for inbound/outbound endpoints.
     pub endpoints: HashMap<String, Option<ConfigError>>,
 }
@@ -374,7 +374,7 @@ impl From<DeviceStatus> for base_client_gen::DeviceStatus {
             })
         };
         base_client_gen::DeviceStatus {
-            config: value.config.map(StatusConfig::into),
+            config: value.config.map(ConfigStatus::into),
             endpoints,
         }
     }
@@ -393,9 +393,7 @@ impl From<base_client_gen::DeviceStatus> for DeviceStatus {
             None => HashMap::new(),
         };
         DeviceStatus {
-            config: value
-                .config
-                .map(base_client_gen::DeviceStatusConfigSchema::into),
+            config: value.config.map(base_client_gen::ConfigStatus::into),
             endpoints,
         }
     }

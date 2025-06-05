@@ -9,7 +9,7 @@ use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
 use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
-use crate::azure_device_registry::{ConfigError, StatusConfig};
+use crate::azure_device_registry::{ConfigError, ConfigStatus};
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
 /// Represents an Asset in the Azure Device Registry service.
@@ -422,7 +422,7 @@ pub struct DestinationConfiguration {
 /// Represents the observed status of an asset.
 pub struct AssetStatus {
     /// The configuration of the asset.
-    pub config: Option<StatusConfig>,
+    pub config: Option<ConfigStatus>,
     /// A collection of datasets associated with the asset.
     pub datasets: Option<Vec<DatasetEventStreamStatus>>,
     /// A collection of events associated with the asset.
