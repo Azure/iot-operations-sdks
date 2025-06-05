@@ -21,7 +21,7 @@ pub struct AssetEventSchemaElementSchema {
     #[builder(default = "None")]
     pub data_points: Option<Vec<AssetEventDataPointSchemaElementSchema>>,
 
-    /// Destinations for an Event.
+    /// Destinations for an event.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<EventStreamDestination>>,
@@ -39,7 +39,7 @@ pub struct AssetEventSchemaElementSchema {
     /// The name of the event.
     pub name: String,
 
-    /// URI or type definition id in companion spec.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

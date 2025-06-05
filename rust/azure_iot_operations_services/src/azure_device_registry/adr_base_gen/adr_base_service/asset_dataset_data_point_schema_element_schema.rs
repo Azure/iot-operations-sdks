@@ -26,7 +26,7 @@ pub struct AssetDatasetDataPointSchemaElementSchema {
     /// The name of the data point.
     pub name: String,
 
-    /// URI or type definition id in companion spec.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

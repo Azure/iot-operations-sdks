@@ -14,11 +14,11 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 /// A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetDeviceRef {
-    /// Name of the device resource
+    /// Name of the device resource.
     #[serde(rename = "deviceName")]
     pub device_name: String,
 
-    /// The name of endpoint to use
+    /// The name of endpoint to use.
     #[serde(rename = "endpointName")]
     pub endpoint_name: String,
 }
