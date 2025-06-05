@@ -13,7 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeviceOutboundEndpoint {
-    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
+    /// The endpoint address to connect to.
     pub address: String,
 
     /// Type of connection used for the messaging endpoint.

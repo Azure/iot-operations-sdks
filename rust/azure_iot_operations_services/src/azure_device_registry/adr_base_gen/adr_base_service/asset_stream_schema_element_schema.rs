@@ -19,7 +19,7 @@ pub struct AssetStreamSchemaElementSchema {
     #[builder(default = "None")]
     pub destinations: Option<Vec<EventStreamDestination>>,
 
-    /// The name of the stream definition.
+    /// Name of the stream definition.
     pub name: String,
 
     /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific stream.
@@ -28,7 +28,7 @@ pub struct AssetStreamSchemaElementSchema {
     #[builder(default = "None")]
     pub stream_configuration: Option<String>,
 
-    /// URI or type definition id in companion spec.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
