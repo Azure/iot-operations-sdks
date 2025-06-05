@@ -17,7 +17,7 @@ use crate::azure_device_registry::{
 
 // ~~~~~~~~~~~~~~~~~~~Device Endpoint DTDL Equivalent Structs~~~~
 
-/// Represents a Device in the Azure Device Registry service.
+/// Represents a Device resource, modeled after the devices.namespaces.deviceregistry.microsoft.com CRD in Kubernetes.
 #[derive(Debug, Clone)]
 pub struct Device {
     /// A set of key-value pairs that contain custom attributes set by the customer.
@@ -28,17 +28,17 @@ pub struct Device {
     pub enabled: Option<bool>,
     /// Connection endpoint url a device can use to connect to a service.
     pub endpoints: Option<DeviceEndpoints>,
-    /// The unique identifier of the device.
+    /// The Device ID provided by the customer.
     pub external_device_id: Option<String>,
-    /// A timestamp that is updated each time the resource is modified.
+    /// A timestamp (in UTC) that is updated each time the resource is modified.
     pub last_transition_time: Option<DateTime<Utc>>,
-    /// Hardware manufacturer name.
+    /// Device manufacturer.
     pub manufacturer: Option<String>,
-    /// Model name.
+    /// Device model.
     pub model: Option<String>,
-    /// Operating system name.
+    /// Device operating system.
     pub operating_system: Option<String>,
-    /// Operating system version.
+    /// Device operating system version.
     pub operating_system_version: Option<String>,
     /// A unique identifier for this resource.
     pub uuid: Option<String>,
@@ -102,7 +102,7 @@ pub struct DiscoveredOutboundEndpoints {
 /// Represents an outbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct OutboundEndpoint {
-    /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
+    /// The endpoint address to connect to.
     pub address: String,
     /// Type of connection used for the messaging endpoint.
     pub endpoint_type: Option<String>,
@@ -111,15 +111,15 @@ pub struct OutboundEndpoint {
 /// Represents an inbound endpoint of a device in the Azure Device Registry service.
 #[derive(Debug, Clone)]
 pub struct InboundEndpoint {
-    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).
+    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).
     pub additional_configuration: Option<String>,
     /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
     pub address: String,
-    /// Definition of the client authentication mechanism to the host.
+    /// Defines the client authentication mechanism to the server.
     pub authentication: Authentication,
     /// Type of connection endpoint.
     pub endpoint_type: String,
-    /// Trust settings for the endpoint.
+    /// Defines server trust settings for the endpoint.
     pub trust_settings: Option<TrustSettings>,
     /// Version associated with device endpoint.
     pub version: Option<String>,

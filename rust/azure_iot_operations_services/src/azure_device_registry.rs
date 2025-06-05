@@ -123,7 +123,7 @@ pub struct ConfigStatus {
 pub struct ConfigError {
     /// Error code for classification of errors (ex: '400', '404', '500', etc.).
     pub code: Option<String>,
-    /// Array of event statuses that describe the status of each event.
+    /// Array of error details that describe the status of each error.
     pub details: Option<Vec<Details>>,
     /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
     pub message: Option<String>,
