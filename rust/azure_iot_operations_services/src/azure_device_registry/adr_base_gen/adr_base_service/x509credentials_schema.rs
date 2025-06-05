@@ -13,7 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct X509credentialsSchema {
-    /// The 'certificateSecretName' Field.
+    /// The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).
     #[serde(rename = "certificateSecretName")]
     pub certificate_secret_name: String,
 }

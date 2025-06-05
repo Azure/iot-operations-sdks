@@ -38,12 +38,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -53,7 +50,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -62,18 +58,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedMqttTopic = "some/asset/telemetry/topic";
             var asset = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -99,7 +92,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource assetTelemetryForwardedToBrokerTcs = new();
@@ -138,12 +130,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -153,7 +142,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -164,18 +152,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedStateStoreKey = Guid.NewGuid().ToString();
             var asset = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -209,7 +194,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource telemetryForwardedToMqttBrokerTcs = new();
@@ -255,12 +239,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -270,7 +251,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -283,18 +263,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 expectedMqttTopics.Add("some/asset/telemetry/topic" + i);
                 assets.Add(new Asset()
                 {
-                    Name = assetNamePrefix + i,
-                    Specification = new()
+                    DeviceRef = new()
                     {
-                        DeviceRef = new()
-                        {
-                            DeviceName = deviceName,
-                            EndpointName = inboundEndpointName,
-                        },
-                        Datasets = new()
+                        DeviceName = deviceName,
+                        EndpointName = inboundEndpointName,
+                    },
+                    Datasets = new()
                         {
                             {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -319,7 +296,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                     }
                 });
             }
@@ -370,12 +346,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device1 = new Device()
             {
-                Name = device1Name,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -385,18 +358,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
             var device2 = new Device()
             {
-                Name = device2Name,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -406,7 +375,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -417,18 +385,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedMqttTopic2 = "some/asset/telemetry/topic2";
             var asset1 = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = device1Name,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = device1Name,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -454,23 +419,19 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             var asset2 = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = device2Name,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = device2Name,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -496,7 +457,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource device1AssetTelemetryForwardedToBrokerTcs = new();
@@ -543,12 +503,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -558,7 +515,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -567,18 +523,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedMqttTopic = "some/asset/telemetry/topic";
             var asset = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -604,7 +557,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource assetTelemetryForwardedToBrokerTcs = new();
@@ -653,12 +605,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -668,7 +617,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -677,18 +625,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedMqttTopic = "some/asset/telemetry/topic";
             var asset = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -714,7 +659,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource assetTelemetryForwardedToBrokerTcs = new();
@@ -763,12 +707,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -778,7 +719,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -788,18 +728,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedMqttTopic2 = "some/asset/telemetry/topic2";
             var asset = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -825,7 +762,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource asset1TelemetryForwardedToBrokerTcs = new();
@@ -849,7 +785,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // Asset has been added and telemetry is being forwarded. Now we can update the asset and check that telemetry starts flowing to the updated topic
             await asset1TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            asset.Specification.Datasets[0].Destinations![0].Configuration.Topic = expectedMqttTopic2;
+            asset.Datasets![0].Destinations![0].Configuration.Topic = expectedMqttTopic2;
             mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Updated, asset));
 
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
@@ -879,12 +815,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -894,7 +827,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -903,18 +835,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedMqttTopic = "some/asset/telemetry/topic";
             var asset = new Asset()
             {
-                Name = assetName,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -940,7 +869,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource assetTelemetryForwardedToBrokerTcs = new();
@@ -980,12 +908,9 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             var device = new Device()
             {
-                Name = deviceName,
-                Specification = new()
+                Endpoints = new()
                 {
-                    Endpoints = new()
-                    {
-                        Inbound = new()
+                    Inbound = new()
                         {
                             {
                                 inboundEndpointName,
@@ -995,7 +920,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                                 }
                             }
                         }
-                    }
                 }
             };
 
@@ -1005,18 +929,15 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             string expectedMqttTopic2 = "some/asset/telemetry/topic2";
             var asset1 = new Asset()
             {
-                Name = asset1Name,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -1042,23 +963,19 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             var asset2 = new Asset()
             {
-                Name = asset2Name,
-                Specification = new()
+                DeviceRef = new()
                 {
-                    DeviceRef = new()
-                    {
-                        DeviceName = deviceName,
-                        EndpointName = inboundEndpointName,
-                    },
-                    Datasets = new()
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
                     {
                         {
-                            new AssetDatasetSchemaElement()
+                            new AssetDataset()
                             {
                                 Name = datasetName,
                                 DataPoints = new()
@@ -1084,7 +1001,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                             }
                         }
                     }
-                }
             };
 
             TaskCompletionSource asset1TelemetryForwardedToBrokerTcs = new();

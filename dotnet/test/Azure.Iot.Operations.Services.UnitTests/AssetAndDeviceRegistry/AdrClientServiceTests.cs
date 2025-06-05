@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Moq;
 using Xunit;
 
@@ -25,7 +26,7 @@ public class AdrClientServiceTests
         await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
             await client.GetDeviceAsync("TestDevice_1_Name", "TestEndpointName"));
         await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            await client.ObserveDeviceEndpointUpdatesAsync("TestDevice_1_Name", "TestEndpointName"));
+            await client.SetNotificationPreferenceForDeviceUpdatesAsync("TestDevice_1_Name", "TestEndpointName", NotificationPreference.On));
     }
 
     [Fact]
@@ -43,7 +44,7 @@ public class AdrClientServiceTests
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await client.GetDeviceAsync("TestDevice_1_Name", "TestEndpointName", cancellationToken: cts.Token));
         await Assert.ThrowsAsync<OperationCanceledException>(async () =>
-            await client.ObserveDeviceEndpointUpdatesAsync("TestDevice_1_Name", "TestEndpointName", cancellationToken: cts.Token));
+            await client.SetNotificationPreferenceForDeviceUpdatesAsync("TestDevice_1_Name", "TestEndpointName", NotificationPreference.On, cancellationToken: cts.Token));
     }
 
 }

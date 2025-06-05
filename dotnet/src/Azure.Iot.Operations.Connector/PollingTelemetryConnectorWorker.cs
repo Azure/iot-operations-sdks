@@ -35,24 +35,24 @@ namespace Azure.Iot.Operations.Connector
 
         public async void OnAssetSampleableAsync(object? sender, AssetAvailableEventArgs args)
         {
-            if (args.Asset.Specification.Datasets == null)
+            if (args.Asset.Datasets == null)
             {
                 return;
             }
 
             Dictionary<string, Timer> datasetsTimers = new();
             _assetsSamplingTimers[args.AssetName] = datasetsTimers;
-            foreach (AssetDatasetSchemaElement dataset in args.Asset.Specification.Datasets)
+            foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
                 EndpointCredentials? credentials = null;
-                if (args.Device.Specification.Endpoints != null
-                    && args.Device.Specification.Endpoints.Inbound != null
-                    && args.Device.Specification.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
+                if (args.Device.Endpoints != null
+                    && args.Device.Endpoints.Inbound != null
+                    && args.Device.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
                 {
                     credentials = _assetMonitor.GetEndpointCredentials(inboundEndpoint);
                 }
 
-                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.Asset, dataset, credentials);
+                IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.Device, args.InboundEndpointName, args.AssetName, args.Asset, dataset, credentials);
 
                 TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 

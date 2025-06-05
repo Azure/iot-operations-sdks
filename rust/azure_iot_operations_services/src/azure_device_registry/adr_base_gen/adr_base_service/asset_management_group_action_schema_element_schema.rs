@@ -14,35 +14,35 @@ use super::asset_management_group_action_type::AssetManagementGroupActionType;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetManagementGroupActionSchemaElementSchema {
-    /// The 'actionConfiguration' Field.
+    /// Configuration for the action.
     #[serde(rename = "actionConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub action_configuration: Option<String>,
 
-    /// The 'actionType' Field.
+    /// Type of the action.
     #[serde(rename = "actionType")]
     pub action_type: AssetManagementGroupActionType,
 
-    /// The 'name' Field.
+    /// Name of the action.
     pub name: String,
 
-    /// The 'targetUri' Field.
+    /// TargetUri of action.
     #[serde(rename = "targetUri")]
     pub target_uri: String,
 
-    /// The 'timeOutInSeconds' Field.
+    /// Time out in seconds for the action
     #[serde(rename = "timeOutInSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub time_out_in_seconds: Option<u32>,
 
-    /// The 'topic' Field.
+    /// The MQTT topic.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub topic: Option<String>,
 
-    /// The 'typeRef' Field.
+    /// URI or type definition id in companion spec.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

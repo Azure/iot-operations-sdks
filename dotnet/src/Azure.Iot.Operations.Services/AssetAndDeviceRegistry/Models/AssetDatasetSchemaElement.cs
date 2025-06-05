@@ -1,47 +1,70 @@
-﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-using System.Data;
-using System.Diagnostics;
-
-namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-
-public record AssetDatasetSchemaElement
+namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
 {
-    public List<AssetDatasetDataPointSchemaElement>? DataPoints { get; set; }
+    using System;
+    using System.Collections.Generic;
+    using System.Text.Json.Serialization;
+    using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
-    public Dictionary<string, AssetDatasetDataPointSchemaElement>? DataPointsDictionary
+    
+    public partial class AssetDatasetSchemaElement : IJsonOnDeserialized, IJsonOnSerializing
     {
-        get
-        {
-            Dictionary<string, AssetDatasetDataPointSchemaElement>? dictionary = null;
-            if (DataPoints != null)
-            {
-                dictionary = new();
-                foreach (AssetDatasetDataPointSchemaElement datapoint in DataPoints)
-                {
-                    if (!string.IsNullOrWhiteSpace(datapoint.Name))
-                    {
-                        dictionary[datapoint.Name] = datapoint;
-                    }
-                    else
-                    {
-                        Trace.TraceWarning($"Unexpected datapoint with null or empty name found.");
-                    }
-                }
-            }
+        /// <summary>
+        /// The 'dataPoints' Field.
+        /// </summary>
+        [JsonPropertyName("dataPoints")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetDatasetDataPointSchemaElement>? DataPoints { get; set; } = default;
 
-            return dictionary;
+        /// <summary>
+        /// Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.
+        /// </summary>
+        [JsonPropertyName("datasetConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DatasetConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The address of the source of the data in the dataset (e.g. URL) so that a client can access the data source on the asset.
+        /// </summary>
+        [JsonPropertyName("dataSource")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DataSource { get; set; } = default;
+
+        /// <summary>
+        /// Destinations for a Dataset.
+        /// </summary>
+        [JsonPropertyName("destinations")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<DatasetDestination>? Destinations { get; set; } = default;
+
+        /// <summary>
+        /// Name of the dataset.
+        /// </summary>
+        [JsonPropertyName("name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string Name { get; set; } = default!;
+
+        /// <summary>
+        /// URI or type definition id in companion spec.
+        /// </summary>
+        [JsonPropertyName("typeRef")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? TypeRef { get; set; } = default;
+
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (Name is null)
+            {
+                throw new ArgumentNullException("name field cannot be null");
+            }
         }
     }
-
-    public string? DataSource { get; set; }
-
-    public List<DatasetDestination>? Destinations { get; set; }
-
-    public required string Name { get; set; }
-
-    public string? TypeRef { get; set; }
-
-    public string? DatasetConfiguration { get; set; }
 }

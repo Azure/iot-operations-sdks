@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::discovered_device_endpoint::DiscoveredDeviceEndpoint;
+use super::discovered_device_endpoints::DiscoveredDeviceEndpoints;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DiscoveredDevice {
@@ -22,7 +22,7 @@ pub struct DiscoveredDevice {
     /// The 'endpoints' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub endpoints: Option<DiscoveredDeviceEndpoint>,
+    pub endpoints: Option<DiscoveredDeviceEndpoints>,
 
     /// The 'externalDeviceId' Field.
     #[serde(rename = "externalDeviceId")]

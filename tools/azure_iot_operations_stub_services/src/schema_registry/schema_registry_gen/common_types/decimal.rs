@@ -4,7 +4,7 @@ use std::ops::{Deref, DerefMut};
 use std::str::FromStr;
 
 use bigdecimal;
-use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 
 #[derive(Clone, Debug)]
 pub struct Decimal(bigdecimal::BigDecimal);
@@ -38,6 +38,8 @@ impl<'de> Deserialize<'de> for Decimal {
         D: Deserializer<'de>,
     {
         let s: String = String::deserialize(deserializer)?;
-        Ok(Decimal(bigdecimal::BigDecimal::from_str(&s).map_err(de::Error::custom)?))
+        Ok(Decimal(
+            bigdecimal::BigDecimal::from_str(&s).map_err(de::Error::custom)?,
+        ))
     }
 }

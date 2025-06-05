@@ -16,9 +16,11 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         /// <param name="device">The device that holds the asset to sample</param>
         /// <param name="asset">The asset that this dataset belongs to.</param>
+        /// <param name="assetName">The name of the asset that this dataset belongs to.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint.</param>
         /// <param name="dataset">The dataset that the returned sampler will sample.</param>
         /// <param name="endpointCredentials">The authentication to use when connecting to the endpoint with this asset.</param>
         /// <returns>The dataset sampler that will be used everytime this dataset needs to be sampled.</returns>
-        IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, Asset asset, AssetDatasetSchemaElement dataset, EndpointCredentials? endpointCredentials);
+        IDatasetSampler CreateDatasetSampler(Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? endpointCredentials);
     }
 }

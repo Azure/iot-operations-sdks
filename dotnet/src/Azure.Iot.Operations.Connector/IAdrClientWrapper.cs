@@ -101,7 +101,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
         /// <returns>A task that represents the asynchronous operation, containing the updated asset details.</returns>
-        Task<Asset> UpdateAssetStatusAsync(
+        Task<AssetStatus> UpdateAssetStatusAsync(
             string deviceName,
             string inboundEndpointName,
             UpdateAssetStatusRequest request,
@@ -117,7 +117,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="commandTimeout">Optional timeout for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token.</param>
         /// <returns>A task that represents the asynchronous operation, containing the updated device details.</returns>
-        Task<Device> UpdateDeviceStatusAsync(
+        Task<DeviceStatus> UpdateDeviceStatusAsync(
             string deviceName,
             string inboundEndpointName,
             DeviceStatus status,

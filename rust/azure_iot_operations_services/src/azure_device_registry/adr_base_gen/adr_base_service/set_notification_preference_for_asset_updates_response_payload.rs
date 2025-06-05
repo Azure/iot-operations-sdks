@@ -10,11 +10,10 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::notification_preference_response::NotificationPreferenceResponse;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct SetNotificationPreferenceForAssetUpdatesResponsePayload {
     /// The Command response argument.
-    #[serde(rename = "notificationPreferenceResponse")]
-    pub notification_preference_response: NotificationPreferenceResponse,
+    #[serde(rename = "responsePayload")]
+    pub response_payload: String,
 }

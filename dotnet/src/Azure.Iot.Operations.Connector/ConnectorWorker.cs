@@ -242,11 +242,11 @@ namespace Azure.Iot.Operations.Connector
             await _mqttClient.DisconnectAsync(null, CancellationToken.None);
         }
 
-        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDatasetSchemaElement dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        public async Task ForwardSampledDatasetAsync(Asset asset, AssetDataset dataset, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.Name}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
             if (dataset.Destinations == null)
             {
@@ -258,7 +258,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 if (destination.Target == DatasetTarget.Mqtt)
                 {
-                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.Name} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {dataset.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
                     var mqttMessage = new MqttApplicationMessage(topic)
                     {
                         PayloadSegment = serializedPayload,
@@ -314,11 +314,11 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        public async Task ForwardReceivedEventAsync(Asset asset, AssetEventSchemaElement assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
+        public async Task ForwardReceivedEventAsync(Asset asset, AssetEvent assetEvent, byte[] serializedPayload, CancellationToken cancellationToken = default)
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.Name}. Now publishing it to MQTT broker.");
+            _logger.LogInformation($"Received event with name {assetEvent.Name} in asset with name {asset.DisplayName}. Now publishing it to MQTT broker.");
 
             if (assetEvent.Destinations == null)
             {
@@ -330,7 +330,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 if (destination.Target == EventStreamTarget.Mqtt)
                 {
-                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {assetEvent.Name} in asset with name {asset.Name} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
+                    string topic = destination.Configuration.Topic ?? throw new AssetConfigurationException($"Dataset with name {assetEvent.Name} in asset with name {asset.DisplayName} has no configured MQTT topic to publish to. Data won't be forwarded for this dataset.");
                     var mqttMessage = new MqttApplicationMessage(topic)
                     {
                         PayloadSegment = serializedPayload,
@@ -423,13 +423,13 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            if (asset!.Specification!.Datasets == null)
+            if (asset == null || asset.Datasets == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
             }
             else
             {
-                foreach (var dataset in asset!.Specification!.Datasets)
+                foreach (var dataset in asset!.Datasets!)
                 {
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
                     var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, dataset.Name!, dataset);
@@ -460,13 +460,13 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            if (asset!.Specification.Events == null)
+            if (asset == null || asset!.Events == null)
             {
                 _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
             }
             else
             {
-                foreach (var assetEvent in asset!.Specification.Events)
+                foreach (var assetEvent in asset!.Events)
                 {
                     // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
                     var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent!.Name!, assetEvent);
@@ -497,7 +497,7 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset));
+            OnAssetAvailable?.Invoke(this, new(device, inboundEndpointName, assetName, asset!));
         }
 
         private void AssetUnavailable(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)

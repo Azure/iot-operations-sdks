@@ -16,6 +16,56 @@ internal static class ModelsConverter
         AllowTrailingCommas = true,
     };
 
+    internal static CreateOrUpdateDiscoveredAssetResponsePayload ToModel(this AdrBaseService.CreateOrUpdateDiscoveredAssetResponsePayload source)
+    {
+        return new()
+        {
+            DiscoveredAssetResponse = source.DiscoveredAssetResponse.ToModel()
+        };
+    }
+
+    internal static DiscoveredAssetResponseSchema ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
+    {
+        return new()
+        {
+            DiscoveryId = source.DiscoveryId,
+            Version = source.Version,
+        };
+    }
+
+    internal static DiscoveredDeviceResponseSchema ToModel(this DeviceDiscoveryService.DiscoveredDeviceResponseSchema source)
+    {
+        return new()
+        {
+            DiscoveryId = source.DiscoveryId,
+            Version = source.Version,
+        };
+    }
+
+    internal static CreateOrUpdateDiscoveredDeviceResponsePayload ToModel(this DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceResponsePayload source)
+    {
+        return new()
+        {
+            DiscoveredDeviceResponse = source.DiscoveredDeviceResponse.ToModel(),
+        };
+    }
+
+    internal static SetNotificationPreferenceForAssetUpdatesResponsePayload ToModel(this AdrBaseService.SetNotificationPreferenceForAssetUpdatesResponsePayload source)
+    {
+        return new()
+        {
+            ResponsePayload = source.ResponsePayload
+        };
+    }
+
+    internal static SetNotificationPreferenceForDeviceUpdatesResponsePayload ToModel(this AdrBaseService.SetNotificationPreferenceForDeviceUpdatesResponsePayload source)
+    {
+        return new()
+        {
+            ResponsePayload = source.ResponsePayload
+        };
+    }
+
     internal static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
     {
         return new AssetStatus
@@ -32,79 +82,15 @@ internal static class ModelsConverter
     {
         return new Asset
         {
-            Name = source.Name,
-            Specification = source.Specification.ToModel(),
-            Status = source.Status?.ToModel()
-        };
-    }
-
-    internal static CreateDetectedAssetResponse ToModel(this AdrBaseService.DiscoveredAssetResponseSchema source)
-    {
-        return new CreateDetectedAssetResponse
-        {
-            DiscoveryId = source.DiscoveryId,
-            Version = source.Version
-        };
-    }
-
-    internal static Models.AkriServiceError ToModel(this AdrBaseService.AkriServiceError source)
-    {
-        return new Models.AkriServiceError
-        {
-            Code = source.Code,
-            Message = source.Message,
-            Timestamp = source.Timestamp,
-        };
-    }
-
-    internal static Models.AkriServiceError ToModel(this DeviceDiscoveryService.AkriServiceError source)
-    {
-        return new Models.AkriServiceError
-        {
-            Code = source.Code,
-            Message = source.Message,
-            Timestamp = source.Timestamp,
-        };
-    }
-
-    public static Device ToModel(this AdrBaseService.Device source)
-    {
-        return new Device
-        {
-            Name = source.Name,
-            Specification = source.Specification.ToModel(),
-            Status = source.Status?.ToModel()
-        };
-    }
-
-    public static NotificationResponse ToModel(this NotificationPreferenceResponse source)
-    {
-        return (NotificationResponse)(int)source;
-    }
-
-    internal static MessageSchemaReference ToModel(this AdrBaseService.MessageSchemaReference source)
-    {
-        return new MessageSchemaReference
-        {
-            SchemaName = source.SchemaName,
-            SchemaRegistryNamespace = source.SchemaRegistryNamespace,
-            SchemaVersion = source.SchemaVersion
-        };
-    }
-
-    internal static AssetSpecification ToModel(this AssetSpecificationSchema source)
-    {
-        return new AssetSpecification
-        {
             AssetTypeRefs = source.AssetTypeRefs,
-            Attributes = source.Attributes ?? new Dictionary<string, string>(),
+            Attributes = source.Attributes,
             Datasets = source.Datasets?.Select(x => x.ToModel()).ToList(),
-            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration != null ? JsonDocument.Parse(source.DefaultDatasetsConfiguration, _jsonDocumentOptions) : null,
+            DefaultDatasetsConfiguration = source.DefaultDatasetsConfiguration,
             DefaultDatasetsDestinations = source.DefaultDatasetsDestinations?.Select(x => x.ToModel()).ToList(),
-            DefaultEventsConfiguration = source.DefaultEventsConfiguration != null ? JsonDocument.Parse(source.DefaultEventsConfiguration, _jsonDocumentOptions) : null,
+            DefaultEventsConfiguration = source.DefaultEventsConfiguration,
             DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToModel()).ToList(),
-            DefaultManagementGroupsConfiguration = source.DefaultManagementGroupsConfiguration != null ? JsonDocument.Parse(source.DefaultManagementGroupsConfiguration, _jsonDocumentOptions) : null,
-            DefaultStreamsConfiguration = source.DefaultStreamsConfiguration != null ? JsonDocument.Parse(source.DefaultStreamsConfiguration, _jsonDocumentOptions) : null,
+            DefaultManagementGroupsConfiguration = source.DefaultManagementGroupsConfiguration,
+            DefaultStreamsConfiguration = source.DefaultStreamsConfiguration,
             DefaultStreamsDestinations = source.DefaultStreamsDestinations?.Select(x => x.ToModel()).ToList(),
             Description = source.Description,
             DeviceRef = source.DeviceRef.ToModel(),
@@ -126,6 +112,71 @@ internal static class ModelsConverter
             Streams = source.Streams?.Select(x => x.ToModel()).ToList(),
             Uuid = source.Uuid,
             Version = source.Version,
+        };
+    }
+
+    internal static Models.AkriServiceError ToModel(this AdrBaseService.AkriServiceError source)
+    {
+        return new Models.AkriServiceError
+        {
+            Code = (Code)(int)source.Code,
+            Message = source.Message,
+            Timestamp = source.Timestamp,
+        };
+    }
+
+    internal static Models.AkriServiceError ToModel(this DeviceDiscoveryService.AkriServiceError source)
+    {
+        return new Models.AkriServiceError
+        {
+            Code = (Code)(int)source.Code,
+            Message = source.Message,
+            Timestamp = source.Timestamp,
+        };
+    }
+
+    public static Device ToModel(this AdrBaseService.Device source)
+    {
+        return new Device
+        {
+            Attributes = source.Attributes,
+            DiscoveredDeviceRef = source.DiscoveredDeviceRef,
+            Enabled = source.Enabled,
+            Endpoints = source.Endpoints?.ToModel(),
+            ExternalDeviceId = source.ExternalDeviceId,
+            LastTransitionTime = source.LastTransitionTime,
+            Manufacturer = source.Manufacturer,
+            Model = source.Model,
+            OperatingSystem = source.OperatingSystem,
+            OperatingSystemVersion = source.OperatingSystemVersion,
+            Uuid = source.Uuid,
+            Version = source.Version
+        };
+    }
+
+    public static NotificationResponse ToModel(this SetNotificationPreferenceForDeviceUpdatesResponsePayload source)
+    {
+        return new NotificationResponse
+        {
+            ResponsePayload = source.ResponsePayload
+        };
+    }
+
+    public static NotificationResponse ToModel(this SetNotificationPreferenceForAssetUpdatesResponsePayload source)
+    {
+        return new NotificationResponse
+        {
+            ResponsePayload = source.ResponsePayload
+        };
+    }
+
+    internal static MessageSchemaReference ToModel(this AdrBaseService.MessageSchemaReference source)
+    {
+        return new MessageSchemaReference
+        {
+            SchemaName = source.SchemaName,
+            SchemaRegistryNamespace = source.SchemaRegistryNamespace,
+            SchemaVersion = source.SchemaVersion
         };
     }
 
@@ -209,9 +260,9 @@ internal static class ModelsConverter
         return (QoS)(int)source;
     }
 
-    internal static AssetDatasetSchemaElement ToModel(this AssetDatasetSchemaElementSchema source)
+    internal static AssetDataset ToModel(this AssetDatasetSchemaElementSchema source)
     {
-        return new AssetDatasetSchemaElement
+        return new AssetDataset
         {
             Name = source.Name,
             DataPoints = source.DataPoints?.Select(x => x.ToModel()).ToList(),
@@ -233,9 +284,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetEventSchemaElement ToModel(this AssetEventSchemaElementSchema source)
+    internal static AssetEvent ToModel(this AssetEventSchemaElementSchema source)
     {
-        return new AssetEventSchemaElement
+        return new AssetEvent
         {
             Name = source.Name,
             Destinations = source.Destinations?.Select(x => x.ToModel()).ToList(),
@@ -302,27 +353,9 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceSpecification ToModel(this DeviceSpecificationSchema source)
+    internal static DeviceEndpoints ToModel(this DeviceEndpointsSchema source)
     {
-        return new DeviceSpecification
-        {
-            Attributes = source.Attributes ?? new Dictionary<string, string>(),
-            Enabled = source.Enabled,
-            Manufacturer = source.Manufacturer,
-            Model = source.Model,
-            Uuid = source.Uuid,
-            Version = source.Version,
-            DiscoveredDeviceRef = source.DiscoveredDeviceRef,
-            Endpoints = source.Endpoints?.ToModel(),
-            ExternalDeviceId = source.ExternalDeviceId,
-            LastTransitionTime = source.LastTransitionTime,
-            OperatingSystemVersion = source.OperatingSystemVersion
-        };
-    }
-
-    internal static DeviceEndpoint ToModel(this DeviceEndpointsSchema source)
-    {
-        return new DeviceEndpoint
+        return new DeviceEndpoints
         {
             Inbound = new Dictionary<string, InboundEndpointSchemaMapValue>(
                 source.Inbound?.Select(x => new KeyValuePair<string, InboundEndpointSchemaMapValue>(x.Key, x.Value.ToModel())) ??
@@ -477,15 +510,6 @@ internal static class ModelsConverter
             Assigned = new Dictionary<string, DeviceOutboundEndpoint>(source.Assigned.Select(x => new KeyValuePair<string, DeviceOutboundEndpoint>(x.Key, x.Value.ToModel()))),
             Unassigned = new Dictionary<string, DeviceOutboundEndpoint>(source.Unassigned?.Select(x => new KeyValuePair<string, DeviceOutboundEndpoint>(x.Key, x.Value.ToModel())) ??
                                                                         new Dictionary<string, DeviceOutboundEndpoint>())
-        };
-    }
-
-    internal static  CreateDiscoveredAssetEndpointProfileResponse ToModel(this DiscoveredDeviceResponseSchema source)
-    {
-        return new CreateDiscoveredAssetEndpointProfileResponse
-        {
-            DiscoveryId = source.DiscoveryId,
-            Version = source.Version
         };
     }
 }

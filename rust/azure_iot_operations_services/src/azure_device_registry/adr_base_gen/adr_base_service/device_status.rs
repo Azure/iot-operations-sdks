@@ -20,7 +20,7 @@ pub struct DeviceStatus {
     #[builder(default = "None")]
     pub config: Option<DeviceStatusConfigSchema>,
 
-    /// The 'endpoints' Field.
+    /// Defines the device status for inbound/outbound endpoints.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub endpoints: Option<DeviceStatusEndpointSchema>,

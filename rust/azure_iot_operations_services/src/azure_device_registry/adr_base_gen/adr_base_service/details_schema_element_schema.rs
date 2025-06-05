@@ -13,23 +13,23 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DetailsSchemaElementSchema {
-    /// The 'code' Field.
+    /// Multi-part error code for classification and root causing of errors (ex: 400.200.100.432).
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub code: Option<String>,
 
-    /// The 'correlationId' Field.
+    /// Unique identifier for the transaction to aid in debugging.
     #[serde(rename = "correlationId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub correlation_id: Option<String>,
 
-    /// The 'info' Field.
+    /// Human readable helpful detailed text context for debugging (ex: “The following mechanisms are supported...”).
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub info: Option<String>,
 
-    /// The 'message' Field.
+    /// Human readable helpful error message to provide additional context for error (ex: “Authentication method not supported”).
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub message: Option<String>,

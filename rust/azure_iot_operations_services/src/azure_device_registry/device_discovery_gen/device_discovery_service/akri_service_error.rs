@@ -10,11 +10,12 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::code_schema::CodeSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AkriServiceError {
     /// The 'code' Field.
-    pub code: String,
+    pub code: CodeSchema,
 
     /// The 'message' Field.
     pub message: String,
