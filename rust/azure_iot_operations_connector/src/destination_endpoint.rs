@@ -91,7 +91,6 @@ impl Forwarder {
                     Err(AdrConfigError {
                                 code: None,
                                 details: None,
-                                inner_error: None,
                                 message: Some("Asset must have default dataset destinations if dataset doesn't have destinations".to_string()),
                             })?
                 } else {
@@ -327,7 +326,6 @@ impl Destination {
                         .map_err(|e| AdrConfigError {
                             code: None,
                             details: None,
-                            inner_error: None,
                             message: Some(e.to_string()),
                         })?; // can fail if topic isn't valid in config
                     let telemetry_sender = telemetry::Sender::new(
@@ -338,7 +336,6 @@ impl Destination {
                     .map_err(|e| AdrConfigError {
                         code: None,
                         details: None,
-                        inner_error: None,
                         message: Some(e.to_string()),
                     })?;
                     Destination::Mqtt {
@@ -357,7 +354,6 @@ impl Destination {
                     Err(AdrConfigError {
                         code: None,
                         details: None,
-                        inner_error: None,
                         message: Some(
                             "Storage destination not supported for this connector".to_string(),
                         ),
