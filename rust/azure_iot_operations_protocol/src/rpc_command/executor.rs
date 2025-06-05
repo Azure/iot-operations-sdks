@@ -214,31 +214,26 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
     }
 }
 
-/// Helper function to add user-defined application error headers to a [`Vec(String, String)`].
+/// Helper function to add user-defined application error headers to a [`Vec<(String, String)>`] to be used as the `custom_user_data` on the [`Response`].
 ///
+/// `custom_user_data` can be an empty Vec or an existing Vec of custom user data. This function will add the application error headers to this Vec.
 /// `application_error_code` required to be a non-empty `String`.
 /// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `response`. It is conventionally, but not necessarily, a stringified JSON object/value/array.
 ///
-/// Returns `Ok()` if `application_error_code` is not an empty `String`.
+/// Returns `Ok(())` if the properties are added to `custom_user_data`.
 ///
 /// # Errors
 /// Returns an Error with the `String` "`application_error_code` cannot be empty" if `application_error_code` is an empty string.
 pub fn application_error_headers(
-    mut custom_user_data: Vec<(String, String)>,
+    custom_user_data: &mut Vec<(String, String)>,
     application_error_code: String,
     application_error_payload: String,
-) -> Result<Vec<(String, String)>, AIOProtocolError> {
+) -> Result<(), String> {
     const APPLICATION_ERROR_CODE_HEADER: &str = "AppErrCode";
     const APPLICATION_ERROR_PAYLOAD_HEADER: &str = "AppErrPayload";
 
     if application_error_code.trim().is_empty() {
-        return Err(AIOProtocolError::new_configuration_invalid_error(
-            None,
-            "application_error_code",
-            Value::String(application_error_code),
-            Some("application_error_code cannot be empty".into()),
-            None,
-        ));
+        return Err("application_error_code cannot be empty".into());
     }
 
     custom_user_data.push((APPLICATION_ERROR_CODE_HEADER.into(), application_error_code));
@@ -250,7 +245,7 @@ pub fn application_error_headers(
         ));
     }
 
-    Ok(custom_user_data)
+    Ok(())
 }
 
 /// Command Executor Cache Key struct.
@@ -1823,10 +1818,11 @@ mod tests {
             })
             .times(1);
 
+        let mut custom_user_data = Vec::new();
+        assert!(application_error_headers(&mut custom_user_data, "500".into(), "  ".into()).is_ok());
+
         let response = ResponseBuilder::default()
-            .custom_user_data(
-                application_error_headers(Vec::new(), "500".into(), "  ".into()).unwrap(),
-            )
+            .custom_user_data(custom_user_data)
             .payload(mock_response_payload)
             .unwrap()
             .build()
@@ -1852,10 +1848,10 @@ mod tests {
 
     #[test]
     fn test_response_add_empty_error_code_error() {
-        let custom_user_data = Vec::new();
+        let mut custom_user_data = Vec::new();
 
         assert!(
-            application_error_headers(custom_user_data.clone(), " ".into(), "Some error".into())
+            application_error_headers(&mut custom_user_data, " ".into(), "Some error".into())
                 .is_err()
         );
 

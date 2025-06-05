@@ -167,7 +167,7 @@ where
 /// - the second element is the application error payload (or [`None`] if not present).
 #[must_use]
 pub fn application_error_headers(
-    custom_user_data: Vec<(String, String)>,
+    custom_user_data: &Vec<(String, String)>,
 ) -> (Option<String>, Option<String>) {
     const APPLICATION_ERROR_CODE_HEADER: &str = "AppErrCode";
     const APPLICATION_ERROR_PAYLOAD_HEADER: &str = "AppErrPayload";
@@ -2025,7 +2025,7 @@ mod tests {
         let user_data: Vec<(String, String)> = Vec::new();
 
         let (application_error_code, application_error_payload) =
-            application_error_headers(user_data);
+            application_error_headers(&user_data);
         assert!(application_error_code.is_none());
         assert!(application_error_payload.is_none());
     }
@@ -2044,7 +2044,7 @@ mod tests {
         assert_eq!(custom_user_data.len(), 2);
 
         let (application_error_code, application_error_payload) =
-            application_error_headers(custom_user_data);
+            application_error_headers(&custom_user_data);
         assert_eq!(application_error_code, Some(error_code_content.into()));
         assert_eq!(
             application_error_payload,
@@ -2052,7 +2052,7 @@ mod tests {
         );
     }
 
-    /// Tests success: custom_user_data contains both Application Error Code and Payload.
+    /// Tests success: custom_user_data contains Application Error Code, but no Payload.
     #[tokio::test]
     async fn test_response_with_app_error_code_but_no_payload() {
         let error_code_content = "5888";
@@ -2062,7 +2062,7 @@ mod tests {
         assert_eq!(custom_user_data.len(), 1);
 
         let (application_error_code, application_error_payload) =
-            application_error_headers(custom_user_data);
+            application_error_headers(&custom_user_data);
         assert_eq!(application_error_code, Some(error_code_content.into()));
         assert!(application_error_payload.is_none());
     }
