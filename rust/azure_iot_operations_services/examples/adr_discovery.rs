@@ -84,6 +84,7 @@ async fn do_discovery(
             endpoint_type: "myEndpointType".to_string(),
             supported_authentication_methods: vec![],
             version: Some("1.0.0".to_string()),
+            last_updated_on: Some(chrono::Utc::now()),
             additional_configuration: None,
         },
     )]);
