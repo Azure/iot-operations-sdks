@@ -160,9 +160,76 @@ impl DeviceEndpointClientCreationObservation {
                 }
             };
 
+            // get the device status
+            let device_status = match Retry::spawn(
+                RETRY_STRATEGY,
+                async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error>> {
+                    self.connector_context
+                        .azure_device_registry_client
+                        .get_device_status(
+                            device_endpoint_ref.device_name.clone(),
+                            device_endpoint_ref.inbound_endpoint_name.clone(),
+                            self.connector_context.default_timeout,
+                        )
+                        .await
+                        .map_err(|e| {
+                            match e.kind() {
+                                // network/retriable
+                                azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+                                    log::warn!("Get device status failed. Retrying: {e}");
+                                    RetryError::transient(e)
+                                }
+                                // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
+                                azure_device_registry::ErrorKind::ServiceError(_) => {
+                                    RetryError::permanent(e)
+                                }
+                                _ => {
+                                    // InvalidRequestArgument shouldn't be possible since timeout is already validated
+                                    // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
+                                    unreachable!()
+                                }
+                            }
+                        })
+                },
+            )
+            .await
+            {
+                Ok(device_status) => device_status,
+                Err(e) => {
+                    log::error!("Failed to get Device Status after retries: {e}");
+                    log::error!(
+                        "Dropping device endpoint create notification: {device_endpoint_ref:?}"
+                    );
+                    // unobserve as cleanup
+                    let _ = Retry::spawn(
+                        RETRY_STRATEGY.take(10),
+                        async || -> Result<(), RetryError<azure_device_registry::Error>> {
+                            self.connector_context
+                                .azure_device_registry_client
+                                .unobserve_device_update_notifications(
+                                    device_endpoint_ref.device_name.clone(),
+                                    device_endpoint_ref.inbound_endpoint_name.clone(),
+                                    self.connector_context.default_timeout,
+                                )
+                                // retry on network errors, otherwise don't retry on config/dev errors
+                                .await
+                                .map_err(observe_error_into_retry_error)
+                        },
+                    )
+                    .await
+                    .inspect_err(|e| {
+                        log::error!(
+                            "Failed to unobserve device update notifications after retries: {e}"
+                        );
+                    });
+                    continue;
+                }
+            };
+
             // turn the device definition into a DeviceEndpointClient
             let device_endpoint_client = match DeviceEndpointClient::new(
                 device,
+                device_status,
                 device_endpoint_ref.clone(),
                 device_endpoint_client_update_observation,
                 self.connector_context.clone(),
@@ -224,7 +291,7 @@ pub struct DeviceEndpointClient {
     specification: Arc<RwLock<DeviceSpecification>>,
     /// The 'status' Field.
     #[getter(skip)]
-    status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    status: Arc<RwLock<DeviceEndpointStatus>>,
     /// The internal observation for updates
     #[getter(skip)]
     device_update_observation: azure_device_registry::DeviceUpdateObservation,
@@ -234,6 +301,7 @@ pub struct DeviceEndpointClient {
 impl DeviceEndpointClient {
     pub(crate) fn new(
         device: adr_models::Device,
+        device_status: adr_models::DeviceStatus,
         device_endpoint_ref: DeviceEndpointRef,
         device_update_observation: azure_device_registry::DeviceUpdateObservation,
         connector_context: Arc<ConnectorContext>,
@@ -242,13 +310,14 @@ impl DeviceEndpointClient {
         Ok(DeviceEndpointClient {
             // TODO: get device_endpoint_credentials_mount_path from connector config
             specification: Arc::new(RwLock::new(DeviceSpecification::new(
-                device.specification,
+                device,
                 "/etc/akri/secrets/device_endpoint_auth",
                 &device_endpoint_ref.inbound_endpoint_name,
             )?)),
-            status: Arc::new(RwLock::new(device.status.map(|recvd_status| {
-                DeviceEndpointStatus::new(recvd_status, &device_endpoint_ref.inbound_endpoint_name)
-            }))),
+            status: Arc::new(RwLock::new(DeviceEndpointStatus::new(
+                device_status,
+                &device_endpoint_ref.inbound_endpoint_name,
+            ))),
             device_endpoint_ref,
             device_update_observation,
             connector_context,
@@ -271,7 +340,7 @@ impl DeviceEndpointClient {
             config: Some(azure_device_registry::StatusConfig {
                 version,
                 error: device_status.err(),
-                last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
+                last_transition_time: None, // this field will be removed, so we don't need to worry about it for now. TODO: report it though
             }),
             // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
@@ -290,7 +359,36 @@ impl DeviceEndpointClient {
     /// # Panics
     /// if the specification mutex has been poisoned, which should not be possible
     pub async fn report_device_status(&self, device_status: Result<(), AdrConfigError>) {
-        // Create status with empty endpoint status
+        // Create status with maintained endpoint status
+        let current_endpoints = self.status.read().unwrap().adr_endpoints(
+            self.specification.read().unwrap().version,
+            &self.device_endpoint_ref.inbound_endpoint_name,
+        );
+        // // If the version of the current status config matches the current version, or the status config
+        // // hasn't been reported yet, then include the existing endpoint status (if it hasn't been reported, maintain that state).
+        // // If the version doesn't match, then clear the endpoint status since it hasn't been reported for this version yet
+        // let current_endpoints = {
+        //     let current_status = self.status.read().unwrap();
+        //     // if the version doesn't match, then clear the endpoint status
+        //     if current_status
+        //         .config
+        //         .as_ref()
+        //         .and_then(|config| config.version)
+        //         != self.specification.read().unwrap().version
+        //     {
+        //         HashMap::new()
+        //     } else {
+        //         // if the version does match, or the status config hasn't been reported yet, maintain the existing endpoint status.
+        //         if let Some(current_inbound_endpoint_status) = current_status.inbound_endpoint_status.clone() {
+        //             HashMap::from([(
+        //                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
+        //                 current_inbound_endpoint_status.err(),
+        //             )])
+        //         } else {
+        //             HashMap::new()
+        //         }
+        //     }
+        // };
         let version = self.specification.read().unwrap().version;
         let status = adr_models::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
@@ -299,7 +397,7 @@ impl DeviceEndpointClient {
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
             // Endpoints are merged on the service, so sending an empty map won't update anything
-            endpoints: HashMap::new(),
+            endpoints: current_endpoints,
         };
 
         // send status update to the service
@@ -313,15 +411,19 @@ impl DeviceEndpointClient {
     pub async fn report_endpoint_status(&self, endpoint_status: Result<(), AdrConfigError>) {
         // If the version of the current status config matches the current version, then include the existing config.
         // If there's no current config or the version doesn't match, don't report a status since the status for this version hasn't been reported yet
-        let current_config = self.status.read().unwrap().as_ref().and_then(|status| {
-            if status.config.as_ref().and_then(|config| config.version)
+        let current_config = {
+            let current_status = self.status.read().unwrap();
+            if current_status
+                .config
+                .as_ref()
+                .and_then(|config| config.version)
                 == self.specification.read().unwrap().version
             {
-                status.config.clone()
+                current_status.config.clone()
             } else {
                 None
             }
-        });
+        };
         // Create status without updating the device status
         let status = adr_models::DeviceStatus {
             config: current_config,
@@ -343,29 +445,21 @@ impl DeviceEndpointClient {
     /// # Panics
     /// If the Azure Device Registry Service provides a notification that isn't for this Device Endpoint. This should not be possible.
     ///
-    /// If the status or specification mutexes have been poisoned, which should not be possible
+    /// If the specification mutex has been poisoned, which should not be possible
     pub async fn recv_update(&mut self) -> Option<()> {
         // handle the notification
         // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
         // get the update again because we'll pull the latest definition on the restart, so we don't need to get
         // the notification again.
         let (updated_device, _) = self.device_update_observation.recv_notification().await?;
-        // update self with updated specification and status
+        // update self with updated specification
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
         *unlocked_specification = DeviceSpecification::new(
-                updated_device.specification,
+                updated_device,
                 // TODO: get device_endpoint_credentials_mount_path from connector config
                 "/etc/akri/secrets/device_endpoint_auth",
                 &self.device_endpoint_ref.inbound_endpoint_name,
             ).expect("Device Update Notification should never provide a device that doesn't have the inbound endpoint");
-
-        let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
-        *unlocked_status = updated_device.status.map(|recvd_status| {
-            DeviceEndpointStatus::new(
-                recvd_status,
-                &self.device_endpoint_ref.inbound_endpoint_name,
-            )
-        });
         Some(())
     }
 
@@ -373,7 +467,7 @@ impl DeviceEndpointClient {
     /// # Panics
     /// if the status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn status(&self) -> Option<DeviceEndpointStatus> {
+    pub fn status(&self) -> DeviceEndpointStatus {
         (*self.status.read().unwrap()).clone()
     }
 
@@ -390,7 +484,7 @@ impl DeviceEndpointClient {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY.take(10),
-            async || -> Result<adr_models::Device, RetryError<azure_device_registry::Error>> {
+            async || -> Result<adr_models::DeviceStatus, RetryError<azure_device_registry::Error>> {
                 self.connector_context
                     .azure_device_registry_client
                     .update_device_plus_endpoint_status(
@@ -422,18 +516,13 @@ impl DeviceEndpointClient {
         )
         .await
         {
-            Ok(updated_device) => {
+            Ok(updated_device_status) => {
                 // update self with new returned status
                 let mut unlocked_status = self.status.write().unwrap(); // unwrap can't fail unless lock is poisoned
-                *unlocked_status = updated_device.status.map(|recvd_status| {
-                    DeviceEndpointStatus::new(
-                        recvd_status,
+                *unlocked_status = DeviceEndpointStatus::new(
+                        updated_device_status,
                         &self.device_endpoint_ref.inbound_endpoint_name,
-                    )
-                });
-                // NOTE: There may be updates present on the device specification, but even if that is the case,
-                // we won't update them here and instead wait for the device update notification (finding out
-                // first here is a race condition, the update will always be received imminently)
+                    );
             }
             Err(e) => {
                 // TODO: return an error for this scenario? Largely shouldn't be possible
@@ -449,7 +538,7 @@ pub struct AssetClientCreationObservation {
     asset_create_observation: filemount::azure_device_registry::AssetCreateObservation,
     connector_context: Arc<ConnectorContext>,
     device_specification: Arc<RwLock<DeviceSpecification>>,
-    device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    device_status: Arc<RwLock<DeviceEndpointStatus>>,
 }
 impl AssetClientCreationObservation {
     /// Receives a notification for a newly created asset or [`None`] if there
@@ -619,7 +708,7 @@ pub struct AssetClient {
     device_specification: Arc<RwLock<DeviceSpecification>>,
     /// Status of the device that this Asset is tied to
     #[getter(skip)]
-    device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    device_status: Arc<RwLock<DeviceEndpointStatus>>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
 }
@@ -628,12 +717,12 @@ impl AssetClient {
         asset: adr_models::Asset,
         asset_ref: AssetRef,
         device_specification: Arc<RwLock<DeviceSpecification>>,
-        device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+        device_status: Arc<RwLock<DeviceEndpointStatus>>,
         connector_context: Arc<ConnectorContext>,
     ) -> Self {
         let status = Arc::new(RwLock::new(asset.status));
-        let dataset_definitions = asset.specification.datasets.clone();
-        let specification = Arc::new(AssetSpecification::from(asset.specification));
+        let dataset_definitions = asset.datasets.clone();
+        let specification = Arc::new(AssetSpecification::from(asset));
         let default_dataset_destinations =
             match destination_endpoint::Destination::new_dataset_destinations(
                 &specification.default_datasets_destinations,
@@ -786,7 +875,7 @@ impl AssetClient {
     /// # Panics
     /// if the device status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn device_status(&self) -> Option<DeviceEndpointStatus> {
+    pub fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().unwrap()).clone()
     }
 
@@ -799,7 +888,7 @@ impl AssetClient {
         // send status update to the service
         match Retry::spawn(
             RETRY_STRATEGY.take(10),
-            async || -> Result<adr_models::Asset, RetryError<azure_device_registry::Error>> {
+            async || -> Result<adr_models::AssetStatus, RetryError<azure_device_registry::Error>> {
                 connector_context
                     .azure_device_registry_client
                     .update_asset_status(
@@ -833,13 +922,10 @@ impl AssetClient {
         )
         .await
         {
-            Ok(updated_asset) => {
+            Ok(updated_asset_status) => {
                 // update self with new returned status
                 let mut unlocked_status = asset_status_ref.write().unwrap(); // unwrap can't fail unless lock is poisoned
-                *unlocked_status = updated_asset.status;
-                // NOTE: There may be updates present on the asset specification, but even if that is the case,
-                // we won't update them here and instead wait for the asset update notification (finding out
-                // first here is a race condition, the update will always be received imminently)
+                *unlocked_status = Some(updated_asset_status);
             }
             Err(e) => {
                 // TODO: return an error for this scenario? Largely shouldn't be possible
@@ -867,7 +953,7 @@ pub struct DatasetClient {
     device_specification: Arc<RwLock<DeviceSpecification>>,
     /// Status of the device that this dataset is tied to
     #[getter(skip)]
-    device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+    device_status: Arc<RwLock<DeviceEndpointStatus>>,
     #[getter(skip)]
     forwarder: Arc<destination_endpoint::Forwarder>,
     #[getter(skip)]
@@ -886,7 +972,7 @@ impl DatasetClient {
         asset_status: Arc<RwLock<Option<adr_models::AssetStatus>>>,
         asset_specification: Arc<AssetSpecification>,
         device_specification: Arc<RwLock<DeviceSpecification>>,
-        device_status: Arc<RwLock<Option<DeviceEndpointStatus>>>,
+        device_status: Arc<RwLock<DeviceEndpointStatus>>,
         connector_context: Arc<ConnectorContext>,
     ) -> Result<Self, AdrConfigError> {
         // Create a new dataset
@@ -1122,7 +1208,7 @@ impl DatasetClient {
     /// # Panics
     /// if the device status mutex has been poisoned, which should not be possible
     #[must_use]
-    pub fn device_status(&self) -> Option<DeviceEndpointStatus> {
+    pub fn device_status(&self) -> DeviceEndpointStatus {
         (*self.device_status.read().unwrap()).clone()
     }
 }
@@ -1161,7 +1247,7 @@ pub struct DeviceSpecification {
 
 impl DeviceSpecification {
     pub(crate) fn new(
-        device_specification: adr_models::DeviceSpecification,
+        device_specification: adr_models::Device,
         device_endpoint_credentials_mount_path: &str,
         inbound_endpoint_name: &str,
     ) -> Result<Self, String> {
@@ -1281,15 +1367,45 @@ pub struct DeviceEndpointStatus {
     /// Defines the status for the Device.
     pub config: Option<azure_device_registry::StatusConfig>,
     /// Defines the status for the inbound endpoint.
-    pub inbound_endpoint_error: Option<AdrConfigError>, // different from adr
+    /// Specifies whether the inbound endpoint status has been reported, and if so, whether it was successful or not.
+    pub inbound_endpoint_status: Option<Result<(), AdrConfigError>>, // different from adr
 }
 
 impl DeviceEndpointStatus {
     pub(crate) fn new(recvd_status: adr_models::DeviceStatus, inbound_endpoint_name: &str) -> Self {
-        let inbound_endpoint_error = recvd_status.endpoints.get(inbound_endpoint_name).cloned();
+        let inbound_endpoint_status = recvd_status.endpoints.get(inbound_endpoint_name).cloned();
         DeviceEndpointStatus {
             config: recvd_status.config,
-            inbound_endpoint_error: inbound_endpoint_error.unwrap_or_default(),
+            // inbound_endpoint_status: inbound_endpoint_status.map(|status| status.map(|e| Err(e))),
+            inbound_endpoint_status: inbound_endpoint_status.map(|status| match status {
+                Some(e) => Err(e),
+                None => Ok(()),
+            }),
+        }
+    }
+
+    pub(crate) fn adr_endpoints(
+        &self,
+        current_version: Option<u64>,
+        inbound_endpoint_name: &str,
+    ) -> HashMap<String, Option<AdrConfigError>> {
+        // If the version of the status config matches the current version, or the status config
+        // hasn't been reported yet, then include the existing endpoint status (if it hasn't been reported, maintain that state).
+        // If the version doesn't match, then clear the endpoint status since it hasn't been reported for this version yet
+
+        // if the version doesn't match, then clear the endpoint status
+        if self.config.as_ref().and_then(|config| config.version) != current_version {
+            HashMap::new()
+        } else {
+            // if the version does match, or the status config hasn't been reported yet, maintain the existing endpoint status.
+            if let Some(current_inbound_endpoint_status) = &self.inbound_endpoint_status {
+                HashMap::from([(
+                    inbound_endpoint_name.to_string(),
+                    current_inbound_endpoint_status.clone().err(),
+                )])
+            } else {
+                HashMap::new()
+            }
         }
     }
 }
@@ -1359,8 +1475,8 @@ pub struct AssetSpecification {
     pub version: Option<u64>,
 }
 
-impl From<adr_models::AssetSpecification> for AssetSpecification {
-    fn from(value: adr_models::AssetSpecification) -> Self {
+impl From<adr_models::Asset> for AssetSpecification {
+    fn from(value: adr_models::Asset) -> Self {
         AssetSpecification {
             asset_type_refs: value.asset_type_refs,
             attributes: value.attributes,
@@ -1401,9 +1517,7 @@ fn observe_error_into_retry_error(
 ) -> RetryError<azure_device_registry::Error> {
     match e.kind() {
         // network/retriable
-        azure_device_registry::ErrorKind::AIOProtocolError(_)
-        | azure_device_registry::ErrorKind::ObservationError => {
-            // not sure what causes ObservationError yet, so let's treat it as transient for now
+        azure_device_registry::ErrorKind::AIOProtocolError(_) => {
             RetryError::transient(e)
         }
         // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
