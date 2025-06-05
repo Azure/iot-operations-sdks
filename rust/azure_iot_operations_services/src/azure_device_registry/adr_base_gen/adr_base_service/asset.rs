@@ -20,7 +20,7 @@ use super::event_stream_destination::EventStreamDestination;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Asset {
-    /// URI or type definition ids in companion spec.
+    /// URIs or type definition IDs.
     #[serde(rename = "assetTypeRefs")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -42,7 +42,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub default_datasets_configuration: Option<String>,
 
-    /// Default destinations for a Dataset.
+    /// Default destinations for a dataset.
     #[serde(rename = "defaultDatasetsDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -54,7 +54,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub default_events_configuration: Option<String>,
 
-    /// Default destinations for an Event.
+    /// Default destinations for an event.
     #[serde(rename = "defaultEventsDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -72,7 +72,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub default_streams_configuration: Option<String>,
 
-    /// Default destinations for a Stream.
+    /// Default destinations for a stream.
     #[serde(rename = "defaultStreamsDestinations")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -83,7 +83,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub description: Option<String>,
 
-    /// A reference to the Device and Endpoint within the device (connection information) used by brokers to connect that provides data points for this asset.
+    /// Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use.
     #[serde(rename = "deviceRef")]
     pub device_ref: AssetDeviceRef,
 
@@ -99,7 +99,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub display_name: Option<String>,
 
-    /// Reference to the documentation.
+    /// Asset documentation reference.
     #[serde(rename = "documentationUri")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -115,19 +115,19 @@ pub struct Asset {
     #[builder(default = "None")]
     pub events: Option<Vec<AssetEventSchemaElementSchema>>,
 
-    /// Asset id provided by the customer.
+    /// Asset ID provided by the customer.
     #[serde(rename = "externalAssetId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub external_asset_id: Option<String>,
 
-    /// Revision number of the hardware.
+    /// Asset hardware revision number.
     #[serde(rename = "hardwareRevision")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub hardware_revision: Option<String>,
 
-    /// A read-only timestamp that is updated each time the resource is modified from the cloud.
+    /// A timestamp (in UTC) that is updated each time the resource is modified.
     #[serde(rename = "lastTransitionTime")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -139,7 +139,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub management_groups: Option<Vec<AssetManagementGroupSchemaElementSchema>>,
 
-    /// Asset manufacturer name.
+    /// Asset manufacturer.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub manufacturer: Option<String>,
@@ -150,7 +150,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub manufacturer_uri: Option<String>,
 
-    /// Asset model name.
+    /// Asset model.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub model: Option<String>,
@@ -167,7 +167,7 @@ pub struct Asset {
     #[builder(default = "None")]
     pub serial_number: Option<String>,
 
-    /// Revision number of the software.
+    /// Asset software revision number.
     #[serde(rename = "softwareRevision")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
