@@ -106,24 +106,7 @@ impl DeviceEndpointClientCreationObservation {
                             self.connector_context.default_timeout,
                         )
                         .await
-                        .map_err(|e| {
-                            match e.kind() {
-                                // network/retriable
-                                azure_device_registry::ErrorKind::AIOProtocolError(_) => {
-                                    log::warn!("Get device definition failed. Retrying: {e}");
-                                    RetryError::transient(e)
-                                }
-                                // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
-                                azure_device_registry::ErrorKind::ServiceError(_) => {
-                                    RetryError::permanent(e)
-                                }
-                                _ => {
-                                    // InvalidRequestArgument shouldn't be possible since timeout is already validated
-                                    // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                    unreachable!()
-                                }
-                            }
-                        })
+                        .map_err(|e| adr_error_into_retry_error(e, "Get Device Definition"))
                 },
             )
             .await
@@ -172,24 +155,7 @@ impl DeviceEndpointClientCreationObservation {
                             self.connector_context.default_timeout,
                         )
                         .await
-                        .map_err(|e| {
-                            match e.kind() {
-                                // network/retriable
-                                azure_device_registry::ErrorKind::AIOProtocolError(_) => {
-                                    log::warn!("Get device status failed. Retrying: {e}");
-                                    RetryError::transient(e)
-                                }
-                                // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
-                                azure_device_registry::ErrorKind::ServiceError(_) => {
-                                    RetryError::permanent(e)
-                                }
-                                _ => {
-                                    // InvalidRequestArgument shouldn't be possible since timeout is already validated
-                                    // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                    unreachable!()
-                                }
-                            }
-                        })
+                        .map_err(|e| adr_error_into_retry_error(e, "Get Device Status"))
                 },
             )
             .await
@@ -357,39 +323,14 @@ impl DeviceEndpointClient {
     /// and then updates the [`Device`] with the new status returned
     ///
     /// # Panics
-    /// if the specification mutex has been poisoned, which should not be possible
+    /// if the status or specification mutexes have been poisoned, which should not be possible
     pub async fn report_device_status(&self, device_status: Result<(), AdrConfigError>) {
         // Create status with maintained endpoint status
+        let version = self.specification.read().unwrap().version;
         let current_endpoints = self.status.read().unwrap().adr_endpoints(
-            self.specification.read().unwrap().version,
+            version,
             &self.device_endpoint_ref.inbound_endpoint_name,
         );
-        // // If the version of the current status config matches the current version, or the status config
-        // // hasn't been reported yet, then include the existing endpoint status (if it hasn't been reported, maintain that state).
-        // // If the version doesn't match, then clear the endpoint status since it hasn't been reported for this version yet
-        // let current_endpoints = {
-        //     let current_status = self.status.read().unwrap();
-        //     // if the version doesn't match, then clear the endpoint status
-        //     if current_status
-        //         .config
-        //         .as_ref()
-        //         .and_then(|config| config.version)
-        //         != self.specification.read().unwrap().version
-        //     {
-        //         HashMap::new()
-        //     } else {
-        //         // if the version does match, or the status config hasn't been reported yet, maintain the existing endpoint status.
-        //         if let Some(current_inbound_endpoint_status) = current_status.inbound_endpoint_status.clone() {
-        //             HashMap::from([(
-        //                 self.device_endpoint_ref.inbound_endpoint_name.clone(),
-        //                 current_inbound_endpoint_status.err(),
-        //             )])
-        //         } else {
-        //             HashMap::new()
-        //         }
-        //     }
-        // };
-        let version = self.specification.read().unwrap().version;
         let status = adr_models::DeviceStatus {
             config: Some(azure_device_registry::StatusConfig {
                 version,
@@ -439,7 +380,7 @@ impl DeviceEndpointClient {
     }
 
     /// Used to receive updates for the Device/Inbound Endpoint from the Azure Device Registry Service.
-    /// This function returning `Some(())` indicates that the device specification and status have been
+    /// This function returning `Some(())` indicates that the device specification has been
     /// updated in place. The function returns [`None`] if there will be no more notifications.
     ///
     /// # Panics
@@ -494,24 +435,7 @@ impl DeviceEndpointClient {
                         self.connector_context.default_timeout,
                     )
                     .await
-                    .map_err(|e| {
-                        match e.kind() {
-                            // network/retriable
-                            azure_device_registry::ErrorKind::AIOProtocolError(_) => {
-                                log::warn!("Update device status failed. Retrying: {e}");
-                                RetryError::transient(e)
-                            }
-                            // indicates an error in the configuration, might be transient in the future depending on what it can indicate
-                            azure_device_registry::ErrorKind::ServiceError(_) => {
-                                RetryError::permanent(e)
-                            }
-                            _ => {
-                                // InvalidRequestArgument shouldn't be possible since timeout is already validated
-                                // ValidationError, ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                unreachable!()
-                            }
-                        }
-                    })
+                    .map_err(|e| adr_error_into_retry_error(e, "Update Device Status"))
             },
         )
         .await
@@ -596,25 +520,7 @@ impl AssetClientCreationObservation {
                             self.connector_context.default_timeout,
                         )
                         .await
-                        .map_err(|e| {
-                            match e.kind() {
-                                // network/retriable
-                                azure_device_registry::ErrorKind::AIOProtocolError(_) => {
-                                    log::warn!("Get asset definition failed. Retrying: {e}");
-                                    RetryError::transient(e)
-                                }
-                                // indicates an error in the configuration, so we want to get a new notification instead of retrying this operation
-                                azure_device_registry::ErrorKind::ServiceError(_) => {
-                                    RetryError::permanent(e)
-                                }
-                                _ => {
-                                    // InvalidRequestArgument shouldn't be possible since timeout is already validated
-                                    // ValidationError shouldn't be possible since we shouldn't receive a notification with an empty asset name
-                                    // ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                    unreachable!()
-                                }
-                            }
-                        })
+                        .map_err(|e| adr_error_into_retry_error(e, "Get Asset Definition"))
                 },
             )
             .await
@@ -899,25 +805,7 @@ impl AssetClient {
                         connector_context.default_timeout,
                     )
                     .await
-                    .map_err(|e| {
-                        match e.kind() {
-                            // network/retriable
-                            azure_device_registry::ErrorKind::AIOProtocolError(_) => {
-                                log::warn!("Update asset status failed. Retrying: {e}");
-                                RetryError::transient(e)
-                            }
-                            // indicates an error in the configuration, might be transient in the future depending on what it can indicate
-                            azure_device_registry::ErrorKind::ServiceError(_) => {
-                                RetryError::permanent(e)
-                            }
-                            _ => {
-                                // InvalidRequestArgument shouldn't be possible since timeout is already validated
-                                // ValidationError shouldn't be possible since we shouldn't have an asset with an empty asset name
-                                // ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
-                                unreachable!()
-                            }
-                        }
-                    })
+                    .map_err(|e| adr_error_into_retry_error(e, "Update Asset Status"))
             },
         )
         .await
@@ -1384,6 +1272,8 @@ impl DeviceEndpointStatus {
         }
     }
 
+    /// Convenience function to turn [`DeviceEndpointStatus`] back into the
+    /// adr_models::DeviceStatus endpoints format
     pub(crate) fn adr_endpoints(
         &self,
         current_version: Option<u64>,
@@ -1529,6 +1419,29 @@ fn observe_error_into_retry_error(
             // InvalidRequestArgument shouldn't be possible since timeout is already validated
             // ValidationError shouldn't be possible since we should never have an empty asset name. It's not possible to be returned for device observe calls.
             // ShutdownError isn't possible for this fn to return
+            unreachable!()
+        }
+    }
+}
+
+fn adr_error_into_retry_error(
+    e: azure_device_registry::Error,
+    operation_for_log: &str,
+) -> RetryError<azure_device_registry::Error> {
+    match e.kind() {
+        // network/retriable
+        azure_device_registry::ErrorKind::AIOProtocolError(_) => {
+            log::warn!("{operation_for_log} failed. Retrying: {e}");
+            RetryError::transient(e)
+        }
+        // indicates an error in the configuration, might be transient in the future depending on what it can indicate
+        azure_device_registry::ErrorKind::ServiceError(_) => {
+            RetryError::permanent(e)
+        }
+        _ => {
+            // InvalidRequestArgument shouldn't be possible since timeout is already validated
+            // ValidationError shouldn't be possible since we should never have an empty asset name. It's not possible to be returned for device calls.
+            // ObservationError, DuplicateObserve, and ShutdownError aren't possible for this fn to return
             unreachable!()
         }
     }
