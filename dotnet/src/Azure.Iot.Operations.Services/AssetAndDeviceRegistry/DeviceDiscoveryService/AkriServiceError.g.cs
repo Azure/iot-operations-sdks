@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         [JsonPropertyName("code")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
-        public string Code { get; set; } = default!;
+        public CodeSchema Code { get; set; } = default!;
 
         /// <summary>
         /// The 'message' Field.
@@ -38,10 +38,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (Code is null)
-            {
-                throw new ArgumentNullException("code field cannot be null");
-            }
             if (Message is null)
             {
                 throw new ArgumentNullException("message field cannot be null");
@@ -50,10 +46,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (Code is null)
-            {
-                throw new ArgumentNullException("code field cannot be null");
-            }
             if (Message is null)
             {
                 throw new ArgumentNullException("message field cannot be null");

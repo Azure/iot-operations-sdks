@@ -22,12 +22,12 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return ValueTask.CompletedTask;
         }
 
-        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(TimeSpan.FromMilliseconds(10));
         }
 
-        public Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public Task<byte[]> SampleDatasetAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             _sampleAttemptCount++;
 

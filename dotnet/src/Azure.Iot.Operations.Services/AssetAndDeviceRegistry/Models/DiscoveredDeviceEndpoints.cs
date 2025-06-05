@@ -1,6 +1,6 @@
 ﻿namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record DiscoveredDeviceEndpoint
+public record DiscoveredDeviceEndpoints
 {
     public Dictionary<string, DiscoveredDeviceInboundEndpoint>? Inbound { get; set; }
 

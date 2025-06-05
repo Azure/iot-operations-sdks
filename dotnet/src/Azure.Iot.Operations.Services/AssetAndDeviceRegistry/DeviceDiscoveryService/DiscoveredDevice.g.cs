@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoverySe
         /// </summary>
         [JsonPropertyName("endpoints")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DiscoveredDeviceEndpoint? Endpoints { get; set; } = default;
+        public DiscoveredDeviceEndpoints? Endpoints { get; set; } = default;
 
         /// <summary>
         /// The 'externalDeviceId' Field.

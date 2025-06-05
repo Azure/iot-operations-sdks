@@ -10,53 +10,91 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompiler", "0.10.0.0")]
-    public partial class Device : IJsonOnDeserialized, IJsonOnSerializing
+    public partial class Device
     {
         /// <summary>
-        /// The 'name' Field.
+        /// The 'attributes' Field.
         /// </summary>
-        [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string Name { get; set; } = default!;
-
-        /// <summary>
-        /// The 'specification' Field.
-        /// </summary>
-        [JsonPropertyName("specification")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public DeviceSpecificationSchema Specification { get; set; } = default!;
-
-        /// <summary>
-        /// The 'status' Field.
-        /// </summary>
-        [JsonPropertyName("status")]
+        [JsonPropertyName("attributes")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DeviceStatus? Status { get; set; } = default;
+        public Dictionary<string, string>? Attributes { get; set; } = default;
 
-        void IJsonOnDeserialized.OnDeserialized()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-            if (Specification is null)
-            {
-                throw new ArgumentNullException("specification field cannot be null");
-            }
-        }
+        /// <summary>
+        /// The 'discoveredDeviceRef' Field.
+        /// </summary>
+        [JsonPropertyName("discoveredDeviceRef")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DiscoveredDeviceRef { get; set; } = default;
 
-        void IJsonOnSerializing.OnSerializing()
-        {
-            if (Name is null)
-            {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-            if (Specification is null)
-            {
-                throw new ArgumentNullException("specification field cannot be null");
-            }
-        }
+        /// <summary>
+        /// The 'enabled' Field.
+        /// </summary>
+        [JsonPropertyName("enabled")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool? Enabled { get; set; } = default;
+
+        /// <summary>
+        /// The 'endpoints' Field.
+        /// </summary>
+        [JsonPropertyName("endpoints")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DeviceEndpointsSchema? Endpoints { get; set; } = default;
+
+        /// <summary>
+        /// The 'externalDeviceId' Field.
+        /// </summary>
+        [JsonPropertyName("externalDeviceId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ExternalDeviceId { get; set; } = default;
+
+        /// <summary>
+        /// The 'lastTransitionTime' Field.
+        /// </summary>
+        [JsonPropertyName("lastTransitionTime")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DateTime? LastTransitionTime { get; set; } = default;
+
+        /// <summary>
+        /// The 'manufacturer' Field.
+        /// </summary>
+        [JsonPropertyName("manufacturer")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Manufacturer { get; set; } = default;
+
+        /// <summary>
+        /// The 'model' Field.
+        /// </summary>
+        [JsonPropertyName("model")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Model { get; set; } = default;
+
+        /// <summary>
+        /// The 'operatingSystem' Field.
+        /// </summary>
+        [JsonPropertyName("operatingSystem")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? OperatingSystem { get; set; } = default;
+
+        /// <summary>
+        /// The 'operatingSystemVersion' Field.
+        /// </summary>
+        [JsonPropertyName("operatingSystemVersion")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? OperatingSystemVersion { get; set; } = default;
+
+        /// <summary>
+        /// The 'uuid' Field.
+        /// </summary>
+        [JsonPropertyName("uuid")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Uuid { get; set; } = default;
+
+        /// <summary>
+        /// The 'version' Field.
+        /// </summary>
+        [JsonPropertyName("version")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public ulong? Version { get; set; } = default;
+
     }
 }

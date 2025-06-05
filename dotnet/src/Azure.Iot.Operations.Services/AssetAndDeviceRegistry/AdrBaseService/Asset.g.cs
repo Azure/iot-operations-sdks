@@ -13,49 +13,229 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService
     public partial class Asset : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// The 'name' Field.
+        /// The 'assetTypeRefs' Field.
         /// </summary>
-        [JsonPropertyName("name")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string Name { get; set; } = default!;
-
-        /// <summary>
-        /// The 'specification' Field.
-        /// </summary>
-        [JsonPropertyName("specification")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public AssetSpecificationSchema Specification { get; set; } = default!;
-
-        /// <summary>
-        /// The 'status' Field.
-        /// </summary>
-        [JsonPropertyName("status")]
+        [JsonPropertyName("assetTypeRefs")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public AssetStatus? Status { get; set; } = default;
+        public List<string>? AssetTypeRefs { get; set; } = default;
+
+        /// <summary>
+        /// The 'attributes' Field.
+        /// </summary>
+        [JsonPropertyName("attributes")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public Dictionary<string, string>? Attributes { get; set; } = default;
+
+        /// <summary>
+        /// The 'datasets' Field.
+        /// </summary>
+        [JsonPropertyName("datasets")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetDatasetSchemaElementSchema>? Datasets { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultDatasetsConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("defaultDatasetsConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DefaultDatasetsConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultDatasetsDestinations' Field.
+        /// </summary>
+        [JsonPropertyName("defaultDatasetsDestinations")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<DatasetDestination>? DefaultDatasetsDestinations { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultEventsConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("defaultEventsConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DefaultEventsConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultEventsDestinations' Field.
+        /// </summary>
+        [JsonPropertyName("defaultEventsDestinations")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<EventStreamDestination>? DefaultEventsDestinations { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultManagementGroupsConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("defaultManagementGroupsConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DefaultManagementGroupsConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultStreamsConfiguration' Field.
+        /// </summary>
+        [JsonPropertyName("defaultStreamsConfiguration")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DefaultStreamsConfiguration { get; set; } = default;
+
+        /// <summary>
+        /// The 'defaultStreamsDestinations' Field.
+        /// </summary>
+        [JsonPropertyName("defaultStreamsDestinations")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<EventStreamDestination>? DefaultStreamsDestinations { get; set; } = default;
+
+        /// <summary>
+        /// The 'description' Field.
+        /// </summary>
+        [JsonPropertyName("description")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Description { get; set; } = default;
+
+        /// <summary>
+        /// The 'deviceRef' Field.
+        /// </summary>
+        [JsonPropertyName("deviceRef")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public AssetDeviceRef DeviceRef { get; set; } = default!;
+
+        /// <summary>
+        /// The 'discoveredAssetRefs' Field.
+        /// </summary>
+        [JsonPropertyName("discoveredAssetRefs")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<string>? DiscoveredAssetRefs { get; set; } = default;
+
+        /// <summary>
+        /// The 'displayName' Field.
+        /// </summary>
+        [JsonPropertyName("displayName")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DisplayName { get; set; } = default;
+
+        /// <summary>
+        /// The 'documentationUri' Field.
+        /// </summary>
+        [JsonPropertyName("documentationUri")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DocumentationUri { get; set; } = default;
+
+        /// <summary>
+        /// The 'enabled' Field.
+        /// </summary>
+        [JsonPropertyName("enabled")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool? Enabled { get; set; } = default;
+
+        /// <summary>
+        /// The 'events' Field.
+        /// </summary>
+        [JsonPropertyName("events")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetEventSchemaElementSchema>? Events { get; set; } = default;
+
+        /// <summary>
+        /// The 'externalAssetId' Field.
+        /// </summary>
+        [JsonPropertyName("externalAssetId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ExternalAssetId { get; set; } = default;
+
+        /// <summary>
+        /// The 'hardwareRevision' Field.
+        /// </summary>
+        [JsonPropertyName("hardwareRevision")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? HardwareRevision { get; set; } = default;
+
+        /// <summary>
+        /// The 'lastTransitionTime' Field.
+        /// </summary>
+        [JsonPropertyName("lastTransitionTime")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DateTime? LastTransitionTime { get; set; } = default;
+
+        /// <summary>
+        /// The 'managementGroups' Field.
+        /// </summary>
+        [JsonPropertyName("managementGroups")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetManagementGroupSchemaElementSchema>? ManagementGroups { get; set; } = default;
+
+        /// <summary>
+        /// The 'manufacturer' Field.
+        /// </summary>
+        [JsonPropertyName("manufacturer")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Manufacturer { get; set; } = default;
+
+        /// <summary>
+        /// The 'manufacturerUri' Field.
+        /// </summary>
+        [JsonPropertyName("manufacturerUri")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ManufacturerUri { get; set; } = default;
+
+        /// <summary>
+        /// The 'model' Field.
+        /// </summary>
+        [JsonPropertyName("model")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Model { get; set; } = default;
+
+        /// <summary>
+        /// The 'productCode' Field.
+        /// </summary>
+        [JsonPropertyName("productCode")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ProductCode { get; set; } = default;
+
+        /// <summary>
+        /// The 'serialNumber' Field.
+        /// </summary>
+        [JsonPropertyName("serialNumber")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? SerialNumber { get; set; } = default;
+
+        /// <summary>
+        /// The 'softwareRevision' Field.
+        /// </summary>
+        [JsonPropertyName("softwareRevision")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? SoftwareRevision { get; set; } = default;
+
+        /// <summary>
+        /// The 'streams' Field.
+        /// </summary>
+        [JsonPropertyName("streams")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public List<AssetStreamSchemaElementSchema>? Streams { get; set; } = default;
+
+        /// <summary>
+        /// The 'uuid' Field.
+        /// </summary>
+        [JsonPropertyName("uuid")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Uuid { get; set; } = default;
+
+        /// <summary>
+        /// The 'version' Field.
+        /// </summary>
+        [JsonPropertyName("version")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public ulong? Version { get; set; } = default;
 
         void IJsonOnDeserialized.OnDeserialized()
         {
-            if (Name is null)
+            if (DeviceRef is null)
             {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-            if (Specification is null)
-            {
-                throw new ArgumentNullException("specification field cannot be null");
+                throw new ArgumentNullException("deviceRef field cannot be null");
             }
         }
 
         void IJsonOnSerializing.OnSerializing()
         {
-            if (Name is null)
+            if (DeviceRef is null)
             {
-                throw new ArgumentNullException("name field cannot be null");
-            }
-            if (Specification is null)
-            {
-                throw new ArgumentNullException("specification field cannot be null");
+                throw new ArgumentNullException("deviceRef field cannot be null");
             }
         }
     }

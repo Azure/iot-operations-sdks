@@ -29,7 +29,7 @@ namespace RestThermostatConnector
         /// <param name="dataset">The dataset of an asset to sample.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The serialized payload containing the sampled dataset.</returns>
-        public async Task<byte[]> SampleDatasetAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public async Task<byte[]> SampleDatasetAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace RestThermostatConnector
             }
         }
 
-        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDatasetSchemaElement dataset, CancellationToken cancellationToken = default)
+        public Task<TimeSpan> GetSamplingIntervalAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(TimeSpan.FromSeconds(3));
         }

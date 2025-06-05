@@ -11,7 +11,7 @@ public record DeviceSpecification
 
         public bool? Enabled { get; set; }
 
-        public DeviceEndpoint? Endpoints { get; set; }
+        public DeviceEndpoints? Endpoints { get; set; }
 
         public string? ExternalDeviceId { get; set; }
 

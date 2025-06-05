@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
-public record AssetEventSchemaElement
+public record AssetEvent
 {
     public JsonDocument? EventConfiguration { get; set; }
 
