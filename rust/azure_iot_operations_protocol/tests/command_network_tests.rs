@@ -235,9 +235,8 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
 
                         // send response
                         let response = rpc_command::executor::ResponseBuilder::default()
+                            .custom_user_data(azure_iot_operations_protocol::rpc_command::executor::application_error_headers(Vec::new(), "345".into(), "Failed543".into()).unwrap())
                             .payload(EmptyPayload::default())
-                            .unwrap()
-                            .application_error_headers("345".into(), "Failed543".into())
                             .unwrap()
                             .build()
                             .unwrap();
@@ -285,7 +284,10 @@ async fn command_response_apperrorcode_and_apperrorpayload_network_tests() {
             assert_eq!(app_err_code_header_count, 1);
             assert_eq!(app_err_payload_header_count, 1);
 
-            let (app_error_code, app_error_payload) = response.application_error_headers();
+            let (app_error_code, app_error_payload) =
+                azure_iot_operations_protocol::rpc_command::invoker::application_error_headers(
+                    response.custom_user_data,
+                );
             assert_eq!(app_error_code, Some("345".into()));
             assert_eq!(app_error_payload, Some("Failed543".into()));
 

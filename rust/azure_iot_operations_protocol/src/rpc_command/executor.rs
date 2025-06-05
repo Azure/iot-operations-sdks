@@ -212,50 +212,45 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
         }
         Ok(())
     }
+}
 
-    /// Helper function to add user-defined application error headers to the [`Response`].
-    ///
-    /// `application_error_code` required to be a non-empty `String`.
-    /// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `response`. It is conventionally, but not necessarily, a stringified JSON object/value/array.
-    ///
-    /// Returns `Ok()` if `application_error_code` is not an empty `String`.
-    ///
-    /// # Errors
-    /// Returns an Error with the `String` "`application_error_code` cannot be empty" if `application_error_code` is an empty string.
-    ///
-    /// # Panics
-    /// If the [`ResponseBuilder::custom_user_data`] is None, which should not be possible.
-    pub fn application_error_headers(
-        &mut self,
-        application_error_code: String,
-        application_error_payload: String,
-    ) -> Result<&mut Self, AIOProtocolError> {
-        if application_error_code.trim().is_empty() {
-            return Err(AIOProtocolError::new_configuration_invalid_error(
-                None,
-                "application_error_code",
-                Value::String(application_error_code),
-                Some("application_error_code cannot be empty".into()),
-                None,
-            ));
-        }
+/// Helper function to add user-defined application error headers to a [`Vec(String, String)`].
+///
+/// `application_error_code` required to be a non-empty `String`.
+/// `application_error_payload` is optional and can be an empty `String`, in which case it is ignored and not added to `response`. It is conventionally, but not necessarily, a stringified JSON object/value/array.
+///
+/// Returns `Ok()` if `application_error_code` is not an empty `String`.
+///
+/// # Errors
+/// Returns an Error with the `String` "`application_error_code` cannot be empty" if `application_error_code` is an empty string.
+pub fn application_error_headers(
+    mut custom_user_data: Vec<(String, String)>,
+    application_error_code: String,
+    application_error_payload: String,
+) -> Result<Vec<(String, String)>, AIOProtocolError> {
+    const APPLICATION_ERROR_CODE_HEADER: &str = "AppErrCode";
+    const APPLICATION_ERROR_PAYLOAD_HEADER: &str = "AppErrPayload";
 
-        self.custom_user_data.get_or_insert(Vec::new());
-
-        self.custom_user_data.as_mut().unwrap().push((
-            crate::common::user_properties::APPLICATION_ERROR_CODE_HEADER.into(),
-            application_error_code,
+    if application_error_code.trim().is_empty() {
+        return Err(AIOProtocolError::new_configuration_invalid_error(
+            None,
+            "application_error_code",
+            Value::String(application_error_code),
+            Some("application_error_code cannot be empty".into()),
+            None,
         ));
-
-        if !application_error_payload.trim().is_empty() {
-            self.custom_user_data.as_mut().unwrap().push((
-                crate::common::user_properties::APPLICATION_ERROR_PAYLOAD_HEADER.into(),
-                application_error_payload,
-            ));
-        }
-
-        Ok(self)
     }
+
+    custom_user_data.push((APPLICATION_ERROR_CODE_HEADER.into(), application_error_code));
+
+    if !application_error_payload.trim().is_empty() {
+        custom_user_data.push((
+            APPLICATION_ERROR_PAYLOAD_HEADER.into(),
+            application_error_payload,
+        ));
+    }
+
+    Ok(custom_user_data)
 }
 
 /// Command Executor Cache Key struct.
@@ -1828,44 +1823,43 @@ mod tests {
             })
             .times(1);
 
-        let mut binding = ResponseBuilder::default();
-        let response = binding
+        let response = ResponseBuilder::default()
+            .custom_user_data(
+                application_error_headers(Vec::new(), "500".into(), "  ".into()).unwrap(),
+            )
             .payload(mock_response_payload)
-            .unwrap()
-            .application_error_headers("500".into(), "  ".into())
             .unwrap()
             .build()
             .unwrap();
 
         assert_eq!(response.custom_user_data.len(), 1);
+
+        let mut app_error_code_header_found = false;
+        let mut app_error_payload_header_found = false;
+        for (key, value) in response.custom_user_data {
+            if key == "AppErrCode" {
+                app_error_code_header_found = true;
+                assert_eq!(value, "500");
+            }
+            if key == "AppErrPayload" {
+                app_error_payload_header_found = true;
+            }
+        }
+
+        assert!(app_error_code_header_found);
+        assert!(!app_error_payload_header_found);
     }
 
     #[test]
     fn test_response_add_empty_error_code_error() {
-        let mut mock_response_payload = MockPayload::new();
-        mock_response_payload
-            .expect_serialize()
-            .returning(|| {
-                Ok(SerializedPayload {
-                    payload: Vec::new(),
-                    content_type: "application/json".to_string(),
-                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
-                })
-            })
-            .times(1);
-
-        let mut binding = ResponseBuilder::default();
-        let response_builder = binding.payload(mock_response_payload).unwrap();
+        let custom_user_data = Vec::new();
 
         assert!(
-            response_builder
-                .application_error_headers(String::new(), "Some error".into())
+            application_error_headers(custom_user_data.clone(), " ".into(), "Some error".into())
                 .is_err()
         );
 
-        let response = response_builder.build().unwrap();
-
-        assert_eq!(response.custom_user_data.len(), 0);
+        assert_eq!(custom_user_data.len(), 0);
     }
 }
 
