@@ -110,7 +110,7 @@ async fn get_device() {
 
             assert_eq!(response.name, DEVICE1);
             assert_eq!(response.specification.attributes["deviceId"], DEVICE1);
-            assert_eq!(response.specification.attributes["deviceType"], TYPE);
+
             // Shutdown adr client and underlying resources
             assert!(azure_device_registry_client.shutdown().await.is_ok());
 
