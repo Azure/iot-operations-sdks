@@ -1819,7 +1819,9 @@ mod tests {
             .times(1);
 
         let mut custom_user_data = Vec::new();
-        assert!(application_error_headers(&mut custom_user_data, "500".into(), "  ".into()).is_ok());
+        assert!(
+            application_error_headers(&mut custom_user_data, "500".into(), "  ".into()).is_ok()
+        );
 
         let response = ResponseBuilder::default()
             .custom_user_data(custom_user_data)
