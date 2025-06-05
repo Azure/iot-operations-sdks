@@ -17,8 +17,7 @@
 use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_connector::filemount::{
-    azure_device_registry::DeviceEndpointCreateObservation,
-    connector_config::ConnectorConfiguration,
+    azure_device_registry::DeviceEndpointCreateObservation, connector_artifacts::ConnectorArtifacts,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -41,7 +40,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     // Get Connector Configuration
-    let connector_config = ConnectorConfiguration::new_from_deployment()?;
+    let connector_config = ConnectorArtifacts::new_from_deployment()?;
     let mqtt_connection_settings = connector_config.to_mqtt_connection_settings("0")?;
 
     // Create Session

@@ -156,6 +156,11 @@
                   },
                   {
                     "@type": "Field",
+                    "name": "lastUpdatedOn",
+                    "schema": "dateTime"
+                  },
+                  {
+                    "@type": "Field",
                     "name": "supportedAuthenticationMethods",
                     "schema": {
                       "@type": "Array",

@@ -12,7 +12,7 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{azure_device_registry, schema_registry, state_store};
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 
-use crate::filemount::connector_config::ConnectorConfiguration;
+use crate::filemount::connector_artifacts::ConnectorArtifacts;
 
 pub mod managed_azure_device_registry;
 
@@ -23,7 +23,7 @@ pub(crate) struct ConnectorContext {
     /// Used to create new envoys
     pub(crate) managed_client: SessionManagedClient,
     /// Connector configuration if needed by any dependent operations
-    connector_config: ConnectorConfiguration,
+    connector_config: ConnectorArtifacts,
     /// Debounce duration for filemount operations for the connector
     debounce_duration: Duration,
     /// Default timeout for connector operations
@@ -68,7 +68,7 @@ impl BaseConnector {
         ) = operation_with_retries::<(_, _, _, _, _), String>(|| {
             // Get Connector Configuration
             let connector_config =
-                ConnectorConfiguration::new_from_deployment().map_err(|e| e.to_string())?;
+                ConnectorArtifacts::new_from_deployment().map_err(|e| e.to_string())?;
 
             // Create Session
             let mqtt_connection_settings = connector_config
