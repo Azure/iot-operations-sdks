@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RegisterTickets",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -54,8 +55,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UnregisterTickets",
+      "namespace": "http://opcfoundation.org/UA/Onboarding",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -92,12 +94,14 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "TicketAuthorities"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "TicketAuthorities",
+      "namespace": "http://opcfoundation.org/UA/Onboarding"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceIdentityAuthorities"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceIdentityAuthorities",
+      "namespace": "http://opcfoundation.org/UA/Onboarding"
     }
   ]
 }

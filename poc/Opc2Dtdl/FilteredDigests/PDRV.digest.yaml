@@ -1,49 +1,49 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PNENC:3006, EncoderAlarmChannelControlEnumeration ]
+- UADataType: [ PNENC:3006, PNENC:EncoderAlarmChannelControlEnumeration ]
   Enums:
     ALARM_CHANNEL_DISABLED: 0
     ALARM_CHANNEL_ENABLED: 1
-- UADataType: [ PNENC:3004, EncoderAxisTypeEnumeration ]
+- UADataType: [ PNENC:3004, PNENC:EncoderAxisTypeEnumeration ]
   Enums:
     ROTARY: 0
     LINEAR: 1
-- UADataType: [ PNENC:3002, EncoderChannelStateEnumeration ]
+- UADataType: [ PNENC:3002, PNENC:EncoderChannelStateEnumeration ]
   Enums:
     NORMAL_OPERATION: 0
     ERROR_ACKNOWLEDGEMENT: 1
@@ -56,34 +56,34 @@ DataTypes:
     PARKING: 8
     PARKING_ERROR: 9
     PARKING_ERROR_ACK: 10
-- UADataType: [ PNENC:3005, EncoderCodeSequenceEnumeration ]
+- UADataType: [ PNENC:3005, PNENC:EncoderCodeSequenceEnumeration ]
   Enums:
     INCREASING_CLOCKWISE: 0
     INCREASING_COUNTERCLOCKWISE: 1
-- UADataType: [ PNENC:3010, EncoderConfigParameterResultEnumeration ]
+- UADataType: [ PNENC:3010, PNENC:EncoderConfigParameterResultEnumeration ]
   Enums:
     INVALID: 0
     NOT_SUPPORTED: 1
     READ_ONLY: 2
-- UADataType: [ PNENC:3011, EncoderConfigTypeEnumeration ]
+- UADataType: [ PNENC:3011, PNENC:EncoderConfigTypeEnumeration ]
   Enums:
     STATIC: 0
     DYNAMIC: 1
-- UADataType: [ PNENC:3012, EncoderDiagnosisReasonEnumeration ]
+- UADataType: [ PNENC:3012, PNENC:EncoderDiagnosisReasonEnumeration ]
   Enums:
     ALL_DISAPPEARS: 0
     APPEARS: 1
     DISAPPEARS: 2
     DISAPPEARS_OTHER_REMAIN: 3
-- UADataType: [ PNENC:3007, EncoderPresetControlEnumeration ]
+- UADataType: [ PNENC:3007, PNENC:EncoderPresetControlEnumeration ]
   Enums:
     ENABLE_PRESET_CONTROL: 0
     DISABLE_PRESET_CONTROL: 1
-- UADataType: [ PNENC:3008, EncoderSensorAbsoluteTypeEnumeration ]
+- UADataType: [ PNENC:3008, PNENC:EncoderSensorAbsoluteTypeEnumeration ]
   Enums:
     SINGLETURN: 0
     MULTITURN: 1
-- UADataType: [ PNENC:3009, EncoderSignalTypeEnumeration ]
+- UADataType: [ PNENC:3009, PNENC:EncoderSignalTypeEnumeration ]
   Enums:
     OTHER: 0
     BISS_C: 1
@@ -110,16 +110,16 @@ DataTypes:
     RS485_SINCOS: 22
     RS485_HTL: 23
     RS485_TTL: 24
-- UADataType: [ PNENC:3003, EventTypeEnumeration ]
+- UADataType: [ PNENC:3003, PNENC:EventTypeEnumeration ]
   Enums:
     FAULT: 0
     WARNING: 1
     UNSPECIFIED: 255
-- UADataType: [ PNENC:3013, LogEntryDataType ]
+- UADataType: [ PNENC:3013, PNENC:LogEntryDataType ]
   Fields:
     FaultSituationNumber: [ Byte, 0 ]
     EventNumber: [ UInt32, 0 ]
-    EventType: [ EventTypeEnumeration, 0 ]
+    EventType: [ PNENC:EventTypeEnumeration, 0 ]
     EventCode: [ Int32, 0 ]
     EventText: [ LocalizedText, 0 ]
     EventComing: [ UtcTime, 0 ]
@@ -128,54 +128,54 @@ DataTypes:
 
 DefinedTypes:
 
-  DriveAxisType:
-  - [ UAObjectType, PDRV:1000, DriveAxisType ]
+  PDRV:DriveAxisType:
+  - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PDRV:5001, Monitoring ]
+    - [ UAObject, PDRV:5001, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5002, Lock ]
+    - [ UAObject, PDRV:5002, PDRV:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5004, PNSignals ]
+    - [ UAObject, PDRV:5004, PDRV:PNSignals ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5005, Maintenance ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5006, LimitSupervision ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5007, Logbook ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1010, LogbookType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5009, CharacteristicsConverter ]
+    - [ UAObject, PDRV:5005, PDRV:Maintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PDRV:7000, SetApplicationTag ]
+    - [ UAObject, PDRV:5006, PDRV:LimitSupervision ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5007, PDRV:Logbook ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PNENC:1010, PNENC:LogbookType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5009, PDRV:CharacteristicsConverter ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAMethod, PDRV:7000, PDRV:SetApplicationTag ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -185,337 +185,337 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5045, Safety ]
+    - [ UAObject, PDRV:5045, PDRV:Safety ]
     - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1015, SafetyType ]
+      - [ UAObjectType, PDRV:1015, PDRV:SafetyType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5003, CharacteristicsMotorAndControl ]
+    - [ UAObject, PDRV:5003, PDRV:CharacteristicsMotorAndControl ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5044, VelocityProfile ]
+    - [ UAObject, PDRV:5044, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  VelocityDriveAxisType:
-  - [ UAObjectType, PDRV:1002, VelocityDriveAxisType ]
+  PDRV:VelocityDriveAxisType:
+  - [ UAObjectType, PDRV:1002, PDRV:VelocityDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - HasComponent:
-    - [ UAObject, PDRV:5014, Monitoring ]
+    - [ UAObject, PDRV:5014, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5016, LimitSupervision ]
+    - [ UAObject, PDRV:5016, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5018, VelocityProfile ]
+    - [ UAObject, PDRV:5018, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  FrequencyDriveAxisType:
-  - [ UAObjectType, PDRV:1005, FrequencyDriveAxisType ]
+  PDRV:FrequencyDriveAxisType:
+  - [ UAObjectType, PDRV:1005, PDRV:FrequencyDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - HasComponent:
-    - [ UAObject, PDRV:5017, Monitoring ]
+    - [ UAObject, PDRV:5017, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5019, LimitSupervision ]
+    - [ UAObject, PDRV:5019, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5010, VelocityProfile ]
+    - [ UAObject, PDRV:5010, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  PositioningDriveAxisType:
-  - [ UAObjectType, PDRV:1006, PositioningDriveAxisType ]
+  PDRV:PositioningDriveAxisType:
+  - [ UAObjectType, PDRV:1006, PDRV:PositioningDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - HasComponent:
-    - [ UAObject, PDRV:5021, LimitSupervision ]
+    - [ UAObject, PDRV:5021, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5022, Monitoring ]
+    - [ UAObject, PDRV:5022, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5026, CharacteristicsMechanics ]
+    - [ UAObject, PDRV:5026, PDRV:CharacteristicsMechanics ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5027, MotionProgram ]
+    - [ UAObject, PDRV:5027, PDRV:MotionProgram ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5043, CharacteristicsMotorAndControl ]
+    - [ UAObject, PDRV:5043, PDRV:CharacteristicsMotorAndControl ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5020, Homing ]
+    - [ UAObject, PDRV:5020, PDRV:Homing ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5011, VelocityProfile ]
+    - [ UAObject, PDRV:5011, PDRV:VelocityProfile ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  TraversingTaskType:
-  - [ UAObjectType, PDRV:1007, TraversingTaskType ]
+  PDRV:TraversingTaskType:
+  - [ UAObjectType, PDRV:1007, PDRV:TraversingTaskType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PDRV:6092, TraversingTaskNumber, Int32, 0, 0 ]
+    - [ UAVariable, PDRV:6092, PDRV:TraversingTaskNumber, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PDRV:6093, TargetPosition, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6093, PDRV:TargetPosition, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PDRV:6094, Velocity, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6094, PDRV:Velocity, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PDRV:6095, Acceleration, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6095, PDRV:Acceleration, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PDRV:6096, Deceleration, Float, 0, 0 ]
+    - [ UAVariable, PDRV:6096, PDRV:Deceleration, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PDRV:6097, PositioningMode, UInt16, 0, 0 ]
+    - [ UAVariable, PDRV:6097, PDRV:PositioningMode, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  VelocityServoDriveAxisType:
-  - [ UAObjectType, PDRV:1008, VelocityServoDriveAxisType ]
+  PDRV:VelocityServoDriveAxisType:
+  - [ UAObjectType, PDRV:1008, PDRV:VelocityServoDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - HasComponent:
-    - [ UAObject, PDRV:5028, Monitoring ]
+    - [ UAObject, PDRV:5028, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5029, LimitSupervision ]
+    - [ UAObject, PDRV:5029, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5031, EncoderChannelMotor ]
+    - [ UAObject, PDRV:5031, PDRV:EncoderChannelMotor ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5032, Homing ]
+    - [ UAObject, PDRV:5032, PDRV:Homing ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5054, EncoderChannelMechanic ]
+    - [ UAObject, PDRV:5054, PDRV:EncoderChannelMechanic ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5056, <EncoderChannelAuxiliary> ]
+    - [ UAObject, PDRV:5056, PDRV:<EncoderChannelAuxiliary> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
 
-  PositionServoDriveAxisType:
-  - [ UAObjectType, PDRV:1009, PositionServoDriveAxisType ]
+  PDRV:PositionServoDriveAxisType:
+  - [ UAObjectType, PDRV:1009, PDRV:PositionServoDriveAxisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1000, DriveAxisType ]
+    - [ UAObjectType, PDRV:1000, PDRV:DriveAxisType ]
   - HasComponent:
-    - [ UAObject, PDRV:5033, <EncoderChannelAuxiliary> ]
+    - [ UAObject, PDRV:5033, PDRV:<EncoderChannelAuxiliary> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, PDRV:5035, CharacteristicsConverter ]
+    - [ UAObject, PDRV:5035, PDRV:CharacteristicsConverter ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5036, LimitSupervision ]
+    - [ UAObject, PDRV:5036, PDRV:LimitSupervision ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5037, Monitoring ]
+    - [ UAObject, PDRV:5037, PDRV:Monitoring ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5058, EncoderChannelMechanic ]
+    - [ UAObject, PDRV:5058, PDRV:EncoderChannelMechanic ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PDRV:5060, EncoderChannelMotor ]
+    - [ UAObject, PDRV:5060, PDRV:EncoderChannelMotor ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+      - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5024, CharacteristicsMotorAndControl ]
+    - [ UAObject, PDRV:5024, PDRV:CharacteristicsMotorAndControl ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PDRV:5030, Homing ]
+    - [ UAObject, PDRV:5030, PDRV:Homing ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  DiagnosisAlarmType:
-  - [ UAObjectType, PDRV:1012, DiagnosisAlarmType ]
+  PDRV:DiagnosisAlarmType:
+  - [ UAObjectType, PDRV:1012, PDRV:DiagnosisAlarmType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
 
-  AxisSwOvertravelEventType:
-  - [ UAObjectType, PDRV:1013, AxisSwOvertravelEventType ]
+  PDRV:AxisSwOvertravelEventType:
+  - [ UAObjectType, PDRV:1013, PDRV:AxisSwOvertravelEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
 
-  AxisHwOvertravelEventType:
-  - [ UAObjectType, PDRV:1014, AxisHwOvertravelEventType ]
+  PDRV:AxisHwOvertravelEventType:
+  - [ UAObjectType, PDRV:1014, PDRV:AxisHwOvertravelEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
 
-  SafetyType:
-  - [ UAObjectType, PDRV:1015, SafetyType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasComponent:
-    - [ UAObject, PDRV:5046, STO ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAObject, PDRV:5047, SS1 ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5048, SS2 ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5049, SOS ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5050, SLS ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5051, SDI ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5052, SLA ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, PDRV:5053, SLP ]
-    - HasTypeDefinition:
-      - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-
-  TorqueLimitEventType:
-  - [ UAObjectType, PDRV:1016, TorqueLimitEventType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
-
-  MotorCurrentLimitEventType:
-  - [ UAObjectType, PDRV:1017, MotorCurrentLimitEventType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
-
-  SafetyFunctionType:
-  - [ UAObjectType, PDRV:1018, SafetyFunctionType ]
+  PDRV:SafetyType:
+  - [ UAObjectType, PDRV:1015, PDRV:SafetyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PDRV:6151, SelectionState, UInt16, 0, 0 ]
+    - [ UAObject, PDRV:5046, PDRV:STO ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PDRV:6154, ActivationState, UInt16, 0, 0 ]
+    - [ UAObject, PDRV:5047, PDRV:SS1 ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5048, PDRV:SS2 ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5049, PDRV:SOS ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5050, PDRV:SLS ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5051, PDRV:SDI ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5052, PDRV:SLA ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, PDRV:5053, PDRV:SLP ]
+    - HasTypeDefinition:
+      - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  PDRV:TorqueLimitEventType:
+  - [ UAObjectType, PDRV:1016, PDRV:TorqueLimitEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+
+  PDRV:MotorCurrentLimitEventType:
+  - [ UAObjectType, PDRV:1017, PDRV:MotorCurrentLimitEventType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
+
+  PDRV:SafetyFunctionType:
+  - [ UAObjectType, PDRV:1018, PDRV:SafetyFunctionType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasComponent:
+    - [ UAVariable, PDRV:6151, PDRV:SelectionState, UInt16, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PDRV:6154, PDRV:ActivationState, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  ForceLimitEventType:
-  - [ UAObjectType, PDRV:1019, ForceLimitEventType ]
+  PDRV:ForceLimitEventType:
+  - [ UAObjectType, PDRV:1019, PDRV:ForceLimitEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PDRV:1001, AxisEventType ]
+    - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
 
-  AxisEventType:
-  - [ UAObjectType, PDRV:1001, AxisEventType ]
+  PDRV:AxisEventType:
+  - [ UAObjectType, PDRV:1001, PDRV:AxisEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]

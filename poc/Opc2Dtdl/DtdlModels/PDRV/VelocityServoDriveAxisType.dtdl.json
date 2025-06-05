@@ -16,22 +16,26 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EncoderChannelMotor",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PNENC:EncoderChannelType"
     },
     {
-      "@type": "Relationship",
-      "name": "Homing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Homing",
+      "namespace": "http://opcfoundation.org/UA/PDRV"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EncoderChannelMechanic",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PNENC:EncoderChannelType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EncoderChannelAuxiliary",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PNENC:EncoderChannelType"
     }
   ]

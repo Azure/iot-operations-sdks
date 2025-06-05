@@ -16,86 +16,100 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AlarmSuppression",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerTolerance",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerTolerance2",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaxValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MonitoringSensitivity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetRampDown",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetRampUp",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperTolerance",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperTolerance2",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Command",
-      "name": "ResetMonitoring"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetMonitoring",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

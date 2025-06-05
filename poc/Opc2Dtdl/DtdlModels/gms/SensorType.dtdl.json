@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Capabilities",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedInteger"
@@ -25,8 +26,9 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Class",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "unsignedInteger",
       "writable": true
     }

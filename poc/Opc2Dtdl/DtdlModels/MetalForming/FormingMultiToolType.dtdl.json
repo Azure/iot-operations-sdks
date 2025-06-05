@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FormingTool",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:MetalForming:FormingToolType"
     }
   ]

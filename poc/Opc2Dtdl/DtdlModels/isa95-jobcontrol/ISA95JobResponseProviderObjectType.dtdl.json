@@ -381,8 +381,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "JobOrderResponseList",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType:dataType:ISA95JobResponseDataType;1"
@@ -390,8 +391,9 @@
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RequestJobResponseByJobOrderID",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -427,8 +429,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RequestJobResponseByJobOrderState",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

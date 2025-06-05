@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Load",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -42,8 +43,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Save",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

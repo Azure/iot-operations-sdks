@@ -16,30 +16,35 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Direction",
+      "namespace": "http://opcfoundation.org/UA/AMLLibs",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Cardinality",
+      "namespace": "http://opcfoundation.org/UA/AMLLibs",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "Cardinality",
+            "namespace": "http://opcfoundation.org/UA/AMLLibs",
             "schema": "string"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "MinOccur",
+            "namespace": "http://opcfoundation.org/UA/AMLLibs",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "MaxOccur",
+            "namespace": "http://opcfoundation.org/UA/AMLLibs",
             "schema": "unsignedInteger"
           }
         ]
@@ -47,14 +52,16 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Category",
+      "namespace": "http://opcfoundation.org/UA/AMLLibs",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConnectionPoint",
+      "namespace": "http://opcfoundation.org/UA/AMLLibs",
       "target": "dtmi:opcua:AMLLibs:PortConnector"
     }
   ]

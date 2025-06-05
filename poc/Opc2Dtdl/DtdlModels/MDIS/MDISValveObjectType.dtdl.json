@@ -101,56 +101,65 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CommandRejected",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DefeatableCloseInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DefeatableOpenInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastCommand",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:CommandEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NonDefeatableCloseInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NonDefeatableOpenInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Position",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:ValvePositionEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignatureRequestStatus",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISValveObjectType:dataType:SignatureStatusEnum;1",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Move",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

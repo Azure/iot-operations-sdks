@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PauseTime",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StandbyManagementStatus",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "unsignedByte",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "EndPause",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -51,8 +54,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartPause",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -103,8 +107,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SwitchToEnergySavingMode",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -155,18 +160,21 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EnergySavingModes",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "target": "dtmi:opcua:PNEM:EnergySavingModesContainerType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EnergySavingModeStatus",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "target": "dtmi:opcua:PNEM:EnergySavingModeStatusType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lock",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "target": "dtmi:opcua:DI:LockingServicesType"
     }
   ]

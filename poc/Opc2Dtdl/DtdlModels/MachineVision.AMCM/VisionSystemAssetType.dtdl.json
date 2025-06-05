@@ -15,132 +15,158 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AcquisitionBackgrounds",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Cables",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CalibrationTargets",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ClimateControllers",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ComputingDevices",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DisplayUnits",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FrameGrabbers",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Housings",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
-      "name": "ImageHandlingAspects"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ImageHandlingAspects",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ImageSensors",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lamps",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LensControllers",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lenses",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Licenses",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LightingControllers",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MotionDevices",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "NetworkDevices",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OpticalFilters",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OtherOpticalEquipments",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PatternGenerators",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PhysicalInterfaces",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PowerSupplies",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SoftwareComponents",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SurroundingEnvironment",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TriggerSensors",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WayEncoders",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "target": "dtmi:opcua:MachineVision_AMCM:VisionItemFolderType"
     }
   ]

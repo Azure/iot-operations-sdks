@@ -16,200 +16,233 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AtmosphericPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Density",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DynamicViscosity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeightOfTheInletManometer",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeightOfTheNpshDatumPlane",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeightOfTheOutletManometer",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HydraulicEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InstallationTotalHead",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "KinematicViscosity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumAllowableFlow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumDynamicSealingPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MechanicalEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumAllowableFlow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumAllowableStableFlow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NetPositiveSuctionHeadAvailable",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OverallEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PumpBestEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PumpEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PumpMechanicalPowerLosses",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PumpRatedPowerInput",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PumpTotalHead",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedDifferentialPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedFlow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedMeanVelocityAtInletAreaOfTheInstallation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedMeanVelocityAtOutletAreaOfTheInstallation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedSpeed",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalHeadAtInletAreaOfTheInstallation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalHeadAtOutletAreaOfTheInstallation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UsefulLife",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ValveSeatVelocity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ValveSpillVelocity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VaporPressureOfThePumpedLiquid",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumetricEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     }

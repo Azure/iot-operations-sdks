@@ -51,8 +51,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddTimeSynchronizationRecipients",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -91,8 +92,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveTimeSynchronizationRecipients",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

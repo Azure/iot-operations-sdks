@@ -16,74 +16,86 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EnergyEfficiencyClassOfMotor",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaxNominalFrequency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinNominalFrequency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalFrequency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalPowerConsumption",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalVoltage",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PowerFactor",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProtectionClass",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedCurrent",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedSpeed",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TorqueAtNominalSpeedOfDrive",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     }

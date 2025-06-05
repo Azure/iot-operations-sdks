@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessPlantIdentificationCodeAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessPlantNameAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     }

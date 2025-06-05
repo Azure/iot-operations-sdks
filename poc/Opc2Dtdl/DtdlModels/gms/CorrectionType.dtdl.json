@@ -15,26 +15,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CorrectionValueAbsolute",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CorrectionValueRelative",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerControlLimit",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperControlLimit",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     }

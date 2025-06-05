@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Sync",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -53,44 +54,54 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Entry"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Entry",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "EntryToExitAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EntryToExitAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "EntryToWaitAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EntryToWaitAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Exit"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Exit",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Step"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Step",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "StepToExitAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StepToExitAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "StepToWaitAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StepToWaitAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Wait"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Wait",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitToStep"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitToStep",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitToStepAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitToStepAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     }
   ]
 }

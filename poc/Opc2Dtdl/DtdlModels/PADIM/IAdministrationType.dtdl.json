@@ -36,20 +36,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DisplayLanguage",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DateOfLastChange",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "dateTime",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "FactoryReset",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

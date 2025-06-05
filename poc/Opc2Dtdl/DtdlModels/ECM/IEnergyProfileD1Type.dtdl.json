@@ -15,24 +15,28 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DcActivePower",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "DcActivePower",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "float"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]
@@ -40,24 +44,28 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DcCurrent",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "DcCurrent",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "float"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]
@@ -65,24 +73,28 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DcVoltage",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "DcVoltage",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "float"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]

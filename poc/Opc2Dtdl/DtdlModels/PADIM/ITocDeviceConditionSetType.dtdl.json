@@ -15,44 +15,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualInjectedVolume",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CarrierGasGaugePressure",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CarrierGasVolumeFlow",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CoolerTemperature",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReactorTemperature",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReferenceInjectionVolume",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SampleWaterVolumeFlow",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     }

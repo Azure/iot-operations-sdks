@@ -16,80 +16,93 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Current",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DCLinkCurrent",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DCLinkVoltage",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DriverPowerInput",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EnergyConsumption",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Frequency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorCurrent",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorEfficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorTemperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorVoltage",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PowerFactor",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Torque",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Voltage",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     }

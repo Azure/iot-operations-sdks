@@ -15,55 +15,64 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AverageControllerOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValueManualOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValueType",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperSetValueCascade",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LoadCurrent",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LoadPower",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

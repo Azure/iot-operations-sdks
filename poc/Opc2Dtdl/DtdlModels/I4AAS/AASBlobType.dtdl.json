@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "File"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "File",
+      "namespace": "http://opcfoundation.org/UA/I4AAS"
     }
   ]
 }

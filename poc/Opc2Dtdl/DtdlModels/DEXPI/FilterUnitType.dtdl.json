@@ -16,50 +16,58 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Efficiency",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FilterArea",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerLimitAllowableSolidsConcentration",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerLimitPermeableParticleDiameter",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaterialOfConstructionCodeAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NumberOfFilterElements",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "long",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperLimitAllowableSolidsConcentration",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperLimitPermeableParticleDiameter",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     }

@@ -44,50 +44,58 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PipingComponentNumberAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerLimitHeatTracingTemperature",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeatTracingTypeAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeatTracingTypeSpecialization",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "dtmi:opcua:DEXPI:StrainerType:dataType:HeatTracingTypeClassification;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InsulationThickness",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InsulationTypeAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PipingClassCodeAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PipingComponentNameAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     }

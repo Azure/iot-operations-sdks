@@ -33,26 +33,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AccelerationDampingTimeConstant",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VelocityDampingTimeConstant",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VelocityReference",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetAxisConfig",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

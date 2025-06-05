@@ -16,33 +16,39 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Analyses",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:AnalysesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:CAS:MCSConfigurationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ElectricalCircuit",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:ElectricalCircuitType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Events",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:EventsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Operational",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:CAS:OperationalType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Statistics",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:CAS:StatisticsType"
     }
   ]

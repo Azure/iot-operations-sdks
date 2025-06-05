@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PwmSwitchingFrequency",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -32,8 +33,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EfficiencyClass",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     }

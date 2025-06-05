@@ -15,47 +15,56 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AdditionalMeasuringDevices",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ElectricalEnergy",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FluidEnergy",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineConfiguration",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PressureAir",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionDatasetManagement",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetManagementType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StartDevice",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
     }
   ]

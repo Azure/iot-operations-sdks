@@ -98,30 +98,35 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Mass",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CenterOfMass",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "CenterOfMass",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DFrame;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "CartesianCoordinates",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DCartesianCoordinates;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Orientation",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DOrientation;1"
           }
         ]
@@ -129,29 +134,34 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Inertia",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "Inertia",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "dtmi:opcua:Robotics:LoadType:dataType:X_3DVector;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "X",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Y",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Z",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "double"
           }
         ]

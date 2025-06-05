@@ -16,33 +16,39 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:Pumps:ConfigurationGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Documentation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DocumentationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Events",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:Pumps:MaintenanceGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Operational",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:Pumps:OperationalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Ports",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:PortsGroupType"
     }
   ]

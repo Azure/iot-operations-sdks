@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LifetimeConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CurrentConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     }
   ]

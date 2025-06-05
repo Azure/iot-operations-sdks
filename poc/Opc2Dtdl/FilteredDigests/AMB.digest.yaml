@@ -1,113 +1,113 @@
 DataTypes:
-- UADataType: [ AMB:3004, MaintenanceMethodEnum ]
+- UADataType: [ AMB:3004, AMB:MaintenanceMethodEnum ]
   Enums:
     Local: 0
     Remote: 1
-- UADataType: [ AMB:3003, NameNodeIdDataType ]
+- UADataType: [ AMB:3003, AMB:NameNodeIdDataType ]
   Fields:
     Name: [ LocalizedText, 0 ]
     NodeId: [ NodeId, 0 ]
-- UADataType: [ AMB:3002, RootCauseDataType ]
+- UADataType: [ AMB:3002, AMB:RootCauseDataType ]
   Fields:
     RootCauseId: [ NodeId, 0 ]
     RootCause: [ LocalizedText, 0 ]
 
 DefinedTypes:
 
-  CalibrationDueConditionClassType:
-  - [ UAObjectType, AMB:1005, CalibrationDueConditionClassType ]
+  AMB:CalibrationDueConditionClassType:
+  - [ UAObjectType, AMB:1005, AMB:CalibrationDueConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  ExternalCheckConditionClassType:
-  - [ UAObjectType, AMB:1015, ExternalCheckConditionClassType ]
+  AMB:ExternalCheckConditionClassType:
+  - [ UAObjectType, AMB:1015, AMB:ExternalCheckConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  FlashUpdateInProgressConditionClassType:
-  - [ UAObjectType, AMB:1007, FlashUpdateInProgressConditionClassType ]
+  AMB:FlashUpdateInProgressConditionClassType:
+  - [ UAObjectType, AMB:1007, AMB:FlashUpdateInProgressConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  ImprovementConditionClassType:
-  - [ UAObjectType, AMB:1018, ImprovementConditionClassType ]
+  AMB:ImprovementConditionClassType:
+  - [ UAObjectType, AMB:1018, AMB:ImprovementConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  InspectionConditionClassType:
-  - [ UAObjectType, AMB:1014, InspectionConditionClassType ]
+  AMB:InspectionConditionClassType:
+  - [ UAObjectType, AMB:1014, AMB:InspectionConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  RepairConditionClassType:
-  - [ UAObjectType, AMB:1017, RepairConditionClassType ]
+  AMB:RepairConditionClassType:
+  - [ UAObjectType, AMB:1017, AMB:RepairConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  ServicingConditionClassType:
-  - [ UAObjectType, AMB:1016, ServicingConditionClassType ]
+  AMB:ServicingConditionClassType:
+  - [ UAObjectType, AMB:1016, AMB:ServicingConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11165, MaintenanceConditionClassType ]
 
-  BadConfigurationConditionClassType:
-  - [ UAObjectType, AMB:1008, BadConfigurationConditionClassType ]
+  AMB:BadConfigurationConditionClassType:
+  - [ UAObjectType, AMB:1008, AMB:BadConfigurationConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  ConnectionFailureConditionClassType:
-  - [ UAObjectType, AMB:1003, ConnectionFailureConditionClassType ]
+  AMB:ConnectionFailureConditionClassType:
+  - [ UAObjectType, AMB:1003, AMB:ConnectionFailureConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  FlashUpdateFailedConditionClassType:
-  - [ UAObjectType, AMB:1019, FlashUpdateFailedConditionClassType ]
+  AMB:FlashUpdateFailedConditionClassType:
+  - [ UAObjectType, AMB:1019, AMB:FlashUpdateFailedConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  OutOfResourcesConditionClassType:
-  - [ UAObjectType, AMB:1009, OutOfResourcesConditionClassType ]
+  AMB:OutOfResourcesConditionClassType:
+  - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  OutOfMemoryConditionClassType:
-  - [ UAObjectType, AMB:1010, OutOfMemoryConditionClassType ]
+  AMB:OutOfMemoryConditionClassType:
+  - [ UAObjectType, AMB:1010, AMB:OutOfMemoryConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMB:1009, OutOfResourcesConditionClassType ]
+    - [ UAObjectType, AMB:1009, AMB:OutOfResourcesConditionClassType ]
 
-  OverTemperatureConditionClassType:
-  - [ UAObjectType, AMB:1004, OverTemperatureConditionClassType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 11166, SystemConditionClassType ]
-
-  SelfTestFailureConditionClassType:
-  - [ UAObjectType, AMB:1006, SelfTestFailureConditionClassType ]
+  AMB:OverTemperatureConditionClassType:
+  - [ UAObjectType, AMB:1004, AMB:OverTemperatureConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11166, SystemConditionClassType ]
 
-  IMaintenanceEventType:
-  - [ UAObjectType, AMB:1012, IMaintenanceEventType ]
+  AMB:SelfTestFailureConditionClassType:
+  - [ UAObjectType, AMB:1006, AMB:SelfTestFailureConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 11166, SystemConditionClassType ]
+
+  AMB:IMaintenanceEventType:
+  - [ UAObjectType, AMB:1012, AMB:IMaintenanceEventType ]
   - HasComponent:
-    - [ UAObject, AMB:5014, MaintenanceState ]
+    - [ UAObject, AMB:5014, AMB:MaintenanceState ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+      - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IRootCauseIndicationType:
-  - [ UAObjectType, AMB:1002, IRootCauseIndicationType ]
+  AMB:IRootCauseIndicationType:
+  - [ UAObjectType, AMB:1002, AMB:IRootCauseIndicationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  DocumentationLinksType:
-  - [ UAObjectType, AMB:1011, DocumentationLinksType ]
+  AMB:DocumentationLinksType:
+  - [ UAObjectType, AMB:1011, AMB:DocumentationLinksType ]
   - HasComponent:
-    - [ UAVariable, AMB:6017, <Link>, UriString, 0, 3 ]
+    - [ UAVariable, AMB:6017, AMB:<Link>, UriString, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAMethod, AMB:7004, AddLink ]
+    - [ UAMethod, AMB:7004, AMB:AddLink ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -126,7 +126,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, AMB:7005, RemoveLink ]
+    - [ UAMethod, AMB:7005, AMB:RemoveLink ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -138,30 +138,30 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  MaintenanceEventStateMachineType:
-  - [ UAObjectType, AMB:1013, MaintenanceEventStateMachineType ]
+  AMB:MaintenanceEventStateMachineType:
+  - [ UAObjectType, AMB:1013, AMB:MaintenanceEventStateMachineType ]
   - HasComponent:
-    - [ UAObject, AMB:5007, Executing ]
+    - [ UAObject, AMB:5007, AMB:Executing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, AMB:5008, Finished ]
+    - [ UAObject, AMB:5008, AMB:Finished ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, AMB:5010, FromExecutingToFinished ]
+    - [ UAObject, AMB:5010, AMB:FromExecutingToFinished ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, AMB:5011, FromFinishedToPlanned ]
+    - [ UAObject, AMB:5011, AMB:FromFinishedToPlanned ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, AMB:5009, FromPlannedToExecuting ]
+    - [ UAObject, AMB:5009, AMB:FromPlannedToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, AMB:5006, Planned ]
+    - [ UAObject, AMB:5006, AMB:Planned ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasSubtype_reverse:

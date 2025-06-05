@@ -80,50 +80,58 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Address",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:NetworkAddressDataType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeaderLayoutUri",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PublishingInterval",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Qos",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:CommunicationFlowQosDataType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SecurityGroupId",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SecurityMode",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "dtmi:opcua:FX_CM:PubSubCommunicationFlowConfigurationType:dataType:MessageSecurityMode;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TransportProfileUri",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SubscriberConfiguration",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "target": "dtmi:opcua:FX_CM:SubscriberConfigurationType"
     }
   ]

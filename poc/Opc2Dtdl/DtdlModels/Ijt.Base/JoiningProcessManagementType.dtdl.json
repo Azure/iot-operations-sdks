@@ -150,8 +150,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AbortJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -197,8 +198,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DecrementJoiningProcessCounter",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -244,8 +246,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -286,8 +289,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeselectJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -323,8 +327,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -375,8 +380,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJoiningProcessList",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -420,8 +426,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJoiningProcessRevisionList",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -470,8 +477,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "IncrementJoiningProcessCounter",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -517,8 +525,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ResetJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -559,8 +568,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SelectJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -601,8 +611,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -648,8 +659,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetJoiningProcessCounter",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -695,8 +707,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetJoiningProcessMapping",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -737,8 +750,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetJoiningProcessSize",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -784,8 +798,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartJoiningProcess",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -834,8 +849,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartSelectedJoining",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ComponentClass",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "string",
       "writable": false
     }

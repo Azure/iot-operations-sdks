@@ -111,8 +111,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Abort",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -148,8 +149,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SimulationMode",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -190,8 +192,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartContinuous",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -250,8 +253,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartSingleJob",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -310,8 +314,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Stop",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -347,104 +352,128 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "ContinuousExecution"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ContinuousExecution",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ContinuousExecutionStepModel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "ContinuousExecutionToReadyAbort"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ContinuousExecutionToReadyAbort",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ContinuousExecutionToReadyAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ContinuousExecutionToReadyAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ContinuousExecutionToReadyStop"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ContinuousExecutionToReadyStop",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Initialized"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Initialized",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InitializedStepModel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "InitializedToReadyAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InitializedToReadyAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "InitializedToReadyProduct"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InitializedToReadyProduct",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "InitializedToReadyRecipe"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InitializedToReadyRecipe",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Ready"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Ready",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ReadyStepModel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToContinuousExecution"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToContinuousExecution",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToContinuousExecutionAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToContinuousExecutionAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToInitializedAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToInitializedAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToInitializedProduct"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToInitializedProduct",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToInitializedRecipe"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToInitializedRecipe",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToSingleExecution"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToSingleExecution",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToSingleExecutionAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToSingleExecutionAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "SingleExecution"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SingleExecution",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SingleExecutionStepModel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "SingleExecutionToReadyAbort"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SingleExecutionToReadyAbort",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "SingleExecutionToReadyAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SingleExecutionToReadyAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "SingleExecutionToReadyStop"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SingleExecutionToReadyStop",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     }
   ]
 }

@@ -17,22 +17,26 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AnalogSignal",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Command",
-      "name": "ZeroPointAdjustment"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ZeroPointAdjustment",
+      "namespace": "http://opcfoundation.org/UA/PADIM"
     },
     {
-      "@type": "Relationship",
-      "name": "SignalCalibrationIdentifier"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SignalCalibrationIdentifier",
+      "namespace": "http://opcfoundation.org/UA/PADIM"
     },
     {
-      "@type": "Relationship",
-      "name": "SignalConditionSet"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SignalConditionSet",
+      "namespace": "http://opcfoundation.org/UA/PADIM"
     }
   ]
 }

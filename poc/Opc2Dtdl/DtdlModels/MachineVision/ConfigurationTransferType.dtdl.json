@@ -60,8 +60,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GenerateFileForRead",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -102,8 +103,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GenerateFileForWrite",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

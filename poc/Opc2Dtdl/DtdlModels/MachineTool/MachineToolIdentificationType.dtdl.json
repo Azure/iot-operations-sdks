@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "SoftwareIdentification"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SoftwareIdentification",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     }
   ]
 }

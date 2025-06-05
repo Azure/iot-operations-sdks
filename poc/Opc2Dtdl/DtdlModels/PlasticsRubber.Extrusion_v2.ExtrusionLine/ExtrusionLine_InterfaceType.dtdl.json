@@ -17,12 +17,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "ClearMESMessage"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ClearMESMessage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetMESMessage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -49,33 +51,39 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "JobGroups",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobGroupsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineMESConfiguration",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineMESConfigurationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MaterialList",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialListType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MESMessage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionParameters",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:ProductionParametersType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Users",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
     }
   ]

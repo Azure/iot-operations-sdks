@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AudioSample",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "bytes",
       "writable": true
     }

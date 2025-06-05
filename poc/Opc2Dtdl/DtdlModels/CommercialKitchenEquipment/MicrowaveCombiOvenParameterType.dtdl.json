@@ -60,62 +60,72 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualTemperatureChamber",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CookingStep",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FanSpeed",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsDoorOpen",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MicrowaveEnergy",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingMode",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "dtmi:opcua:CommercialKitchenEquipment:MicrowaveCombiOvenParameterType:dataType:OperatingModeEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemainingProcessTime",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemainingProcessTimeStep",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetProcessTime",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     }

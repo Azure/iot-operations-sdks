@@ -15,24 +15,28 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcActivePowerTotal",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AcActivePowerTotal",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "float"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]

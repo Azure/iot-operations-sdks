@@ -33,68 +33,79 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InputCurrentRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InputVoltageRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputCurrentMax",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputCurrentRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputFrequencyMax",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputFrequencyRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputPowerMax",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputPowerRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputVoltageMax",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputVoltageRange",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "dtmi:opcua:Powertrain:PtOutputInterfaceAttributesType:dataType:Range;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputVoltageRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     }

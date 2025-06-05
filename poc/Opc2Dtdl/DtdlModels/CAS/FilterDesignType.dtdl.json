@@ -90,8 +90,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FilterClass",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "dtmi:opcua:CAS:FilterDesignType:dataType:FilterClassDataType;1",
       "writable": false
     }

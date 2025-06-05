@@ -15,22 +15,26 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Monitoring",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "target": "dtmi:opcua:LaserSystems:LaserSystemMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Notification",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:NotificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Production",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "target": "dtmi:opcua:LaserSystems:LaserSystemProductionType"
     }
   ]

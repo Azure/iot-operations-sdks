@@ -124,20 +124,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Config",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioFaDigitalInputChannelType:dataType:RioFaDigitalInputConfigDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioFaDigitalInputChannelType:dataType:RioFaDigitalProcessValueDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "double",
       "writable": false
     }

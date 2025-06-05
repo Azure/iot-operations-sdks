@@ -157,8 +157,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddDeviceAddressBindings",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -192,8 +193,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "CreateObject",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -218,8 +220,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteObject",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -236,8 +239,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeviceCommunicationControl",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -264,8 +268,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ReinitializeDevice",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -287,8 +292,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveDeviceAddressBindings",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -322,8 +328,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "TextMessage",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -360,31 +367,37 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BackupRestore",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetBackupRestoreType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DeviceRestart",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetDeviceRestartType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MstpMaster",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetMstpMasterType"
     },
     {
-      "@type": "Relationship",
-      "name": "Object_List"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Object_List",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Structured_Object_List"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Structured_Object_List",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TimeManagement",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetTimeManagementType"
     }
   ]

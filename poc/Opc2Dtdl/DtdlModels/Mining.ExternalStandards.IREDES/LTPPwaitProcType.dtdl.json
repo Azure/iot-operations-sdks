@@ -15,38 +15,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "BlastDelay",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CantDump",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MineUtils",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NoRock",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RoadMaint",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Traffic",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "dateTime",
       "writable": true
     }

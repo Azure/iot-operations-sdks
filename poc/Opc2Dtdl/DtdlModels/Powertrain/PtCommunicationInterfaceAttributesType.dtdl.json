@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProfileTypes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedShort"
@@ -25,8 +26,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProtocolTypes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedShort"
@@ -34,8 +36,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SafetyProtocolTypes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedShort"

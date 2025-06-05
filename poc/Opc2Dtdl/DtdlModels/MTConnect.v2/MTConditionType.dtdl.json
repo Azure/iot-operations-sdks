@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Constraints",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
       "target": "dtmi:opcua:MTConnect_v2:MTConstraintType"
     }
   ]

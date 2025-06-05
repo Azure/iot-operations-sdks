@@ -16,18 +16,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DimensionAdjustment",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Die",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MeltPressures",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Die",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Die",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
     }
   ]

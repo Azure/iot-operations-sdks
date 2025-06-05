@@ -381,8 +381,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ReceiveJobResponse",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

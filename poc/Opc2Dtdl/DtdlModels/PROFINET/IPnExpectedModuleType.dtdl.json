@@ -44,14 +44,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "dtmi:opcua:PROFINET:IPnExpectedModuleType:dataType:PnModuleStateEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Submodules",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnExpectedSubmoduleContainerType"
     }
   ]

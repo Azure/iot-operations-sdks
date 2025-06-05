@@ -15,28 +15,33 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CalibrationZone_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calibrator:CalibrationZoneType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterFlowIn",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterFlowOut",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterTemperatureIn",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterTemperatureOut",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     }
   ]

@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CleaningSystem_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InfraredHeatingSystem_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
     }
   ]

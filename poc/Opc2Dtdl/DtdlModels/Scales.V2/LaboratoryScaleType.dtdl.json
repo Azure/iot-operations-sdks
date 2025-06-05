@@ -41,8 +41,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "CloseDraftShields",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -59,8 +60,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "OpenDraftShields",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -77,20 +79,24 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "StartCalibration"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StartCalibration",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "StartIonisator"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StartIonisator",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "StartLeveling"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StartLeveling",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "StopIonisator"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StopIonisator",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     }
   ]
 }

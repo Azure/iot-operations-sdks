@@ -16,32 +16,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HHlimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Hlimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Llimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LLlimit",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessVariable",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     }

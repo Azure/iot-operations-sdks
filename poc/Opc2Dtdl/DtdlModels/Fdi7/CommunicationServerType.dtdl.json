@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "SubDevices"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SubDevices",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7"
     }
   ]
 }

@@ -16,22 +16,26 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BatchInformation",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "target": "dtmi:opcua:CommercialKitchenEquipment:BatchInformationType"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorConditions"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorConditions",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "HACCPValues",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
-      "name": "InformationConditions"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InformationConditions",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment"
     }
   ]
 }

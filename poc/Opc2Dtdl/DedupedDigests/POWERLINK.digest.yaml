@@ -1,12 +1,12 @@
 DataTypes:
-- UADataType: [ POWERLINK:28, PowerlinkNMTResetCmdEnumeration ]
+- UADataType: [ POWERLINK:28, POWERLINK:PowerlinkNMTResetCmdEnumeration ]
   Enums:
     NMTResetNode: 40
     NMTResetCommunication: 41
     NMTResetConfiguration: 42
     NMTSwReset: 43
     NMTInvalidService: 255
-- UADataType: [ POWERLINK:24, PowerlinkNMTStateEnumeration ]
+- UADataType: [ POWERLINK:24, POWERLINK:PowerlinkNMTStateEnumeration ]
   Enums:
     NMT_GS_OFF : 0
     NMT_GS_INITIALISING: 25
@@ -20,7 +20,7 @@ DataTypes:
     NMT_XS_OPERATIONAL: 253
     NMT_CS_STOPPED: 77
     NMT_XS_BASIC_ETHERNET: 30
-- UADataType: [ POWERLINK:26, ErrorRegisterBits ]
+- UADataType: [ POWERLINK:26, POWERLINK:ErrorRegisterBits ]
   Enums:
     Generic_error: 0
     Current: 1
@@ -30,7 +30,7 @@ DataTypes:
     Device_profile_specific: 5
     Reserved: 6
     Manufacturer_specific: 7
-- UADataType: [ POWERLINK:25, PowerlinkAttribute ]
+- UADataType: [ POWERLINK:25, POWERLINK:PowerlinkAttribute ]
   Enums:
     Const: 0
     Read: 1
@@ -42,55 +42,55 @@ DataTypes:
     DefaultMapping: 7
     RPDO: 8
     TPDO: 9
-- UADataType: [ POWERLINK:27, PowerlinkErrorEntryDataType ]
+- UADataType: [ POWERLINK:27, POWERLINK:PowerlinkErrorEntryDataType ]
   Fields:
     entryType: [ UInt16, 0 ]
     errorCode: [ UInt16, 0 ]
     timeStamp: [ UInt64, 0 ]
     additionalInformation: [ UInt64, 0 ]
-- UADataType: [ POWERLINK:29, PowerlinkIpAddressDataType ]
+- UADataType: [ POWERLINK:29, POWERLINK:PowerlinkIpAddressDataType ]
   Fields:
     b1: [ Byte, 0 ]
     b2: [ Byte, 0 ]
     b3: [ Byte, 0 ]
     b4: [ Byte, 0 ]
-- UADataType: [ POWERLINK:30, PowerlinkPDOMappingEntryDataType ]
+- UADataType: [ POWERLINK:30, POWERLINK:PowerlinkPDOMappingEntryDataType ]
   Fields:
     length: [ UInt16, 0 ]
     offset: [ UInt16, 0 ]
     reserved: [ Byte, 0 ]
     subIndex: [ Byte, 0 ]
     index: [ UInt16, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -100,86 +100,86 @@ DataTypes:
 
 DefinedTypes:
 
-  PowerlinkProtocolType:
-  - [ UAObjectType, POWERLINK:6, PowerlinkProtocolType ]
+  POWERLINK:PowerlinkProtocolType:
+  - [ UAObjectType, POWERLINK:6, POWERLINK:PowerlinkProtocolType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1006, ProtocolType ]
+    - [ UAObjectType, DI:1006, DI:ProtocolType ]
 
-  PowerlinkConnectionPointType:
-  - [ UAObjectType, POWERLINK:3, PowerlinkConnectionPointType ]
+  POWERLINK:PowerlinkConnectionPointType:
+  - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
   - HasComponent:
-    - [ UAObject, POWERLINK:59, <ProfileId> ]
+    - [ UAObject, POWERLINK:59, DI:<ProfileId> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, POWERLINK:6, PowerlinkProtocolType ]
+      - [ UAObjectType, POWERLINK:6, POWERLINK:PowerlinkProtocolType ]
   - HasComponent:
-    - [ UAObject, POWERLINK:63, Configuration ]
+    - [ UAObject, POWERLINK:63, POWERLINK:Configuration ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, POWERLINK:65, Control ]
+    - [ UAObject, POWERLINK:65, POWERLINK:Control ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, POWERLINK:60, Diagnostics ]
+    - [ UAObject, POWERLINK:60, POWERLINK:Diagnostics ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:6308, ConnectionPointType ]
+    - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
   - HasComponent:
-    - [ UAObject, POWERLINK:66, SdoServices ]
+    - [ UAObject, POWERLINK:66, POWERLINK:SdoServices ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, POWERLINK:64, Status ]
+    - [ UAObject, POWERLINK:64, POWERLINK:Status ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  PowerlinkCnConnectionPointType:
-  - [ UAObjectType, POWERLINK:4, PowerlinkCnConnectionPointType ]
+  POWERLINK:PowerlinkCnConnectionPointType:
+  - [ UAObjectType, POWERLINK:4, POWERLINK:PowerlinkCnConnectionPointType ]
   - HasComponent:
-    - [ UAObject, POWERLINK:52, <DeviceProfileIdentifier> ]
+    - [ UAObject, POWERLINK:52, POWERLINK:<DeviceProfileIdentifier> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, POWERLINK:1, PowerlinkDeviceProfileType ]
+      - [ UAObjectType, POWERLINK:1, POWERLINK:PowerlinkDeviceProfileType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, POWERLINK:3, PowerlinkConnectionPointType ]
+    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
 
-  PowerlinkMnConnectionPointType:
-  - [ UAObjectType, POWERLINK:5, PowerlinkMnConnectionPointType ]
+  POWERLINK:PowerlinkMnConnectionPointType:
+  - [ UAObjectType, POWERLINK:5, POWERLINK:PowerlinkMnConnectionPointType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, POWERLINK:3, PowerlinkConnectionPointType ]
+    - [ UAObjectType, POWERLINK:3, POWERLINK:PowerlinkConnectionPointType ]
 
-  PowerlinkDeviceType:
-  - [ UAObjectType, POWERLINK:2, PowerlinkDeviceType ]
+  POWERLINK:PowerlinkDeviceType:
+  - [ UAObjectType, POWERLINK:2, POWERLINK:PowerlinkDeviceType ]
   - HasComponent:
-    - [ UAObject, POWERLINK:43, <CNIdentifier> ]
+    - [ UAObject, POWERLINK:43, POWERLINK:<CNIdentifier> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, POWERLINK:4, PowerlinkCnConnectionPointType ]
+      - [ UAObjectType, POWERLINK:4, POWERLINK:PowerlinkCnConnectionPointType ]
   - HasComponent:
-    - [ UAObject, POWERLINK:70, <MNIdentifier> ]
+    - [ UAObject, POWERLINK:70, POWERLINK:<MNIdentifier> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, POWERLINK:5, PowerlinkMnConnectionPointType ]
+      - [ UAObjectType, POWERLINK:5, POWERLINK:PowerlinkMnConnectionPointType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1002, DeviceType ]
+    - [ UAObjectType, DI:1002, DI:DeviceType ]
 
-  PowerlinkDeviceProfileType:
-  - [ UAObjectType, POWERLINK:1, PowerlinkDeviceProfileType ]
+  POWERLINK:PowerlinkDeviceProfileType:
+  - [ UAObjectType, POWERLINK:1, POWERLINK:PowerlinkDeviceProfileType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]

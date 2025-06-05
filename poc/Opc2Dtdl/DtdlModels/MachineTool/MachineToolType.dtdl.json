@@ -15,31 +15,37 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Equipment",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:EquipmentType"
     },
     {
-      "@type": "Relationship",
-      "name": "FileSystem"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FileSystem",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Monitoring",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:MonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Notification",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:NotificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Production",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:ProductionType"
     }
   ]

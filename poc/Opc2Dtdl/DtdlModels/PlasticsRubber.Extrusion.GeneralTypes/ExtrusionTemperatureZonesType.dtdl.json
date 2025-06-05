@@ -15,18 +15,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StartTempering",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureZone_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZoneType"
     }
   ]

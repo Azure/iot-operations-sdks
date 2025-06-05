@@ -15,20 +15,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NotificationCategory",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NotificationId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VendorNotificationId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": true
     }

@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DesignVolumeFlowRate",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DesignPressureHead",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DifferentialPressure",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     }

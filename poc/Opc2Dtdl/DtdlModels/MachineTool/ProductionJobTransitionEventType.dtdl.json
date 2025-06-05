@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RunsCompleted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RunsPlanned",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     }

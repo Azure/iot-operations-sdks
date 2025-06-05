@@ -69,14 +69,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentTransitionData",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:StandbyModeTransitionDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StateInformation",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "dtmi:opcua:ECM:EnergySavingModeStatusType:dataType:EnergyStateInformationDataType;1",
       "writable": false
     }

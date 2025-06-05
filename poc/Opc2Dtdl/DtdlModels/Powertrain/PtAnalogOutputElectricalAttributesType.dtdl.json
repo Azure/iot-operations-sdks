@@ -33,20 +33,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AnalogOutputElectricalType",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FrequencyRange",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType:dataType:Range;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LoadResistance",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     }

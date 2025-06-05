@@ -16,32 +16,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Absorption",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CoatingEmessivity",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ElectricalConductivity",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Reflection",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Transmission",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "integer",
       "writable": true
     }

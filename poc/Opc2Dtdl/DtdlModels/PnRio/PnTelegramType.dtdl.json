@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Input",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "target": "dtmi:opcua:PNRIO:PnIoTelegramType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Output",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "target": "dtmi:opcua:PNRIO:PnIoTelegramType"
     }
   ]

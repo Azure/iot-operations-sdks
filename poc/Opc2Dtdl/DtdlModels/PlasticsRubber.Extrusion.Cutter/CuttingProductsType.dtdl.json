@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualCuttingProductId",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CuttingProduct_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_Cutter:CuttingProductType"
     }
   ]

@@ -77,8 +77,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "VerifyAsset",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

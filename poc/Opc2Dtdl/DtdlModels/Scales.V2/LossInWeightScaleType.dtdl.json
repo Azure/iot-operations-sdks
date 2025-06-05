@@ -17,38 +17,45 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "BinWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HopperFillLevel",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HopperWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "DischargeStart"
+      "@type": [ "Command", "Qualified" ],
+      "name": "DischargeStart",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "DischargeStop"
+      "@type": [ "Command", "Qualified" ],
+      "name": "DischargeStop",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "RefillStart"
+      "@type": [ "Command", "Qualified" ],
+      "name": "RefillStart",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "RefillStop"
+      "@type": [ "Command", "Qualified" ],
+      "name": "RefillStop",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     }
   ]
 }

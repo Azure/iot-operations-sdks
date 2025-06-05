@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AdditivesPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": {
         "@type": "Array",
         "elementSchema": "double"
@@ -24,8 +25,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AdditivesRatioActual",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": {
         "@type": "Array",
         "elementSchema": "double"
@@ -33,8 +35,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AdditivesRatioTarget",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": {
         "@type": "Array",
         "elementSchema": "double"
@@ -42,74 +45,86 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FilterPressurePrimary",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FilterPressureSecondary",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MixingPointPressureA",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MixingPointPressureB",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MixingPointPressureBlender",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MixingRatioActual",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MixingRatioTarget",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ResidualAmountA",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ResidualAmountB",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeA",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeAB",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeAdditives",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": {
         "@type": "Array",
         "elementSchema": "double"
@@ -117,14 +132,16 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeB",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeTotal",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     }

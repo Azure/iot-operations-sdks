@@ -16,61 +16,72 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PressureMainLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PressureReturnLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TemperatureMainLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TemperatureReturnLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "SwitchOff"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SwitchOff",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
-      "name": "SwitchOn"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SwitchOn",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FlowRate",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PressureDifference",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Temperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureDifference",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

@@ -35,20 +35,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Category",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Direction",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:PortType:dataType:PortDirectionEnum;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IdCarrier",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": true
     }

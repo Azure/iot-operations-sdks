@@ -33,26 +33,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ElectricalEnergyConsumption",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FluidEnergyConsumption",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PressureAirConsumption",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddJob",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -131,8 +135,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "FinishJobById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -149,8 +154,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "InterruptJobById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -167,8 +173,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveJobById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -185,8 +192,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartJobById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -203,8 +211,9 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Job_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_ExtrusionLine:JobType"
     }
   ]

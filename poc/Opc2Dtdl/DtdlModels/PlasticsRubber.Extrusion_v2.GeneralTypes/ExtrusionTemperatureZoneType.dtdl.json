@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControllerOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalCoolingPower",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalHeatingPower",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ElectricalCurrent",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

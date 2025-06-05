@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "TimeSynchronization",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

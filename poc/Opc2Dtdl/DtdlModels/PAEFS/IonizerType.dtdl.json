@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "IonizerOutput",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     }
   ]

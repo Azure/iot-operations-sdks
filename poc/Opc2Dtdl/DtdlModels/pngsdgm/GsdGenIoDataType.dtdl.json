@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DataItemx",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -31,13 +32,15 @@
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InputChannelx",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OutputChannelx",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelType"
     }
   ]

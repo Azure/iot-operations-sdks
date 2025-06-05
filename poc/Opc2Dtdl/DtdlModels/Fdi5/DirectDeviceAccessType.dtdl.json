@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "InitDirectAccess",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -48,8 +49,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Transfer",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -85,8 +87,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "EndDirectAccess",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI5",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

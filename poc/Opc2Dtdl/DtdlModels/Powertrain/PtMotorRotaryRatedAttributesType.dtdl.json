@@ -16,38 +16,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorSpeedMax",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorSpeedRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorTorqueConstant",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorTorqueContinuousStall",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorTorqueMax",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorTorqueRated",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     }

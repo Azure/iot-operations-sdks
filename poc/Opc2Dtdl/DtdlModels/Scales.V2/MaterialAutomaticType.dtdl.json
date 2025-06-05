@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FillingProductInformation",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:AutomaticFillingProductType"
     }
   ]

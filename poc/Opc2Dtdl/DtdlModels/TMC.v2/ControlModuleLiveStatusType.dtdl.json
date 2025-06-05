@@ -141,8 +141,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AcknowledgeAlarms",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -159,8 +160,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendCommand",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -191,8 +193,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetControlMode",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -223,28 +226,34 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Alarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Alarms",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Data"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Data",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Interlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Interlocks",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Measurements"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Measurements",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ProcessControlLoops"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProcessControlLoops",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StateMachine",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:TMCStateMachineType"
     }
   ]

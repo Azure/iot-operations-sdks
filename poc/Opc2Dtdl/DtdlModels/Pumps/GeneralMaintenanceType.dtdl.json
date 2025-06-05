@@ -72,122 +72,142 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActiveMaintenanceTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DownTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExternalDisabledTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FailureRate",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IdleTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaintenanceLevel",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:GeneralMaintenanceType:dataType:MaintenanceLevelEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaintenanceTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MeanOperatingTimeBetweenFailures",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MeanRepairTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MeanTimeToRestauration",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Obsolescence",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingTimeBetweenFailures",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingTimeToFailure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RepairTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StandbyTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StateOfTheItem",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:GeneralMaintenanceType:dataType:StateOfTheItemEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeBetweenFailures",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeToRestoration",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     }

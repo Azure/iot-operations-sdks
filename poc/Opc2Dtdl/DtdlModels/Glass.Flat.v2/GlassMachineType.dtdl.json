@@ -15,26 +15,31 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConfigurationRules",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
       "target": "dtmi:opcua:Glass_Flat_v2:ConfigurationRulesType"
     },
     {
-      "@type": "Relationship",
-      "name": "FileSystem"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FileSystem",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MaintenanceManuals",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
       "target": "dtmi:opcua:Glass_Flat_v2:ManualFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OperationManuals",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat.v2",
       "target": "dtmi:opcua:Glass_Flat_v2:ManualFolderType"
     }
   ]

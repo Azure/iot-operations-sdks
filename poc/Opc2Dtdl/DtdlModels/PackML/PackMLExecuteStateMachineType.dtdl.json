@@ -43,8 +43,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AvailableStates",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -52,8 +53,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AvailableTransitions",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -61,16 +63,19 @@
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Hold"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Hold",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Command",
-      "name": "Reset"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Reset",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Start",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -90,144 +95,179 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "Suspend"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Suspend",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Command",
-      "name": "ToComplete"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ToComplete",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Command",
-      "name": "Unhold"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Unhold",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Command",
-      "name": "Unsuspend"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Unsuspend",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Complete"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Complete",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "CompleteToResetting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompleteToResetting",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Completing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Completing",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "CompletingToComplete"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompletingToComplete",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Execute"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Execute",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToCompleting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToCompleting",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToHolding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToHolding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToSuspending"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToSuspending",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Held"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Held",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "HeldToUnholding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HeldToUnholding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Holding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Holding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "HoldingToHeld"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HoldingToHeld",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Idle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Idle",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "IdleToStarting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "IdleToStarting",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Resetting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Resetting",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "ResettingToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ResettingToIdle",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Starting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Starting",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingToExecute"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingToExecute",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingToHolding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingToHolding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Suspended"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Suspended",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendedToHolding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendedToHolding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendedToUnsuspending"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendedToUnsuspending",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Suspending"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Suspending",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendingToHolding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendingToHolding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendingToSuspended"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendingToSuspended",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Unholding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Unholding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "UnholdingToExecute"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnholdingToExecute",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "UnholdingToHolding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnholdingToHolding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Unsuspending"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Unsuspending",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "UnsuspendingToExecute"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnsuspendingToExecute",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "UnsuspendingToHolding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnsuspendingToHolding",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     }
   ]
 }

@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnSubmoduleStateType"
     }
   ]

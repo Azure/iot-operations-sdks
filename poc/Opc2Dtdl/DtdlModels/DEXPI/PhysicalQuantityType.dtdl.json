@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Value",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     }

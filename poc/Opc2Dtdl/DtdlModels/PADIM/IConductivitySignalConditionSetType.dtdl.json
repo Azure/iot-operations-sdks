@@ -15,20 +15,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ConductivityMeasuringMethod",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SensingElementTemperature",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TemperatureCompensationStyle",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "unsignedInteger",
       "writable": false
     }

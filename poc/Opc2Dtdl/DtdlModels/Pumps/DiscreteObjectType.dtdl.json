@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OnOffCycle",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     }

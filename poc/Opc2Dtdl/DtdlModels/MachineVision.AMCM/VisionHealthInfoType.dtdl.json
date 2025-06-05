@@ -61,32 +61,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceHealth",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:DeviceHealthEnumeration;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemainingLifeTime",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "schema": "dtmi:opcua:MachineVision_AMCM:VisionHealthInfoType:dataType:SEMI_E10SystemStateDataType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Temperature",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceHealthAlarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceHealthAlarms",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

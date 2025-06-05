@@ -16,58 +16,71 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PercentComplete",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "unsignedByte",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Prepare"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Prepare",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Command",
-      "name": "Abort"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Abort",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Command",
-      "name": "Resume"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Resume",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Idle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Idle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Preparing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Preparing",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "PreparedForUpdate"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreparedForUpdate",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Resuming"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Resuming",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "IdleToPreparing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "IdleToPreparing",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "PreparingToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreparingToIdle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "PreparingToPreparedForUpdate"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreparingToPreparedForUpdate",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "PreparedForUpdateToResuming"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreparedForUpdateToResuming",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ResumingToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ResumingToIdle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

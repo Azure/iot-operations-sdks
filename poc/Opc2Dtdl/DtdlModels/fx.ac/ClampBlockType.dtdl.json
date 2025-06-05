@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Kind",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Clamp",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "target": "dtmi:opcua:FX_AC:ClampType"
     }
   ]

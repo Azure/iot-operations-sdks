@@ -15,200 +15,233 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "BackPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CavityPressureMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CushionStroke",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CushionVolume",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DecompressionVolumeAfterPlastification",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DecompressionVolumeBeforePlastification",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DosingTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FlowIndex",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HoldHydraulicPressureAverage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HoldHydraulicPressureMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HoldSpecificPressureAverage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HoldSpecificPressureMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HydraulicPressureMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InjectionSpeedAverage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InjectionSpeedMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InjectionStartPosition",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InjectionTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationCircumferentialSpeedAverage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationCircumferentialSpeedMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationHydraulicPressureAverage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationHydraulicPressureMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationRotationalSpeedAverage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationRotationalSpeedMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationSpecificPressureAverage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationSpecificPressureMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlastificationVolume",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SpecificPressureMaximum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TransferCavityPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TransferHydraulicPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TransferSpecificPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TransferStroke",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TransferVolume",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VPChangeOverPosition",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     }

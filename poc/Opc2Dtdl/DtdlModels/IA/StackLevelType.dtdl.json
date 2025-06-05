@@ -35,14 +35,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DisplayMode",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "dtmi:opcua:IA:StackLevelType:dataType:LevelDisplayMode;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LevelPercent",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "float",
       "writable": true
     }

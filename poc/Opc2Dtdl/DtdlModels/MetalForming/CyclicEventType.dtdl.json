@@ -15,20 +15,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CycleCount",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartId",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CurrentProcessValue",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
     }
   ]

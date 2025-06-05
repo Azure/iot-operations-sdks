@@ -15,68 +15,79 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualBadOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualGoodOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualLot",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualLotName",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualOutputRate",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualSampleOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "GoodProduct",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LineSpeed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProductWeight",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Throughput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "schema": "double",
       "writable": false
     }

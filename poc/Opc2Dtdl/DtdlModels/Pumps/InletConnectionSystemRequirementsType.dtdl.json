@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InletPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     }

@@ -236,8 +236,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Diagnosis",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PROFINET:IPnRealModuleType:dataType:PnDeviceDiagnosisDataType;1"
@@ -245,17 +246,20 @@
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "Alarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Alarms",
+      "namespace": "http://opcfoundation.org/UA/PROFINET"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "IM",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnIdentificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Submodules",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnRealSubmoduleContainerType"
     }
   ]

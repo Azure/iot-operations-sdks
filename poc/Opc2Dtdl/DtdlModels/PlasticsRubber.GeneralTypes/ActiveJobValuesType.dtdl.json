@@ -16,16 +16,19 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "FinishJob"
+      "@type": [ "Command", "Qualified" ],
+      "name": "FinishJob",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "InterruptJob"
+      "@type": [ "Command", "Qualified" ],
+      "name": "InterruptJob",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "StartJob"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StartJob",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

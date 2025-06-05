@@ -32,20 +32,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualScaleInterval",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Range",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "dtmi:opcua:Scales_V2:WeighingRangeElementType:dataType:Range;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VerificationScaleInterval",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "double",
       "writable": true
     }

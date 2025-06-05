@@ -1,13 +1,13 @@
 DataTypes:
-- UADataType: [ PNENC:3006, EncoderAlarmChannelControlEnumeration ]
+- UADataType: [ PNENC:3006, PNENC:EncoderAlarmChannelControlEnumeration ]
   Enums:
     ALARM_CHANNEL_DISABLED: 0
     ALARM_CHANNEL_ENABLED: 1
-- UADataType: [ PNENC:3004, EncoderAxisTypeEnumeration ]
+- UADataType: [ PNENC:3004, PNENC:EncoderAxisTypeEnumeration ]
   Enums:
     ROTARY: 0
     LINEAR: 1
-- UADataType: [ PNENC:3002, EncoderChannelStateEnumeration ]
+- UADataType: [ PNENC:3002, PNENC:EncoderChannelStateEnumeration ]
   Enums:
     NORMAL_OPERATION: 0
     ERROR_ACKNOWLEDGEMENT: 1
@@ -20,34 +20,34 @@ DataTypes:
     PARKING: 8
     PARKING_ERROR: 9
     PARKING_ERROR_ACK: 10
-- UADataType: [ PNENC:3005, EncoderCodeSequenceEnumeration ]
+- UADataType: [ PNENC:3005, PNENC:EncoderCodeSequenceEnumeration ]
   Enums:
     INCREASING_CLOCKWISE: 0
     INCREASING_COUNTERCLOCKWISE: 1
-- UADataType: [ PNENC:3010, EncoderConfigParameterResultEnumeration ]
+- UADataType: [ PNENC:3010, PNENC:EncoderConfigParameterResultEnumeration ]
   Enums:
     INVALID: 0
     NOT_SUPPORTED: 1
     READ_ONLY: 2
-- UADataType: [ PNENC:3011, EncoderConfigTypeEnumeration ]
+- UADataType: [ PNENC:3011, PNENC:EncoderConfigTypeEnumeration ]
   Enums:
     STATIC: 0
     DYNAMIC: 1
-- UADataType: [ PNENC:3012, EncoderDiagnosisReasonEnumeration ]
+- UADataType: [ PNENC:3012, PNENC:EncoderDiagnosisReasonEnumeration ]
   Enums:
     ALL_DISAPPEARS: 0
     APPEARS: 1
     DISAPPEARS: 2
     DISAPPEARS_OTHER_REMAIN: 3
-- UADataType: [ PNENC:3007, EncoderPresetControlEnumeration ]
+- UADataType: [ PNENC:3007, PNENC:EncoderPresetControlEnumeration ]
   Enums:
     ENABLE_PRESET_CONTROL: 0
     DISABLE_PRESET_CONTROL: 1
-- UADataType: [ PNENC:3008, EncoderSensorAbsoluteTypeEnumeration ]
+- UADataType: [ PNENC:3008, PNENC:EncoderSensorAbsoluteTypeEnumeration ]
   Enums:
     SINGLETURN: 0
     MULTITURN: 1
-- UADataType: [ PNENC:3009, EncoderSignalTypeEnumeration ]
+- UADataType: [ PNENC:3009, PNENC:EncoderSignalTypeEnumeration ]
   Enums:
     OTHER: 0
     BISS_C: 1
@@ -74,51 +74,51 @@ DataTypes:
     RS485_SINCOS: 22
     RS485_HTL: 23
     RS485_TTL: 24
-- UADataType: [ PNENC:3003, EventTypeEnumeration ]
+- UADataType: [ PNENC:3003, PNENC:EventTypeEnumeration ]
   Enums:
     FAULT: 0
     WARNING: 1
     UNSPECIFIED: 255
-- UADataType: [ PNENC:3013, LogEntryDataType ]
+- UADataType: [ PNENC:3013, PNENC:LogEntryDataType ]
   Fields:
     FaultSituationNumber: [ Byte, 0 ]
     EventNumber: [ UInt32, 0 ]
-    EventType: [ EventTypeEnumeration, 0 ]
+    EventType: [ PNENC:EventTypeEnumeration, 0 ]
     EventCode: [ Int32, 0 ]
     EventText: [ LocalizedText, 0 ]
     EventComing: [ UtcTime, 0 ]
     EventGoing: [ UtcTime, 0 ]
     EventAcknowledged: [ UtcTime, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -128,36 +128,36 @@ DataTypes:
 
 DefinedTypes:
 
-  EncoderDiagnosisEventType:
-  - [ UAObjectType, PNENC:1006, EncoderDiagnosisEventType ]
+  PNENC:EncoderDiagnosisEventType:
+  - [ UAObjectType, PNENC:1006, PNENC:EncoderDiagnosisEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  EncoderProbeLatchEventType:
-  - [ UAObjectType, PNENC:1005, EncoderProbeLatchEventType ]
+  PNENC:EncoderProbeLatchEventType:
+  - [ UAObjectType, PNENC:1005, PNENC:EncoderProbeLatchEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  EncoderRefLatchEventType:
-  - [ UAObjectType, PNENC:1004, EncoderRefLatchEventType ]
+  PNENC:EncoderRefLatchEventType:
+  - [ UAObjectType, PNENC:1004, PNENC:EncoderRefLatchEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  LogbookEventType:
-  - [ UAObjectType, PNENC:1003, LogbookEventType ]
+  PNENC:LogbookEventType:
+  - [ UAObjectType, PNENC:1003, PNENC:LogbookEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  EncoderAxisConfigType:
-  - [ UAObjectType, PNENC:1009, EncoderAxisConfigType ]
+  PNENC:EncoderAxisConfigType:
+  - [ UAObjectType, PNENC:1009, PNENC:EncoderAxisConfigType ]
   - HasComponent:
-    - [ UAVariable, PNENC:6065, AccelerationDampingTimeConstant, Float, 0, 0 ]
+    - [ UAVariable, PNENC:6065, PNENC:AccelerationDampingTimeConstant, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PNENC:7008, SetAxisConfig ]
+    - [ UAMethod, PNENC:7008, PNENC:SetAxisConfig ]
     - HasProperty:
       - [ UAVariable, PNENC:6066, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -173,122 +173,122 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNENC:6064, VelocityDampingTimeConstant, Float, 0, 0 ]
+    - [ UAVariable, PNENC:6064, PNENC:VelocityDampingTimeConstant, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6063, VelocityReference, Float, 0, 0 ]
+    - [ UAVariable, PNENC:6063, PNENC:VelocityReference, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  EncoderChannelType:
-  - [ UAObjectType, PNENC:1002, EncoderChannelType ]
+  PNENC:EncoderChannelType:
+  - [ UAObjectType, PNENC:1002, PNENC:EncoderChannelType ]
   - HasComponent:
-    - [ UAVariable, PNENC:6106, Acceleration, Float, 0, 0 ]
+    - [ UAVariable, PNENC:6106, PNENC:Acceleration, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNENC:5008, AxisConfig ]
+    - [ UAObject, PNENC:5008, PNENC:AxisConfig ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1009, EncoderAxisConfigType ]
+      - [ UAObjectType, PNENC:1009, PNENC:EncoderAxisConfigType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNENC:5009, ControlConfig ]
+    - [ UAObject, PNENC:5009, PNENC:ControlConfig ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1008, EncoderControlConfigType ]
+      - [ UAObjectType, PNENC:1008, PNENC:EncoderControlConfigType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6009, EncoderChannelState, EncoderChannelStateEnumeration, 0, 0 ]
+    - [ UAVariable, PNENC:6009, PNENC:EncoderChannelState, PNENC:EncoderChannelStateEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PNENC:6090, G1_STW, UInt16, 0, 0 ]
+    - [ UAVariable, PNENC:6090, PNENC:G1_STW, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6092, G1_XIST1, UInt32, 0, 0 ]
+    - [ UAVariable, PNENC:6092, PNENC:G1_XIST1, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6093, G1_XIST2, UInt32, 0, 0 ]
+    - [ UAVariable, PNENC:6093, PNENC:G1_XIST2, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6094, G1_XIST3, UInt64, 0, 0 ]
+    - [ UAVariable, PNENC:6094, PNENC:G1_XIST3, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6097, G1_XIST_PRESET_B, UInt32, 0, 0 ]
+    - [ UAVariable, PNENC:6097, PNENC:G1_XIST_PRESET_B, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6099, G1_XIST_PRESET_B1, UInt32, 0, 0 ]
+    - [ UAVariable, PNENC:6099, PNENC:G1_XIST_PRESET_B1, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6098, G1_XIST_PRESET_C, UInt64, 0, 0 ]
+    - [ UAVariable, PNENC:6098, PNENC:G1_XIST_PRESET_C, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6091, G1_ZSW, UInt16, 0, 0 ]
+    - [ UAVariable, PNENC:6091, PNENC:G1_ZSW, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNENC:5001, Lock ]
+    - [ UAObject, PNENC:5001, PNENC:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNENC:5010, Logbook ]
+    - [ UAObject, PNENC:5010, PNENC:Logbook ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1010, LogbookType ]
+      - [ UAObjectType, PNENC:1010, PNENC:LogbookType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6019, NIST_A, Int16, 0, 0 ]
+    - [ UAVariable, PNENC:6019, PNENC:NIST_A, Int16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6020, NIST_B, Int32, 0, 0 ]
+    - [ UAVariable, PNENC:6020, PNENC:NIST_B, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6100, Position, Double, 0, 0 ]
+    - [ UAVariable, PNENC:6100, PNENC:Position, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PNENC:6122, Resolution, Double, 0, 0 ]
+      - [ UAVariable, PNENC:6122, PNENC:Resolution, Double, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6109, PositionSensorSignalValue, Number, 0, 0 ]
+    - [ UAVariable, PNENC:6109, PNENC:PositionSensorSignalValue, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNENC:5012, Probes ]
+    - [ UAObject, PNENC:5012, PNENC:Probes ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1012, EncoderProbesType ]
+      - [ UAObjectType, PNENC:1012, PNENC:EncoderProbesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNENC:5011, Sensor ]
+    - [ UAObject, PNENC:5011, PNENC:Sensor ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1013, EncoderSensorType ]
+      - [ UAObjectType, PNENC:1013, PNENC:EncoderSensorType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PNENC:5007, SensorConfig ]
+    - [ UAObject, PNENC:5007, PNENC:SensorConfig ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1007, EncoderSensorConfigType ]
+      - [ UAObjectType, PNENC:1007, PNENC:EncoderSensorConfigType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNENC:7001, SetApplicationTag ]
+    - [ UAMethod, PNENC:7001, PNENC:SetApplicationTag ]
     - HasProperty:
       - [ UAVariable, PNENC:6002, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -298,32 +298,32 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6095, STW2_ENC, UInt16, 0, 0 ]
+    - [ UAVariable, PNENC:6095, PNENC:STW2_ENC, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6110, Temperature, Float, 0, 0 ]
+    - [ UAVariable, PNENC:6110, PNENC:Temperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6103, Velocity, Float, 0, 0 ]
+    - [ UAVariable, PNENC:6103, PNENC:Velocity, Float, 0, 0 ]
     - HasComponent:
-      - [ UAVariable, PNENC:6127, Damping, Float, 0, 0 ]
+      - [ UAVariable, PNENC:6127, PNENC:Damping, Float, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6096, ZSW2_ENC, UInt16, 0, 0 ]
+    - [ UAVariable, PNENC:6096, PNENC:ZSW2_ENC, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  EncoderControlConfigType:
-  - [ UAObjectType, PNENC:1008, EncoderControlConfigType ]
+  PNENC:EncoderControlConfigType:
+  - [ UAObjectType, PNENC:1008, PNENC:EncoderControlConfigType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PNENC:7007, SetControlConfig ]
+    - [ UAMethod, PNENC:7007, PNENC:SetControlConfig ]
     - HasProperty:
       - [ UAVariable, PNENC:6057, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -339,46 +339,46 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
-  EncoderProbesType:
-  - [ UAObjectType, PNENC:1012, EncoderProbesType ]
+  PNENC:EncoderProbesType:
+  - [ UAObjectType, PNENC:1012, PNENC:EncoderProbesType ]
   - HasComponent:
-    - [ UAObject, PNENC:5006, <Probex> ]
+    - [ UAObject, PNENC:5006, PNENC:<Probex> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNENC:1011, EncoderProbeType ]
+      - [ UAObjectType, PNENC:1011, PNENC:EncoderProbeType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  EncoderProbeType:
-  - [ UAObjectType, PNENC:1011, EncoderProbeType ]
+  PNENC:EncoderProbeType:
+  - [ UAObjectType, PNENC:1011, PNENC:EncoderProbeType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PNENC:6085, LastLatchedPos, Number, 0, 0 ]
+    - [ UAVariable, PNENC:6085, PNENC:LastLatchedPos, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNENC:6084, LatchActive, Boolean, 0, 0 ]
+    - [ UAVariable, PNENC:6084, PNENC:LatchActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNENC:7018, LatchStart ]
+    - [ UAMethod, PNENC:7018, PNENC:LatchStart ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNENC:5005, Lock ]
+    - [ UAObject, PNENC:5005, PNENC:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  EncoderSensorConfigType:
-  - [ UAObjectType, PNENC:1007, EncoderSensorConfigType ]
+  PNENC:EncoderSensorConfigType:
+  - [ UAObjectType, PNENC:1007, PNENC:EncoderSensorConfigType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PNENC:7006, SetSensorConfig ]
+    - [ UAMethod, PNENC:7006, PNENC:SetSensorConfig ]
     - HasProperty:
       - [ UAVariable, PNENC:6052, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -394,16 +394,16 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
-  EncoderSensorType:
-  - [ UAObjectType, PNENC:1013, EncoderSensorType ]
+  PNENC:EncoderSensorType:
+  - [ UAObjectType, PNENC:1013, PNENC:EncoderSensorType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PNENC:6087, PositionOffset, Number, 0, 0 ]
+    - [ UAVariable, PNENC:6087, PNENC:PositionOffset, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PNENC:7019, PresetControl ]
+    - [ UAMethod, PNENC:7019, PNENC:PresetControl ]
     - HasProperty:
       - [ UAVariable, PNENC:6086, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -413,52 +413,52 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6089, Ref1LastLatchedPos, Number, 0, 0 ]
+    - [ UAVariable, PNENC:6089, PNENC:Ref1LastLatchedPos, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNENC:6088, Ref1LatchActive, Boolean, 0, 0 ]
+    - [ UAVariable, PNENC:6088, PNENC:Ref1LatchActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNENC:7020, Ref1LatchStart ]
+    - [ UAMethod, PNENC:7020, PNENC:Ref1LatchStart ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LogbookType:
-  - [ UAObjectType, PNENC:1010, LogbookType ]
+  PNENC:LogbookType:
+  - [ UAObjectType, PNENC:1010, PNENC:LogbookType ]
   - HasComponent:
-    - [ UAMethod, PNENC:7009, DeleteLogbook ]
+    - [ UAMethod, PNENC:7009, PNENC:DeleteLogbook ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNENC:7013, GetActiveDiagnosis ]
+    - [ UAMethod, PNENC:7013, PNENC:GetActiveDiagnosis ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PNENC:6074, OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          ActiveDiagnosis: [ LogEntryDataType, 1 ]
+          ActiveDiagnosis: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PNENC:7011, GetCurrentFaultSituation ]
+    - [ UAMethod, PNENC:7011, PNENC:GetCurrentFaultSituation ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, PNENC:6071, OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          CurrentLogEntries: [ LogEntryDataType, 1 ]
+          CurrentLogEntries: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PNENC:7010, GetFilteredLogbookEntries ]
+    - [ UAMethod, PNENC:7010, PNENC:GetFilteredLogbookEntries ]
     - HasProperty:
       - [ UAVariable, PNENC:6070, InputArguments, Argument, 1, 0 ]
       - Arguments:
           LogbookFilterOptions: [ Byte, 0 ]
           FaultSituationNumber: [ Byte, 0 ]
-          EventType: [ EventTypeEnumeration, 0 ]
+          EventType: [ PNENC:EventTypeEnumeration, 0 ]
           EventCode: [ Int32, 0 ]
           EventAppearanceInterval: [ Duration, 0 ]
       - HasModellingRule:
@@ -468,11 +468,11 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, PNENC:6033, OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          FilteredLogEntries: [ LogEntryDataType, 1 ]
+          FilteredLogEntries: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PNENC:7012, GetHistoricFaultSituation ]
+    - [ UAMethod, PNENC:7012, PNENC:GetHistoricFaultSituation ]
     - HasProperty:
       - [ UAVariable, PNENC:6072, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -484,12 +484,12 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, PNENC:6073, OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          HistoricLogEntries: [ LogEntryDataType, 1 ]
+          HistoricLogEntries: [ PNENC:LogEntryDataType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PNENC:6068, LogEntries, LogEntryDataType, 1, 0 ]
+    - [ UAVariable, PNENC:6068, PNENC:LogEntries, PNENC:LogEntryDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]

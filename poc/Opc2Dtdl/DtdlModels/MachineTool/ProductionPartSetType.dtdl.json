@@ -15,20 +15,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartsCompletedPerRun",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartsPlannedPerRun",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "PartsPerRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PartsPerRun",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     }
   ]
 }

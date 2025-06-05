@@ -16,17 +16,20 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Analysis",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:AnalysisType"
     },
     {
-      "@type": "Relationship",
-      "name": "PrefabAnalysis"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrefabAnalysis",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EnergyReportISO50001",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:AnalysisType"
     }
   ]

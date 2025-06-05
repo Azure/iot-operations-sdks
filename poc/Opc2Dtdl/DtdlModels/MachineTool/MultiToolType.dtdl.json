@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Tool",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:ToolType"
     }
   ]

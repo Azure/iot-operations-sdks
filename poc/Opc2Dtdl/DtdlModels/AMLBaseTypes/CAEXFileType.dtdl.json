@@ -16,20 +16,24 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "InstanceHierarchies"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InstanceHierarchies",
+      "namespace": "http://opcfoundation.org/UA/AML"
     },
     {
-      "@type": "Relationship",
-      "name": "InterfaceClassLibs"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InterfaceClassLibs",
+      "namespace": "http://opcfoundation.org/UA/AML"
     },
     {
-      "@type": "Relationship",
-      "name": "RoleClassLibs"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RoleClassLibs",
+      "namespace": "http://opcfoundation.org/UA/AML"
     },
     {
-      "@type": "Relationship",
-      "name": "SystemUnitClassLibs"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SystemUnitClassLibs",
+      "namespace": "http://opcfoundation.org/UA/AML"
     }
   ]
 }

@@ -15,28 +15,33 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BDC",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Retract",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Start",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TDC",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Touch",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
     }
   ]

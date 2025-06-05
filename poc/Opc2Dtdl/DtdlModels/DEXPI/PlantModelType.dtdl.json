@@ -16,18 +16,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MetaData",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "target": "dtmi:opcua:DEXPI:MetaDataType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StructureItem",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "target": "dtmi:opcua:DEXPI:PlantStructureItemType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Plant",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "target": "dtmi:opcua:DEXPI:PlantType"
     }
   ]

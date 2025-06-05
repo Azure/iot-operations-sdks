@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VisionSafetyInformation",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VisionSafetyTriggered",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ReportSafetyState",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

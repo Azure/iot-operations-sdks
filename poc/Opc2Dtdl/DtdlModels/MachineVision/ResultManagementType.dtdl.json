@@ -240,8 +240,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetResultById",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -287,8 +288,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetResultComponentsById",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -407,8 +409,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetResultListFiltered",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -517,8 +520,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ReleaseResultHandle",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -549,13 +553,15 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Results",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:ResultFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ResultTransfer",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:ResultTransferType"
     }
   ]

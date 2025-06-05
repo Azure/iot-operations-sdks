@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Administration",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASAdministrativeInformationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Identification",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASIdentifierType"
     }
   ]

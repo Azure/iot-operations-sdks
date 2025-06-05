@@ -15,20 +15,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EqpInfo",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EqpName",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EqpSysVer",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     }

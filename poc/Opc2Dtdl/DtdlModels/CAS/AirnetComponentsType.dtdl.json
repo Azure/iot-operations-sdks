@@ -15,56 +15,69 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "ComponentsGroup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ComponentsGroup",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "ChargingSystems"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ChargingSystems",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Compressors"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Compressors",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "CondensateDrains"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CondensateDrains",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "CondensateSeparators"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CondensateSeparators",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Converters"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Converters",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "CoolingSystems"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CoolingSystems",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Dryers"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Dryers",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Filters"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Filters",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "HeatRecoverySystems"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HeatRecoverySystems",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Receivers"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Receivers",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Sensors"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Sensors",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Valves"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Valves",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     }
   ]
 }

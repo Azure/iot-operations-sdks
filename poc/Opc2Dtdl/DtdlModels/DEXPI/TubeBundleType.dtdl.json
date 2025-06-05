@@ -284,44 +284,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NumberOfTubes",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "long",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TubeLength",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TubeMaterialOfConstructionCodeAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TubeNominalDiameterNumericalValueRepresentationAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TubeNominalDiameterRepresentationAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TubeNominalDiameterStandardSpecialization",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "dtmi:opcua:DEXPI:TubeBundleType:dataType:NominalDiameterStandardClassification;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TubeNominalDiameterTypeRepresentationAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     }

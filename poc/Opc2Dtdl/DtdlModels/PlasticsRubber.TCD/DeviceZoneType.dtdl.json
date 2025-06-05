@@ -15,137 +15,161 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualProcessPower",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualPumpPower",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualPumpSpeedRPM",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualRegulationRatio",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DelayTimeAfterCooling",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InternalMeasuringPoint",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PressureMainLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PressureReturnLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PumpControlMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StandbyTemperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SwitchingOffTemperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TemperatureLimitation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TemperatureMainLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TemperatureReturnLine",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ExternalChannels",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalChannelsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ExternalSensor",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:ExternalSensorType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FlowRate",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LeakStopper",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:LeakStopperType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MaintenanceInformation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:MaintenanceInformationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MouldEvacuation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:MouldEvacuationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PressureDifference",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpSpeed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Temperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureDifference",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

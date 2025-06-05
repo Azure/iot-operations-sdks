@@ -15,19 +15,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentOutput",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Collector",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:CollectorType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Ionizer",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:IonizerType"
     }
   ]

@@ -27,20 +27,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Address",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "dtmi:opcua:FX_CM:SubscriberConfigurationType:dataType:NetworkAddressDataType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MessageReceiveTimeout",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReceiveQos",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "bytes"

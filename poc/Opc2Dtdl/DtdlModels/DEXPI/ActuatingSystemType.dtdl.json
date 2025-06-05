@@ -16,30 +16,35 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActuatingSystemNumberAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TypicalInformationAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ControlledActuator",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "target": "dtmi:opcua:DEXPI:ControlledActuatorType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ShutOffValveReference",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "target": "dtmi:opcua:DEXPI:ShutOffValveReferenceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Positioner",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "target": "dtmi:opcua:DEXPI:PositionerType"
     }
   ]

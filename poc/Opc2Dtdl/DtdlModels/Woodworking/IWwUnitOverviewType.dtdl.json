@@ -75,14 +75,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentMode",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitModeEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentState",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "dtmi:opcua:Woodworking:IWwUnitOverviewType:dataType:WwUnitStateEnumeration;1",
       "writable": false
     }

@@ -15,36 +15,44 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "FromLoadedToReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLoadedToReady",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLoadedToWaiting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLoadedToWaiting",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromReadyToLoaded"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromReadyToLoaded",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromReadyToWaiting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromReadyToWaiting",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromWaitingToReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromWaitingToReady",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Loaded"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Loaded",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Ready"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Ready",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Waiting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Waiting",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     }
   ]
 }

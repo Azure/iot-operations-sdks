@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LineFilterEmcCategory",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LineFilterEmcClass",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LineFilterEmcGroup",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LineFilterPowerLoss",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     }

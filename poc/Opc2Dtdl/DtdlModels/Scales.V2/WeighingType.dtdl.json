@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TargetWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WeighingModuleNodeId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Material",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:MaterialType"
     }
   ]

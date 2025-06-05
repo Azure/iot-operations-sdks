@@ -15,18 +15,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DataSpecification",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AssetIdentificationModel",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BillOfMaterial",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     }
   ]

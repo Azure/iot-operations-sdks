@@ -16,36 +16,43 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "Close"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Close",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Command",
-      "name": "Open"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Open",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Airflow",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "GasQuality",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Humidity",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Pressure",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Temperature",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     }
   ]

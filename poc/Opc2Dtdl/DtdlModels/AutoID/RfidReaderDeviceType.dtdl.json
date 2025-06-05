@@ -243,20 +243,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastScanAntenna",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastScanRSSI",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "KillTag",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -297,8 +300,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LockTag",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -359,8 +363,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ReadTag",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -421,8 +426,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetTagPassword",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -473,8 +479,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "WriteTag",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -530,8 +537,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "WriteTagID",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

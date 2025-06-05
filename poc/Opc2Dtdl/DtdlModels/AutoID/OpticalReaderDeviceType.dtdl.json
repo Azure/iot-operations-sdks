@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Images"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Images",
+      "namespace": "http://opcfoundation.org/UA/AutoID"
     }
   ]
 }

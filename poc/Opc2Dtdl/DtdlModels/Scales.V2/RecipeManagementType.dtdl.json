@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddRecipe",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -53,8 +54,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveRecipe",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -71,8 +73,9 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Recipe_No",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:RecipeType"
     }
   ]

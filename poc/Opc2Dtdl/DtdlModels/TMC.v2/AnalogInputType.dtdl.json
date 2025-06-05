@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RawValue",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Value",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "double",
       "writable": false
     }

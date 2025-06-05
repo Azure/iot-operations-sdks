@@ -113,26 +113,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CleanupTimeout",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CommunicationLinks",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "bytes",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ConnectionEndpointTypeId",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeId;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InputVariableIds",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeIdentifier;1"
@@ -140,26 +144,30 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsPersistent",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsPreconfigured",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Name",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutputVariableIds",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType:dataType:PortableNodeIdentifier;1"
@@ -167,14 +175,16 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PreconfiguredPublishedDataSet",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PreconfiguredSubscribedDataSet",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "string",
       "writable": true
     }

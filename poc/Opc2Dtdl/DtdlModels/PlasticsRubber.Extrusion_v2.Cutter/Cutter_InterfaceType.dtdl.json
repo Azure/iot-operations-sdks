@@ -17,56 +17,66 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SampleCuttingLength",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SideClampClosed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalWasteLength",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WasteCuttingLength",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WasteIndicator",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Command",
-      "name": "ManualCut"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ManualCut",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter"
     },
     {
-      "@type": "Command",
-      "name": "SampleCut"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SampleCut",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CuttingProducts",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Cutter:CuttingProductsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CuttingProgram",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductSpeed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Cutter",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

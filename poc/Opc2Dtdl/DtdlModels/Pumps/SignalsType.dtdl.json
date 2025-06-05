@@ -16,108 +16,129 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Acceleration",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CleanValveOpen",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Deceleration",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FlushValveOpen",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "GasDilValveOpen",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InletValveOpen",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "NoRotation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OutletValveOpen",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProcessIsActive",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpActivation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpDirection",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpOperation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpPowerMax",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpSpeedMax",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpSpeedMin",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PurgeValveOpen",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "RatedSpeed",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StandBy",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StandBySpeed",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TargetSpeed",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "VentValveOpen",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteInputObjectType"
     }
   ]

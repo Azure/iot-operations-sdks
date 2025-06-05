@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeightOfTheInletConnection",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MeanRatedVelocityAtInlet",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedInletPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalHeadAtInletAreaOfThePump",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     }

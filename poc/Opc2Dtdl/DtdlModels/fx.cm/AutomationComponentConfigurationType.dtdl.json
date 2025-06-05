@@ -113,14 +113,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AutomationComponentNode",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "dtmi:opcua:FX_CM:AutomationComponentConfigurationType:dataType:PortableNodeIdentifier;1",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CommunicationModelConfig",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "target": "dtmi:opcua:FX_CM:CommunicationModelConfigurationType"
     }
   ]

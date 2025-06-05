@@ -33,14 +33,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RecipeNodeId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Report",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:Scales_V2:RecipeProductType:dataType:RecipeReportElementType;1"
@@ -48,8 +50,9 @@
       "writable": true
     },
     {
-      "@type": "Relationship",
-      "name": "ReportFile"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReportFile",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     }
   ]
 }

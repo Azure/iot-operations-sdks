@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetNameOfStation",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -34,13 +35,15 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Ports",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnPortContainerType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Statistic",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
     }
   ]

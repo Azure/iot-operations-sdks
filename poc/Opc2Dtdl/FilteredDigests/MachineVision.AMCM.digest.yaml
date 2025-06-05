@@ -1,44 +1,44 @@
 DataTypes:
-- UADataType: [ MachineVision.AMCM:3002, SEMI_E10SystemStateDataType ]
+- UADataType: [ MachineVision.AMCM:3002, MachineVision.AMCM:SEMI_E10SystemStateDataType ]
   Fields:
     Id: [ UInt32, 0 ]
     Priority: [ UInt32, 0 ]
-- UADataType: [ MachineVision.AMCM:3003, SEMI_E10SystemStateInfoDataType ]
+- UADataType: [ MachineVision.AMCM:3003, MachineVision.AMCM:SEMI_E10SystemStateInfoDataType ]
   Fields:
     Id: [ UInt32, 0 ]
     Name: [ LocalizedText, 0 ]
     ParentStateId: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -48,8 +48,8 @@ DataTypes:
 
 DefinedTypes:
 
-  IVisionInfoType:
-  - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+  MachineVision.AMCM:IVisionInfoType:
+  - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasSubtype_reverse:
@@ -67,48 +67,48 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  ICableType:
-  - [ UAObjectType, MachineVision.AMCM:1018, ICableType ]
+  MachineVision.AMCM:ICableType:
+  - [ UAObjectType, MachineVision.AMCM:1018, MachineVision.AMCM:ICableType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  IComputingDeviceType:
-  - [ UAObjectType, MachineVision.AMCM:1009, IComputingDeviceType ]
+  MachineVision.AMCM:IComputingDeviceType:
+  - [ UAObjectType, MachineVision.AMCM:1009, MachineVision.AMCM:IComputingDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  IDisplayUnitType:
-  - [ UAObjectType, MachineVision.AMCM:1011, IDisplayUnitType ]
+  MachineVision.AMCM:IDisplayUnitType:
+  - [ UAObjectType, MachineVision.AMCM:1011, MachineVision.AMCM:IDisplayUnitType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  ILampType:
-  - [ UAObjectType, MachineVision.AMCM:1016, ILampType ]
+  MachineVision.AMCM:ILampType:
+  - [ UAObjectType, MachineVision.AMCM:1016, MachineVision.AMCM:ILampType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  ILensType:
-  - [ UAObjectType, MachineVision.AMCM:1013, ILensType ]
+  MachineVision.AMCM:ILensType:
+  - [ UAObjectType, MachineVision.AMCM:1013, MachineVision.AMCM:ILensType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  ILicenseType:
-  - [ UAObjectType, MachineVision.AMCM:1017, ILicenseType ]
+  MachineVision.AMCM:ILicenseType:
+  - [ UAObjectType, MachineVision.AMCM:1017, MachineVision.AMCM:ILicenseType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  ILightingControllerType:
-  - [ UAObjectType, MachineVision.AMCM:1015, ILightingControllerType ]
+  MachineVision.AMCM:ILightingControllerType:
+  - [ UAObjectType, MachineVision.AMCM:1015, MachineVision.AMCM:ILightingControllerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  IPhysicalInterfaceType:
-  - [ UAObjectType, MachineVision.AMCM:1012, IPhysicalInterfaceType ]
+  MachineVision.AMCM:IPhysicalInterfaceType:
+  - [ UAObjectType, MachineVision.AMCM:1012, MachineVision.AMCM:IPhysicalInterfaceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineVision.AMCM:1002, IVisionInfoType ]
+    - [ UAObjectType, MachineVision.AMCM:1002, MachineVision.AMCM:IVisionInfoType ]
 
-  VisionItemFolderType:
-  - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+  MachineVision.AMCM:VisionItemFolderType:
+  - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
   - HasSubtype_reverse:
@@ -126,129 +126,110 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  VisionMachineIdentificationType:
-  - [ UAObjectType, MachineVision.AMCM:1006, VisionMachineIdentificationType ]
+  MachineVision.AMCM:VisionMachineIdentificationType:
+  - [ UAObjectType, MachineVision.AMCM:1006, MachineVision.AMCM:VisionMachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
 
-  VisionComponentIdentificationType:
-  - [ UAObjectType, MachineVision.AMCM:1007, VisionComponentIdentificationType ]
+  MachineVision.AMCM:VisionComponentIdentificationType:
+  - [ UAObjectType, MachineVision.AMCM:1007, MachineVision.AMCM:VisionComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+    - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
 
-  VisionHealthInfoType:
-  - [ UAObjectType, MachineVision.AMCM:1004, VisionHealthInfoType ]
+  MachineVision.AMCM:VisionHealthInfoType:
+  - [ UAObjectType, MachineVision.AMCM:1004, MachineVision.AMCM:VisionHealthInfoType ]
   - HasComponent:
-    - [ UAVariable, MachineVision.AMCM:6497, DeviceHealth, DeviceHealthEnumeration, 0, 3 ]
+    - [ UAVariable, MachineVision.AMCM:6497, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5221, DeviceHealthAlarms ]
+    - [ UAObject, MachineVision.AMCM:5221, DI:DeviceHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, MachineVision.AMCM:6010, RemainingLifeTime, Number, 0, 3 ]
+    - [ UAVariable, MachineVision.AMCM:6010, MachineVision.AMCM:RemainingLifeTime, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, MachineVision.AMCM:6013, State, SEMI_E10SystemStateDataType, 0, 3 ]
+    - [ UAVariable, MachineVision.AMCM:6013, MachineVision.AMCM:State, MachineVision.AMCM:SEMI_E10SystemStateDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, MachineVision.AMCM:6011, Temperature, Double, 0, 3 ]
+    - [ UAVariable, MachineVision.AMCM:6011, MachineVision.AMCM:Temperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
-  VisionMaintenanceInfoType:
-  - [ UAObjectType, MachineVision.AMCM:1003, VisionMaintenanceInfoType ]
+  MachineVision.AMCM:VisionMaintenanceInfoType:
+  - [ UAObjectType, MachineVision.AMCM:1003, MachineVision.AMCM:VisionMaintenanceInfoType ]
   - HasComponent:
-    - [ UAVariable, MachineVision.AMCM:6008, ServiceClass, UInteger, 0, 3 ]
+    - [ UAVariable, MachineVision.AMCM:6008, MachineVision.AMCM:ServiceClass, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
-  VisionAcquisitionBackgroundType:
-  - [ UAObjectType, MachineVision.AMCM:1032, VisionAcquisitionBackgroundType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-
-  VisionAspectImageReceiverType:
-  - [ UAObjectType, MachineVision.AMCM:1040, VisionAspectImageReceiverType ]
+  MachineVision.AMCM:VisionAcquisitionBackgroundType:
+  - [ UAObjectType, MachineVision.AMCM:1032, MachineVision.AMCM:VisionAcquisitionBackgroundType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -266,8 +247,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionAspectImageTransceiverType:
-  - [ UAObjectType, MachineVision.AMCM:1041, VisionAspectImageTransceiverType ]
+  MachineVision.AMCM:VisionAspectImageReceiverType:
+  - [ UAObjectType, MachineVision.AMCM:1040, MachineVision.AMCM:VisionAspectImageReceiverType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -285,8 +266,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionAspectImageTransmitterType:
-  - [ UAObjectType, MachineVision.AMCM:1039, VisionAspectImageTransmitterType ]
+  MachineVision.AMCM:VisionAspectImageTransceiverType:
+  - [ UAObjectType, MachineVision.AMCM:1041, MachineVision.AMCM:VisionAspectImageTransceiverType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -304,8 +285,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionCableType:
-  - [ UAObjectType, MachineVision.AMCM:1038, VisionCableType ]
+  MachineVision.AMCM:VisionAspectImageTransmitterType:
+  - [ UAObjectType, MachineVision.AMCM:1039, MachineVision.AMCM:VisionAspectImageTransmitterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -323,8 +304,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionClimateControllerType:
-  - [ UAObjectType, MachineVision.AMCM:1035, VisionClimateControllerType ]
+  MachineVision.AMCM:VisionCableType:
+  - [ UAObjectType, MachineVision.AMCM:1038, MachineVision.AMCM:VisionCableType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -342,8 +323,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionComputingDeviceType:
-  - [ UAObjectType, MachineVision.AMCM:1010, VisionComputingDeviceType ]
+  MachineVision.AMCM:VisionClimateControllerType:
+  - [ UAObjectType, MachineVision.AMCM:1035, MachineVision.AMCM:VisionClimateControllerType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -361,8 +342,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionDisplayUnitType:
-  - [ UAObjectType, MachineVision.AMCM:1019, VisionDisplayUnitType ]
+  MachineVision.AMCM:VisionComputingDeviceType:
+  - [ UAObjectType, MachineVision.AMCM:1010, MachineVision.AMCM:VisionComputingDeviceType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -380,8 +361,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionFrameGrabberType:
-  - [ UAObjectType, MachineVision.AMCM:1021, VisionFrameGrabberType ]
+  MachineVision.AMCM:VisionDisplayUnitType:
+  - [ UAObjectType, MachineVision.AMCM:1019, MachineVision.AMCM:VisionDisplayUnitType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -399,8 +380,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionHousingType:
-  - [ UAObjectType, MachineVision.AMCM:1034, VisionHousingType ]
+  MachineVision.AMCM:VisionFrameGrabberType:
+  - [ UAObjectType, MachineVision.AMCM:1021, MachineVision.AMCM:VisionFrameGrabberType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -418,8 +399,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionImageSensorType:
-  - [ UAObjectType, MachineVision.AMCM:1020, VisionImageSensorType ]
+  MachineVision.AMCM:VisionHousingType:
+  - [ UAObjectType, MachineVision.AMCM:1034, MachineVision.AMCM:VisionHousingType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -437,8 +418,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionLampType:
-  - [ UAObjectType, MachineVision.AMCM:1028, VisionLampType ]
+  MachineVision.AMCM:VisionImageSensorType:
+  - [ UAObjectType, MachineVision.AMCM:1020, MachineVision.AMCM:VisionImageSensorType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -456,8 +437,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionLensControllerType:
-  - [ UAObjectType, MachineVision.AMCM:1023, VisionLensControllerType ]
+  MachineVision.AMCM:VisionLampType:
+  - [ UAObjectType, MachineVision.AMCM:1028, MachineVision.AMCM:VisionLampType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -475,8 +456,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionLensType:
-  - [ UAObjectType, MachineVision.AMCM:1022, VisionLensType ]
+  MachineVision.AMCM:VisionLensControllerType:
+  - [ UAObjectType, MachineVision.AMCM:1023, MachineVision.AMCM:VisionLensControllerType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -494,8 +475,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionLicenseType:
-  - [ UAObjectType, MachineVision.AMCM:1036, VisionLicenseType ]
+  MachineVision.AMCM:VisionLensType:
+  - [ UAObjectType, MachineVision.AMCM:1022, MachineVision.AMCM:VisionLensType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -513,8 +494,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionLightingControllerType:
-  - [ UAObjectType, MachineVision.AMCM:1029, VisionLightingControllerType ]
+  MachineVision.AMCM:VisionLicenseType:
+  - [ UAObjectType, MachineVision.AMCM:1036, MachineVision.AMCM:VisionLicenseType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -532,8 +513,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionNetworkDeviceType:
-  - [ UAObjectType, MachineVision.AMCM:1037, VisionNetworkDeviceType ]
+  MachineVision.AMCM:VisionLightingControllerType:
+  - [ UAObjectType, MachineVision.AMCM:1029, MachineVision.AMCM:VisionLightingControllerType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -551,8 +532,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionOpticalFilterType:
-  - [ UAObjectType, MachineVision.AMCM:1024, VisionOpticalFilterType ]
+  MachineVision.AMCM:VisionNetworkDeviceType:
+  - [ UAObjectType, MachineVision.AMCM:1037, MachineVision.AMCM:VisionNetworkDeviceType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -570,8 +551,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionOtherOpticalEquipmentType:
-  - [ UAObjectType, MachineVision.AMCM:1025, VisionOtherOpticalEquipmentType ]
+  MachineVision.AMCM:VisionOpticalFilterType:
+  - [ UAObjectType, MachineVision.AMCM:1024, MachineVision.AMCM:VisionOpticalFilterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -589,8 +570,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionPatternGeneratorType:
-  - [ UAObjectType, MachineVision.AMCM:1030, VisionPatternGeneratorType ]
+  MachineVision.AMCM:VisionOtherOpticalEquipmentType:
+  - [ UAObjectType, MachineVision.AMCM:1025, MachineVision.AMCM:VisionOtherOpticalEquipmentType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -608,8 +589,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionPhysicalInterfaceType:
-  - [ UAObjectType, MachineVision.AMCM:1014, VisionPhysicalInterfaceType ]
+  MachineVision.AMCM:VisionPatternGeneratorType:
+  - [ UAObjectType, MachineVision.AMCM:1030, MachineVision.AMCM:VisionPatternGeneratorType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -627,8 +608,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionPowerSupplyType:
-  - [ UAObjectType, MachineVision.AMCM:1031, VisionPowerSupplyType ]
+  MachineVision.AMCM:VisionPhysicalInterfaceType:
+  - [ UAObjectType, MachineVision.AMCM:1014, MachineVision.AMCM:VisionPhysicalInterfaceType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -646,8 +627,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionSurroundingEnvironmentType:
-  - [ UAObjectType, MachineVision.AMCM:1033, VisionSurroundingEnvironmentType ]
+  MachineVision.AMCM:VisionPowerSupplyType:
+  - [ UAObjectType, MachineVision.AMCM:1031, MachineVision.AMCM:VisionPowerSupplyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -665,164 +646,183 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionSystemAssetType:
-  - [ UAObjectType, MachineVision.AMCM:1008, VisionSystemAssetType ]
+  MachineVision.AMCM:VisionSurroundingEnvironmentType:
+  - [ UAObjectType, MachineVision.AMCM:1033, MachineVision.AMCM:VisionSurroundingEnvironmentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MachineVision.AMCM:VisionSystemAssetType:
+  - [ UAObjectType, MachineVision.AMCM:1008, MachineVision.AMCM:VisionSystemAssetType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5040, AcquisitionBackgrounds ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-    - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
-  - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5058, Cables ]
+    - [ UAObject, MachineVision.AMCM:5040, MachineVision.AMCM:AcquisitionBackgrounds ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5038, CalibrationTargets ]
+    - [ UAObject, MachineVision.AMCM:5058, MachineVision.AMCM:Cables ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5050, ClimateControllers ]
+    - [ UAObject, MachineVision.AMCM:5038, MachineVision.AMCM:CalibrationTargets ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5010, ComputingDevices ]
+    - [ UAObject, MachineVision.AMCM:5050, MachineVision.AMCM:ClimateControllers ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5012, DisplayUnits ]
+    - [ UAObject, MachineVision.AMCM:5010, MachineVision.AMCM:ComputingDevices ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5018, FrameGrabbers ]
+    - [ UAObject, MachineVision.AMCM:5012, MachineVision.AMCM:DisplayUnits ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5044, Housings ]
+    - [ UAObject, MachineVision.AMCM:5018, MachineVision.AMCM:FrameGrabbers ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5060, ImageHandlingAspects ]
+    - [ UAObject, MachineVision.AMCM:5044, MachineVision.AMCM:Housings ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+    - HasTypeDefinition:
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
+  - HasComponent:
+    - [ UAObject, MachineVision.AMCM:5060, MachineVision.AMCM:ImageHandlingAspects ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5016, ImageSensors ]
+    - [ UAObject, MachineVision.AMCM:5016, MachineVision.AMCM:ImageSensors ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5032, Lamps ]
+    - [ UAObject, MachineVision.AMCM:5032, MachineVision.AMCM:Lamps ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5022, LensControllers ]
+    - [ UAObject, MachineVision.AMCM:5022, MachineVision.AMCM:LensControllers ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5020, Lenses ]
+    - [ UAObject, MachineVision.AMCM:5020, MachineVision.AMCM:Lenses ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5052, Licenses ]
+    - [ UAObject, MachineVision.AMCM:5052, MachineVision.AMCM:Licenses ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5034, LightingControllers ]
+    - [ UAObject, MachineVision.AMCM:5034, MachineVision.AMCM:LightingControllers ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5046, MotionDevices ]
+    - [ UAObject, MachineVision.AMCM:5046, MachineVision.AMCM:MotionDevices ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5056, NetworkDevices ]
+    - [ UAObject, MachineVision.AMCM:5056, MachineVision.AMCM:NetworkDevices ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5024, OpticalFilters ]
+    - [ UAObject, MachineVision.AMCM:5024, MachineVision.AMCM:OpticalFilters ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5026, OtherOpticalEquipments ]
+    - [ UAObject, MachineVision.AMCM:5026, MachineVision.AMCM:OtherOpticalEquipments ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5036, PatternGenerators ]
+    - [ UAObject, MachineVision.AMCM:5036, MachineVision.AMCM:PatternGenerators ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5014, PhysicalInterfaces ]
+    - [ UAObject, MachineVision.AMCM:5014, MachineVision.AMCM:PhysicalInterfaces ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5048, PowerSupplies ]
+    - [ UAObject, MachineVision.AMCM:5048, MachineVision.AMCM:PowerSupplies ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5054, SoftwareComponents ]
+    - [ UAObject, MachineVision.AMCM:5054, MachineVision.AMCM:SoftwareComponents ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5042, SurroundingEnvironment ]
+    - [ UAObject, MachineVision.AMCM:5042, MachineVision.AMCM:SurroundingEnvironment ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5030, TriggerSensors ]
+    - [ UAObject, MachineVision.AMCM:5030, MachineVision.AMCM:TriggerSensors ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasComponent:
-    - [ UAObject, MachineVision.AMCM:5028, WayEncoders ]
+    - [ UAObject, MachineVision.AMCM:5028, MachineVision.AMCM:WayEncoders ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineVision.AMCM:1005, VisionItemFolderType ]
+      - [ UAObjectType, MachineVision.AMCM:1005, MachineVision.AMCM:VisionItemFolderType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -840,8 +840,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionTriggerSensorType:
-  - [ UAObjectType, MachineVision.AMCM:1027, VisionTriggerSensorType ]
+  MachineVision.AMCM:VisionTriggerSensorType:
+  - [ UAObjectType, MachineVision.AMCM:1027, MachineVision.AMCM:VisionTriggerSensorType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:
@@ -859,8 +859,8 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  VisionWayEncoderType:
-  - [ UAObjectType, MachineVision.AMCM:1026, VisionWayEncoderType ]
+  MachineVision.AMCM:VisionWayEncoderType:
+  - [ UAObjectType, MachineVision.AMCM:1026, MachineVision.AMCM:VisionWayEncoderType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasSubtype_reverse:

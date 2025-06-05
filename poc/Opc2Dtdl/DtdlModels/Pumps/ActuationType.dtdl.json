@@ -16,44 +16,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FaultAction",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FaultValue",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FeedbackVariable",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ManipulatedValue",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OnOff",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReferenceVariable",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     }

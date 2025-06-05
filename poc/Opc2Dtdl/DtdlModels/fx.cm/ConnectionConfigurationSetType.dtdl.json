@@ -330,8 +330,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PubSubKeyPushTargets",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:PubSubKeyPushTargetDataType;1"
@@ -339,8 +340,9 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SecurityGroups",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityGroupDataType;1"
@@ -348,34 +350,40 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SecurityKeyServer",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "SecurityKeyServer",
+            "namespace": "http://opcfoundation.org/UA/FX.CM",
             "schema": "dtmi:opcua:FX_CM:ConnectionConfigurationSetType:dataType:SecurityKeyServerAddressDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Address",
+            "namespace": "http://opcfoundation.org/UA/FX.CM",
             "schema": "string"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "SecurityPolicyUri",
+            "namespace": "http://opcfoundation.org/UA/FX.CM",
             "schema": "string"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ServerUri",
+            "namespace": "http://opcfoundation.org/UA/FX.CM",
             "schema": "string"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "UsePushModel",
+            "namespace": "http://opcfoundation.org/UA/FX.CM",
             "schema": "boolean"
           }
         ]
@@ -383,19 +391,22 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Version",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConnectionConfigurationSetStateMachine",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "target": "dtmi:opcua:FX_CM:ConnectionConfigurationSetStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lock",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:LockingServicesType"
     }
   ]

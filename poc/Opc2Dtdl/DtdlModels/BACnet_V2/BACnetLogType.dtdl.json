@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EventReporting",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetEventReportingType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FaultEvaluation",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetFaultEvaluationType"
     }
   ]

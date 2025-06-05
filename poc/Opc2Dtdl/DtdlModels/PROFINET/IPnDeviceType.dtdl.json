@@ -40,8 +40,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "dtmi:opcua:PROFINET:IPnDeviceType:dataType:PnDeviceStateEnumeration;1",
       "writable": false
     }

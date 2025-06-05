@@ -5,7 +5,7 @@ DefinedTypes:
   AutomationMLBaseInterface:
   - [ UAObjectType, AMLLibs:22, AutomationMLBaseInterface ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   Order:
   - [ UAObjectType, AMLLibs:25, Order ]
@@ -81,7 +81,7 @@ DefinedTypes:
   AutomationMLBaseRole:
   - [ UAObjectType, AMLLibs:74, AutomationMLBaseRole ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   Group:
   - [ UAObjectType, AMLLibs:77, Group ]
@@ -172,12 +172,12 @@ DefinedTypes:
   BatchManufacturingEquipment:
   - [ UAObjectType, AMLLibs:140, BatchManufacturingEquipment ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   ContManufacturingEquipment:
   - [ UAObjectType, AMLLibs:143, ContManufacturingEquipment ]
   - HasSubtype_reverse:
-    - [ UAObjectType, AMLBaseTypes:1001, CAEXObjectType ]
+    - [ UAObjectType, AMLBaseTypes:1001, AMLBaseTypes:CAEXObjectType ]
 
   DiscManufacturingEquipment:
   - [ UAObjectType, AMLLibs:146, DiscManufacturingEquipment ]

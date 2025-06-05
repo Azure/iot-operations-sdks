@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "JobOrderControl",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
       "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "JobOrderResults",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Jobs",
       "target": "dtmi:opcua:isa95_jobcontrol:ISA95JobResponseProviderObjectType"
     }
   ]

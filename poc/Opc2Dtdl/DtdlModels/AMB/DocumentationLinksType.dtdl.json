@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Link",
+      "namespace": "http://opcfoundation.org/UA/AMB",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -32,8 +33,9 @@
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddLink",
+      "namespace": "http://opcfoundation.org/UA/AMB",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -79,8 +81,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveLink",
+      "namespace": "http://opcfoundation.org/UA/AMB",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

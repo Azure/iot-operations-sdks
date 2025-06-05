@@ -36,8 +36,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActiveErrors",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType:dataType:ClassifiedActiveErrorDataType;1"
@@ -45,34 +46,40 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActiveSetValues",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EvenHeatUpMaxTemperatureDifference",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReactionOnDisconnect",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "IdentifyDevice"
+      "@type": [ "Command", "Qualified" ],
+      "name": "IdentifyDevice",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
     },
     {
-      "@type": "Command",
-      "name": "ResetAllErrors"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetAllErrors",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ResetErrorById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -89,8 +96,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetReactionOnDisconnect",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

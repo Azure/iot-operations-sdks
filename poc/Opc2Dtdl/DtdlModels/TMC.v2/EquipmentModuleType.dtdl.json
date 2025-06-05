@@ -16,30 +16,36 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:EquipmentModuleConfigurationType"
     },
     {
-      "@type": "Relationship",
-      "name": "ControlModules"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ControlModules",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LiveStatus",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:EquipmentModuleLiveStatusType"
     },
     {
-      "@type": "Relationship",
-      "name": "ProcessControlLoops"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProcessControlLoops",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ProcessItems"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProcessItems",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Setup",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:EquipmentModuleSetupType"
     }
   ]

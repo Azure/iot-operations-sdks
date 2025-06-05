@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AssociatedFacet",
+      "namespace": "http://opcfoundation.org/UA/AMLLibs",
       "schema": "string",
       "writable": false
     }

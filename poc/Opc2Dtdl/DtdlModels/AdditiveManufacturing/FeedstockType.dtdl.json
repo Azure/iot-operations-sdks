@@ -39,26 +39,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Cycle",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Function",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
       "schema": "dtmi:opcua:AdditiveManufacturing:FeedstockType:dataType:FeedstockFunction;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReadyForProduction",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemainingQuantity",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
       "schema": "integer",
       "writable": true
     }

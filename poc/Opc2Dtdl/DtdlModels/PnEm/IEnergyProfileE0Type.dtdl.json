@@ -37,8 +37,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcCurrent",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "dtmi:opcua:PNEM:IEnergyProfileE0Type:dataType:AcPeDataType;1",
       "writable": true
     }

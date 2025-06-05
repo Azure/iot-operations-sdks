@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "LocalManuals"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalManuals",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     }
   ]
 }

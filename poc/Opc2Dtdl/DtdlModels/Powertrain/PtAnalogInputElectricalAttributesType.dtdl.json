@@ -33,26 +33,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AnalogInputElectricalType",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InputCurrentRange",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InputVoltageRange",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType:dataType:Range;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InternalResistance",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "schema": "float",
       "writable": false
     }

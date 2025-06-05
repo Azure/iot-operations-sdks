@@ -129,8 +129,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendCyclicJobList",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -150,8 +151,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendJobList",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -171,18 +173,21 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ActiveJob",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ActiveJobValues",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ActiveJobValuesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "JobInPreparation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:JobInformationType"
     }
   ]

@@ -61,8 +61,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SupportedTargetValues",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeTargetValueType;1"
@@ -70,8 +71,9 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SupportedThresholdValues",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:Scales_V2:RecipeScaleType:dataType:RecipeThresholdType;1"
@@ -79,8 +81,9 @@
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AbortRecipe",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -97,8 +100,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ContinueRecipe",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -115,8 +119,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SkipCurrentRecipeElement",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -133,8 +138,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartRecipe",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -151,8 +157,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StopRecipe",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -169,13 +176,15 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Recipes",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:RecipeManagementType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupportedMaterial",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:MaterialType"
     }
   ]

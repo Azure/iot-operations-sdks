@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "CreateAsset",
+      "namespace": "http://opcfoundation.org/UA/WoT-Con",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -48,8 +49,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteAsset",
+      "namespace": "http://opcfoundation.org/UA/WoT-Con",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

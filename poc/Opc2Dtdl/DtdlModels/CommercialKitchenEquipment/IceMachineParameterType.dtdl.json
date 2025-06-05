@@ -100,26 +100,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastFreezeTime",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastHarvestTime",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "dtmi:opcua:CommercialKitchenEquipment:IceMachineParameterType:dataType:StatusEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Temperature_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -134,8 +138,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WaterFillTime",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     }

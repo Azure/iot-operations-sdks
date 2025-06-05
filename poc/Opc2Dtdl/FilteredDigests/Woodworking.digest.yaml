@@ -1,5 +1,5 @@
 DataTypes:
-- UADataType: [ Woodworking:3004, WwEventCategoryEnumeration ]
+- UADataType: [ Woodworking:3004, Woodworking:WwEventCategoryEnumeration ]
   Enums:
     OTHER: 0
     DIAGNOSTIC: 1
@@ -7,7 +7,7 @@ DataTypes:
     WARNING: 3
     ALARM: 4
     ERROR: 5
-- UADataType: [ Woodworking:20, WwUnitModeEnumeration ]
+- UADataType: [ Woodworking:20, Woodworking:WwUnitModeEnumeration ]
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -15,19 +15,19 @@ DataTypes:
     MANUAL: 3
     SETUP: 4
     SLEEP: 5
-- UADataType: [ Woodworking:21, WwUnitStateEnumeration ]
+- UADataType: [ Woodworking:21, Woodworking:WwUnitStateEnumeration ]
   Enums:
     OFFLINE: 0
     STANDBY: 1
     READY: 2
     WORKING: 3
     ERROR: 4
-- UADataType: [ Woodworking:3003, WwMessageArgumentDataType ]
+- UADataType: [ Woodworking:3003, Woodworking:WwMessageArgumentDataType ]
   Fields:
-    Value: [ WwMessageArgumentValueDataType, 0 ]
-- UADataType: [ Woodworking:3002, WwMessageArgumentValueDataType ]
+    Value: [ Woodworking:WwMessageArgumentValueDataType, 0 ]
+- UADataType: [ Woodworking:3002, Woodworking:WwMessageArgumentValueDataType ]
   Fields:
-    Array: [ WwMessageArgumentValueDataType, 1 ]
+    Array: [ Woodworking:WwMessageArgumentValueDataType, 1 ]
     Boolean: [ Boolean, 0 ]
     Int16: [ Int16, 0 ]
     Int32: [ Int32, 0 ]
@@ -44,36 +44,36 @@ DataTypes:
     Float: [ Float, 0 ]
     String: [ String, 0 ]
     Other: [ String, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -83,21 +83,21 @@ DataTypes:
 
 DefinedTypes:
 
-  WwBaseEventType:
-  - [ UAObjectType, Woodworking:13, WwBaseEventType ]
+  Woodworking:WwBaseEventType:
+  - [ UAObjectType, Woodworking:13, Woodworking:WwBaseEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  IWwBaseStateType:
-  - [ UAObjectType, Woodworking:6, IWwBaseStateType ]
+  Woodworking:IWwBaseStateType:
+  - [ UAObjectType, Woodworking:6, Woodworking:IWwBaseStateType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5003, Flags ]
+    - [ UAObject, Woodworking:5003, Woodworking:Flags ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5004, Overview ]
+    - [ UAObject, Woodworking:5004, Woodworking:Overview ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -105,21 +105,21 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5006, Values ]
+    - [ UAObject, Woodworking:5006, Woodworking:Values ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
 
-  IWwEventMessageType:
-  - [ UAObjectType, Woodworking:1002, IWwEventMessageType ]
+  Woodworking:IWwEventMessageType:
+  - [ UAObjectType, Woodworking:1002, Woodworking:IWwEventMessageType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IWwStateType:
-  - [ UAObjectType, Woodworking:8, IWwStateType ]
+  Woodworking:IWwStateType:
+  - [ UAObjectType, Woodworking:8, Woodworking:IWwStateType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5009, Machine ]
+    - [ UAObject, Woodworking:5009, Woodworking:Machine ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
@@ -127,16 +127,16 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5016, SubUnits ]
+    - [ UAObject, Woodworking:5016, Woodworking:SubUnits ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
 
-  IWwSubUnitsType:
-  - [ UAObjectType, Woodworking:7, IWwSubUnitsType ]
+  Woodworking:IWwSubUnitsType:
+  - [ UAObjectType, Woodworking:7, Woodworking:IWwSubUnitsType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5002, <SubUnit> ]
+    - [ UAObject, Woodworking:5002, Woodworking:<SubUnit> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
@@ -144,294 +144,294 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IWwUnitFlagsType:
-  - [ UAObjectType, Woodworking:4, IWwUnitFlagsType ]
+  Woodworking:IWwUnitFlagsType:
+  - [ UAObjectType, Woodworking:4, Woodworking:IWwUnitFlagsType ]
   - HasComponent:
-    - [ UAVariable, Woodworking:88, AirPresent, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:88, Woodworking:AirPresent, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:97, Alarm, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:97, Woodworking:Alarm, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:92, Calibrated, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:92, Woodworking:Calibrated, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:89, DustChipSuction, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:89, Woodworking:DustChipSuction, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:90, Emergency, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:90, Woodworking:Emergency, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:108, EnergySaving, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:108, Woodworking:EnergySaving, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:96, Error, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:96, Woodworking:Error, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:109, ExternalEmergency, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:109, Woodworking:ExternalEmergency, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:111, FeedRuns, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:111, Woodworking:FeedRuns, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:99, Hold, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:99, Woodworking:Hold, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6033, LoadingEnabled, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:6033, Woodworking:LoadingEnabled, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:86, MachineInitialized, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:86, Woodworking:MachineInitialized, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:85, MachineOn, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:85, Woodworking:MachineOn, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:110, MaintenanceRequired, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:110, Woodworking:MaintenanceRequired, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:103, ManualActivityRequired, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:103, Woodworking:ManualActivityRequired, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:95, Moving, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:95, Woodworking:Moving, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:87, PowerPresent, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:87, Woodworking:PowerPresent, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:102, RecipeInHold, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:102, Woodworking:RecipeInHold, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:100, RecipeInRun, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:100, Woodworking:RecipeInRun, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:101, RecipeInSetup, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:101, Woodworking:RecipeInSetup, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:93, Remote, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:93, Woodworking:Remote, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:91, Safety, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:91, Woodworking:Safety, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:107, WaitLoad, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:107, Woodworking:WaitLoad, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:106, WaitUnload, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:106, Woodworking:WaitUnload, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:98, Warning, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:98, Woodworking:Warning, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:94, WorkpiecePresent, Boolean, 0, 0 ]
+    - [ UAVariable, Woodworking:94, Woodworking:WorkpiecePresent, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IWwUnitOverviewType:
-  - [ UAObjectType, Woodworking:5, IWwUnitOverviewType ]
+  Woodworking:IWwUnitOverviewType:
+  - [ UAObjectType, Woodworking:5, Woodworking:IWwUnitOverviewType ]
   - HasComponent:
-    - [ UAVariable, Woodworking:130, CurrentMode, WwUnitModeEnumeration, 0, 0 ]
+    - [ UAVariable, Woodworking:130, Woodworking:CurrentMode, Woodworking:WwUnitModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Woodworking:129, CurrentState, WwUnitStateEnumeration, 0, 0 ]
+    - [ UAVariable, Woodworking:129, Woodworking:CurrentState, Woodworking:WwUnitStateEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IWwUnitValuesType:
-  - [ UAObjectType, Woodworking:1006, IWwUnitValuesType ]
+  Woodworking:IWwUnitValuesType:
+  - [ UAObjectType, Woodworking:1006, Woodworking:IWwUnitValuesType ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6034, AbsoluteErrorTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6034, Woodworking:AbsoluteErrorTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6035, AbsoluteLength, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6035, Woodworking:AbsoluteLength, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6037, AbsoluteMachineOffTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6037, Woodworking:AbsoluteMachineOffTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6036, AbsoluteMachineOnTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6036, Woodworking:AbsoluteMachineOnTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6038, AbsolutePiecesIn, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6038, Woodworking:AbsolutePiecesIn, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6039, AbsolutePiecesOut, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6039, Woodworking:AbsolutePiecesOut, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6040, AbsolutePowerPresentTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6040, Woodworking:AbsolutePowerPresentTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6041, AbsoluteProductionTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6041, Woodworking:AbsoluteProductionTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6042, AbsoluteProductionWaitWorkpieceTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6042, Woodworking:AbsoluteProductionWaitWorkpieceTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6043, AbsoluteProductionWithoutWorkpieceTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6043, Woodworking:AbsoluteProductionWithoutWorkpieceTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6044, AbsoluteReadyTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6044, Woodworking:AbsoluteReadyTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6045, AbsoluteRunsAborted, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6045, Woodworking:AbsoluteRunsAborted, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6046, AbsoluteRunsGood, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6046, Woodworking:AbsoluteRunsGood, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6047, AbsoluteRunsTotal, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6047, Woodworking:AbsoluteRunsTotal, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6048, AbsoluteStandbyTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6048, Woodworking:AbsoluteStandbyTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6049, AbsoluteWorkingTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6049, Woodworking:AbsoluteWorkingTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6050, ActualCycle, Double, 0, 0 ]
+    - [ UAVariable, Woodworking:6050, Woodworking:ActualCycle, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6051, AxisOverride, UInt32, 0, 0 ]
+    - [ UAVariable, Woodworking:6051, Woodworking:AxisOverride, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6052, FeedSpeed, Double, 0, 0 ]
+    - [ UAVariable, Woodworking:6052, Woodworking:FeedSpeed, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6053, RelativeErrorTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6053, Woodworking:RelativeErrorTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6054, RelativeLength, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6054, Woodworking:RelativeLength, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6055, RelativeMachineOnTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6055, Woodworking:RelativeMachineOnTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6057, RelativePiecesIn, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6057, Woodworking:RelativePiecesIn, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6058, RelativePiecesOut, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6058, Woodworking:RelativePiecesOut, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6059, RelativePowerPresentTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6059, Woodworking:RelativePowerPresentTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6060, RelativeProductionTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6060, Woodworking:RelativeProductionTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6061, RelativeProductionWaitWorkpieceTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6061, Woodworking:RelativeProductionWaitWorkpieceTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6062, RelativeProductionWithoutWorkpieceTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6062, Woodworking:RelativeProductionWithoutWorkpieceTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6063, RelativeReadyTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6063, Woodworking:RelativeReadyTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6064, RelativeRunsAborted, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6064, Woodworking:RelativeRunsAborted, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6065, RelativeRunsGood, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6065, Woodworking:RelativeRunsGood, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6066, RelativeRunsTotal, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6066, Woodworking:RelativeRunsTotal, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6067, RelativeStandbyTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6067, Woodworking:RelativeStandbyTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6068, RelativeWorkingTime, UInt64, 0, 0 ]
+    - [ UAVariable, Woodworking:6068, Woodworking:RelativeWorkingTime, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Woodworking:6069, SpindleOverride, UInt32, 0, 0 ]
+    - [ UAVariable, Woodworking:6069, Woodworking:SpindleOverride, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  WwEventsDispatcherType:
-  - [ UAObjectType, Woodworking:15, WwEventsDispatcherType ]
+  Woodworking:WwEventsDispatcherType:
+  - [ UAObjectType, Woodworking:15, Woodworking:WwEventsDispatcherType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  WwMachineType:
-  - [ UAObjectType, Woodworking:2, WwMachineType ]
+  Woodworking:WwMachineType:
+  - [ UAObjectType, Woodworking:2, Woodworking:WwMachineType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5008, Events ]
+    - [ UAObject, Woodworking:5008, Woodworking:Events ]
     - HasTypeDefinition:
-      - [ UAObjectType, Woodworking:15, WwEventsDispatcherType ]
+      - [ UAObjectType, Woodworking:15, Woodworking:WwEventsDispatcherType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Woodworking:35, ManufacturerSpecific ]
+    - [ UAObject, Woodworking:35, Woodworking:ManufacturerSpecific ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
-    - [ UAObject, Woodworking:5001, State ]
+    - [ UAObject, Woodworking:5001, Woodworking:State ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:

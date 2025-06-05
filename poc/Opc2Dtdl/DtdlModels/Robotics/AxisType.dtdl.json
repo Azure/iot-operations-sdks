@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AdditionalLoad",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "target": "dtmi:opcua:Robotics:LoadType"
     }
   ]

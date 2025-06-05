@@ -17,32 +17,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FeederLoad",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FeederSpeed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumFeederSpeed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimalFeederSpeed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetFeederSpeed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -64,8 +69,9 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     }
   ]
 }

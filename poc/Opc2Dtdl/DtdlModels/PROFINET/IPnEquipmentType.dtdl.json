@@ -236,8 +236,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Diagnosis",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PROFINET:IPnEquipmentType:dataType:PnDeviceDiagnosisDataType;1"
@@ -245,31 +246,37 @@
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "ShowLocation"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ShowLocation",
+      "namespace": "http://opcfoundation.org/UA/PROFINET"
     },
     {
-      "@type": "Relationship",
-      "name": "Alarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Alarms",
+      "namespace": "http://opcfoundation.org/UA/PROFINET"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Assets",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnAssetContainerType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "IM",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnIdentificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Interfaces",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnInterfaceContainerType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Modules",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnRealModuleContainerType"
     }
   ]

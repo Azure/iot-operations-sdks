@@ -16,38 +16,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ApparentPower",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Current",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Energy",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Power",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Voltage",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "ResetStatistics"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetStatistics",
+      "namespace": "http://opcfoundation.org/UA/IA"
     }
   ]
 }

@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Accessories"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Accessories",
+      "namespace": "http://opcfoundation.org/UA/GMS"
     },
     {
-      "@type": "Relationship",
-      "name": "AdditionalSensor"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AdditionalSensor",
+      "namespace": "http://opcfoundation.org/UA/GMS"
     }
   ]
 }

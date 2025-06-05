@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LevelMax",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LevelMin",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     }

@@ -15,38 +15,45 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConceptDictionary",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASConceptDictionaryType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DataSpecification",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Submodel",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASSubmodelType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SubmodelReference",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "View",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASViewType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Asset",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASAssetType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DerivedFrom",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     }
   ]

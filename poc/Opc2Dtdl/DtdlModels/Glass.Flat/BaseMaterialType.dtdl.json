@@ -15,26 +15,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Weight",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "X",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Y",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Z",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "double",
       "writable": true
     }

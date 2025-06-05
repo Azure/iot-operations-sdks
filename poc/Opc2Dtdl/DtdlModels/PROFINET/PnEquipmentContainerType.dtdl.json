@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "PnEquipments"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PnEquipments",
+      "namespace": "http://opcfoundation.org/UA/PROFINET"
     }
   ]
 }

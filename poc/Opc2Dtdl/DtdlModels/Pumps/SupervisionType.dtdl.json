@@ -16,38 +16,45 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupervisionAuxiliaryDevice",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionAuxiliaryDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupervisionElectronics",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionElectronicsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupervisionHardware",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionHardwareType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupervisionMechanics",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionMechanicsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupervisionProcessFluid",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionProcessFluidType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupervisionPumpOperation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionPumpOperationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SupervisionSoftware",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SupervisionSoftwareType"
     }
   ]

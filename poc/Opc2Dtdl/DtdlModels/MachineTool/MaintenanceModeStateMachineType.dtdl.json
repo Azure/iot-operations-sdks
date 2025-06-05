@@ -15,24 +15,29 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Inspection"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Inspection",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Other"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Other",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Repair"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Repair",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Service"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Service",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Upgrade"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Upgrade",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     }
   ]
 }

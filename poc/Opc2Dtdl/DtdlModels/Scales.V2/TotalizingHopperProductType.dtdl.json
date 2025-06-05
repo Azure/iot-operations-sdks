@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TipCounter",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeTargetValue",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     }

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LifetimeVariable",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
       "schema": {
         "@type": "Map",
         "mapKey": {

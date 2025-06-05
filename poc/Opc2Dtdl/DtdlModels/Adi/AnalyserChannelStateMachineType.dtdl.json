@@ -15,76 +15,93 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OperatingSubStateMachine",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeSubStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "LocalSubStateMachine"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalSubStateMachine",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceSubStateMachine"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceSubStateMachine",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SlaveMode"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SlaveMode",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Operating",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AnalyserChannelOperatingStateType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Local",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AnalyserChannelLocalStateType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AnalyserChannelMaintenanceStateType"
     },
     {
-      "@type": "Relationship",
-      "name": "SlaveModeToOperatingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SlaveModeToOperatingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "OperatingToLocalTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperatingToLocalTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "OperatingToMaintenanceTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperatingToMaintenanceTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "LocalToOperatingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalToOperatingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "LocalToMaintenanceTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalToMaintenanceTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceToOperatingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceToOperatingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceToLocalTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceToLocalTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "OperatingToSlaveModeTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperatingToSlaveModeTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "LocalToSlaveModeTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalToSlaveModeTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceToSlaveModeTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceToSlaveModeTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     }
   ]
 }

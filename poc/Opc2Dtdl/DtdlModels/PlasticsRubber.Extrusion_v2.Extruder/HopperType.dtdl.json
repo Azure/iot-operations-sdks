@@ -15,25 +15,29 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaterialLevel",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Weight",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Material",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaterialType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MaterialTemperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

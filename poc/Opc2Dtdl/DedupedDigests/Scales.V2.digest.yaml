@@ -1,15 +1,15 @@
 DataTypes:
-- UADataType: [ Scales.V2:65, DraftShieldType ]
+- UADataType: [ Scales.V2:65, Scales.V2:DraftShieldType ]
   Enums:
     Right_0: 0
     Left_1: 1
     Top_2: 2
     All_3: 3
-- UADataType: [ Scales.V2:62, EdgeOperator ]
+- UADataType: [ Scales.V2:62, Scales.V2:EdgeOperator ]
   Enums:
     Rising_0: 0
     Falling_1: 1
-- UADataType: [ Scales.V2:61, EqualityAndRelationalOperator ]
+- UADataType: [ Scales.V2:61, Scales.V2:EqualityAndRelationalOperator ]
   Enums:
     Equal_0: 0
     NotEqual_1: 1
@@ -17,91 +17,91 @@ DataTypes:
     GreaterOrEqualThan_3: 3
     LessThan_4: 4
     GreaterThan_5: 5
-- UADataType: [ Scales.V2:30003, RateControlMode ]
+- UADataType: [ Scales.V2:30003, Scales.V2:RateControlMode ]
   Enums:
     Gravimetric_0: 0
     Volumetric_1: 1
-- UADataType: [ Scales.V2:54, TareMode ]
+- UADataType: [ Scales.V2:54, Scales.V2:TareMode ]
   Enums:
     None_0: 0
     MeasuredTare_1: 1
     PresetTare_2: 2
     ProportionalTare_3: 3
-- UADataType: [ Scales.V2:60, ToleranceState ]
+- UADataType: [ Scales.V2:60, Scales.V2:ToleranceState ]
   Enums:
     In_0: 0
     Under_1: 1
     Over_2: 2
     UnderOrOver_3: 3
-- UADataType: [ Scales.V2:63, AbstractWeightType ]
+- UADataType: [ Scales.V2:63, Scales.V2:AbstractWeightType ]
   Bases:
   - Structure
-- UADataType: [ Scales.V2:56, PrintableWeightType ]
+- UADataType: [ Scales.V2:56, Scales.V2:PrintableWeightType ]
   Fields:
     Gross: [ String, 0 ]
     Net: [ String, 0 ]
     Tare: [ String, 0 ]
-- UADataType: [ Scales.V2:55, WeightType ]
+- UADataType: [ Scales.V2:55, Scales.V2:WeightType ]
   Fields:
     Gross: [ Double, 0 ]
     Net: [ Double, 0 ]
     Tare: [ Double, 0 ]
-- UADataType: [ Scales.V2:59, RecipeReportElementType ]
+- UADataType: [ Scales.V2:59, Scales.V2:RecipeReportElementType ]
   Fields:
     ReportMessage: [ LocalizedText, 0 ]
     Timestamp: [ UtcTime, 0 ]
-- UADataType: [ Scales.V2:58, RecipeTargetValueType ]
+- UADataType: [ Scales.V2:58, Scales.V2:RecipeTargetValueType ]
   Fields:
     TargetValueId: [ UInt32, 0 ]
     TargetValueNodeId: [ NodeId, 0 ]
     TargetValueName: [ LocalizedText, 0 ]
-- UADataType: [ Scales.V2:57, RecipeThresholdType ]
+- UADataType: [ Scales.V2:57, Scales.V2:RecipeThresholdType ]
   Fields:
     ThresholdId: [ UInt32, 0 ]
     ThresholdNodeId: [ NodeId, 0 ]
     ThresholdName: [ LocalizedText, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ IA:3003, LevelDisplayMode ]
+- UADataType: [ IA:3003, IA:LevelDisplayMode ]
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
-- UADataType: [ IA:3004, SignalColor ]
+- UADataType: [ IA:3004, IA:SignalColor ]
   Enums:
     Off: 0
     Red: 1
@@ -111,25 +111,25 @@ DataTypes:
     Purple: 5
     Cyan: 6
     White: 7
-- UADataType: [ IA:3005, SignalModeLight ]
+- UADataType: [ IA:3005, IA:SignalModeLight ]
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
-- UADataType: [ IA:3002, StacklightOperationMode ]
+- UADataType: [ IA:3002, IA:StacklightOperationMode ]
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
-- UADataType: [ PackML:11, ProductionMaintenanceModeEnum ]
+- UADataType: [ PackML:11, PackML:ProductionMaintenanceModeEnum ]
   Enums:
     Invalid: 0
     Produce: 1
     Maintenance: 2
     Manual: 3
-- UADataType: [ PackML:15, PackMLAlarmDataType ]
+- UADataType: [ PackML:15, PackML:PackMLAlarmDataType ]
   Fields:
     ID: [ Int32, 0 ]
     Value: [ Int32, 0 ]
@@ -138,99 +138,99 @@ DataTypes:
     DateTime: [ UtcTime, 0 ]
     AckDateTime: [ UtcTime, 0 ]
     Trigger: [ Boolean, 0 ]
-- UADataType: [ PackML:14, PackMLCountDataType ]
+- UADataType: [ PackML:14, PackML:PackMLCountDataType ]
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
     Unit: [ EUInformation, 0 ]
     Count: [ Int32, 0 ]
     AccCount: [ Int32, 0 ]
-- UADataType: [ PackML:16, PackMLDescriptorDataType ]
+- UADataType: [ PackML:16, PackML:PackMLDescriptorDataType ]
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
     Unit: [ EUInformation, 0 ]
     Value: [ Float, 0 ]
-- UADataType: [ PackML:17, PackMLIngredientsDataType ]
+- UADataType: [ PackML:17, PackML:PackMLIngredientsDataType ]
   Fields:
     IngredientID: [ Int32, 0 ]
-    Parameter: [ PackMLDescriptorDataType, 1 ]
-- UADataType: [ PackML:18, PackMLProductDataType ]
+    Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
+- UADataType: [ PackML:18, PackML:PackMLProductDataType ]
   Fields:
     ProductID: [ Int32, 0 ]
-    ProcessVariables: [ PackMLDescriptorDataType, 1 ]
-    Ingredients: [ PackMLIngredientsDataType, 1 ]
-- UADataType: [ PackML:19, PackMLRemoteInterfaceDataType ]
+    ProcessVariables: [ PackML:PackMLDescriptorDataType, 1 ]
+    Ingredients: [ PackML:PackMLIngredientsDataType, 1 ]
+- UADataType: [ PackML:19, PackML:PackMLRemoteInterfaceDataType ]
   Fields:
     Number: [ Int32, 0 ]
     ControlCmdNumber: [ Int32, 0 ]
     CmdValue: [ Int32, 0 ]
-    Parameter: [ PackMLDescriptorDataType, 1 ]
+    Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
 
 DefinedTypes:
 
-  ScaleAlarmType:
-  - [ UAObjectType, Scales.V2:21, ScaleAlarmType ]
+  Scales.V2:ScaleAlarmType:
+  - [ UAObjectType, Scales.V2:21, Scales.V2:ScaleAlarmType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:328, NotificationCategory, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:328, Scales.V2:NotificationCategory, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:353, NotificationId, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:353, Scales.V2:NotificationId, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:1020, VendorNotificationId, String, 0, 3 ]
+    - [ UAVariable, Scales.V2:1020, Scales.V2:VendorNotificationId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
 
-  ScaleEventType:
-  - [ UAObjectType, Scales.V2:13, ScaleEventType ]
+  Scales.V2:ScaleEventType:
+  - [ UAObjectType, Scales.V2:13, Scales.V2:ScaleEventType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:325, NotificationCategory, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:325, Scales.V2:NotificationCategory, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:134, NotificationId, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:134, Scales.V2:NotificationId, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:948, VendorNotificationId, String, 0, 3 ]
+    - [ UAVariable, Scales.V2:948, Scales.V2:VendorNotificationId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  MaterialType:
-  - [ UAObjectType, Scales.V2:35, MaterialType ]
+  Scales.V2:MaterialType:
+  - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:309, MaterialId, String, 0, 3 ]
+    - [ UAVariable, Scales.V2:309, Scales.V2:MaterialId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:308, MaterialName, LocalizedText, 0, 3 ]
+    - [ UAVariable, Scales.V2:308, Scales.V2:MaterialName, LocalizedText, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  MaterialAutomaticType:
-  - [ UAObjectType, Scales.V2:41, MaterialAutomaticType ]
+  Scales.V2:MaterialAutomaticType:
+  - [ UAObjectType, Scales.V2:41, Scales.V2:MaterialAutomaticType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:113, FillingProductInformation ]
+    - [ UAObject, Scales.V2:113, Scales.V2:FillingProductInformation ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:16, AutomaticFillingProductType ]
+      - [ UAObjectType, Scales.V2:16, Scales.V2:AutomaticFillingProductType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:35, MaterialType ]
+    - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
 
-  ProductionPresetType:
-  - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+  Scales.V2:ProductionPresetType:
+  - [ UAObjectType, Scales.V2:14, Scales.V2:ProductionPresetType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:638, AddProduct ]
+    - [ UAMethod, Scales.V2:638, Scales.V2:AddProduct ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -248,11 +248,11 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:436, CurrentProducts, String, 1, 3 ]
+    - [ UAVariable, Scales.V2:436, Scales.V2:CurrentProducts, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:576, DeselectProduct ]
+    - [ UAMethod, Scales.V2:576, Scales.V2:DeselectProduct ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -262,13 +262,13 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Scales.V2:75, Products ]
+    - [ UAObject, Scales.V2:75, Scales.V2:Products ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:646, RemoveProduct ]
+    - [ UAMethod, Scales.V2:646, Scales.V2:RemoveProduct ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -278,7 +278,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:464, SelectProduct ]
+    - [ UAMethod, Scales.V2:464, Scales.V2:SelectProduct ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -288,7 +288,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1021, SwitchProduct ]
+    - [ UAMethod, Scales.V2:1021, Scales.V2:SwitchProduct ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -300,82 +300,82 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ProductType:
-  - [ UAObjectType, Scales.V2:11, ProductType ]
+  Scales.V2:ProductType:
+  - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:1181, Lock ]
+    - [ UAObject, Scales.V2:1181, Scales.V2:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60169, PresetTare, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60169, Scales.V2:PresetTare, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:963, ProductId, String, 0, 3 ]
+    - [ UAVariable, Scales.V2:963, Scales.V2:ProductId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:360, ProductMode, Boolean, 0, 3 ]
+    - [ UAVariable, Scales.V2:360, Scales.V2:ProductMode, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:95, Statistic ]
+    - [ UAObject, Scales.V2:95, Scales.V2:Statistic ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:25, StatisticType ]
+      - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AutomaticFillingProductType:
-  - [ UAObjectType, Scales.V2:16, AutomaticFillingProductType ]
+  Scales.V2:AutomaticFillingProductType:
+  - [ UAObjectType, Scales.V2:16, Scales.V2:AutomaticFillingProductType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:552, FeedRateMeasuringInterval, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:552, Scales.V2:FeedRateMeasuringInterval, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:551, FillingTime, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:551, Scales.V2:FillingTime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:546, FineFeedWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:546, Scales.V2:FineFeedWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:545, InFlightWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:545, Scales.V2:InFlightWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:549, JogFeed, Boolean, 0, 3 ]
+    - [ UAVariable, Scales.V2:549, Scales.V2:JogFeed, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:553, MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:553, Scales.V2:MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:547, SettlingTime, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:547, Scales.V2:SettlingTime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:544, TargetWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:544, Scales.V2:TargetWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CatchweigherProductType:
-  - [ UAObjectType, Scales.V2:17, CatchweigherProductType ]
+  Scales.V2:CatchweigherProductType:
+  - [ UAObjectType, Scales.V2:17, Scales.V2:CatchweigherProductType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:68, <Zones> ]
+    - [ UAObject, Scales.V2:68, Scales.V2:<Zones> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:42, ZoneType ]
+      - [ UAObjectType, Scales.V2:42, Scales.V2:ZoneType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:525, AddZone ]
+    - [ UAMethod, Scales.V2:525, Scales.V2:AddZone ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -394,27 +394,27 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:87, LastItem ]
+    - [ UAObject, Scales.V2:87, Scales.V2:LastItem ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:24, WeighingItemType ]
+      - [ UAObjectType, Scales.V2:24, Scales.V2:WeighingItemType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60171, PresetHeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60171, Scales.V2:PresetHeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60173, PresetLength, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60173, Scales.V2:PresetLength, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60175, PresetWidth, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60175, Scales.V2:PresetWidth, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:526, RemoveZone ]
+    - [ UAMethod, Scales.V2:526, Scales.V2:RemoveZone ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -424,99 +424,99 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:472, TargetThroughput, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:472, Scales.V2:TargetThroughput, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AutomaticWeightPriceLabelerProductType:
-  - [ UAObjectType, Scales.V2:47, AutomaticWeightPriceLabelerProductType ]
+  Scales.V2:AutomaticWeightPriceLabelerProductType:
+  - [ UAObjectType, Scales.V2:47, Scales.V2:AutomaticWeightPriceLabelerProductType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:17, CatchweigherProductType ]
+    - [ UAObjectType, Scales.V2:17, Scales.V2:CatchweigherProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:1357, UnitPrice, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:1357, Scales.V2:UnitPrice, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CheckweigherProductType:
-  - [ UAObjectType, Scales.V2:46, CheckweigherProductType ]
+  Scales.V2:CheckweigherProductType:
+  - [ UAObjectType, Scales.V2:46, Scales.V2:CheckweigherProductType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:17, CatchweigherProductType ]
+    - [ UAObjectType, Scales.V2:17, Scales.V2:CatchweigherProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60138, LowerToleranceLimit1, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60138, Scales.V2:LowerToleranceLimit1, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60140, LowerToleranceLimit2, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60140, Scales.V2:LowerToleranceLimit2, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:378, NominalWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:378, Scales.V2:NominalWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  ContinuousProductType:
-  - [ UAObjectType, Scales.V2:18, ContinuousProductType ]
+  Scales.V2:ContinuousProductType:
+  - [ UAObjectType, Scales.V2:18, Scales.V2:ContinuousProductType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60217, MaterialDensity, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60217, Scales.V2:MaterialDensity, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:235, TargetFlowRate, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:235, Scales.V2:TargetFlowRate, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:531, TargetWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:531, Scales.V2:TargetWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  PieceCountingProductType:
-  - [ UAObjectType, Scales.V2:12, PieceCountingProductType ]
+  Scales.V2:PieceCountingProductType:
+  - [ UAObjectType, Scales.V2:12, Scales.V2:PieceCountingProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:261, CurrentItemCount, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:261, Scales.V2:CurrentItemCount, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:597, FeedRateMeasuringInterval, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:597, Scales.V2:FeedRateMeasuringInterval, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:274, FillingTime, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:274, Scales.V2:FillingTime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:376, FineFeedCount, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:376, Scales.V2:FineFeedCount, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:578, InFlightCount, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:578, Scales.V2:InFlightCount, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:589, JogFeed, Boolean, 0, 3 ]
+    - [ UAVariable, Scales.V2:589, Scales.V2:JogFeed, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:590, MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:590, Scales.V2:MinimumDeltaPerFeedRateMeasuringInterval, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:167, NumberOfReferencePieces, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:167, Scales.V2:NumberOfReferencePieces, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:173, ReferencePieceWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:173, Scales.V2:ReferencePieceWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:579, RegisteredPieceCount, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:579, Scales.V2:RegisteredPieceCount, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:460, SetTargetItemCount ]
+    - [ UAMethod, Scales.V2:460, Scales.V2:SetTargetItemCount ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -526,7 +526,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:577, SetTargetPieceCount ]
+    - [ UAMethod, Scales.V2:577, Scales.V2:SetTargetPieceCount ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -538,79 +538,79 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:580, SettlingTime, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:580, Scales.V2:SettlingTime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:592, TareId, String, 0, 3 ]
+    - [ UAVariable, Scales.V2:592, Scales.V2:TareId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:587, TargetItemCount, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:587, Scales.V2:TargetItemCount, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:178, TargetPieceCount, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:178, Scales.V2:TargetPieceCount, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:581, TotalizedItemCount, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:581, Scales.V2:TotalizedItemCount, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:582, TotalizedWeight, WeightType, 0, 3 ]
+    - [ UAVariable, Scales.V2:582, Scales.V2:TotalizedWeight, Scales.V2:WeightType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RecipeProductType:
-  - [ UAObjectType, Scales.V2:19, RecipeProductType ]
+  Scales.V2:RecipeProductType:
+  - [ UAObjectType, Scales.V2:19, Scales.V2:RecipeProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:633, RecipeNodeId, NodeId, 0, 3 ]
+    - [ UAVariable, Scales.V2:633, Scales.V2:RecipeNodeId, NodeId, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:632, Report, RecipeReportElementType, 1, 3 ]
+    - [ UAVariable, Scales.V2:632, Scales.V2:Report, Scales.V2:RecipeReportElementType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Scales.V2:131, ReportFile ]
+    - [ UAObject, Scales.V2:131, Scales.V2:ReportFile ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  SimpleProductType:
-  - [ UAObjectType, Scales.V2:20, SimpleProductType ]
+  Scales.V2:SimpleProductType:
+  - [ UAObjectType, Scales.V2:20, Scales.V2:SimpleProductType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:1318, UnitPrice, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:1318, Scales.V2:UnitPrice, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  TotalizingHopperProductType:
-  - [ UAObjectType, Scales.V2:22, TotalizingHopperProductType ]
+  Scales.V2:TotalizingHopperProductType:
+  - [ UAObjectType, Scales.V2:22, Scales.V2:TotalizingHopperProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:637, TipCounter, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:637, Scales.V2:TipCounter, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:634, VolumeTargetValue, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:634, Scales.V2:VolumeTargetValue, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  VehicleProductType:
-  - [ UAObjectType, Scales.V2:832, VehicleProductType ]
+  Scales.V2:VehicleProductType:
+  - [ UAObjectType, Scales.V2:832, Scales.V2:VehicleProductType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:861, DeltaWeight, WeightType, 0, 3 ]
+    - [ UAVariable, Scales.V2:861, Scales.V2:DeltaWeight, Scales.V2:WeightType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1396, GetVehicleInformation ]
+    - [ UAMethod, Scales.V2:1396, Scales.V2:GetVehicleInformation ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -620,118 +620,118 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:887, InboundWeight, WeightType, 0, 3 ]
+    - [ UAVariable, Scales.V2:887, Scales.V2:InboundWeight, Scales.V2:WeightType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:835, Material ]
+    - [ UAObject, Scales.V2:835, Scales.V2:Material ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:35, MaterialType ]
+      - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:878, OutboundWeight, WeightType, 0, 3 ]
+    - [ UAVariable, Scales.V2:878, Scales.V2:OutboundWeight, Scales.V2:WeightType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:11, ProductType ]
+    - [ UAObjectType, Scales.V2:11, Scales.V2:ProductType ]
 
-  RecipeElementType:
-  - [ UAObjectType, Scales.V2:32, RecipeElementType ]
+  Scales.V2:RecipeElementType:
+  - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ActivationType:
-  - [ UAObjectType, Scales.V2:40, ActivationType ]
+  Scales.V2:ActivationType:
+  - [ UAObjectType, Scales.V2:40, Scales.V2:ActivationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60219, TargetValue, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60219, Scales.V2:TargetValue, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  ConditionSleepType:
-  - [ UAObjectType, Scales.V2:37, ConditionSleepType ]
+  Scales.V2:ConditionSleepType:
+  - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:299, TargetThresholdValue ]
+    - [ UAVariable, Scales.V2:299, Scales.V2:TargetThresholdValue ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:943, ThresholdValueId, String, 0, 3 ]
+    - [ UAVariable, Scales.V2:943, Scales.V2:ThresholdValueId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60240, ThresholdValueNodeId, NodeId, 0, 3 ]
+    - [ UAVariable, Scales.V2:60240, Scales.V2:ThresholdValueNodeId, NodeId, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:945, Timeout, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:945, Scales.V2:Timeout, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AnalogConditionSleepType:
-  - [ UAObjectType, Scales.V2:38, AnalogConditionSleepType ]
+  Scales.V2:AnalogConditionSleepType:
+  - [ UAObjectType, Scales.V2:38, Scales.V2:AnalogConditionSleepType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:37, ConditionSleepType ]
+    - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
 
-  EdgeTriggeredSleepType:
-  - [ UAObjectType, Scales.V2:39, EdgeTriggeredSleepType ]
+  Scales.V2:EdgeTriggeredSleepType:
+  - [ UAObjectType, Scales.V2:39, Scales.V2:EdgeTriggeredSleepType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:37, ConditionSleepType ]
+    - [ UAObjectType, Scales.V2:37, Scales.V2:ConditionSleepType ]
 
-  TimerType:
-  - [ UAObjectType, Scales.V2:36, TimerType ]
+  Scales.V2:TimerType:
+  - [ UAObjectType, Scales.V2:36, Scales.V2:TimerType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:298, Duration, Duration, 0, 3 ]
+    - [ UAVariable, Scales.V2:298, Scales.V2:Duration, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
 
-  UserInstructionType:
-  - [ UAObjectType, Scales.V2:33, UserInstructionType ]
+  Scales.V2:UserInstructionType:
+  - [ UAObjectType, Scales.V2:33, Scales.V2:UserInstructionType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:292, DisplayText, LocalizedText, 0, 3 ]
+    - [ UAVariable, Scales.V2:292, Scales.V2:DisplayText, LocalizedText, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:293, InstructionId, UInteger, 0, 3 ]
+    - [ UAVariable, Scales.V2:293, Scales.V2:InstructionId, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
 
-  WeighingType:
-  - [ UAObjectType, Scales.V2:34, WeighingType ]
+  Scales.V2:WeighingType:
+  - [ UAObjectType, Scales.V2:34, Scales.V2:WeighingType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:86, Material ]
+    - [ UAObject, Scales.V2:86, Scales.V2:Material ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:35, MaterialType ]
+      - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:294, TargetWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:294, Scales.V2:TargetWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:297, WeighingModuleNodeId, NodeId, 0, 3 ]
+    - [ UAVariable, Scales.V2:297, Scales.V2:WeighingModuleNodeId, NodeId, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:32, RecipeElementType ]
+    - [ UAObjectType, Scales.V2:32, Scales.V2:RecipeElementType ]
 
-  RecipeManagementType:
-  - [ UAObjectType, Scales.V2:30, RecipeManagementType ]
+  Scales.V2:RecipeManagementType:
+  - [ UAObjectType, Scales.V2:30, Scales.V2:RecipeManagementType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:112, <Recipe_No> ]
+    - [ UAObject, Scales.V2:112, Scales.V2:<Recipe_No> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:31, RecipeType ]
+      - [ UAObjectType, Scales.V2:31, Scales.V2:RecipeType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:456, AddRecipe ]
+    - [ UAMethod, Scales.V2:456, Scales.V2:AddRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -748,7 +748,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:459, RemoveRecipe ]
+    - [ UAMethod, Scales.V2:459, Scales.V2:RemoveRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -760,10 +760,10 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  RecipeType:
-  - [ UAObjectType, Scales.V2:31, RecipeType ]
+  Scales.V2:RecipeType:
+  - [ UAObjectType, Scales.V2:31, Scales.V2:RecipeType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:465, AddRecipeElement ]
+    - [ UAMethod, Scales.V2:465, Scales.V2:AddRecipeElement ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -781,19 +781,19 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Scales.V2:82, RecipeElements ]
+    - [ UAObject, Scales.V2:82, Scales.V2:RecipeElements ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50006, RecipeFile ]
+    - [ UAObject, Scales.V2:50006, Scales.V2:RecipeFile ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:466, RemoveRecipeElement ]
+    - [ UAMethod, Scales.V2:466, Scales.V2:RemoveRecipeElement ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -805,68 +805,68 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  StatisticCounterType:
-  - [ UAObjectType, Scales.V2:43, StatisticCounterType ]
+  Scales.V2:StatisticCounterType:
+  - [ UAObjectType, Scales.V2:43, Scales.V2:StatisticCounterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AcceptedStatisticCounterType:
-  - [ UAObjectType, Scales.V2:1027, AcceptedStatisticCounterType ]
+  Scales.V2:AcceptedStatisticCounterType:
+  - [ UAObjectType, Scales.V2:1027, Scales.V2:AcceptedStatisticCounterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:43, StatisticCounterType ]
+    - [ UAObjectType, Scales.V2:43, Scales.V2:StatisticCounterType ]
 
-  RejectedStatisticCounterType:
-  - [ UAObjectType, Scales.V2:1028, RejectedStatisticCounterType ]
+  Scales.V2:RejectedStatisticCounterType:
+  - [ UAObjectType, Scales.V2:1028, Scales.V2:RejectedStatisticCounterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:43, StatisticCounterType ]
+    - [ UAObjectType, Scales.V2:43, Scales.V2:StatisticCounterType ]
 
-  StatisticType:
-  - [ UAObjectType, Scales.V2:25, StatisticType ]
+  Scales.V2:StatisticType:
+  - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:1182, LastItem ]
+    - [ UAObject, Scales.V2:1182, Scales.V2:LastItem ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:24, WeighingItemType ]
+      - [ UAObjectType, Scales.V2:24, Scales.V2:WeighingItemType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  CheckweigherStatisticType:
-  - [ UAObjectType, Scales.V2:48, CheckweigherStatisticType ]
+  Scales.V2:CheckweigherStatisticType:
+  - [ UAObjectType, Scales.V2:48, Scales.V2:CheckweigherStatisticType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:25, StatisticType ]
+    - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
 
-  FloatingStatisticType:
-  - [ UAObjectType, Scales.V2:26, FloatingStatisticType ]
+  Scales.V2:FloatingStatisticType:
+  - [ UAObjectType, Scales.V2:26, Scales.V2:FloatingStatisticType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:25, StatisticType ]
+    - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
 
-  FeederModuleType:
-  - [ UAObjectType, Scales.V2:28, FeederModuleType ]
+  Scales.V2:FeederModuleType:
+  - [ UAObjectType, Scales.V2:28, Scales.V2:FeederModuleType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:338, FeederLoad, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:338, Scales.V2:FeederLoad, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:334, FeederSpeed, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:334, Scales.V2:FeederSpeed, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50019, MachineryBuildingBlocks ]
+    - [ UAObject, Scales.V2:50019, Machinery:MachineryBuildingBlocks ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60143, MaximumFeederSpeed, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:60143, Scales.V2:MaximumFeederSpeed, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60160, MinimalFeederSpeed, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:60160, Scales.V2:MinimalFeederSpeed, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:453, SetFeederSpeed ]
+    - [ UAMethod, Scales.V2:453, Scales.V2:SetFeederSpeed ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -877,87 +877,87 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  PrinterModuleType:
-  - [ UAObjectType, Scales.V2:29, PrinterModuleType ]
+  Scales.V2:PrinterModuleType:
+  - [ UAObjectType, Scales.V2:29, Scales.V2:PrinterModuleType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60056, LabelLength, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:60056, Scales.V2:LabelLength, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:343, LabelStock, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:343, Scales.V2:LabelStock, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:351, LabelTypeId, String, 0, 0 ]
+    - [ UAVariable, Scales.V2:351, Scales.V2:LabelTypeId, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60163, LabelWidth, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:60163, Scales.V2:LabelWidth, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50020, MachineryBuildingBlocks ]
+    - [ UAObject, Scales.V2:50020, Machinery:MachineryBuildingBlocks ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:349, PrintMediaStock, Number, 0, 0 ]
+    - [ UAVariable, Scales.V2:349, Scales.V2:PrintMediaStock, Number, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  ScaleDeviceType:
-  - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+  Scales.V2:ScaleDeviceType:
+  - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:94, <ListOfWeighingRanges> ]
+    - [ UAObject, Scales.V2:94, Scales.V2:<ListOfWeighingRanges> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:23, WeighingRangeElementType ]
+      - [ UAObjectType, Scales.V2:23, Scales.V2:WeighingRangeElementType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1406, ClearTare ]
+    - [ UAMethod, Scales.V2:1406, Scales.V2:ClearTare ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:203, CurrentWeight, WeightType, 0, 3 ]
+    - [ UAVariable, Scales.V2:203, Scales.V2:CurrentWeight, Scales.V2:WeightType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50021, MachineryBuildingBlocks ]
+    - [ UAObject, Scales.V2:50021, Machinery:MachineryBuildingBlocks ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60053, MinimalWeight, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60053, Scales.V2:MinimalWeight, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50031, ProductionOutput ]
+    - [ UAObject, Scales.V2:50031, Scales.V2:ProductionOutput ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:25, StatisticType ]
+      - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:85, ProductionPreset ]
+    - [ UAObject, Scales.V2:85, Scales.V2:ProductionPreset ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+      - [ UAObjectType, Scales.V2:14, Scales.V2:ProductionPresetType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:211, RegisteredWeight, WeightType, 0, 3 ]
+    - [ UAVariable, Scales.V2:211, Scales.V2:RegisteredWeight, Scales.V2:WeightType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:471, RegisterWeight ]
+    - [ UAMethod, Scales.V2:471, Scales.V2:RegisterWeight ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1407, SetPresetTare ]
+    - [ UAMethod, Scales.V2:1407, Scales.V2:SetPresetTare ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -968,152 +968,152 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1409, SetTare ]
+    - [ UAMethod, Scales.V2:1409, Scales.V2:SetTare ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1408, SetZero ]
+    - [ UAMethod, Scales.V2:1408, Scales.V2:SetZero ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50005, State ]
+    - [ UAObject, Scales.V2:50005, Scales.V2:State ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+      - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:67, SubDevices ]
+    - [ UAObject, Scales.V2:67, Scales.V2:SubDevices ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+      - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  AutomaticFillingScaleType:
-  - [ UAObjectType, Scales.V2:5, AutomaticFillingScaleType ]
+  Scales.V2:AutomaticFillingScaleType:
+  - [ UAObjectType, Scales.V2:5, Scales.V2:AutomaticFillingScaleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60189, Deviation, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60189, Scales.V2:Deviation, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CatchweigherType:
-  - [ UAObjectType, Scales.V2:4, CatchweigherType ]
+  Scales.V2:CatchweigherType:
+  - [ UAObjectType, Scales.V2:4, Scales.V2:CatchweigherType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
 
-  AutomaticWeightPriceLabelerType:
-  - [ UAObjectType, Scales.V2:49, AutomaticWeightPriceLabelerType ]
+  Scales.V2:AutomaticWeightPriceLabelerType:
+  - [ UAObjectType, Scales.V2:49, Scales.V2:AutomaticWeightPriceLabelerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:4, CatchweigherType ]
+    - [ UAObjectType, Scales.V2:4, Scales.V2:CatchweigherType ]
 
-  CheckweigherType:
-  - [ UAObjectType, Scales.V2:45, CheckweigherType ]
+  Scales.V2:CheckweigherType:
+  - [ UAObjectType, Scales.V2:45, Scales.V2:CheckweigherType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:4, CatchweigherType ]
+    - [ UAObjectType, Scales.V2:4, Scales.V2:CatchweigherType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:447, TU1Percent, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:447, Scales.V2:TU1Percent, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  ContinuousScaleType:
-  - [ UAObjectType, Scales.V2:10, ContinuousScaleType ]
+  Scales.V2:ContinuousScaleType:
+  - [ UAObjectType, Scales.V2:10, Scales.V2:ContinuousScaleType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:72, <Totalizer> ]
+    - [ UAObject, Scales.V2:72, Scales.V2:<Totalizer> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:27, TotalizerType ]
+      - [ UAObjectType, Scales.V2:27, Scales.V2:TotalizerType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60153, ControlMagnitude, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60153, Scales.V2:ControlMagnitude, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:517, FlowRate ]
+    - [ UAVariable, Scales.V2:517, Scales.V2:FlowRate ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60232, Load, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60232, Scales.V2:Load, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:73, MasterTotalizer ]
+    - [ UAObject, Scales.V2:73, Scales.V2:MasterTotalizer ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:27, TotalizerType ]
+      - [ UAObjectType, Scales.V2:27, Scales.V2:TotalizerType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60213, MaxFlowRate, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60213, Scales.V2:MaxFlowRate, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60215, MinFlowRate, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60215, Scales.V2:MinFlowRate, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60152, RateControlMode, RateControlMode, 0, 3 ]
+    - [ UAVariable, Scales.V2:60152, Scales.V2:RateControlMode, Scales.V2:RateControlMode, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60154, Speed, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60154, Scales.V2:Speed, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60148, TargetFlowRate, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60148, Scales.V2:TargetFlowRate, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LossInWeightScaleType:
-  - [ UAObjectType, Scales.V2:50, LossInWeightScaleType ]
+  Scales.V2:LossInWeightScaleType:
+  - [ UAObjectType, Scales.V2:50, Scales.V2:LossInWeightScaleType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60150, BinWeight ]
+    - [ UAVariable, Scales.V2:60150, Scales.V2:BinWeight ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:539, DischargeStart ]
+    - [ UAMethod, Scales.V2:539, Scales.V2:DischargeStart ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:540, DischargeStop ]
+    - [ UAMethod, Scales.V2:540, Scales.V2:DischargeStop ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60157, HopperFillLevel, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60157, Scales.V2:HopperFillLevel, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60144, HopperWeight ]
+    - [ UAVariable, Scales.V2:60144, Scales.V2:HopperWeight ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:10, ContinuousScaleType ]
+    - [ UAObjectType, Scales.V2:10, Scales.V2:ContinuousScaleType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:537, RefillStart ]
+    - [ UAMethod, Scales.V2:537, Scales.V2:RefillStart ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:538, RefillStop ]
+    - [ UAMethod, Scales.V2:538, Scales.V2:RefillStop ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  PieceCountingScaleType:
-  - [ UAObjectType, Scales.V2:6, PieceCountingScaleType ]
+  Scales.V2:PieceCountingScaleType:
+  - [ UAObjectType, Scales.V2:6, Scales.V2:PieceCountingScaleType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:607, CurrentPieceCount, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:607, Scales.V2:CurrentPieceCount, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:605, ReferenceOptimisationRange, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:605, Scales.V2:ReferenceOptimisationRange, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1026, SetNumberOfReferencePieces ]
+    - [ UAMethod, Scales.V2:1026, Scales.V2:SetNumberOfReferencePieces ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1123,7 +1123,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:603, SetReferencePieceWeight ]
+    - [ UAMethod, Scales.V2:603, Scales.V2:SetReferencePieceWeight ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -1134,7 +1134,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:602, StartReference ]
+    - [ UAMethod, Scales.V2:602, Scales.V2:StartReference ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1144,10 +1144,10 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
 
-  RecipeScaleType:
-  - [ UAObjectType, Scales.V2:7, RecipeScaleType ]
+  Scales.V2:RecipeScaleType:
+  - [ UAObjectType, Scales.V2:7, Scales.V2:RecipeScaleType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:786, AbortRecipe ]
+    - [ UAMethod, Scales.V2:786, Scales.V2:AbortRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1157,7 +1157,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:784, ContinueRecipe ]
+    - [ UAMethod, Scales.V2:784, Scales.V2:ContinueRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1167,15 +1167,15 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Scales.V2:127, Recipes ]
+    - [ UAObject, Scales.V2:127, Scales.V2:Recipes ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:30, RecipeManagementType ]
+      - [ UAObjectType, Scales.V2:30, Scales.V2:RecipeManagementType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:785, SkipCurrentRecipeElement ]
+    - [ UAMethod, Scales.V2:785, Scales.V2:SkipCurrentRecipeElement ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1185,7 +1185,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:458, StartRecipe ]
+    - [ UAMethod, Scales.V2:458, Scales.V2:StartRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1195,7 +1195,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:783, StopRecipe ]
+    - [ UAMethod, Scales.V2:783, Scales.V2:StopRecipe ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1205,93 +1205,93 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Scales.V2:69, SupportedMaterial ]
+    - [ UAObject, Scales.V2:69, Scales.V2:SupportedMaterial ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:35, MaterialType ]
+      - [ UAObjectType, Scales.V2:35, Scales.V2:MaterialType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:612, SupportedTargetValues, RecipeTargetValueType, 1, 3 ]
+    - [ UAVariable, Scales.V2:612, Scales.V2:SupportedTargetValues, Scales.V2:RecipeTargetValueType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:611, SupportedThresholdValues, RecipeThresholdType, 1, 3 ]
+    - [ UAVariable, Scales.V2:611, Scales.V2:SupportedThresholdValues, Scales.V2:RecipeThresholdType, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  SimpleScaleType:
-  - [ UAObjectType, Scales.V2:3, SimpleScaleType ]
+  Scales.V2:SimpleScaleType:
+  - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
 
-  HopperScaleType:
-  - [ UAObjectType, Scales.V2:9, HopperScaleType ]
+  Scales.V2:HopperScaleType:
+  - [ UAObjectType, Scales.V2:9, Scales.V2:HopperScaleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:3, SimpleScaleType ]
+    - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60221, LevelMax, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60221, Scales.V2:LevelMax, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60223, LevelMin, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60223, Scales.V2:LevelMin, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LaboratoryScaleType:
-  - [ UAObjectType, Scales.V2:15, LaboratoryScaleType ]
+  Scales.V2:LaboratoryScaleType:
+  - [ UAObjectType, Scales.V2:15, Scales.V2:LaboratoryScaleType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:761, CloseDraftShields ]
+    - [ UAMethod, Scales.V2:761, Scales.V2:CloseDraftShields ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:762, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Shield: [ DraftShieldType, 0 ]
+          Shield: [ Scales.V2:DraftShieldType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:3, SimpleScaleType ]
+    - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:758, OpenDraftShields ]
+    - [ UAMethod, Scales.V2:758, Scales.V2:OpenDraftShields ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
       - [ UAVariable, Scales.V2:759, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Shield: [ DraftShieldType, 0 ]
+          Shield: [ Scales.V2:DraftShieldType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:455, StartCalibration ]
+    - [ UAMethod, Scales.V2:455, Scales.V2:StartCalibration ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:457, StartIonisator ]
+    - [ UAMethod, Scales.V2:457, Scales.V2:StartIonisator ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:454, StartLeveling ]
+    - [ UAMethod, Scales.V2:454, Scales.V2:StartLeveling ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:463, StopIonisator ]
+    - [ UAMethod, Scales.V2:463, Scales.V2:StopIonisator ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  WeighingModuleType:
-  - [ UAObjectType, Scales.V2:1, WeighingModuleType ]
+  Scales.V2:WeighingModuleType:
+  - [ UAObjectType, Scales.V2:1, Scales.V2:WeighingModuleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:3, SimpleScaleType ]
+    - [ UAObjectType, Scales.V2:3, Scales.V2:SimpleScaleType ]
 
-  TotalizingHopperScaleType:
-  - [ UAObjectType, Scales.V2:8, TotalizingHopperScaleType ]
+  Scales.V2:TotalizingHopperScaleType:
+  - [ UAObjectType, Scales.V2:8, Scales.V2:TotalizingHopperScaleType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
 
-  VehicleScaleType:
-  - [ UAObjectType, Scales.V2:834, VehicleScaleType ]
+  Scales.V2:VehicleScaleType:
+  - [ UAObjectType, Scales.V2:834, Scales.V2:VehicleScaleType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1022, InboundWeighing ]
+    - [ UAMethod, Scales.V2:1022, Scales.V2:InboundWeighing ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1301,7 +1301,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1024, OnePassWeighing ]
+    - [ UAMethod, Scales.V2:1024, Scales.V2:OnePassWeighing ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1311,7 +1311,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1023, OutboundWeighing ]
+    - [ UAMethod, Scales.V2:1023, Scales.V2:OutboundWeighing ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -1321,130 +1321,130 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:2, ScaleDeviceType ]
+    - [ UAObjectType, Scales.V2:2, Scales.V2:ScaleDeviceType ]
 
-  ScaleSystemType:
-  - [ UAObjectType, Scales.V2:44, ScaleSystemType ]
+  Scales.V2:ScaleSystemType:
+  - [ UAObjectType, Scales.V2:44, Scales.V2:ScaleSystemType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50022, MachineryBuildingBlocks ]
+    - [ UAObject, Scales.V2:50022, Machinery:MachineryBuildingBlocks ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:79, ProductionOutput ]
+    - [ UAObject, Scales.V2:79, Scales.V2:ProductionOutput ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:25, StatisticType ]
+      - [ UAObjectType, Scales.V2:25, Scales.V2:StatisticType ]
   - HasComponent:
-    - [ UAObject, Scales.V2:70, ProductionPreset ]
+    - [ UAObject, Scales.V2:70, Scales.V2:ProductionPreset ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:14, ProductionPresetType ]
+      - [ UAObjectType, Scales.V2:14, Scales.V2:ProductionPresetType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:1025, ResetGlobalStatistics ]
+    - [ UAMethod, Scales.V2:1025, Scales.V2:ResetGlobalStatistics ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:837, SubDevices ]
+    - [ UAObject, Scales.V2:837, Scales.V2:SubDevices ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+      - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Scales.V2:50008, SystemState ]
+    - [ UAObject, Scales.V2:50008, Scales.V2:SystemState ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+      - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  TotalizerType:
-  - [ UAObjectType, Scales.V2:27, TotalizerType ]
+  Scales.V2:TotalizerType:
+  - [ UAObjectType, Scales.V2:27, Scales.V2:TotalizerType ]
   - HasComponent:
-    - [ UAMethod, Scales.V2:451, ResetTotalizer ]
+    - [ UAMethod, Scales.V2:451, Scales.V2:ResetTotalizer ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:329, TotalizedValue, AbstractWeightType, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-
-  WeighingItemType:
-  - [ UAObjectType, Scales.V2:24, WeighingItemType ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:60177, MeasuredHeight, Number, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:60179, MeasuredLength, Number, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:60181, MeasuredVolume, Number, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:247, MeasuredWeight, WeightType, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:60183, MeasuredWidth, Number, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-
-  PriceItemType:
-  - [ UAObjectType, Scales.V2:833, PriceItemType ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:1354, ItemPrice, Number, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, Scales.V2:24, WeighingItemType ]
-
-  WeighingRangeElementType:
-  - [ UAObjectType, Scales.V2:23, WeighingRangeElementType ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:262, ActualScaleInterval, Double, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:291, Range, Range, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, Scales.V2:417, VerificationScaleInterval, Double, 0, 3 ]
+    - [ UAVariable, Scales.V2:329, Scales.V2:TotalizedValue, Scales.V2:AbstractWeightType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ZoneType:
-  - [ UAObjectType, Scales.V2:42, ZoneType ]
+  Scales.V2:WeighingItemType:
+  - [ UAObjectType, Scales.V2:24, Scales.V2:WeighingItemType ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60201, LowerLimit, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:60177, Scales.V2:MeasuredHeight, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60179, Scales.V2:MeasuredLength, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60181, Scales.V2:MeasuredVolume, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:247, Scales.V2:MeasuredWeight, Scales.V2:WeightType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:311, Name, LocalizedText, 0, 3 ]
+    - [ UAVariable, Scales.V2:60183, Scales.V2:MeasuredWidth, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Scales.V2:PriceItemType:
+  - [ UAObjectType, Scales.V2:833, Scales.V2:PriceItemType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:1354, Scales.V2:ItemPrice, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, Scales.V2:24, Scales.V2:WeighingItemType ]
+
+  Scales.V2:WeighingRangeElementType:
+  - [ UAObjectType, Scales.V2:23, Scales.V2:WeighingRangeElementType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:262, Scales.V2:ActualScaleInterval, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Scales.V2:60203, UpperLimit, Number, 0, 3 ]
+    - [ UAVariable, Scales.V2:291, Scales.V2:Range, Range, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Scales.V2:115, ZoneStatistic ]
+    - [ UAVariable, Scales.V2:417, Scales.V2:VerificationScaleInterval, Double, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  Scales.V2:ZoneType:
+  - [ UAObjectType, Scales.V2:42, Scales.V2:ZoneType ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60201, Scales.V2:LowerLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:311, Scales.V2:Name, LocalizedText, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, Scales.V2:60203, Scales.V2:UpperLimit, Number, 0, 3 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAObject, Scales.V2:115, Scales.V2:ZoneStatistic ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Scales.V2:43, StatisticCounterType ]
+      - [ UAObjectType, Scales.V2:43, Scales.V2:StatisticCounterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

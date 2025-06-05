@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "StartRequest"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StartRequest",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "StopRequest"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StopRequest",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

@@ -16,16 +16,19 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "MotionDevices"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MotionDevices",
+      "namespace": "http://opcfoundation.org/UA/Robotics"
     },
     {
-      "@type": "Relationship",
-      "name": "Controllers"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Controllers",
+      "namespace": "http://opcfoundation.org/UA/Robotics"
     },
     {
-      "@type": "Relationship",
-      "name": "SafetyStates"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SafetyStates",
+      "namespace": "http://opcfoundation.org/UA/Robotics"
     }
   ]
 }

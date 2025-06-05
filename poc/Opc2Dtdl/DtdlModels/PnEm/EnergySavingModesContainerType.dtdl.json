@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EnergySavingModes",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "target": "dtmi:opcua:PNEM:EnergySavingModeType"
     }
   ]

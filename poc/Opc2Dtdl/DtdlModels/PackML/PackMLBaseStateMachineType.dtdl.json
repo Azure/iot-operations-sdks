@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AvailableStates",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -25,8 +26,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AvailableTransitions",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -34,40 +36,49 @@
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Abort"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Abort",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Command",
-      "name": "Clear"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Clear",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Aborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborted",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "AbortedToCleared"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortedToCleared",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Aborting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborting",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "AbortingToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortingToAborted",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Cleared"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Cleared",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "ClearedToAborting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ClearedToAborting",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineState",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "target": "dtmi:opcua:PackML:PackMLMachineStateMachineType"
     }
   ]

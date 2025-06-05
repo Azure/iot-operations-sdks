@@ -16,18 +16,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Design",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DesignType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Implementation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:ImplementationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SystemRequirements",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:SystemRequirementsType"
     }
   ]

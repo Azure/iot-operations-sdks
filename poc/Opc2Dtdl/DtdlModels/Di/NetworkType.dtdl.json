@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProfileIdentifier",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:ProtocolType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lock",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:LockingServicesType"
     }
   ]

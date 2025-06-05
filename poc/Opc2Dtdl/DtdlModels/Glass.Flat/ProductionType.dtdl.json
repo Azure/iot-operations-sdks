@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ChangePositionInList",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -44,8 +45,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteJob",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -62,8 +64,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "InsertJob",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -115,8 +118,9 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionPlan",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:ProductionPlanType"
     }
   ]

@@ -255,8 +255,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Sublots",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:TMC_v2:CarrierType:dataType:MaterialSublotType;1"
@@ -264,8 +265,9 @@
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "EndSubCarrierLoading",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -282,8 +284,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "EndSubCarrierUnloading",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -300,8 +303,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LoadSubCarrier",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -350,8 +354,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LoadSublots",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -385,8 +390,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartSubCarrierLoading",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -403,8 +409,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartSubCarrierUnloading",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -421,8 +428,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UnloadSubCarrier",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -453,8 +461,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UnloadSublots",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -488,12 +497,14 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Data"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Data",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "SubCarriers"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SubCarriers",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     }
   ]
 }

@@ -72,14 +72,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SensorTechnology",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "dtmi:opcua:CAS:SensorDesignType:dataType:SensorTechnologyOptionSet;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SoftSensor",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "boolean",
       "writable": false
     }

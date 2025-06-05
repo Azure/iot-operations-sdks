@@ -76,26 +76,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PortStatusSpecialization",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "dtmi:opcua:DEXPI:MeasuringLineFunctionType:dataType:PortStatusClassification;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalConveyingTypeSpecialization",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "dtmi:opcua:DEXPI:MeasuringLineFunctionType:dataType:SignalConveyingTypeClassification;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalPointNumberAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalProcessControlFunctionsAssignmentClass",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "string",
       "writable": true
     }

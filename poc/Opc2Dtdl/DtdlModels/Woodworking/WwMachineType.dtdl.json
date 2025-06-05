@@ -15,17 +15,20 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Events",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "target": "dtmi:opcua:Woodworking:WwEventsDispatcherType"
     },
     {
-      "@type": "Relationship",
-      "name": "ManufacturerSpecific"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ManufacturerSpecific",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     },
     {
-      "@type": "Relationship",
-      "name": "State"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "State",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     }
   ]
 }

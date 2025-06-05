@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingModes",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingProfiles",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": true
     }

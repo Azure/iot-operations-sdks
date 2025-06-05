@@ -44,8 +44,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpdateBehavior",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "dtmi:opcua:DI:DirectLoadingType:dataType:UpdateBehavior;1",
       "writable": false
     }

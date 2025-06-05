@@ -332,224 +332,261 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CompressionRatio",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExplosionZone",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:ExplosionZoneOptionSet;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Fieldbus",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:FieldbusEnum;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Fluid",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "GasContent",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeightOfTheInletSideOfTheInstallation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeightOfTheOutletSideOfTheInstallation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HeightOfThePump",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumAmbientTemperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumFlow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumHead",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumInletPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumOutletPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumRelativeHumidity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaximumTemperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MeanTimeBetweenFailures",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumAmbientTemperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumFlow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumHead",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumInletPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumOutletPressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumRelativeHumidity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumTemperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Multi_Phase",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NetPositiveInletPressureAvailable",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NormalFlow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NpshDatumPlane",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingMode",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:OperatingModeEnum;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedInletPressureOfTheInstallation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedPumpUnitTotalHead",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReferencePlane",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RequiredControlMode",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:SystemRequirementsType:dataType:ControlModeEnum;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RequiredTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SolidContent",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Throughput",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UltimatePressureOfAVacuumPump",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WorkingTemperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     }

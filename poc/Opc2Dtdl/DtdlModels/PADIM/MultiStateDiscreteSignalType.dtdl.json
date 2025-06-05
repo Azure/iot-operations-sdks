@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MultiStateDiscreteSignal",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "unsignedInteger",
       "writable": true
     }

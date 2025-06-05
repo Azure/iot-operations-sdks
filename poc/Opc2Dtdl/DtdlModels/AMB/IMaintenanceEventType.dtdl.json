@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MaintenanceState",
+      "namespace": "http://opcfoundation.org/UA/AMB",
       "target": "dtmi:opcua:AMB:MaintenanceEventStateMachineType"
     }
   ]

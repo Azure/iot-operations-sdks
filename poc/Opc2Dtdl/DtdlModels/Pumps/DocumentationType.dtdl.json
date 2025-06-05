@@ -16,224 +16,268 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ArrangementsLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CertificatesLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CircuitDiagramLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ComponentsListLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DetailLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DuringMaintenanceServicesRenderedLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ImplementationDescriptionLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LayoutLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LocationLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LogicDiagramLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LubricationMapLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaintenanceManualLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperationManualLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PersonnelRecordingLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PipeAndInstrumentDiagramLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ScopeOfWorkLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SingleLineDiagramLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SparePartReferenceLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StaffLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TechnicalDataLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TestProgramReportLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UnitMaintenanceReportLink",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "Arrangements"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Arrangements",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "Certificates"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Certificates",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "CircuitDiagram"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CircuitDiagram",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "ComponentsList"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ComponentsList",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "Detail"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Detail",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "DuringMaintenanceServicesRendered"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DuringMaintenanceServicesRendered",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "ImplementationDescription"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ImplementationDescription",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "Layout"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Layout",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "Location"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "LogicDiagram"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LogicDiagram",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "LubricationMap"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LubricationMap",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceManual"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceManual",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "OperationManual"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperationManual",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "PersonnelRecording"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PersonnelRecording",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "PipeAndInstrumentDiagram"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PipeAndInstrumentDiagram",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "ScopeOfWork"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ScopeOfWork",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "SingleLineDiagram"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SingleLineDiagram",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "SparePartReference"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SparePartReference",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "Staff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Staff",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "TechnicalData"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "TechnicalData",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "TestProgramReport"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "TestProgramReport",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     },
     {
-      "@type": "Relationship",
-      "name": "UnitMaintenanceReport"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnitMaintenanceReport",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     }
   ]
 }

@@ -36,14 +36,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActivateRemoteControl",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActiveErrors",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PlasticsRubber_LDS:OperationType:dataType:ClassifiedActiveErrorDataType;1"
@@ -51,124 +53,145 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualDeviationMixingRatio",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualShotWeight",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeliveryPressureMeasuringPoint",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeliveryType",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DosingActive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaxDeviationMixingRatio",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MixingRatioTarget",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PurgeCyclicActive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PurgeCyclicIdleTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PurgeCyclicQuantity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PurgeMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PurgeQuantity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PurgeTimeout",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemainingMaterialTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemoteControlActivated",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetShotWeight",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValueCompositeDensity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TargetDeviationMixingRatio",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "IdentifyDevice"
+      "@type": [ "Command", "Qualified" ],
+      "name": "IdentifyDevice",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
     },
     {
-      "@type": "Command",
-      "name": "ResetAllErrors"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetAllErrors",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ResetErrorById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -185,8 +208,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetCycleNumber",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -203,36 +227,43 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "StartDosing"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StartDosing",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
     },
     {
-      "@type": "Command",
-      "name": "StopDosing"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StopDosing",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Additive_Y",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_LDS:AdditiveType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Component_A",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Component_B",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_LDS:ComponentType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DeliveryFlowrate",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DeliveryPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
     }
   ]

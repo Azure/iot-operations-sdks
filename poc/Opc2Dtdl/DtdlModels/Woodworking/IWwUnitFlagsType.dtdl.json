@@ -15,158 +15,184 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AirPresent",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Alarm",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Calibrated",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DustChipSuction",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Emergency",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EnergySaving",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Error",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExternalEmergency",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FeedRuns",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Hold",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LoadingEnabled",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MachineInitialized",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MachineOn",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaintenanceRequired",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ManualActivityRequired",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Moving",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PowerPresent",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RecipeInHold",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RecipeInRun",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RecipeInSetup",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Remote",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Safety",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WaitLoad",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WaitUnload",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Warning",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WorkpiecePresent",
+      "namespace": "http://opcfoundation.org/UA/Woodworking",
       "schema": "boolean",
       "writable": false
     }

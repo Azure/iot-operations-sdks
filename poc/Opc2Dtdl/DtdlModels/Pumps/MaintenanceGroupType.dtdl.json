@@ -16,23 +16,27 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BreakdownMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:BreakdownMaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConditionBasedMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:ConditionBasedMaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "GeneralMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:GeneralMaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PreventiveMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:PreventiveMaintenanceType"
     }
   ]

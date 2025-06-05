@@ -35,8 +35,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CommHealth",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": "dtmi:opcua:FX_AC:ConnectionEndpointsFolderType:dataType:CommHealthOptionSet;1",
       "writable": false
     }

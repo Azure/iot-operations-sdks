@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalizedValue",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "bytes",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "ResetTotalizer"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetTotalizer",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     }
   ]
 }

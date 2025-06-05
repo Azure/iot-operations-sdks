@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "EmergencyStopFunctions"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EmergencyStopFunctions",
+      "namespace": "http://opcfoundation.org/UA/Robotics"
     },
     {
-      "@type": "Relationship",
-      "name": "ProtectiveStopFunctions"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProtectiveStopFunctions",
+      "namespace": "http://opcfoundation.org/UA/Robotics"
     }
   ]
 }

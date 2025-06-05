@@ -1623,8 +1623,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddDeviceByAddress",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -1641,8 +1642,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddDeviceById",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -1659,8 +1661,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetDeviceIdList",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -1688,8 +1691,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "NetworkScan",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -1762,8 +1766,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "TimeSynchronization",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -1780,8 +1785,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "TranslateBACnetIds",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -1818,8 +1824,9 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BACnetDeviceName",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetDeviceType"
     }
   ]

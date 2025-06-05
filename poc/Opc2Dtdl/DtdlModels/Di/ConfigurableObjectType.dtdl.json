@@ -15,12 +15,14 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "SupportedTypes"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SupportedTypes",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ObjectIdentifier"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ObjectIdentifier",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

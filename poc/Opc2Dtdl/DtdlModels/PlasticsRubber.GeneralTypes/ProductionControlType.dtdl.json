@@ -16,24 +16,29 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "DisableAutomaticRun"
+      "@type": [ "Command", "Qualified" ],
+      "name": "DisableAutomaticRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "EnableAutomaticRun"
+      "@type": [ "Command", "Qualified" ],
+      "name": "EnableAutomaticRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "RequestTestSample"
+      "@type": [ "Command", "Qualified" ],
+      "name": "RequestTestSample",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "ResetWatchDog"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetWatchDog",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetWatchDogTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

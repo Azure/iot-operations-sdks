@@ -1,12 +1,12 @@
 DataTypes:
-- UADataType: [ PlasticsRubber.LDS:3002, AdditiveStatusEnumeration ]
+- UADataType: [ PlasticsRubber.LDS:3002, PlasticsRubber.LDS:AdditiveStatusEnumeration ]
   Enums:
     GOOD: 0
     WARNING: 1
     ADVANCE_WARNING_ADDITIVE_CHANGE: 2
     ERROR_EMPTY: 3
     ERROR: 4
-- UADataType: [ PlasticsRubber.LDS:3003, ComponentStatusEnumeration ]
+- UADataType: [ PlasticsRubber.LDS:3003, PlasticsRubber.LDS:ComponentStatusEnumeration ]
   Enums:
     GOOD: 0
     WARNING: 1
@@ -15,61 +15,61 @@ DataTypes:
     ADVANCE_WARNING_DRUM_CHANGE: 4
     ERROR_DRUM_EMPTY: 5
     ERROR: 6
-- UADataType: [ PlasticsRubber.LDS:3005, MaterialBalanceSystemTypeEnumeration ]
+- UADataType: [ PlasticsRubber.LDS:3005, PlasticsRubber.LDS:MaterialBalanceSystemTypeEnumeration ]
   Enums:
     NOT_AVAILABLE: 0
     ALWAYS_ACTIVE: 1
     SELECTABLE: 2
-- UADataType: [ PlasticsRubber.LDS:3004, PurgeStatusEnumeration ]
+- UADataType: [ PlasticsRubber.LDS:3004, PlasticsRubber.LDS:PurgeStatusEnumeration ]
   Enums:
     OFF: 0
     COMPONENT_A: 1
     COMPONENT_B: 2
     COMPONENT_A_AND_B: 3
     COMPONENT_A_AND_B_CYCLIC: 4
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
   Enums:
     OTHER: 0
     OFF: 1
@@ -78,27 +78,27 @@ DataTypes:
     STANDBY: 4
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
-- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
   Enums:
     OFF: 0
     ACTIVE_OK: 1
     ACTIVE_ERROR_DETECTED: 2
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
   Enums:
     OTHER: 0
     MACHINE: 1
     OPERATOR: 2
     MES: 3
     PERIPHERAL_DEVICE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -112,7 +112,7 @@ DataTypes:
     TEAR_DOWN_ACTIVE: 9
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
-- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -125,7 +125,7 @@ DataTypes:
     STANDSTILL_REASON: 8
     MESSAGE: 9
     USER_FEEDBACK: 10
-- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -133,18 +133,18 @@ DataTypes:
     MANUAL: 3
     SETUP: 4
     SLEEP: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
-- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -152,14 +152,14 @@ DataTypes:
     READY_FOR_PRODUCTION: 3
     PRODUCTION: 4
     DRY_RUN: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
   Enums:
     UPDATE: 0
     ADD: 1
     MODIFY: 2
     MOVE: 3
     DELETE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -167,12 +167,12 @@ DataTypes:
     START_REQUESTED: 3
     STARTED: 4
     STOP_REQUESTED: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
   Enums:
     OTHER: 0
     HEATING: 1
@@ -180,26 +180,26 @@ DataTypes:
     TEMPERATURE_CONTROL: 3
     HOT_RUNNER: 4
     MEASURING: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
-- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -214,27 +214,27 @@ DataTypes:
     PlannedStart: [ DateTime, 0 ]
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
     ExpectedCycleTime: [ Duration, 0 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -253,16 +253,16 @@ DataTypes:
     ProductName: [ String, 1 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
@@ -270,136 +270,136 @@ DataTypes:
 
 DefinedTypes:
 
-  AdditiveType:
-  - [ UAObjectType, PlasticsRubber.LDS:1004, AdditiveType ]
+  PlasticsRubber.LDS:AdditiveType:
+  - [ UAObjectType, PlasticsRubber.LDS:1004, PlasticsRubber.LDS:AdditiveType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5001, AdditiveFraction ]
+    - [ UAObject, PlasticsRubber.LDS:5001, PlasticsRubber.LDS:AdditiveFraction ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5007, AdditiveStrokeVolume ]
+    - [ UAObject, PlasticsRubber.LDS:5007, PlasticsRubber.LDS:AdditiveStrokeVolume ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
 
-  AdditiveAlarmType:
-  - [ UAObjectType, PlasticsRubber.LDS:1002, AdditiveAlarmType ]
+  PlasticsRubber.LDS:AdditiveAlarmType:
+  - [ UAObjectType, PlasticsRubber.LDS:1002, PlasticsRubber.LDS:AdditiveAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, HelpOffNormalAlarmType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, PlasticsRubber.GeneralTypes:HelpOffNormalAlarmType ]
 
-  ComponentAlarmType:
-  - [ UAObjectType, PlasticsRubber.LDS:1003, ComponentAlarmType ]
+  PlasticsRubber.LDS:ComponentAlarmType:
+  - [ UAObjectType, PlasticsRubber.LDS:1003, PlasticsRubber.LDS:ComponentAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, HelpOffNormalAlarmType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, PlasticsRubber.GeneralTypes:HelpOffNormalAlarmType ]
 
-  LDSCycleParametersEventType:
-  - [ UAObjectType, PlasticsRubber.LDS:1008, LDSCycleParametersEventType ]
+  PlasticsRubber.LDS:LDSCycleParametersEventType:
+  - [ UAObjectType, PlasticsRubber.LDS:1008, PlasticsRubber.LDS:LDSCycleParametersEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6483, AdditivesPressure, Double, 1, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6483, PlasticsRubber.LDS:AdditivesPressure, Double, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6461, AdditivesRatioActual, Double, 1, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6461, PlasticsRubber.LDS:AdditivesRatioActual, Double, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6457, AdditivesRatioTarget, Double, 1, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6457, PlasticsRubber.LDS:AdditivesRatioTarget, Double, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6485, FilterPressurePrimary, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6485, PlasticsRubber.LDS:FilterPressurePrimary, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6487, FilterPressureSecondary, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6487, PlasticsRubber.LDS:FilterPressureSecondary, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6477, MixingPointPressureA, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6477, PlasticsRubber.LDS:MixingPointPressureA, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6479, MixingPointPressureB, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6479, PlasticsRubber.LDS:MixingPointPressureB, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6481, MixingPointPressureBlender, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6481, PlasticsRubber.LDS:MixingPointPressureBlender, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6455, MixingRatioActual, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6455, PlasticsRubber.LDS:MixingRatioActual, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6452, MixingRatioTarget, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6452, PlasticsRubber.LDS:MixingRatioTarget, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6473, ResidualAmountA, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6473, PlasticsRubber.LDS:ResidualAmountA, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6475, ResidualAmountB, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6475, PlasticsRubber.LDS:ResidualAmountB, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6463, VolumeA, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6463, PlasticsRubber.LDS:VolumeA, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6467, VolumeAB, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6467, PlasticsRubber.LDS:VolumeAB, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6469, VolumeAdditives, Double, 1, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6469, PlasticsRubber.LDS:VolumeAdditives, Double, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6465, VolumeB, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6465, PlasticsRubber.LDS:VolumeB, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6471, VolumeTotal, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6471, PlasticsRubber.LDS:VolumeTotal, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  ComponentType:
-  - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+  PlasticsRubber.LDS:ComponentType:
+  - [ UAObjectType, PlasticsRubber.LDS:1005, PlasticsRubber.LDS:ComponentType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6698, ActualFollowerPlatePressure, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6698, PlasticsRubber.LDS:ActualFollowerPlatePressure, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6044, ActualPressure, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6044, PlasticsRubber.LDS:ActualPressure, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6702, DrumCapacity, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6702, PlasticsRubber.LDS:DrumCapacity, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6048, RemainingMaterialTime, Duration, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6048, PlasticsRubber.LDS:RemainingMaterialTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6046, ResidualAmount, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6046, PlasticsRubber.LDS:ResidualAmount, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6700, SetFollowerPlatePressure, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6700, PlasticsRubber.LDS:SetFollowerPlatePressure, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.LDS:7020, SetSetValueDensity ]
+    - [ UAMethod, PlasticsRubber.LDS:7020, PlasticsRubber.LDS:SetSetValueDensity ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -409,145 +409,145 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6040, SetValueDensity, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6040, PlasticsRubber.LDS:SetValueDensity, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LDS_InterfaceType:
-  - [ UAObjectType, PlasticsRubber.LDS:1007, LDS_InterfaceType ]
+  PlasticsRubber.LDS:LDS_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.LDS:1007, PlasticsRubber.LDS:LDS_InterfaceType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5008, Identification ]
+    - [ UAObject, PlasticsRubber.LDS:5008, PlasticsRubber.LDS:Identification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1058, IdentificationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1058, PlasticsRubber.GeneralTypes:IdentificationType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5009, MachineConfiguration ]
+    - [ UAObject, PlasticsRubber.LDS:5009, PlasticsRubber.LDS:MachineConfiguration ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, MachineConfigurationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, PlasticsRubber.GeneralTypes:MachineConfigurationType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5010, Operation ]
+    - [ UAObject, PlasticsRubber.LDS:5010, PlasticsRubber.LDS:Operation ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.LDS:1006, OperationType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1006, PlasticsRubber.LDS:OperationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  OperationType:
-  - [ UAObjectType, PlasticsRubber.LDS:1006, OperationType ]
+  PlasticsRubber.LDS:OperationType:
+  - [ UAObjectType, PlasticsRubber.LDS:1006, PlasticsRubber.LDS:OperationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6060, ActivateRemoteControl, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6060, PlasticsRubber.LDS:ActivateRemoteControl, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6506, ActiveErrors, ClassifiedActiveErrorDataType, 1, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6506, PlasticsRubber.LDS:ActiveErrors, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6508, ActualDeviationMixingRatio, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6508, PlasticsRubber.LDS:ActualDeviationMixingRatio, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6073, ActualShotWeight, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6073, PlasticsRubber.LDS:ActualShotWeight, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5006, Additive_<Y> ]
+    - [ UAObject, PlasticsRubber.LDS:5006, PlasticsRubber.LDS:Additive_<Y> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.LDS:1004, AdditiveType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1004, PlasticsRubber.LDS:AdditiveType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5005, Component_A ]
+    - [ UAObject, PlasticsRubber.LDS:5005, PlasticsRubber.LDS:Component_A ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1005, PlasticsRubber.LDS:ComponentType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5011, Component_B ]
+    - [ UAObject, PlasticsRubber.LDS:5011, PlasticsRubber.LDS:Component_B ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.LDS:1005, ComponentType ]
+      - [ UAObjectType, PlasticsRubber.LDS:1005, PlasticsRubber.LDS:ComponentType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5003, DeliveryFlowrate ]
+    - [ UAObject, PlasticsRubber.LDS:5003, PlasticsRubber.LDS:DeliveryFlowrate ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.LDS:5002, DeliveryPressure ]
+    - [ UAObject, PlasticsRubber.LDS:5002, PlasticsRubber.LDS:DeliveryPressure ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6065, DeliveryPressureMeasuringPoint, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6065, PlasticsRubber.LDS:DeliveryPressureMeasuringPoint, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6062, DeliveryType, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6062, PlasticsRubber.LDS:DeliveryType, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6052, DosingActive, Boolean, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6052, PlasticsRubber.LDS:DosingActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.LDS:7002, IdentifyDevice ]
+    - [ UAMethod, PlasticsRubber.LDS:7002, PlasticsRubber.LDS:IdentifyDevice ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6079, MaxDeviationMixingRatio, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6079, PlasticsRubber.LDS:MaxDeviationMixingRatio, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6097, MixingRatioTarget, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6097, PlasticsRubber.LDS:MixingRatioTarget, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6201, PurgeCyclicActive, Boolean, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6201, PlasticsRubber.LDS:PurgeCyclicActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6200, PurgeCyclicIdleTime, Duration, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6200, PlasticsRubber.LDS:PurgeCyclicIdleTime, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6186, PurgeCyclicQuantity, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6186, PlasticsRubber.LDS:PurgeCyclicQuantity, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6082, PurgeMode, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6082, PlasticsRubber.LDS:PurgeMode, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6184, PurgeQuantity, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6184, PlasticsRubber.LDS:PurgeQuantity, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6192, PurgeTimeout, Duration, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6192, PlasticsRubber.LDS:PurgeTimeout, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6081, RemainingMaterialTime, Duration, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6081, PlasticsRubber.LDS:RemainingMaterialTime, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6086, RemoteControlActivated, UInt16, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6086, PlasticsRubber.LDS:RemoteControlActivated, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.LDS:7003, ResetAllErrors ]
+    - [ UAMethod, PlasticsRubber.LDS:7003, PlasticsRubber.LDS:ResetAllErrors ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.LDS:7010, ResetErrorById ]
+    - [ UAMethod, PlasticsRubber.LDS:7010, PlasticsRubber.LDS:ResetErrorById ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -557,7 +557,7 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.LDS:7006, SetCycleNumber ]
+    - [ UAMethod, PlasticsRubber.LDS:7006, PlasticsRubber.LDS:SetCycleNumber ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:
@@ -567,22 +567,22 @@ DefinedTypes:
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6075, SetShotWeight, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6075, PlasticsRubber.LDS:SetShotWeight, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6077, SetValueCompositeDensity, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.LDS:6077, PlasticsRubber.LDS:SetValueCompositeDensity, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.LDS:7021, StartDosing ]
+    - [ UAMethod, PlasticsRubber.LDS:7021, PlasticsRubber.LDS:StartDosing ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.LDS:7028, StopDosing ]
+    - [ UAMethod, PlasticsRubber.LDS:7028, PlasticsRubber.LDS:StopDosing ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.LDS:6198, TargetDeviationMixingRatio, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.LDS:6198, PlasticsRubber.LDS:TargetDeviationMixingRatio, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FaultAlgorithm",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetFaultAlgorithmType"
     }
   ]

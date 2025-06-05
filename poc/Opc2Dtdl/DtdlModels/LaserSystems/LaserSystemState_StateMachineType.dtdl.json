@@ -15,292 +15,364 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "EnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "Error"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Error",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromEnergySavingToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromEnergySavingToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromErrorToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromErrorToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromIdleToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromIdleToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserOnToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserOnToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromLaserReadyToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromLaserReadyToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOffToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOffToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToEnergySaving"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToEnergySaving",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToError",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToIdle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToLaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToLaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToLaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToLaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToOff"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToOff",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetUpToSetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetUpToSetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "Idle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Idle",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "LaserOn"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LaserOn",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "LaserReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LaserReady",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "Maintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "Off"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Off",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "SetUp"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SetUp",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     }
   ]
 }

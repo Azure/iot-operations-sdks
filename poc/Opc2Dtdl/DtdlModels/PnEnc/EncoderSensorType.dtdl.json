@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PositionOffset",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Ref1LastLatchedPos",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Ref1LatchActive",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "PresetControl",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -52,8 +56,9 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "Ref1LatchStart"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Ref1LatchStart",
+      "namespace": "http://opcfoundation.org/UA/PNENC"
     }
   ]
 }

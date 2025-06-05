@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Roll_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:RollType"
     }
   ]

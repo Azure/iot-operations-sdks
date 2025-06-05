@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DisplayText",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InstructionId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     }

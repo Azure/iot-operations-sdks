@@ -64,40 +64,47 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DiagnosticLevel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SystemState",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "schema": "dtmi:opcua:MachineVision:VisionSystemType:dataType:SystemStateDescriptionDataType;1",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConfigurationManagement",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:ConfigurationManagementType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "RecipeManagement",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:RecipeManagementType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ResultManagement",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:ResultManagementType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SafetyStateManagement",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:SafetyStateManagementType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "VisionStateMachine",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStateMachineType"
     }
   ]

@@ -15,236 +15,294 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "SelectExecutionCycle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SelectExecutionCycle",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForCalibrationTrigger"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForCalibrationTrigger",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractCalibrationSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractCalibrationSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareCalibrationSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareCalibrationSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseCalibrationSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseCalibrationSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForValidationTrigger"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForValidationTrigger",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractValidationSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractValidationSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareValidationSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareValidationSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseValidationSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseValidationSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForSampleTrigger"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForSampleTrigger",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForDiagnosticTrigger"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForDiagnosticTrigger",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Diagnostic"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Diagnostic",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForCleaningTrigger"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForCleaningTrigger",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Cleaning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Cleaning",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PublishResults"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PublishResults",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "EjectGrabSample"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EjectGrabSample",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CleanupSamplingSystem"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CleanupSamplingSystem",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SelectExecutionCycleToWaitForCalibrationTriggerTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SelectExecutionCycleToWaitForCalibrationTriggerTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForCalibrationTriggerToExtractCalibrationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractCalibrationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractCalibrationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractCalibrationSampleToPrepareCalibrationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareCalibrationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareCalibrationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareCalibrationSampleToAnalyseCalibrationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseCalibrationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseCalibrationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseCalibrationSampleToPublishResultsTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseCalibrationSampleToPublishResultsTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SelectExecutionCycleToWaitForValidationTriggerTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SelectExecutionCycleToWaitForValidationTriggerTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForValidationTriggerToExtractValidationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForValidationTriggerToExtractValidationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractValidationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractValidationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractValidationSampleToPrepareValidationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractValidationSampleToPrepareValidationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareValidationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareValidationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareValidationSampleToAnalyseValidationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareValidationSampleToAnalyseValidationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseValidationSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseValidationSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseValidationSampleToPublishResultsTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseValidationSampleToPublishResultsTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SelectExecutionCycleToWaitForSampleTriggerTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SelectExecutionCycleToWaitForSampleTriggerTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForSampleTriggerToExtractSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForSampleTriggerToExtractSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExtractSampleToPrepareSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExtractSampleToPrepareSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PrepareSampleToAnalyseSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PrepareSampleToAnalyseSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AnalyseSampleToPublishResultsTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AnalyseSampleToPublishResultsTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SelectExecutionCycleToWaitForDiagnosticTriggerTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForDiagnosticTriggerToDiagnosticTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForDiagnosticTriggerToDiagnosticTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "DiagnosticTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DiagnosticTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "DiagnosticToPublishResultsTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DiagnosticToPublishResultsTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SelectExecutionCycleToWaitForCleaningTriggerTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SelectExecutionCycleToWaitForCleaningTriggerTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitForCleaningTriggerToCleaningTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitForCleaningTriggerToCleaningTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CleaningTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CleaningTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CleaningToPublishResultsTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CleaningToPublishResultsTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PublishResultsToCleanupSamplingSystemTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PublishResultsToCleanupSamplingSystemTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PublishResultsToEjectGrabSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PublishResultsToEjectGrabSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "EjectGrabSampleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EjectGrabSampleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "EjectGrabSampleToCleanupSamplingSystemTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EjectGrabSampleToCleanupSamplingSystemTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CleanupSamplingSystemTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CleanupSamplingSystemTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CleanupSamplingSystemToSelectExecutionCycleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CleanupSamplingSystemToSelectExecutionCycleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     }
   ]
 }

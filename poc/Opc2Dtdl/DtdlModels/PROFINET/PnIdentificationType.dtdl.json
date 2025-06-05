@@ -36,8 +36,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetDate",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -54,8 +55,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetDescriptor",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -72,8 +74,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetTags",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

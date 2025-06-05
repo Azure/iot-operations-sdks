@@ -124,96 +124,113 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualControlMode",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualOperationMode",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlInversion",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Enable",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExternalSignal",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReverseRotatingDirection",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetControlMode",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:ControlModeEnum;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetOperationMode",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dtmi:opcua:Pumps:PumpActuationType:dataType:OperationModeEnum;1",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CleanValveRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FlushValveRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "GasDilValveRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InletValveRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OutletValveRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpKick",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:PumpKickObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PumpStandByRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PurgeValveRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "VentValveRequest",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "target": "dtmi:opcua:Pumps:DiscreteOutputObjectType"
     }
   ]

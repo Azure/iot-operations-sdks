@@ -16,44 +16,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "schema": "unsignedLong",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Length",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LengthCorrection",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "schema": "unsignedLong",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "schema": "unsignedLong",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WallThickeningLength",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Command",
-      "name": "ResetOutput"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Cutter"
     }
   ]
 }

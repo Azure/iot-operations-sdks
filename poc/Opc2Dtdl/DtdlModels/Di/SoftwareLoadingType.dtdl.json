@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpdateKey",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "string",
       "writable": false
     }

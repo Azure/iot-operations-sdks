@@ -16,34 +16,40 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CommunicationProtocolType",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ThermocoupleType",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Command",
-      "name": "ExternalSensorModeOff"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ExternalSensorModeOff",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
-      "name": "ExternalSensorModeOn"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ExternalSensorModeOn",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ClosedLoopControl",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ClosedLoopControlType"
     }
   ]

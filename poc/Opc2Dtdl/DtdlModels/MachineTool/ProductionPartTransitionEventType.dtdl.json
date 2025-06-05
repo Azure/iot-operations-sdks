@@ -67,14 +67,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartQuality",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:PartQuality;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessIrregularity",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:ProductionPartTransitionEventType:dataType:ProcessIrregularity;1",
       "writable": false
     }

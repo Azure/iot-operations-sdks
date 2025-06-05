@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Comment",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"

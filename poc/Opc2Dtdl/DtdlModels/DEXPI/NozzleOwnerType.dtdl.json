@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Nozzle",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "target": "dtmi:opcua:DEXPI:NozzleType"
     }
   ]

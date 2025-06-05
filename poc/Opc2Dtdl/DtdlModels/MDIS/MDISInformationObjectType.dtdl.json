@@ -37,18 +37,21 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MDISVersion",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISInformationObjectType:dataType:MDISVersionDataType;1",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "Signatures"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Signatures",
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TimeSynchronization",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISTimeSyncObjectType"
     }
   ]

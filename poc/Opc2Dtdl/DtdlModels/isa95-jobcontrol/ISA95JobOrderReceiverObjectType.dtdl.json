@@ -429,8 +429,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EquipmentID",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -438,8 +439,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "JobOrderList",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95JobOrderAndStateDataType;1"
@@ -447,8 +449,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaterialClassID",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -456,8 +459,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaterialDefinitionID",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -465,8 +469,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PersonnelID",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -474,8 +479,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PhysicalAssetID",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -483,8 +489,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WorkMaster",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:isa95_jobcontrol:ISA95JobOrderReceiverObjectType:dataType:ISA95WorkMasterDataType;1"
@@ -492,8 +499,9 @@
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Abort",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -532,8 +540,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Cancel",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -572,8 +581,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Clear",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -612,8 +622,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Pause",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -652,8 +663,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Resume",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -692,8 +704,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RevokeStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -732,8 +745,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Start",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -772,8 +786,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Stop",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -812,8 +827,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Store",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -852,8 +868,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StoreAndStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -892,8 +909,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Update",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -932,80 +950,99 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Aborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborted",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "AllowedToStart"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AllowedToStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Ended"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Ended",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromAllowedToStartToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromAllowedToStartToAborted",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromAllowedToStartToAllowedToStart"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromAllowedToStartToAllowedToStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromAllowedToStartToNotAllowedToStart"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromAllowedToStartToNotAllowedToStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromAllowedToStartToRunning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromAllowedToStartToRunning",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromInterruptedToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromInterruptedToAborted",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromInterruptedToEnded"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromInterruptedToEnded",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromInterruptedToRunning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromInterruptedToRunning",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotAllowedToStartToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotAllowedToStartToAborted",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotAllowedToStartToAllowedToStart"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotAllowedToStartToAllowedToStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotAllowedToStartToNotAllowedToStart"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotAllowedToStartToNotAllowedToStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromRunningToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromRunningToAborted",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromRunningToEnded"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromRunningToEnded",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromRunningToInterrupted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromRunningToInterrupted",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Interrupted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Interrupted",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "NotAllowedToStart"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "NotAllowedToStart",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Running"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Running",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     }
   ]
 }

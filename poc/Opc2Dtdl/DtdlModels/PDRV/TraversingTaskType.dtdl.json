@@ -15,38 +15,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TraversingTaskNumber",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TargetPosition",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Velocity",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Acceleration",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Deceleration",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PositioningMode",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "unsignedShort",
       "writable": false
     }

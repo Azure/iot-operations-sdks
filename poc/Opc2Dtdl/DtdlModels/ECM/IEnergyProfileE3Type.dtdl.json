@@ -59,24 +59,28 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcActivePowerPe",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AcActivePowerPe",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]
@@ -84,24 +88,28 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcCurrentPe",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AcCurrentPe",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]
@@ -109,24 +117,28 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcPowerFactorPe",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AcPowerFactorPe",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]
@@ -134,24 +146,28 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcReactivePowerPe",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AcReactivePowerPe",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]
@@ -159,24 +175,28 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcVoltagePe",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AcVoltagePe",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPeDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]
@@ -184,24 +204,28 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcVoltagePp",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AcVoltagePp",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "dtmi:opcua:ECM:IEnergyProfileE3Type:dataType:AcPpDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AccuracyClass",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Resource",
+            "namespace": "http://opcfoundation.org/UA/ECM",
             "schema": "unsignedInteger"
           }
         ]

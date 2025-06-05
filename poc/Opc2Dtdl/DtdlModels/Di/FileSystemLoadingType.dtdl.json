@@ -45,8 +45,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetUpdateBehavior",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -80,8 +81,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ValidateFiles",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -120,8 +122,9 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "FileSystem"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FileSystem",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

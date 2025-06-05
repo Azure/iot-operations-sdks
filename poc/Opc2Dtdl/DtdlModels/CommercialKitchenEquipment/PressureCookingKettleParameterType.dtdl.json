@@ -80,86 +80,100 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualCoreTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualPressureAbsolute",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualPressureKettle",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CookingLevel",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsLidLocked",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsOpenExpressActive",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsSteamActive",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProgramMode",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:PressureCookingKettleModeEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetCoreTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetProcessTime",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalMode",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "dtmi:opcua:CommercialKitchenEquipment:PressureCookingKettleParameterType:dataType:SignalModeEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeRemaining",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     }

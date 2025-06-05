@@ -16,19 +16,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Filling",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "Filling",
+            "namespace": "http://opcfoundation.org/UA/Glass.Flat",
             "schema": "string"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "FillLevel",
+            "namespace": "http://opcfoundation.org/UA/Glass.Flat",
             "schema": "double"
           }
         ]
@@ -36,8 +39,9 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SealantDepth",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "double",
       "writable": true
     }

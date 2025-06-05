@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalRunningHours",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalStartStopCounter",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "unsignedInteger",
       "writable": false
     }

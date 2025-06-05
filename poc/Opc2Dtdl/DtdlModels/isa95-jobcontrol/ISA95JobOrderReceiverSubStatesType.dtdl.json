@@ -16,23 +16,27 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AllowedToStartSubstates",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "EndedSubstates",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "target": "dtmi:opcua:isa95_jobcontrol:ISA95EndedStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InterruptedSubstates",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "target": "dtmi:opcua:isa95_jobcontrol:ISA95InterruptedStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "NotAllowedToStartSubstates",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2",
       "target": "dtmi:opcua:isa95_jobcontrol:ISA95PrepareStateMachineType"
     }
   ]

@@ -15,38 +15,46 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastTransition",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "Error"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Error",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorToProcessing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorToProcessing",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     },
     {
-      "@type": "Relationship",
-      "name": "Processing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Processing",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     },
     {
-      "@type": "Relationship",
-      "name": "ProcessingToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProcessingToError",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     },
     {
-      "@type": "Relationship",
-      "name": "ProcessingToReady"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProcessingToReady",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     },
     {
-      "@type": "Relationship",
-      "name": "Ready"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Ready",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToProcessing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToProcessing",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     }
   ]
 }

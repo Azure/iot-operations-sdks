@@ -4,6 +4,7 @@ namespace Yaml2Dtdl
     using System.Linq;
     using System.Text;
     using System.Text.RegularExpressions;
+    using OpcUaDigest;
     using SpecMapper;
 
     public class TypeConverter
@@ -70,7 +71,7 @@ namespace Yaml2Dtdl
                 return this.GetDtdlTypeFromOpcUaType(modelId, opcUaType, arrayDimensions, indent);
             }
 
-            string legalizedName = LegalizeName(StripAngles(propertyName));
+            string legalizedName = LegalizeName(StripAngles(Dequalify(propertyName)));
 
             string valueSchema = this.GetDtdlTypeFromOpcUaType(modelId, opcUaType, arrayDimensions, indent + 4);
             string it = new string(' ', indent);
@@ -151,8 +152,18 @@ namespace Yaml2Dtdl
 
         public static string StripAngles(string browseName) => browseName.Replace("<", string.Empty).Replace(">", string.Empty).Replace(".", string.Empty);
 
-        public static string GetDataTypeDtmiFromBrowseName(string modelId, string browseName) => $"{modelId}:dataType:{LegalizeName(browseName)};1";
+        public static string GetDataTypeDtmiFromBrowseName(string modelId, string browseName) => $"{modelId}:dataType:{LegalizeName(Dequalify(browseName))};1";
 
-        public static string GetModelId(string specName, string typeName) => $"dtmi:opcua:{specName}:{typeName}".Replace('.', '_').Replace('-', '_');
+        public static string GetModelId(OpcUaDefinedType definedType) => $"dtmi:opcua:{GetSpecName(definedType)}:{Dequalify(definedType.BrowseName)}".Replace('.', '_').Replace('-', '_');
+
+        public static string Dequalify(string browseName) => browseName.Substring(browseName.IndexOf(':') + 1);
+
+        public static string? GetSpecName(OpcUaDefinedType definedType) => GetSpecName(definedType.BrowseName) ?? GetSpecName(definedType.NodeId);
+
+        public static string? GetSpecName(string nameOrId)
+        {
+            int sepIx = nameOrId.IndexOf(':');
+            return sepIx < 0 ? null : nameOrId.Substring(0, sepIx);
+        }
     }
 }

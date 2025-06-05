@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "GeneralDeviceConditions",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "target": "dtmi:opcua:PADIM:GeneralDeviceConditionSetType"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceComponentConditions"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceComponentConditions",
+      "namespace": "http://opcfoundation.org/UA/PADIM"
     }
   ]
 }

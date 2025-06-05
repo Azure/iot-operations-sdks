@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
       "target": "dtmi:opcua:MTConnect_v2:MTDescriptionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/MTConnect.v2",
       "target": "dtmi:opcua:MTConnect_v2:MTConfigurationType"
     }
   ]

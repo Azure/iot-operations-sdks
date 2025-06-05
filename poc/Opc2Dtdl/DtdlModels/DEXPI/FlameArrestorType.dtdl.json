@@ -64,20 +64,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DetonationProofArtefactSpecialization",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:DetonationProofArtefactClassification;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExplosionProofArtefactSpecialization",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:ExplosionProofArtefactClassification;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FireResistantArtefactSpecialization",
+      "namespace": "http://opcfoundation.org/UA/DEXPI",
       "schema": "dtmi:opcua:DEXPI:FlameArrestorType:dataType:FireResistantArtefactClassification;1",
       "writable": true
     }

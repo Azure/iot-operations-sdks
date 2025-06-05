@@ -397,14 +397,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Present_Value",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddDateListElements",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -438,8 +440,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveDateListElements",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

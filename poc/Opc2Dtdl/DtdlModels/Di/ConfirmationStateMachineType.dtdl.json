@@ -16,30 +16,36 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ConfirmationTimeout",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Confirm"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Confirm",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "NotWaitingForConfirm"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "NotWaitingForConfirm",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitingForConfirm"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitingForConfirm",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "NotWaitingForConfirmToWaitingForConfirm"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "NotWaitingForConfirmToWaitingForConfirm",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitingForConfirmToNotWaitingForConfirm"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitingForConfirmToNotWaitingForConfirm",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

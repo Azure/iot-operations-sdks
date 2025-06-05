@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "DEXPIXMIFile"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DEXPIXMIFile",
+      "namespace": "http://opcfoundation.org/UA/DEXPI"
     },
     {
-      "@type": "Relationship",
-      "name": "ProteusXMLFile"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProteusXMLFile",
+      "namespace": "http://opcfoundation.org/UA/DEXPI"
     }
   ]
 }

@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PressureDewPoint",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     }

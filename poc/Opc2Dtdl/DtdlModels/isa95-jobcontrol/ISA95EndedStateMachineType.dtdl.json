@@ -15,16 +15,19 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Closed"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Closed",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Completed"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Completed",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromCompletedToClosed"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromCompletedToClosed",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     }
   ]
 }

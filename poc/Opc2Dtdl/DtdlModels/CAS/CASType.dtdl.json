@@ -15,23 +15,27 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Airnets",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:AirnetsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Components",
+      "namespace": "http://opcfoundation.org/UA/Machinery",
       "target": "dtmi:opcua:CAS:ComponentsGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Identification",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:CAS:CASIdentificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MCS",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:MCSType"
     }
   ]

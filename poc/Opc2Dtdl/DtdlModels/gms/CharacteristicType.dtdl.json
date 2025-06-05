@@ -15,26 +15,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerToleranceLimit",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Nominal",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ResultValue",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperToleranceLimit",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "double",
       "writable": true
     }

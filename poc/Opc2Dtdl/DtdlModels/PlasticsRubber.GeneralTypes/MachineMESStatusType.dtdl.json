@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "ClearMESMessage"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ClearMESMessage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetMESMessage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -48,18 +50,21 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MESMessage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MESMessageType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionControl",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionControlType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StandstillMessage",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StandstillMessageType"
     }
   ]

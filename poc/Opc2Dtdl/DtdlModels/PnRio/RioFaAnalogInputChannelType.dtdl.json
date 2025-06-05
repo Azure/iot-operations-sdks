@@ -161,24 +161,29 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Config",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioFaAnalogInputConfigDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ProcessValue",
+            "namespace": "http://opcfoundation.org/UA/PNRIO",
             "schema": "dtmi:opcua:PNRIO:RioFaAnalogInputChannelType:dataType:RioFaAnalogProcessValueDataType;1"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "QualifierValue",
+            "namespace": "http://opcfoundation.org/UA/PNRIO",
             "schema": "boolean"
           }
         ]
@@ -186,8 +191,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "double",
       "writable": false
     }

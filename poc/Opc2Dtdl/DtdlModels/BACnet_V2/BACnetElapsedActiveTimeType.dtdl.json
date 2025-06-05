@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "Reset"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Reset",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
     }
   ]
 }

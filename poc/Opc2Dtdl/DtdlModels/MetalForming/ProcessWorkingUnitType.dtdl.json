@@ -16,18 +16,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CyclicProcessValue",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:MetalForming:CyclicProcessValueType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProcessValue",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:Machinery_ProcessValues:ProcessValueType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineryItemState",
+      "namespace": "http://opcfoundation.org/UA/MetalForming",
       "target": "dtmi:opcua:Machinery:MachineryItemState_StateMachineType"
     }
   ]

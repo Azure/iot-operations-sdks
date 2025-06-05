@@ -121,8 +121,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoteCommand",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -142,8 +143,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetInterlock",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -165,8 +167,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetMachSpeed",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -183,8 +186,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetParameter",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -204,8 +208,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetProduct",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -225,8 +230,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetUnitMode",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -243,18 +249,21 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Admin",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "target": "dtmi:opcua:PackML:PackMLAdminObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BaseStateMachine",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "target": "dtmi:opcua:PackML:PackMLStatusObjectType"
     }
   ]

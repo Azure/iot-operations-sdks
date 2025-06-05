@@ -16,32 +16,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CorrectiveMaintenanceTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Criticality",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Failure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NumberOfFailures",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Severity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "string",
       "writable": false
     }

@@ -17,21 +17,25 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "LoadConfigurationFile"
+      "@type": [ "Command", "Qualified" ],
+      "name": "LoadConfigurationFile",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Command",
-      "name": "SaveConfigurationFile"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SaveConfigurationFile",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CommunicationSettings",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:CommunicationSettingsType"
     },
     {
-      "@type": "Relationship",
-      "name": "ConfigurationFile"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ConfigurationFile",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     }
   ]
 }

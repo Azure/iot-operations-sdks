@@ -1,24 +1,24 @@
 DataTypes:
-- UADataType: [ Scheduler:70, SpecialEventType ]
+- UADataType: [ Scheduler:70, Scheduler:SpecialEventType ]
   Fields:
-    Period: [ SpecialEventPeriodType, 0 ]
-    ListOfTimeActions: [ TimeActionsType, 1 ]
+    Period: [ Scheduler:SpecialEventPeriodType, 0 ]
+    ListOfTimeActions: [ Scheduler:TimeActionsType, 1 ]
     EventPriority: [ Byte, 0 ]
-- UADataType: [ Scheduler:71, SpecialEventPeriodType ]
+- UADataType: [ Scheduler:71, Scheduler:SpecialEventPeriodType ]
   Fields:
-    CalendarEntry: [ CalendarEntryType, 0 ]
+    CalendarEntry: [ Scheduler:CalendarEntryType, 0 ]
     CalendarReference: [ NodeId, 0 ]
-- UADataType: [ Scheduler:72, CalendarEntryType ]
+- UADataType: [ Scheduler:72, Scheduler:CalendarEntryType ]
   Fields:
-    Date: [ DateType, 0 ]
-    DateRange: [ DateRangeType, 0 ]
-- UADataType: [ Scheduler:73, DateType ]
+    Date: [ Scheduler:DateType, 0 ]
+    DateRange: [ Scheduler:DateRangeType, 0 ]
+- UADataType: [ Scheduler:73, Scheduler:DateType ]
   Fields:
     Year: [ UInt16, 0 ]
-    Month: [ Month, 0 ]
-    DayOfMonth: [ DayOfMonth, 0 ]
-    DayOfWeek: [ DayOfWeek, 0 ]
-- UADataType: [ Scheduler:74, Month ]
+    Month: [ Scheduler:Month, 0 ]
+    DayOfMonth: [ Scheduler:DayOfMonth, 0 ]
+    DayOfWeek: [ Scheduler:DayOfWeek, 0 ]
+- UADataType: [ Scheduler:74, Scheduler:Month ]
   Enums:
     Unspecified: 0
     January: 1
@@ -35,7 +35,7 @@ DataTypes:
     December: 12
     Odd: 13
     Even: 14
-- UADataType: [ Scheduler:76, DayOfMonth ]
+- UADataType: [ Scheduler:76, Scheduler:DayOfMonth ]
   Enums:
     Unspecified: 0
     Day1: 1
@@ -72,7 +72,7 @@ DataTypes:
     LastDayOfMonth: 32
     OddDayOfMonth: 33
     EvenDayOfMonth: 34
-- UADataType: [ Scheduler:78, DayOfWeek ]
+- UADataType: [ Scheduler:78, Scheduler:DayOfWeek ]
   Enums:
     Unspecified: 0
     Monday: 1
@@ -82,50 +82,50 @@ DataTypes:
     Friday: 5
     Saturday: 6
     Sunday: 7
-- UADataType: [ Scheduler:80, DateRangeType ]
+- UADataType: [ Scheduler:80, Scheduler:DateRangeType ]
   Fields:
-    StartDate: [ DateType, 0 ]
-    EndDate: [ DateType, 0 ]
-- UADataType: [ Scheduler:81, TimeActionsType ]
+    StartDate: [ Scheduler:DateType, 0 ]
+    EndDate: [ Scheduler:DateType, 0 ]
+- UADataType: [ Scheduler:81, Scheduler:TimeActionsType ]
   Fields:
-    Time: [ TimeType, 0 ]
-    Actions: [ BaseActionType, 1 ]
-- UADataType: [ Scheduler:82, BaseActionType ]
+    Time: [ Scheduler:TimeType, 0 ]
+    Actions: [ Scheduler:BaseActionType, 1 ]
+- UADataType: [ Scheduler:82, Scheduler:BaseActionType ]
   Fields:
     LastActionResult: [ StatusCode, 0 ]
-- UADataType: [ Scheduler:83, WriteLocalVariableActionType ]
+- UADataType: [ Scheduler:83, Scheduler:WriteLocalVariableActionType ]
   Fields:
     Variable: [ NodeId, 0 ]
     Value: [ null, 0 ]
-- UADataType: [ Scheduler:84, CallLocalMethodActionType ]
+- UADataType: [ Scheduler:84, Scheduler:CallLocalMethodActionType ]
   Fields:
     ObjectId: [ NodeId, 0 ]
     MethodId: [ NodeId, 0 ]
     InputValues: [ null, 1 ]
     LastOutputValues: [ null, 1 ]
-- UADataType: [ Scheduler:85, TimeType ]
+- UADataType: [ Scheduler:85, Scheduler:TimeType ]
   Fields:
     Hour: [ Byte, 0 ]
     Minute: [ Byte, 0 ]
     Second: [ Byte, 0 ]
-- UADataType: [ Scheduler:86, DailyScheduleType ]
+- UADataType: [ Scheduler:86, Scheduler:DailyScheduleType ]
   Fields:
-    DaySchedule: [ TimeActionsType, 1 ]
+    DaySchedule: [ Scheduler:TimeActionsType, 1 ]
 
 DefinedTypes:
 
-  CalendarType:
-  - [ UAObjectType, Scheduler:37, CalendarType ]
+  Scheduler:CalendarType:
+  - [ UAObjectType, Scheduler:37, Scheduler:CalendarType ]
   - HasComponent:
-    - [ UAVariable, Scheduler:38, PresentValue, Boolean, 0, 0 ]
+    - [ UAVariable, Scheduler:38, Scheduler:PresentValue, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, Scheduler:40, AddDateListElements ]
+    - [ UAMethod, Scheduler:40, Scheduler:AddDateListElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:41, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          CalendarEntries: [ CalendarEntryType, 1 ]
+          CalendarEntries: [ Scheduler:CalendarEntryType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -137,11 +137,11 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scheduler:43, RemoveDateListElements ]
+    - [ UAMethod, Scheduler:43, Scheduler:RemoveDateListElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:44, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          CalendarEntries: [ CalendarEntryType, 1 ]
+          CalendarEntries: [ Scheduler:CalendarEntryType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -155,14 +155,14 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ScheduleType:
-  - [ UAObjectType, Scheduler:52, ScheduleType ]
+  Scheduler:ScheduleType:
+  - [ UAObjectType, Scheduler:52, Scheduler:ScheduleType ]
   - HasComponent:
-    - [ UAMethod, Scheduler:54, AddExceptionScheduleElements ]
+    - [ UAMethod, Scheduler:54, Scheduler:AddExceptionScheduleElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:55, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          SpecialEvents: [ SpecialEventType, 1 ]
+          SpecialEvents: [ Scheduler:SpecialEventType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:
@@ -174,11 +174,11 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, Scheduler:57, RemoveExceptionScheduleElements ]
+    - [ UAMethod, Scheduler:57, Scheduler:RemoveExceptionScheduleElements ]
     - HasProperty:
       - [ UAVariable, Scheduler:58, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          SpecialEvents: [ SpecialEventType, 1 ]
+          SpecialEvents: [ Scheduler:SpecialEventType, 1 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasProperty:

@@ -10,6 +10,7 @@
 namespace Yaml2Dtdl
 {
     using System.Collections.Generic;
+    using SpecMapper;
     using System;
     
     /// <summary>
@@ -24,8 +25,10 @@ namespace Yaml2Dtdl
         public virtual string TransformText()
         {
  int ix;
-            this.Write("    {\r\n      \"@type\": \"Command\",\r\n      \"name\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(definedType.BrowseName));
+            this.Write("    {\r\n      \"@type\": [ \"Command\", \"Qualified\" ],\r\n      \"name\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.Dequalify(definedType.BrowseName)));
+            this.Write("\",\r\n      \"namespace\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.InputArgs != null || this.OutputArgs != null ? "," : ""));
             this.Write("\r\n");

@@ -1,90 +1,90 @@
 DataTypes:
-- UADataType: [ ISA95:4772, DecimalString ]
+- UADataType: [ ISA95:4772, ISA95:DecimalString ]
   Bases:
   - String
-- UADataType: [ ISA95:4773, DateString ]
+- UADataType: [ ISA95:4773, ISA95:DateString ]
   Bases:
   - String
-- UADataType: [ ISA95:4774, TimeString ]
+- UADataType: [ ISA95:4774, ISA95:TimeString ]
   Bases:
   - String
-- UADataType: [ ISA95:4775, DurationString ]
+- UADataType: [ ISA95:4775, ISA95:DurationString ]
   Bases:
   - String
-- UADataType: [ ISA95:4929, NormalizedString ]
+- UADataType: [ ISA95:4929, ISA95:NormalizedString ]
   Bases:
   - String
-- UADataType: [ ISA95:927, Decimal ]
+- UADataType: [ ISA95:927, ISA95:Decimal ]
   Bases:
   - ByteString
-- UADataType: [ ISA95:4776, CurrencyCode ]
+- UADataType: [ ISA95:4776, ISA95:CurrencyCode ]
   Fields:
     namespaceUri: [ String, 0 ]
     unitId: [ Int32, 0 ]
     charId: [ Byte, 1 ]
     displayName: [ LocalizedText, 0 ]
     Description: [ LocalizedText, 0 ]
-- UADataType: [ ISA95:4796, CDTAmountDecimal ]
+- UADataType: [ ISA95:4796, ISA95:CDTAmountDecimal ]
   Bases:
-  - Decimal
-- UADataType: [ ISA95:4798, CDTBinaryObject ]
+  - ISA95:Decimal
+- UADataType: [ ISA95:4798, ISA95:CDTBinaryObject ]
   Bases:
   - ByteString
-- UADataType: [ ISA95:4792, CDTCode ]
+- UADataType: [ ISA95:4792, ISA95:CDTCode ]
   Bases:
   - String
-- UADataType: [ ISA95:4803, CDTDateTime ]
+- UADataType: [ ISA95:4803, ISA95:CDTDateTime ]
   Bases:
   - UtcTime
-- UADataType: [ ISA95:4806, CDTGraphic ]
+- UADataType: [ ISA95:4806, ISA95:CDTGraphic ]
   Bases:
   - ByteString
-- UADataType: [ ISA95:4777, CDTIdentifier ]
+- UADataType: [ ISA95:4777, ISA95:CDTIdentifier ]
   Bases:
   - String
-- UADataType: [ ISA95:4809, CDTMeasureDecimal ]
+- UADataType: [ ISA95:4809, ISA95:CDTMeasureDecimal ]
   Bases:
-  - Decimal
-- UADataType: [ ISA95:4811, CDTMeasureDouble ]
+  - ISA95:Decimal
+- UADataType: [ ISA95:4811, ISA95:CDTMeasureDouble ]
   Bases:
   - Double
-- UADataType: [ ISA95:4813, CDTMeasureFloat ]
+- UADataType: [ ISA95:4813, ISA95:CDTMeasureFloat ]
   Bases:
   - Float
-- UADataType: [ ISA95:4815, CDTMeasureInt16 ]
+- UADataType: [ ISA95:4815, ISA95:CDTMeasureInt16 ]
   Bases:
   - Int16
-- UADataType: [ ISA95:4817, CDTMeasureInt32 ]
+- UADataType: [ ISA95:4817, ISA95:CDTMeasureInt32 ]
   Bases:
   - Int32
-- UADataType: [ ISA95:4819, CDTMeasureInt64 ]
+- UADataType: [ ISA95:4819, ISA95:CDTMeasureInt64 ]
   Bases:
   - Int64
-- UADataType: [ ISA95:4821, CDTOrdinal ]
+- UADataType: [ ISA95:4821, ISA95:CDTOrdinal ]
   Bases:
   - Int32
-- UADataType: [ ISA95:4822, CDTPicture ]
+- UADataType: [ ISA95:4822, ISA95:CDTPicture ]
   Bases:
   - Image
-- UADataType: [ ISA95:4825, CDTRateDecimal ]
+- UADataType: [ ISA95:4825, ISA95:CDTRateDecimal ]
   Bases:
-  - Decimal
-- UADataType: [ ISA95:4832, CDTRateDouble ]
+  - ISA95:Decimal
+- UADataType: [ ISA95:4832, ISA95:CDTRateDouble ]
   Bases:
   - Double
-- UADataType: [ ISA95:4839, CDTRateFloat ]
+- UADataType: [ ISA95:4839, ISA95:CDTRateFloat ]
   Bases:
   - Float
-- UADataType: [ ISA95:4846, CDTRateInt32 ]
+- UADataType: [ ISA95:4846, ISA95:CDTRateInt32 ]
   Bases:
   - Int32
-- UADataType: [ ISA95:4853, CDTSound ]
+- UADataType: [ ISA95:4853, ISA95:CDTSound ]
   Bases:
   - ByteString
-- UADataType: [ ISA95:4856, CDTVideo ]
+- UADataType: [ ISA95:4856, ISA95:CDTVideo ]
   Bases:
   - ByteString
-- UADataType: [ ISA95:4871, ISA95EquipmentElementLevelEnum ]
+- UADataType: [ ISA95:4871, ISA95:ISA95EquipmentElementLevelEnum ]
   Enums:
     Enterprise: 0
     Site: 1
@@ -101,7 +101,7 @@ DataTypes:
     EquipmentModule: 12
     ControlModule: 13
     Other: 14
-- UADataType: [ ISA95:4862, ISA95TestResultMeasurementDataType ]
+- UADataType: [ ISA95:4862, ISA95:ISA95TestResultMeasurementDataType ]
   Fields:
     Id: [ NodeId, 0 ]
     TestResultDescription: [ LocalizedText, 0 ]
@@ -109,7 +109,7 @@ DataTypes:
     Result: [ null, 0 ]
     ResultUnitOfMeasure: [ EUInformation, 0 ]
     Expiration: [ DateTime, 0 ]
-- UADataType: [ ISA95:4873, ISA95TestResultDataType ]
+- UADataType: [ ISA95:4873, ISA95:ISA95TestResultDataType ]
   Fields:
     Id: [ NodeId, 0 ]
     TestResultDescription: [ LocalizedText, 0 ]
@@ -117,7 +117,7 @@ DataTypes:
     Result: [ null, 0 ]
     ResultUnitOfMeasure: [ String, 0 ]
     Expiration: [ DateTime, 0 ]
-- UADataType: [ ISA95:4956, ISA95AssetAssignmentDataType ]
+- UADataType: [ ISA95:4956, ISA95:ISA95AssetAssignmentDataType ]
   Fields:
     Id: [ NodeId, 0 ]
     AssinmentDescription: [ LocalizedText, 0 ]
@@ -126,95 +126,95 @@ DataTypes:
 
 DefinedTypes:
 
-  ISA95ClassType:
-  - [ UAObjectType, ISA95:4957, ISA95ClassType ]
+  ISA95:ISA95ClassType:
+  - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ISA95ObjectType:
-  - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
+  ISA95:ISA95ObjectType:
+  - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ISA95TestSpecificationType:
-  - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
+  ISA95:ISA95TestSpecificationType:
+  - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  QualificationTestSpecificationType:
-  - [ UAObjectType, ISA95:4977, QualificationTestSpecificationType ]
+  ISA95:QualificationTestSpecificationType:
+  - [ UAObjectType, ISA95:4977, ISA95:QualificationTestSpecificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
-  PersonnelClassType:
-  - [ UAObjectType, ISA95:4996, PersonnelClassType ]
+  ISA95:PersonnelClassType:
+  - [ UAObjectType, ISA95:4996, ISA95:PersonnelClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
-  PersonType:
-  - [ UAObjectType, ISA95:5131, PersonType ]
+  ISA95:PersonType:
+  - [ UAObjectType, ISA95:5131, ISA95:PersonType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
 
-  PhysicalAssetCapabilityTestSpecificationType:
-  - [ UAObjectType, ISA95:5057, PhysicalAssetCapabilityTestSpecificationType ]
+  ISA95:PhysicalAssetCapabilityTestSpecificationType:
+  - [ UAObjectType, ISA95:5057, ISA95:PhysicalAssetCapabilityTestSpecificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
-  PhysicalAssetClassType:
-  - [ UAObjectType, ISA95:5078, PhysicalAssetClassType ]
+  ISA95:PhysicalAssetClassType:
+  - [ UAObjectType, ISA95:5078, ISA95:PhysicalAssetClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
-  PhysicalAssetType:
-  - [ UAObjectType, ISA95:5085, PhysicalAssetType ]
+  ISA95:PhysicalAssetType:
+  - [ UAObjectType, ISA95:5085, ISA95:PhysicalAssetType ]
   - HasComponent:
-    - [ UAVariable, ISA95:5308, AssetAssignment ]
+    - [ UAVariable, ISA95:5308, ISA95:AssetAssignment ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
 
-  EquipmentCapabilityTestSpecificationType:
-  - [ UAObjectType, ISA95:5015, EquipmentCapabilityTestSpecificationType ]
+  ISA95:EquipmentCapabilityTestSpecificationType:
+  - [ UAObjectType, ISA95:5015, ISA95:EquipmentCapabilityTestSpecificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
-  EquipmentClassType:
-  - [ UAObjectType, ISA95:5034, EquipmentClassType ]
+  ISA95:EquipmentClassType:
+  - [ UAObjectType, ISA95:5034, ISA95:EquipmentClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
-  EquipmentType:
-  - [ UAObjectType, ISA95:5040, EquipmentType ]
+  ISA95:EquipmentType:
+  - [ UAObjectType, ISA95:5040, ISA95:EquipmentType ]
   - HasComponent:
-    - [ UAVariable, ISA95:5328, AssetAssignment ]
+    - [ UAVariable, ISA95:5328, ISA95:AssetAssignment ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
 
-  MaterialTestSpecificationType:
-  - [ UAObjectType, ISA95:5172, MaterialTestSpecificationType ]
+  ISA95:MaterialTestSpecificationType:
+  - [ UAObjectType, ISA95:5172, ISA95:MaterialTestSpecificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4959, ISA95TestSpecificationType ]
+    - [ UAObjectType, ISA95:4959, ISA95:ISA95TestSpecificationType ]
 
-  MaterialClassType:
-  - [ UAObjectType, ISA95:5209, MaterialClassType ]
+  ISA95:MaterialClassType:
+  - [ UAObjectType, ISA95:5209, ISA95:MaterialClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
-  MaterialDefinitionType:
-  - [ UAObjectType, ISA95:5219, MaterialDefinitionType ]
+  ISA95:MaterialDefinitionType:
+  - [ UAObjectType, ISA95:5219, ISA95:MaterialDefinitionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4957, ISA95ClassType ]
+    - [ UAObjectType, ISA95:4957, ISA95:ISA95ClassType ]
 
-  MaterialLotType:
-  - [ UAObjectType, ISA95:5232, MaterialLotType ]
+  ISA95:MaterialLotType:
+  - [ UAObjectType, ISA95:5232, ISA95:MaterialLotType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]
 
-  MaterialSublotType:
-  - [ UAObjectType, ISA95:5259, MaterialSublotType ]
+  ISA95:MaterialSublotType:
+  - [ UAObjectType, ISA95:5259, ISA95:MaterialSublotType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ISA95:4958, ISA95ObjectType ]
+    - [ UAObjectType, ISA95:4958, ISA95:ISA95ObjectType ]

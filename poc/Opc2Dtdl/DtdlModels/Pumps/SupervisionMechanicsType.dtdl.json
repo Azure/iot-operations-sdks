@@ -16,98 +16,114 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AxialBearingAbrasion",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AxialBearingFault",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AxialBearingOverheat",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "BearingFault",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "BrakeChopper",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "BrakeOverheat",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ExcessVibration",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "GapWear",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "MechanicalFault",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Misalignment",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RadialBearingAbrasion",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RadialBearingFault",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RadialBearingOverheat",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RotorBlocked",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RotorStationRubbing",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Unbalance",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     }

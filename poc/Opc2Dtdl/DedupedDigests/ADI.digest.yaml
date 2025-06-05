@@ -1,5 +1,5 @@
 DataTypes:
-- UADataType: [ ADI:9378, ExecutionCycleEnumeration ]
+- UADataType: [ ADI:9378, ADI:ExecutionCycleEnumeration ]
   Enums:
     IDLE: 0
     DIAGNOSTIC: 1
@@ -12,14 +12,14 @@ DataTypes:
     CALIBRATION_WITH_GRAB_SAMPLE: 32772
     VALIDATION_WITH_GRAB_SAMPLE: 32776
     SAMPLING_WITH_GRAB_SAMPLE: 32784
-- UADataType: [ ADI:3003, AcquisitionResultStatusEnumeration ]
+- UADataType: [ ADI:3003, ADI:AcquisitionResultStatusEnumeration ]
   Enums:
     NOT_USED: 0
     GOOD: 1
     BAD: 2
     UNKNOWN: 3
     PARTIAL: 4
-- UADataType: [ ADI:3009, AlarmStateEnumeration ]
+- UADataType: [ ADI:3009, ADI:AlarmStateEnumeration ]
   Enums:
     NORMAL_0: 0
     WARNING_LOW_1: 1
@@ -28,36 +28,36 @@ DataTypes:
     ALARM_LOW_8: 8
     ALARM_HIGH_16: 16
     ALARM_32: 32
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -67,1024 +67,1024 @@ DataTypes:
 
 DefinedTypes:
 
-  AnalyserDeviceType:
-  - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+  ADI:AnalyserDeviceType:
+  - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
   - HasComponent:
-    - [ UAObject, ADI:9482, Configuration ]
+    - [ UAObject, ADI:9482, ADI:Configuration ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9484, Status ]
+    - [ UAObject, ADI:9484, ADI:Status ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9486, FactorySettings ]
+    - [ UAObject, ADI:9486, ADI:FactorySettings ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9488, AnalyserStateMachine ]
+    - [ UAObject, ADI:9488, ADI:AnalyserStateMachine ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1002, AnalyserDeviceStateMachineType ]
+      - [ UAObjectType, ADI:1002, ADI:AnalyserDeviceStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9500, <ChannelIdentifier> ]
+    - [ UAObject, ADI:9500, ADI:<ChannelIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1003, AnalyserChannelType ]
+      - [ UAObjectType, ADI:1003, ADI:AnalyserChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, ADI:9610, <AccessorySlotIdentifier> ]
+    - [ UAObject, ADI:9610, ADI:<AccessorySlotIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1017, AccessorySlotType ]
+      - [ UAObjectType, ADI:1017, ADI:AccessorySlotType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1002, DeviceType ]
+    - [ UAObjectType, DI:1002, DI:DeviceType ]
 
-  AnalyserDeviceStateMachineType:
-  - [ UAObjectType, ADI:1002, AnalyserDeviceStateMachineType ]
+  ADI:AnalyserDeviceStateMachineType:
+  - [ UAObjectType, ADI:1002, ADI:AnalyserDeviceStateMachineType ]
   - HasComponent:
-    - [ UAObject, ADI:9647, Powerup ]
+    - [ UAObject, ADI:9647, ADI:Powerup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, ADI:9649, Operating ]
+    - [ UAObject, ADI:9649, ADI:Operating ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:9651, Local ]
+    - [ UAObject, ADI:9651, ADI:Local ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:9653, Maintenance ]
+    - [ UAObject, ADI:9653, ADI:Maintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:9655, Shutdown ]
+    - [ UAObject, ADI:9655, ADI:Shutdown ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:9657, PowerupToOperatingTransition ]
+    - [ UAObject, ADI:9657, ADI:PowerupToOperatingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9659, OperatingToLocalTransition ]
+    - [ UAObject, ADI:9659, ADI:OperatingToLocalTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9661, OperatingToMaintenanceTransition ]
+    - [ UAObject, ADI:9661, ADI:OperatingToMaintenanceTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9663, LocalToOperatingTransition ]
+    - [ UAObject, ADI:9663, ADI:LocalToOperatingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9665, LocalToMaintenanceTransition ]
+    - [ UAObject, ADI:9665, ADI:LocalToMaintenanceTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9667, MaintenanceToOperatingTransition ]
+    - [ UAObject, ADI:9667, ADI:MaintenanceToOperatingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9669, MaintenanceToLocalTransition ]
+    - [ UAObject, ADI:9669, ADI:MaintenanceToLocalTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9671, OperatingToShutdownTransition ]
+    - [ UAObject, ADI:9671, ADI:OperatingToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9673, LocalToShutdownTransition ]
+    - [ UAObject, ADI:9673, ADI:LocalToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:9675, MaintenanceToShutdownTransition ]
+    - [ UAObject, ADI:9675, ADI:MaintenanceToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  AnalyserChannelType:
-  - [ UAObjectType, ADI:1003, AnalyserChannelType ]
+  ADI:AnalyserChannelType:
+  - [ UAObjectType, ADI:1003, ADI:AnalyserChannelType ]
   - HasComponent:
-    - [ UAObject, ADI:9724, Configuration ]
+    - [ UAObject, ADI:9724, ADI:Configuration ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9726, Status ]
+    - [ UAObject, ADI:9726, ADI:Status ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9728, ChannelStateMachine ]
+    - [ UAObject, ADI:9728, ADI:ChannelStateMachine ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1007, AnalyserChannelStateMachineType ]
+      - [ UAObjectType, ADI:1007, ADI:AnalyserChannelStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9790, <StreamIdentifier> ]
+    - [ UAObject, ADI:9790, ADI:<StreamIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1010, StreamType ]
+      - [ UAObjectType, ADI:1010, ADI:StreamType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, ADI:9916, <AccessorySlotIdentifier> ]
+    - [ UAObject, ADI:9916, ADI:<AccessorySlotIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1017, AccessorySlotType ]
+      - [ UAObjectType, ADI:1017, ADI:AccessorySlotType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
-  AnalyserChannelOperatingStateType:
-  - [ UAObjectType, ADI:1004, AnalyserChannelOperatingStateType ]
+  ADI:AnalyserChannelOperatingStateType:
+  - [ UAObjectType, ADI:1004, ADI:AnalyserChannelOperatingStateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2307, StateType ]
 
-  AnalyserChannelLocalStateType:
-  - [ UAObjectType, ADI:1005, AnalyserChannelLocalStateType ]
+  ADI:AnalyserChannelLocalStateType:
+  - [ UAObjectType, ADI:1005, ADI:AnalyserChannelLocalStateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2307, StateType ]
 
-  AnalyserChannelMaintenanceStateType:
-  - [ UAObjectType, ADI:1006, AnalyserChannelMaintenanceStateType ]
+  ADI:AnalyserChannelMaintenanceStateType:
+  - [ UAObjectType, ADI:1006, ADI:AnalyserChannelMaintenanceStateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2307, StateType ]
 
-  AnalyserChannelStateMachineType:
-  - [ UAObjectType, ADI:1007, AnalyserChannelStateMachineType ]
+  ADI:AnalyserChannelStateMachineType:
+  - [ UAObjectType, ADI:1007, ADI:AnalyserChannelStateMachineType ]
   - HasComponent:
-    - [ UAObject, ADI:9948, OperatingSubStateMachine ]
+    - [ UAObject, ADI:9948, ADI:OperatingSubStateMachine ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+      - [ UAObjectType, ADI:1008, ADI:AnalyserChannel_OperatingModeSubStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:9972, LocalSubStateMachine ]
+    - [ UAObject, ADI:9972, ADI:LocalSubStateMachine ]
     - HasTypeDefinition:
       - [ UAObjectType, 2771, FiniteStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, ADI:9984, MaintenanceSubStateMachine ]
+    - [ UAObject, ADI:9984, ADI:MaintenanceSubStateMachine ]
     - HasTypeDefinition:
       - [ UAObjectType, 2771, FiniteStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, ADI:9996, SlaveMode ]
+    - [ UAObject, ADI:9996, ADI:SlaveMode ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, ADI:9998, Operating ]
+    - [ UAObject, ADI:9998, ADI:Operating ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1004, AnalyserChannelOperatingStateType ]
+      - [ UAObjectType, ADI:1004, ADI:AnalyserChannelOperatingStateType ]
   - HasComponent:
-    - [ UAObject, ADI:10000, Local ]
+    - [ UAObject, ADI:10000, ADI:Local ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1005, AnalyserChannelLocalStateType ]
+      - [ UAObjectType, ADI:1005, ADI:AnalyserChannelLocalStateType ]
   - HasComponent:
-    - [ UAObject, ADI:10002, Maintenance ]
+    - [ UAObject, ADI:10002, ADI:Maintenance ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1006, AnalyserChannelMaintenanceStateType ]
+      - [ UAObjectType, ADI:1006, ADI:AnalyserChannelMaintenanceStateType ]
   - HasComponent:
-    - [ UAObject, ADI:10004, SlaveModeToOperatingTransition ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 2310, TransitionType ]
-  - HasComponent:
-    - [ UAObject, ADI:10006, OperatingToLocalTransition ]
+    - [ UAObject, ADI:10004, ADI:SlaveModeToOperatingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10008, OperatingToMaintenanceTransition ]
+    - [ UAObject, ADI:10006, ADI:OperatingToLocalTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10010, LocalToOperatingTransition ]
+    - [ UAObject, ADI:10008, ADI:OperatingToMaintenanceTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10012, LocalToMaintenanceTransition ]
+    - [ UAObject, ADI:10010, ADI:LocalToOperatingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10014, MaintenanceToOperatingTransition ]
+    - [ UAObject, ADI:10012, ADI:LocalToMaintenanceTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10016, MaintenanceToLocalTransition ]
+    - [ UAObject, ADI:10014, ADI:MaintenanceToOperatingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10018, OperatingToSlaveModeTransition ]
+    - [ UAObject, ADI:10016, ADI:MaintenanceToLocalTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10020, LocalToSlaveModeTransition ]
+    - [ UAObject, ADI:10018, ADI:OperatingToSlaveModeTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10022, MaintenanceToSlaveModeTransition ]
+    - [ UAObject, ADI:10020, ADI:LocalToSlaveModeTransition ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2310, TransitionType ]
+  - HasComponent:
+    - [ UAObject, ADI:10022, ADI:MaintenanceToSlaveModeTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  AnalyserChannelOperatingExecuteStateType:
-  - [ UAObjectType, ADI:8964, AnalyserChannelOperatingExecuteStateType ]
+  ADI:AnalyserChannelOperatingExecuteStateType:
+  - [ UAObjectType, ADI:8964, ADI:AnalyserChannelOperatingExecuteStateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2307, StateType ]
 
-  AnalyserChannel_OperatingModeSubStateMachineType:
-  - [ UAObjectType, ADI:1008, AnalyserChannel_OperatingModeSubStateMachineType ]
+  ADI:AnalyserChannel_OperatingModeSubStateMachineType:
+  - [ UAObjectType, ADI:1008, ADI:AnalyserChannel_OperatingModeSubStateMachineType ]
   - HasComponent:
-    - [ UAObject, ADI:10036, OperatingExecuteSubStateMachine ]
+    - [ UAObject, ADI:10036, ADI:OperatingExecuteSubStateMachine ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+      - [ UAObjectType, ADI:1009, ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:10048, Stopped ]
+    - [ UAObject, ADI:10048, ADI:Stopped ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, ADI:10050, Resetting ]
+    - [ UAObject, ADI:10050, ADI:Resetting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10052, Idle ]
+    - [ UAObject, ADI:10052, ADI:Idle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10054, Starting ]
+    - [ UAObject, ADI:10054, ADI:Starting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10056, Execute ]
+    - [ UAObject, ADI:10056, ADI:Execute ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:8964, AnalyserChannelOperatingExecuteStateType ]
+      - [ UAObjectType, ADI:8964, ADI:AnalyserChannelOperatingExecuteStateType ]
   - HasComponent:
-    - [ UAObject, ADI:10058, Completing ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 2307, StateType ]
-  - HasComponent:
-    - [ UAObject, ADI:10060, Complete ]
+    - [ UAObject, ADI:10058, ADI:Completing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10062, Suspending ]
+    - [ UAObject, ADI:10060, ADI:Complete ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10064, Suspended ]
+    - [ UAObject, ADI:10062, ADI:Suspending ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10066, Unsuspending ]
+    - [ UAObject, ADI:10064, ADI:Suspended ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10068, Holding ]
+    - [ UAObject, ADI:10066, ADI:Unsuspending ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10070, Held ]
+    - [ UAObject, ADI:10068, ADI:Holding ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10072, Unholding ]
+    - [ UAObject, ADI:10070, ADI:Held ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10074, Stopping ]
+    - [ UAObject, ADI:10072, ADI:Unholding ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10076, Aborting ]
+    - [ UAObject, ADI:10074, ADI:Stopping ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10078, Aborted ]
+    - [ UAObject, ADI:10076, ADI:Aborting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10080, Clearing ]
+    - [ UAObject, ADI:10078, ADI:Aborted ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10082, StoppedToResettingTransition ]
+    - [ UAObject, ADI:10080, ADI:Clearing ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 2307, StateType ]
+  - HasComponent:
+    - [ UAObject, ADI:10082, ADI:StoppedToResettingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10084, ResettingTransition ]
+    - [ UAObject, ADI:10084, ADI:ResettingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10086, ResettingToIdleTransition ]
+    - [ UAObject, ADI:10086, ADI:ResettingToIdleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10088, IdleToStartingTransition ]
+    - [ UAObject, ADI:10088, ADI:IdleToStartingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10090, StartingTransition ]
+    - [ UAObject, ADI:10090, ADI:StartingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10092, StartingToExecuteTransition ]
+    - [ UAObject, ADI:10092, ADI:StartingToExecuteTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10094, ExecuteToCompletingTransition ]
+    - [ UAObject, ADI:10094, ADI:ExecuteToCompletingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10096, CompletingTransition ]
+    - [ UAObject, ADI:10096, ADI:CompletingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10098, CompletingToCompleteTransition ]
+    - [ UAObject, ADI:10098, ADI:CompletingToCompleteTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10100, CompleteToStoppedTransition ]
+    - [ UAObject, ADI:10100, ADI:CompleteToStoppedTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10102, ExecuteToHoldingTransition ]
+    - [ UAObject, ADI:10102, ADI:ExecuteToHoldingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10104, HoldingTransition ]
+    - [ UAObject, ADI:10104, ADI:HoldingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10106, HoldingToHeldTransition ]
+    - [ UAObject, ADI:10106, ADI:HoldingToHeldTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10108, HeldToUnholdingTransition ]
+    - [ UAObject, ADI:10108, ADI:HeldToUnholdingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10110, UnholdingTransition ]
+    - [ UAObject, ADI:10110, ADI:UnholdingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10112, UnholdingToHoldingTransition ]
+    - [ UAObject, ADI:10112, ADI:UnholdingToHoldingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10114, UnholdingToExecuteTransition ]
+    - [ UAObject, ADI:10114, ADI:UnholdingToExecuteTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10116, ExecuteToSuspendingTransition ]
+    - [ UAObject, ADI:10116, ADI:ExecuteToSuspendingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10118, SuspendingTransition ]
+    - [ UAObject, ADI:10118, ADI:SuspendingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10120, SuspendingToSuspendedTransition ]
+    - [ UAObject, ADI:10120, ADI:SuspendingToSuspendedTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10122, SuspendedToUnsuspendingTransition ]
+    - [ UAObject, ADI:10122, ADI:SuspendedToUnsuspendingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10124, UnsuspendingTransition ]
+    - [ UAObject, ADI:10124, ADI:UnsuspendingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10126, UnsuspendingToSuspendingTransition ]
+    - [ UAObject, ADI:10126, ADI:UnsuspendingToSuspendingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10128, UnsuspendingToExecuteTransition ]
+    - [ UAObject, ADI:10128, ADI:UnsuspendingToExecuteTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10130, StoppingToStoppedTransition ]
+    - [ UAObject, ADI:10130, ADI:StoppingToStoppedTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10132, AbortingToAbortedTransition ]
+    - [ UAObject, ADI:10132, ADI:AbortingToAbortedTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10134, AbortedToClearingTransition ]
+    - [ UAObject, ADI:10134, ADI:AbortedToClearingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10136, ClearingToStoppedTransition ]
+    - [ UAObject, ADI:10136, ADI:ClearingToStoppedTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10138, ResettingToStoppingTransition ]
+    - [ UAObject, ADI:10138, ADI:ResettingToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10140, IdleToStoppingTransition ]
+    - [ UAObject, ADI:10140, ADI:IdleToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10142, StartingToStoppingTransition ]
+    - [ UAObject, ADI:10142, ADI:StartingToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10144, ExecuteToStoppingTransition ]
+    - [ UAObject, ADI:10144, ADI:ExecuteToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10146, CompletingToStoppingTransition ]
+    - [ UAObject, ADI:10146, ADI:CompletingToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10148, CompleteToStoppingTransition ]
+    - [ UAObject, ADI:10148, ADI:CompleteToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10150, SuspendingToStoppingTransition ]
+    - [ UAObject, ADI:10150, ADI:SuspendingToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10152, SuspendedToStoppingTransition ]
+    - [ UAObject, ADI:10152, ADI:SuspendedToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10154, UnsuspendingToStoppingTransition ]
+    - [ UAObject, ADI:10154, ADI:UnsuspendingToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10156, HoldingToStoppingTransition ]
+    - [ UAObject, ADI:10156, ADI:HoldingToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10158, HeldToStoppingTransition ]
+    - [ UAObject, ADI:10158, ADI:HeldToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10160, UnholdingToStoppingTransition ]
+    - [ UAObject, ADI:10160, ADI:UnholdingToStoppingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10162, StoppedToAbortingTransition ]
+    - [ UAObject, ADI:10162, ADI:StoppedToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10164, ResettingToAbortingTransition ]
+    - [ UAObject, ADI:10164, ADI:ResettingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10166, IdleToAbortingTransition ]
+    - [ UAObject, ADI:10166, ADI:IdleToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10168, StartingToAbortingTransition ]
+    - [ UAObject, ADI:10168, ADI:StartingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10170, ExecuteToAbortingTransition ]
+    - [ UAObject, ADI:10170, ADI:ExecuteToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10172, CompletingToAbortingTransition ]
+    - [ UAObject, ADI:10172, ADI:CompletingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10174, CompleteToAbortingTransition ]
+    - [ UAObject, ADI:10174, ADI:CompleteToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10176, SuspendingToAbortingTransition ]
+    - [ UAObject, ADI:10176, ADI:SuspendingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10178, SuspendedToAbortingTransition ]
+    - [ UAObject, ADI:10178, ADI:SuspendedToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10180, UnsuspendingToAbortingTransition ]
+    - [ UAObject, ADI:10180, ADI:UnsuspendingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10182, HoldingToAbortingTransition ]
+    - [ UAObject, ADI:10182, ADI:HoldingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10184, HeldToAbortingTransition ]
+    - [ UAObject, ADI:10184, ADI:HeldToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10186, UnholdingToAbortingTransition ]
+    - [ UAObject, ADI:10186, ADI:UnholdingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10188, StoppingToAbortingTransition ]
+    - [ UAObject, ADI:10188, ADI:StoppingToAbortingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  AnalyserChannel_OperatingModeExecuteSubStateMachineType:
-  - [ UAObjectType, ADI:1009, AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
+  ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType:
+  - [ UAObjectType, ADI:1009, ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType ]
   - HasComponent:
-    - [ UAObject, ADI:10201, SelectExecutionCycle ]
+    - [ UAObject, ADI:10201, ADI:SelectExecutionCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, ADI:10203, WaitForCalibrationTrigger ]
+    - [ UAObject, ADI:10203, ADI:WaitForCalibrationTrigger ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10205, ExtractCalibrationSample ]
+    - [ UAObject, ADI:10205, ADI:ExtractCalibrationSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10207, PrepareCalibrationSample ]
+    - [ UAObject, ADI:10207, ADI:PrepareCalibrationSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10209, AnalyseCalibrationSample ]
+    - [ UAObject, ADI:10209, ADI:AnalyseCalibrationSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10211, WaitForValidationTrigger ]
+    - [ UAObject, ADI:10211, ADI:WaitForValidationTrigger ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10213, ExtractValidationSample ]
+    - [ UAObject, ADI:10213, ADI:ExtractValidationSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10215, PrepareValidationSample ]
+    - [ UAObject, ADI:10215, ADI:PrepareValidationSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10217, AnalyseValidationSample ]
+    - [ UAObject, ADI:10217, ADI:AnalyseValidationSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10219, WaitForSampleTrigger ]
+    - [ UAObject, ADI:10219, ADI:WaitForSampleTrigger ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10221, ExtractSample ]
+    - [ UAObject, ADI:10221, ADI:ExtractSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10223, PrepareSample ]
+    - [ UAObject, ADI:10223, ADI:PrepareSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10225, AnalyseSample ]
+    - [ UAObject, ADI:10225, ADI:AnalyseSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10227, WaitForDiagnosticTrigger ]
+    - [ UAObject, ADI:10227, ADI:WaitForDiagnosticTrigger ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10229, Diagnostic ]
+    - [ UAObject, ADI:10229, ADI:Diagnostic ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10231, WaitForCleaningTrigger ]
+    - [ UAObject, ADI:10231, ADI:WaitForCleaningTrigger ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10233, Cleaning ]
+    - [ UAObject, ADI:10233, ADI:Cleaning ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10235, PublishResults ]
+    - [ UAObject, ADI:10235, ADI:PublishResults ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10237, EjectGrabSample ]
+    - [ UAObject, ADI:10237, ADI:EjectGrabSample ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10239, CleanupSamplingSystem ]
+    - [ UAObject, ADI:10239, ADI:CleanupSamplingSystem ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:10241, SelectExecutionCycleToWaitForCalibrationTriggerTransition ]
+    - [ UAObject, ADI:10241, ADI:SelectExecutionCycleToWaitForCalibrationTriggerTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10243, WaitForCalibrationTriggerToExtractCalibrationSampleTransition ]
+    - [ UAObject, ADI:10243, ADI:WaitForCalibrationTriggerToExtractCalibrationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10245, ExtractCalibrationSampleTransition ]
+    - [ UAObject, ADI:10245, ADI:ExtractCalibrationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10247, ExtractCalibrationSampleToPrepareCalibrationSampleTransition ]
+    - [ UAObject, ADI:10247, ADI:ExtractCalibrationSampleToPrepareCalibrationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10249, PrepareCalibrationSampleTransition ]
+    - [ UAObject, ADI:10249, ADI:PrepareCalibrationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10251, PrepareCalibrationSampleToAnalyseCalibrationSampleTransition ]
+    - [ UAObject, ADI:10251, ADI:PrepareCalibrationSampleToAnalyseCalibrationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10253, AnalyseCalibrationSampleTransition ]
+    - [ UAObject, ADI:10253, ADI:AnalyseCalibrationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10255, AnalyseCalibrationSampleToPublishResultsTransition ]
+    - [ UAObject, ADI:10255, ADI:AnalyseCalibrationSampleToPublishResultsTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10257, SelectExecutionCycleToWaitForValidationTriggerTransition ]
+    - [ UAObject, ADI:10257, ADI:SelectExecutionCycleToWaitForValidationTriggerTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10259, WaitForValidationTriggerToExtractValidationSampleTransition ]
+    - [ UAObject, ADI:10259, ADI:WaitForValidationTriggerToExtractValidationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10261, ExtractValidationSampleTransition ]
+    - [ UAObject, ADI:10261, ADI:ExtractValidationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10263, ExtractValidationSampleToPrepareValidationSampleTransition ]
+    - [ UAObject, ADI:10263, ADI:ExtractValidationSampleToPrepareValidationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10265, PrepareValidationSampleTransition ]
+    - [ UAObject, ADI:10265, ADI:PrepareValidationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10267, PrepareValidationSampleToAnalyseValidationSampleTransition ]
+    - [ UAObject, ADI:10267, ADI:PrepareValidationSampleToAnalyseValidationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10269, AnalyseValidationSampleTransition ]
+    - [ UAObject, ADI:10269, ADI:AnalyseValidationSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10271, AnalyseValidationSampleToPublishResultsTransition ]
+    - [ UAObject, ADI:10271, ADI:AnalyseValidationSampleToPublishResultsTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10273, SelectExecutionCycleToWaitForSampleTriggerTransition ]
+    - [ UAObject, ADI:10273, ADI:SelectExecutionCycleToWaitForSampleTriggerTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10275, WaitForSampleTriggerToExtractSampleTransition ]
+    - [ UAObject, ADI:10275, ADI:WaitForSampleTriggerToExtractSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10277, ExtractSampleTransition ]
+    - [ UAObject, ADI:10277, ADI:ExtractSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10279, ExtractSampleToPrepareSampleTransition ]
+    - [ UAObject, ADI:10279, ADI:ExtractSampleToPrepareSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10281, PrepareSampleTransition ]
+    - [ UAObject, ADI:10281, ADI:PrepareSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10283, PrepareSampleToAnalyseSampleTransition ]
+    - [ UAObject, ADI:10283, ADI:PrepareSampleToAnalyseSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10285, AnalyseSampleTransition ]
+    - [ UAObject, ADI:10285, ADI:AnalyseSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10287, AnalyseSampleToPublishResultsTransition ]
+    - [ UAObject, ADI:10287, ADI:AnalyseSampleToPublishResultsTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10289, SelectExecutionCycleToWaitForDiagnosticTriggerTransition ]
+    - [ UAObject, ADI:10289, ADI:SelectExecutionCycleToWaitForDiagnosticTriggerTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10291, WaitForDiagnosticTriggerToDiagnosticTransition ]
+    - [ UAObject, ADI:10291, ADI:WaitForDiagnosticTriggerToDiagnosticTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10293, DiagnosticTransition ]
+    - [ UAObject, ADI:10293, ADI:DiagnosticTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10295, DiagnosticToPublishResultsTransition ]
+    - [ UAObject, ADI:10295, ADI:DiagnosticToPublishResultsTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10297, SelectExecutionCycleToWaitForCleaningTriggerTransition ]
+    - [ UAObject, ADI:10297, ADI:SelectExecutionCycleToWaitForCleaningTriggerTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10299, WaitForCleaningTriggerToCleaningTransition ]
+    - [ UAObject, ADI:10299, ADI:WaitForCleaningTriggerToCleaningTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10301, CleaningTransition ]
+    - [ UAObject, ADI:10301, ADI:CleaningTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10303, CleaningToPublishResultsTransition ]
+    - [ UAObject, ADI:10303, ADI:CleaningToPublishResultsTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10305, PublishResultsToCleanupSamplingSystemTransition ]
+    - [ UAObject, ADI:10305, ADI:PublishResultsToCleanupSamplingSystemTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10307, PublishResultsToEjectGrabSampleTransition ]
+    - [ UAObject, ADI:10307, ADI:PublishResultsToEjectGrabSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10309, EjectGrabSampleTransition ]
+    - [ UAObject, ADI:10309, ADI:EjectGrabSampleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10311, EjectGrabSampleToCleanupSamplingSystemTransition ]
+    - [ UAObject, ADI:10311, ADI:EjectGrabSampleToCleanupSamplingSystemTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10313, CleanupSamplingSystemTransition ]
+    - [ UAObject, ADI:10313, ADI:CleanupSamplingSystemTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:10315, CleanupSamplingSystemToSelectExecutionCycleTransition ]
+    - [ UAObject, ADI:10315, ADI:CleanupSamplingSystemToSelectExecutionCycleTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  StreamType:
-  - [ UAObjectType, ADI:1010, StreamType ]
+  ADI:StreamType:
+  - [ UAObjectType, ADI:1010, ADI:StreamType ]
   - HasComponent:
-    - [ UAObject, ADI:10430, Configuration ]
+    - [ UAObject, ADI:10430, ADI:Configuration ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:10432, Status ]
+    - [ UAObject, ADI:10432, ADI:Status ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:10434, AcquisitionSettings ]
+    - [ UAObject, ADI:10434, ADI:AcquisitionSettings ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:10436, AcquisitionStatus ]
+    - [ UAObject, ADI:10436, ADI:AcquisitionStatus ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:10438, AcquisitionData ]
+    - [ UAObject, ADI:10438, ADI:AcquisitionData ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:10440, ChemometricModelSettings ]
+    - [ UAObject, ADI:10440, ADI:ChemometricModelSettings ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:10442, Context ]
+    - [ UAObject, ADI:10442, ADI:Context ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
-  SpectrometerDeviceStreamType:
-  - [ UAObjectType, ADI:1030, SpectrometerDeviceStreamType ]
+  ADI:SpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1030, ADI:SpectrometerDeviceStreamType ]
   - HasComponent:
-    - [ UAObject, ADI:10638, FactorySettings ]
+    - [ UAObject, ADI:10638, ADI:FactorySettings ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1010, StreamType ]
+    - [ UAObjectType, ADI:1010, ADI:StreamType ]
 
-  MassSpectrometerDeviceStreamType:
-  - [ UAObjectType, ADI:1031, MassSpectrometerDeviceStreamType ]
+  ADI:MassSpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1031, ADI:MassSpectrometerDeviceStreamType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1010, StreamType ]
+    - [ UAObjectType, ADI:1010, ADI:StreamType ]
 
-  ParticleSizeMonitorDeviceStreamType:
-  - [ UAObjectType, ADI:1032, ParticleSizeMonitorDeviceStreamType ]
+  ADI:ParticleSizeMonitorDeviceStreamType:
+  - [ UAObjectType, ADI:1032, ADI:ParticleSizeMonitorDeviceStreamType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1010, StreamType ]
+    - [ UAObjectType, ADI:1010, ADI:StreamType ]
 
-  AcousticSpectrometerDeviceStreamType:
-  - [ UAObjectType, ADI:1033, AcousticSpectrometerDeviceStreamType ]
+  ADI:AcousticSpectrometerDeviceStreamType:
+  - [ UAObjectType, ADI:1033, ADI:AcousticSpectrometerDeviceStreamType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1010, StreamType ]
+    - [ UAObjectType, ADI:1010, ADI:StreamType ]
 
-  ChromatographDeviceStreamType:
-  - [ UAObjectType, ADI:1034, ChromatographDeviceStreamType ]
+  ADI:ChromatographDeviceStreamType:
+  - [ UAObjectType, ADI:1034, ADI:ChromatographDeviceStreamType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1010, StreamType ]
+    - [ UAObjectType, ADI:1010, ADI:StreamType ]
 
-  MNRDeviceStreamType:
-  - [ UAObjectType, ADI:1035, MNRDeviceStreamType ]
+  ADI:MNRDeviceStreamType:
+  - [ UAObjectType, ADI:1035, ADI:MNRDeviceStreamType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1010, StreamType ]
+    - [ UAObjectType, ADI:1010, ADI:StreamType ]
 
-  SpectrometerDeviceType:
-  - [ UAObjectType, ADI:1011, SpectrometerDeviceType ]
+  ADI:SpectrometerDeviceType:
+  - [ UAObjectType, ADI:1011, ADI:SpectrometerDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
 
-  ParticleSizeMonitorDeviceType:
-  - [ UAObjectType, ADI:1012, ParticleSizeMonitorDeviceType ]
+  ADI:ParticleSizeMonitorDeviceType:
+  - [ UAObjectType, ADI:1012, ADI:ParticleSizeMonitorDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
 
-  ChromatographDeviceType:
-  - [ UAObjectType, ADI:1013, ChromatographDeviceType ]
+  ADI:ChromatographDeviceType:
+  - [ UAObjectType, ADI:1013, ADI:ChromatographDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
 
-  MassSpectrometerDeviceType:
-  - [ UAObjectType, ADI:1014, MassSpectrometerDeviceType ]
+  ADI:MassSpectrometerDeviceType:
+  - [ UAObjectType, ADI:1014, ADI:MassSpectrometerDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
 
-  AcousticSpectrometerDeviceType:
-  - [ UAObjectType, ADI:1015, AcousticSpectrometerDeviceType ]
+  ADI:AcousticSpectrometerDeviceType:
+  - [ UAObjectType, ADI:1015, ADI:AcousticSpectrometerDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
 
-  NMRDeviceType:
-  - [ UAObjectType, ADI:1016, NMRDeviceType ]
+  ADI:NMRDeviceType:
+  - [ UAObjectType, ADI:1016, ADI:NMRDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1001, AnalyserDeviceType ]
+    - [ UAObjectType, ADI:1001, ADI:AnalyserDeviceType ]
 
-  AccessorySlotType:
-  - [ UAObjectType, ADI:1017, AccessorySlotType ]
+  ADI:AccessorySlotType:
+  - [ UAObjectType, ADI:1017, ADI:AccessorySlotType ]
   - HasComponent:
-    - [ UAObject, ADI:12788, AccessorySlotStateMachine ]
+    - [ UAObject, ADI:12788, ADI:AccessorySlotStateMachine ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1018, AccessorySlotStateMachineType ]
+      - [ UAObjectType, ADI:1018, ADI:AccessorySlotStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:12800, <AccessoryIdentifier> ]
+    - [ UAObject, ADI:12800, ADI:<AccessoryIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, ADI:1019, AccessoryType ]
+      - [ UAObjectType, ADI:1019, ADI:AccessoryType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+    - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
 
-  AccessorySlotStateMachineType:
-  - [ UAObjectType, ADI:1018, AccessorySlotStateMachineType ]
+  ADI:AccessorySlotStateMachineType:
+  - [ UAObjectType, ADI:1018, ADI:AccessorySlotStateMachineType ]
   - HasComponent:
-    - [ UAObject, ADI:12840, Powerup ]
+    - [ UAObject, ADI:12840, ADI:Powerup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, ADI:12842, Empty ]
+    - [ UAObject, ADI:12842, ADI:Empty ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:12844, Inserting ]
+    - [ UAObject, ADI:12844, ADI:Inserting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:12846, Installed ]
+    - [ UAObject, ADI:12846, ADI:Installed ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:12848, Removing ]
+    - [ UAObject, ADI:12848, ADI:Removing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:12850, Shutdown ]
+    - [ UAObject, ADI:12850, ADI:Shutdown ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, ADI:12852, PowerupToEmptyTransition ]
+    - [ UAObject, ADI:12852, ADI:PowerupToEmptyTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12854, EmptyToInsertingTransition ]
+    - [ UAObject, ADI:12854, ADI:EmptyToInsertingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12856, InsertingTransition ]
+    - [ UAObject, ADI:12856, ADI:InsertingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12858, InsertingToRemovingTransition ]
+    - [ UAObject, ADI:12858, ADI:InsertingToRemovingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12860, InsertingToInstalledTransition ]
+    - [ UAObject, ADI:12860, ADI:InsertingToInstalledTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12862, InstalledToRemovingTransition ]
+    - [ UAObject, ADI:12862, ADI:InstalledToRemovingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12864, RemovingTransition ]
+    - [ UAObject, ADI:12864, ADI:RemovingTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12866, RemovingToEmptyTransition ]
+    - [ UAObject, ADI:12866, ADI:RemovingToEmptyTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12868, EmptyToShutdownTransition ]
+    - [ UAObject, ADI:12868, ADI:EmptyToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12870, InsertingToShutdownTransition ]
+    - [ UAObject, ADI:12870, ADI:InsertingToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12872, InstalledToShutdownTransition ]
+    - [ UAObject, ADI:12872, ADI:InstalledToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, ADI:12874, RemovingToShutdownTransition ]
+    - [ UAObject, ADI:12874, ADI:RemovingToShutdownTransition ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  AccessoryType:
-  - [ UAObjectType, ADI:1019, AccessoryType ]
+  ADI:AccessoryType:
+  - [ UAObjectType, ADI:1019, ADI:AccessoryType ]
   - HasComponent:
-    - [ UAObject, ADI:12898, Configuration ]
+    - [ UAObject, ADI:12898, ADI:Configuration ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:12900, Status ]
+    - [ UAObject, ADI:12900, ADI:Status ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, ADI:12902, FactorySettings ]
+    - [ UAObject, ADI:12902, ADI:FactorySettings ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
-  DetectorType:
-  - [ UAObjectType, ADI:9350, DetectorType ]
+  ADI:DetectorType:
+  - [ UAObjectType, ADI:9350, ADI:DetectorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1019, AccessoryType ]
+    - [ UAObjectType, ADI:1019, ADI:AccessoryType ]
 
-  SmartSamplingSystemType:
-  - [ UAObjectType, ADI:9359, SmartSamplingSystemType ]
+  ADI:SmartSamplingSystemType:
+  - [ UAObjectType, ADI:9359, ADI:SmartSamplingSystemType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1019, AccessoryType ]
+    - [ UAObjectType, ADI:1019, ADI:AccessoryType ]
 
-  SourceType:
-  - [ UAObjectType, ADI:9368, SourceType ]
+  ADI:SourceType:
+  - [ UAObjectType, ADI:9368, ADI:SourceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1019, AccessoryType ]
+    - [ UAObjectType, ADI:1019, ADI:AccessoryType ]
 
-  GcOvenType:
-  - [ UAObjectType, ADI:1020, GcOvenType ]
+  ADI:GcOvenType:
+  - [ UAObjectType, ADI:1020, ADI:GcOvenType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, ADI:1019, AccessoryType ]
+    - [ UAObjectType, ADI:1019, ADI:AccessoryType ]

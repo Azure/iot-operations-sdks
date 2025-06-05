@@ -74,8 +74,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "schema": {
         "@type": "Map",
         "mapKey": {

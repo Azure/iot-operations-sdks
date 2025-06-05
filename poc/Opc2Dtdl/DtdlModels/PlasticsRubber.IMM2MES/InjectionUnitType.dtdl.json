@@ -15,26 +15,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaxScrewStroke",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ScrewDiameter",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ScrewVolume",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.IMM2MES",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:TemperatureZonesType"
     }
   ]

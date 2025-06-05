@@ -32,14 +32,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FaDigitalSubstituteValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioBitFieldDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PaDigitalSubstituteValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioChannelGroupConfigType:dataType:RioBitFieldDataType;1",
       "writable": false
     }

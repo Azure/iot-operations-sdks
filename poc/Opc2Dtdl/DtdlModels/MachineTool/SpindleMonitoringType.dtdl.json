@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsRotating",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsUsedAsAxis",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Override",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "double",
       "writable": false
     }

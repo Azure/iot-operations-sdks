@@ -100,8 +100,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualBoilerTemperature_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -116,8 +117,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualBottomTemperature_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -132,8 +134,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualChamberTemperature_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -148,8 +151,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualCoreTemperature_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -164,8 +168,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualFanSpeed_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -180,8 +185,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualHumidity_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -196,8 +202,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualTopTemperature_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -212,80 +219,93 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsDoorOpen",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsProgramEnd",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsReadyToStart",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperationMode",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "dtmi:opcua:CommercialKitchenEquipment:ChamberType:dataType:ChamberModeEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetBoilerTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetBottomTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetChamberTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetCoreTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetFanSpeed",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetHumidity",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetProcessTimeProgram",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetTopTemperature",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeRemaining",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     }

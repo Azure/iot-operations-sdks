@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SercosProfileIdentifier",
+      "namespace": "http://sercos.org/UA",
       "target": "dtmi:opcua:sercos:SercosProfileType"
     }
   ]

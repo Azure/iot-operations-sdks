@@ -15,32 +15,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "BlockSkip",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DryRun",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OptionalStop",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SingleStep",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TestMode",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     }

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Location"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     }
   ]
 }

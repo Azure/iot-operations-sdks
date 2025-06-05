@@ -28,8 +28,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GenerateFileForRead",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

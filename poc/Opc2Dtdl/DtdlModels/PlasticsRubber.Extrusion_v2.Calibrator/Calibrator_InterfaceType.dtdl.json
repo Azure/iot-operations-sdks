@@ -16,28 +16,33 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CalibrationZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Calibrator:CalibrationZonesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PositionsPipeSupport",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PositionsX",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PositionsY",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PositionZ",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     }
   ]

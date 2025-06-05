@@ -1,34 +1,34 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -38,84 +38,84 @@ DataTypes:
 
 DefinedTypes:
 
-  FunctionalGroupType:
-  - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+  sercos:FunctionalGroupType:
+  - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  SercosProfileType:
-  - [ UAObjectType, sercos:1002, SercosProfileType ]
+  sercos:SercosProfileType:
+  - [ UAObjectType, sercos:1002, sercos:SercosProfileType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
-  SercosClassType:
-  - [ UAObjectType, sercos:1003, SercosClassType ]
+  sercos:SercosClassType:
+  - [ UAObjectType, sercos:1003, sercos:SercosClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
-  SercosFunctionGroupType:
-  - [ UAObjectType, sercos:1004, SercosFunctionGroupType ]
+  sercos:SercosFunctionGroupType:
+  - [ UAObjectType, sercos:1004, sercos:SercosFunctionGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
-  SercosDeviceType:
-  - [ UAObjectType, sercos:1001, SercosDeviceType ]
+  sercos:SercosDeviceType:
+  - [ UAObjectType, sercos:1001, sercos:SercosDeviceType ]
   - HasComponent:
-    - [ UAObject, sercos:5007, ParameterSet ]
+    - [ UAObject, sercos:5007, sercos:ParameterSet ]
     - HasTypeDefinition:
-      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+      - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, sercos:5001, ProfileSet ]
+    - [ UAObject, sercos:5001, sercos:ProfileSet ]
     - HasTypeDefinition:
-      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+      - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, sercos:5002, ClassSet ]
+    - [ UAObject, sercos:5002, sercos:ClassSet ]
     - HasTypeDefinition:
-      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+      - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, sercos:5003, FunctionGroupSet ]
+    - [ UAObject, sercos:5003, sercos:FunctionGroupSet ]
     - HasTypeDefinition:
-      - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+      - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1002, DeviceType ]
+    - [ UAObjectType, DI:1002, DI:DeviceType ]
 
-  ProfileSet:
-  - [ UAObjectType, sercos:6075, ProfileSet ]
+  sercos:ProfileSet:
+  - [ UAObjectType, sercos:6075, sercos:ProfileSet ]
   - HasComponent:
-    - [ UAObject, sercos:6076, <SercosProfileIdentifier> ]
+    - [ UAObject, sercos:6076, sercos:<SercosProfileIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, sercos:1002, SercosProfileType ]
+      - [ UAObjectType, sercos:1002, sercos:SercosProfileType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
-  ClassSet:
-  - [ UAObjectType, sercos:6077, ClassSet ]
+  sercos:ClassSet:
+  - [ UAObjectType, sercos:6077, sercos:ClassSet ]
   - HasComponent:
-    - [ UAObject, sercos:6078, <SercosClassIdentifier> ]
+    - [ UAObject, sercos:6078, sercos:<SercosClassIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, sercos:1003, SercosClassType ]
+      - [ UAObjectType, sercos:1003, sercos:SercosClassType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]
 
-  FunctionGroupSet:
-  - [ UAObjectType, sercos:6079, FunctionGroupSet ]
+  sercos:FunctionGroupSet:
+  - [ UAObjectType, sercos:6079, sercos:FunctionGroupSet ]
   - HasComponent:
-    - [ UAObject, sercos:6080, <FunctionGroupIdentifier> ]
+    - [ UAObject, sercos:6080, sercos:<FunctionGroupIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, sercos:1004, SercosFunctionGroupType ]
+      - [ UAObjectType, sercos:1004, sercos:SercosFunctionGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, sercos:6012, FunctionalGroupType ]
+    - [ UAObjectType, sercos:6012, sercos:FunctionalGroupType ]

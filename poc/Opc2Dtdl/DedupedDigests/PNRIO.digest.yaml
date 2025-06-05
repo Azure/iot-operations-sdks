@@ -1,18 +1,18 @@
 DataTypes:
-- UADataType: [ PNRIO:3002, PnIoTelegramStatusEnumeration ]
+- UADataType: [ PNRIO:3002, PNRIO:PnIoTelegramStatusEnumeration ]
   Enums:
     GOOD: 0
     BAD_BY_SUBSLOT: 1
     BAD_BY_SLOT: 2
     BAD_BY_DEVICE: 3
     BAD_BY_CONTROLLER: 4
-- UADataType: [ PNRIO:3026, RioChannelDiagnosisReasonEnumeration ]
+- UADataType: [ PNRIO:3026, PNRIO:RioChannelDiagnosisReasonEnumeration ]
   Enums:
     ALL_DISAPPEARS: 0
     APPEARS: 1
     DISAPPEARS: 2
     DISAPPEARS_OTHER_REMAIN: 3
-- UADataType: [ PNRIO:3011, RioChannelDiagnosisStatusEnumeration ]
+- UADataType: [ PNRIO:3011, PNRIO:RioChannelDiagnosisStatusEnumeration ]
   Enums:
     HI_LIM_EXCEEDED: 0
     LO_LIM_EXCEEDED: 1
@@ -21,12 +21,12 @@ DataTypes:
     SUBSTITUTE_VALUE_USED: 4
     Q_BAD_SUBSTITUTE_VALUE_USED: 5
     OUT_OF_SERVICE: 6
-- UADataType: [ PNRIO:3007, RioChannelModeEnumeration ]
+- UADataType: [ PNRIO:3007, PNRIO:RioChannelModeEnumeration ]
   Enums:
     AUTO: 0
     MANUAL: 1
     OUT_OF_SERVICE: 2
-- UADataType: [ PNRIO:3010, RioQualifierEnumeration ]
+- UADataType: [ PNRIO:3010, PNRIO:RioQualifierEnumeration ]
   Enums:
     BAD_NOT_SPECIFIC: 0
     BAD_NOT_CONNECTED: 8
@@ -60,13 +60,13 @@ DataTypes:
     GOOD_FUNCTION_CHECK: 188
     GOOD_FUNCTION_CHECK_SIMULATION_ACTIVE: 189
     UNSPECIFIED: 255
-- UADataType: [ PNRIO:3008, RioQualityEnumeration ]
+- UADataType: [ PNRIO:3008, PNRIO:RioQualityEnumeration ]
   Enums:
     GOOD: 0
     UNCERTAIN: 1
     BAD: 2
     UNSPECIFIED: 255
-- UADataType: [ PNRIO:3005, RioSignalTypeEnumeration ]
+- UADataType: [ PNRIO:3005, PNRIO:RioSignalTypeEnumeration ]
   Enums:
     CURRENT-4-20_mA: 0
     CURRENT-0-20_mA: 1
@@ -76,7 +76,7 @@ DataTypes:
     DIGITAL-0/24V: 5
     NAMUR: 6
     MANUFACTURER_SPECIFIC: 7
-- UADataType: [ PNRIO:3009, RioSpecifierEnumeration ]
+- UADataType: [ PNRIO:3009, PNRIO:RioSpecifierEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
@@ -84,149 +84,149 @@ DataTypes:
     MAINTENANCE_REQUEST: 3
     OUT_OF_SPECIFICATION: 4
     UNSPECIFIED: 255
-- UADataType: [ PNRIO:3006, RioSubstitutePolicyEnumeration ]
+- UADataType: [ PNRIO:3006, PNRIO:RioSubstitutePolicyEnumeration ]
   Enums:
     USE_SUBSTITUTE_VALUE: 0
     USE_LAST_VALID_VALUE: 1
     USE_ACTUAL_VALUE: 2
     Unspecified: 255
-- UADataType: [ PNRIO:3023, RioBitFieldDataType ]
+- UADataType: [ PNRIO:3023, PNRIO:RioBitFieldDataType ]
   Fields:
     BitData: [ UInt32, 0 ]
     BitUsed: [ UInt32, 0 ]
-- UADataType: [ PNRIO:3017, RioFaAnalogInputConfigDataType ]
+- UADataType: [ PNRIO:3017, PNRIO:RioFaAnalogInputConfigDataType ]
   Fields:
     Damping: [ Float, 0 ]
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
     SupplyVoltageCheckEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
-    SubstituteValue: [ RioAnalogDataType, 0 ]
-- UADataType: [ PNRIO:3019, RioFaAnalogOutputConfigDataType ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
+    SubstituteValue: [ PNRIO:RioAnalogDataType, 0 ]
+- UADataType: [ PNRIO:3019, PNRIO:RioFaAnalogOutputConfigDataType ]
   Fields:
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
     SupplyVoltageCheckEnabled: [ Boolean, 0 ]
     LoadVoltageCheckEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
-    SubstituteValue: [ RioAnalogDataType, 0 ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
+    SubstituteValue: [ PNRIO:RioAnalogDataType, 0 ]
     SubstituteTime: [ Float, 0 ]
-- UADataType: [ PNRIO:3028, RioFaAnalogValueDataType ]
+- UADataType: [ PNRIO:3028, PNRIO:RioFaAnalogValueDataType ]
   Fields:
-    Value: [ RioAnalogDataType, 0 ]
+    Value: [ PNRIO:RioAnalogDataType, 0 ]
     Qualifier: [ Boolean, 0 ]
-- UADataType: [ PNRIO:3025, RioFaAnalogProcessValueDataType ]
+- UADataType: [ PNRIO:3025, PNRIO:RioFaAnalogProcessValueDataType ]
   Fields:
     Quality: [ Byte, 0 ]
-- UADataType: [ PNRIO:3013, RioFaDigitalInputConfigDataType ]
+- UADataType: [ PNRIO:3013, PNRIO:RioFaDigitalInputConfigDataType ]
   Fields:
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
     SupplyVoltageCheckEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
     SubstituteValue: [ Boolean, 0 ]
-- UADataType: [ PNRIO:3015, RioFaDigitalOutputConfigDataType ]
+- UADataType: [ PNRIO:3015, PNRIO:RioFaDigitalOutputConfigDataType ]
   Fields:
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
     SupplyVoltageCheckEnabled: [ Boolean, 0 ]
     LoadVoltageCheckEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
     SubstituteValue: [ Boolean, 0 ]
     SubstituteTime: [ Float, 0 ]
-- UADataType: [ PNRIO:3004, RioFaDigitalValueDataType ]
+- UADataType: [ PNRIO:3004, PNRIO:RioFaDigitalValueDataType ]
   Fields:
     Value: [ Boolean, 0 ]
     Qualifier: [ Boolean, 0 ]
-- UADataType: [ PNRIO:3022, RioFaDigitalProcessValueDataType ]
+- UADataType: [ PNRIO:3022, PNRIO:RioFaDigitalProcessValueDataType ]
   Fields:
     Quality: [ Byte, 0 ]
-- UADataType: [ PNRIO:3016, RioPaAnalogInputConfigDataType ]
+- UADataType: [ PNRIO:3016, PNRIO:RioPaAnalogInputConfigDataType ]
   Fields:
     Damping: [ Float, 0 ]
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
-    SubstituteValue: [ RioAnalogDataType, 0 ]
-    HighLimit: [ RioAnalogDataType, 0 ]
-    LowLimit: [ RioAnalogDataType, 0 ]
-- UADataType: [ PNRIO:3018, RioPaAnalogOutputConfigDataType ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
+    SubstituteValue: [ PNRIO:RioAnalogDataType, 0 ]
+    HighLimit: [ PNRIO:RioAnalogDataType, 0 ]
+    LowLimit: [ PNRIO:RioAnalogDataType, 0 ]
+- UADataType: [ PNRIO:3018, PNRIO:RioPaAnalogOutputConfigDataType ]
   Fields:
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
-    SubstituteValue: [ RioAnalogDataType, 0 ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
+    SubstituteValue: [ PNRIO:RioAnalogDataType, 0 ]
     SubstituteTime: [ Float, 0 ]
-- UADataType: [ PNRIO:3027, RioPaAnalogValueDataType ]
+- UADataType: [ PNRIO:3027, PNRIO:RioPaAnalogValueDataType ]
   Fields:
-    Value: [ RioAnalogDataType, 0 ]
+    Value: [ PNRIO:RioAnalogDataType, 0 ]
     Qualifier: [ Byte, 0 ]
-- UADataType: [ PNRIO:3024, RioPaAnalogProcessValueDataType ]
+- UADataType: [ PNRIO:3024, PNRIO:RioPaAnalogProcessValueDataType ]
   Fields:
     Quality: [ Byte, 0 ]
     NE_107: [ Byte, 0 ]
     Status_full: [ Byte, 0 ]
-- UADataType: [ PNRIO:3012, RioPaDigitalInputConfigDataType ]
+- UADataType: [ PNRIO:3012, PNRIO:RioPaDigitalInputConfigDataType ]
   Fields:
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
     InversionEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
     SubstituteValue: [ Boolean, 0 ]
-- UADataType: [ PNRIO:3014, RioPaDigitalOutputConfigDataType ]
+- UADataType: [ PNRIO:3014, PNRIO:RioPaDigitalOutputConfigDataType ]
   Fields:
-    SignalType: [ RioSignalTypeEnumeration, 0 ]
+    SignalType: [ PNRIO:RioSignalTypeEnumeration, 0 ]
     WireCheckEnabled: [ Boolean, 0 ]
     InversionEnabled: [ Boolean, 0 ]
-    SubstitutePolicy: [ RioSubstitutePolicyEnumeration, 0 ]
+    SubstitutePolicy: [ PNRIO:RioSubstitutePolicyEnumeration, 0 ]
     SubstituteValue: [ Boolean, 0 ]
     SubstituteTime: [ Float, 0 ]
-- UADataType: [ PNRIO:3003, RioPaDigitalValueDataType ]
+- UADataType: [ PNRIO:3003, PNRIO:RioPaDigitalValueDataType ]
   Fields:
     Value: [ Boolean, 0 ]
     Qualifier: [ Byte, 0 ]
-- UADataType: [ PNRIO:3021, RioPaDigitalProcessValueDataType ]
+- UADataType: [ PNRIO:3021, PNRIO:RioPaDigitalProcessValueDataType ]
   Fields:
     Quality: [ Byte, 0 ]
     NE_107: [ Byte, 0 ]
     Status_full: [ Byte, 0 ]
-- UADataType: [ PNRIO:3020, RioAnalogDataType ]
+- UADataType: [ PNRIO:3020, PNRIO:RioAnalogDataType ]
   Fields:
     Float_32: [ Float, 0 ]
     Int_16: [ Int16, 0 ]
     Int_32: [ Int32, 0 ]
     UInt_16: [ UInt16, 0 ]
     UInt_32: [ UInt32, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -236,74 +236,74 @@ DataTypes:
 
 DefinedTypes:
 
-  RioChannelDiagnosisAlarmType:
-  - [ UAObjectType, PNRIO:1004, RioChannelDiagnosisAlarmType ]
+  PNRIO:RioChannelDiagnosisAlarmType:
+  - [ UAObjectType, PNRIO:1004, PNRIO:RioChannelDiagnosisAlarmType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2915, AlarmConditionType ]
 
-  RioChannelDiagnosisEventType:
-  - [ UAObjectType, PNRIO:1019, RioChannelDiagnosisEventType ]
+  PNRIO:RioChannelDiagnosisEventType:
+  - [ UAObjectType, PNRIO:1019, PNRIO:RioChannelDiagnosisEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  PnIoSignalType:
-  - [ UAObjectType, PNRIO:1020, PnIoSignalType ]
+  PNRIO:PnIoSignalType:
+  - [ UAObjectType, PNRIO:1020, PNRIO:PnIoSignalType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  PnIoTelegramType:
-  - [ UAObjectType, PNRIO:1021, PnIoTelegramType ]
+  PNRIO:PnIoTelegramType:
+  - [ UAObjectType, PNRIO:1021, PNRIO:PnIoTelegramType ]
   - HasComponent:
-    - [ UAObject, PNRIO:5053, <Nr_SignalName> ]
+    - [ UAObject, PNRIO:5053, PNRIO:<Nr_SignalName> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNRIO:1020, PnIoSignalType ]
+      - [ UAObjectType, PNRIO:1020, PNRIO:PnIoSignalType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  PnTelegramType:
-  - [ UAObjectType, PNRIO:1018, PnTelegramType ]
+  PNRIO:PnTelegramType:
+  - [ UAObjectType, PNRIO:1018, PNRIO:PnTelegramType ]
   - HasComponent:
-    - [ UAObject, PNRIO:5043, Input ]
+    - [ UAObject, PNRIO:5043, PNRIO:Input ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNRIO:1021, PnIoTelegramType ]
+      - [ UAObjectType, PNRIO:1021, PNRIO:PnIoTelegramType ]
   - HasComponent:
-    - [ UAObject, PNRIO:5044, Output ]
+    - [ UAObject, PNRIO:5044, PNRIO:Output ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNRIO:1021, PnIoTelegramType ]
+      - [ UAObjectType, PNRIO:1021, PNRIO:PnIoTelegramType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  RioChannelGroupConfigType:
-  - [ UAObjectType, PNRIO:1017, RioChannelGroupConfigType ]
+  PNRIO:RioChannelGroupConfigType:
+  - [ UAObjectType, PNRIO:1017, PNRIO:RioChannelGroupConfigType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6204, FaDigitalSubstituteValue, RioBitFieldDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6204, PNRIO:FaDigitalSubstituteValue, PNRIO:RioBitFieldDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6198, PaDigitalSubstituteValue, RioBitFieldDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6198, PNRIO:PaDigitalSubstituteValue, PNRIO:RioBitFieldDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  RioChannelGroupType:
-  - [ UAObjectType, PNRIO:1012, RioChannelGroupType ]
+  PNRIO:RioChannelGroupType:
+  - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
   - HasComponent:
-    - [ UAObject, PNRIO:5054, Lock ]
+    - [ UAObject, PNRIO:5054, PNRIO:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7001, SetApplicationTag ]
+    - [ UAMethod, PNRIO:7001, PNRIO:SetApplicationTag ]
     - HasProperty:
       - [ UAVariable, PNRIO:6072, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -313,22 +313,22 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioFaAnalogChannelGroupType:
-  - [ UAObjectType, PNRIO:1014, RioFaAnalogChannelGroupType ]
+  PNRIO:RioFaAnalogChannelGroupType:
+  - [ UAObjectType, PNRIO:1014, PNRIO:RioFaAnalogChannelGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
 
-  RioFaDigitalChannelGroupType:
-  - [ UAObjectType, PNRIO:1016, RioFaDigitalChannelGroupType ]
+  PNRIO:RioFaDigitalChannelGroupType:
+  - [ UAObjectType, PNRIO:1016, PNRIO:RioFaDigitalChannelGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
 
-  RioPaAnalogChannelGroupType:
-  - [ UAObjectType, PNRIO:1013, RioPaAnalogChannelGroupType ]
+  PNRIO:RioPaAnalogChannelGroupType:
+  - [ UAObjectType, PNRIO:1013, PNRIO:RioPaAnalogChannelGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7005, SetSimulation ]
+    - [ UAMethod, PNRIO:7005, PNRIO:SetSimulation ]
     - HasProperty:
       - [ UAVariable, PNRIO:6133, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -339,11 +339,11 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7023, SetSimulationValue ]
+    - [ UAMethod, PNRIO:7023, PNRIO:SetSimulationValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6292, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Value: [ RioAnalogDataType, 0 ]
+          Value: [ PNRIO:RioAnalogDataType, 0 ]
           Qualifier: [ Byte, 0 ]
           Index: [ Int16, 0 ]
       - HasModellingRule:
@@ -351,16 +351,16 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6010, SimulationEnabled, Boolean, 1, 0 ]
+    - [ UAVariable, PNRIO:6010, PNRIO:SimulationEnabled, Boolean, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioPaDigitalChannelGroupType:
-  - [ UAObjectType, PNRIO:1015, RioPaDigitalChannelGroupType ]
+  PNRIO:RioPaDigitalChannelGroupType:
+  - [ UAObjectType, PNRIO:1015, PNRIO:RioPaDigitalChannelGroupType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1012, RioChannelGroupType ]
+    - [ UAObjectType, PNRIO:1012, PNRIO:RioChannelGroupType ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7006, SetSimulation ]
+    - [ UAMethod, PNRIO:7006, PNRIO:SetSimulation ]
     - HasProperty:
       - [ UAVariable, PNRIO:6169, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -371,7 +371,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7039, SetSimulationValue ]
+    - [ UAMethod, PNRIO:7039, PNRIO:SetSimulationValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6062, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -383,22 +383,22 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6136, SimulationEnabled, Boolean, 1, 0 ]
+    - [ UAVariable, PNRIO:6136, PNRIO:SimulationEnabled, Boolean, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioChannelType:
-  - [ UAObjectType, PNRIO:1005, RioChannelType ]
+  PNRIO:RioChannelType:
+  - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
   - HasComponent:
-    - [ UAObject, PNRIO:5025, Lock ]
+    - [ UAObject, PNRIO:5025, PNRIO:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7002, SetApplicationTag ]
+    - [ UAMethod, PNRIO:7002, PNRIO:SetApplicationTag ]
     - HasProperty:
       - [ UAVariable, PNRIO:6186, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -408,142 +408,142 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioFaAnalogInputChannelType:
-  - [ UAObjectType, PNRIO:1003, RioFaAnalogInputChannelType ]
+  PNRIO:RioFaAnalogInputChannelType:
+  - [ UAObjectType, PNRIO:1003, PNRIO:RioFaAnalogInputChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6121, Config, RioFaAnalogInputConfigDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6121, PNRIO:Config, PNRIO:RioFaAnalogInputConfigDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6117, ProcessValue, RioFaAnalogProcessValueDataType, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-    - HasComponent:
-      - [ UAVariable, PNRIO:6118, QualifierValue, Boolean, 0, 0 ]
-      - HasModellingRule:
-        - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, PNRIO:6120, SignalValue, Double, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
-
-  RioFaAnalogOutputChannelType:
-  - [ UAObjectType, PNRIO:1007, RioFaAnalogOutputChannelType ]
-  - HasComponent:
-    - [ UAVariable, PNRIO:6139, Config, RioFaAnalogOutputConfigDataType, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, PNRIO:6131, ProcessValue, RioFaAnalogProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6117, PNRIO:ProcessValue, PNRIO:RioFaAnalogProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasComponent:
-      - [ UAVariable, PNRIO:6132, QualifierValue, Boolean, 0, 0 ]
+      - [ UAVariable, PNRIO:6118, PNRIO:QualifierValue, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6134, ProcessValueReadback, RioFaAnalogProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6120, PNRIO:SignalValue, Double, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
+
+  PNRIO:RioFaAnalogOutputChannelType:
+  - [ UAObjectType, PNRIO:1007, PNRIO:RioFaAnalogOutputChannelType ]
+  - HasComponent:
+    - [ UAVariable, PNRIO:6139, PNRIO:Config, PNRIO:RioFaAnalogOutputConfigDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, PNRIO:6131, PNRIO:ProcessValue, PNRIO:RioFaAnalogProcessValueDataType, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+    - HasComponent:
+      - [ UAVariable, PNRIO:6132, PNRIO:QualifierValue, Boolean, 0, 0 ]
+      - HasModellingRule:
+        - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, PNRIO:6134, PNRIO:ProcessValueReadback, PNRIO:RioFaAnalogProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasComponent:
-      - [ UAVariable, PNRIO:6135, QualifierValue, Boolean, 0, 0 ]
+      - [ UAVariable, PNRIO:6135, PNRIO:QualifierValue, Boolean, 0, 0 ]
       - HasModellingRule:
         - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6137, SignalValue, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6137, PNRIO:SignalValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6138, SignalValueReadback, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6138, PNRIO:SignalValueReadback, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioFaDigitalInputChannelType:
-  - [ UAObjectType, PNRIO:1009, RioFaDigitalInputChannelType ]
+  PNRIO:RioFaDigitalInputChannelType:
+  - [ UAObjectType, PNRIO:1009, PNRIO:RioFaDigitalInputChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6149, Config, RioFaDigitalInputConfigDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6149, PNRIO:Config, PNRIO:RioFaDigitalInputConfigDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6147, ProcessValue, RioFaDigitalProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6147, PNRIO:ProcessValue, PNRIO:RioFaDigitalProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6148, SignalValue, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6148, PNRIO:SignalValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioFaDigitalOutputChannelType:
-  - [ UAObjectType, PNRIO:1011, RioFaDigitalOutputChannelType ]
+  PNRIO:RioFaDigitalOutputChannelType:
+  - [ UAObjectType, PNRIO:1011, PNRIO:RioFaDigitalOutputChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6163, Config, RioFaDigitalOutputConfigDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6163, PNRIO:Config, PNRIO:RioFaDigitalOutputConfigDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6159, ProcessValue, RioFaDigitalProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6159, PNRIO:ProcessValue, PNRIO:RioFaDigitalProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6160, ProcessValueReadback, RioFaDigitalProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6160, PNRIO:ProcessValueReadback, PNRIO:RioFaDigitalProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6161, SignalValue, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6161, PNRIO:SignalValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6162, SignalValueReadback, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6162, PNRIO:SignalValueReadback, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioPaAnalogInputChannelType:
-  - [ UAObjectType, PNRIO:1002, RioPaAnalogInputChannelType ]
+  PNRIO:RioPaAnalogInputChannelType:
+  - [ UAObjectType, PNRIO:1002, PNRIO:RioPaAnalogInputChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6116, Config, RioPaAnalogInputConfigDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6116, PNRIO:Config, PNRIO:RioPaAnalogInputConfigDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6114, ManualProcessValue, RioAnalogDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6114, PNRIO:ManualProcessValue, PNRIO:RioAnalogDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6003, Mode, RioChannelModeEnumeration, 0, 0 ]
+    - [ UAVariable, PNRIO:6003, PNRIO:Mode, PNRIO:RioChannelModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6001, ProcessValue, RioPaAnalogProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6001, PNRIO:ProcessValue, PNRIO:RioPaAnalogProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7025, SetManualProcessValue ]
+    - [ UAMethod, PNRIO:7025, PNRIO:SetManualProcessValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6294, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          ManualProcessValue: [ RioAnalogDataType, 0 ]
+          ManualProcessValue: [ PNRIO:RioAnalogDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7024, SetMode ]
+    - [ UAMethod, PNRIO:7024, PNRIO:SetMode ]
     - HasProperty:
       - [ UAVariable, PNRIO:6293, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Mode: [ RioChannelModeEnumeration, 0 ]
+          Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7026, SetSimulation ]
+    - [ UAMethod, PNRIO:7026, PNRIO:SetSimulation ]
     - HasProperty:
       - [ UAVariable, PNRIO:6295, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -553,77 +553,77 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7027, SetSimulationValue ]
+    - [ UAMethod, PNRIO:7027, PNRIO:SetSimulationValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6296, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Value: [ RioAnalogDataType, 0 ]
+          Value: [ PNRIO:RioAnalogDataType, 0 ]
           Qualifier: [ Byte, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6002, SignalValue, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6002, PNRIO:SignalValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6115, SimulationEnabled, Boolean, 0, 0 ]
+    - [ UAVariable, PNRIO:6115, PNRIO:SimulationEnabled, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6004, SimulationValue, RioPaAnalogValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6004, PNRIO:SimulationValue, PNRIO:RioPaAnalogValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
 
-  RioPaAnalogOutputChannelType:
-  - [ UAObjectType, PNRIO:1006, RioPaAnalogOutputChannelType ]
+  PNRIO:RioPaAnalogOutputChannelType:
+  - [ UAObjectType, PNRIO:1006, PNRIO:RioPaAnalogOutputChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6130, Config, RioPaAnalogOutputConfigDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6130, PNRIO:Config, PNRIO:RioPaAnalogOutputConfigDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6128, ManualOutValue, RioAnalogDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6128, PNRIO:ManualOutValue, PNRIO:RioAnalogDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6126, Mode, RioChannelModeEnumeration, 0, 0 ]
+    - [ UAVariable, PNRIO:6126, PNRIO:Mode, PNRIO:RioChannelModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6122, ProcessValue, RioPaAnalogProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6122, PNRIO:ProcessValue, PNRIO:RioPaAnalogProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6123, ProcessValueReadback, RioPaAnalogProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6123, PNRIO:ProcessValueReadback, PNRIO:RioPaAnalogProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7029, SetManualOutValue ]
+    - [ UAMethod, PNRIO:7029, PNRIO:SetManualOutValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6298, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          ManualOutValue: [ RioAnalogDataType, 0 ]
+          ManualOutValue: [ PNRIO:RioAnalogDataType, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7028, SetMode ]
+    - [ UAMethod, PNRIO:7028, PNRIO:SetMode ]
     - HasProperty:
       - [ UAVariable, PNRIO:6297, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Mode: [ RioChannelModeEnumeration, 0 ]
+          Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7030, SetSimulation ]
+    - [ UAMethod, PNRIO:7030, PNRIO:SetSimulation ]
     - HasProperty:
       - [ UAVariable, PNRIO:6299, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -633,55 +633,55 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7031, SetSimulationValue ]
+    - [ UAMethod, PNRIO:7031, PNRIO:SetSimulationValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6300, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Value: [ RioAnalogDataType, 0 ]
+          Value: [ PNRIO:RioAnalogDataType, 0 ]
           Qualifier: [ Byte, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6124, SignalValue, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6124, PNRIO:SignalValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6125, SignalValueReadback, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6125, PNRIO:SignalValueReadback, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6129, SimulationEnabled, Boolean, 0, 0 ]
+    - [ UAVariable, PNRIO:6129, PNRIO:SimulationEnabled, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6127, SimulationValue, RioPaAnalogValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6127, PNRIO:SimulationValue, PNRIO:RioPaAnalogValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioPaDigitalInputChannelType:
-  - [ UAObjectType, PNRIO:1008, RioPaDigitalInputChannelType ]
+  PNRIO:RioPaDigitalInputChannelType:
+  - [ UAObjectType, PNRIO:1008, PNRIO:RioPaDigitalInputChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6146, Config, RioPaDigitalInputConfigDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6146, PNRIO:Config, PNRIO:RioPaDigitalInputConfigDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6144, ManualProcessValue, Boolean, 0, 0 ]
+    - [ UAVariable, PNRIO:6144, PNRIO:ManualProcessValue, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6142, Mode, RioChannelModeEnumeration, 0, 0 ]
+    - [ UAVariable, PNRIO:6142, PNRIO:Mode, PNRIO:RioChannelModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6140, ProcessValue, RioPaDigitalProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6140, PNRIO:ProcessValue, PNRIO:RioPaDigitalProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7033, SetManualProcessValue ]
+    - [ UAMethod, PNRIO:7033, PNRIO:SetManualProcessValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6302, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -691,17 +691,17 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7032, SetMode ]
+    - [ UAMethod, PNRIO:7032, PNRIO:SetMode ]
     - HasProperty:
       - [ UAVariable, PNRIO:6301, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Mode: [ RioChannelModeEnumeration, 0 ]
+          Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7034, SetSimulation ]
+    - [ UAMethod, PNRIO:7034, PNRIO:SetSimulation ]
     - HasProperty:
       - [ UAVariable, PNRIO:6303, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -711,7 +711,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7035, SetSimulationValue ]
+    - [ UAMethod, PNRIO:7035, PNRIO:SetSimulationValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6304, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -722,44 +722,44 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6141, SignalValue, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6141, PNRIO:SignalValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6145, SimulationEnabled, Boolean, 0, 0 ]
+    - [ UAVariable, PNRIO:6145, PNRIO:SimulationEnabled, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6143, SimulationValue, RioPaDigitalValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6143, PNRIO:SimulationValue, PNRIO:RioPaDigitalValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  RioPaDigitalOutputChannelType:
-  - [ UAObjectType, PNRIO:1010, RioPaDigitalOutputChannelType ]
+  PNRIO:RioPaDigitalOutputChannelType:
+  - [ UAObjectType, PNRIO:1010, PNRIO:RioPaDigitalOutputChannelType ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6158, Config, RioPaDigitalOutputConfigDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6158, PNRIO:Config, PNRIO:RioPaDigitalOutputConfigDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6156, ManualOutValue, Boolean, 0, 0 ]
+    - [ UAVariable, PNRIO:6156, PNRIO:ManualOutValue, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6154, Mode, RioChannelModeEnumeration, 0, 0 ]
+    - [ UAVariable, PNRIO:6154, PNRIO:Mode, PNRIO:RioChannelModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6150, ProcessValue, RioPaDigitalProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6150, PNRIO:ProcessValue, PNRIO:RioPaDigitalProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6151, ProcessValueReadback, RioPaDigitalProcessValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6151, PNRIO:ProcessValueReadback, PNRIO:RioPaDigitalProcessValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PNRIO:1005, RioChannelType ]
+    - [ UAObjectType, PNRIO:1005, PNRIO:RioChannelType ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7040, SetManualOutValue ]
+    - [ UAMethod, PNRIO:7040, PNRIO:SetManualOutValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6071, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -769,17 +769,17 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7036, SetMode ]
+    - [ UAMethod, PNRIO:7036, PNRIO:SetMode ]
     - HasProperty:
       - [ UAVariable, PNRIO:6305, InputArguments, Argument, 1, 0 ]
       - Arguments:
-          Mode: [ RioChannelModeEnumeration, 0 ]
+          Mode: [ PNRIO:RioChannelModeEnumeration, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7037, SetSimulation ]
+    - [ UAMethod, PNRIO:7037, PNRIO:SetSimulation ]
     - HasProperty:
       - [ UAVariable, PNRIO:6306, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -789,7 +789,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNRIO:7038, SetSimulationValue ]
+    - [ UAMethod, PNRIO:7038, PNRIO:SetSimulationValue ]
     - HasProperty:
       - [ UAVariable, PNRIO:6307, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -800,18 +800,18 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6152, SignalValue, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6152, PNRIO:SignalValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6153, SignalValueReadback, Double, 0, 0 ]
+    - [ UAVariable, PNRIO:6153, PNRIO:SignalValueReadback, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6157, SimulationEnabled, Boolean, 0, 0 ]
+    - [ UAVariable, PNRIO:6157, PNRIO:SimulationEnabled, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PNRIO:6155, SimulationValue, RioPaDigitalValueDataType, 0, 0 ]
+    - [ UAVariable, PNRIO:6155, PNRIO:SimulationValue, PNRIO:RioPaDigitalValueDataType, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]

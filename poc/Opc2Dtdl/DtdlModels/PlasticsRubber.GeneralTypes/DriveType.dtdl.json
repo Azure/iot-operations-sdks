@@ -15,33 +15,39 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AdditionalMeasuringDevices",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Energy",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Speed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StartDrive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:StartDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Torque",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CycleCounter",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "unsignedInteger",
       "writable": false
     }

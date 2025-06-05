@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CornerProtection",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PerimeterProtection",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Spacer",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "string",
       "writable": true
     }

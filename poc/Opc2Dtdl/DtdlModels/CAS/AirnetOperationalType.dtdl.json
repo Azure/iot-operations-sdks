@@ -16,56 +16,65 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AirDeliveryRate",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CompressorsIntegrated",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CompressorsIsolated",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CompressorsNotAvailable",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlPressure",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SpecificEnergy",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SpecificEnergyCost",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeFlowRateAvailable",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VolumeFlowRateUnavailable",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     }

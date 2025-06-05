@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "CloseAndUpdate",
+      "namespace": "http://opcfoundation.org/UA/WoT-Con",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

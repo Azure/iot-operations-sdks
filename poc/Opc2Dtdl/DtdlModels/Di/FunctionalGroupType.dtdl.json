@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UIElement",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "GroupIdentifier",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     }
   ]

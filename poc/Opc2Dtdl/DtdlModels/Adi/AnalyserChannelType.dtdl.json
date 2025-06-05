@@ -16,28 +16,33 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ChannelStateMachine",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AnalyserChannelStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StreamIdentifier",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:StreamType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AccessorySlotIdentifier",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AccessorySlotType"
     }
   ]

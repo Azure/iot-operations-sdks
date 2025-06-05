@@ -16,65 +16,78 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "OperationOff"
+      "@type": [ "Command", "Qualified" ],
+      "name": "OperationOff",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Command",
-      "name": "OperationOn"
+      "@type": [ "Command", "Qualified" ],
+      "name": "OperationOn",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Fan",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:FanType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FilterAidDevice",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:FilterAidDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FilterUnit",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:FilterUnitType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SafetySystem",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SafetySystemType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureRegulator",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:TemperatureRegulatorType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:ConsumptionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirIntakeConnection",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:AirConnectionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirOutletConnection",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:AirConnectionType"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PowerConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:ConsumptionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PressureLoss",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     }
   ]

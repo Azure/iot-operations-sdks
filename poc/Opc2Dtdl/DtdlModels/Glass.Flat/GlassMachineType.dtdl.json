@@ -15,23 +15,27 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConfigurationRules",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:ConfigurationRulesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MaintenanceManuals",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:ManualFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OperationManuals",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:ManualFolderType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Production",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:ProductionType"
     }
   ]

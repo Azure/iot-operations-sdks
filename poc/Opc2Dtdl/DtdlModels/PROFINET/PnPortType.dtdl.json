@@ -87,44 +87,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CableDelay",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsWireless",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LinkState",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "dtmi:opcua:PROFINET:PnPortType:dataType:PnLinkStateEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MAUType",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PortState",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "dtmi:opcua:PROFINET:PnPortType:dataType:PnPortStateEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PowerBudget",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Statistic",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "target": "dtmi:opcua:PROFINET:PnPortStatisticType"
     }
   ]

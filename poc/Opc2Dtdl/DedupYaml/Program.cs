@@ -54,10 +54,13 @@
             {
                 if (Path.GetFileName(sourceFilePath) == coreYamlFileName)
                 {
-                    continue;
+                    string outFilePath = Path.Combine(destRoot, Path.GetFileName(sourceFilePath));
+                    File.Copy(sourceFilePath, outFilePath, overwrite: true);
                 }
-
-                Preload(deserializer, sourceFilePath, objectTypeComponents, objectTypeSupers);
+                else
+                {
+                    Preload(deserializer, sourceFilePath, objectTypeComponents, objectTypeSupers);
+                }
             }
 
             Console.WriteLine();
@@ -92,7 +95,7 @@
                     {
                         if (content.Relationship == "HasComponent")
                         {
-                            components.Add(content.DefinedType.BrowseName);
+                            components.Add(DequalifyBrowseName(content.DefinedType.BrowseName));
                         }
                     }
 
@@ -152,7 +155,7 @@
                 {
                     yield return content;
                 }
-                else if (!DoesAncestorHaveComponent(objectType, content.DefinedType.BrowseName, objectTypeComponents, objectTypeSupers))
+                else if (!DoesAncestorHaveComponent(objectType, DequalifyBrowseName(content.DefinedType.BrowseName), objectTypeComponents, objectTypeSupers))
                 {
                     yield return content;
                 }
@@ -231,5 +234,7 @@
                 Visit(outputFile, depth + 1, content.DefinedType, objectTypeComponents, objectTypeSupers);
             }
         }
+
+        private static string DequalifyBrowseName(string browseName) => browseName.Substring(browseName.IndexOf(':') + 1);
     }
 }

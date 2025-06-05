@@ -138,8 +138,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ConfigurationData",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1"
@@ -147,8 +148,9 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlGroups",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1"
@@ -156,8 +158,9 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExpectedVerificationVariables",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifierValuePair;1"
@@ -165,14 +168,16 @@
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FunctionalEntityNode",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "dtmi:opcua:FX_CM:ConnectionEndpointConfigurationType:dataType:PortableNodeIdentifier;1",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConnectionEndpoint",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "target": "dtmi:opcua:FX_CM:ConnectionEndpointParameterType"
     }
   ]

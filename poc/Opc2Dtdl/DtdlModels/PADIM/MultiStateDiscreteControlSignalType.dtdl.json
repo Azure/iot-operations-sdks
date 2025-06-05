@@ -16,19 +16,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlSignal",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ControlSignal",
+            "namespace": "http://opcfoundation.org/UA/PADIM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Setpoint",
+            "namespace": "http://opcfoundation.org/UA/PADIM",
             "schema": "unsignedInteger"
           }
         ]

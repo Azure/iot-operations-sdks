@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LaserSystemState",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "target": "dtmi:opcua:LaserSystems:LaserSystemState_StateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineToolsLaserStatus",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "target": "dtmi:opcua:MachineTool:LaserMonitoringType"
     }
   ]

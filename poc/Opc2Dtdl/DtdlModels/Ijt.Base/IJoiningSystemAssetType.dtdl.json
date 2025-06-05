@@ -15,22 +15,26 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Health",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
-      "name": "Parameters"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Parameters",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base"
     }
   ]
 }

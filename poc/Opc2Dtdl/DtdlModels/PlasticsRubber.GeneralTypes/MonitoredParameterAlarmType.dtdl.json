@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "unsignedShort",
       "writable": false
     }

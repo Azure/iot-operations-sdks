@@ -38,8 +38,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActiveErrors",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PlasticsRubber_TCD:OperationType:dataType:ActiveErrorDataType;1"
@@ -47,30 +48,36 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HoursOfOperation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "IdentifyDevice"
+      "@type": [ "Command", "Qualified" ],
+      "name": "IdentifyDevice",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
-      "name": "ReduceToStandByOff"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ReduceToStandByOff",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
-      "name": "ReduceToStandByOn"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ReduceToStandByOn",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
-      "name": "ResetAllErrors"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetAllErrors",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ResetErrorById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -87,12 +94,14 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "SwitchOff"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SwitchOff",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
-      "name": "SwitchOn"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SwitchOn",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     }
   ]
 }

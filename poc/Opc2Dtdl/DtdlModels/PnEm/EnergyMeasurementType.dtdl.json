@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MeasurementValue",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": {
         "@type": "Map",
         "mapKey": {
@@ -32,8 +33,9 @@
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "ResetEnergyCounter"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetEnergyCounter",
+      "namespace": "http://opcfoundation.org/UA/PNEM"
     }
   ]
 }

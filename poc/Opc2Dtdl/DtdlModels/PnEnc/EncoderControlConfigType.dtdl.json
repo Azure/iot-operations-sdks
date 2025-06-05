@@ -33,8 +33,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetControlConfig",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

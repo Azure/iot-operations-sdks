@@ -112,8 +112,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ArticleSpecList",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:WireHarness:ArticleSpecManagementType:dataType:ISA95MaterialDataType;1"
@@ -121,8 +122,9 @@
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ClearArticleSpec",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -139,8 +141,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StoreArticleSpec",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AccessorySlotStateMachine",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AccessorySlotStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AccessoryIdentifier",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AccessoryType"
     }
   ]

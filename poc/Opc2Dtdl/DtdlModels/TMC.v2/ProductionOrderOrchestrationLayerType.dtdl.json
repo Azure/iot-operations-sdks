@@ -457,8 +457,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AbortProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -489,8 +490,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AssignProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -529,8 +531,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "CompleteProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -566,8 +569,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetDataSet",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -608,8 +612,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetMaterialList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -650,8 +655,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -692,8 +698,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ReleaseProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -729,8 +736,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -782,8 +790,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UnassignProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -814,8 +823,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UnreleaseProductionOrder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -846,8 +856,9 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "ProductionOrders"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProductionOrders",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     }
   ]
 }

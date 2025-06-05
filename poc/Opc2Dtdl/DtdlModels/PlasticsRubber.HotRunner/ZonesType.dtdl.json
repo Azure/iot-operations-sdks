@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Zone_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:ZoneType"
     }
   ]

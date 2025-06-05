@@ -15,18 +15,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MonitoredElement",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:ElementMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineTool",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:MachineOperationMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Stacklight",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:IA:BasicStacklightType"
     }
   ]

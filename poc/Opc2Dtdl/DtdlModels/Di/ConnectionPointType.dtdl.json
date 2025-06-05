@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "NetworkAddress",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProfileIdentifier",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:ProtocolType"
     }
   ]

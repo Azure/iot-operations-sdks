@@ -15,84 +15,104 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToNone"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToNone",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToProcessing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToProcessing",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromMaintenanceToSetup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromMaintenanceToSetup",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNoneToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNoneToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNoneToNone"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNoneToNone",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNoneToProcessing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNoneToProcessing",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNoneToSetup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNoneToSetup",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromProcessingToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromProcessingToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromProcessingToNone"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromProcessingToNone",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromProcessingToProcessing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromProcessingToProcessing",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromProcessingToSetup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromProcessingToSetup",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetupToMaintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetupToMaintenance",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetupToNone"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetupToNone",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetupToProcessing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetupToProcessing",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSetupToSetup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSetupToSetup",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "Maintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "None"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "None",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "Processing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Processing",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "Setup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Setup",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     }
   ]
 }

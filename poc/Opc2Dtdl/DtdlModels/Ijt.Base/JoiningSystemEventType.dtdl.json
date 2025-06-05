@@ -94,37 +94,49 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "JoiningSystemEventContent",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "JoiningSystemEventContent",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "AssociatedEntities",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": {
               "@type": "Array",
               "elementSchema": "dtmi:opcua:IJT_Base:JoiningSystemEventType:dataType:EntityDataType;1"
             }
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "EventCode",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": "long"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "EventText",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "JoiningTechnology",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": "string"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "ReportedValues",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": {
               "@type": "Array",
               "elementSchema": "dtmi:opcua:IJT_Base:JoiningSystemEventType:dataType:ReportedValueDataType;1"

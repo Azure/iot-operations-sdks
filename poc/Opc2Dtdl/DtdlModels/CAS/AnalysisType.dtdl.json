@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "Trigger"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Trigger",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "OutputFile"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OutputFile",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     }
   ]
 }

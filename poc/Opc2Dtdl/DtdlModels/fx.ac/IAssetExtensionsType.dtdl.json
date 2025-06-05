@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Connectors"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Connectors",
+      "namespace": "http://opcfoundation.org/UA/FX.AC"
     }
   ]
 }

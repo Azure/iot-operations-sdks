@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConnectionManagerConfiguration",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "target": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType"
     }
   ]

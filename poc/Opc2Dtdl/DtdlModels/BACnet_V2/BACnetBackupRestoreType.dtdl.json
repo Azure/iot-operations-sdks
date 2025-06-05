@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "BACnetBackup"
+      "@type": [ "Command", "Qualified" ],
+      "name": "BACnetBackup",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
     },
     {
-      "@type": "Command",
-      "name": "BACnetRestore"
+      "@type": [ "Command", "Qualified" ],
+      "name": "BACnetRestore",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2"
     }
   ]
 }

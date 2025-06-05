@@ -1,71 +1,71 @@
 DataTypes:
-- UADataType: [ XML:3042, XmlHexBinary ]
+- UADataType: [ XML:3042, XML:XmlHexBinary ]
   Bases:
   - ByteString
-- UADataType: [ XML:3027, XmlInteger ]
+- UADataType: [ XML:3027, XML:XmlInteger ]
   Bases:
   - Int64
-- UADataType: [ XML:3033, XmlNegativeInteger ]
+- UADataType: [ XML:3033, XML:XmlNegativeInteger ]
   Bases:
-  - XmlInteger
-- UADataType: [ XML:3030, XmlNonPositiveInteger ]
+  - XML:XmlInteger
+- UADataType: [ XML:3030, XML:XmlNonPositiveInteger ]
   Bases:
-  - XmlInteger
-- UADataType: [ XML:3036, XmlNonNegativeInteger ]
+  - XML:XmlInteger
+- UADataType: [ XML:3036, XML:XmlNonNegativeInteger ]
   Bases:
   - UInt64
-- UADataType: [ XML:3039, XmlPositiveInteger ]
+- UADataType: [ XML:3039, XML:XmlPositiveInteger ]
   Bases:
-  - XmlNonNegativeInteger
-- UADataType: [ XML:3006, XmlToken ]
+  - XML:XmlNonNegativeInteger
+- UADataType: [ XML:3006, XML:XmlToken ]
   Bases:
   - NormalizedString
-- UADataType: [ XML:3012, XmlName ]
+- UADataType: [ XML:3012, XML:XmlName ]
   Bases:
-  - XmlToken
-- UADataType: [ XML:3015, XmlNcName ]
+  - XML:XmlToken
+- UADataType: [ XML:3015, XML:XmlNcName ]
   Bases:
-  - XmlName
-- UADataType: [ XML:3024, XmlEntity ]
+  - XML:XmlName
+- UADataType: [ XML:3024, XML:XmlEntity ]
   Bases:
-  - XmlNcName
-- UADataType: [ XML:3018, XmlId ]
+  - XML:XmlNcName
+- UADataType: [ XML:3018, XML:XmlId ]
   Bases:
-  - XmlNcName
-- UADataType: [ XML:3021, XmlIdRef ]
+  - XML:XmlNcName
+- UADataType: [ XML:3021, XML:XmlIdRef ]
   Bases:
-  - XmlNcName
-- UADataType: [ XML:3009, XmlNmToken ]
+  - XML:XmlNcName
+- UADataType: [ XML:3009, XML:XmlNmToken ]
   Bases:
-  - XmlToken
-- UADataType: [ XML:3069, XmlDate ]
-  Bases:
-  - String
-- UADataType: [ XML:3051, XmlDayTimeDuration ]
+  - XML:XmlToken
+- UADataType: [ XML:3069, XML:XmlDate ]
   Bases:
   - String
-- UADataType: [ XML:3060, XmlGDay ]
+- UADataType: [ XML:3051, XML:XmlDayTimeDuration ]
   Bases:
   - String
-- UADataType: [ XML:3057, XmlGMonth ]
+- UADataType: [ XML:3060, XML:XmlGDay ]
   Bases:
   - String
-- UADataType: [ XML:3063, XmlGMonthDay ]
+- UADataType: [ XML:3057, XML:XmlGMonth ]
   Bases:
   - String
-- UADataType: [ XML:3054, XmlGYear ]
+- UADataType: [ XML:3063, XML:XmlGMonthDay ]
   Bases:
   - String
-- UADataType: [ XML:3003, XmlQName ]
+- UADataType: [ XML:3054, XML:XmlGYear ]
   Bases:
   - String
-- UADataType: [ XML:3066, XmlTime ]
+- UADataType: [ XML:3003, XML:XmlQName ]
   Bases:
   - String
-- UADataType: [ XML:3048, XmlGYearMonth ]
+- UADataType: [ XML:3066, XML:XmlTime ]
   Bases:
   - String
-- UADataType: [ XML:3045, XmlYearMonthDuration ]
+- UADataType: [ XML:3048, XML:XmlGYearMonth ]
+  Bases:
+  - String
+- UADataType: [ XML:3045, XML:XmlYearMonthDuration ]
   Bases:
   - String
 

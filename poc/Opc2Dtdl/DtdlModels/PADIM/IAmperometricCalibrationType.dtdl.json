@@ -15,20 +15,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AmperometricSensorSlope",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AmperometricSensorZeroPoint",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AbsoluteAirPressure",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     }

@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartIdentifier",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartName",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartNodeId",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     }

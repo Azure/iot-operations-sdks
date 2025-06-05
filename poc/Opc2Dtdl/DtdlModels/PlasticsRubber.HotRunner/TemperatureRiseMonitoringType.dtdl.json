@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValueTemperatureChange",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     }

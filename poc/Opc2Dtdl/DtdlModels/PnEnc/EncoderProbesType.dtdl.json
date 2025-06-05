@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Probex",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "target": "dtmi:opcua:PNENC:EncoderProbeType"
     }
   ]

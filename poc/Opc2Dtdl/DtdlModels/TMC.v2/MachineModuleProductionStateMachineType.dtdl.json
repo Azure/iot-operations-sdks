@@ -15,148 +15,178 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AbortedToCompleteGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AbortingToAbortedGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AssignedToCompleteGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AssignedToStartingGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CompleteToAssignedGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CompletingToAbortingGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CompletingToCompleteGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExecuteToAbortingGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExecuteToCompletingGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastTransition",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StartingToAbortingGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StartingToExecuteGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "Aborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborted",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "AbortedToComplete"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortedToComplete",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Aborting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborting",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "AbortingToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortingToAborted",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Assigned"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Assigned",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "AssignedToComplete"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AssignedToComplete",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "AssignedToStarting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AssignedToStarting",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Complete"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Complete",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "CompleteToAssigned"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompleteToAssigned",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Completing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Completing",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "CompletingToAborting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompletingToAborting",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "CompletingToComplete"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompletingToComplete",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Execute"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Execute",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToAborting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToAborting",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToCompleting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToCompleting",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "Starting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Starting",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingToAborting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingToAborting",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingToExecute"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingToExecute",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     }
   ]
 }

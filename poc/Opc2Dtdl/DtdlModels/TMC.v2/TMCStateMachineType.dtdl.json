@@ -16,32 +16,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AbortedToClearedGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AbortingToAbortedGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ClearedToAbortingGuard",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastTransition",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "AbortedSubstate"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortedSubstate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     }
   ]
 }

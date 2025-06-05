@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lock",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "target": "dtmi:opcua:DI:LockingServicesType"
     }
   ]

@@ -17,8 +17,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SimulationEnabled",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": {
         "@type": "Array",
         "elementSchema": "boolean"
@@ -26,8 +27,9 @@
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetSimulation",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -49,8 +51,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetSimulationValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "RecipeSettingsAndOverviews"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RecipeSettingsAndOverviews",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     }
   ]
 }

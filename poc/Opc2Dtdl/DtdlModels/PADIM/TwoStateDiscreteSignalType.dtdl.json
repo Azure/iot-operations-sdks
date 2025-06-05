@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TwoStateDiscreteSignal",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "boolean",
       "writable": true
     }

@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BACnetObject",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "BACnetStructuredView",
+      "namespace": "http://opcfoundation.org/UA/BACnet_V2",
       "target": "dtmi:opcua:BACnet_V2:BACnetStructuredViewType"
     }
   ]

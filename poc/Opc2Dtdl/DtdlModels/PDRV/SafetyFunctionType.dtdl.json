@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SelectionState",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActivationState",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "schema": "unsignedShort",
       "writable": false
     }

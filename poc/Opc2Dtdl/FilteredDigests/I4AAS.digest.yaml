@@ -1,15 +1,15 @@
 DataTypes:
-- UADataType: [ I4AAS:3003, AASAssetKindDataType ]
+- UADataType: [ I4AAS:3003, I4AAS:AASAssetKindDataType ]
   Enums:
     Type: 0
     Instance: 1
-- UADataType: [ I4AAS:3007, AASCategoryDataType ]
+- UADataType: [ I4AAS:3007, I4AAS:AASCategoryDataType ]
   Enums:
     CONSTANT: 0
     PARAMETER: 1
     VARIABLE: 2
     RELATIONSHIP: 3
-- UADataType: [ I4AAS:3008, AASDataTypeIEC61360DataType ]
+- UADataType: [ I4AAS:3008, I4AAS:AASDataTypeIEC61360DataType ]
   Enums:
     BOOLEAN: 0
     DATE: 1
@@ -26,16 +26,16 @@ DataTypes:
     INTEGER: 12
     INTEGER_COUNT: 13
     INTEGER_CURRENCY: 14
-- UADataType: [ I4AAS:3006, AASEntityTypeDataType ]
+- UADataType: [ I4AAS:3006, I4AAS:AASEntityTypeDataType ]
   Enums:
     CoManagedEntity: 0
     SelfManagedEntity: 1
-- UADataType: [ I4AAS:3010, AASIdentifierTypeDataType ]
+- UADataType: [ I4AAS:3010, I4AAS:AASIdentifierTypeDataType ]
   Enums:
     IRDI: 0
     IRI: 1
     Custom: 2
-- UADataType: [ I4AAS:3012, AASKeyElementsDataType ]
+- UADataType: [ I4AAS:3012, I4AAS:AASKeyElementsDataType ]
   Enums:
     AccessPermissionRule: 0
     AnnotatedRelationshipElement: 1
@@ -61,24 +61,24 @@ DataTypes:
     SubmodelElement: 21
     SubmodelElementCollection: 22
     View: 23
-- UADataType: [ I4AAS:3002, AASKeyTypeDataType ]
+- UADataType: [ I4AAS:3002, I4AAS:AASKeyTypeDataType ]
   Enums:
     IdShort: 0
     FragmentId: 1
     Custom: 2
     IRDI: 3
     IRI: 4
-- UADataType: [ I4AAS:3009, AASLevelTypeDataType ]
+- UADataType: [ I4AAS:3009, I4AAS:AASLevelTypeDataType ]
   Enums:
     Min: 0
     Max: 1
     Num: 2
     Type: 3
-- UADataType: [ I4AAS:3015, AASModelingKindDataType ]
+- UADataType: [ I4AAS:3015, I4AAS:AASModelingKindDataType ]
   Enums:
     Template: 0
     Instance: 1
-- UADataType: [ I4AAS:3004, AASValueTypeDataType ]
+- UADataType: [ I4AAS:3004, I4AAS:AASValueTypeDataType ]
   Enums:
     Boolean: 0
     SByte: 1
@@ -96,167 +96,167 @@ DataTypes:
     ByteString: 13
     LocalizedText: 14
     UtcTime: 15
-- UADataType: [ I4AAS:3016, AASMimeDataType ]
+- UADataType: [ I4AAS:3016, I4AAS:AASMimeDataType ]
   Bases:
   - String
-- UADataType: [ I4AAS:3005, AASPathDataType ]
+- UADataType: [ I4AAS:3005, I4AAS:AASPathDataType ]
   Bases:
   - String
-- UADataType: [ I4AAS:3014, AASPropertyValueDataType ]
+- UADataType: [ I4AAS:3014, I4AAS:AASPropertyValueDataType ]
   Bases:
   - String
-- UADataType: [ I4AAS:3013, AASQualifierDataType ]
+- UADataType: [ I4AAS:3013, I4AAS:AASQualifierDataType ]
   Bases:
   - String
-- UADataType: [ I4AAS:3011, AASKeyDataType ]
+- UADataType: [ I4AAS:3011, I4AAS:AASKeyDataType ]
   Fields:
-    Type: [ AASKeyElementsDataType, 0 ]
+    Type: [ I4AAS:AASKeyElementsDataType, 0 ]
     Local: [ Boolean, 0 ]
     Value: [ String, 0 ]
-    IdType: [ AASKeyTypeDataType, 0 ]
+    IdType: [ I4AAS:AASKeyTypeDataType, 0 ]
 
 DefinedTypes:
 
-  AASAdministrativeInformationType:
-  - [ UAObjectType, I4AAS:1030, AASAdministrativeInformationType ]
+  I4AAS:AASAdministrativeInformationType:
+  - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AASAssetAdministrationShellType:
-  - [ UAObjectType, I4AAS:1002, AASAssetAdministrationShellType ]
+  I4AAS:AASAssetAdministrationShellType:
+  - [ UAObjectType, I4AAS:1002, I4AAS:AASAssetAdministrationShellType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5005, <ConceptDictionary> ]
+    - [ UAObject, I4AAS:5005, I4AAS:<ConceptDictionary> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1007, AASConceptDictionaryType ]
+      - [ UAObjectType, I4AAS:1007, I4AAS:AASConceptDictionaryType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5001, <DataSpecification> ]
+    - [ UAObject, I4AAS:5001, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5003, <Submodel> ]
+    - [ UAObject, I4AAS:5003, I4AAS:<Submodel> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1006, AASSubmodelType ]
+      - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5004, <SubmodelReference> ]
+    - [ UAObject, I4AAS:5004, I4AAS:<SubmodelReference> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5006, <View> ]
+    - [ UAObject, I4AAS:5006, I4AAS:<View> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1003, AASViewType ]
+      - [ UAObjectType, I4AAS:1003, I4AAS:AASViewType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5002, Asset ]
+    - [ UAObject, I4AAS:5002, I4AAS:Asset ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1005, AASAssetType ]
+      - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, I4AAS:5007, DerivedFrom ]
+    - [ UAObject, I4AAS:5007, I4AAS:DerivedFrom ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AASAssetType:
-  - [ UAObjectType, I4AAS:1005, AASAssetType ]
+  I4AAS:AASAssetType:
+  - [ UAObjectType, I4AAS:1005, I4AAS:AASAssetType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5008, <DataSpecification> ]
+    - [ UAObject, I4AAS:5008, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5049, AssetIdentificationModel ]
+    - [ UAObject, I4AAS:5049, I4AAS:AssetIdentificationModel ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, I4AAS:5050, BillOfMaterial ]
+    - [ UAObject, I4AAS:5050, I4AAS:BillOfMaterial ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AASConceptDictionaryType:
-  - [ UAObjectType, I4AAS:1007, AASConceptDictionaryType ]
+  I4AAS:AASConceptDictionaryType:
+  - [ UAObjectType, I4AAS:1007, I4AAS:AASConceptDictionaryType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AASDataSpecificationType:
-  - [ UAObjectType, I4AAS:1027, AASDataSpecificationType ]
+  I4AAS:AASDataSpecificationType:
+  - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AASDataSpecificationIEC61360Type:
-  - [ UAObjectType, I4AAS:1028, AASDataSpecificationIEC61360Type ]
+  I4AAS:AASDataSpecificationIEC61360Type:
+  - [ UAObjectType, I4AAS:1028, I4AAS:AASDataSpecificationIEC61360Type ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1027, AASDataSpecificationType ]
+    - [ UAObjectType, I4AAS:1027, I4AAS:AASDataSpecificationType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5027, Administration ]
+    - [ UAObject, I4AAS:5027, I4AAS:Administration ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1030, AASAdministrativeInformationType ]
+      - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, I4AAS:5026, Identification ]
+    - [ UAObject, I4AAS:5026, I4AAS:Identification ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1029, AASIdentifierType ]
+      - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, I4AAS:5028, UnitId ]
+    - [ UAObject, I4AAS:5028, I4AAS:UnitId ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, I4AAS:5030, ValueId ]
+    - [ UAObject, I4AAS:5030, I4AAS:ValueId ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, I4AAS:5029, ValueList ]
+    - [ UAObject, I4AAS:5029, I4AAS:ValueList ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1031, ValueListType ]
+      - [ UAObjectType, I4AAS:1031, I4AAS:ValueListType ]
 
-  AASIdentifierType:
-  - [ UAObjectType, I4AAS:1029, AASIdentifierType ]
+  I4AAS:AASIdentifierType:
+  - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AASQualifierType:
-  - [ UAObjectType, I4AAS:1032, AASQualifierType ]
+  I4AAS:AASQualifierType:
+  - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5033, ValueId ]
+    - [ UAObject, I4AAS:5033, I4AAS:ValueId ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AASReferenceType:
-  - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+  I4AAS:AASReferenceType:
+  - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5041, <Referable> ]
+    - [ UAObject, I4AAS:5041, I4AAS:<Referable> ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -264,277 +264,277 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AASSubmodelElementType:
-  - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+  I4AAS:AASSubmodelElementType:
+  - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5011, <DataSpecification> ]
+    - [ UAObject, I4AAS:5011, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5031, <Qualifier> ]
+    - [ UAObject, I4AAS:5031, I4AAS:<Qualifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1032, AASQualifierType ]
+      - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  AASBlobType:
-  - [ UAObjectType, I4AAS:1016, AASBlobType ]
+  I4AAS:AASBlobType:
+  - [ UAObjectType, I4AAS:1016, I4AAS:AASBlobType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5015, File ]
+    - [ UAObject, I4AAS:5015, I4AAS:File ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  AASCapabilityType:
-  - [ UAObjectType, I4AAS:1014, AASCapabilityType ]
+  I4AAS:AASCapabilityType:
+  - [ UAObjectType, I4AAS:1014, I4AAS:AASCapabilityType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
 
-  AASEntityType:
-  - [ UAObjectType, I4AAS:1022, AASEntityType ]
+  I4AAS:AASEntityType:
+  - [ UAObjectType, I4AAS:1022, I4AAS:AASEntityType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5021, <SubmodelElement> ]
+    - [ UAObject, I4AAS:5021, I4AAS:<SubmodelElement> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5022, Asset ]
+    - [ UAObject, I4AAS:5022, I4AAS:Asset ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AASEventType:
-  - [ UAObjectType, I4AAS:1021, AASEventType ]
+  I4AAS:AASEventType:
+  - [ UAObjectType, I4AAS:1021, I4AAS:AASEventType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
 
-  AASFileType:
-  - [ UAObjectType, I4AAS:1017, AASFileType ]
+  I4AAS:AASFileType:
+  - [ UAObjectType, I4AAS:1017, I4AAS:AASFileType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5016, File ]
+    - [ UAObject, I4AAS:5016, I4AAS:File ]
     - HasTypeDefinition:
       - [ UAObjectType, 11575, FileType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AASMultiLanguagePropertyType:
-  - [ UAObjectType, I4AAS:1012, AASMultiLanguagePropertyType ]
+  I4AAS:AASMultiLanguagePropertyType:
+  - [ UAObjectType, I4AAS:1012, I4AAS:AASMultiLanguagePropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5013, ValueId ]
+    - [ UAObject, I4AAS:5013, I4AAS:ValueId ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AASOperationType:
-  - [ UAObjectType, I4AAS:1015, AASOperationType ]
+  I4AAS:AASOperationType:
+  - [ UAObjectType, I4AAS:1015, I4AAS:AASOperationType ]
   - HasComponent:
-    - [ UAMethod, I4AAS:7001, Operation ]
+    - [ UAMethod, I4AAS:7001, I4AAS:Operation ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
 
-  AASPropertyType:
-  - [ UAObjectType, I4AAS:1013, AASPropertyType ]
+  I4AAS:AASPropertyType:
+  - [ UAObjectType, I4AAS:1013, I4AAS:AASPropertyType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5014, ValueId ]
+    - [ UAObject, I4AAS:5014, I4AAS:ValueId ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  AASRangeType:
-  - [ UAObjectType, I4AAS:1023, AASRangeType ]
+  I4AAS:AASRangeType:
+  - [ UAObjectType, I4AAS:1023, I4AAS:AASRangeType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
 
-  AASReferenceElementType:
-  - [ UAObjectType, I4AAS:1020, AASReferenceElementType ]
+  I4AAS:AASReferenceElementType:
+  - [ UAObjectType, I4AAS:1020, I4AAS:AASReferenceElementType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5020, Value ]
+    - [ UAObject, I4AAS:5020, I4AAS:Value ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  AASRelationshipElementType:
-  - [ UAObjectType, I4AAS:1018, AASRelationshipElementType ]
+  I4AAS:AASRelationshipElementType:
+  - [ UAObjectType, I4AAS:1018, I4AAS:AASRelationshipElementType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5017, First ]
+    - [ UAObject, I4AAS:5017, I4AAS:First ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, I4AAS:5018, Second ]
+    - [ UAObject, I4AAS:5018, I4AAS:Second ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  AASAnnotatedRelationshipElementType:
-  - [ UAObjectType, I4AAS:1019, AASAnnotatedRelationshipElementType ]
+  I4AAS:AASAnnotatedRelationshipElementType:
+  - [ UAObjectType, I4AAS:1019, I4AAS:AASAnnotatedRelationshipElementType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5019, <DataElement> ]
+    - [ UAObject, I4AAS:5019, I4AAS:<DataElement> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1018, AASRelationshipElementType ]
+    - [ UAObjectType, I4AAS:1018, I4AAS:AASRelationshipElementType ]
 
-  AASSubmodelElementCollectionType:
-  - [ UAObjectType, I4AAS:1010, AASSubmodelElementCollectionType ]
+  I4AAS:AASSubmodelElementCollectionType:
+  - [ UAObjectType, I4AAS:1010, I4AAS:AASSubmodelElementCollectionType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5012, <SubmodelElement> ]
+    - [ UAObject, I4AAS:5012, I4AAS:<SubmodelElement> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+    - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
 
-  AASOrderedSubmodelElementCollectionType:
-  - [ UAObjectType, I4AAS:1011, AASOrderedSubmodelElementCollectionType ]
+  I4AAS:AASOrderedSubmodelElementCollectionType:
+  - [ UAObjectType, I4AAS:1011, I4AAS:AASOrderedSubmodelElementCollectionType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1010, AASSubmodelElementCollectionType ]
+    - [ UAObjectType, I4AAS:1010, I4AAS:AASSubmodelElementCollectionType ]
 
-  AASSubmodelType:
-  - [ UAObjectType, I4AAS:1006, AASSubmodelType ]
+  I4AAS:AASSubmodelType:
+  - [ UAObjectType, I4AAS:1006, I4AAS:AASSubmodelType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5009, <DataSpecification> ]
+    - [ UAObject, I4AAS:5009, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5032, <Qualifier> ]
+    - [ UAObject, I4AAS:5032, I4AAS:<Qualifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1032, AASQualifierType ]
+      - [ UAObjectType, I4AAS:1032, I4AAS:AASQualifierType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5010, <SubmodelElement> ]
+    - [ UAObject, I4AAS:5010, I4AAS:<SubmodelElement> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1009, AASSubmodelElementType ]
+      - [ UAObjectType, I4AAS:1009, I4AAS:AASSubmodelElementType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IAASReferableType:
-  - [ UAObjectType, I4AAS:1033, IAASReferableType ]
+  I4AAS:IAASReferableType:
+  - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IAASIdentifiableType:
-  - [ UAObjectType, I4AAS:1034, IAASIdentifiableType ]
+  I4AAS:IAASIdentifiableType:
+  - [ UAObjectType, I4AAS:1034, I4AAS:IAASIdentifiableType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5035, Administration ]
+    - [ UAObject, I4AAS:5035, I4AAS:Administration ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1030, AASAdministrativeInformationType ]
+      - [ UAObjectType, I4AAS:1030, I4AAS:AASAdministrativeInformationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, I4AAS:1033, IAASReferableType ]
+    - [ UAObjectType, I4AAS:1033, I4AAS:IAASReferableType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5034, Identification ]
+    - [ UAObject, I4AAS:5034, I4AAS:Identification ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1029, AASIdentifierType ]
+      - [ UAObjectType, I4AAS:1029, I4AAS:AASIdentifierType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  AASCustomConceptDescriptionType:
-  - [ UAObjectType, I4AAS:1026, AASCustomConceptDescriptionType ]
+  I4AAS:AASCustomConceptDescriptionType:
+  - [ UAObjectType, I4AAS:1026, I4AAS:AASCustomConceptDescriptionType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5048, <ConceptDescription> ]
+    - [ UAObject, I4AAS:5048, I4AAS:<ConceptDescription> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5043, <DataSpecification> ]
+    - [ UAObject, I4AAS:5043, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17589, DictionaryEntryType ]
 
-  AASIrdiConceptDescriptionType:
-  - [ UAObjectType, I4AAS:1024, AASIrdiConceptDescriptionType ]
+  I4AAS:AASIrdiConceptDescriptionType:
+  - [ UAObjectType, I4AAS:1024, I4AAS:AASIrdiConceptDescriptionType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5024, <DataSpecification> ]
+    - [ UAObject, I4AAS:5024, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5044, <ConceptDescription> ]
+    - [ UAObject, I4AAS:5044, I4AAS:<ConceptDescription> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17598, IrdiDictionaryEntryType ]
 
-  AASIriConceptDescriptionType:
-  - [ UAObjectType, I4AAS:1025, AASIriConceptDescriptionType ]
+  I4AAS:AASIriConceptDescriptionType:
+  - [ UAObjectType, I4AAS:1025, I4AAS:AASIriConceptDescriptionType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5046, <ConceptDescription> ]
+    - [ UAObject, I4AAS:5046, I4AAS:<ConceptDescription> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5025, <DataSpecification> ]
+    - [ UAObject, I4AAS:5025, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17600, UriDictionaryEntryType ]
 
-  AASViewType:
-  - [ UAObjectType, I4AAS:1003, AASViewType ]
+  I4AAS:AASViewType:
+  - [ UAObjectType, I4AAS:1003, I4AAS:AASViewType ]
   - HasComponent:
-    - [ UAObject, I4AAS:5037, <DataSpecification> ]
+    - [ UAObject, I4AAS:5037, I4AAS:<DataSpecification> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, I4AAS:5036, <Referable> ]
+    - [ UAObject, I4AAS:5036, I4AAS:<Referable> ]
     - HasTypeDefinition:
-      - [ UAObjectType, I4AAS:1004, AASReferenceType ]
+      - [ UAObjectType, I4AAS:1004, I4AAS:AASReferenceType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  ValueListType:
-  - [ UAObjectType, I4AAS:1031, ValueListType ]
+  I4AAS:ValueListType:
+  - [ UAObjectType, I4AAS:1031, I4AAS:ValueListType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

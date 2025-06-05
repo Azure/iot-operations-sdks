@@ -15,38 +15,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InDiscards",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InErrors",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InOctets",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutDiscards",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutErrors",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutOctets",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "unsignedInteger",
       "writable": false
     }

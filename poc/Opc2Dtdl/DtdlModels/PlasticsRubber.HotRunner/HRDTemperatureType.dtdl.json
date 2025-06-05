@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActiveSetValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "BoostSetValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SecondSetValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StandbySetValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     }

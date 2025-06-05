@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetTime",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

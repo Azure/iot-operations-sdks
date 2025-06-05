@@ -15,64 +15,79 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Powerup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Powerup",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Operating"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Operating",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Local"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Local",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Maintenance"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Maintenance",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Shutdown"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Shutdown",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PowerupToOperatingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PowerupToOperatingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "OperatingToLocalTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperatingToLocalTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "OperatingToMaintenanceTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperatingToMaintenanceTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "LocalToOperatingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalToOperatingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "LocalToMaintenanceTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalToMaintenanceTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceToOperatingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceToOperatingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceToLocalTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceToLocalTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "OperatingToShutdownTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperatingToShutdownTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "LocalToShutdownTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LocalToShutdownTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "MaintenanceToShutdownTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaintenanceToShutdownTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     }
   ]
 }

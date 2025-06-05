@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AdditiveFraction",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AdditiveStrokeVolume",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ControlledParameterType"
     }
   ]

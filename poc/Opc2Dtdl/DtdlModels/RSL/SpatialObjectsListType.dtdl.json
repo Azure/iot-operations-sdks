@@ -15,19 +15,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WorldFrame",
+      "namespace": "http://opcfoundation.org/UA/RSL",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "WorldFrame",
+            "namespace": "http://opcfoundation.org/UA/RSL",
             "schema": "string"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Base",
+            "namespace": "http://opcfoundation.org/UA/RSL",
             "schema": "string"
           }
         ]

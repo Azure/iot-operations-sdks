@@ -15,18 +15,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Identification",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineConfiguration",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Operation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "target": "dtmi:opcua:PlasticsRubber_LDS:OperationType"
     }
   ]

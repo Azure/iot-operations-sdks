@@ -1,5 +1,5 @@
 DataTypes:
-- UADataType: [ GMS:3009, MeasurementReasonEnum ]
+- UADataType: [ GMS:3009, GMS:MeasurementReasonEnum ]
   Enums:
     ContinuousMeasurements: 0
     SpecialMeasurement: 1
@@ -7,75 +7,75 @@ DataTypes:
     MinMastering: 3
     MedMastering: 4
     MaxMastering: 5
-- UADataType: [ GMS:3010, ToleranceLimitEnum ]
+- UADataType: [ GMS:3010, GMS:ToleranceLimitEnum ]
   Enums:
     NoLimit: 0
     LimitValue: 1
     NaturalLimit: 2
-- UADataType: [ GMS:3004, ToolAlignmentState ]
+- UADataType: [ GMS:3004, GMS:ToolAlignmentState ]
   Enums:
     Fixed: 0
     Indexed: 1
     Continuous: 2
-- UADataType: [ GMS:3002, ToolIsQualifiedStatus ]
+- UADataType: [ GMS:3002, GMS:ToolIsQualifiedStatus ]
   Enums:
     Qualified: 0
     Imprecise: 1
     NotQualified: 2
-- UADataType: [ GMS:3006, WorkspaceType ]
+- UADataType: [ GMS:3006, GMS:WorkspaceType ]
   Bases:
   - Structure
-- UADataType: [ GMS:3007, CartesianWorkspaceType ]
+- UADataType: [ GMS:3007, GMS:CartesianWorkspaceType ]
   Fields:
     Length: [ Double, 0 ]
     Width: [ Double, 0 ]
     Height: [ Double, 0 ]
-- UADataType: [ GMS:3008, CylindricalWorkspaceType ]
+- UADataType: [ GMS:3008, GMS:CylindricalWorkspaceType ]
   Fields:
     Length: [ Double, 0 ]
     Radius: [ Double, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ IA:3003, LevelDisplayMode ]
+- UADataType: [ IA:3003, IA:LevelDisplayMode ]
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
-- UADataType: [ IA:3004, SignalColor ]
+- UADataType: [ IA:3004, IA:SignalColor ]
   Enums:
     Off: 0
     Red: 1
@@ -85,19 +85,19 @@ DataTypes:
     Purple: 5
     Cyan: 6
     White: 7
-- UADataType: [ IA:3005, SignalModeLight ]
+- UADataType: [ IA:3005, IA:SignalModeLight ]
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
-- UADataType: [ IA:3002, StacklightOperationMode ]
+- UADataType: [ IA:3002, IA:StacklightOperationMode ]
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
-- UADataType: [ MachineTool:67, ChannelMode ]
+- UADataType: [ MachineTool:67, MachineTool:ChannelMode ]
   Enums:
     Automatic: 0
     MdaMdi: 1
@@ -107,25 +107,25 @@ DataTypes:
     Remote: 5
     Reference: 6
     Other: 7
-- UADataType: [ MachineTool:64, ChannelState ]
+- UADataType: [ MachineTool:64, MachineTool:ChannelState ]
   Enums:
     Active: 0
     Interrupted: 1
     Reset: 2
-- UADataType: [ MachineTool:71, EDMGeneratorState ]
+- UADataType: [ MachineTool:71, MachineTool:EDMGeneratorState ]
   Enums:
     Undefined: 0
     Ready: 1
     Active_Low_Voltage: 2
     Active_High_Voltage: 3
     Error: 4
-- UADataType: [ MachineTool:70, LaserState ]
+- UADataType: [ MachineTool:70, MachineTool:LaserState ]
   Enums:
     Undefined: 0
     Ready: 1
     Active: 2
     Error: 3
-- UADataType: [ MachineTool:65, MachineOperationMode ]
+- UADataType: [ MachineTool:65, MachineTool:MachineOperationMode ]
   Enums:
     Manual: 0
     Automatic: 1
@@ -133,20 +133,20 @@ DataTypes:
     AutoWithManualIntervention: 3
     Service: 4
     Other: 5
-- UADataType: [ MachineTool:63, PartQuality ]
+- UADataType: [ MachineTool:63, MachineTool:PartQuality ]
   Enums:
     CapabilityUnavailable: 0
     Good: 1
     Bad: 2
     NotYetMeasured: 3
     WillNotBeMeasured: 4
-- UADataType: [ MachineTool:62, ProcessIrregularity ]
+- UADataType: [ MachineTool:62, MachineTool:ProcessIrregularity ]
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
-- UADataType: [ MachineTool:68, ToolLifeIndication ]
+- UADataType: [ MachineTool:68, MachineTool:ToolLifeIndication ]
   Enums:
     Time: 0
     NumberOfParts: 1
@@ -156,7 +156,7 @@ DataTypes:
     Length: 5
     Diameter: 6
     Other: 7
-- UADataType: [ MachineTool:66, ToolLocked ]
+- UADataType: [ MachineTool:66, MachineTool:ToolLocked ]
   Enums:
     CapabilityUnavailable: 0
     ByOperator: 1
@@ -164,50 +164,50 @@ DataTypes:
     ToolLife: 3
     MeasurementError: 4
     Other: 5
-- UADataType: [ MachineTool:69, ToolManagement ]
+- UADataType: [ MachineTool:69, MachineTool:ToolManagement ]
   Enums:
     NumberBased: 0
     GroupBased: 1
     Other: 2
-- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+- UADataType: [ isa95-jobcontrol:3005, isa95-jobcontrol:ISA95EquipmentDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     EquipmentUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, isa95-jobcontrol:ISA95JobOrderAndStateDataType ]
   Fields:
-    JobOrder: [ ISA95JobOrderDataType, 0 ]
-    State: [ ISA95StateDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+    JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
+    State: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, isa95-jobcontrol:ISA95JobOrderDataType ]
   Fields:
     JobOrderID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
-    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    WorkMasterID: [ isa95-jobcontrol:ISA95WorkMasterDataType, 1 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
     Priority: [ Int16, 0 ]
-    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
-    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
-    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+    JobOrderParameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, isa95-jobcontrol:ISA95JobResponseDataType ]
   Fields:
     JobResponseID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
     JobOrderID: [ String, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    JobState: [ ISA95StateDataType, 1 ]
-    JobResponseData: [ ISA95ParameterDataType, 1 ]
-    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
-    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialActuals: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+    JobState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+    JobResponseData: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, isa95-jobcontrol:ISA95MaterialDataType ]
   Fields:
     MaterialClassID: [ String, 0 ]
     MaterialDefinitionID: [ String, 0 ]
@@ -217,113 +217,113 @@ DataTypes:
     MaterialUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, isa95-jobcontrol:ISA95ParameterDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subparameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+    Subparameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, isa95-jobcontrol:ISA95PersonnelDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PersonnelUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, isa95-jobcontrol:ISA95PhysicalAssetDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PhysicalAssetUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, isa95-jobcontrol:ISA95PropertyDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subproperties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+    Subproperties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, isa95-jobcontrol:ISA95StateDataType ]
   Fields:
     BrowsePath: [ RelativePath, 0 ]
     StateText: [ LocalizedText, 0 ]
     StateNumber: [ UInt32, 0 ]
-- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+- UADataType: [ isa95-jobcontrol:3007, isa95-jobcontrol:ISA95WorkMasterDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, Machinery.Jobs:JobExecutionMode ]
   Enums:
     SimulationMode: 0
     TestMode: 1
     ProductionMode: 2
-- UADataType: [ Machinery.Jobs:3006, JobResult ]
+- UADataType: [ Machinery.Jobs:3006, Machinery.Jobs:JobResult ]
   Enums:
     Unknown: 0
     Successful: 1
     Unsuccessful: 2
-- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+- UADataType: [ Machinery.Jobs:3004, Machinery.Jobs:ProcessIrregularity ]
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
-- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+- UADataType: [ Machinery.Jobs:3009, Machinery.Jobs:OutputInfoType ]
   Enums:
     OrderNumber: 0
     LotNumber: 1
     SerialNumber: 2
-- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+- UADataType: [ Machinery.Jobs:3015, Machinery.Jobs:BOMComponentInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     Quantity: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+- UADataType: [ Machinery.Jobs:3018, Machinery.Jobs:BOMInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
-    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
+    ComponentInformation: [ Machinery.Jobs:BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, Machinery.Jobs:OutputInformationDataType ]
   Fields:
     ItemNumber: [ String, 0 ]
-    OutputInfo: [ OutputInfoType, 0 ]
+    OutputInfo: [ Machinery.Jobs:OutputInfoType, 0 ]
     OrderNumber: [ String, 0 ]
     LotNumber: [ String, 0 ]
     SerialNumber: [ String, 0 ]
-- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+- UADataType: [ Machinery.Jobs:3021, Machinery.Jobs:OutputPerformanceInfoDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ Machinery.Result:3002, ResultEvaluationEnum ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Result:3002, Machinery.Result:ResultEvaluationEnum ]
   Enums:
     Undefined: 0
     OK: 1
     NotOK: 2
     NotDecidable: 3
-- UADataType: [ Machinery.Result:3005, BaseResultTransferOptionsDataType ]
+- UADataType: [ Machinery.Result:3005, Machinery.Result:BaseResultTransferOptionsDataType ]
   Fields:
     ResultId: [ TrimmedString, 0 ]
-- UADataType: [ Machinery.Result:3004, ResultTransferOptionsDataType ]
+- UADataType: [ Machinery.Result:3004, Machinery.Result:ResultTransferOptionsDataType ]
   Bases:
-  - BaseResultTransferOptionsDataType
-- UADataType: [ Machinery.Result:3006, ProcessingTimesDataType ]
+  - Machinery.Result:BaseResultTransferOptionsDataType
+- UADataType: [ Machinery.Result:3006, Machinery.Result:ProcessingTimesDataType ]
   Fields:
     StartTime: [ UtcTime, 0 ]
     EndTime: [ UtcTime, 0 ]
     AcquisitionDuration: [ Duration, 0 ]
     ProcessingDuration: [ Duration, 0 ]
-- UADataType: [ Machinery.Result:3008, ResultDataType ]
+- UADataType: [ Machinery.Result:3008, Machinery.Result:ResultDataType ]
   Fields:
-    ResultMetaData: [ ResultMetaDataType, 0 ]
+    ResultMetaData: [ Machinery.Result:ResultMetaDataType, 0 ]
     ResultContent: [ null, 1 ]
-- UADataType: [ Machinery.Result:3007, ResultMetaDataType ]
+- UADataType: [ Machinery.Result:3007, Machinery.Result:ResultMetaDataType ]
   Fields:
     ResultId: [ TrimmedString, 0 ]
     HasTransferableDataOnFile: [ Boolean, 0 ]
@@ -339,258 +339,258 @@ DataTypes:
     InternalConfigurationId: [ TrimmedString, 0 ]
     JobId: [ TrimmedString, 0 ]
     CreationTime: [ UtcTime, 0 ]
-    ProcessingTimes: [ ProcessingTimesDataType, 0 ]
+    ProcessingTimes: [ Machinery.Result:ProcessingTimesDataType, 0 ]
     ResultUri: [ UriString, 1 ]
-    ResultEvaluation: [ ResultEvaluationEnum, 0 ]
+    ResultEvaluation: [ Machinery.Result:ResultEvaluationEnum, 0 ]
     ResultEvaluationCode: [ Int64, 0 ]
     ResultEvaluationDetails: [ LocalizedText, 0 ]
     FileFormat: [ String, 1 ]
 
 DefinedTypes:
 
-  SensorWarningAlarmType:
-  - [ UAObjectType, GMS:1010, SensorWarningAlarmType ]
+  GMS:SensorWarningAlarmType:
+  - [ UAObjectType, GMS:1010, GMS:SensorWarningAlarmType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2955, LimitAlarmType ]
 
-  IntermediateResultEventType:
-  - [ UAObjectType, GMS:1001, IntermediateResultEventType ]
+  GMS:IntermediateResultEventType:
+  - [ UAObjectType, GMS:1001, GMS:IntermediateResultEventType ]
   - HasComponent:
-    - [ UAObject, GMS:5033, <Characteristics> ]
+    - [ UAObject, GMS:5033, GMS:<Characteristics> ]
     - HasTypeDefinition:
-      - [ UAObjectType, GMS:1009, CharacteristicType ]
+      - [ UAObjectType, GMS:1009, GMS:CharacteristicType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery.Result:1002, ResultReadyEventType ]
+    - [ UAObjectType, Machinery.Result:1002, Machinery.Result:ResultReadyEventType ]
 
-  MultiSensorType:
-  - [ UAObjectType, GMS:1012, MultiSensorType ]
+  GMS:MultiSensorType:
+  - [ UAObjectType, GMS:1012, GMS:MultiSensorType ]
   - HasComponent:
-    - [ UAObject, GMS:5023, <Tool> ]
+    - [ UAObject, GMS:5023, GMS:<Tool> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, GMS:1007, SensorType ]
+      - [ UAObjectType, GMS:1007, GMS:SensorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:51, MultiToolType ]
+    - [ UAObjectType, MachineTool:51, MachineTool:MultiToolType ]
 
-  SensorType:
-  - [ UAObjectType, GMS:1007, SensorType ]
+  GMS:SensorType:
+  - [ UAObjectType, GMS:1007, GMS:SensorType ]
   - HasComponent:
-    - [ UAVariable, GMS:6019, Capabilities, UInteger, 1, 3 ]
+    - [ UAVariable, GMS:6019, GMS:Capabilities, UInteger, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6056, Class, UInteger, 0, 3 ]
+    - [ UAVariable, GMS:6056, GMS:Class, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:50, ToolType ]
+    - [ UAObjectType, MachineTool:50, MachineTool:ToolType ]
   - HasComponent:
-    - [ UAObject, GMS:5065, ToolLife ]
+    - [ UAObject, GMS:5065, MachineTool:ToolLife ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CharacteristicType:
-  - [ UAObjectType, GMS:1009, CharacteristicType ]
+  GMS:CharacteristicType:
+  - [ UAObjectType, GMS:1009, GMS:CharacteristicType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, GMS:6042, LowerToleranceLimit, Double, 0, 3 ]
+    - [ UAVariable, GMS:6042, GMS:LowerToleranceLimit, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6044, Nominal, Double, 0, 3 ]
+    - [ UAVariable, GMS:6044, GMS:Nominal, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6039, ResultValue, Double, 0, 3 ]
+    - [ UAVariable, GMS:6039, GMS:ResultValue, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6040, UpperToleranceLimit, Double, 0, 3 ]
+    - [ UAVariable, GMS:6040, GMS:UpperToleranceLimit, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CorrectionType:
-  - [ UAObjectType, GMS:1005, CorrectionType ]
+  GMS:CorrectionType:
+  - [ UAObjectType, GMS:1005, GMS:CorrectionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, GMS:6074, CorrectionValueAbsolute, Double, 0, 3 ]
+    - [ UAVariable, GMS:6074, GMS:CorrectionValueAbsolute, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6010, CorrectionValueRelative, Double, 0, 3 ]
+    - [ UAVariable, GMS:6010, GMS:CorrectionValueRelative, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6080, LowerControlLimit, Double, 0, 3 ]
+    - [ UAVariable, GMS:6080, GMS:LowerControlLimit, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6076, UpperControlLimit, Double, 0, 3 ]
+    - [ UAVariable, GMS:6076, GMS:UpperControlLimit, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LoadingMonitoringType:
-  - [ UAObjectType, GMS:1014, LoadingMonitoringType ]
+  GMS:LoadingMonitoringType:
+  - [ UAObjectType, GMS:1014, GMS:LoadingMonitoringType ]
   - HasComponent:
-    - [ UAVariable, GMS:6073, IsInLoadingPosition, Boolean, 0, 3 ]
+    - [ UAVariable, GMS:6073, GMS:IsInLoadingPosition, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:23, ElementMonitoringType ]
+    - [ UAObjectType, MachineTool:23, MachineTool:ElementMonitoringType ]
   - HasComponent:
-    - [ UAVariable, GMS:6060, LoadStatus, UInteger, 0, 3 ]
+    - [ UAVariable, GMS:6060, GMS:LoadStatus, UInteger, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  ToolMonitoringType:
-  - [ UAObjectType, GMS:1006, ToolMonitoringType ]
+  GMS:ToolMonitoringType:
+  - [ UAObjectType, GMS:1006, GMS:ToolMonitoringType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:41, WorkingUnitMonitoringType ]
+    - [ UAObjectType, MachineTool:41, MachineTool:WorkingUnitMonitoringType ]
 
-  GMSEquipmentType:
-  - [ UAObjectType, GMS:1003, GMSEquipmentType ]
+  GMS:GMSEquipmentType:
+  - [ UAObjectType, GMS:1003, GMS:GMSEquipmentType ]
   - HasComponent:
-    - [ UAObject, GMS:5034, Accessories ]
+    - [ UAObject, GMS:5034, GMS:Accessories ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
   - HasComponent:
-    - [ UAObject, GMS:5015, AdditionalSensor ]
+    - [ UAObject, GMS:5015, GMS:AdditionalSensor ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:12, EquipmentType ]
+    - [ UAObjectType, MachineTool:12, MachineTool:EquipmentType ]
   - HasComponent:
-    - [ UAObject, GMS:5017, Tools ]
+    - [ UAObject, GMS:5017, MachineTool:Tools ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineTool:44, ToolListType ]
+      - [ UAObjectType, MachineTool:44, MachineTool:ToolListType ]
 
-  GMSIdentificationType:
-  - [ UAObjectType, GMS:1011, GMSIdentificationType ]
+  GMS:GMSIdentificationType:
+  - [ UAObjectType, GMS:1011, GMS:GMSIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:11, MachineToolIdentificationType ]
+    - [ UAObjectType, MachineTool:11, MachineTool:MachineToolIdentificationType ]
 
-  GMSType:
-  - [ UAObjectType, GMS:1002, GMSType ]
+  GMS:GMSType:
+  - [ UAObjectType, GMS:1002, GMS:GMSType ]
   - HasComponent:
-    - [ UAObject, GMS:5010, Equipment ]
+    - [ UAObject, GMS:5010, MachineTool:Equipment ]
     - HasTypeDefinition:
-      - [ UAObjectType, GMS:1003, GMSEquipmentType ]
+      - [ UAObjectType, GMS:1003, GMS:GMSEquipmentType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:13, MachineToolType ]
+    - [ UAObjectType, MachineTool:13, MachineTool:MachineToolType ]
   - HasComponent:
-    - [ UAObject, GMS:5026, Monitoring ]
+    - [ UAObject, GMS:5026, MachineTool:Monitoring ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, GMS:1004, GMSMonitoringType ]
+      - [ UAObjectType, GMS:1004, GMS:GMSMonitoringType ]
   - HasComponent:
-    - [ UAObject, GMS:5029, Notification ]
+    - [ UAObject, GMS:5029, MachineTool:Notification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineTool:7, NotificationType ]
+      - [ UAObjectType, MachineTool:7, MachineTool:NotificationType ]
   - HasComponent:
-    - [ UAObject, GMS:5012, Production ]
+    - [ UAObject, GMS:5012, MachineTool:Production ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, MachineTool:21, ProductionType ]
+      - [ UAObjectType, MachineTool:21, MachineTool:ProductionType ]
   - HasComponent:
-    - [ UAObject, GMS:5019, ResultManagement ]
+    - [ UAObject, GMS:5019, GMS:ResultManagement ]
     - HasTypeDefinition:
-      - [ UAObjectType, GMS:1008, GMSResultManagementType ]
+      - [ UAObjectType, GMS:1008, GMS:GMSResultManagementType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  GMSMonitoringType:
-  - [ UAObjectType, GMS:1004, GMSMonitoringType ]
+  GMS:GMSMonitoringType:
+  - [ UAObjectType, GMS:1004, GMS:GMSMonitoringType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:14, MonitoringType ]
+    - [ UAObjectType, MachineTool:14, MachineTool:MonitoringType ]
   - HasComponent:
-    - [ UAObject, GMS:5031, LoadingMonitoring ]
+    - [ UAObject, GMS:5031, GMS:LoadingMonitoring ]
     - HasTypeDefinition:
-      - [ UAObjectType, GMS:1014, LoadingMonitoringType ]
+      - [ UAObjectType, GMS:1014, GMS:LoadingMonitoringType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, GMS:5032, ToolMonitoring ]
+    - [ UAObject, GMS:5032, GMS:ToolMonitoring ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, GMS:1006, ToolMonitoringType ]
+      - [ UAObjectType, GMS:1006, GMS:ToolMonitoringType ]
 
-  GMSJobType:
-  - [ UAObjectType, GMS:1016, GMSJobType ]
+  GMS:GMSJobType:
+  - [ UAObjectType, GMS:1016, GMS:GMSJobType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:29, ProductionJobType ]
+    - [ UAObjectType, MachineTool:29, MachineTool:ProductionJobType ]
 
-  GMSPartType:
-  - [ UAObjectType, GMS:1017, GMSPartType ]
+  GMS:GMSPartType:
+  - [ UAObjectType, GMS:1017, GMS:GMSPartType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:56, ProductionPartType ]
+    - [ UAObjectType, MachineTool:56, MachineTool:ProductionPartType ]
   - HasComponent:
-    - [ UAVariable, GMS:6316, NestIdentifier, Number, 0, 3 ]
+    - [ UAVariable, GMS:6316, GMS:NestIdentifier, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6321, Operator, Number, 0, 3 ]
+    - [ UAVariable, GMS:6321, GMS:Operator, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6331, PartCarrierIdentifier, Number, 0, 3 ]
+    - [ UAVariable, GMS:6331, GMS:PartCarrierIdentifier, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6336, ProcessingMachineIdentifier, Number, 0, 3 ]
+    - [ UAVariable, GMS:6336, GMS:ProcessingMachineIdentifier, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, GMS:6326, ProcessParameter, Number, 1, 3 ]
+    - [ UAVariable, GMS:6326, GMS:ProcessParameter, Number, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CalibrationPrognosisType:
-  - [ UAObjectType, GMS:1019, CalibrationPrognosisType ]
+  GMS:CalibrationPrognosisType:
+  - [ UAObjectType, GMS:1019, GMS:CalibrationPrognosisType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:3, PrognosisType ]
+    - [ UAObjectType, MachineTool:3, MachineTool:PrognosisType ]
 
-  GMSResultManagementType:
-  - [ UAObjectType, GMS:1008, GMSResultManagementType ]
+  GMS:GMSResultManagementType:
+  - [ UAObjectType, GMS:1008, GMS:GMSResultManagementType ]
   - HasComponent:
-    - [ UAObject, GMS:5016, CorrectionsFolder ]
+    - [ UAObject, GMS:5016, GMS:CorrectionsFolder ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery.Result:1004, ResultManagementType ]
+    - [ UAObjectType, Machinery.Result:1004, Machinery.Result:ResultManagementType ]
 
-  RotaryTableType:
-  - [ UAObjectType, GMS:1018, RotaryTableType ]
+  GMS:RotaryTableType:
+  - [ UAObjectType, GMS:1018, GMS:RotaryTableType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  SensorExchangeRackType:
-  - [ UAObjectType, GMS:1015, SensorExchangeRackType ]
+  GMS:SensorExchangeRackType:
+  - [ UAObjectType, GMS:1015, GMS:SensorExchangeRackType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  TipExchangeRackType:
-  - [ UAObjectType, GMS:1022, TipExchangeRackType ]
+  GMS:TipExchangeRackType:
+  - [ UAObjectType, GMS:1022, GMS:TipExchangeRackType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

@@ -85,8 +85,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteRecipe",
+      "namespace": "http://opcfoundation.org/UA/TTD",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -103,8 +104,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetRecipe",
+      "namespace": "http://opcfoundation.org/UA/TTD",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -135,8 +137,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetRecipeIds",
+      "namespace": "http://opcfoundation.org/UA/TTD",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -156,8 +159,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetRecipes",
+      "namespace": "http://opcfoundation.org/UA/TTD",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -177,8 +181,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetRecipe",
+      "namespace": "http://opcfoundation.org/UA/TTD",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -200,8 +205,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetRecipes",
+      "namespace": "http://opcfoundation.org/UA/TTD",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

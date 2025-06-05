@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ToolIdentifier",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ToolName",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     }

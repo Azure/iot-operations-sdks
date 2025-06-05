@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ExtruderEnabled",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Corrugator",
       "schema": "boolean",
       "writable": false
     }

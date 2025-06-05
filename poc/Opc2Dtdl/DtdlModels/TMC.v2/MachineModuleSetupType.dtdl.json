@@ -362,8 +362,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LoadDataSet",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -399,8 +400,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LoadMaterialList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -431,8 +433,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ValidateDataSet",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -484,8 +487,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ValidateMaterialList",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -532,12 +536,14 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "DataSetFolder"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DataSetFolder",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "MechanicalAdjustments"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MechanicalAdjustments",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     }
   ]
 }

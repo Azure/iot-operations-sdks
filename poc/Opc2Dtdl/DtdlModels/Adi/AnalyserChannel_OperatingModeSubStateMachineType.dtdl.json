@@ -15,294 +15,366 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OperatingExecuteSubStateMachine",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AnalyserChannel_OperatingModeExecuteSubStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "Stopped"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Stopped",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Resetting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Resetting",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Idle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Idle",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Starting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Starting",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Execute",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:ADI:AnalyserChannelOperatingExecuteStateType"
     },
     {
-      "@type": "Relationship",
-      "name": "Completing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Completing",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Complete"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Complete",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Suspending"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Suspending",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Suspended"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Suspended",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Unsuspending"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Unsuspending",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Holding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Holding",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Held"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Held",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Unholding"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Unholding",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Stopping"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Stopping",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Aborting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborting",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Aborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborted",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Clearing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Clearing",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StoppedToResettingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StoppedToResettingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ResettingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ResettingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ResettingToIdleTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ResettingToIdleTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "IdleToStartingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "IdleToStartingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingToExecuteTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingToExecuteTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToCompletingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToCompletingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CompletingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompletingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CompletingToCompleteTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompletingToCompleteTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CompleteToStoppedTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompleteToStoppedTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToHoldingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToHoldingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "HoldingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HoldingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "HoldingToHeldTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HoldingToHeldTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "HeldToUnholdingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HeldToUnholdingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnholdingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnholdingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnholdingToHoldingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnholdingToHoldingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnholdingToExecuteTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnholdingToExecuteTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToSuspendingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToSuspendingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendingToSuspendedTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendingToSuspendedTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendedToUnsuspendingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendedToUnsuspendingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnsuspendingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnsuspendingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnsuspendingToSuspendingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnsuspendingToSuspendingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnsuspendingToExecuteTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnsuspendingToExecuteTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StoppingToStoppedTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StoppingToStoppedTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AbortingToAbortedTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortingToAbortedTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "AbortedToClearingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortedToClearingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ClearingToStoppedTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ClearingToStoppedTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ResettingToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ResettingToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "IdleToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "IdleToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CompletingToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompletingToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CompleteToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompleteToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendingToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendingToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendedToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendedToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnsuspendingToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnsuspendingToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "HoldingToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HoldingToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "HeldToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HeldToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnholdingToStoppingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnholdingToStoppingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StoppedToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StoppedToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ResettingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ResettingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "IdleToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "IdleToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StartingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StartingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "ExecuteToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ExecuteToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CompletingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompletingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "CompleteToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CompleteToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "SuspendedToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SuspendedToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnsuspendingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnsuspendingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "HoldingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HoldingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "HeldToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HeldToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "UnholdingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "UnholdingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "StoppingToAbortingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StoppingToAbortingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     }
   ]
 }

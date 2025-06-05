@@ -15,12 +15,14 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Machine"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Machine",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     },
     {
-      "@type": "Relationship",
-      "name": "SubUnits"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SubUnits",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     }
   ]
 }

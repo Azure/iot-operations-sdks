@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ServiceClass",
+      "namespace": "http://opcfoundation.org/UA/MachineVision.AMCM",
       "schema": "unsignedInteger",
       "writable": true
     }

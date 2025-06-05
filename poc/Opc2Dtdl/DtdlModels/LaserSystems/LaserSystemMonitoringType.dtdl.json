@@ -15,25 +15,30 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "ActivityData"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ActivityData",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "ConditionData"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ConditionData",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
-      "name": "ConsumptionData"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ConsumptionData",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LaserSystemStatus",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "target": "dtmi:opcua:LaserSystems:LaserSystemStatusType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Stacklight",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "target": "dtmi:opcua:IA:BasicStacklightType"
     }
   ]

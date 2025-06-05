@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RunsCompleted",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "unsignedLong",
       "writable": false
     }

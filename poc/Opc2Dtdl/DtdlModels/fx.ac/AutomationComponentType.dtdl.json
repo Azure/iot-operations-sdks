@@ -546,24 +546,28 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AggregatedHealth",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "AggregatedHealth",
+            "namespace": "http://opcfoundation.org/UA/FX.AC",
             "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:AggregatedHealthDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AggregatedDeviceHealth",
+            "namespace": "http://opcfoundation.org/UA/FX.AC",
             "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:DeviceHealthOptionSet;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "AggregatedOperationalHealth",
+            "namespace": "http://opcfoundation.org/UA/FX.AC",
             "schema": "dtmi:opcua:FX_AC:AutomationComponentType:dataType:OperationalHealthOptionSet;1"
           }
         ]
@@ -571,8 +575,9 @@
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "CloseConnections",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -614,8 +619,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "EstablishConnections",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -705,30 +711,36 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Assets"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Assets",
+      "namespace": "http://opcfoundation.org/UA/FX.AC"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ComponentCapabilities",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "target": "dtmi:opcua:FX_AC:AutomationComponentCapabilitiesType"
     },
     {
-      "@type": "Relationship",
-      "name": "Descriptors"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Descriptors",
+      "namespace": "http://opcfoundation.org/UA/FX.AC"
     },
     {
-      "@type": "Relationship",
-      "name": "FunctionalEntities"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FunctionalEntities",
+      "namespace": "http://opcfoundation.org/UA/FX.AC"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PublisherCapabilities",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "target": "dtmi:opcua:FX_AC:PublisherCapabilitiesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SubscriberCapabilities",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
     }
   ]

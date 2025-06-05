@@ -16,16 +16,19 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "OperationOff"
+      "@type": [ "Command", "Qualified" ],
+      "name": "OperationOff",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Command",
-      "name": "OperationOn"
+      "@type": [ "Command", "Qualified" ],
+      "name": "OperationOn",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivateAirflowSetpoint",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -42,8 +45,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivatePressureSetpoint",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -60,8 +64,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetAndActivateRotationalSpeedSetpoint",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -78,62 +83,74 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CleaningUnit",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:CleaningUnitType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DischargeSystem",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:DischargeSystemType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Separator",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SeparatorType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:ConsumptionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Airflow",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirIntakeConnection",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:AirConnectionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirOutletConnection",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:AirConnectionType"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PowerConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:ConsumptionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Pressure",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PressureLoss",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "RotationalSpeed",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorSetpointReadType"
     }
   ]

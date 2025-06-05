@@ -15,50 +15,58 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EnergyConsumptionToOperate",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EnergyConsumptionToPause",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ModePowerConsumption",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RegularTimeToOperate",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeMaxLengthOfStay",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeMinLengthOfStay",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeMinPause",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeToPause",
+      "namespace": "http://opcfoundation.org/UA/ECM",
       "schema": "duration",
       "writable": false
     }

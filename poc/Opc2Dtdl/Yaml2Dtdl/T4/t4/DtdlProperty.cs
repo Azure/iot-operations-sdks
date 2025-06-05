@@ -10,6 +10,8 @@
 namespace Yaml2Dtdl
 {
     using System.Collections.Generic;
+    using OpcUaDigest;
+    using SpecMapper;
     using System;
     
     /// <summary>
@@ -25,41 +27,49 @@ namespace Yaml2Dtdl
         {
             this.Write("    {\r\n");
  if (this.isHistorized) { 
-            this.Write("      \"@type\": [ \"Property\", \"Historized\" ],\r\n");
+            this.Write("      \"@type\": [ \"Property\", \"Qualified\", \"Historized\" ],\r\n");
  } else { 
-            this.Write("      \"@type\": \"Property\",\r\n");
+            this.Write("      \"@type\": [ \"Property\", \"Qualified\" ],\r\n");
  } 
             this.Write("      \"name\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
+            this.Write("\",\r\n      \"namespace\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n");
- if (this.SubVariables.Count == 0) { 
+ if (this.SubVars.Count == 0) { 
             this.Write("      \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 6)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, 6)));
             this.Write(",\r\n");
  } else { 
             this.Write("      \"schema\": {\r\n        \"@type\": [ \"Object\", \"Detail\" ],\r\n        \"fields\": [\r" +
                     "\n          {\r\n");
- if (this.Variable.IsOptional) { 
-            this.Write("            \"@type\": [ \"Field\", \"Subject\" ],\r\n");
+ if (GetIsOptional(this.definedType)) { 
+            this.Write("            \"@type\": [ \"Field\", \"Qualified\", \"Subject\" ],\r\n");
  } else { 
-            this.Write("            \"@type\": [ \"Field\", \"Subject\", \"Required\" ],\r\n");
+            this.Write("            \"@type\": [ \"Field\", \"Qualified\", \"Subject\", \"Required\" ],\r\n");
  } 
             this.Write("            \"name\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))));
+            this.Write("\",\r\n            \"namespace\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))));
             this.Write("\",\r\n            \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 12)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, 12)));
             this.Write("\r\n          },\r\n");
- int ix = 1; foreach (KeyValuePair<string, VariableInfo> subVar in this.SubVariables) { 
+ int ix = 1; foreach (OpcUaDefinedType subVar in this.SubVars) { 
             this.Write("          {\r\n");
- if (!subVar.Value.IsOptional) { 
-            this.Write("            \"@type\": [ \"Field\", \"Required\" ],\r\n");
+ if (GetIsOptional(subVar)) { 
+            this.Write("            \"@type\": [ \"Field\", \"Qualified\" ],\r\n");
+ } else { 
+            this.Write("            \"@type\": [ \"Field\", \"Qualified\", \"Required\" ],\r\n");
  } 
             this.Write("            \"name\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(subVar.Key))));
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))));
+            this.Write("\",\r\n            \"namespace\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))));
             this.Write("\",\r\n            \"schema\": ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Value.Datatype, subVar.Value.ValueRank, 12)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Datatype, subVar.ValueRank, 12)));
             this.Write("\r\n          }");
-            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.SubVariables.Count ? "," : ""));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix < this.SubVars.Count ? "," : ""));
             this.Write("\r\n");
  ix++; } 
             this.Write("        ]\r\n      },\r\n");

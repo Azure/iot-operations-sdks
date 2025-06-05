@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NumberOfPorts",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": false
     }

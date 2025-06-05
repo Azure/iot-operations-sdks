@@ -44,14 +44,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceHealth",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "dtmi:opcua:IA:StacklightType:dataType:DeviceHealthEnumeration;1",
       "writable": true
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceHealthAlarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceHealthAlarms",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

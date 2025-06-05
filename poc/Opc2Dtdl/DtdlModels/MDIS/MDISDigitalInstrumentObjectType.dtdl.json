@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     }

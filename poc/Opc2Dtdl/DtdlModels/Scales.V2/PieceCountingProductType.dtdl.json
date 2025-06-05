@@ -39,104 +39,121 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentItemCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FeedRateMeasuringInterval",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FillingTime",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FineFeedCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InFlightCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "JogFeed",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimumDeltaPerFeedRateMeasuringInterval",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NumberOfReferencePieces",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ReferencePieceWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RegisteredPieceCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SettlingTime",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "duration",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TareId",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TargetItemCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TargetPieceCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalizedItemCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalizedWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "dtmi:opcua:Scales_V2:PieceCountingProductType:dataType:WeightType;1",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetTargetItemCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -153,8 +170,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetTargetPieceCount",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

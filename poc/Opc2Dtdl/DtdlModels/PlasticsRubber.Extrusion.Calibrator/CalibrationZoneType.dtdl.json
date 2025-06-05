@@ -15,43 +15,51 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AdditionalMeasuringDevices",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirShowerPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Vacuum",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "VacuumPumps",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterFlow",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterLevel",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterPumps",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WaterTemperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Calibrator",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     }
   ]

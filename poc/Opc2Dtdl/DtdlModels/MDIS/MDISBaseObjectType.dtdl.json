@@ -16,38 +16,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Enabled",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Fault",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FaultCode",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Warning",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "WarningCode",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "EnableDisable",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

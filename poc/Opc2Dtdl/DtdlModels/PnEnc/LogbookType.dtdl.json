@@ -83,8 +83,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LogEntries",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PNENC:LogbookType:dataType:LogEntryDataType;1"
@@ -92,12 +93,14 @@
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "DeleteLogbook"
+      "@type": [ "Command", "Qualified" ],
+      "name": "DeleteLogbook",
+      "namespace": "http://opcfoundation.org/UA/PNENC"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetActiveDiagnosis",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -117,8 +120,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetCurrentFaultSituation",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -138,8 +142,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetFilteredLogbookEntries",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -193,8 +198,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetHistoricFaultSituation",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

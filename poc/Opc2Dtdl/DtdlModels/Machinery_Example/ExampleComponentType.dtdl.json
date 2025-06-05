@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Identification",
+      "namespace": "http://opcfoundation.org/UA/Machinery_Example",
       "target": "dtmi:opcua:Machinery:MachineryComponentIdentificationType"
     }
   ]

@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DefaultGateway",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedByte"
@@ -25,14 +26,16 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DhcpEnabled",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IpAddress",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedByte"
@@ -40,8 +43,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SubnetMask",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedByte"

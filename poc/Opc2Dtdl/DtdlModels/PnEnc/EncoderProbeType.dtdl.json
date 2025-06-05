@@ -16,24 +16,28 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastLatchedPos",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LatchActive",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "LatchStart"
+      "@type": [ "Command", "Qualified" ],
+      "name": "LatchStart",
+      "namespace": "http://opcfoundation.org/UA/PNENC"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lock",
+      "namespace": "http://opcfoundation.org/UA/PNENC",
       "target": "dtmi:opcua:DI:LockingServicesType"
     }
   ]

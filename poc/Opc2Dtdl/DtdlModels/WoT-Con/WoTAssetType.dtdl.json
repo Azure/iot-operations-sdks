@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "WoTFile",
+      "namespace": "http://opcfoundation.org/UA/WoT-Con",
       "target": "dtmi:opcua:WoT_Con:WoTAssetFileType"
     }
   ]

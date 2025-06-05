@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Component"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Component",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     }
   ]
 }

@@ -15,28 +15,34 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "ControlPanelVURO"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ControlPanelVURO",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ControlPanelVURW"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ControlPanelVURW",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "KPIVU"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "KPIVU",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "LoopVUReferences"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LoopVUReferences",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "OverVU"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OverVU",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ZoomedVU"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ZoomedVU",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     }
   ]
 }

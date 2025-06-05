@@ -1,11 +1,11 @@
 DataTypes:
-- UADataType: [ CommercialKitchenEquipment:3014, BeverageSMLEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3014, CommercialKitchenEquipment:BeverageSMLEnumeration ]
   Enums:
     Inactive: 0
     Small: 1
     Large: 2
     ExtraLarge: 3
-- UADataType: [ CommercialKitchenEquipment:3008, ChamberModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3008, CommercialKitchenEquipment:ChamberModeEnumeration ]
   Enums:
     NoSpecialMode: 0
     Off: 1
@@ -26,13 +26,13 @@ DataTypes:
     Defrost: 16
     Baking: 17
     Steaming: 18
-- UADataType: [ CommercialKitchenEquipment:3015, CoffeeMachineModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3015, CommercialKitchenEquipment:CoffeeMachineModeEnumeration ]
   Enums:
     Off: 0
     Standby: 1
     Error: 2
     Cleaning: 3
-- UADataType: [ CommercialKitchenEquipment:3006, CombiSteamerModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3006, CommercialKitchenEquipment:CombiSteamerModeEnumeration ]
   Enums:
     Off: 0
     On: 1
@@ -45,7 +45,7 @@ DataTypes:
     Cleaning: 8
     PresetStart: 9
     Error: 10
-- UADataType: [ CommercialKitchenEquipment:3010, CookingKettleModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3010, CommercialKitchenEquipment:CookingKettleModeEnumeration ]
   Enums:
     Off: 0
     Preheat: 1
@@ -56,18 +56,18 @@ DataTypes:
     Stiring: 6
     PresetStart: 7
     Error: 8
-- UADataType: [ CommercialKitchenEquipment:3021, CurrentStateEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3021, CommercialKitchenEquipment:CurrentStateEnumeration ]
   Enums:
     Off: 0
     Standby: 1
     Power: 2
     PotDetection: 3
-- UADataType: [ CommercialKitchenEquipment:3002, EnergySourceEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3002, CommercialKitchenEquipment:EnergySourceEnumeration ]
   Enums:
     Electric: 0
     Gas: 1
     Steam: 2
-- UADataType: [ CommercialKitchenEquipment:3003, FryerModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3003, CommercialKitchenEquipment:FryerModeEnumeration ]
   Enums:
     Off: 0
     Preheat: 1
@@ -76,7 +76,7 @@ DataTypes:
     StandBy: 4
     Filtering: 5
     Error: 6
-- UADataType: [ CommercialKitchenEquipment:3005, FryingPanModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3005, CommercialKitchenEquipment:FryingPanModeEnumeration ]
   Enums:
     Off: 0
     Preheat: 1
@@ -88,13 +88,13 @@ DataTypes:
     KeepWarming: 7
     PresetStart: 8
     Error: 9
-- UADataType: [ CommercialKitchenEquipment:3025, GrillingZoneStateEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3025, CommercialKitchenEquipment:GrillingZoneStateEnumeration ]
   Enums:
     Off: 0
     Standby: 1
     Idle: 2
     Grilling: 3
-- UADataType: [ CommercialKitchenEquipment:3017, HygieneModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3017, CommercialKitchenEquipment:HygieneModeEnumeration ]
   Enums:
     HygieneOperationOFF: 0
     HygieneA0: 1
@@ -102,7 +102,7 @@ DataTypes:
     HygieneMU: 3
     HygieneThermolable: 4
     HygieneA0_TD: 5
-- UADataType: [ CommercialKitchenEquipment:3011, MultiFunctionPanModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3011, CommercialKitchenEquipment:MultiFunctionPanModeEnumeration ]
   Enums:
     Off: 0
     On: 1
@@ -120,7 +120,7 @@ DataTypes:
     Cleaning: 13
     PresetStart: 14
     Error: 15
-- UADataType: [ CommercialKitchenEquipment:3023, OperatingModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3023, CommercialKitchenEquipment:OperatingModeEnumeration ]
   Enums:
     Preheat: 0
     CoolDown: 1
@@ -131,7 +131,7 @@ DataTypes:
     Cleaning: 6
     Off: 7
     Error: 8
-- UADataType: [ CommercialKitchenEquipment:3018, OperationModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3018, CommercialKitchenEquipment:OperationModeEnumeration ]
   Enums:
     Init: 0
     MachineOff: 1
@@ -149,7 +149,7 @@ DataTypes:
     ControllingOutputs: 13
     NotDefined3: 14
     Error: 15
-- UADataType: [ CommercialKitchenEquipment:3013, PastaCookerModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3013, CommercialKitchenEquipment:PastaCookerModeEnumeration ]
   Enums:
     Off: 0
     Preheat: 1
@@ -159,13 +159,13 @@ DataTypes:
     KeepWarming: 5
     PresetStart: 6
     Error: 7
-- UADataType: [ CommercialKitchenEquipment:3022, PlatenPositionStateEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3022, CommercialKitchenEquipment:PlatenPositionStateEnumeration ]
   Enums:
     Home: 0
     Cooking: 1
     Idle: 2
     Open: 3
-- UADataType: [ CommercialKitchenEquipment:3009, PressureCookingKettleModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3009, CommercialKitchenEquipment:PressureCookingKettleModeEnumeration ]
   Enums:
     Off: 0
     Preheat: 1
@@ -176,7 +176,7 @@ DataTypes:
     KeepWarming: 6
     PresetStart: 7
     Error: 8
-- UADataType: [ CommercialKitchenEquipment:3016, ProgramModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3016, CommercialKitchenEquipment:ProgramModeEnumeration ]
   Enums:
     OperationOFF: 0
     PreWash: 1
@@ -188,12 +188,12 @@ DataTypes:
     FinalRinse: 7
     WaitingTime: 8
     HeatRecovery: 9
-- UADataType: [ CommercialKitchenEquipment:3004, SignalModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3004, CommercialKitchenEquipment:SignalModeEnumeration ]
   Enums:
     SignalOff: 0
     SignalOn: 1
     SignalAck: 2
-- UADataType: [ CommercialKitchenEquipment:3007, SpecialCookingModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3007, CommercialKitchenEquipment:SpecialCookingModeEnumeration ]
   Enums:
     NoSpecialMode: 0
     Baking: 1
@@ -205,13 +205,13 @@ DataTypes:
     Smoking: 7
     LowTemp-Cooking: 8
     DeltaTSteaming: 9
-- UADataType: [ CommercialKitchenEquipment:3012, SpecialFunctionModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3012, CommercialKitchenEquipment:SpecialFunctionModeEnumeration ]
   Enums:
     LidUpDown: 0
     PanTilt: 1
     WaterSupply: 2
     DrainOnOff: 3
-- UADataType: [ CommercialKitchenEquipment:3024, StatusEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3024, CommercialKitchenEquipment:StatusEnumeration ]
   Enums:
     INIT: 0
     WATER_PURGE: 1
@@ -232,7 +232,7 @@ DataTypes:
     SAFE_MODE_FREEZE: 16
     SAFE_MODE_HARVEST: 17
     SAFE_MODE_FULL_BIN: 18
-- UADataType: [ CommercialKitchenEquipment:3019, TrayModeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3019, CommercialKitchenEquipment:TrayModeEnumeration ]
   Enums:
     Off: 0
     PreHeat: 1
@@ -240,7 +240,7 @@ DataTypes:
     HoldWarm: 3
     HoldCool: 4
     Regenerating: 5
-- UADataType: [ CommercialKitchenEquipment:3020, TrayTypeEnumeration ]
+- UADataType: [ CommercialKitchenEquipment:3020, CommercialKitchenEquipment:TrayTypeEnumeration ]
   Enums:
     Generic: 0
     HeaterPlate: 1
@@ -252,36 +252,36 @@ DataTypes:
     HeatBridge: 7
     CombiCabinet: 8
     RegenCabinet: 9
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -291,1061 +291,1061 @@ DataTypes:
 
 DefinedTypes:
 
-  BatchInformationType:
-  - [ UAObjectType, CommercialKitchenEquipment:1002, BatchInformationType ]
+  CommercialKitchenEquipment:BatchInformationType:
+  - [ UAObjectType, CommercialKitchenEquipment:1002, CommercialKitchenEquipment:BatchInformationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  KitchenDeviceHAConfigType:
-  - [ UAObjectType, CommercialKitchenEquipment:1003, KitchenDeviceHAConfigType ]
+  CommercialKitchenEquipment:KitchenDeviceHAConfigType:
+  - [ UAObjectType, CommercialKitchenEquipment:1003, CommercialKitchenEquipment:KitchenDeviceHAConfigType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2318, HistoricalDataConfigurationType ]
 
-  KitchenDeviceParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+  CommercialKitchenEquipment:KitchenDeviceParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6007, ProgramId, Int32, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6007, CommercialKitchenEquipment:ProgramId, Int32, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6008, ProgramName, LocalizedText, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6008, CommercialKitchenEquipment:ProgramName, LocalizedText, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6009, ProgramUId, Guid, 0, 3 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-
-  ChamberType:
-  - [ UAObjectType, CommercialKitchenEquipment:1012, ChamberType ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6192, ActualBoilerTemperature_<No.>, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6188, ActualBottomTemperature_<No.>, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6182, ActualChamberTemperature_<No.>, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6190, ActualCoreTemperature_<No.>, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6201, ActualFanSpeed_<No.>, Int32, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6196, ActualHumidity_<No.>, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6186, ActualTopTemperature_<No.>, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 11508, OptionalPlaceholder ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6200, IsDoorOpen, Boolean, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6199, IsProgramEnd, Boolean, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6198, IsReadyToStart, Boolean, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6169, OperationMode, ChamberModeEnumeration, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6180, SetBoilerTemperature, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6176, SetBottomTemperature, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6172, SetChamberTemperature, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6178, SetCoreTemperature, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6203, SetFanSpeed, Int32, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6194, SetHumidity, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6184, SetProcessTimeProgram, Int32, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6174, SetTopTemperature, Float, 0, 0 ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6170, TimeRemaining, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6009, CommercialKitchenEquipment:ProgramUId, Guid, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CoffeeMachineParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1022, CoffeeMachineParameterType ]
+  CommercialKitchenEquipment:ChamberType:
+  - [ UAObjectType, CommercialKitchenEquipment:1012, CommercialKitchenEquipment:ChamberType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6659, BoilerPressureSteam, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6192, CommercialKitchenEquipment:ActualBoilerTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
+      - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6369, BoilerPressureWater, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6188, CommercialKitchenEquipment:ActualBottomTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
+      - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6373, BoilerTempSteam, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6182, CommercialKitchenEquipment:ActualChamberTemperature_<No.>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6190, CommercialKitchenEquipment:ActualCoreTemperature_<No.>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6201, CommercialKitchenEquipment:ActualFanSpeed_<No.>, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6196, CommercialKitchenEquipment:ActualHumidity_<No.>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6186, CommercialKitchenEquipment:ActualTopTemperature_<No.>, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 11508, OptionalPlaceholder ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6200, CommercialKitchenEquipment:IsDoorOpen, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6371, BoilerTempWater, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6199, CommercialKitchenEquipment:IsProgramEnd, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6198, CommercialKitchenEquipment:IsReadyToStart, Boolean, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6169, CommercialKitchenEquipment:OperationMode, CommercialKitchenEquipment:ChamberModeEnumeration, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6180, CommercialKitchenEquipment:SetBoilerTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6176, CommercialKitchenEquipment:SetBottomTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6172, CommercialKitchenEquipment:SetChamberTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6178, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6203, CommercialKitchenEquipment:SetFanSpeed, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6194, CommercialKitchenEquipment:SetHumidity, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6184, CommercialKitchenEquipment:SetProcessTimeProgram, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6174, CommercialKitchenEquipment:SetTopTemperature, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6170, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+
+  CommercialKitchenEquipment:CoffeeMachineParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1022, CommercialKitchenEquipment:CoffeeMachineParameterType ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6659, CommercialKitchenEquipment:BoilerPressureSteam, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6369, CommercialKitchenEquipment:BoilerPressureWater, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6373, CommercialKitchenEquipment:BoilerTempSteam, Float, 0, 0 ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAVariable, CommercialKitchenEquipment:6371, CommercialKitchenEquipment:BoilerTempWater, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6368, CurrentState, CoffeeMachineModeEnumeration, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6368, CommercialKitchenEquipment:CurrentState, CommercialKitchenEquipment:CoffeeMachineModeEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6378, GrinderRuntime_<No.>, UInt64, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6378, CommercialKitchenEquipment:GrinderRuntime_<No.>, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6375, SystemClean, DateTime, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6375, CommercialKitchenEquipment:SystemClean, DateTime, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6376, TotalBrew_<No.>, UInt64, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6376, CommercialKitchenEquipment:TotalBrew_<No.>, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6377, TotalMix, UInt64, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6377, CommercialKitchenEquipment:TotalMix, UInt64, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CoffeeMachineRecipeParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1023, CoffeeMachineRecipeParameterType ]
+  CommercialKitchenEquipment:CoffeeMachineRecipeParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1023, CommercialKitchenEquipment:CoffeeMachineRecipeParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6384, BeverageSize, Float, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6384, CommercialKitchenEquipment:BeverageSize, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6386, BeverageSML, BeverageSMLEnumeration, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6386, CommercialKitchenEquipment:BeverageSML, CommercialKitchenEquipment:BeverageSMLEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6393, CoffeeType, UInt32, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6393, CommercialKitchenEquipment:CoffeeType, UInt32, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6391, Container, UInt32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6391, CommercialKitchenEquipment:Container, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6399, FoamAmount, Float, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6399, CommercialKitchenEquipment:FoamAmount, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6387, GroundsAmount, Float, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6387, CommercialKitchenEquipment:GroundsAmount, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6389, GroundsWater, Float, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6389, CommercialKitchenEquipment:GroundsWater, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6397, MilkAmount, Float, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6397, CommercialKitchenEquipment:MilkAmount, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6401, PowderAmount, Float, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6401, CommercialKitchenEquipment:PowderAmount, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6395, RcpType, UInt32, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6395, CommercialKitchenEquipment:RcpType, UInt32, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CombiSteamerParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1010, CombiSteamerParameterType ]
+  CommercialKitchenEquipment:CombiSteamerParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1010, CommercialKitchenEquipment:CombiSteamerParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6119, ActualExternalCoreTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6119, CommercialKitchenEquipment:ActualExternalCoreTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6128, ActualHumidity, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6128, CommercialKitchenEquipment:ActualHumidity, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6115, ActualInternalCoreTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6115, CommercialKitchenEquipment:ActualInternalCoreTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6107, ActualTemperatureChamber_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6107, CommercialKitchenEquipment:ActualTemperatureChamber_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6104, CombiSteamerMode, CombiSteamerModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6104, CommercialKitchenEquipment:CombiSteamerMode, CommercialKitchenEquipment:CombiSteamerModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6130, IsDoorOpen, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6130, CommercialKitchenEquipment:IsDoorOpen, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6131, IsEnergySavingActive, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6131, CommercialKitchenEquipment:IsEnergySavingActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6133, IsLoaActive, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6133, CommercialKitchenEquipment:IsLoaActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6132, IsSteamExhaustSystemActive, Boolean, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6132, CommercialKitchenEquipment:IsSteamExhaustSystemActive, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6117, SetExternalCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6117, CommercialKitchenEquipment:SetExternalCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6126, SetHumidity, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6126, CommercialKitchenEquipment:SetHumidity, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6113, SetInternalCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6113, CommercialKitchenEquipment:SetInternalCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6109, SetProcessTimeProgram, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6109, CommercialKitchenEquipment:SetProcessTimeProgram, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6122, SetProcessTimeStep, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6122, CommercialKitchenEquipment:SetProcessTimeStep, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6105, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6105, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6121, SpecialCookingMode, SpecialCookingModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6121, CommercialKitchenEquipment:SpecialCookingMode, CommercialKitchenEquipment:SpecialCookingModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6111, TimeRemainingProgram, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6111, CommercialKitchenEquipment:TimeRemainingProgram, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6124, TimeRemainingStep, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6124, CommercialKitchenEquipment:TimeRemainingStep, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  CookingKettleParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1016, CookingKettleParameterType ]
+  CommercialKitchenEquipment:CookingKettleParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1016, CommercialKitchenEquipment:CookingKettleParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6265, ActualCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6265, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6257, ActualTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6257, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6252, CookingLevel, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6252, CommercialKitchenEquipment:CookingLevel, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6103, ProgramMode, CookingKettleModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6103, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:CookingKettleModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6263, SetCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6263, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6259, SetProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6259, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6255, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6255, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6267, SignalMode, SignalModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6267, CommercialKitchenEquipment:SignalMode, CommercialKitchenEquipment:SignalModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6261, TimeRemaining, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6261, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CookingZoneParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1029, CookingZoneParameterType ]
+  CommercialKitchenEquipment:CookingZoneParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1029, CommercialKitchenEquipment:CookingZoneParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6540, ActualPower, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6540, CommercialKitchenEquipment:ActualPower, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6536, ActualProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6536, CommercialKitchenEquipment:ActualProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6532, ActualTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6532, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6531, CookingZoneName, String, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6531, CommercialKitchenEquipment:CookingZoneName, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6530, CurrentState, CurrentStateEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6530, CommercialKitchenEquipment:CurrentState, CommercialKitchenEquipment:CurrentStateEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6542, IsPanDetected, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6542, CommercialKitchenEquipment:IsPanDetected, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6543, NominalPower, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6543, CommercialKitchenEquipment:NominalPower, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6538, SetPowerValue, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6538, CommercialKitchenEquipment:SetPowerValue, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6534, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6534, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  DishWashingMachineProgramParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1025, DishWashingMachineProgramParameterType ]
+  CommercialKitchenEquipment:DishWashingMachineProgramParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1025, CommercialKitchenEquipment:DishWashingMachineProgramParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6470, ActualFinalRinseTemperature_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6470, CommercialKitchenEquipment:ActualFinalRinseTemperature_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6469, ActualFinalRinseTemperatureNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6469, CommercialKitchenEquipment:ActualFinalRinseTemperatureNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6473, ActualHygieneValue, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6473, CommercialKitchenEquipment:ActualHygieneValue, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6464, ActualMainTankTemperature_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6464, CommercialKitchenEquipment:ActualMainTankTemperature_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6463, ActualMainTankTemperatureNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6463, CommercialKitchenEquipment:ActualMainTankTemperatureNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6461, ActualPreTankTemperature_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6461, CommercialKitchenEquipment:ActualPreTankTemperature_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6460, ActualPreTankTemperatureNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6460, CommercialKitchenEquipment:ActualPreTankTemperatureNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6467, ActualPumpedFinalRinseTemperature_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6467, CommercialKitchenEquipment:ActualPumpedFinalRinseTemperature_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6466, ActualPumpedFinalRinseTemperatureNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6466, CommercialKitchenEquipment:ActualPumpedFinalRinseTemperatureNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6458, FinalRinseTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6458, CommercialKitchenEquipment:FinalRinseTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6457, FinalRinseTemperatureSetpointNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6457, CommercialKitchenEquipment:FinalRinseTemperatureSetpointNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6475, HygieneMode, HygieneModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6475, CommercialKitchenEquipment:HygieneMode, CommercialKitchenEquipment:HygieneModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6472, HygieneSetpoint, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6472, CommercialKitchenEquipment:HygieneSetpoint, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6452, MainTankTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6452, CommercialKitchenEquipment:MainTankTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6451, MainTankTemperatureSetpointNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6451, CommercialKitchenEquipment:MainTankTemperatureSetpointNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6476, OperationMode, OperationModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6476, CommercialKitchenEquipment:OperationMode, CommercialKitchenEquipment:OperationModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6449, PreTankTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6449, CommercialKitchenEquipment:PreTankTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6448, PreTankTemperatureSetpointNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6448, CommercialKitchenEquipment:PreTankTemperatureSetpointNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6474, ProgramMode, ProgramModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6474, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:ProgramModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6455, PumpedFinalRinseTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6455, CommercialKitchenEquipment:PumpedFinalRinseTemperatureSetpoint_<No.>, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6454, PumpedFinalRinseTemperatureSetpointNo, UInt16, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6454, CommercialKitchenEquipment:PumpedFinalRinseTemperatureSetpointNo, UInt16, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  FryerParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1006, FryerParameterType ]
+  CommercialKitchenEquipment:FryerParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1006, CommercialKitchenEquipment:FryerParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6025, ActualTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6025, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6032, IsLiftUp, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6032, CommercialKitchenEquipment:IsLiftUp, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6010, ProgramMode, FryerModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6010, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:FryerModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6027, SetProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6027, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6023, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6023, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6031, SignalMode, SignalModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6031, CommercialKitchenEquipment:SignalMode, CommercialKitchenEquipment:SignalModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6029, TimeRemaining, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6029, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  FryingAndGrillingParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1031, FryingAndGrillingParameterType ]
+  CommercialKitchenEquipment:FryingAndGrillingParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1031, CommercialKitchenEquipment:FryingAndGrillingParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6560, ActualGrillTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6560, CommercialKitchenEquipment:ActualGrillTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6564, ActualPlatenTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6564, CommercialKitchenEquipment:ActualPlatenTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6558, CurrentState, GrillingZoneStateEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6558, CommercialKitchenEquipment:CurrentState, CommercialKitchenEquipment:GrillingZoneStateEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6559, GrillingZoneName, String, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6559, CommercialKitchenEquipment:GrillingZoneName, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6573, IsWithPlaten, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6573, CommercialKitchenEquipment:IsWithPlaten, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6572, PlatenPositionState, PlatenPositionStateEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6572, CommercialKitchenEquipment:PlatenPositionState, CommercialKitchenEquipment:PlatenPositionStateEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6570, RemainingProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6570, CommercialKitchenEquipment:RemainingProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6562, SetGrillTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6562, CommercialKitchenEquipment:SetGrillTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6566, SetPlatenTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6566, CommercialKitchenEquipment:SetPlatenTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6568, SetProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6568, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  FryingPanParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1008, FryingPanParameterType ]
+  CommercialKitchenEquipment:FryingPanParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1008, CommercialKitchenEquipment:FryingPanParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6067, ActualCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6067, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6070, ActualPressurePan, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6070, CommercialKitchenEquipment:ActualPressurePan, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6058, ActualTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6058, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6055, CookingLevel, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6055, CommercialKitchenEquipment:CookingLevel, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6072, IsLidLocked, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6072, CommercialKitchenEquipment:IsLidLocked, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6054, ProgramMode, FryingPanModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6054, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:FryingPanModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6064, SetCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6064, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6060, SetProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6060, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6056, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6056, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6069, SignalMode, SignalModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6069, CommercialKitchenEquipment:SignalMode, CommercialKitchenEquipment:SignalModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6062, TimeRemaining, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6062, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  IceMachineParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1035, IceMachineParameterType ]
+  CommercialKitchenEquipment:IceMachineParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1035, CommercialKitchenEquipment:IceMachineParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6622, LastFreezeTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6622, CommercialKitchenEquipment:LastFreezeTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6624, LastHarvestTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6624, CommercialKitchenEquipment:LastHarvestTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6621, Status, StatusEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6621, CommercialKitchenEquipment:Status, CommercialKitchenEquipment:StatusEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6628, Temperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6628, CommercialKitchenEquipment:Temperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6626, WaterFillTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6626, CommercialKitchenEquipment:WaterFillTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  MicrowaveCombiOvenParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1033, MicrowaveCombiOvenParameterType ]
+  CommercialKitchenEquipment:MicrowaveCombiOvenParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1033, CommercialKitchenEquipment:MicrowaveCombiOvenParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6582, ActualTemperatureChamber, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6582, CommercialKitchenEquipment:ActualTemperatureChamber, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6592, CookingStep, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6592, CommercialKitchenEquipment:CookingStep, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6593, FanSpeed, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6593, CommercialKitchenEquipment:FanSpeed, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6598, IsDoorOpen, Boolean, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6598, CommercialKitchenEquipment:IsDoorOpen, Boolean, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6595, MicrowaveEnergy, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6595, CommercialKitchenEquipment:MicrowaveEnergy, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6597, OperatingMode, OperatingModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6597, CommercialKitchenEquipment:OperatingMode, CommercialKitchenEquipment:OperatingModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6588, RemainingProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6588, CommercialKitchenEquipment:RemainingProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6590, RemainingProcessTimeStep, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6590, CommercialKitchenEquipment:RemainingProcessTimeStep, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6586, SetProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6586, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6584, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6584, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  MultiFunctionPanParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1018, MultiFunctionPanParameterType ]
+  CommercialKitchenEquipment:MultiFunctionPanParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1018, CommercialKitchenEquipment:MultiFunctionPanParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6303, ActualCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6303, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6305, ActualPressureAbsolute, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6305, CommercialKitchenEquipment:ActualPressureAbsolute, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6293, ActualTemperatureBottom, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6293, CommercialKitchenEquipment:ActualTemperatureBottom, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6295, ActualTemperatureCup, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6295, CommercialKitchenEquipment:ActualTemperatureCup, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6313, ActualZoneTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6313, CommercialKitchenEquipment:ActualZoneTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6290, CookingLevel, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6290, CommercialKitchenEquipment:CookingLevel, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6315, IsLidLocked, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6315, CommercialKitchenEquipment:IsLidLocked, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6316, IsLidOpen, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6316, CommercialKitchenEquipment:IsLidOpen, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6319, IsWithCleaning, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6319, CommercialKitchenEquipment:IsWithCleaning, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6320, IsWithLift, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6320, CommercialKitchenEquipment:IsWithLift, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6317, IsWithPressure, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6317, CommercialKitchenEquipment:IsWithPressure, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6318, IsWithTilting, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6318, CommercialKitchenEquipment:IsWithTilting, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6288, MultiFunctionPanMode, MultiFunctionPanModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6288, CommercialKitchenEquipment:MultiFunctionPanMode, CommercialKitchenEquipment:MultiFunctionPanModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6301, SetCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6301, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6297, SetProcessTimeProgram, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6297, CommercialKitchenEquipment:SetProcessTimeProgram, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6307, SetProcessTimeStep, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6307, CommercialKitchenEquipment:SetProcessTimeStep, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6291, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6291, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6311, SetZoneTemperature_<No.>, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6311, CommercialKitchenEquipment:SetZoneTemperature_<No.>, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6289, SpecialFunctionMode, SpecialFunctionModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6289, CommercialKitchenEquipment:SpecialFunctionMode, CommercialKitchenEquipment:SpecialFunctionModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6299, TimeRemainingProgram, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6299, CommercialKitchenEquipment:TimeRemainingProgram, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6309, TimeRemainingStep, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6309, CommercialKitchenEquipment:TimeRemainingStep, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  PastaCookerParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1020, PastaCookerParameterType ]
+  CommercialKitchenEquipment:PastaCookerParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1020, CommercialKitchenEquipment:PastaCookerParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6342, ActualTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6342, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6339, CookingLevel, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6339, CommercialKitchenEquipment:CookingLevel, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6338, ProgramMode, PastaCookerModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6338, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:PastaCookerModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6344, SetProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6344, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6340, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6340, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6348, SignalMode, SignalModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6348, CommercialKitchenEquipment:SignalMode, CommercialKitchenEquipment:SignalModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6346, TimeRemaining, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6346, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  PressureCookingKettleParameterType:
-  - [ UAObjectType, CommercialKitchenEquipment:1014, PressureCookingKettleParameterType ]
+  CommercialKitchenEquipment:PressureCookingKettleParameterType:
+  - [ UAObjectType, CommercialKitchenEquipment:1014, CommercialKitchenEquipment:PressureCookingKettleParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6219, ActualCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6219, CommercialKitchenEquipment:ActualCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6221, ActualPressureAbsolute, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6221, CommercialKitchenEquipment:ActualPressureAbsolute, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6223, ActualPressureKettle, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6223, CommercialKitchenEquipment:ActualPressureKettle, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6211, ActualTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6211, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6208, CookingLevel, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6208, CommercialKitchenEquipment:CookingLevel, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6226, IsLidLocked, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6226, CommercialKitchenEquipment:IsLidLocked, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6228, IsOpenExpressActive, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6228, CommercialKitchenEquipment:IsOpenExpressActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6227, IsSteamActive, Boolean, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6227, CommercialKitchenEquipment:IsSteamActive, Boolean, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6207, ProgramMode, PressureCookingKettleModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6207, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:PressureCookingKettleModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6217, SetCoreTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6217, CommercialKitchenEquipment:SetCoreTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6213, SetProcessTime, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6213, CommercialKitchenEquipment:SetProcessTime, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6209, SetTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6209, CommercialKitchenEquipment:SetTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6225, SignalMode, SignalModeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6225, CommercialKitchenEquipment:SignalMode, CommercialKitchenEquipment:SignalModeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6215, TimeRemaining, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6215, CommercialKitchenEquipment:TimeRemaining, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  TrayType:
-  - [ UAObjectType, CommercialKitchenEquipment:1027, TrayType ]
+  CommercialKitchenEquipment:TrayType:
+  - [ UAObjectType, CommercialKitchenEquipment:1027, CommercialKitchenEquipment:TrayType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6506, ActiveSince, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6506, CommercialKitchenEquipment:ActiveSince, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6500, ActualTemperature, Float, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6500, CommercialKitchenEquipment:ActualTemperature, Float, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6508, OperatingCounter, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6508, CommercialKitchenEquipment:OperatingCounter, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6499, ProgramMode, TrayModeEnumeration, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6499, CommercialKitchenEquipment:ProgramMode, CommercialKitchenEquipment:TrayModeEnumeration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6502, SetTemperature, Float, 0, 3 ]
+    - [ UAVariable, CommercialKitchenEquipment:6502, CommercialKitchenEquipment:SetTemperature, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1004, KitchenDeviceParameterType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1004, CommercialKitchenEquipment:KitchenDeviceParameterType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6505, Type, TrayTypeEnumeration, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6505, CommercialKitchenEquipment:Type, CommercialKitchenEquipment:TrayTypeEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CommercialKitchenDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+  CommercialKitchenEquipment:CommercialKitchenDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5001, BatchInformation ]
+    - [ UAObject, CommercialKitchenEquipment:5001, CommercialKitchenEquipment:BatchInformation ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1002, BatchInformationType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1002, CommercialKitchenEquipment:BatchInformationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1002, DeviceType ]
+    - [ UAObjectType, DI:1002, DI:DeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5002, ErrorConditions ]
+    - [ UAObject, CommercialKitchenEquipment:5002, CommercialKitchenEquipment:ErrorConditions ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5004, HACCPValues ]
+    - [ UAObject, CommercialKitchenEquipment:5004, CommercialKitchenEquipment:HACCPValues ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5003, InformationConditions ]
+    - [ UAObject, CommercialKitchenEquipment:5003, CommercialKitchenEquipment:InformationConditions ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CoffeeMachineDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1024, CoffeeMachineDeviceType ]
+  CommercialKitchenEquipment:CoffeeMachineDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1024, CommercialKitchenEquipment:CoffeeMachineDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5014, <RecipeName> ]
+    - [ UAObject, CommercialKitchenEquipment:5014, CommercialKitchenEquipment:<RecipeName> ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1023, CoffeeMachineRecipeParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1023, CommercialKitchenEquipment:CoffeeMachineRecipeParameterType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5013, Parameters ]
+    - [ UAObject, CommercialKitchenEquipment:5013, CommercialKitchenEquipment:Parameters ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1022, CoffeeMachineParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1022, CommercialKitchenEquipment:CoffeeMachineParameterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  CombiSteamerDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1011, CombiSteamerDeviceType ]
+  CommercialKitchenEquipment:CombiSteamerDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1011, CommercialKitchenEquipment:CombiSteamerDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5007, CombiSteamer ]
+    - [ UAObject, CommercialKitchenEquipment:5007, CommercialKitchenEquipment:CombiSteamer ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1010, CombiSteamerParameterType ]
-    - HasModellingRule:
-      - [ UAObject, 78, Mandatory ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
-
-  CookingKettleDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1017, CookingKettleDeviceType ]
-  - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5010, CookingKettle ]
-    - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1016, CookingKettleParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1010, CommercialKitchenEquipment:CombiSteamerParameterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  CookingZoneDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1030, CookingZoneDeviceType ]
+  CommercialKitchenEquipment:CookingKettleDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1017, CommercialKitchenEquipment:CookingKettleDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5017, CookingZone_<No.> ]
+    - [ UAObject, CommercialKitchenEquipment:5010, CommercialKitchenEquipment:CookingKettle ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1029, CookingZoneParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1016, CommercialKitchenEquipment:CookingKettleParameterType ]
+    - HasModellingRule:
+      - [ UAObject, 78, Mandatory ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
+
+  CommercialKitchenEquipment:CookingZoneDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1030, CommercialKitchenEquipment:CookingZoneDeviceType ]
+  - HasComponent:
+    - [ UAObject, CommercialKitchenEquipment:5017, CommercialKitchenEquipment:CookingZone_<No.> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, CommercialKitchenEquipment:1029, CommercialKitchenEquipment:CookingZoneParameterType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
   - HasComponent:
-    - [ UAVariable, CommercialKitchenEquipment:6553, NominalVoltage, Int32, 0, 0 ]
+    - [ UAVariable, CommercialKitchenEquipment:6553, CommercialKitchenEquipment:NominalVoltage, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  DishWashingMachineDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1026, DishWashingMachineDeviceType ]
+  CommercialKitchenEquipment:DishWashingMachineDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1026, CommercialKitchenEquipment:DishWashingMachineDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5015, Parameters ]
+    - [ UAObject, CommercialKitchenEquipment:5015, CommercialKitchenEquipment:Parameters ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1025, DishWashingMachineProgramParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1025, CommercialKitchenEquipment:DishWashingMachineProgramParameterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  FryerDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1007, FryerDeviceType ]
+  CommercialKitchenEquipment:FryerDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1007, CommercialKitchenEquipment:FryerDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5005, FryerCup_<No.> ]
+    - [ UAObject, CommercialKitchenEquipment:5005, CommercialKitchenEquipment:FryerCup_<No.> ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1006, FryerParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1006, CommercialKitchenEquipment:FryerParameterType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  FryingAndGrillingDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1032, FryingAndGrillingDeviceType ]
+  CommercialKitchenEquipment:FryingAndGrillingDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1032, CommercialKitchenEquipment:FryingAndGrillingDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5018, GrillingZone_<No.> ]
+    - [ UAObject, CommercialKitchenEquipment:5018, CommercialKitchenEquipment:GrillingZone_<No.> ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1031, FryingAndGrillingParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1031, CommercialKitchenEquipment:FryingAndGrillingParameterType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
 
-  FryingPanDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1009, FryingPanDeviceType ]
+  CommercialKitchenEquipment:FryingPanDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1009, CommercialKitchenEquipment:FryingPanDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5006, FryingPan ]
+    - [ UAObject, CommercialKitchenEquipment:5006, CommercialKitchenEquipment:FryingPan ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1008, FryingPanParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1008, CommercialKitchenEquipment:FryingPanParameterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  IceMachineDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1036, IceMachineDeviceType ]
+  CommercialKitchenEquipment:IceMachineDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1036, CommercialKitchenEquipment:IceMachineDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5020, IceMachine ]
+    - [ UAObject, CommercialKitchenEquipment:5020, CommercialKitchenEquipment:IceMachine ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1035, IceMachineParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1035, CommercialKitchenEquipment:IceMachineParameterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  MicrowaveCombiOvenDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1034, MicrowaveCombiOvenDeviceType ]
+  CommercialKitchenEquipment:MicrowaveCombiOvenDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1034, CommercialKitchenEquipment:MicrowaveCombiOvenDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5019, MicrowaveCombiOven ]
+    - [ UAObject, CommercialKitchenEquipment:5019, CommercialKitchenEquipment:MicrowaveCombiOven ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1033, MicrowaveCombiOvenParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1033, CommercialKitchenEquipment:MicrowaveCombiOvenParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  MultiFunctionPanDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1019, MultiFunctionPanDeviceType ]
+  CommercialKitchenEquipment:MultiFunctionPanDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1019, CommercialKitchenEquipment:MultiFunctionPanDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5011, MultiFunctionPan_<No.> ]
+    - [ UAObject, CommercialKitchenEquipment:5011, CommercialKitchenEquipment:MultiFunctionPan_<No.> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1018, MultiFunctionPanParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1018, CommercialKitchenEquipment:MultiFunctionPanParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  OvenDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1013, OvenDeviceType ]
+  CommercialKitchenEquipment:OvenDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1013, CommercialKitchenEquipment:OvenDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5008, Chamber_<No.> ]
+    - [ UAObject, CommercialKitchenEquipment:5008, CommercialKitchenEquipment:Chamber_<No.> ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1012, ChamberType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1012, CommercialKitchenEquipment:ChamberType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  PastaCookerDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1021, PastaCookerDeviceType ]
+  CommercialKitchenEquipment:PastaCookerDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1021, CommercialKitchenEquipment:PastaCookerDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5012, PastaCooker ]
+    - [ UAObject, CommercialKitchenEquipment:5012, CommercialKitchenEquipment:PastaCooker ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1020, PastaCookerParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1020, CommercialKitchenEquipment:PastaCookerParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  PressureCookingKettleDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1015, PressureCookingKettleDeviceType ]
+  CommercialKitchenEquipment:PressureCookingKettleDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1015, CommercialKitchenEquipment:PressureCookingKettleDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5009, PressureCookingKettle ]
+    - [ UAObject, CommercialKitchenEquipment:5009, CommercialKitchenEquipment:PressureCookingKettle ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1014, PressureCookingKettleParameterType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1014, CommercialKitchenEquipment:PressureCookingKettleParameterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
 
-  ServeryCounterDeviceType:
-  - [ UAObjectType, CommercialKitchenEquipment:1028, ServeryCounterDeviceType ]
+  CommercialKitchenEquipment:ServeryCounterDeviceType:
+  - [ UAObjectType, CommercialKitchenEquipment:1028, CommercialKitchenEquipment:ServeryCounterDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenDeviceType ]
+    - [ UAObjectType, CommercialKitchenEquipment:1005, CommercialKitchenEquipment:CommercialKitchenDeviceType ]
   - HasComponent:
-    - [ UAObject, CommercialKitchenEquipment:5016, Tray_<No.> ]
+    - [ UAObject, CommercialKitchenEquipment:5016, CommercialKitchenEquipment:Tray_<No.> ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, CommercialKitchenEquipment:1027, TrayType ]
+      - [ UAObjectType, CommercialKitchenEquipment:1027, CommercialKitchenEquipment:TrayType ]

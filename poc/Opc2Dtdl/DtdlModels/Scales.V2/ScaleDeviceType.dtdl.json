@@ -39,34 +39,40 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinimalWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RegisteredWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "dtmi:opcua:Scales_V2:ScaleDeviceType:dataType:WeightType;1",
       "writable": true
     },
     {
-      "@type": "Command",
-      "name": "ClearTare"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ClearTare",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "RegisterWeight"
+      "@type": [ "Command", "Qualified" ],
+      "name": "RegisterWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetPresetTare",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -88,40 +94,48 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "SetTare"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SetTare",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Command",
-      "name": "SetZero"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SetZero",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ListOfWeighingRanges",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:WeighingRangeElementType"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionOutput",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:StatisticType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionPreset",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:ProductionPresetType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:PackML:PackMLBaseStateMachineType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SubDevices",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:DI:ConfigurableObjectType"
     }
   ]

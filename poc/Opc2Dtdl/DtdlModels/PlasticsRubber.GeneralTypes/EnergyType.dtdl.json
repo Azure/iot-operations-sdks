@@ -15,26 +15,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualPower",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualSpecificEnergy",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PowerConsumption",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PowerFactor",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     }

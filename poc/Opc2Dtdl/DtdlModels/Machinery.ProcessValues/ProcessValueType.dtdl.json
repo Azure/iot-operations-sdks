@@ -16,30 +16,35 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AlarmSuppression",
+      "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessValueSetpoint",
+      "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Relationship",
-      "name": "DeviationAlarm"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviationAlarm",
+      "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues"
     },
     {
-      "@type": "Relationship",
-      "name": "LimitAlarm"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "LimitAlarm",
+      "namespace": "http://opcfoundation.org/UA/Machinery.ProcessValues"
     }
   ]
 }

@@ -15,19 +15,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PositionFrame",
+      "namespace": "http://opcfoundation.org/UA/RSL",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "PositionFrame",
+            "namespace": "http://opcfoundation.org/UA/RSL",
             "schema": "string"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Base",
+            "namespace": "http://opcfoundation.org/UA/RSL",
             "schema": "string"
           }
         ]
@@ -35,16 +38,19 @@
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "AlternativeFrames"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AlternativeFrames",
+      "namespace": "http://opcfoundation.org/UA/RSL"
     },
     {
-      "@type": "Relationship",
-      "name": "AttachPoints"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AttachPoints",
+      "namespace": "http://opcfoundation.org/UA/RSL"
     },
     {
-      "@type": "Relationship",
-      "name": "InternalFrames"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InternalFrames",
+      "namespace": "http://opcfoundation.org/UA/RSL"
     }
   ]
 }

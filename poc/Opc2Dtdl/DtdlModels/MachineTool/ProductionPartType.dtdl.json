@@ -67,20 +67,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartQuality",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:PartQuality;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessIrregularity",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:ProductionPartType:dataType:ProcessIrregularity;1",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:ProductionPartStateMachineType"
     }
   ]

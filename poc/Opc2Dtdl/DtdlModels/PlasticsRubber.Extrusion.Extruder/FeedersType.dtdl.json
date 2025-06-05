@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Feeder_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_Extruder:FeederType"
     }
   ]

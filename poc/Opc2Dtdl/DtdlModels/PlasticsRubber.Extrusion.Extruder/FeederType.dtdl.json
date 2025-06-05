@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Hopper",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_Extruder:HopperType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Throughput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     }
   ]

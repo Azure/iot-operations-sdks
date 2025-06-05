@@ -16,19 +16,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProducedMaterial",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ProducedMaterial",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -36,19 +39,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProducedMaterialTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ProducedMaterialTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]

@@ -15,42 +15,49 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "GoodProduct",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LineSpeed",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProductWeight",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Throughput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ElectricalEnergy",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FluidEnergy",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PressureAir",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:EnergyType"
     }
   ]

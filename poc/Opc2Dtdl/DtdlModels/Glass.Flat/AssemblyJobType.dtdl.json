@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InputMaterial",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "OutputMaterial",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:AssemblyType"
     }
   ]

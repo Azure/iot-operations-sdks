@@ -39,26 +39,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeltaWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InboundWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutboundWeight",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "schema": "dtmi:opcua:Scales_V2:VehicleProductType:dataType:WeightType;1",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetVehicleInformation",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -75,8 +79,9 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Material",
+      "namespace": "http://opcfoundation.org/UA/Scales.V2",
       "target": "dtmi:opcua:Scales_V2:MaterialType"
     }
   ]

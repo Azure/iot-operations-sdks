@@ -33,8 +33,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LinkProduct",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -65,8 +66,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Prepare",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -88,8 +90,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UnlinkProduct",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -120,8 +123,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Unprepare",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -138,8 +142,9 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Handle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Handle",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     }
   ]
 }

@@ -15,23 +15,27 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Other",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Delta",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Input",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Output",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:CAS:ElectricalQuantitiesType"
     }
   ]

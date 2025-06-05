@@ -15,76 +15,94 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Powerup"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Powerup",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Empty"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Empty",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Inserting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Inserting",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Installed"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Installed",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Removing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Removing",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "Shutdown"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Shutdown",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "PowerupToEmptyTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PowerupToEmptyTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "EmptyToInsertingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EmptyToInsertingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "InsertingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InsertingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "InsertingToRemovingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InsertingToRemovingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "InsertingToInstalledTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InsertingToInstalledTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "InstalledToRemovingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InstalledToRemovingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "RemovingTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RemovingTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "RemovingToEmptyTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RemovingToEmptyTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "EmptyToShutdownTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EmptyToShutdownTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "InsertingToShutdownTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InsertingToShutdownTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "InstalledToShutdownTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InstalledToShutdownTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     },
     {
-      "@type": "Relationship",
-      "name": "RemovingToShutdownTransition"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RemovingToShutdownTransition",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     }
   ]
 }

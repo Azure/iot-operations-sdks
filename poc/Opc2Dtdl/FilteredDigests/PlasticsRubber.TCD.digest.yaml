@@ -1,5 +1,5 @@
 DataTypes:
-- UADataType: [ PlasticsRubber.TCD:3002, OperatingModeEnumeration ]
+- UADataType: [ PlasticsRubber.TCD:3002, PlasticsRubber.TCD:OperatingModeEnumeration ]
   Enums:
     OTHER: 0
     READY_TO_OPERATE: 1
@@ -11,49 +11,49 @@ DataTypes:
     SAFETY_COOLING: 7
     ECO: 8
     BOOST: 9
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3020, CavityCycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3020, PlasticsRubber.GeneralTypes:CavityCycleQualityEnumeration ]
   Enums:
     NO_PART: 0
     GOOD_PART: 1
     BAD_PART: 2
     REWORK: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3001, ControlModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3001, PlasticsRubber.GeneralTypes:ControlModeEnumeration ]
   Enums:
     OTHER: 0
     OFF: 1
@@ -62,27 +62,27 @@ DataTypes:
     STANDBY: 4
     OPEN_LOOP: 5
     ONLY_MEASUREMENT: 6
-- UADataType: [ PlasticsRubber.GeneralTypes:3019, CycleQualityEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3019, PlasticsRubber.GeneralTypes:CycleQualityEnumeration ]
   Enums:
     GOOD_CYCLE: 0
     BAD_CYCLE: 1
     TEST_SAMPLE_CYCLE: 2
     FAILED_CYCLE: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3027, DiagnosticsStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3027, PlasticsRubber.GeneralTypes:DiagnosticsStatusEnumeration ]
   Enums:
     OFF: 0
     ACTIVE_OK: 1
     ACTIVE_ERROR_DETECTED: 2
     COMPLETE: 3
     COMPLETE_ERROR_DETECTED: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3018, EventOriginatorEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3018, PlasticsRubber.GeneralTypes:EventOriginatorEnumeration ]
   Enums:
     OTHER: 0
     MACHINE: 1
     OPERATOR: 2
     MES: 3
     PERIPHERAL_DEVICE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3017, JobStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3017, PlasticsRubber.GeneralTypes:JobStatusEnumeration ]
   Enums:
     OTHER: 0
     TRANSFERRED_ASSIGNED: 1
@@ -96,7 +96,7 @@ DataTypes:
     TEAR_DOWN_ACTIVE: 9
     TEAR_DOWN_INTERRUPTED: 10
     TEAR_DOWN_FINISHED: 11
-- UADataType: [ PlasticsRubber.GeneralTypes:3009, LogbookEventsEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3009, PlasticsRubber.GeneralTypes:LogbookEventsEnumeration ]
   Enums:
     PARAMETER_CHANGE: 0
     USER: 1
@@ -109,7 +109,7 @@ DataTypes:
     STANDSTILL_REASON: 8
     MESSAGE: 9
     USER_FEEDBACK: 10
-- UADataType: [ PlasticsRubber.GeneralTypes:3011, MachineModeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3011, PlasticsRubber.GeneralTypes:MachineModeEnumeration ]
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -117,18 +117,18 @@ DataTypes:
     MANUAL: 3
     SETUP: 4
     SLEEP: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3013, MaintenanceStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3013, PlasticsRubber.GeneralTypes:MaintenanceStatusEnumeration ]
   Enums:
     NOT_DUE: 0
     WARNING: 1
     DUE: 2
-- UADataType: [ PlasticsRubber.GeneralTypes:3008, MouldStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3008, PlasticsRubber.GeneralTypes:MouldStatusEnumeration ]
   Enums:
     OTHER: 0
     MOULD_NOT_INSTALLED: 1
     MOULD_CHANGE: 2
     MOULD_INSTALLED: 3
-- UADataType: [ PlasticsRubber.GeneralTypes:3016, ProductionStatusEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3016, PlasticsRubber.GeneralTypes:ProductionStatusEnumeration ]
   Enums:
     OTHER: 0
     NO_PRODUCTION: 1
@@ -136,14 +136,14 @@ DataTypes:
     READY_FOR_PRODUCTION: 3
     PRODUCTION: 4
     DRY_RUN: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3012, SequenceChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3012, PlasticsRubber.GeneralTypes:SequenceChangeEnumeration ]
   Enums:
     UPDATE: 0
     ADD: 1
     MODIFY: 2
     MOVE: 3
     DELETE: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3025, StartEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3025, PlasticsRubber.GeneralTypes:StartEnumeration ]
   Enums:
     NOT_READY_TO_START: 0
     START_BLOCKED_BY_CLIENT: 1
@@ -151,12 +151,12 @@ DataTypes:
     START_REQUESTED: 3
     STARTED: 4
     STOP_REQUESTED: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3005, StorageEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3005, PlasticsRubber.GeneralTypes:StorageEnumeration ]
   Enums:
     PRODUCTION: 1
     PREPARATION: 2
     FILE_SYSTEM: 4
-- UADataType: [ PlasticsRubber.GeneralTypes:3029, TemperatureZoneClassificationEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3029, PlasticsRubber.GeneralTypes:TemperatureZoneClassificationEnumeration ]
   Enums:
     OTHER: 0
     HEATING: 1
@@ -164,26 +164,26 @@ DataTypes:
     TEMPERATURE_CONTROL: 3
     HOT_RUNNER: 4
     MEASURING: 5
-- UADataType: [ PlasticsRubber.GeneralTypes:3010, UserChangeEnumeration ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3010, PlasticsRubber.GeneralTypes:UserChangeEnumeration ]
   Enums:
     LOG_ON: 0
     LOG_OFF: 1
-- UADataType: [ PlasticsRubber.GeneralTypes:3028, ActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3028, PlasticsRubber.GeneralTypes:ActiveErrorDataType ]
   Fields:
     Id: [ String, 0 ]
     Severity: [ UInt16, 0 ]
     Message: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3003, ClassifiedActiveErrorDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3003, PlasticsRubber.GeneralTypes:ClassifiedActiveErrorDataType ]
   Fields:
     SourceNodes: [ NodeId, 1 ]
     Classification: [ UInt16, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3024, ConfigurationParameterType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3024, PlasticsRubber.GeneralTypes:ConfigurationParameterType ]
   Fields:
     Id: [ UInt32, 0 ]
     Description: [ LocalizedText, 0 ]
     DefaultValue: [ null, 0 ]
     Unit: [ EUInformation, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3021, JobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3021, PlasticsRubber.GeneralTypes:JobListElementType ]
   Fields:
     JobName: [ String, 0 ]
     JobDescription: [ String, 0 ]
@@ -198,27 +198,27 @@ DataTypes:
     PlannedStart: [ DateTime, 0 ]
     PlannedProductionTime: [ Duration, 0 ]
     LatestEnd: [ DateTime, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3022, CyclicJobListElementType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3022, PlasticsRubber.GeneralTypes:CyclicJobListElementType ]
   Fields:
     NominalParts: [ UInt64, 0 ]
     NominalBoxParts: [ UInt64, 0 ]
     ExpectedCycleTime: [ Duration, 0 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3014, PageEntryDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3014, PlasticsRubber.GeneralTypes:PageEntryDataType ]
   Fields:
     Id: [ String, 0 ]
     Title: [ LocalizedText, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3026, ParameterSettingType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3026, PlasticsRubber.GeneralTypes:ParameterSettingType ]
   Fields:
     Id: [ UInt32, 0 ]
     Value: [ null, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3023, PIDParametersDataType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3023, PlasticsRubber.GeneralTypes:PIDParametersDataType ]
   Fields:
     P: [ Double, 0 ]
     I: [ Double, 0 ]
     D: [ Double, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3006, ProductionDatasetInformationType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3006, PlasticsRubber.GeneralTypes:ProductionDatasetInformationType ]
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
@@ -237,16 +237,16 @@ DataTypes:
     ProductName: [ String, 1 ]
     MouldId: [ String, 0 ]
     NumCavities: [ UInt32, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3007, ProductionDatasetReadOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3007, PlasticsRubber.GeneralTypes:ProductionDatasetReadOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3004, ProductionDatasetWriteOptionsType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3004, PlasticsRubber.GeneralTypes:ProductionDatasetWriteOptionsType ]
   Fields:
-    Storage: [ StorageEnumeration, 0 ]
+    Storage: [ PlasticsRubber.GeneralTypes:StorageEnumeration, 0 ]
     Name: [ String, 0 ]
     Components: [ UInt16, 1 ]
-- UADataType: [ PlasticsRubber.GeneralTypes:3015, StandstillReasonType ]
+- UADataType: [ PlasticsRubber.GeneralTypes:3015, PlasticsRubber.GeneralTypes:StandstillReasonType ]
   Fields:
     Id: [ String, 0 ]
     Text: [ LocalizedText, 0 ]
@@ -254,332 +254,332 @@ DataTypes:
 
 DefinedTypes:
 
-  TCDHelpOffNormalAlarmType:
-  - [ UAObjectType, PlasticsRubber.TCD:1009, TCDHelpOffNormalAlarmType ]
+  PlasticsRubber.TCD:TCDHelpOffNormalAlarmType:
+  - [ UAObjectType, PlasticsRubber.TCD:1009, PlasticsRubber.TCD:TCDHelpOffNormalAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, HelpOffNormalAlarmType ]
+    - [ UAObjectType, PlasticsRubber.GeneralTypes:1052, PlasticsRubber.GeneralTypes:HelpOffNormalAlarmType ]
 
-  DeviceZoneType:
-  - [ UAObjectType, PlasticsRubber.TCD:1008, DeviceZoneType ]
+  PlasticsRubber.TCD:DeviceZoneType:
+  - [ UAObjectType, PlasticsRubber.TCD:1008, PlasticsRubber.TCD:DeviceZoneType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6237, ActualProcessPower, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6237, PlasticsRubber.TCD:ActualProcessPower, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6247, ActualPumpPower, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6247, PlasticsRubber.TCD:ActualPumpPower, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6245, ActualPumpSpeedRPM, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6245, PlasticsRubber.TCD:ActualPumpSpeedRPM, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6239, ActualRegulationRatio, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6239, PlasticsRubber.TCD:ActualRegulationRatio, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6241, DelayTimeAfterCooling, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6241, PlasticsRubber.TCD:DelayTimeAfterCooling, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5028, ExternalChannels ]
+    - [ UAObject, PlasticsRubber.TCD:5028, PlasticsRubber.TCD:ExternalChannels ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1003, ExternalChannelsType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1003, PlasticsRubber.TCD:ExternalChannelsType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5020, ExternalSensor ]
+    - [ UAObject, PlasticsRubber.TCD:5020, PlasticsRubber.TCD:ExternalSensor ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1007, ExternalSensorType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1007, PlasticsRubber.TCD:ExternalSensorType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5029, FlowRate ]
+    - [ UAObject, PlasticsRubber.TCD:5029, PlasticsRubber.TCD:FlowRate ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6214, InternalMeasuringPoint, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6214, PlasticsRubber.TCD:InternalMeasuringPoint, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5021, LeakStopper ]
+    - [ UAObject, PlasticsRubber.TCD:5021, PlasticsRubber.TCD:LeakStopper ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1006, LeakStopperType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1006, PlasticsRubber.TCD:LeakStopperType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5023, MaintenanceInformation ]
+    - [ UAObject, PlasticsRubber.TCD:5023, PlasticsRubber.TCD:MaintenanceInformation ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1004, MaintenanceInformationType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1004, PlasticsRubber.TCD:MaintenanceInformationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5022, MouldEvacuation ]
+    - [ UAObject, PlasticsRubber.TCD:5022, PlasticsRubber.TCD:MouldEvacuation ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1005, MouldEvacuationType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1005, PlasticsRubber.TCD:MouldEvacuationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5030, PressureDifference ]
+    - [ UAObject, PlasticsRubber.TCD:5030, PlasticsRubber.TCD:PressureDifference ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6231, PressureMainLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6231, PlasticsRubber.TCD:PressureMainLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6233, PressureReturnLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6233, PlasticsRubber.TCD:PressureReturnLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6249, PumpControlMode, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6249, PlasticsRubber.TCD:PumpControlMode, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5032, PumpSpeed ]
+    - [ UAObject, PlasticsRubber.TCD:5032, PlasticsRubber.TCD:PumpSpeed ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6217, StandbyTemperature, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6217, PlasticsRubber.TCD:StandbyTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6219, SwitchingOffTemperature, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6219, PlasticsRubber.TCD:SwitchingOffTemperature, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5006, Temperature ]
+    - [ UAObject, PlasticsRubber.TCD:5006, PlasticsRubber.TCD:Temperature ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, ControlledParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1057, PlasticsRubber.GeneralTypes:ControlledParameterType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5027, TemperatureDifference ]
+    - [ UAObject, PlasticsRubber.TCD:5027, PlasticsRubber.TCD:TemperatureDifference ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6221, TemperatureLimitation, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6221, PlasticsRubber.TCD:TemperatureLimitation, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6223, TemperatureMainLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6223, PlasticsRubber.TCD:TemperatureMainLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6225, TemperatureReturnLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6225, PlasticsRubber.TCD:TemperatureReturnLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  ExternalChannelsType:
-  - [ UAObjectType, PlasticsRubber.TCD:1003, ExternalChannelsType ]
+  PlasticsRubber.TCD:ExternalChannelsType:
+  - [ UAObjectType, PlasticsRubber.TCD:1003, PlasticsRubber.TCD:ExternalChannelsType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5005, ExternalChannel_<Nr> ]
+    - [ UAObject, PlasticsRubber.TCD:5005, PlasticsRubber.TCD:ExternalChannel_<Nr> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1002, ExternalChannelType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1002, PlasticsRubber.TCD:ExternalChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ExternalChannelType:
-  - [ UAObjectType, PlasticsRubber.TCD:1002, ExternalChannelType ]
+  PlasticsRubber.TCD:ExternalChannelType:
+  - [ UAObjectType, PlasticsRubber.TCD:1002, PlasticsRubber.TCD:ExternalChannelType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6017, ControlMode, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6017, PlasticsRubber.TCD:ControlMode, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5003, FlowRate ]
+    - [ UAObject, PlasticsRubber.TCD:5003, PlasticsRubber.TCD:FlowRate ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5004, PressureDifference ]
+    - [ UAObject, PlasticsRubber.TCD:5004, PlasticsRubber.TCD:PressureDifference ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6011, PressureMainLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6011, PlasticsRubber.TCD:PressureMainLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6013, PressureReturnLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6013, PlasticsRubber.TCD:PressureReturnLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7067, SwitchOff ]
+    - [ UAMethod, PlasticsRubber.TCD:7067, PlasticsRubber.TCD:SwitchOff ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7066, SwitchOn ]
+    - [ UAMethod, PlasticsRubber.TCD:7066, PlasticsRubber.TCD:SwitchOn ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5001, Temperature ]
+    - [ UAObject, PlasticsRubber.TCD:5001, PlasticsRubber.TCD:Temperature ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5002, TemperatureDifference ]
+    - [ UAObject, PlasticsRubber.TCD:5002, PlasticsRubber.TCD:TemperatureDifference ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, MonitoredParameterType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1056, PlasticsRubber.GeneralTypes:MonitoredParameterType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6003, TemperatureMainLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6003, PlasticsRubber.TCD:TemperatureMainLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6005, TemperatureReturnLine, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6005, PlasticsRubber.TCD:TemperatureReturnLine, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  ExternalSensorType:
-  - [ UAObjectType, PlasticsRubber.TCD:1007, ExternalSensorType ]
+  PlasticsRubber.TCD:ExternalSensorType:
+  - [ UAObjectType, PlasticsRubber.TCD:1007, PlasticsRubber.TCD:ExternalSensorType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6204, ActualValue, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6204, PlasticsRubber.TCD:ActualValue, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5014, ClosedLoopControl ]
+    - [ UAObject, PlasticsRubber.TCD:5014, PlasticsRubber.TCD:ClosedLoopControl ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, ClosedLoopControlType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1054, PlasticsRubber.GeneralTypes:ClosedLoopControlType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6908, CommunicationProtocolType, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6908, PlasticsRubber.TCD:CommunicationProtocolType, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7016, ExternalSensorModeOff ]
+    - [ UAMethod, PlasticsRubber.TCD:7016, PlasticsRubber.TCD:ExternalSensorModeOff ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7015, ExternalSensorModeOn ]
+    - [ UAMethod, PlasticsRubber.TCD:7015, PlasticsRubber.TCD:ExternalSensorModeOn ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6207, ThermocoupleType, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6207, PlasticsRubber.TCD:ThermocoupleType, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  LeakStopperType:
-  - [ UAObjectType, PlasticsRubber.TCD:1006, LeakStopperType ]
+  PlasticsRubber.TCD:LeakStopperType:
+  - [ UAObjectType, PlasticsRubber.TCD:1006, PlasticsRubber.TCD:LeakStopperType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7014, Off ]
+    - [ UAMethod, PlasticsRubber.TCD:7014, PlasticsRubber.TCD:Off ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7013, On ]
+    - [ UAMethod, PlasticsRubber.TCD:7013, PlasticsRubber.TCD:On ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  MaintenanceInformationType:
-  - [ UAObjectType, PlasticsRubber.TCD:1004, MaintenanceInformationType ]
+  PlasticsRubber.TCD:MaintenanceInformationType:
+  - [ UAObjectType, PlasticsRubber.TCD:1004, PlasticsRubber.TCD:MaintenanceInformationType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5011, Cooling ]
+    - [ UAObject, PlasticsRubber.TCD:5011, PlasticsRubber.TCD:Cooling ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5013, Fluid ]
+    - [ UAObject, PlasticsRubber.TCD:5013, PlasticsRubber.TCD:Fluid ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5010, Heating ]
+    - [ UAObject, PlasticsRubber.TCD:5010, PlasticsRubber.TCD:Heating ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5012, Pump ]
+    - [ UAObject, PlasticsRubber.TCD:5012, PlasticsRubber.TCD:Pump ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, MaintenanceType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1053, PlasticsRubber.GeneralTypes:MaintenanceType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  MouldEvacuationType:
-  - [ UAObjectType, PlasticsRubber.TCD:1005, MouldEvacuationType ]
+  PlasticsRubber.TCD:MouldEvacuationType:
+  - [ UAObjectType, PlasticsRubber.TCD:1005, PlasticsRubber.TCD:MouldEvacuationType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6136, Mode, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6136, PlasticsRubber.TCD:Mode, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7009, Off ]
+    - [ UAMethod, PlasticsRubber.TCD:7009, PlasticsRubber.TCD:Off ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7008, On ]
+    - [ UAMethod, PlasticsRubber.TCD:7008, PlasticsRubber.TCD:On ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6133, Sink, UInt16, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6133, PlasticsRubber.TCD:Sink, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6129, TemperatureLimit, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6129, PlasticsRubber.TCD:TemperatureLimit, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6131, Time, Double, 0, 3 ]
+    - [ UAVariable, PlasticsRubber.TCD:6131, PlasticsRubber.TCD:Time, Double, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  OperationType:
-  - [ UAObjectType, PlasticsRubber.TCD:1010, OperationType ]
+  PlasticsRubber.TCD:OperationType:
+  - [ UAObjectType, PlasticsRubber.TCD:1010, PlasticsRubber.TCD:OperationType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6551, ActiveErrors, ActiveErrorDataType, 1, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6551, PlasticsRubber.TCD:ActiveErrors, PlasticsRubber.GeneralTypes:ActiveErrorDataType, 1, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6512, HoursOfOperation, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6512, PlasticsRubber.TCD:HoursOfOperation, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7044, IdentifyDevice ]
+    - [ UAMethod, PlasticsRubber.TCD:7044, PlasticsRubber.TCD:IdentifyDevice ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7048, ReduceToStandByOff ]
+    - [ UAMethod, PlasticsRubber.TCD:7048, PlasticsRubber.TCD:ReduceToStandByOff ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7047, ReduceToStandByOn ]
+    - [ UAMethod, PlasticsRubber.TCD:7047, PlasticsRubber.TCD:ReduceToStandByOn ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7043, ResetAllErrors ]
+    - [ UAMethod, PlasticsRubber.TCD:7043, PlasticsRubber.TCD:ResetAllErrors ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7127, ResetErrorById ]
+    - [ UAMethod, PlasticsRubber.TCD:7127, PlasticsRubber.TCD:ResetErrorById ]
     - HasProperty:
       - [ UAVariable, PlasticsRubber.TCD:6510, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -589,69 +589,69 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7046, SwitchOff ]
+    - [ UAMethod, PlasticsRubber.TCD:7046, PlasticsRubber.TCD:SwitchOff ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, PlasticsRubber.TCD:7045, SwitchOn ]
+    - [ UAMethod, PlasticsRubber.TCD:7045, PlasticsRubber.TCD:SwitchOn ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  TCD_InterfaceType:
-  - [ UAObjectType, PlasticsRubber.TCD:1012, TCD_InterfaceType ]
+  PlasticsRubber.TCD:TCD_InterfaceType:
+  - [ UAObjectType, PlasticsRubber.TCD:1012, PlasticsRubber.TCD:TCD_InterfaceType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5044, DeviceZone ]
+    - [ UAObject, PlasticsRubber.TCD:5044, PlasticsRubber.TCD:DeviceZone ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1008, DeviceZoneType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1008, PlasticsRubber.TCD:DeviceZoneType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5047, Identification ]
+    - [ UAObject, PlasticsRubber.TCD:5047, PlasticsRubber.TCD:Identification ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1058, IdentificationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1058, PlasticsRubber.GeneralTypes:IdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5049, MachineConfiguration ]
+    - [ UAObject, PlasticsRubber.TCD:5049, PlasticsRubber.TCD:MachineConfiguration ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, MachineConfigurationType ]
+      - [ UAObjectType, PlasticsRubber.GeneralTypes:1016, PlasticsRubber.GeneralTypes:MachineConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5050, Operation ]
+    - [ UAObject, PlasticsRubber.TCD:5050, PlasticsRubber.TCD:Operation ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1010, OperationType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1010, PlasticsRubber.TCD:OperationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PlasticsRubber.TCD:5048, TCDSpecification ]
+    - [ UAObject, PlasticsRubber.TCD:5048, PlasticsRubber.TCD:TCDSpecification ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, PlasticsRubber.TCD:1011, TCDSpecificationType ]
+      - [ UAObjectType, PlasticsRubber.TCD:1011, PlasticsRubber.TCD:TCDSpecificationType ]
 
-  TCDSpecificationType:
-  - [ UAObjectType, PlasticsRubber.TCD:1011, TCDSpecificationType ]
+  PlasticsRubber.TCD:TCDSpecificationType:
+  - [ UAObjectType, PlasticsRubber.TCD:1011, PlasticsRubber.TCD:TCDSpecificationType ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6518, ConnectedLoad, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6518, PlasticsRubber.TCD:ConnectedLoad, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6522, CoolingCapacity, UInt32, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6522, PlasticsRubber.TCD:CoolingCapacity, UInt32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6514, MaxTemperature, Int32, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6514, PlasticsRubber.TCD:MaxTemperature, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6520, NominalFlowRate, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6520, PlasticsRubber.TCD:NominalFlowRate, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, PlasticsRubber.TCD:6516, PowerValue, Double, 0, 0 ]
+    - [ UAVariable, PlasticsRubber.TCD:6516, PlasticsRubber.TCD:PowerValue, Double, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:

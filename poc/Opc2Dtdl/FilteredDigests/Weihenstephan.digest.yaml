@@ -1,11 +1,11 @@
 DataTypes:
-- UADataType: [ Weihenstephan:3000, WSOperatingModeEnumerationType ]
+- UADataType: [ Weihenstephan:3000, Weihenstephan:WSOperatingModeEnumerationType ]
   Enums:
     Off: 1
     Manual: 2
     Semi-automatic: 4
     Automatic: 8
-- UADataType: [ Weihenstephan:3001, WSProgramEnumerationType ]
+- UADataType: [ Weihenstephan:3001, Weihenstephan:WSProgramEnumerationType ]
   Enums:
     Undefined (No Program): 0
     Production: 1
@@ -15,49 +15,49 @@ DataTypes:
     Changeover: 16
     Maintenance: 32
     Break: 64
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PackML:11, ProductionMaintenanceModeEnum ]
+- UADataType: [ PackML:11, PackML:ProductionMaintenanceModeEnum ]
   Enums:
     Invalid: 0
     Produce: 1
     Maintenance: 2
     Manual: 3
-- UADataType: [ PackML:15, PackMLAlarmDataType ]
+- UADataType: [ PackML:15, PackML:PackMLAlarmDataType ]
   Fields:
     ID: [ Int32, 0 ]
     Value: [ Int32, 0 ]
@@ -66,73 +66,73 @@ DataTypes:
     DateTime: [ UtcTime, 0 ]
     AckDateTime: [ UtcTime, 0 ]
     Trigger: [ Boolean, 0 ]
-- UADataType: [ PackML:14, PackMLCountDataType ]
+- UADataType: [ PackML:14, PackML:PackMLCountDataType ]
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
     Unit: [ EUInformation, 0 ]
     Count: [ Int32, 0 ]
     AccCount: [ Int32, 0 ]
-- UADataType: [ PackML:16, PackMLDescriptorDataType ]
+- UADataType: [ PackML:16, PackML:PackMLDescriptorDataType ]
   Fields:
     ID: [ Int32, 0 ]
     Name: [ String, 0 ]
     Unit: [ EUInformation, 0 ]
     Value: [ Float, 0 ]
-- UADataType: [ PackML:17, PackMLIngredientsDataType ]
+- UADataType: [ PackML:17, PackML:PackMLIngredientsDataType ]
   Fields:
     IngredientID: [ Int32, 0 ]
-    Parameter: [ PackMLDescriptorDataType, 1 ]
-- UADataType: [ PackML:18, PackMLProductDataType ]
+    Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
+- UADataType: [ PackML:18, PackML:PackMLProductDataType ]
   Fields:
     ProductID: [ Int32, 0 ]
-    ProcessVariables: [ PackMLDescriptorDataType, 1 ]
-    Ingredients: [ PackMLIngredientsDataType, 1 ]
-- UADataType: [ PackML:19, PackMLRemoteInterfaceDataType ]
+    ProcessVariables: [ PackML:PackMLDescriptorDataType, 1 ]
+    Ingredients: [ PackML:PackMLIngredientsDataType, 1 ]
+- UADataType: [ PackML:19, PackML:PackMLRemoteInterfaceDataType ]
   Fields:
     Number: [ Int32, 0 ]
     ControlCmdNumber: [ Int32, 0 ]
     CmdValue: [ Int32, 0 ]
-    Parameter: [ PackMLDescriptorDataType, 1 ]
+    Parameter: [ PackML:PackMLDescriptorDataType, 1 ]
 
 DefinedTypes:
 
-  WSMachineType:
-  - [ UAObjectType, Weihenstephan:1000, WSMachineType ]
+  Weihenstephan:WSMachineType:
+  - [ UAObjectType, Weihenstephan:1000, Weihenstephan:WSMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  WSBaseObjectType:
-  - [ UAObjectType, Weihenstephan:1001, WSBaseObjectType ]
+  Weihenstephan:WSBaseObjectType:
+  - [ UAObjectType, Weihenstephan:1001, Weihenstephan:WSBaseObjectType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  WSAlarmType:
-  - [ UAObjectType, Weihenstephan:1002, WSAlarmType ]
+  Weihenstephan:WSAlarmType:
+  - [ UAObjectType, Weihenstephan:1002, Weihenstephan:WSAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Weihenstephan:1001, WSBaseObjectType ]
+    - [ UAObjectType, Weihenstephan:1001, Weihenstephan:WSBaseObjectType ]
 
-  WSWarningType:
-  - [ UAObjectType, Weihenstephan:1003, WSWarningType ]
+  Weihenstephan:WSWarningType:
+  - [ UAObjectType, Weihenstephan:1003, Weihenstephan:WSWarningType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Weihenstephan:1001, WSBaseObjectType ]
+    - [ UAObjectType, Weihenstephan:1001, Weihenstephan:WSBaseObjectType ]
 
-  WSBaseStateMachineType:
-  - [ UAObjectType, Weihenstephan:1004, WSBaseStateMachineType ]
+  Weihenstephan:WSBaseStateMachineType:
+  - [ UAObjectType, Weihenstephan:1004, Weihenstephan:WSBaseStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PackML:3, PackMLBaseStateMachineType ]
+    - [ UAObjectType, PackML:3, PackML:PackMLBaseStateMachineType ]
 
-  WSExecuteStateMachineType:
-  - [ UAObjectType, Weihenstephan:1005, WSExecuteStateMachineType ]
+  Weihenstephan:WSExecuteStateMachineType:
+  - [ UAObjectType, Weihenstephan:1005, Weihenstephan:WSExecuteStateMachineType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PackML:1, PackMLExecuteStateMachineType ]
+    - [ UAObjectType, PackML:1, PackML:PackMLExecuteStateMachineType ]
 
-  WSHeldStateMachineType:
-  - [ UAObjectType, Weihenstephan:1006, WSHeldStateMachineType ]
+  Weihenstephan:WSHeldStateMachineType:
+  - [ UAObjectType, Weihenstephan:1006, Weihenstephan:WSHeldStateMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  WSSuspendedStateMachineType:
-  - [ UAObjectType, Weihenstephan:1007, WSSuspendedStateMachineType ]
+  Weihenstephan:WSSuspendedStateMachineType:
+  - [ UAObjectType, Weihenstephan:1007, Weihenstephan:WSSuspendedStateMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]

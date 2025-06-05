@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Name_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDeviceType"
     }
   ]

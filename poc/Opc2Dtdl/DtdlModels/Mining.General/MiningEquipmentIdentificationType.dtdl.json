@@ -16,20 +16,24 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "DeviceTypeImage"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceTypeImage",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Documentation"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Documentation",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ImageSet"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ImageSet",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ProtocolSupport"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProtocolSupport",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

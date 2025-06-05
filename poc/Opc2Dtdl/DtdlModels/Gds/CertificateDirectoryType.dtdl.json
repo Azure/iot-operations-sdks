@@ -17,8 +17,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartSigningRequest",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -64,8 +65,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartNewKeyPairRequest",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -129,8 +131,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "FinishRequest",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -179,8 +182,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RevokeCertificate",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -202,8 +206,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetCertificateGroups",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -237,8 +242,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetCertificates",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -285,8 +291,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetTrustList",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -322,8 +329,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetCertificateStatus",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -364,8 +372,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "CheckRevocationStatus",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

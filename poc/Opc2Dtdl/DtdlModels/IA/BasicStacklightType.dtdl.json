@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StackLevel",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "target": "dtmi:opcua:IA:StackLevelType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "StackRunning",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "target": "dtmi:opcua:IA:StackRunningType"
     }
   ]

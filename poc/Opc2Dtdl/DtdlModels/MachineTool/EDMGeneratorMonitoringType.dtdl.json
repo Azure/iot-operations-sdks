@@ -44,14 +44,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EDMGeneratorState",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:EDMGeneratorMonitoringType:dataType:EDMGeneratorState;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsOn",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     }

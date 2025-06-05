@@ -83,44 +83,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AddInfo",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleAddInfoEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ARInfo",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleARInfoEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DiagInfo",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IdentInfo",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "dtmi:opcua:PROFINET:PnSubmoduleStateType:dataType:PnSubmoduleIdentInfoEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaintenanceDemanded",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaintenanceRequired",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "QualifiedInfo",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": "boolean",
       "writable": false
     }

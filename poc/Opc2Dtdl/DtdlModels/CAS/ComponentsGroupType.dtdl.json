@@ -16,68 +16,81 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ComponentsGroup",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ChargingSystems",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Compressors",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CondensateDrains",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CondensateSeparators",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Converters",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CoolingSystems",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Dryers",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Filters",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "HeatRecoverySystems",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Receivers",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Sensors",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Valves",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "target": "dtmi:opcua:Machinery:MachineComponentsType"
     }
   ]

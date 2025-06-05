@@ -15,33 +15,39 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Diagnostics",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DiagnosticsType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Identification",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineConfiguration",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MaintenanceInformation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:MaintenanceInformationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Operation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:OperationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Zones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:ZonesType"
     }
   ]

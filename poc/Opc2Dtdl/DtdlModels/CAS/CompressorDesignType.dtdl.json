@@ -52,26 +52,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DisplacementType",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "dtmi:opcua:CAS:CompressorDesignType:dataType:DisplacementTypeEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LubricationType",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "dtmi:opcua:CAS:CompressorDesignType:dataType:LubricationTypeEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NumberOfStages",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "VariableFlow",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "boolean",
       "writable": false
     }

@@ -16,50 +16,58 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualFollowerPlatePressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DrumCapacity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemainingMaterialTime",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ResidualAmount",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetFollowerPlatePressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValueDensity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetSetValueDensity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.LDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

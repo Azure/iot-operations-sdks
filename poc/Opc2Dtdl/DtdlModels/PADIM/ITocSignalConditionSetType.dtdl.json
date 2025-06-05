@@ -15,38 +15,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AbsoluteSampleGasPressure",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ChopperFrequencyDeviation",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SampleCellTemperature",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DetectorZeroSignal",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RelativeReagentLevel",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SampleGasVolumeFlow",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     }

@@ -166,8 +166,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "FindApplications",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -201,8 +202,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RegisterApplication",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -233,8 +235,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UpdateApplication",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -251,8 +254,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "UnregisterApplication",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -269,8 +273,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetApplication",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -301,8 +306,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "QueryApplications",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -379,8 +385,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "QueryServers",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -447,8 +454,9 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Applications"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Applications",
+      "namespace": "http://opcfoundation.org/UA/GDS"
     }
   ]
 }

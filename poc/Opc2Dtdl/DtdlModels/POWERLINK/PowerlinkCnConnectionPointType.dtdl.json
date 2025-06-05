@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DeviceProfileIdentifier",
+      "namespace": "http://opcfoundation.org/UA/POWERLINK",
       "target": "dtmi:opcua:POWERLINK:PowerlinkDeviceProfileType"
     }
   ]

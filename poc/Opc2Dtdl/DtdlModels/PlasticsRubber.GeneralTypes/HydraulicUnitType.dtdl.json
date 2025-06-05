@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActualPressure",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     }

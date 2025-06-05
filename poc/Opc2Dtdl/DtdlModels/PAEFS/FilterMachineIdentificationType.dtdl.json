@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalAirflow",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RatedPower",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "schema": "double",
       "writable": true
     }

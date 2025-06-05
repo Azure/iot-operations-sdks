@@ -54,8 +54,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ClearStoredVariables",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -92,8 +93,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ListStoredVariables",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -113,8 +115,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetStoredVariables",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

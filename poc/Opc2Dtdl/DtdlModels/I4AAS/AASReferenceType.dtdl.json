@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Referable"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Referable",
+      "namespace": "http://opcfoundation.org/UA/I4AAS"
     }
   ]
 }

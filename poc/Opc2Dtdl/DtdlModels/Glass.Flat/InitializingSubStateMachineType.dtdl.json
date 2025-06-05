@@ -15,32 +15,39 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Idle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Idle",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
-      "name": "IdleToQueued"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "IdleToQueued",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
-      "name": "Queued"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Queued",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
-      "name": "QueuedToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "QueuedToIdle",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
-      "name": "QueuedToReleased"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "QueuedToReleased",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
-      "name": "Released"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Released",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
-      "name": "ReleasedToQueued"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReleasedToQueued",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     }
   ]
 }

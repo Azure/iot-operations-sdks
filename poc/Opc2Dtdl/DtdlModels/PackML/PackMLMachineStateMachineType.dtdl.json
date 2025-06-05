@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AvailableStates",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -25,8 +26,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AvailableTransitions",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "string"
@@ -34,49 +36,60 @@
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Reset"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Reset",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Command",
-      "name": "Stop"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Stop",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Clearing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Clearing",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "ClearingToStopped"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ClearingToStopped",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ExecuteState",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "target": "dtmi:opcua:PackML:PackMLExecuteStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "Running"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Running",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "RunningToStopping"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RunningToStopping",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Stopped"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Stopped",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "StoppedToRunning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StoppedToRunning",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "Stopping"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Stopping",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     },
     {
-      "@type": "Relationship",
-      "name": "StoppingToStopped"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "StoppingToStopped",
+      "namespace": "http://opcfoundation.org/UA/PackML"
     }
   ]
 }

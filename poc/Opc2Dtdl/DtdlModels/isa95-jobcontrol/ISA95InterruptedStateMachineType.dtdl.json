@@ -15,20 +15,24 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "FromHeldToSuspended"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromHeldToSuspended",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "FromSuspendedToHeld"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromSuspendedToHeld",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Held"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Held",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     },
     {
-      "@type": "Relationship",
-      "name": "Suspended"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Suspended",
+      "namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2"
     }
   ]
 }

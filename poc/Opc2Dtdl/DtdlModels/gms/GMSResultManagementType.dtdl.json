@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "CorrectionsFolder"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "CorrectionsFolder",
+      "namespace": "http://opcfoundation.org/UA/GMS"
     }
   ]
 }

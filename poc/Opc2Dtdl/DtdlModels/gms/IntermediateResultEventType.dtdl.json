@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Characteristics",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "target": "dtmi:opcua:GMS:CharacteristicType"
     }
   ]

@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValueManualOutputLimit",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetValueTemperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "double",
       "writable": true
     }

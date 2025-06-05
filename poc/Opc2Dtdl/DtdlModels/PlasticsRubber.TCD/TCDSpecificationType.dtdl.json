@@ -15,32 +15,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ConnectedLoad",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CoolingCapacity",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaxTemperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalFlowRate",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PowerValue",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "schema": "double",
       "writable": false
     }

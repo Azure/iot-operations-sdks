@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LoadingMonitoring",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "target": "dtmi:opcua:GMS:LoadingMonitoringType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ToolMonitoring",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "target": "dtmi:opcua:GMS:ToolMonitoringType"
     }
   ]

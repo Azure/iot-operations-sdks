@@ -68,14 +68,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AggregatedCurrentState",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "EditConnectionConfigurationSets",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -117,8 +119,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ProcessConnectionConfigurationSets",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -160,17 +163,20 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Capabilities",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "target": "dtmi:opcua:FX_CM:ConnectionManagerCapabilitiesType"
     },
     {
-      "@type": "Relationship",
-      "name": "ConnectionConfigurationSets"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ConnectionConfigurationSets",
+      "namespace": "http://opcfoundation.org/UA/FX.CM"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ConnectionManagerConfiguration",
+      "namespace": "http://opcfoundation.org/UA/FX.CM",
       "target": "dtmi:opcua:FX_CM:ConnectionManagerConfigurationType"
     }
   ]

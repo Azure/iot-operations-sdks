@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Activity",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Location",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     }

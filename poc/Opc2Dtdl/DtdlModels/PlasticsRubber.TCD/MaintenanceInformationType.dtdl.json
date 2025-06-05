@@ -15,23 +15,27 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Cooling",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Fluid",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Heating",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Pump",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     }
   ]

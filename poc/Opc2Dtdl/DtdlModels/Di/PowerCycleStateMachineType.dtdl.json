@@ -15,20 +15,24 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "NotWaitingForPowerCycle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "NotWaitingForPowerCycle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitingForPowerCycle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitingForPowerCycle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "NotWaitingForPowerCycleToWaitingForPowerCycle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "NotWaitingForPowerCycleToWaitingForPowerCycle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "WaitingForPowerCycleToNotWaitingForPowerCycle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "WaitingForPowerCycleToNotWaitingForPowerCycle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

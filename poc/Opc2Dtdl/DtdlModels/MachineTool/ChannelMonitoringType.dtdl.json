@@ -76,32 +76,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ChannelMode",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelMode;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ChannelState",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:ChannelMonitoringType:dataType:ChannelState;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FeedOverride",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RapidOverride",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ChannelModifiers",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:ChannelModifierType"
     }
   ]

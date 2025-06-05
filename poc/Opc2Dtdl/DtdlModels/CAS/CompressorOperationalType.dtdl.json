@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActivePressureBand",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "unsignedShort",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FlowRateRatio",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IsentropicEfficiency",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SpecificEnergyRequirement",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "double",
       "writable": false
     }

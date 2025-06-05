@@ -17,8 +17,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "DrainTest"
+      "@type": [ "Command", "Qualified" ],
+      "name": "DrainTest",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     }
   ]
 }

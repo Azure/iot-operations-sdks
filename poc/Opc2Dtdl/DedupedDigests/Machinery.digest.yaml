@@ -1,34 +1,34 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -38,54 +38,54 @@ DataTypes:
 
 DefinedTypes:
 
-  IMachineTagNameplateType:
-  - [ UAObjectType, Machinery:1011, IMachineTagNameplateType ]
+  Machinery:IMachineTagNameplateType:
+  - [ UAObjectType, Machinery:1011, Machinery:IMachineTagNameplateType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15048, ITagNameplateType ]
+    - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
 
-  IMachineryItemVendorNameplateType:
-  - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
+  Machinery:IMachineryItemVendorNameplateType:
+  - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15035, IVendorNameplateType ]
+    - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
 
-  IMachineVendorNameplateType:
-  - [ UAObjectType, Machinery:1010, IMachineVendorNameplateType ]
+  Machinery:IMachineVendorNameplateType:
+  - [ UAObjectType, Machinery:1010, Machinery:IMachineVendorNameplateType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1003, IMachineryItemVendorNameplateType ]
+    - [ UAObjectType, Machinery:1003, Machinery:IMachineryItemVendorNameplateType ]
 
-  MachineryItemIdentificationType:
-  - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+  Machinery:MachineryItemIdentificationType:
+  - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
-  MachineIdentificationType:
-  - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+  Machinery:MachineIdentificationType:
+  - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
 
-  MachineryComponentIdentificationType:
-  - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+  Machinery:MachineryComponentIdentificationType:
+  - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1004, MachineryItemIdentificationType ]
+    - [ UAObjectType, Machinery:1004, Machinery:MachineryItemIdentificationType ]
 
-  MachineryOperationCounterType:
-  - [ UAObjectType, Machinery:1009, MachineryOperationCounterType ]
+  Machinery:MachineryOperationCounterType:
+  - [ UAObjectType, Machinery:1009, Machinery:MachineryOperationCounterType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1005, FunctionalGroupType ]
+    - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
 
-  MachineryLifetimeCounterType:
-  - [ UAObjectType, Machinery:1015, MachineryLifetimeCounterType ]
+  Machinery:MachineryLifetimeCounterType:
+  - [ UAObjectType, Machinery:1015, Machinery:MachineryLifetimeCounterType ]
   - HasComponent:
-    - [ UAVariable, Machinery:6083, <LifetimeVariable>, Number, 0, 3 ]
+    - [ UAVariable, Machinery:6083, Machinery:<LifetimeVariable>, Number, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  MachineComponentsType:
-  - [ UAObjectType, Machinery:1006, MachineComponentsType ]
+  Machinery:MachineComponentsType:
+  - [ UAObjectType, Machinery:1006, Machinery:MachineComponentsType ]
   - HasComponent:
-    - [ UAObject, Machinery:5002, <Component> ]
+    - [ UAObject, Machinery:5002, Machinery:<Component> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -93,171 +93,171 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  MachineryItemState_StateMachineType:
-  - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+  Machinery:MachineryItemState_StateMachineType:
+  - [ UAObjectType, Machinery:1002, Machinery:MachineryItemState_StateMachineType ]
   - HasComponent:
-    - [ UAObject, Machinery:5006, Executing ]
+    - [ UAObject, Machinery:5006, Machinery:Executing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Machinery:5023, FromExecutingToExecuting ]
+    - [ UAObject, Machinery:5023, Machinery:FromExecutingToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5020, FromExecutingToNotAvailable ]
+    - [ UAObject, Machinery:5020, Machinery:FromExecutingToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5022, FromExecutingToNotExecuting ]
+    - [ UAObject, Machinery:5022, Machinery:FromExecutingToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5021, FromExecutingToOutOfService ]
+    - [ UAObject, Machinery:5021, Machinery:FromExecutingToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5010, FromNotAvailableToExecuting ]
+    - [ UAObject, Machinery:5010, Machinery:FromNotAvailableToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5011, FromNotAvailableToNotAvailable ]
+    - [ UAObject, Machinery:5011, Machinery:FromNotAvailableToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5009, FromNotAvailableToNotExecuting ]
+    - [ UAObject, Machinery:5009, Machinery:FromNotAvailableToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5008, FromNotAvailableToOutOfService ]
+    - [ UAObject, Machinery:5008, Machinery:FromNotAvailableToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5018, FromNotExecutingToExecuting ]
+    - [ UAObject, Machinery:5018, Machinery:FromNotExecutingToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5016, FromNotExecutingToNotAvailable ]
+    - [ UAObject, Machinery:5016, Machinery:FromNotExecutingToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5019, FromNotExecutingToNotExecuting ]
+    - [ UAObject, Machinery:5019, Machinery:FromNotExecutingToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5017, FromNotExecutingToOutOfService ]
+    - [ UAObject, Machinery:5017, Machinery:FromNotExecutingToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5014, FromOutOfServiceToExecuting ]
+    - [ UAObject, Machinery:5014, Machinery:FromOutOfServiceToExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5012, FromOutOfServiceToNotAvailable ]
+    - [ UAObject, Machinery:5012, Machinery:FromOutOfServiceToNotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5013, FromOutOfServiceToNotExecuting ]
+    - [ UAObject, Machinery:5013, Machinery:FromOutOfServiceToNotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5015, FromOutOfServiceToOutOfService ]
+    - [ UAObject, Machinery:5015, Machinery:FromOutOfServiceToOutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5005, NotAvailable ]
+    - [ UAObject, Machinery:5005, Machinery:NotAvailable ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Machinery:5007, NotExecuting ]
+    - [ UAObject, Machinery:5007, Machinery:NotExecuting ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Machinery:5004, OutOfService ]
+    - [ UAObject, Machinery:5004, Machinery:OutOfService ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  MachineryOperationModeStateMachineType:
-  - [ UAObjectType, Machinery:1008, MachineryOperationModeStateMachineType ]
+  Machinery:MachineryOperationModeStateMachineType:
+  - [ UAObjectType, Machinery:1008, Machinery:MachineryOperationModeStateMachineType ]
   - HasComponent:
-    - [ UAObject, Machinery:5035, FromMaintenanceToMaintenance ]
+    - [ UAObject, Machinery:5035, Machinery:FromMaintenanceToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5032, FromMaintenanceToNone ]
+    - [ UAObject, Machinery:5032, Machinery:FromMaintenanceToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5034, FromMaintenanceToProcessing ]
+    - [ UAObject, Machinery:5034, Machinery:FromMaintenanceToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5033, FromMaintenanceToSetup ]
+    - [ UAObject, Machinery:5033, Machinery:FromMaintenanceToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5028, FromNoneToMaintenance ]
+    - [ UAObject, Machinery:5028, Machinery:FromNoneToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5031, FromNoneToNone ]
+    - [ UAObject, Machinery:5031, Machinery:FromNoneToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5030, FromNoneToProcessing ]
+    - [ UAObject, Machinery:5030, Machinery:FromNoneToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5029, FromNoneToSetup ]
+    - [ UAObject, Machinery:5029, Machinery:FromNoneToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5041, FromProcessingToMaintenance ]
+    - [ UAObject, Machinery:5041, Machinery:FromProcessingToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5040, FromProcessingToNone ]
+    - [ UAObject, Machinery:5040, Machinery:FromProcessingToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5043, FromProcessingToProcessing ]
+    - [ UAObject, Machinery:5043, Machinery:FromProcessingToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5042, FromProcessingToSetup ]
+    - [ UAObject, Machinery:5042, Machinery:FromProcessingToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5037, FromSetupToMaintenance ]
+    - [ UAObject, Machinery:5037, Machinery:FromSetupToMaintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5036, FromSetupToNone ]
+    - [ UAObject, Machinery:5036, Machinery:FromSetupToNone ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5038, FromSetupToProcessing ]
+    - [ UAObject, Machinery:5038, Machinery:FromSetupToProcessing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5039, FromSetupToSetup ]
+    - [ UAObject, Machinery:5039, Machinery:FromSetupToSetup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, Machinery:5025, Maintenance ]
+    - [ UAObject, Machinery:5025, Machinery:Maintenance ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Machinery:5024, None ]
+    - [ UAObject, Machinery:5024, Machinery:None ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Machinery:5026, Processing ]
+    - [ UAObject, Machinery:5026, Machinery:Processing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, Machinery:5027, Setup ]
+    - [ UAObject, Machinery:5027, Machinery:Setup ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasSubtype_reverse:

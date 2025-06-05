@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OptionSchema",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     }

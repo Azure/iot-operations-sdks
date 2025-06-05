@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CNIdentifier",
+      "namespace": "http://opcfoundation.org/UA/POWERLINK",
       "target": "dtmi:opcua:POWERLINK:PowerlinkCnConnectionPointType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MNIdentifier",
+      "namespace": "http://opcfoundation.org/UA/POWERLINK",
       "target": "dtmi:opcua:POWERLINK:PowerlinkMnConnectionPointType"
     }
   ]

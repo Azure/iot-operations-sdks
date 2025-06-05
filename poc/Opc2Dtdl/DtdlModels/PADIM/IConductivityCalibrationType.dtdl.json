@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ConductivityCellConstant",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "float",
       "writable": false
     }

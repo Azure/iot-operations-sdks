@@ -16,212 +16,247 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ActuatorElement",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AmbientTemperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AuxiliaryDeviceFault",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AuxiliaryMediumAbsence",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AuxiliaryMediumInsufficiency",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AuxiliaryPowerPole",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "AuxiliaryPowerRange",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "CommunicationError",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Corrosion",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Deviation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ElectromagneticInterference",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ElectronicFault",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "EnergySupply",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "EvaluationElectronics",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ExciterError",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Fouling",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "HumidityElectronics",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Installation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Interruption",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "LineLength",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "MaterialElectronics",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "MeasuredMaterialElectronics",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "MechanicalDamage",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "OperatingConditions",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Other",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Overloading",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ParameterSetting",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Peripheral",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ProcessInfluence",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "SensorElement",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "StartUp",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "TemperatureShock",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Vibration",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "WearReserveOperation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "WearReserveWear",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     }

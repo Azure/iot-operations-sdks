@@ -385,38 +385,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceLocation",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:Location;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceStatus",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "dtmi:opcua:AutoID:AutoIdDeviceType:dataType:DeviceStatusEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastScanData",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastScanTimestamp",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "time",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ScanActive",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "schema": "boolean",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetDeviceLocation",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -447,8 +453,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Scan",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -487,8 +494,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ScanStart",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -519,22 +527,26 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "ScanStop"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ScanStop",
+      "namespace": "http://opcfoundation.org/UA/AutoID"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Diagnostics",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "IOData",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "RuntimeParameters",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     }
   ]

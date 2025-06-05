@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SubscriberCapabilities",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "target": "dtmi:opcua:FX_AC:SubscriberCapabilitiesType"
     }
   ]

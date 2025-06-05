@@ -15,33 +15,39 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CrossAxisLeft",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CrossAxisRight",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Drive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PeripheralDevices",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:RollPeripheralDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "RollBending",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:RollBendingType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Temperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZoneType"
     }
   ]

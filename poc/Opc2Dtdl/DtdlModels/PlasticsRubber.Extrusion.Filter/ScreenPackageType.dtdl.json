@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Area",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
       "schema": "double",
       "writable": false
     }

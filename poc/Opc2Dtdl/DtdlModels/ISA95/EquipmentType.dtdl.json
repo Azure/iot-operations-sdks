@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AssetAssignment",
+      "namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
       "schema": "string",
       "writable": false
     }

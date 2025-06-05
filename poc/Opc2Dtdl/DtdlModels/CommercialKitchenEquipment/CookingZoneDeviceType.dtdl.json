@@ -16,14 +16,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalVoltage",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CookingZone_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "target": "dtmi:opcua:CommercialKitchenEquipment:CookingZoneParameterType"
     }
   ]

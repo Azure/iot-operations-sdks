@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "FactorySettings"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FactorySettings",
+      "namespace": "http://opcfoundation.org/UA/ADI"
     }
   ]
 }

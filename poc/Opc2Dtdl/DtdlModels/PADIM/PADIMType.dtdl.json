@@ -65,26 +65,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceHealth",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "dtmi:opcua:PADIM:PADIMType:dataType:DeviceHealthEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DateOfLastChange",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "dateTime",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DisplayLanguage",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "FactoryReset",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -101,22 +105,26 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SignalSet",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "target": "dtmi:opcua:PADIM:SignalSetType"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceHealthAlarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceHealthAlarms",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SubDevices",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "target": "dtmi:opcua:DI:ConfigurableObjectType"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceConditionSet"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceConditionSet",
+      "namespace": "http://opcfoundation.org/UA/PADIM"
     }
   ]
 }

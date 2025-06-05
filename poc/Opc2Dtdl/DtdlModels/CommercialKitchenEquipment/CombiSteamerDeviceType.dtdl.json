@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CombiSteamer",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "target": "dtmi:opcua:CommercialKitchenEquipment:CombiSteamerParameterType"
     }
   ]

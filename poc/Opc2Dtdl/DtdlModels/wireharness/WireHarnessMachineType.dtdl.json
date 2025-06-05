@@ -15,17 +15,20 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ArticleSpecManagement",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
       "target": "dtmi:opcua:WireHarness:ArticleSpecManagementType"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PartManagement",
+      "namespace": "http://opcfoundation.org/UA/WireHarness",
       "target": "dtmi:opcua:WireHarness:PartManagementType"
     }
   ]

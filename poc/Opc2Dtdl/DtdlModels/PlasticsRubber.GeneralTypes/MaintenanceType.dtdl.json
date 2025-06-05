@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Interval",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemainingInterval",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalOperation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Reset"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Reset",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

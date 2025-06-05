@@ -33,29 +33,34 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlSignal",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ControlSignal",
+            "namespace": "http://opcfoundation.org/UA/PADIM",
             "schema": "float"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ActuatorType",
+            "namespace": "http://opcfoundation.org/UA/PADIM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "OperatingDirection",
+            "namespace": "http://opcfoundation.org/UA/PADIM",
             "schema": "unsignedInteger"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Setpoint",
+            "namespace": "http://opcfoundation.org/UA/PADIM",
             "schema": "float"
           }
         ]
@@ -63,8 +68,9 @@
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AutoAdjustPositioner",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

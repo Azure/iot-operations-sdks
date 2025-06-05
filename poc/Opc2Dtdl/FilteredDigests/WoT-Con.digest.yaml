@@ -2,10 +2,10 @@ DataTypes:
 
 DefinedTypes:
 
-  WoTAssetConnectionManagementType:
-  - [ UAObjectType, WoT-Con:1, WoTAssetConnectionManagementType ]
+  WoT-Con:WoTAssetConnectionManagementType:
+  - [ UAObjectType, WoT-Con:1, WoT-Con:WoTAssetConnectionManagementType ]
   - HasComponent:
-    - [ UAMethod, WoT-Con:26, CreateAsset ]
+    - [ UAMethod, WoT-Con:26, WoT-Con:CreateAsset ]
     - HasProperty:
       - [ UAVariable, WoT-Con:27, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -21,7 +21,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, WoT-Con:29, DeleteAsset ]
+    - [ UAMethod, WoT-Con:29, WoT-Con:DeleteAsset ]
     - HasProperty:
       - [ UAVariable, WoT-Con:30, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -33,32 +33,32 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IWoTAssetType:
-  - [ UAObjectType, WoT-Con:42, IWoTAssetType ]
+  WoT-Con:IWoTAssetType:
+  - [ UAObjectType, WoT-Con:42, WoT-Con:IWoTAssetType ]
   - HasComponent:
-    - [ UAObject, WoT-Con:43, WoTFile ]
+    - [ UAObject, WoT-Con:43, WoT-Con:WoTFile ]
     - HasTypeDefinition:
-      - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+      - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  WoTAssetType:
-  - [ UAObjectType, WoT-Con:115, WoTAssetType ]
+  WoT-Con:WoTAssetType:
+  - [ UAObjectType, WoT-Con:115, WoT-Con:WoTAssetType ]
   - HasComponent:
-    - [ UAObject, WoT-Con:116, WoTFile ]
+    - [ UAObject, WoT-Con:116, WoT-Con:WoTFile ]
     - HasTypeDefinition:
-      - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+      - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  WoTAssetFileType:
-  - [ UAObjectType, WoT-Con:110, WoTAssetFileType ]
+  WoT-Con:WoTAssetFileType:
+  - [ UAObjectType, WoT-Con:110, WoT-Con:WoTAssetFileType ]
   - HasComponent:
-    - [ UAMethod, WoT-Con:111, CloseAndUpdate ]
+    - [ UAMethod, WoT-Con:111, WoT-Con:CloseAndUpdate ]
     - HasProperty:
       - [ UAVariable, WoT-Con:112, InputArguments, Argument, 1, 0 ]
       - Arguments:

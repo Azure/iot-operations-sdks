@@ -1,11 +1,11 @@
 DataTypes:
-- UADataType: [ Glass.Flat.v2:3009, CoatingClassEnumeration ]
+- UADataType: [ Glass.Flat.v2:3009, Glass.Flat.v2:CoatingClassEnumeration ]
   Enums:
     HardCoating: 0
     SoftCoating: 1
     CoatedWithFoilProtection: 2
     UserDefined: 3
-- UADataType: [ Glass.Flat.v2:3008, CoordinateSystemEnumeration ]
+- UADataType: [ Glass.Flat.v2:3008, Glass.Flat.v2:CoordinateSystemEnumeration ]
   Enums:
     Unknown: 0
     System1: 1
@@ -16,57 +16,57 @@ DataTypes:
     System6: 6
     System7: 7
     System8: 8
-- UADataType: [ Glass.Flat.v2:3003, SignificantSideEnumeration ]
+- UADataType: [ Glass.Flat.v2:3003, Glass.Flat.v2:SignificantSideEnumeration ]
   Enums:
     Indifferent: 0
     Top: 1
     Down: 2
-- UADataType: [ Glass.Flat.v2:3005, SpacerMaterialClass ]
+- UADataType: [ Glass.Flat.v2:3005, Glass.Flat.v2:SpacerMaterialClass ]
   Enums:
     Other: 0
     Metallic: 1
     TPS: 2
     Plastic: 3
     Elastic: 4
-- UADataType: [ Glass.Flat.v2:3004, StructureAlignmentEnumeration ]
+- UADataType: [ Glass.Flat.v2:3004, Glass.Flat.v2:StructureAlignmentEnumeration ]
   Enums:
     Indifferent: 0
     Longitudinal: 1
     Transverse: 2
-- UADataType: [ Glass.Flat.v2:3017, EClassTermDataType ]
+- UADataType: [ Glass.Flat.v2:3017, Glass.Flat.v2:EClassTermDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ String, 0 ]
     EClass: [ String, 0 ]
-- UADataType: [ Glass.Flat.v2:3007, FileFormatDataType ]
+- UADataType: [ Glass.Flat.v2:3007, Glass.Flat.v2:FileFormatDataType ]
   Fields:
     Name: [ String, 0 ]
     FileExtension: [ String, 0 ]
     Version: [ SemanticVersionString, 0 ]
-- UADataType: [ Glass.Flat.v2:3014, ProcessingCategoryDataType ]
+- UADataType: [ Glass.Flat.v2:3014, Glass.Flat.v2:ProcessingCategoryDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ String, 0 ]
-    SupportedParameter: [ ProcessingParameterDataType, 1 ]
+    SupportedParameter: [ Glass.Flat.v2:ProcessingParameterDataType, 1 ]
     SupportedAssignment: [ String, 1 ]
-    SupportedVariable: [ ProcessingParameterDataType, 1 ]
+    SupportedVariable: [ Glass.Flat.v2:ProcessingParameterDataType, 1 ]
     SupportsTransformation: [ Int32, 0 ]
     SupportsSubProcessing: [ Int32, 0 ]
-- UADataType: [ Glass.Flat.v2:3011, ProcessingParameterDataType ]
+- UADataType: [ Glass.Flat.v2:3011, Glass.Flat.v2:ProcessingParameterDataType ]
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
-    ValueType: [ ValueDataType, 0 ]
+    ValueType: [ Glass.Flat.v2:ValueDataType, 0 ]
     TypicalValue: [ String, 0 ]
     Mandatory: [ Boolean, 0 ]
-    EClass: [ EClassTermDataType, 0 ]
-- UADataType: [ Glass.Flat.v2:3012, ReasonDescriptionType ]
+    EClass: [ Glass.Flat.v2:EClassTermDataType, 0 ]
+- UADataType: [ Glass.Flat.v2:3012, Glass.Flat.v2:ReasonDescriptionType ]
   Fields:
     Description: [ LocalizedText, 0 ]
     Reference: [ String, 0 ]
     Category: [ String, 0 ]
     VendorCode: [ String, 0 ]
-- UADataType: [ Glass.Flat.v2:3006, UserProfileDataType ]
+- UADataType: [ Glass.Flat.v2:3006, Glass.Flat.v2:UserProfileDataType ]
   Fields:
     Name: [ String, 0 ]
     LoginTime: [ DateTime, 0 ]
@@ -74,87 +74,87 @@ DataTypes:
     MeasurementFormat: [ String, 0 ]
     AccessLevel: [ String, 0 ]
     OpcUaUser: [ Boolean, 0 ]
-- UADataType: [ Glass.Flat.v2:3020, ValueDataType ]
+- UADataType: [ Glass.Flat.v2:3020, Glass.Flat.v2:ValueDataType ]
   Fields:
     Name: [ String, 0 ]
     Description: [ String, 0 ]
     BaseUnit: [ String, 0 ]
     PossibleValue: [ String, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+- UADataType: [ isa95-jobcontrol:3005, isa95-jobcontrol:ISA95EquipmentDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     EquipmentUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, isa95-jobcontrol:ISA95JobOrderAndStateDataType ]
   Fields:
-    JobOrder: [ ISA95JobOrderDataType, 0 ]
-    State: [ ISA95StateDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+    JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
+    State: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, isa95-jobcontrol:ISA95JobOrderDataType ]
   Fields:
     JobOrderID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
-    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    WorkMasterID: [ isa95-jobcontrol:ISA95WorkMasterDataType, 1 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
     Priority: [ Int16, 0 ]
-    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
-    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
-    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+    JobOrderParameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, isa95-jobcontrol:ISA95JobResponseDataType ]
   Fields:
     JobResponseID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
     JobOrderID: [ String, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    JobState: [ ISA95StateDataType, 1 ]
-    JobResponseData: [ ISA95ParameterDataType, 1 ]
-    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
-    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialActuals: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+    JobState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+    JobResponseData: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, isa95-jobcontrol:ISA95MaterialDataType ]
   Fields:
     MaterialClassID: [ String, 0 ]
     MaterialDefinitionID: [ String, 0 ]
@@ -164,112 +164,112 @@ DataTypes:
     MaterialUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, isa95-jobcontrol:ISA95ParameterDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subparameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+    Subparameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, isa95-jobcontrol:ISA95PersonnelDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PersonnelUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, isa95-jobcontrol:ISA95PhysicalAssetDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PhysicalAssetUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, isa95-jobcontrol:ISA95PropertyDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subproperties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+    Subproperties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, isa95-jobcontrol:ISA95StateDataType ]
   Fields:
     BrowsePath: [ RelativePath, 0 ]
     StateText: [ LocalizedText, 0 ]
     StateNumber: [ UInt32, 0 ]
-- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+- UADataType: [ isa95-jobcontrol:3007, isa95-jobcontrol:ISA95WorkMasterDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, Machinery.Jobs:JobExecutionMode ]
   Enums:
     SimulationMode: 0
     TestMode: 1
     ProductionMode: 2
-- UADataType: [ Machinery.Jobs:3006, JobResult ]
+- UADataType: [ Machinery.Jobs:3006, Machinery.Jobs:JobResult ]
   Enums:
     Unknown: 0
     Successful: 1
     Unsuccessful: 2
-- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+- UADataType: [ Machinery.Jobs:3004, Machinery.Jobs:ProcessIrregularity ]
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
-- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+- UADataType: [ Machinery.Jobs:3009, Machinery.Jobs:OutputInfoType ]
   Enums:
     OrderNumber: 0
     LotNumber: 1
     SerialNumber: 2
-- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+- UADataType: [ Machinery.Jobs:3015, Machinery.Jobs:BOMComponentInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     Quantity: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+- UADataType: [ Machinery.Jobs:3018, Machinery.Jobs:BOMInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
-    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
+    ComponentInformation: [ Machinery.Jobs:BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, Machinery.Jobs:OutputInformationDataType ]
   Fields:
     ItemNumber: [ String, 0 ]
-    OutputInfo: [ OutputInfoType, 0 ]
+    OutputInfo: [ Machinery.Jobs:OutputInfoType, 0 ]
     OrderNumber: [ String, 0 ]
     LotNumber: [ String, 0 ]
     SerialNumber: [ String, 0 ]
-- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+- UADataType: [ Machinery.Jobs:3021, Machinery.Jobs:OutputPerformanceInfoDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
 
 DefinedTypes:
 
-  GlassEventType:
-  - [ UAObjectType, Glass.Flat.v2:1030, GlassEventType ]
+  Glass.Flat.v2:GlassEventType:
+  - [ UAObjectType, Glass.Flat.v2:1030, Glass.Flat.v2:GlassEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  ConfigurationRulesType:
-  - [ UAObjectType, Glass.Flat.v2:1063, ConfigurationRulesType ]
+  Glass.Flat.v2:ConfigurationRulesType:
+  - [ UAObjectType, Glass.Flat.v2:1063, Glass.Flat.v2:ConfigurationRulesType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  GlassMachineIdentificationType:
-  - [ UAObjectType, Glass.Flat.v2:1020, GlassMachineIdentificationType ]
+  Glass.Flat.v2:GlassMachineIdentificationType:
+  - [ UAObjectType, Glass.Flat.v2:1020, Glass.Flat.v2:GlassMachineIdentificationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery:1012, MachineIdentificationType ]
+    - [ UAObjectType, Machinery:1012, Machinery:MachineIdentificationType ]
 
-  ManualFolderType:
-  - [ UAObjectType, Glass.Flat.v2:1041, ManualFolderType ]
+  Glass.Flat.v2:ManualFolderType:
+  - [ UAObjectType, Glass.Flat.v2:1041, Glass.Flat.v2:ManualFolderType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat.v2:5017, <LocalManuals> ]
+    - [ UAObject, Glass.Flat.v2:5017, Glass.Flat.v2:<LocalManuals> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
@@ -277,14 +277,14 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  GlassMachineType:
-  - [ UAObjectType, Glass.Flat.v2:1015, GlassMachineType ]
+  Glass.Flat.v2:GlassMachineType:
+  - [ UAObjectType, Glass.Flat.v2:1015, Glass.Flat.v2:GlassMachineType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat.v2:5029, ConfigurationRules ]
+    - [ UAObject, Glass.Flat.v2:5029, Glass.Flat.v2:ConfigurationRules ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat.v2:1063, ConfigurationRulesType ]
+      - [ UAObjectType, Glass.Flat.v2:1063, Glass.Flat.v2:ConfigurationRulesType ]
   - HasComponent:
     - [ UAObject, Glass.Flat.v2:5016, FileSystem ]
     - HasTypeDefinition:
@@ -292,22 +292,22 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Glass.Flat.v2:5030, MachineryBuildingBlocks ]
+    - [ UAObject, Glass.Flat.v2:5030, Machinery:MachineryBuildingBlocks ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, Glass.Flat.v2:5009, MaintenanceManuals ]
+    - [ UAObject, Glass.Flat.v2:5009, Glass.Flat.v2:MaintenanceManuals ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat.v2:1041, ManualFolderType ]
+      - [ UAObjectType, Glass.Flat.v2:1041, Glass.Flat.v2:ManualFolderType ]
   - HasComponent:
-    - [ UAObject, Glass.Flat.v2:5011, OperationManuals ]
+    - [ UAObject, Glass.Flat.v2:5011, Glass.Flat.v2:OperationManuals ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, Glass.Flat.v2:1041, ManualFolderType ]
+      - [ UAObjectType, Glass.Flat.v2:1041, Glass.Flat.v2:ManualFolderType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

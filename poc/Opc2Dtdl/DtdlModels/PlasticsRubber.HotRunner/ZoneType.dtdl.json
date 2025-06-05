@@ -15,35 +15,41 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CommunicationProtocolType",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ThermocoupleType",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "schema": "unsignedShort",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Controller",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:ControllerType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "HeatUp",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:HeatUpType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Temperature",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:HRDTemperatureType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureRiseMonitoring",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_HotRunner:TemperatureRiseMonitoringType"
     }
   ]

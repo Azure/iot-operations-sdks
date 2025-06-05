@@ -93,66 +93,77 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CalculatedPosition",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CommandRejected",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DefeatableCloseInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DefeatableOpenInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Moving",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:ChokeMoveEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NonDefeatableCloseInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NonDefeatableOpenInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PositionInSteps",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "short",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SetCalculatedPositionStatus",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISChokeObjectType:dataType:SetCalculatedPositionEnum;1",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Abort"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Abort",
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Move",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -179,8 +190,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetCalculatedPosition",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -197,8 +209,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Step",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

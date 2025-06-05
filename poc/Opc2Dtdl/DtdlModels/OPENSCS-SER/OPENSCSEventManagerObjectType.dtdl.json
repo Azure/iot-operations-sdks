@@ -223,8 +223,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LabelsEncodingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -268,8 +269,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LabelsInspectingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -313,8 +315,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LabelsSamplingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -358,8 +361,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "LabelsScrappingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -403,8 +407,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SIDCommissioningEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -448,8 +453,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SIDDecommissioningEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -493,8 +499,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SIDDestroyingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -538,8 +545,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SIDInspectingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -583,8 +591,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SIDShippingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -628,8 +637,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNInvalidatingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -673,8 +683,9 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "EPCISStream"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EPCISStream",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER"
     }
   ]
 }

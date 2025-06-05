@@ -177,62 +177,72 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Config",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalOutputConfigDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ManualOutValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Mode",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioChannelModeEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessValueReadback",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalProcessValueDataType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalValueReadback",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SimulationEnabled",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SimulationValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "schema": "dtmi:opcua:PNRIO:RioPaDigitalOutputChannelType:dataType:RioPaDigitalValueDataType;1",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetManualOutValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -249,8 +259,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetMode",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -267,8 +278,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetSimulation",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -285,8 +297,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetSimulationValue",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

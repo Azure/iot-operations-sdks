@@ -1,92 +1,92 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ PADIM:1156, ResetModeEnum ]
+- UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
   Enums:
     Application: 1
     Communication: 2712
     Factory: 2713
-- UADataType: [ PADIM:1158, ExecutionModeEnum ]
+- UADataType: [ PADIM:1158, PADIM:ExecutionModeEnum ]
   Enums:
     Start: 2
     Abort: 255
-- UADataType: [ PADIM:1276, PatDictionaryEnum ]
+- UADataType: [ PADIM:1276, PADIM:PatDictionaryEnum ]
   Enums:
     CAS: 0
     PAT: 1
     User-defined: 2
-- UADataType: [ PADIM:1275, ChemicalSubstanceDataType ]
+- UADataType: [ PADIM:1275, PADIM:ChemicalSubstanceDataType ]
   Fields:
-    PatDictionary: [ PatDictionaryEnum, 0 ]
+    PatDictionary: [ PADIM:PatDictionaryEnum, 0 ]
     Label: [ LocalizedText, 0 ]
     Id: [ LocalizedText, 0 ]
 
 DefinedTypes:
 
-  ZeroPointAdjustmentEventType:
-  - [ UAObjectType, Machinery.ProcessValues:1002, ZeroPointAdjustmentEventType ]
+  Machinery.ProcessValues:ZeroPointAdjustmentEventType:
+  - [ UAObjectType, Machinery.ProcessValues:1002, Machinery.ProcessValues:ZeroPointAdjustmentEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  ProcessValueType:
-  - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+  Machinery.ProcessValues:ProcessValueType:
+  - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6108, AlarmSuppression, UInt16, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6108, Machinery.ProcessValues:AlarmSuppression, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, Machinery.ProcessValues:5002, DeviationAlarm ]
+    - [ UAObject, Machinery.ProcessValues:5002, Machinery.ProcessValues:DeviationAlarm ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 9764, ExclusiveDeviationAlarmType ]
   - HasComponent:
-    - [ UAObject, Machinery.ProcessValues:5004, LimitAlarm ]
+    - [ UAObject, Machinery.ProcessValues:5004, Machinery.ProcessValues:LimitAlarm ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
       - [ UAObjectType, 9341, ExclusiveLimitAlarmType ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6036, ProcessValueSetpoint, Number, -2, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6036, Machinery.ProcessValues:ProcessValueSetpoint, Number, -2, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, PADIM:1022, AnalogSignalType ]
+    - [ UAObjectType, PADIM:1022, PADIM:AnalogSignalType ]
   - HasComponent:
-    - [ UAVariable, Machinery.ProcessValues:6105, Status, UInt16, 0, 3 ]
+    - [ UAVariable, Machinery.ProcessValues:6105, Machinery.ProcessValues:Status, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]

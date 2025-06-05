@@ -280,19 +280,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ActualDispensingRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ActualDispensingRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -300,19 +303,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ConsumedMaterialMasterTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ConsumedMaterialMasterTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -320,19 +326,22 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ConsumedMaterialTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ConsumedMaterialTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -340,19 +349,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DispensedMaterialMasterTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "DispensedMaterialMasterTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -360,19 +372,22 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "DispensedMaterialTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "DispensedMaterialTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -380,14 +395,16 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "DispensingRateState",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LoadedMaterial",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialSublotType;1"
@@ -395,19 +412,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalDispensingRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "NominalDispensingRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -415,20 +435,23 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PresentedMaterial",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialSublotType;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PresentedMaterialValidationStatus",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "dtmi:opcua:TMC_v2:MaterialLoadingPointType:dataType:MaterialValidationStatusEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetPresentedMaterialValidationStatus",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

@@ -52,10 +52,10 @@
             {
                 if (Path.GetFileName(sourceFilePath) == coreYamlFileName)
                 {
-                    continue;
+                    string outFilePath = Path.Combine(destRoot, Path.GetFileName(sourceFilePath));
+                    File.Copy(sourceFilePath, outFilePath, overwrite:true);
                 }
-
-                if (singleFileName == null || Path.GetFileName(singleFileName) == Path.GetFileName(sourceFilePath))
+                else if (singleFileName == null || Path.GetFileName(singleFileName) == Path.GetFileName(sourceFilePath))
                 {
                     Filter(deserializer, sourceFilePath, destRoot);
                 }

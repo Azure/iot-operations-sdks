@@ -218,19 +218,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ActualProductionRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ActualProductionRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -238,19 +241,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalProductionRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "NominalProductionRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -258,25 +264,29 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProducedMaterial",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "dtmi:opcua:TMC_v2:MaterialOutputPointType:dataType:MaterialSublotType;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProducedMaterialMasterTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ProducedMaterialMasterTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -284,19 +294,22 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ProducedMaterialTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ProducedMaterialTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -304,8 +317,9 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ProductionRateState",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     }

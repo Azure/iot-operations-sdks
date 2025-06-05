@@ -32,11 +32,63 @@
         private const string destFileSuffix = ".digest.yaml";
         private const string modelUriPrefix = "http://opcfoundation.org/UA/";
 
-        private static readonly string[] sourceFilePrefixes = new string[] { "Opc.Ua.", "Opc." };
         private static readonly string[] typeNodeNames = new string[] { "UAVariableType", "UAObjectType" };
         private static readonly string[] terminalRefTypes = new string[] { "FromState", "ToState" };
 
         private static readonly Regex nodeIdRegex = new Regex(@"^(?:ns=(\d+);)?i=(\d+)$", RegexOptions.Compiled);
+
+        private static Dictionary<string, string> nodeIdToReferenceTypeNameMap = new();
+        private static Dictionary<string, (string, string)> resolvedNodeIdToNodeTypeAndBrowseNameMap = new();
+
+        private static void PopulateMaps(string coreSpecFilePath, Dictionary<string, SpecFile> specFiles)
+        {
+            ManagedXmlDocument coreSpecDoc = new ManagedXmlDocument(coreSpecFilePath);
+            foreach (XmlNode dtNode in coreSpecDoc.RootElement.SelectNodes("//opc:UAReferenceType", coreSpecDoc.NamespaceManager)!)
+            {
+                string rawNodeId = dtNode.Attributes!["NodeId"]!.Value;
+                string browseName = dtNode.Attributes!["BrowseName"]!.Value;
+
+                nodeIdToReferenceTypeNameMap[TranslateNodeId(rawNodeId, null)] = browseName;
+            }
+
+            PopulateMapFromSpecDoc(coreSpecDoc);
+
+            foreach (KeyValuePair<string, SpecFile> specFile in specFiles)
+            {
+                string specFilePath = Path.Combine(specFile.Value.FolderPath, specFile.Value.FileName);
+                ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
+
+                PopulateMapFromSpecDoc(specDoc);
+            }
+        }
+
+        private static void PopulateMapFromSpecDoc(ManagedXmlDocument specDoc)
+        {
+            Dictionary<string, string> namespaceMap = GetNamespaceMap(specDoc);
+
+            foreach (XmlNode dtNode in specDoc.RootElement.SelectNodes("child::*[@BrowseName]", specDoc.NamespaceManager)!)
+            {
+                string rawNodeId = dtNode.Attributes!["NodeId"]!.Value;
+                string browseName = dtNode.Attributes!["BrowseName"]!.Value;
+
+                resolvedNodeIdToNodeTypeAndBrowseNameMap[TranslateNodeId(rawNodeId, namespaceMap)] = (dtNode.Name, MapBrowseNameViaNodeId(browseName, rawNodeId, namespaceMap));
+            }
+        }
+
+        private static void ConvertCoreSpec(string coreSpecFilePath, string destRoot)
+        {
+            ManagedXmlDocument coreSpecDoc = new ManagedXmlDocument(coreSpecFilePath);
+
+            string coreOutFileName = $"{destFilePrefix}{coreSpecName}{destFileSuffix}";
+            string coreOutFilePath = Path.Combine(destRoot, coreOutFileName);
+            Console.WriteLine($"  {coreSpecFileName} => {coreOutFileName}");
+
+            using (StreamWriter outputFile = new StreamWriter(coreOutFilePath))
+            {
+                outputFile.WriteLine("DataTypes:");
+                RecordDataTypes(coreSpecDoc, outputFile);
+            }
+        }
 
         public static void Main(string[] args)
         {
@@ -56,33 +108,15 @@
             }
 
             string coreSpecFilePath = Path.Combine(sourceRoot, coreSubFolderName, coreSpecFileName);
-            ManagedXmlDocument coreSpecDoc = new ManagedXmlDocument(coreSpecFilePath);
-            Dictionary<string, string> coreAliases = GetCoreAliases(coreSpecDoc);
-
-            Dictionary<string, (string, string)> coreTypeNames = new ();
-            PopulateOtherTypeNames(coreTypeNames, coreSpecDoc, null);
-
-            string coreOutFileName = $"{destFilePrefix}{coreSpecName}{destFileSuffix}";
-            string coreOutFilePath = Path.Combine(destRoot, coreOutFileName);
-            Console.WriteLine($"  {coreSpecFileName} => {coreOutFileName}");
-
-            using (StreamWriter outputFile = new StreamWriter(coreOutFilePath))
-            {
-                outputFile.WriteLine("DataTypes:");
-                RecordDataTypes(coreAliases, null, coreSpecDoc, null, 0, outputFile);
-            }
-
             Dictionary<string, SpecFile> specFiles = GetSpecFiles(sourceRoot, singleSpecName);
+
+            PopulateMaps(coreSpecFilePath, specFiles);
+
+            ConvertCoreSpec(coreSpecFilePath, destRoot);
+
             foreach (KeyValuePair<string, SpecFile> specFile in specFiles)
             {
-                Dictionary<string, string> dataTypeAliases = new ();
-                Dictionary<string, (string, string)> otherTypeNames = new();
-                foreach (ManagedXmlDocument xmlDoc in EnumerateRequiredModels(specFile.Value.SpecName, specFiles))
-                {
-                    Dictionary<string, string> namespaceMap = GetNamespaceMap(xmlDoc);
-                    PopulateDataTypeAliases(dataTypeAliases, xmlDoc, namespaceMap);
-                    PopulateOtherTypeNames(otherTypeNames, xmlDoc, namespaceMap);
-                }
+                string specFilePath = Path.Combine(specFile.Value.FolderPath, specFile.Value.FileName);
 
                 string outFileName = $"{destFilePrefix}{specFile.Value.SpecName}{destFileSuffix}";
                 string outFilePath = Path.Combine(destRoot, outFileName);
@@ -92,14 +126,12 @@
                 {
                     outputFile.WriteLine("DataTypes:");
 
-                    foreach (ManagedXmlDocument xmlDoc in EnumerateRequiredModels(specFile.Value.SpecName, specFiles))
+                    foreach (ManagedXmlDocument reqSpecDoc in EnumerateRequiredModels(specFile.Value.SpecName, specFiles))
                     {
-                        Dictionary<string, string> namespaceMap = GetNamespaceMap(xmlDoc);
-                        RecordDataTypes(coreAliases, dataTypeAliases, xmlDoc, namespaceMap, 0, outputFile);
+                        RecordDataTypes(reqSpecDoc, outputFile);
                     }
 
-                    string specFilePath = Path.Combine(specFile.Value.FolderPath, specFile.Value.FileName);
-                    RecordDefinitions(coreAliases, coreTypeNames, otherTypeNames, dataTypeAliases, specFilePath, outputFile);
+                    RecordDefinitions(specFilePath, outputFile);
                 }
             }
         }
@@ -173,45 +205,47 @@
             }
         }
 
-        private static Dictionary<string, string> GetCoreAliases(ManagedXmlDocument coreSpecDoc)
+        private static Dictionary<string, string> GetLocalAliasToResolvedNodeIdMap(ManagedXmlDocument specDoc, Dictionary<string, string>? namespaceMap)
         {
-            Dictionary<string, string> coreAliases = new ();
-            foreach (XmlNode aliasNode in coreSpecDoc.RootElement.SelectNodes("//*[@Alias]")!)
+            Dictionary<string, string> localAliasToResolvedNodeIdMap = new();
+            foreach (XmlNode aliasNode in specDoc.RootElement.SelectNodes("//*[@Alias]")!)
             {
-                coreAliases[TranslateNodeId(aliasNode.InnerText, null)] = aliasNode.Attributes!["Alias"]!.Value;
+                localAliasToResolvedNodeIdMap[aliasNode.Attributes!["Alias"]!.Value] = TranslateNodeId(aliasNode.InnerText, namespaceMap);
             }
 
-            PopulateDataTypeAliases(coreAliases, coreSpecDoc, null);
-
-            return coreAliases;
+            return localAliasToResolvedNodeIdMap;
         }
 
-        private static void RecordDefinitions(Dictionary<string, string> coreAliases, Dictionary<string, (string, string)> coreTypeNames, Dictionary<string, (string, string)> otherTypeNames, Dictionary<string, string> dataTypeAliases, string specFilePath, StreamWriter outputFile)
+        private static void RecordDefinitions(string specFilePath, StreamWriter outputFile)
         {
-            ManagedXmlDocument xmlDoc = new ManagedXmlDocument(specFilePath);
-            Dictionary<string, string> namespaceMap = GetNamespaceMap(xmlDoc);
+            ManagedXmlDocument specDoc = new ManagedXmlDocument(specFilePath);
+            Dictionary<string, string> namespaceMap = GetNamespaceMap(specDoc);
+            Dictionary<string, string> localAliasToResolvedNodeIdMap = GetLocalAliasToResolvedNodeIdMap(specDoc, namespaceMap);
 
             outputFile.WriteLine();
             outputFile.WriteLine("DefinedTypes:");
             foreach (string typeNodeName in typeNodeNames)
             {
-                foreach (XmlNode otNode in xmlDoc.RootElement.SelectNodes($"//opc:{typeNodeName}", xmlDoc.NamespaceManager)!)
+                foreach (XmlNode otNode in specDoc.RootElement.SelectNodes($"//opc:{typeNodeName}", specDoc.NamespaceManager)!)
                 {
                     string rawBrowseName = otNode.Attributes!["BrowseName"]!.Value;
-                    string browseName = TrimBrowseName(rawBrowseName);
+                    string browseName = MapBrowseName(rawBrowseName, namespaceMap);
                     outputFile.WriteLine();
                     outputFile.WriteLine($"  {browseName}:");
-                    VisitNodes(coreAliases, coreTypeNames, otherTypeNames, dataTypeAliases, namespaceMap, xmlDoc.NamespaceManager, otNode, 1, outputFile, ExpansionCondition.ExpandAll);
+                    VisitNodes(namespaceMap, localAliasToResolvedNodeIdMap, specDoc.NamespaceManager, otNode, 1, outputFile, ExpansionCondition.ExpandAll);
                 }
             }
         }
 
         private static Dictionary<string, string> GetNamespaceMap(ManagedXmlDocument specDoc)
         {
-            XmlNode? namespaceNode = specDoc.RootElement.SelectSingleNode("descendant::opc:NamespaceUris", specDoc.NamespaceManager);
-            ArgumentNullException.ThrowIfNull(namespaceNode);
+            Dictionary<string, string> namespaceMap = new();
 
-            Dictionary<string, string> namespaceMap = new ();
+            XmlNode? namespaceNode = specDoc.RootElement.SelectSingleNode("descendant::opc:NamespaceUris", specDoc.NamespaceManager);
+            if (namespaceNode == null)
+            {
+                return namespaceMap;
+            }
 
             int ix = 0;
             foreach (XmlNode dtNode in namespaceNode.SelectNodes("child::opc:Uri", specDoc.NamespaceManager)!)
@@ -223,43 +257,16 @@
             return namespaceMap;
         }
 
-        private static string ResolveDataType(string rawDataType, Dictionary<string, string> coreAliases, Dictionary<string, string>? dataTypeAliases, Dictionary<string, string>? namespaceMap)
+        private static string ResolveDataType(string rawDataType, Dictionary<string, string> localAliasToResolvedNodeIdMap, Dictionary<string, string>? namespaceMap)
         {
-            string nodeId = TranslateNodeId(rawDataType, namespaceMap);
-            if (coreAliases.TryGetValue(nodeId, out string? dataType))
+            string? resolvedNodeId;
+            if (!localAliasToResolvedNodeIdMap.TryGetValue(rawDataType, out resolvedNodeId))
             {
-                return dataType;
+                resolvedNodeId = TranslateNodeId(rawDataType, namespaceMap);
             }
-            else if (dataTypeAliases != null && dataTypeAliases.TryGetValue(nodeId, out dataType))
-            {
-                return dataType;
-            }
-            else
-            {
-                return nodeId;
-            }
-        }
 
-        private static void PopulateDataTypeAliases(Dictionary<string, string> dataTypeAliases, ManagedXmlDocument specDoc, Dictionary<string, string>? namespaceMap)
-        {
-            foreach (XmlNode dtNode in specDoc.RootElement.SelectNodes("//opc:UADataType", specDoc.NamespaceManager)!)
-            {
-                string rawNodeId = dtNode.Attributes!["NodeId"]!.Value;
-                string rawBrowseName = dtNode.Attributes!["BrowseName"]!.Value;
-
-                dataTypeAliases[TranslateNodeId(rawNodeId, namespaceMap)] = TrimBrowseName(rawBrowseName);
-            }
-        }
-
-        private static void PopulateOtherTypeNames(Dictionary<string, (string, string)> otherTypeNames, ManagedXmlDocument specDoc, Dictionary<string, string>? namespaceMap)
-        {
-            foreach (XmlNode dtNode in specDoc.RootElement.SelectNodes($"child::*[@BrowseName]")!)
-            {
-                string rawNodeId = dtNode.Attributes!["NodeId"]!.Value;
-                string rawBrowseName = dtNode.Attributes!["BrowseName"]!.Value;
-
-                otherTypeNames[TranslateNodeId(rawNodeId, namespaceMap)] = (dtNode.Name, TrimBrowseName(rawBrowseName));
-            }
+            (string, string) nodeTypeAndBrowseName;
+            return resolvedNodeIdToNodeTypeAndBrowseNameMap.TryGetValue(resolvedNodeId, out nodeTypeAndBrowseName) ? nodeTypeAndBrowseName.Item2 : resolvedNodeId;
         }
 
         private static string TranslateNodeId(string rawNodeId, Dictionary<string, string>? namespaceMap)
@@ -280,74 +287,101 @@
             return $"{nsPrefix}{nodeIdMatch.Groups[2].Captures[0].Value}";
         }
 
-        private static string TrimBrowseName(string rawBrowseName) => rawBrowseName.Contains(':') ? rawBrowseName.Substring(rawBrowseName.IndexOf(':') + 1) : rawBrowseName;
+        private static string MapBrowseName(string rawBrowseName, Dictionary<string, string>? namespaceMap) =>
+            namespaceMap != null && rawBrowseName.Contains(':') ? $"{namespaceMap[rawBrowseName.Substring(0, rawBrowseName.IndexOf(':'))]}{rawBrowseName.Substring(rawBrowseName.IndexOf(':'))}" : rawBrowseName;
 
-        private static void RecordDataTypes(Dictionary<string, string> coreAliases, Dictionary<string, string>? dataTypeAliases, ManagedXmlDocument xmlDoc, Dictionary<string, string>? namespaceMap, int depth, StreamWriter outputFile)
+        private static string MapBrowseNameViaNodeId(string rawBrowseName, string rawNodeId, Dictionary<string, string>? namespaceMap)
         {
-            string currentIndent = new string(' ', depth * 2);
+            if (rawBrowseName.Contains(':'))
+            {
+                string namespaceIndex = rawBrowseName.Substring(0, rawBrowseName.IndexOf(':'));
+                string unqualifiedBrowseName = rawBrowseName.Substring(rawBrowseName.IndexOf(':'));
+                if (namespaceIndex == "0")
+                {
+                    return unqualifiedBrowseName;
+                }
 
-            foreach (XmlNode dtNode in xmlDoc.RootElement.SelectNodes("//opc:UADataType", xmlDoc.NamespaceManager)!)
+                ArgumentNullException.ThrowIfNull(namespaceMap);
+                return $"{namespaceMap[namespaceIndex]}{unqualifiedBrowseName}";
+            }
+
+            Match nodeIdMatch = nodeIdRegex.Match(rawNodeId);
+            if (!nodeIdMatch.Success || !nodeIdMatch.Groups[1].Success)
+            {
+                return rawBrowseName;
+            }
+
+            ArgumentNullException.ThrowIfNull(namespaceMap);
+            return $"{namespaceMap[nodeIdMatch.Groups[1].Captures[0].Value]}:{rawBrowseName}";
+        }
+
+        private static void RecordDataTypes(ManagedXmlDocument specDoc, StreamWriter outputFile)
+        {
+            Dictionary<string, string> namespaceMap = GetNamespaceMap(specDoc);
+            Dictionary<string, string> localAliasToResolvedNodeIdMap = GetLocalAliasToResolvedNodeIdMap(specDoc, namespaceMap);
+
+            foreach (XmlNode dtNode in specDoc.RootElement.SelectNodes("//opc:UADataType", specDoc.NamespaceManager)!)
             {
                 string rawNodeId = dtNode.Attributes!["NodeId"]!.Value;
                 string rawBrowseName = dtNode.Attributes!["BrowseName"]!.Value;
 
                 string nodeId = TranslateNodeId(rawNodeId, namespaceMap);
-                string browseName = TrimBrowseName(rawBrowseName);
+                string browseName = MapBrowseNameViaNodeId(rawBrowseName, rawNodeId, namespaceMap);
 
-                XmlNode? someFieldNode = dtNode.SelectSingleNode("descendant::opc:Field", xmlDoc.NamespaceManager);
+                XmlNode? someFieldNode = dtNode.SelectSingleNode("descendant::opc:Field", specDoc.NamespaceManager);
                 if (someFieldNode?.Attributes!["Value"] != null)
                 {
-                    outputFile.WriteLine($"{currentIndent}- {dtNode.Name}: [ {nodeId}, {browseName} ]");
-                    outputFile.WriteLine($"{currentIndent}  Enums:");
+                    outputFile.WriteLine($"- {dtNode.Name}: [ {nodeId}, {browseName} ]");
+                    outputFile.WriteLine($"  Enums:");
 
-                    foreach (XmlNode fieldNode in dtNode.SelectNodes("descendant::opc:Field", xmlDoc.NamespaceManager)!)
+                    foreach (XmlNode fieldNode in dtNode.SelectNodes("descendant::opc:Field", specDoc.NamespaceManager)!)
                     {
-                        outputFile.WriteLine($"{currentIndent}    {fieldNode.Attributes!["Name"]!.Value}: {fieldNode.Attributes!["Value"]!.Value}");
+                        outputFile.WriteLine($"    {fieldNode.Attributes!["Name"]!.Value}: {fieldNode.Attributes!["Value"]!.Value}");
                     }
                 }
                 else if (someFieldNode?.Attributes!["DataType"] != null)
                 {
-                    outputFile.WriteLine($"{currentIndent}- {dtNode.Name}: [ {nodeId}, {browseName} ]");
-                    outputFile.WriteLine($"{currentIndent}  Fields:");
+                    outputFile.WriteLine($"- {dtNode.Name}: [ {nodeId}, {browseName} ]");
+                    outputFile.WriteLine($"  Fields:");
 
-                    foreach (XmlNode fieldNode in dtNode.SelectNodes("descendant::opc:Field", xmlDoc.NamespaceManager)!)
+                    foreach (XmlNode fieldNode in dtNode.SelectNodes("descendant::opc:Field", specDoc.NamespaceManager)!)
                     {
                         string dataType = "null";
                         XmlAttribute? dataTypeAttr = fieldNode.Attributes!["DataType"];
                         if (dataTypeAttr != null)
                         {
-                            dataType = ResolveDataType(dataTypeAttr.Value, coreAliases, dataTypeAliases, namespaceMap);
+                            dataType = ResolveDataType(dataTypeAttr.Value, localAliasToResolvedNodeIdMap, namespaceMap);
                         }
 
                         XmlAttribute? valueRankAttr = fieldNode.Attributes!["ValueRank"];
                         int valueRank = int.Parse(valueRankAttr?.Value ?? "0");
 
-                        outputFile.WriteLine($"{currentIndent}    {fieldNode.Attributes!["Name"]!.Value}: [ {dataType}, {valueRank} ]");
+                        outputFile.WriteLine($"    {fieldNode.Attributes!["Name"]!.Value}: [ {dataType}, {valueRank} ]");
                     }
                 }
                 else
                 {
                     bool doneHeading = false;
-                    foreach (XmlNode refNode in dtNode.SelectNodes("descendant::opc:Reference", xmlDoc.NamespaceManager)!)
+                    foreach (XmlNode refNode in dtNode.SelectNodes("descendant::opc:Reference", specDoc.NamespaceManager)!)
                     {
                         if (refNode?.Attributes!["ReferenceType"]?.Value == "HasSubtype" && refNode?.Attributes!["IsForward"]?.Value == "false")
                         {
                             if (!doneHeading)
                             {
-                                outputFile.WriteLine($"{currentIndent}- {dtNode.Name}: [ {nodeId}, {browseName} ]");
-                                outputFile.WriteLine($"{currentIndent}  Bases:");
+                                outputFile.WriteLine($"- {dtNode.Name}: [ {nodeId}, {browseName} ]");
+                                outputFile.WriteLine($"  Bases:");
                                 doneHeading = true;
                             }
 
-                            string baseType = ResolveDataType(refNode.InnerText, coreAliases, dataTypeAliases, namespaceMap);
-                            outputFile.WriteLine($"{currentIndent}  - {baseType}");
+                            string baseType = ResolveDataType(refNode.InnerText, localAliasToResolvedNodeIdMap, namespaceMap);
+                            outputFile.WriteLine($"  - {baseType}");
                         }
                     }
                 }
             }
         }
 
-        private static void VisitNodes(Dictionary<string, string> coreAliases, Dictionary<string, (string, string)> coreTypeNames, Dictionary<string, (string, string)> otherTypeNames, Dictionary<string, string> dataTypeAliases, Dictionary<string, string> namespaceMap, XmlNamespaceManager nsmgr, XmlNode xmlNode, int depth, StreamWriter outputFile, ExpansionCondition expansionCondition)
+        private static void VisitNodes(Dictionary<string, string> namespaceMap, Dictionary<string, string> localAliasToResolvedNodeIdMap, XmlNamespaceManager nsmgr, XmlNode xmlNode, int depth, StreamWriter outputFile, ExpansionCondition expansionCondition)
         {
             string currentIndent = new string(' ', depth * 2);
 
@@ -355,7 +389,7 @@
             string rawBrowseName = xmlNode.Attributes!["BrowseName"]!.Value;
 
             string nodeId = TranslateNodeId(rawNodeId, namespaceMap);
-            string browseName = TrimBrowseName(rawBrowseName);
+            string browseName = MapBrowseNameViaNodeId(rawBrowseName, rawNodeId, namespaceMap);
 
             string dataTypeStr = string.Empty;
             string valueRankStr = string.Empty;
@@ -363,7 +397,7 @@
             XmlAttribute? dataTypeAttr = xmlNode.Attributes!["DataType"];
             if (dataTypeAttr != null)
             {
-                dataTypeStr = $", {ResolveDataType(dataTypeAttr.Value, coreAliases, dataTypeAliases, namespaceMap)}";
+                dataTypeStr = $", {ResolveDataType(dataTypeAttr.Value, localAliasToResolvedNodeIdMap, namespaceMap)}";
 
                 XmlAttribute? valueRankAttr = xmlNode.Attributes!["ValueRank"];
                 int valueRank = int.Parse(valueRankAttr?.Value ?? "0");
@@ -395,7 +429,7 @@
                     }
 
                     string dataTypeAlias = argNode.SelectSingleNode("child::uax:DataType/child::uax:Identifier", nsmgr)?.InnerText!;
-                    string dataType = ResolveDataType(dataTypeAlias, coreAliases, dataTypeAliases, namespaceMap);
+                    string dataType = ResolveDataType(dataTypeAlias, localAliasToResolvedNodeIdMap, namespaceMap);
 
                     int valueRank = int.Max(0, int.Parse(argNode.SelectSingleNode("child::uax:ValueRank", nsmgr)?.InnerText ?? "0"));
 
@@ -407,22 +441,30 @@
             {
                 bool reverseRef = node.Attributes!["IsForward"]?.Value == "false";
                 string rawReferenceType = node.Attributes!["ReferenceType"]!.Value;
-                string referenceType = ResolveDataType(rawReferenceType, coreAliases, dataTypeAliases, namespaceMap) + (reverseRef ? "_reverse" : string.Empty);
+                if (!rawReferenceType.StartsWith("ns="))
+                {
+                    if (!nodeIdToReferenceTypeNameMap.TryGetValue(rawReferenceType, out string? namedReferenceType))
+                    {
+                        namedReferenceType = rawReferenceType;
+                    }
+                    string referenceType = namedReferenceType + (reverseRef ? "_reverse" : string.Empty);
 
-                XmlNode? subNode = xmlNode.SelectSingleNode($"//*[@NodeId='{node.InnerText}']", nsmgr);
-                if (subNode != null)
-                {
-                    outputFile.WriteLine($"{currentIndent}- {referenceType}:");
-                    VisitNodes(coreAliases, coreTypeNames, otherTypeNames, dataTypeAliases, namespaceMap, nsmgr, subNode, depth + 1, outputFile, (terminalRefTypes.Contains(referenceType) || reverseRef) ? ExpansionCondition.ExpandNone : ExpansionCondition.ExpandUnlessType);
-                }
-                else
-                {
-                    string translatedNodeId = TranslateNodeId(node.InnerText, namespaceMap);
-                    (string, string) otherTypeName;
-                    if (coreTypeNames.TryGetValue(translatedNodeId, out otherTypeName) || otherTypeNames.TryGetValue(translatedNodeId, out otherTypeName))
+                    XmlNode? subNode = xmlNode.SelectSingleNode($"//*[@NodeId='{node.InnerText}']", nsmgr);
+                    if (subNode != null)
                     {
                         outputFile.WriteLine($"{currentIndent}- {referenceType}:");
-                        outputFile.WriteLine($"{currentIndent}  - [ {otherTypeName.Item1}, {translatedNodeId}, {otherTypeName.Item2} ]");
+                        VisitNodes(namespaceMap, localAliasToResolvedNodeIdMap, nsmgr, subNode, depth + 1, outputFile, (terminalRefTypes.Contains(referenceType) || reverseRef) ? ExpansionCondition.ExpandNone : ExpansionCondition.ExpandUnlessType);
+                    }
+                    else
+                    {
+                        string translatedNodeId = TranslateNodeId(node.InnerText, namespaceMap);
+
+                        (string, string) nodeTypeAndBrowseName;
+                        if (resolvedNodeIdToNodeTypeAndBrowseNameMap.TryGetValue(translatedNodeId, out nodeTypeAndBrowseName))
+                        {
+                            outputFile.WriteLine($"{currentIndent}- {referenceType}:");
+                            outputFile.WriteLine($"{currentIndent}  - [ {nodeTypeAndBrowseName.Item1}, {translatedNodeId}, {nodeTypeAndBrowseName.Item2} ]");
+                        }
                     }
                 }
             }

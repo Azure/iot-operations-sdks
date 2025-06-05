@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Area",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ScreenPackage_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Filter",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_Filter:ScreenPackageType"
     }
   ]

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "SubUnit"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "SubUnit",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     }
   ]
 }

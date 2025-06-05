@@ -15,20 +15,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcActiveEnergyTotalExportLp",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "float",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcActiveEnergyTotalImportLp",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "float",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcActivePowerTotal",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "float",
       "writable": true
     }

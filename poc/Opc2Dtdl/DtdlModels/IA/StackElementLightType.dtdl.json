@@ -80,26 +80,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Intensity",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "float",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalColor",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalColor;1",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SignalMode",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "dtmi:opcua:IA:StackElementLightType:dataType:SignalModeLight;1",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ControlChannel",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "target": "dtmi:opcua:IA:ControlChannelType"
     }
   ]

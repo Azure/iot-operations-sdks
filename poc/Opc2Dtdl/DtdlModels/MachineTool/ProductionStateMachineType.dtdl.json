@@ -15,76 +15,93 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentState",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastTransition",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "Aborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Aborted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "AbortedToInitializing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AbortedToInitializing",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Ended"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Ended",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "EndedToInitializing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EndedToInitializing",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Initializing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Initializing",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "InitializingToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InitializingToAborted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "InitializingToRunning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InitializingToRunning",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Interrupted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Interrupted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "InterruptedToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InterruptedToAborted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "InterruptedToRunning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InterruptedToRunning",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "Running"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Running",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "RunningToAborted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RunningToAborted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "RunningToEnded"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RunningToEnded",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "RunningToInterrupted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RunningToInterrupted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "RunningToRunning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "RunningToRunning",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     }
   ]
 }

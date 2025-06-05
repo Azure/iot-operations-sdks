@@ -1,34 +1,34 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -38,94 +38,59 @@ DataTypes:
 
 DefinedTypes:
 
-  TopologyElementType:
-  - [ UAObjectType, DI:1001, TopologyElementType ]
+  DI:TopologyElementType:
+  - [ UAObjectType, DI:1001, DI:TopologyElementType ]
   - HasComponent:
-    - [ UAObject, DI:5002, ParameterSet ]
+    - [ UAObject, DI:5002, DI:ParameterSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:5003, MethodSet ]
+    - [ UAObject, DI:5003, DI:MethodSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:6567, <GroupIdentifier> ]
+    - [ UAObject, DI:6567, DI:<GroupIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, DI:6014, Identification ]
+    - [ UAObject, DI:6014, DI:Identification ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:6161, Lock ]
+    - [ UAObject, DI:6161, DI:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IVendorNameplateType:
-  - [ UAObjectType, DI:15035, IVendorNameplateType ]
+  DI:IVendorNameplateType:
+  - [ UAObjectType, DI:15035, DI:IVendorNameplateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  ITagNameplateType:
-  - [ UAObjectType, DI:15048, ITagNameplateType ]
+  DI:ITagNameplateType:
+  - [ UAObjectType, DI:15048, DI:ITagNameplateType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  IDeviceHealthType:
-  - [ UAObjectType, DI:15051, IDeviceHealthType ]
+  DI:IDeviceHealthType:
+  - [ UAObjectType, DI:15051, DI:IDeviceHealthType ]
   - HasComponent:
-    - [ UAVariable, DI:15052, DeviceHealth, DeviceHealthEnumeration, 0, 0 ]
+    - [ UAVariable, DI:15052, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:15053, DeviceHealthAlarms ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 17602, BaseInterfaceType ]
-
-  ISupportInfoType:
-  - [ UAObjectType, DI:15054, ISupportInfoType ]
-  - HasComponent:
-    - [ UAObject, DI:15055, DeviceTypeImage ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, DI:15057, Documentation ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, DI:27, DocumentationFiles ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, DI:15059, ProtocolSupport ]
-    - HasTypeDefinition:
-      - [ UAObjectType, 61, FolderType ]
-    - HasModellingRule:
-      - [ UAObject, 80, Optional ]
-  - HasComponent:
-    - [ UAObject, DI:15061, ImageSet ]
+    - [ UAObject, DI:15053, DI:DeviceHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
@@ -133,101 +98,136 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  ComponentType:
-  - [ UAObjectType, DI:15063, ComponentType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
-
-  DeviceType:
-  - [ UAObjectType, DI:1002, DeviceType ]
+  DI:ISupportInfoType:
+  - [ UAObjectType, DI:15054, DI:ISupportInfoType ]
   - HasComponent:
-    - [ UAObject, DI:6571, <CPIdentifier> ]
+    - [ UAObject, DI:15055, DI:DeviceTypeImage ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6308, ConnectionPointType ]
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, DI:15057, DI:Documentation ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, DI:27, DI:DocumentationFiles ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, DI:15059, DI:ProtocolSupport ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasComponent:
+    - [ UAObject, DI:15061, DI:ImageSet ]
+    - HasTypeDefinition:
+      - [ UAObjectType, 61, FolderType ]
+    - HasModellingRule:
+      - [ UAObject, 80, Optional ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 17602, BaseInterfaceType ]
+
+  DI:ComponentType:
+  - [ UAObjectType, DI:15063, DI:ComponentType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
+
+  DI:DeviceType:
+  - [ UAObjectType, DI:1002, DI:DeviceType ]
+  - HasComponent:
+    - [ UAObject, DI:6571, DI:<CPIdentifier> ]
+    - HasTypeDefinition:
+      - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, DI:6208, DeviceHealth, DeviceHealthEnumeration, 0, 0 ]
+    - [ UAVariable, DI:6208, DI:DeviceHealth, DI:DeviceHealthEnumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:15105, DeviceHealthAlarms ]
+    - [ UAObject, DI:15105, DI:DeviceHealthAlarms ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:6209, DeviceTypeImage ]
+    - [ UAObject, DI:6209, DI:DeviceTypeImage ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:6211, Documentation ]
+    - [ UAObject, DI:6211, DI:Documentation ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:6213, ProtocolSupport ]
+    - [ UAObject, DI:6213, DI:ProtocolSupport ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:6215, ImageSet ]
+    - [ UAObject, DI:6215, DI:ImageSet ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  SoftwareType:
-  - [ UAObjectType, DI:15106, SoftwareType ]
+  DI:SoftwareType:
+  - [ UAObjectType, DI:15106, DI:SoftwareType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15063, ComponentType ]
+    - [ UAObjectType, DI:15063, DI:ComponentType ]
 
-  BlockType:
-  - [ UAObjectType, DI:1003, BlockType ]
+  DI:BlockType:
+  - [ UAObjectType, DI:1003, DI:BlockType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
-  DeviceHealthDiagnosticAlarmType:
-  - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
+  DI:DeviceHealthDiagnosticAlarmType:
+  - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 18347, InstrumentDiagnosticAlarmType ]
 
-  FailureAlarmType:
-  - [ UAObjectType, DI:15292, FailureAlarmType ]
+  DI:FailureAlarmType:
+  - [ UAObjectType, DI:15292, DI:FailureAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
-  CheckFunctionAlarmType:
-  - [ UAObjectType, DI:15441, CheckFunctionAlarmType ]
+  DI:CheckFunctionAlarmType:
+  - [ UAObjectType, DI:15441, DI:CheckFunctionAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
-  OffSpecAlarmType:
-  - [ UAObjectType, DI:15590, OffSpecAlarmType ]
+  DI:OffSpecAlarmType:
+  - [ UAObjectType, DI:15590, DI:OffSpecAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
-  MaintenanceRequiredAlarmType:
-  - [ UAObjectType, DI:15739, MaintenanceRequiredAlarmType ]
+  DI:MaintenanceRequiredAlarmType:
+  - [ UAObjectType, DI:15739, DI:MaintenanceRequiredAlarmType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:15143, DeviceHealthDiagnosticAlarmType ]
+    - [ UAObjectType, DI:15143, DI:DeviceHealthDiagnosticAlarmType ]
 
-  ConfigurableObjectType:
-  - [ UAObjectType, DI:1004, ConfigurableObjectType ]
+  DI:ConfigurableObjectType:
+  - [ UAObjectType, DI:1004, DI:ConfigurableObjectType ]
   - HasComponent:
-    - [ UAObject, DI:5004, SupportedTypes ]
+    - [ UAObject, DI:5004, DI:SupportedTypes ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, DI:6026, <ObjectIdentifier> ]
+    - [ UAObject, DI:6026, DI:<ObjectIdentifier> ]
     - HasTypeDefinition:
       - [ UAObjectType, 58, BaseObjectType ]
     - HasModellingRule:
@@ -235,104 +235,104 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  BaseLifetimeIndicationType:
-  - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+  DI:BaseLifetimeIndicationType:
+  - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  TimeIndicationType:
-  - [ UAObjectType, DI:474, TimeIndicationType ]
+  DI:TimeIndicationType:
+  - [ UAObjectType, DI:474, DI:TimeIndicationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
-  NumberOfPartsIndicationType:
-  - [ UAObjectType, DI:475, NumberOfPartsIndicationType ]
+  DI:NumberOfPartsIndicationType:
+  - [ UAObjectType, DI:475, DI:NumberOfPartsIndicationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
-  NumberOfUsagesIndicationType:
-  - [ UAObjectType, DI:476, NumberOfUsagesIndicationType ]
+  DI:NumberOfUsagesIndicationType:
+  - [ UAObjectType, DI:476, DI:NumberOfUsagesIndicationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
-  LengthIndicationType:
-  - [ UAObjectType, DI:477, LengthIndicationType ]
+  DI:LengthIndicationType:
+  - [ UAObjectType, DI:477, DI:LengthIndicationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
-  DiameterIndicationType:
-  - [ UAObjectType, DI:478, DiameterIndicationType ]
+  DI:DiameterIndicationType:
+  - [ UAObjectType, DI:478, DI:DiameterIndicationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
-  SubstanceVolumeIndicationType:
-  - [ UAObjectType, DI:479, SubstanceVolumeIndicationType ]
+  DI:SubstanceVolumeIndicationType:
+  - [ UAObjectType, DI:479, DI:SubstanceVolumeIndicationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:473, BaseLifetimeIndicationType ]
+    - [ UAObjectType, DI:473, DI:BaseLifetimeIndicationType ]
 
-  FunctionalGroupType:
-  - [ UAObjectType, DI:1005, FunctionalGroupType ]
+  DI:FunctionalGroupType:
+  - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
   - HasComponent:
-    - [ UAObject, DI:6027, <GroupIdentifier> ]
+    - [ UAObject, DI:6027, DI:<GroupIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, DI:6243, UIElement ]
+    - [ UAVariable, DI:6243, DI:UIElement ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 61, FolderType ]
 
-  ProtocolType:
-  - [ UAObjectType, DI:1006, ProtocolType ]
+  DI:ProtocolType:
+  - [ UAObjectType, DI:1006, DI:ProtocolType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IOperationCounterType:
-  - [ UAObjectType, DI:480, IOperationCounterType ]
+  DI:IOperationCounterType:
+  - [ UAObjectType, DI:480, DI:IOperationCounterType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 17602, BaseInterfaceType ]
 
-  NetworkType:
-  - [ UAObjectType, DI:6247, NetworkType ]
+  DI:NetworkType:
+  - [ UAObjectType, DI:6247, DI:NetworkType ]
   - HasComponent:
-    - [ UAObject, DI:6596, <ProfileIdentifier> ]
+    - [ UAObject, DI:6596, DI:<ProfileIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1006, ProtocolType ]
+      - [ UAObjectType, DI:1006, DI:ProtocolType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasComponent:
-    - [ UAObject, DI:6294, Lock ]
+    - [ UAObject, DI:6294, DI:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ConnectionPointType:
-  - [ UAObjectType, DI:6308, ConnectionPointType ]
+  DI:ConnectionPointType:
+  - [ UAObjectType, DI:6308, DI:ConnectionPointType ]
   - HasComponent:
-    - [ UAObject, DI:6354, NetworkAddress ]
+    - [ UAObject, DI:6354, DI:NetworkAddress ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, DI:6499, <ProfileIdentifier> ]
+    - [ UAObject, DI:6499, DI:<ProfileIdentifier> ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1006, ProtocolType ]
+      - [ UAObjectType, DI:1006, DI:ProtocolType ]
     - HasModellingRule:
       - [ UAObject, 11510, MandatoryPlaceholder ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:1001, TopologyElementType ]
+    - [ UAObjectType, DI:1001, DI:TopologyElementType ]
 
-  TransferServicesType:
-  - [ UAObjectType, DI:6526, TransferServicesType ]
+  DI:TransferServicesType:
+  - [ UAObjectType, DI:6526, DI:TransferServicesType ]
   - HasComponent:
-    - [ UAMethod, DI:6527, TransferToDevice ]
+    - [ UAMethod, DI:6527, DI:TransferToDevice ]
     - HasProperty:
       - [ UAVariable, DI:6528, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -343,7 +343,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:6529, TransferFromDevice ]
+    - [ UAMethod, DI:6529, DI:TransferFromDevice ]
     - HasProperty:
       - [ UAVariable, DI:6530, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -354,7 +354,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:6531, FetchTransferResultData ]
+    - [ UAMethod, DI:6531, DI:FetchTransferResultData ]
     - HasProperty:
       - [ UAVariable, DI:6532, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -375,10 +375,10 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  LockingServicesType:
-  - [ UAObjectType, DI:6388, LockingServicesType ]
+  DI:LockingServicesType:
+  - [ UAObjectType, DI:6388, DI:LockingServicesType ]
   - HasComponent:
-    - [ UAMethod, DI:6393, InitLock ]
+    - [ UAMethod, DI:6393, DI:InitLock ]
     - HasProperty:
       - [ UAVariable, DI:6394, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -394,7 +394,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:6396, RenewLock ]
+    - [ UAMethod, DI:6396, DI:RenewLock ]
     - HasProperty:
       - [ UAVariable, DI:6397, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -404,7 +404,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:6398, ExitLock ]
+    - [ UAMethod, DI:6398, DI:ExitLock ]
     - HasProperty:
       - [ UAVariable, DI:6399, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -414,7 +414,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:6400, BreakLock ]
+    - [ UAMethod, DI:6400, DI:BreakLock ]
     - HasProperty:
       - [ UAVariable, DI:6401, OutputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -426,110 +426,110 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  SoftwareUpdateType:
-  - [ UAObjectType, DI:1, SoftwareUpdateType ]
+  DI:SoftwareUpdateType:
+  - [ UAObjectType, DI:1, DI:SoftwareUpdateType ]
   - HasComponent:
-    - [ UAObject, DI:2, Loading ]
+    - [ UAObject, DI:2, DI:Loading ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:135, SoftwareLoadingType ]
+      - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:4, PrepareForUpdate ]
+    - [ UAObject, DI:4, DI:PrepareForUpdate ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
+      - [ UAObjectType, DI:213, DI:PrepareForUpdateStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:40, Installation ]
+    - [ UAObject, DI:40, DI:Installation ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:249, InstallationStateMachineType ]
+      - [ UAObjectType, DI:249, DI:InstallationStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:76, PowerCycle ]
+    - [ UAObject, DI:76, DI:PowerCycle ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
+      - [ UAObjectType, DI:285, DI:PowerCycleStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:98, Confirmation ]
+    - [ UAObject, DI:98, DI:Confirmation ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
+      - [ UAObjectType, DI:307, DI:ConfirmationStateMachineType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:122, Parameters ]
+    - [ UAObject, DI:122, DI:Parameters ]
     - HasTypeDefinition:
       - [ UAObjectType, 15744, TemporaryFileTransferType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, DI:133, UpdateStatus, LocalizedText, 0, 0 ]
+    - [ UAVariable, DI:133, DI:UpdateStatus, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, DI:402, VendorErrorCode, Int32, 0, 0 ]
+    - [ UAVariable, DI:402, DI:VendorErrorCode, Int32, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  SoftwareLoadingType:
-  - [ UAObjectType, DI:135, SoftwareLoadingType ]
+  DI:SoftwareLoadingType:
+  - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
   - HasComponent:
-    - [ UAVariable, DI:136, UpdateKey, String, 0, 0 ]
+    - [ UAVariable, DI:136, DI:UpdateKey, String, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  PackageLoadingType:
-  - [ UAObjectType, DI:137, PackageLoadingType ]
+  DI:PackageLoadingType:
+  - [ UAObjectType, DI:137, DI:PackageLoadingType ]
   - HasComponent:
-    - [ UAObject, DI:139, CurrentVersion ]
+    - [ UAObject, DI:139, DI:CurrentVersion ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:212, SoftwareVersionType ]
+      - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, DI:140, FileTransfer ]
+    - [ UAObject, DI:140, DI:FileTransfer ]
     - HasTypeDefinition:
       - [ UAObjectType, 15744, TemporaryFileTransferType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, DI:151, ErrorMessage, LocalizedText, 0, 0 ]
+    - [ UAVariable, DI:151, DI:ErrorMessage, LocalizedText, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:135, SoftwareLoadingType ]
+    - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
 
-  DirectLoadingType:
-  - [ UAObjectType, DI:153, DirectLoadingType ]
+  DI:DirectLoadingType:
+  - [ UAObjectType, DI:153, DI:DirectLoadingType ]
   - HasComponent:
-    - [ UAVariable, DI:169, UpdateBehavior, UpdateBehavior, 0, 0 ]
+    - [ UAVariable, DI:169, DI:UpdateBehavior, DI:UpdateBehavior, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:137, PackageLoadingType ]
+    - [ UAObjectType, DI:137, DI:PackageLoadingType ]
 
-  CachedLoadingType:
-  - [ UAObjectType, DI:171, CachedLoadingType ]
+  DI:CachedLoadingType:
+  - [ UAObjectType, DI:171, DI:CachedLoadingType ]
   - HasComponent:
-    - [ UAObject, DI:187, PendingVersion ]
+    - [ UAObject, DI:187, DI:PendingVersion ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:212, SoftwareVersionType ]
+      - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, DI:188, FallbackVersion ]
+    - [ UAObject, DI:188, DI:FallbackVersion ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:212, SoftwareVersionType ]
+      - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, DI:189, GetUpdateBehavior ]
+    - [ UAMethod, DI:189, DI:GetUpdateBehavior ]
     - HasProperty:
       - [ UAVariable, DI:190, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -541,16 +541,16 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, DI:191, OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          UpdateBehavior: [ UpdateBehavior, 0 ]
+          UpdateBehavior: [ DI:UpdateBehavior, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:137, PackageLoadingType ]
+    - [ UAObjectType, DI:137, DI:PackageLoadingType ]
 
-  FileSystemLoadingType:
-  - [ UAObjectType, DI:192, FileSystemLoadingType ]
+  DI:FileSystemLoadingType:
+  - [ UAObjectType, DI:192, DI:FileSystemLoadingType ]
   - HasComponent:
     - [ UAObject, DI:194, FileSystem ]
     - HasTypeDefinition:
@@ -558,7 +558,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:206, GetUpdateBehavior ]
+    - [ UAMethod, DI:206, DI:GetUpdateBehavior ]
     - HasProperty:
       - [ UAVariable, DI:207, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -568,13 +568,13 @@ DefinedTypes:
     - HasProperty:
       - [ UAVariable, DI:208, OutputArguments, Argument, 1, 0 ]
       - Arguments:
-          UpdateBehavior: [ UpdateBehavior, 0 ]
+          UpdateBehavior: [ DI:UpdateBehavior, 0 ]
       - HasModellingRule:
         - [ UAObject, 78, Mandatory ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:209, ValidateFiles ]
+    - [ UAMethod, DI:209, DI:ValidateFiles ]
     - HasProperty:
       - [ UAVariable, DI:210, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -591,82 +591,82 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
-    - [ UAObjectType, DI:135, SoftwareLoadingType ]
+    - [ UAObjectType, DI:135, DI:SoftwareLoadingType ]
 
-  SoftwareVersionType:
-  - [ UAObjectType, DI:212, SoftwareVersionType ]
+  DI:SoftwareVersionType:
+  - [ UAObjectType, DI:212, DI:SoftwareVersionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  PrepareForUpdateStateMachineType:
-  - [ UAObjectType, DI:213, PrepareForUpdateStateMachineType ]
+  DI:PrepareForUpdateStateMachineType:
+  - [ UAObjectType, DI:213, DI:PrepareForUpdateStateMachineType ]
   - HasComponent:
-    - [ UAVariable, DI:227, PercentComplete, Byte, 0, 0 ]
+    - [ UAVariable, DI:227, DI:PercentComplete, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, DI:228, Prepare ]
+    - [ UAMethod, DI:228, DI:Prepare ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:229, Abort ]
+    - [ UAMethod, DI:229, DI:Abort ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAMethod, DI:230, Resume ]
+    - [ UAMethod, DI:230, DI:Resume ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, DI:231, Idle ]
+    - [ UAObject, DI:231, DI:Idle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, DI:233, Preparing ]
+    - [ UAObject, DI:233, DI:Preparing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, DI:235, PreparedForUpdate ]
+    - [ UAObject, DI:235, DI:PreparedForUpdate ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, DI:237, Resuming ]
+    - [ UAObject, DI:237, DI:Resuming ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, DI:239, IdleToPreparing ]
+    - [ UAObject, DI:239, DI:IdleToPreparing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:241, PreparingToIdle ]
+    - [ UAObject, DI:241, DI:PreparingToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:243, PreparingToPreparedForUpdate ]
+    - [ UAObject, DI:243, DI:PreparingToPreparedForUpdate ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:245, PreparedForUpdateToResuming ]
+    - [ UAObject, DI:245, DI:PreparedForUpdateToResuming ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:247, ResumingToIdle ]
+    - [ UAObject, DI:247, DI:ResumingToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  InstallationStateMachineType:
-  - [ UAObjectType, DI:249, InstallationStateMachineType ]
+  DI:InstallationStateMachineType:
+  - [ UAObjectType, DI:249, DI:InstallationStateMachineType ]
   - HasComponent:
-    - [ UAVariable, DI:263, PercentComplete, Byte, 0, 0 ]
+    - [ UAVariable, DI:263, DI:PercentComplete, Byte, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, DI:264, InstallationDelay, Duration, 0, 0 ]
+    - [ UAVariable, DI:264, DI:InstallationDelay, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, DI:265, InstallSoftwarePackage ]
+    - [ UAMethod, DI:265, DI:InstallSoftwarePackage ]
     - HasProperty:
       - [ UAVariable, DI:266, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -679,7 +679,7 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, DI:268, InstallFiles ]
+    - [ UAMethod, DI:268, DI:InstallFiles ]
     - HasProperty:
       - [ UAVariable, DI:269, InputArguments, Argument, 1, 0 ]
       - Arguments:
@@ -689,85 +689,85 @@ DefinedTypes:
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, DI:270, Resume ]
+    - [ UAMethod, DI:270, DI:Resume ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, DI:271, Idle ]
+    - [ UAObject, DI:271, DI:Idle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, DI:273, Installing ]
+    - [ UAObject, DI:273, DI:Installing ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, DI:275, Error ]
+    - [ UAObject, DI:275, DI:Error ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, DI:277, IdleToInstalling ]
+    - [ UAObject, DI:277, DI:IdleToInstalling ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:279, InstallingToIdle ]
+    - [ UAObject, DI:279, DI:InstallingToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:281, InstallingToError ]
+    - [ UAObject, DI:281, DI:InstallingToError ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:283, ErrorToIdle ]
+    - [ UAObject, DI:283, DI:ErrorToIdle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  PowerCycleStateMachineType:
-  - [ UAObjectType, DI:285, PowerCycleStateMachineType ]
+  DI:PowerCycleStateMachineType:
+  - [ UAObjectType, DI:285, DI:PowerCycleStateMachineType ]
   - HasComponent:
-    - [ UAObject, DI:299, NotWaitingForPowerCycle ]
+    - [ UAObject, DI:299, DI:NotWaitingForPowerCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, DI:301, WaitingForPowerCycle ]
+    - [ UAObject, DI:301, DI:WaitingForPowerCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, DI:303, NotWaitingForPowerCycleToWaitingForPowerCycle ]
+    - [ UAObject, DI:303, DI:NotWaitingForPowerCycleToWaitingForPowerCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:305, WaitingForPowerCycleToNotWaitingForPowerCycle ]
+    - [ UAObject, DI:305, DI:WaitingForPowerCycleToNotWaitingForPowerCycle ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2771, FiniteStateMachineType ]
 
-  ConfirmationStateMachineType:
-  - [ UAObjectType, DI:307, ConfirmationStateMachineType ]
+  DI:ConfirmationStateMachineType:
+  - [ UAObjectType, DI:307, DI:ConfirmationStateMachineType ]
   - HasComponent:
-    - [ UAMethod, DI:321, Confirm ]
+    - [ UAMethod, DI:321, DI:Confirm ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, DI:322, ConfirmationTimeout, Duration, 0, 0 ]
+    - [ UAVariable, DI:322, DI:ConfirmationTimeout, Duration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAObject, DI:323, NotWaitingForConfirm ]
+    - [ UAObject, DI:323, DI:NotWaitingForConfirm ]
     - HasTypeDefinition:
       - [ UAObjectType, 2309, InitialStateType ]
   - HasComponent:
-    - [ UAObject, DI:325, WaitingForConfirm ]
+    - [ UAObject, DI:325, DI:WaitingForConfirm ]
     - HasTypeDefinition:
       - [ UAObjectType, 2307, StateType ]
   - HasComponent:
-    - [ UAObject, DI:327, NotWaitingForConfirmToWaitingForConfirm ]
+    - [ UAObject, DI:327, DI:NotWaitingForConfirmToWaitingForConfirm ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasComponent:
-    - [ UAObject, DI:329, WaitingForConfirmToNotWaitingForConfirm ]
+    - [ UAObject, DI:329, DI:WaitingForConfirmToNotWaitingForConfirm ]
     - HasTypeDefinition:
       - [ UAObjectType, 2310, TransitionType ]
   - HasSubtype_reverse:

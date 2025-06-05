@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "AutoTuningOff"
+      "@type": [ "Command", "Qualified" ],
+      "name": "AutoTuningOff",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "AutoTuningOn"
+      "@type": [ "Command", "Qualified" ],
+      "name": "AutoTuningOn",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

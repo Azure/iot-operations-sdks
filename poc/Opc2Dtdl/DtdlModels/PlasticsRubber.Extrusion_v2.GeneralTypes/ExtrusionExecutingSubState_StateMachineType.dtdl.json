@@ -15,40 +15,49 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "ControlledRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ControlledRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "FromControlledRunToManualRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromControlledRunToManualRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "FromControlledRunToReadyToRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromControlledRunToReadyToRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "FromManualRunToControlledRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromManualRunToControlledRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "FromManualRunToReadyToRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromManualRunToReadyToRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "FromReadyToRunToControlledRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromReadyToRunToControlledRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "FromReadyToRunToManualRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromReadyToRunToManualRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "ManualRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ManualRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     },
     {
-      "@type": "Relationship",
-      "name": "ReadyToRun"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ReadyToRun",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.GeneralTypes"
     }
   ]
 }

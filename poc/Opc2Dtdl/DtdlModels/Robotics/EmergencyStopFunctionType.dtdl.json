@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Active",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": "boolean",
       "writable": false
     }

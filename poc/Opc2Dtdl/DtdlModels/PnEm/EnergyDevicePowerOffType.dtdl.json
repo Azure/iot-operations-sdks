@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ModePowerConsumption",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RegularTimeToOperate",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TimeMinPause",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SwitchOffWOL",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",

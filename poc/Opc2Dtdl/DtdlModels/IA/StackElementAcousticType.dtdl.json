@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Intensity",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "float",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperationMode",
+      "namespace": "http://opcfoundation.org/UA/IA",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Relationship",
-      "name": "AcousticSignals"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "AcousticSignals",
+      "namespace": "http://opcfoundation.org/UA/IA"
     }
   ]
 }

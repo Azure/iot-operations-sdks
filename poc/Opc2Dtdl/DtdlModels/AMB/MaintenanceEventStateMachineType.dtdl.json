@@ -15,28 +15,34 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Executing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Executing",
+      "namespace": "http://opcfoundation.org/UA/AMB"
     },
     {
-      "@type": "Relationship",
-      "name": "Finished"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Finished",
+      "namespace": "http://opcfoundation.org/UA/AMB"
     },
     {
-      "@type": "Relationship",
-      "name": "FromExecutingToFinished"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromExecutingToFinished",
+      "namespace": "http://opcfoundation.org/UA/AMB"
     },
     {
-      "@type": "Relationship",
-      "name": "FromFinishedToPlanned"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromFinishedToPlanned",
+      "namespace": "http://opcfoundation.org/UA/AMB"
     },
     {
-      "@type": "Relationship",
-      "name": "FromPlannedToExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromPlannedToExecuting",
+      "namespace": "http://opcfoundation.org/UA/AMB"
     },
     {
-      "@type": "Relationship",
-      "name": "Planned"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Planned",
+      "namespace": "http://opcfoundation.org/UA/AMB"
     }
   ]
 }

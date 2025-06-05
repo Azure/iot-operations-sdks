@@ -44,35 +44,42 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceHealth",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "dtmi:opcua:DI:DeviceType:dataType:DeviceHealthEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CPIdentifier",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:ConnectionPointType"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceHealthAlarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceHealthAlarms",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceTypeImage"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceTypeImage",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Documentation"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Documentation",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ProtocolSupport"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProtocolSupport",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ImageSet"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ImageSet",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

@@ -239,14 +239,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ResultVariable",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ResultVariable",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": {
               "@type": "Map",
               "mapKey": {
@@ -260,38 +262,45 @@
             }
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "CreationTime",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": "time"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "InternalConfigurationId",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:BinaryIdBaseDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "InternalRecipeId",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:BinaryIdBaseDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "IsPartial",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": "boolean"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "JobId",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:JobIdDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ResultId",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": "dtmi:opcua:MachineVision:ResultFolderType:dataType:ResultIdDataType;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ResultState",
+            "namespace": "http://opcfoundation.org/UA/MachineVision",
             "schema": "integer"
           }
         ]

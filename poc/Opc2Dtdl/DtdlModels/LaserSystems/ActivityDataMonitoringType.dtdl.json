@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurrentValue",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PreviousValue",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "integer",
       "writable": false
     }

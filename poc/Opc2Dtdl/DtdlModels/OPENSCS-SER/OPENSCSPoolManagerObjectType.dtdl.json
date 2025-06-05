@@ -180,8 +180,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNRequestAllocated",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -245,8 +246,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNRequestUnallocated",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -310,8 +312,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNRequestUnassigned",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -375,8 +378,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNReturnAllocated",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -420,8 +424,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNReturnUnallocated",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -465,8 +470,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNtoAllocated",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -510,8 +516,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNtoEncoded",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -555,8 +562,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SNtoUnallocated",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Plan"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Plan",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     }
   ]
 }

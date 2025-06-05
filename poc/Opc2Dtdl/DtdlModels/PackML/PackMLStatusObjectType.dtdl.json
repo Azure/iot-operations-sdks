@@ -120,38 +120,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CurMachSpeed",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EquipmentBlocked",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EquipmentStarved",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MachSpeed",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaterialInterlocked",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Parameter",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLDescriptorDataType;1"
@@ -159,8 +165,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Product",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLProductDataType;1"
@@ -168,8 +175,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RemoteParameter",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": {
         "@type": "Array",
         "elementSchema": "dtmi:opcua:PackML:PackMLStatusObjectType:dataType:PackMLRemoteInterfaceDataType;1"
@@ -177,32 +185,37 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StateChangeInProcess",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StateRequested",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UnitModeChangeInProcess",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UnitModeCurrent",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UnitModeRequested",
+      "namespace": "http://opcfoundation.org/UA/PackML",
       "schema": "boolean",
       "writable": false
     }

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartsProducedInLifetime",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     }

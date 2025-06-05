@@ -16,80 +16,93 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Blockage",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Cavitation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Condensation",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Dry",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Flow",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Gas",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Liquid",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Pressure",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ProcessFault",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Solid",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Stall",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Temperature",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "Viscosity",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "boolean",
       "writable": false
     }

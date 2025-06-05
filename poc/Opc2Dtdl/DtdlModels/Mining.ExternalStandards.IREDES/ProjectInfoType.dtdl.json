@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Comment",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Signature",
+      "namespace": "http://opcfoundation.org/UA/Mining.ExternalStandards.IREDES",
       "schema": "string",
       "writable": true
     }

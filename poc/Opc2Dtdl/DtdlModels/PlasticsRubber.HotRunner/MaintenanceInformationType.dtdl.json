@@ -15,18 +15,21 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CoolingFan",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Heating",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SafetyTest",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.HotRunner",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MaintenanceType"
     }
   ]

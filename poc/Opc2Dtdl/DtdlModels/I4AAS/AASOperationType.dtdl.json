@@ -17,8 +17,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "Operation"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Operation",
+      "namespace": "http://opcfoundation.org/UA/I4AAS"
     }
   ]
 }

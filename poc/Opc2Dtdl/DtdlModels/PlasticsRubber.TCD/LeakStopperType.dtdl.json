@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "Off"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Off",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     },
     {
-      "@type": "Command",
-      "name": "On"
+      "@type": [ "Command", "Qualified" ],
+      "name": "On",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD"
     }
   ]
 }

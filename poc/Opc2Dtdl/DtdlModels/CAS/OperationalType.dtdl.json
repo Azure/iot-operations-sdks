@@ -16,26 +16,30 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "HealthState",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "IntegratedState",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OnOff",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperatingState",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "string",
       "writable": false
     }

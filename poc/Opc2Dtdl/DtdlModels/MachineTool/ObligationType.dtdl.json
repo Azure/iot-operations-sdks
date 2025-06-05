@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EndUserObligated",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MachineBuilderObligated",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     }

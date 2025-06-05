@@ -40,14 +40,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControllerIsOn",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LaserState",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:LaserMonitoringType:dataType:LaserState;1",
       "writable": false
     }

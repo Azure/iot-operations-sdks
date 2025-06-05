@@ -33,24 +33,28 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "GearRatio",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "GearRatio",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "dtmi:opcua:Robotics:GearType:dataType:RationalNumber;1"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Numerator",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "integer"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "Denominator",
+            "namespace": "http://opcfoundation.org/UA/Robotics",
             "schema": "unsignedInteger"
           }
         ]
@@ -58,8 +62,9 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Pitch",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": "double",
       "writable": false
     }

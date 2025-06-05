@@ -16,13 +16,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "First",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Second",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     }
   ]

@@ -149,8 +149,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AggregationPackingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -202,8 +203,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AggregationUnpackingEvent",
+      "namespace": "http://opcfoundation.org/UA/OPENSCS-SER",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

@@ -16,16 +16,19 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "ActivateSleepMode"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ActivateSleepMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "DeactivateSleepMode"
+      "@type": [ "Command", "Qualified" ],
+      "name": "DeactivateSleepMode",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Users",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
     }
   ]

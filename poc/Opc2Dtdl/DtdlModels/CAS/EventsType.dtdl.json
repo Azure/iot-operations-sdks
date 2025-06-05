@@ -16,24 +16,29 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Event"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Event",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "EmergencyStop"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EmergencyStop",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Service"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Service",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Shutdown"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Shutdown",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     },
     {
-      "@type": "Relationship",
-      "name": "Warning"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Warning",
+      "namespace": "http://opcfoundation.org/UA/CAS"
     }
   ]
 }

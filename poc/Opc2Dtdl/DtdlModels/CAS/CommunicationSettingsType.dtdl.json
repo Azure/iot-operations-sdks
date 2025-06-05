@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Dhcp",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MacAddress",
+      "namespace": "http://opcfoundation.org/UA/CAS",
       "schema": "string",
       "writable": false
     }

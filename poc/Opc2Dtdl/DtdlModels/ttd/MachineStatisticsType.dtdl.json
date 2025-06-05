@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "ResetStatistics"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetStatistics",
+      "namespace": "http://opcfoundation.org/UA/IA"
     }
   ]
 }

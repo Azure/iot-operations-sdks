@@ -16,78 +16,93 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ChokePlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISChokeObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CIMVPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISCIMVObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CounterPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DigitalArbitrationPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISDigitalArbitrationObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DigitalOutPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISDigitalOutObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DigitalPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISDigitalInstrumentObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DiscreteArbitrationPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISDiscreteArbitrationObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DiscreteOutPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISDiscreteOutObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DiscretePlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISDiscreteInstrumentObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ElectricChokePlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISElectricChokeObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InstrumentArbitrationPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISInstrumentArbitrationObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InstrumentOutPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISInstrumentOutObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "InstrumentPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISInstrumentObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MotorPlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISMotorObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ValvePlaceholder",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISValveObjectType"
     }
   ]

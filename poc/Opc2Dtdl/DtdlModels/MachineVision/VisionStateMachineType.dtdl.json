@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ConfirmAll",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -34,8 +35,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Halt",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -71,8 +73,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "Reset",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -108,8 +111,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SelectModeAutomatic",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -126,116 +130,143 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AutomaticModeStateMachine",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionAutomaticModeStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "Error"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Error",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ErrorStepModel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorToHalted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorToHalted",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorToHaltedAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorToHaltedAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorToOperationalAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorToOperationalAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorToPreoperational"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorToPreoperational",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorToPreoperationalAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorToPreoperationalAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Halted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Halted",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "HaltedStepModel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "HaltedToPreoperational"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HaltedToPreoperational",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "HaltedToPreoperationalAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "HaltedToPreoperationalAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Operational"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Operational",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "OperationalToErrorAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperationalToErrorAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "OperationalToHalted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperationalToHalted",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "OperationalToHaltedAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperationalToHaltedAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "OperationalToPreoperational"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperationalToPreoperational",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "OperationalToPreoperationalAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OperationalToPreoperationalAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "Preoperational"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Preoperational",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PreoperationalStepModel",
+      "namespace": "http://opcfoundation.org/UA/MachineVision",
       "target": "dtmi:opcua:MachineVision:VisionStepModelStateMachineType"
     },
     {
-      "@type": "Relationship",
-      "name": "PreoperationalToErrorAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreoperationalToErrorAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "PreoperationalToHalted"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreoperationalToHalted",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "PreoperationalToHaltedAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreoperationalToHaltedAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "PreoperationalToInitialized"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreoperationalToInitialized",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "PreoperationalToInitializedAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreoperationalToInitializedAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "PreoperationalToOperational"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreoperationalToOperational",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     },
     {
-      "@type": "Relationship",
-      "name": "PreoperationalToOperationalAuto"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PreoperationalToOperationalAuto",
+      "namespace": "http://opcfoundation.org/UA/MachineVision"
     }
   ]
 }

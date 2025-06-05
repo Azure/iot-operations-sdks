@@ -429,8 +429,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddExceptionScheduleElements",
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -467,8 +468,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveExceptionScheduleElements",
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

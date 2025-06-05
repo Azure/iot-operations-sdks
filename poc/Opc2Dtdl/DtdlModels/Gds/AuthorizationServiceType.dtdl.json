@@ -84,8 +84,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetServiceDescription",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -115,8 +116,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RequestAccessToken",
+      "namespace": "http://opcfoundation.org/UA/GDS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

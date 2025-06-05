@@ -1,9 +1,11 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="SpecMapper" #>
 <# int ix;#>
     {
-      "@type": "Command",
-      "name": "<#=definedType.BrowseName#>"<#=this.InputArgs != null || this.OutputArgs != null ? "," : ""#>
+      "@type": [ "Command", "Qualified" ],
+      "name": "<#=TypeConverter.Dequalify(definedType.BrowseName)#>",
+      "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>"<#=this.InputArgs != null || this.OutputArgs != null ? "," : ""#>
 <# if (this.InputArgs != null) { #>
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],

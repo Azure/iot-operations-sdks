@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Marking"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Marking",
+      "namespace": "http://opcfoundation.org/UA/Pumps"
     }
   ]
 }

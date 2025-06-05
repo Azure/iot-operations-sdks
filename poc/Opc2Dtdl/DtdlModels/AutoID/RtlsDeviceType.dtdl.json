@@ -144,8 +144,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetLocation",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -186,8 +187,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetSupportedLocationTypes",
+      "namespace": "http://opcfoundation.org/UA/AutoID",
       "response": {
         "@type": [ "CommandResponse", "Transparent" ],
         "name": "output",
@@ -207,8 +209,9 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "GetUnits"
+      "@type": [ "Command", "Qualified" ],
+      "name": "GetUnits",
+      "namespace": "http://opcfoundation.org/UA/AutoID"
     }
   ]
 }

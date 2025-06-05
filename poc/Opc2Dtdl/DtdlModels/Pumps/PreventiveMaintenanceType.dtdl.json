@@ -16,44 +16,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ActivePreventiveMaintenanceTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InstallationDate",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastInspectionDate",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastServicingDate",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NextInspectionDate",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NextServicingDate",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PreventiveMaintenanceTime",
+      "namespace": "http://opcfoundation.org/UA/Pumps",
       "schema": "double",
       "writable": true
     }

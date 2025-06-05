@@ -114,8 +114,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetProductionDatasetInformation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -146,8 +147,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendProductionDatasetInformation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -169,23 +171,27 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ActiveProductionDatasetStatus",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionDatasetInPreparationStatus",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetStatusType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ProductionDatasetLists",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:ProductionDatasetListsType"
     },
     {
-      "@type": "Relationship",
-      "name": "ProductionDatasetTransfer"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProductionDatasetTransfer",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

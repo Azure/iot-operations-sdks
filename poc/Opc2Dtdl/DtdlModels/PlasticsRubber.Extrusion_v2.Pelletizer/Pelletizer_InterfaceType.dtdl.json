@@ -16,34 +16,40 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CutGap",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DiePlate_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:DiePlateType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Drive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "KnifePackage_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_Pelletizer:KnifePackageType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PressureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion_v2.Pelletizer",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_v2_GeneralTypes:ExtrusionTemperatureZonesType"
     }
   ]

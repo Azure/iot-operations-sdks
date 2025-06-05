@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ServiceProvider",
+      "namespace": "http://fdi-cooperation.com/OPCUA/FDI7",
       "target": "dtmi:opcua:FDI7:ServerCommunicationGENERICServiceType"
     }
   ]

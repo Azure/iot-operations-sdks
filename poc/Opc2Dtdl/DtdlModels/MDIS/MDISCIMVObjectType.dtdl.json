@@ -77,102 +77,119 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "CommandRejected",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceCurrent",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FlowRate",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InletPressure",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InternalPressure",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Moving",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVMoveEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NonDefeatableCloseInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NonDefeatableCommandInProgressInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NonDefeatableOpenInterlock",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OperationMode",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "dtmi:opcua:MDIS:MDISCIMVObjectType:dataType:CIMVOperationModeEnum;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "OutletPressure",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Position",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TargetFlowRate",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TargetPosition",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TotalFlow",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "schema": "float",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "Abort"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Abort",
+      "namespace": "http://opcfoundation.org/UA/MDIS"
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ResetTotalFlow",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -189,8 +206,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetFlowRate",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -217,8 +235,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetManual",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -250,8 +269,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetOperationMode",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -278,8 +298,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetPosition",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -306,13 +327,15 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MotorOperationsCount",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TotalMotorRuntime",
+      "namespace": "http://opcfoundation.org/UA/MDIS",
       "target": "dtmi:opcua:MDIS:MDISCounterObjectType"
     }
   ]

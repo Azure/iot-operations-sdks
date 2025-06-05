@@ -16,12 +16,14 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "RunDiagnostics"
+      "@type": [ "Command", "Qualified" ],
+      "name": "RunDiagnostics",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     },
     {
-      "@type": "Command",
-      "name": "StopDiagnostics"
+      "@type": [ "Command", "Qualified" ],
+      "name": "StopDiagnostics",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes"
     }
   ]
 }

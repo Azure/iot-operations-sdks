@@ -16,19 +16,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ErrorMessage",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CurrentVersion",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "target": "dtmi:opcua:DI:SoftwareVersionType"
     },
     {
-      "@type": "Relationship",
-      "name": "FileTransfer"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FileTransfer",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

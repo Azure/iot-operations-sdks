@@ -15,40 +15,47 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartsCompleted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartsGood",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RunsCompleted",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RunsPlanned",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "PartSets"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PartSets",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
-      "name": "ProductionPrograms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProductionPrograms",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "target": "dtmi:opcua:MachineTool:ProductionJobStateMachineType"
     }
   ]

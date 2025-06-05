@@ -15,16 +15,19 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Flags"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Flags",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     },
     {
-      "@type": "Relationship",
-      "name": "Overview"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Overview",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     },
     {
-      "@type": "Relationship",
-      "name": "Values"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Values",
+      "namespace": "http://opcfoundation.org/UA/Woodworking"
     }
   ]
 }

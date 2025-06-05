@@ -16,35 +16,42 @@
   ],
   "contents": [
     {
-      "@type": "Command",
-      "name": "ResetFillingLevel"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ResetFillingLevel",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Command",
-      "name": "TriggerDosing"
+      "@type": [ "Command", "Qualified" ],
+      "name": "TriggerDosing",
+      "namespace": "http://opcfoundation.org/UA/PAEFS"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AirConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:ConsumptionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DosageAmount",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorSetpointWriteType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FillingLevel",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:SensorMonitoringType"
     },
     {
-      "@type": "Relationship",
-      "name": "MachineryBuildingBlocks"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MachineryBuildingBlocks",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PowerConsumption",
+      "namespace": "http://opcfoundation.org/UA/PAEFS",
       "target": "dtmi:opcua:PAEFS:ConsumptionType"
     }
   ]

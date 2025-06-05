@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "AcActivePowerTotal",
+      "namespace": "http://opcfoundation.org/UA/PNEM",
       "schema": "float",
       "writable": true
     }

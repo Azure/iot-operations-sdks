@@ -1,84 +1,84 @@
 DataTypes:
-- UADataType: [ PNGSDGM:3004, GsdGenChannelAccumulativeEnumeration ]
+- UADataType: [ PNGSDGM:3004, PNGSDGM:GsdGenChannelAccumulativeEnumeration ]
   Enums:
     SINGLE: 0
     ACCUMULATIVE: 256
-- UADataType: [ PNGSDGM:3007, GsdGenChannelDirectionEnumeration ]
+- UADataType: [ PNGSDGM:3007, PNGSDGM:GsdGenChannelDirectionEnumeration ]
   Enums:
     MANUFACTURER_SPECIFIC: 0
     INPUT_CHANNEL: 8192
     OUTPUT_CHANNEL: 16384
     BIDIRECTIONAL_CHANNEL: 24576
-- UADataType: [ PNGSDGM:3005, GsdGenChannelMaintenanceEnumeration ]
+- UADataType: [ PNGSDGM:3005, PNGSDGM:GsdGenChannelMaintenanceEnumeration ]
   Enums:
     FAULT: 0
     MAINTENANCE_REQUIRED: 512
     MAINTENANCE_DEMANDED: 1024
     USE_QUALIFIED_CHANNEL_QUALIFIER: 1536
-- UADataType: [ PNGSDGM:3006, GsdGenChannelSpecifierEnumeration ]
+- UADataType: [ PNGSDGM:3006, PNGSDGM:GsdGenChannelSpecifierEnumeration ]
   Enums:
     ALL_DISAPPEARS: 0
     APPEARS: 2048
     DISAPPEARS: 4096
     DISAPPEARS_OTHER_REMAIN: 6144
-- UADataType: [ PNGSDGM:3012, GsdGenIoCommunicationStatusEnumeration ]
+- UADataType: [ PNGSDGM:3012, PNGSDGM:GsdGenIoCommunicationStatusEnumeration ]
   Enums:
     INDATA: 0
     OFFLINE: 1
-- UADataType: [ PNGSDGM:3015, GsdGenIoConfigurationStatusEnumeration ]
+- UADataType: [ PNGSDGM:3015, PNGSDGM:GsdGenIoConfigurationStatusEnumeration ]
   Enums:
     OK: 0
     SUBSTITUTE: 1
     WRONG: 2
     UNKNOWN: 3
-- UADataType: [ PNGSDGM:3002, GsdGenIoConsistencyEnumeration ]
+- UADataType: [ PNGSDGM:3002, PNGSDGM:GsdGenIoConsistencyEnumeration ]
   Enums:
     ITEM_CONSISTENCY: 0
     ALL_ITEMS_CONSISTENCY: 1
-- UADataType: [ PNGSDGM:3003, GsdGenIoQualityFormatEnumeration ]
+- UADataType: [ PNGSDGM:3003, PNGSDGM:GsdGenIoQualityFormatEnumeration ]
   Enums:
     QUALIFIER: 0
     EMBEDDED_STATUS: 1
     STATUS: 2
-- UADataType: [ PNGSDGM:3009, GsdGenIoTimeDataType ]
+- UADataType: [ PNGSDGM:3009, PNGSDGM:GsdGenIoTimeDataType ]
   Fields:
     NumberOfMilliseconds: [ UInt32, 0 ]
     NumberOfDays: [ UInt16, 0 ]
-- UADataType: [ PNGSDGM:3008, GsdGenIoTimeStampDataType ]
+- UADataType: [ PNGSDGM:3008, PNGSDGM:GsdGenIoTimeStampDataType ]
   Fields:
     Status: [ UInt16, 0 ]
     Seconds: [ UInt64, 0 ]
     Nanoseconds: [ UInt32, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -88,121 +88,121 @@ DataTypes:
 
 DefinedTypes:
 
-  GsdGenAlarmEventType:
-  - [ UAObjectType, PNGSDGM:1002, GsdGenAlarmEventType ]
+  PNGSDGM:GsdGenAlarmEventType:
+  - [ UAObjectType, PNGSDGM:1002, PNGSDGM:GsdGenAlarmEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  GsdGenIoChannelDataType:
-  - [ UAObjectType, PNGSDGM:1004, GsdGenIoChannelDataType ]
+  PNGSDGM:GsdGenIoChannelDataType:
+  - [ UAObjectType, PNGSDGM:1004, PNGSDGM:GsdGenIoChannelDataType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  GsdGenIoChannelQualityType:
-  - [ UAObjectType, PNGSDGM:1003, GsdGenIoChannelQualityType ]
+  PNGSDGM:GsdGenIoChannelQualityType:
+  - [ UAObjectType, PNGSDGM:1003, PNGSDGM:GsdGenIoChannelQualityType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  GsdGenIoChannelType:
-  - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+  PNGSDGM:GsdGenIoChannelType:
+  - [ UAObjectType, PNGSDGM:1005, PNGSDGM:GsdGenIoChannelType ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5007, Data ]
+    - [ UAObject, PNGSDGM:5007, PNGSDGM:Data ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNGSDGM:1004, GsdGenIoChannelDataType ]
+      - [ UAObjectType, PNGSDGM:1004, PNGSDGM:GsdGenIoChannelDataType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5008, Quality ]
+    - [ UAObject, PNGSDGM:5008, PNGSDGM:Quality ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNGSDGM:1003, GsdGenIoChannelQualityType ]
+      - [ UAObjectType, PNGSDGM:1003, PNGSDGM:GsdGenIoChannelQualityType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  GsdGenIoDataType:
-  - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+  PNGSDGM:GsdGenIoDataType:
+  - [ UAObjectType, PNGSDGM:1006, PNGSDGM:GsdGenIoDataType ]
   - HasComponent:
-    - [ UAVariable, PNGSDGM:6047, <DataItemx> ]
+    - [ UAVariable, PNGSDGM:6047, PNGSDGM:<DataItemx> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5009, <InputChannelx> ]
+    - [ UAObject, PNGSDGM:5009, PNGSDGM:<InputChannelx> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+      - [ UAObjectType, PNGSDGM:1005, PNGSDGM:GsdGenIoChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5011, <OutputChannelx> ]
+    - [ UAObject, PNGSDGM:5011, PNGSDGM:<OutputChannelx> ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNGSDGM:1005, GsdGenIoChannelType ]
+      - [ UAObjectType, PNGSDGM:1005, PNGSDGM:GsdGenIoChannelType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  GsdGenSubmoduleApplicationType:
-  - [ UAObjectType, PNGSDGM:1007, GsdGenSubmoduleApplicationType ]
+  PNGSDGM:GsdGenSubmoduleApplicationType:
+  - [ UAObjectType, PNGSDGM:1007, PNGSDGM:GsdGenSubmoduleApplicationType ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5019, <ArrayFolder> ]
+    - [ UAObject, PNGSDGM:5019, PNGSDGM:<ArrayFolder> ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, PNGSDGM:6089, <EnumerationVariable>, Enumeration, 0, 0 ]
+    - [ UAVariable, PNGSDGM:6089, PNGSDGM:<EnumerationVariable>, Enumeration, 0, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5016, <FolderName> ]
+    - [ UAObject, PNGSDGM:5016, PNGSDGM:<FolderName> ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, PNGSDGM:6090, <OptionSetVariable> ]
+    - [ UAVariable, PNGSDGM:6090, PNGSDGM:<OptionSetVariable> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, PNGSDGM:6086, <UnitRangeVariable>, Number, -3, 0 ]
+    - [ UAVariable, PNGSDGM:6086, PNGSDGM:<UnitRangeVariable>, Number, -3, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, PNGSDGM:6084, <UnitVariable>, Number, -3, 0 ]
+    - [ UAVariable, PNGSDGM:6084, PNGSDGM:<UnitVariable>, Number, -3, 0 ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAVariable, PNGSDGM:6057, <ValueVariable> ]
+    - [ UAVariable, PNGSDGM:6057, PNGSDGM:<ValueVariable> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5015, Configuration ]
+    - [ UAObject, PNGSDGM:5015, PNGSDGM:Configuration ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:1005, FunctionalGroupType ]
+      - [ UAObjectType, DI:1005, DI:FunctionalGroupType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5013, Input ]
+    - [ UAObject, PNGSDGM:5013, PNGSDGM:Input ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+      - [ UAObjectType, PNGSDGM:1006, PNGSDGM:GsdGenIoDataType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5018, Lock ]
+    - [ UAObject, PNGSDGM:5018, PNGSDGM:Lock ]
     - HasTypeDefinition:
-      - [ UAObjectType, DI:6388, LockingServicesType ]
+      - [ UAObjectType, DI:6388, DI:LockingServicesType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, PNGSDGM:5014, Output ]
+    - [ UAObject, PNGSDGM:5014, PNGSDGM:Output ]
     - HasTypeDefinition:
-      - [ UAObjectType, PNGSDGM:1006, GsdGenIoDataType ]
+      - [ UAObjectType, PNGSDGM:1006, PNGSDGM:GsdGenIoDataType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAMethod, PNGSDGM:7001, SetApplicationTag ]
+    - [ UAMethod, PNGSDGM:7001, PNGSDGM:SetApplicationTag ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasProperty:

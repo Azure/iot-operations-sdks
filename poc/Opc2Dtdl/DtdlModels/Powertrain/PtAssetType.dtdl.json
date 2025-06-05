@@ -44,92 +44,111 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceHealth",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "dtmi:opcua:Powertrain:PtAssetType:dataType:DeviceHealthEnumeration;1",
       "writable": false
     },
     {
-      "@type": "Command",
-      "name": "VerifyAsset"
+      "@type": [ "Command", "Qualified" ],
+      "name": "VerifyAsset",
+      "namespace": "http://opcfoundation.org/UA/FX.AC"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtAnalogInputElectricalAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtAnalogInputElectricalAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtAnalogOutputElectricalAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtAnalogOutputElectricalAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtDigitalInputElectricalAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtDigitalInputElectricalAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtDigitalOutputElectricalAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtDigitalOutputElectricalAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtStandardAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtStandardAttributesType"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceHealthAlarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceHealthAlarms",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceTypeImage"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceTypeImage",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Documentation"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Documentation",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "DocumentationFiles"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DocumentationFiles",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ImageSet"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ImageSet",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ProtocolSupport"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProtocolSupport",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtAmbientAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtAmbientAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtAuxiliarySupplyAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtAuxiliarySupplyAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtCertificateAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtCertificateAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtHardwareAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtHardwareAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtMechanicalStrengthAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtMechanicalStrengthAttributesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "PtProtectionClassAttributes",
+      "namespace": "http://opcfoundation.org/UA/Powertrain",
       "target": "dtmi:opcua:Powertrain:PtProtectionClassAttributesType"
     }
   ]

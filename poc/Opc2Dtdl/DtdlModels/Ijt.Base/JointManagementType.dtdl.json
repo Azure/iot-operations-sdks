@@ -225,8 +225,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteJoint",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -272,8 +273,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteJointComponent",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -314,8 +316,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "DeleteJointDesign",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -356,8 +359,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJoint",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -403,8 +407,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJointComponent",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -450,8 +455,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJointComponentList",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -495,8 +501,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJointDesign",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -542,8 +549,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJointDesignList",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -587,8 +595,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJointList",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -632,8 +641,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetJointRevisionList",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -682,8 +692,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SelectJoint",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -729,8 +740,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendJoint",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -771,8 +783,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendJointComponent",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -813,8 +826,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SendJointDesign",
+      "namespace": "http://opcfoundation.org/UA/IJT.Base",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

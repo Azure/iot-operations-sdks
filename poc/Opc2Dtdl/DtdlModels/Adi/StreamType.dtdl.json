@@ -16,38 +16,45 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Status",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AcquisitionSettings",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AcquisitionStatus",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AcquisitionData",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ChemometricModelSettings",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Context",
+      "namespace": "http://opcfoundation.org/UA/ADI",
       "target": "dtmi:opcua:DI:FunctionalGroupType"
     }
   ]

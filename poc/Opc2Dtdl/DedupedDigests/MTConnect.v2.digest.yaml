@@ -1,23 +1,23 @@
 DataTypes:
-- UADataType: [ MTConnect.v2:2618, AssetEventDataType ]
+- UADataType: [ MTConnect.v2:2618, MTConnect.v2:AssetEventDataType ]
   Fields:
     AssetId: [ String, 0 ]
     AssetType: [ String, 0 ]
-- UADataType: [ MTConnect.v2:2634, MTCategoryType ]
+- UADataType: [ MTConnect.v2:2634, MTConnect.v2:MTCategoryType ]
   Enums:
     EVENT: 0
     CONDITION: 1
     SAMPLE: 2
-- UADataType: [ MTConnect.v2:2635, MTCoordinateSystemType ]
+- UADataType: [ MTConnect.v2:2635, MTConnect.v2:MTCoordinateSystemType ]
   Enums:
     MACHINE: 0
     WORK: 1
-- UADataType: [ MTConnect.v2:2633, MTRepresentationType ]
+- UADataType: [ MTConnect.v2:2633, MTConnect.v2:MTRepresentationType ]
   Enums:
     DISCRETE: 0
     TIME_SERIES: 1
     VALUE: 2
-- UADataType: [ MTConnect.v2:2636, MTResetTriggerType ]
+- UADataType: [ MTConnect.v2:2636, MTConnect.v2:MTResetTriggerType ]
   Enums:
     ACTION_COMPLETE: 0
     ANNUAL: 1
@@ -28,7 +28,7 @@ DataTypes:
     POWER_ON: 6
     SHIFT: 7
     WEEK: 8
-- UADataType: [ MTConnect.v2:2659, MTStatisticType ]
+- UADataType: [ MTConnect.v2:2659, MTConnect.v2:MTStatisticType ]
   Enums:
     AVERAGE: 0
     MAXIMUM: 1
@@ -38,45 +38,45 @@ DataTypes:
     RANGE: 5
     ROOT_MEAN_SQUARE: 6
     STANDARD_DEVIATION: 7
-- UADataType: [ MTConnect.v2:2653, MessageDataType ]
+- UADataType: [ MTConnect.v2:2653, MTConnect.v2:MessageDataType ]
   Fields:
     NativeCode: [ String, 0 ]
     Text: [ String, 0 ]
-- UADataType: [ MTConnect.v2:2637, ThreeSpaceSampleDataType ]
+- UADataType: [ MTConnect.v2:2637, MTConnect.v2:ThreeSpaceSampleDataType ]
   Fields:
     X: [ Double, 0 ]
     Y: [ Double, 0 ]
     Z: [ Double, 0 ]
-- UADataType: [ MTConnect.v2:2669, MTSeverityDataType ]
+- UADataType: [ MTConnect.v2:2669, MTConnect.v2:MTSeverityDataType ]
   Enums:
     FAULT: 0
     NORMAL: 1
     WARNING: 2
-- UADataType: [ MTConnect.v2:2668, QualifierDataType ]
+- UADataType: [ MTConnect.v2:2668, MTConnect.v2:QualifierDataType ]
   Enums:
     HIGH: 0
     LOW: 1
-- UADataType: [ MTConnect.v2:2197, ActiveStateDataType ]
+- UADataType: [ MTConnect.v2:2197, MTConnect.v2:ActiveStateDataType ]
   Enums:
     ACTIVE: 0
     INACTIVE: 1
-- UADataType: [ MTConnect.v2:2198, AvailabilityDataType ]
+- UADataType: [ MTConnect.v2:2198, MTConnect.v2:AvailabilityDataType ]
   Enums:
     AVAILABLE: 0
     UNAVAILABLE: 1
-- UADataType: [ MTConnect.v2:2199, AxisCouplingDataType ]
+- UADataType: [ MTConnect.v2:2199, MTConnect.v2:AxisCouplingDataType ]
   Enums:
     MASTER: 0
     SLAVE: 1
     SYNCHRONOUS: 2
     TANDEM: 3
-- UADataType: [ MTConnect.v2:2200, AxisStateDataType ]
+- UADataType: [ MTConnect.v2:2200, MTConnect.v2:AxisStateDataType ]
   Enums:
     HOME: 0
     PARKED: 1
     STOPPED: 2
     TRAVEL: 3
-- UADataType: [ MTConnect.v2:2202, CompositionStateDataType ]
+- UADataType: [ MTConnect.v2:2202, MTConnect.v2:CompositionStateDataType ]
   Enums:
     ACTIVE: 0
     CLOSED: 1
@@ -90,24 +90,24 @@ DataTypes:
     TRANSITIONING: 9
     UNLATCHED: 10
     UP: 11
-- UADataType: [ MTConnect.v2:2203, ControllerModeDataType ]
+- UADataType: [ MTConnect.v2:2203, MTConnect.v2:ControllerModeDataType ]
   Enums:
     AUTOMATIC: 0
     EDIT: 1
     MANUAL: 2
     MANUAL_DATA_INPUT: 3
     SEMI_AUTOMATIC: 4
-- UADataType: [ MTConnect.v2:2205, DirectionDataType ]
+- UADataType: [ MTConnect.v2:2205, MTConnect.v2:DirectionDataType ]
   Enums:
     CLOCKWISE: 0
     COUNTER_CLOCKWISE: 1
     NEGATIVE: 2
     POSITIVE: 3
-- UADataType: [ MTConnect.v2:2207, EmergencyStopDataType ]
+- UADataType: [ MTConnect.v2:2207, MTConnect.v2:EmergencyStopDataType ]
   Enums:
     ARMED: 0
     TRIGGERED: 1
-- UADataType: [ MTConnect.v2:2262, ExecutionDataType ]
+- UADataType: [ MTConnect.v2:2262, MTConnect.v2:ExecutionDataType ]
   Enums:
     ACTIVE: 0
     FEED_HOLD: 1
@@ -117,1255 +117,1255 @@ DataTypes:
     PROGRAM_COMPLETED: 5
     PROGRAM_STOPPED: 6
     STOPPED: 7
-- UADataType: [ MTConnect.v2:2208, FunctionalModeDataType ]
+- UADataType: [ MTConnect.v2:2208, MTConnect.v2:FunctionalModeDataType ]
   Enums:
     MAINTENANCE: 0
     PRODUCTION: 1
     PROCESS_DEVELOPMENT: 2
     SETUP: 3
     TEARDOWN: 4
-- UADataType: [ MTConnect.v2:2234, InterfaceStateDataType ]
+- UADataType: [ MTConnect.v2:2234, MTConnect.v2:InterfaceStateDataType ]
   Enums:
     ACTIVE: 0
     COMPLETE: 1
     FAIL: 2
     NOT_READY: 4
     READY: 5
-- UADataType: [ MTConnect.v2:2230, InterfaceStatusDataType ]
+- UADataType: [ MTConnect.v2:2230, MTConnect.v2:InterfaceStatusDataType ]
   Enums:
     DISABLED: 0
     ENABLED: 1
-- UADataType: [ MTConnect.v2:2204, OnOffDataType ]
+- UADataType: [ MTConnect.v2:2204, MTConnect.v2:OnOffDataType ]
   Enums:
     OFF: 0
     ON: 1
-- UADataType: [ MTConnect.v2:2201, OpenStateDataType ]
+- UADataType: [ MTConnect.v2:2201, MTConnect.v2:OpenStateDataType ]
   Enums:
     CLOSED: 0
     OPEN: 1
     UNLATCHED: 2
-- UADataType: [ MTConnect.v2:2209, PathModeDataType ]
+- UADataType: [ MTConnect.v2:2209, MTConnect.v2:PathModeDataType ]
   Enums:
     INDEPENDENT: 0
     MASTER: 1
     MIRROR: 2
     SYNCHRONOUS: 3
-- UADataType: [ MTConnect.v2:2210, ProgramEditDataType ]
+- UADataType: [ MTConnect.v2:2210, MTConnect.v2:ProgramEditDataType ]
   Enums:
     ACTIVE: 0
     NOT_READY: 1
     READY: 2
-- UADataType: [ MTConnect.v2:2211, RotaryModeDataType ]
+- UADataType: [ MTConnect.v2:2211, MTConnect.v2:RotaryModeDataType ]
   Enums:
     CONTOUR: 0
     INDEX: 1
     SPINDLE: 2
-- UADataType: [ MTConnect.v2:2206, YesNoDataType ]
+- UADataType: [ MTConnect.v2:2206, MTConnect.v2:YesNoDataType ]
   Enums:
     NO: 0
     YES: 1
 
 DefinedTypes:
 
-  MTChannelType:
-  - [ UAObjectType, MTConnect.v2:2059, MTChannelType ]
+  MTConnect.v2:MTChannelType:
+  - [ UAObjectType, MTConnect.v2:2059, MTConnect.v2:MTChannelType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  MTComponentType:
-  - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+  MTConnect.v2:MTComponentType:
+  - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, MTConnect.v2:2028, Description ]
+    - [ UAObject, MTConnect.v2:2028, MTConnect.v2:Description ]
     - HasTypeDefinition:
-      - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+      - [ UAObjectType, MTConnect.v2:2053, MTConnect.v2:MTDescriptionType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAObject, MTConnect.v2:2029, Configuration ]
+    - [ UAObject, MTConnect.v2:2029, MTConnect.v2:Configuration ]
     - HasTypeDefinition:
-      - [ UAObjectType, MTConnect.v2:2044, MTConfigurationType ]
+      - [ UAObjectType, MTConnect.v2:2044, MTConnect.v2:MTConfigurationType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  MTDeviceType:
-  - [ UAObjectType, MTConnect.v2:2015, MTDeviceType ]
+  MTConnect.v2:MTDeviceType:
+  - [ UAObjectType, MTConnect.v2:2015, MTConnect.v2:MTDeviceType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
-  MTCompositionType:
-  - [ UAObjectType, MTConnect.v2:2067, MTCompositionType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, 58, BaseObjectType ]
-
-  MTConfigurationType:
-  - [ UAObjectType, MTConnect.v2:2044, MTConfigurationType ]
+  MTConnect.v2:MTCompositionType:
+  - [ UAObjectType, MTConnect.v2:2067, MTConnect.v2:MTCompositionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  MTSensorConfigurationType:
-  - [ UAObjectType, MTConnect.v2:2046, MTSensorConfigurationType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2044, MTConfigurationType ]
-
-  MTDescriptionType:
-  - [ UAObjectType, MTConnect.v2:2053, MTDescriptionType ]
+  MTConnect.v2:MTConfigurationType:
+  - [ UAObjectType, MTConnect.v2:2044, MTConnect.v2:MTConfigurationType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  ActuatorType:
-  - [ UAObjectType, MTConnect.v2:2074, ActuatorType ]
+  MTConnect.v2:MTSensorConfigurationType:
+  - [ UAObjectType, MTConnect.v2:2046, MTConnect.v2:MTSensorConfigurationType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
+    - [ UAObjectType, MTConnect.v2:2044, MTConnect.v2:MTConfigurationType ]
 
-  AuxiliariesType:
-  - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
-
-  BarFeederType:
-  - [ UAObjectType, MTConnect.v2:2082, BarFeederType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
-
-  EnvironmentalType:
-  - [ UAObjectType, MTConnect.v2:2102, EnvironmentalType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
-
-  LoaderType:
-  - [ UAObjectType, MTConnect.v2:2112, LoaderType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
-
-  SensorType:
-  - [ UAObjectType, MTConnect.v2:2134, SensorType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
-
-  ToolingDeliveryType:
-  - [ UAObjectType, MTConnect.v2:2140, ToolingDeliveryType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
-
-  WasteDisposalType:
-  - [ UAObjectType, MTConnect.v2:2142, WasteDisposalType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2076, AuxiliariesType ]
-
-  AxesType:
-  - [ UAObjectType, MTConnect.v2:2078, AxesType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
-
-  LinearType:
-  - [ UAObjectType, MTConnect.v2:2110, LinearType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2078, AxesType ]
-
-  RotaryType:
-  - [ UAObjectType, MTConnect.v2:2132, RotaryType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2078, AxesType ]
-
-  ChuckType:
-  - [ UAObjectType, MTConnect.v2:2086, ChuckType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2132, RotaryType ]
-
-  ControllerType:
-  - [ UAObjectType, MTConnect.v2:2088, ControllerType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
-
-  PathType:
-  - [ UAObjectType, MTConnect.v2:2120, PathType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2088, ControllerType ]
-
-  DoorType:
-  - [ UAObjectType, MTConnect.v2:2096, DoorType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
-
-  InterfacesType:
-  - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
-
-  BarFeederInterfaceType:
-  - [ UAObjectType, MTConnect.v2:2080, BarFeederInterfaceType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
-
-  ChuckInterfaceType:
-  - [ UAObjectType, MTConnect.v2:2084, ChuckInterfaceType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
-
-  DoorInterfaceType:
-  - [ UAObjectType, MTConnect.v2:2094, DoorInterfaceType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
-
-  MaterialHandlerInterfaceType:
-  - [ UAObjectType, MTConnect.v2:2116, MaterialHandlerInterfaceType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2108, InterfacesType ]
-
-  ResourcesType:
-  - [ UAObjectType, MTConnect.v2:2130, ResourcesType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
-
-  MaterialsType:
-  - [ UAObjectType, MTConnect.v2:2118, MaterialsType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2130, ResourcesType ]
-
-  StockType:
-  - [ UAObjectType, MTConnect.v2:2136, StockType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2118, MaterialsType ]
-
-  PersonnelType:
-  - [ UAObjectType, MTConnect.v2:2122, PersonnelType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2130, ResourcesType ]
-
-  SystemsType:
-  - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2021, MTComponentType ]
-
-  CoolantType:
-  - [ UAObjectType, MTConnect.v2:2090, CoolantType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  DielectricType:
-  - [ UAObjectType, MTConnect.v2:2092, DielectricType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  ElectricType:
-  - [ UAObjectType, MTConnect.v2:2098, ElectricType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  EnclosureType:
-  - [ UAObjectType, MTConnect.v2:2100, EnclosureType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  FeederType:
-  - [ UAObjectType, MTConnect.v2:2104, FeederType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  HydraulicType:
-  - [ UAObjectType, MTConnect.v2:2106, HydraulicType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  LubricationType:
-  - [ UAObjectType, MTConnect.v2:2114, LubricationType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  PneumaticType:
-  - [ UAObjectType, MTConnect.v2:2124, PneumaticType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  ProcessPowerType:
-  - [ UAObjectType, MTConnect.v2:2126, ProcessPowerType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  ProtectiveType:
-  - [ UAObjectType, MTConnect.v2:2128, ProtectiveType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2138, SystemsType ]
-
-  MTConditionClassType:
-  - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
-  - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
-
-  MTConstraintType:
-  - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+  MTConnect.v2:MTDescriptionType:
+  - [ UAObjectType, MTConnect.v2:2053, MTConnect.v2:MTDescriptionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  MTEventClassType:
-  - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+  MTConnect.v2:ActuatorType:
+  - [ UAObjectType, MTConnect.v2:2074, MTConnect.v2:ActuatorType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
 
-  MTMessageEventType:
-  - [ UAObjectType, MTConnect.v2:2656, MTMessageEventType ]
+  MTConnect.v2:AuxiliariesType:
+  - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+
+  MTConnect.v2:BarFeederType:
+  - [ UAObjectType, MTConnect.v2:2082, MTConnect.v2:BarFeederType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+
+  MTConnect.v2:EnvironmentalType:
+  - [ UAObjectType, MTConnect.v2:2102, MTConnect.v2:EnvironmentalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+
+  MTConnect.v2:LoaderType:
+  - [ UAObjectType, MTConnect.v2:2112, MTConnect.v2:LoaderType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+
+  MTConnect.v2:SensorType:
+  - [ UAObjectType, MTConnect.v2:2134, MTConnect.v2:SensorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+
+  MTConnect.v2:ToolingDeliveryType:
+  - [ UAObjectType, MTConnect.v2:2140, MTConnect.v2:ToolingDeliveryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+
+  MTConnect.v2:WasteDisposalType:
+  - [ UAObjectType, MTConnect.v2:2142, MTConnect.v2:WasteDisposalType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2076, MTConnect.v2:AuxiliariesType ]
+
+  MTConnect.v2:AxesType:
+  - [ UAObjectType, MTConnect.v2:2078, MTConnect.v2:AxesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+
+  MTConnect.v2:LinearType:
+  - [ UAObjectType, MTConnect.v2:2110, MTConnect.v2:LinearType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2078, MTConnect.v2:AxesType ]
+
+  MTConnect.v2:RotaryType:
+  - [ UAObjectType, MTConnect.v2:2132, MTConnect.v2:RotaryType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2078, MTConnect.v2:AxesType ]
+
+  MTConnect.v2:ChuckType:
+  - [ UAObjectType, MTConnect.v2:2086, MTConnect.v2:ChuckType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2132, MTConnect.v2:RotaryType ]
+
+  MTConnect.v2:ControllerType:
+  - [ UAObjectType, MTConnect.v2:2088, MTConnect.v2:ControllerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+
+  MTConnect.v2:PathType:
+  - [ UAObjectType, MTConnect.v2:2120, MTConnect.v2:PathType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2088, MTConnect.v2:ControllerType ]
+
+  MTConnect.v2:DoorType:
+  - [ UAObjectType, MTConnect.v2:2096, MTConnect.v2:DoorType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+
+  MTConnect.v2:InterfacesType:
+  - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+
+  MTConnect.v2:BarFeederInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2080, MTConnect.v2:BarFeederInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
+
+  MTConnect.v2:ChuckInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2084, MTConnect.v2:ChuckInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
+
+  MTConnect.v2:DoorInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2094, MTConnect.v2:DoorInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
+
+  MTConnect.v2:MaterialHandlerInterfaceType:
+  - [ UAObjectType, MTConnect.v2:2116, MTConnect.v2:MaterialHandlerInterfaceType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2108, MTConnect.v2:InterfacesType ]
+
+  MTConnect.v2:ResourcesType:
+  - [ UAObjectType, MTConnect.v2:2130, MTConnect.v2:ResourcesType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+
+  MTConnect.v2:MaterialsType:
+  - [ UAObjectType, MTConnect.v2:2118, MTConnect.v2:MaterialsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2130, MTConnect.v2:ResourcesType ]
+
+  MTConnect.v2:StockType:
+  - [ UAObjectType, MTConnect.v2:2136, MTConnect.v2:StockType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2118, MTConnect.v2:MaterialsType ]
+
+  MTConnect.v2:PersonnelType:
+  - [ UAObjectType, MTConnect.v2:2122, MTConnect.v2:PersonnelType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2130, MTConnect.v2:ResourcesType ]
+
+  MTConnect.v2:SystemsType:
+  - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2021, MTConnect.v2:MTComponentType ]
+
+  MTConnect.v2:CoolantType:
+  - [ UAObjectType, MTConnect.v2:2090, MTConnect.v2:CoolantType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:DielectricType:
+  - [ UAObjectType, MTConnect.v2:2092, MTConnect.v2:DielectricType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:ElectricType:
+  - [ UAObjectType, MTConnect.v2:2098, MTConnect.v2:ElectricType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:EnclosureType:
+  - [ UAObjectType, MTConnect.v2:2100, MTConnect.v2:EnclosureType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:FeederType:
+  - [ UAObjectType, MTConnect.v2:2104, MTConnect.v2:FeederType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:HydraulicType:
+  - [ UAObjectType, MTConnect.v2:2106, MTConnect.v2:HydraulicType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:LubricationType:
+  - [ UAObjectType, MTConnect.v2:2114, MTConnect.v2:LubricationType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:PneumaticType:
+  - [ UAObjectType, MTConnect.v2:2124, MTConnect.v2:PneumaticType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:ProcessPowerType:
+  - [ UAObjectType, MTConnect.v2:2126, MTConnect.v2:ProcessPowerType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:ProtectiveType:
+  - [ UAObjectType, MTConnect.v2:2128, MTConnect.v2:ProtectiveType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2138, MTConnect.v2:SystemsType ]
+
+  MTConnect.v2:MTConditionClassType:
+  - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
+
+  MTConnect.v2:MTConstraintType:
+  - [ UAObjectType, MTConnect.v2:2647, MTConnect.v2:MTConstraintType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, 58, BaseObjectType ]
+
+  MTConnect.v2:MTEventClassType:
+  - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
+  - HasSubtype_reverse:
+    - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
+
+  MTConnect.v2:MTMessageEventType:
+  - [ UAObjectType, MTConnect.v2:2656, MTConnect.v2:MTMessageEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
 
-  MTConditionEventType:
-  - [ UAObjectType, MTConnect.v2:4326, MTConditionEventType ]
+  MTConnect.v2:MTConditionEventType:
+  - [ UAObjectType, MTConnect.v2:4326, MTConnect.v2:MTConditionEventType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2782, ConditionType ]
 
-  MTConditionType:
-  - [ UAObjectType, MTConnect.v2:2660, MTConditionType ]
+  MTConnect.v2:MTConditionType:
+  - [ UAObjectType, MTConnect.v2:2660, MTConnect.v2:MTConditionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, MTConnect.v2:2924, Constraints ]
+    - [ UAObject, MTConnect.v2:2924, MTConnect.v2:Constraints ]
     - HasTypeDefinition:
-      - [ UAObjectType, MTConnect.v2:2647, MTConstraintType ]
+      - [ UAObjectType, MTConnect.v2:2647, MTConnect.v2:MTConstraintType ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  MTDataItemClassType:
-  - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
+  MTConnect.v2:MTDataItemClassType:
+  - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
-  MTMessageClassType:
-  - [ UAObjectType, MTConnect.v2:2427, MTMessageClassType ]
+  MTConnect.v2:MTMessageClassType:
+  - [ UAObjectType, MTConnect.v2:2427, MTConnect.v2:MTMessageClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
-  MTSampleClassType:
-  - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+  MTConnect.v2:MTSampleClassType:
+  - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2425, MTDataItemClassType ]
+    - [ UAObjectType, MTConnect.v2:2425, MTConnect.v2:MTDataItemClassType ]
 
-  AccelerationClassType:
-  - [ UAObjectType, MTConnect.v2:2265, AccelerationClassType ]
+  MTConnect.v2:AccelerationClassType:
+  - [ UAObjectType, MTConnect.v2:2265, MTConnect.v2:AccelerationClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  AccumulatedTimeClassType:
-  - [ UAObjectType, MTConnect.v2:2267, AccumulatedTimeClassType ]
+  MTConnect.v2:AccumulatedTimeClassType:
+  - [ UAObjectType, MTConnect.v2:2267, MTConnect.v2:AccumulatedTimeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  AmperageClassType:
-  - [ UAObjectType, MTConnect.v2:2273, AmperageClassType ]
+  MTConnect.v2:AmperageClassType:
+  - [ UAObjectType, MTConnect.v2:2273, MTConnect.v2:AmperageClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  AngleClassType:
-  - [ UAObjectType, MTConnect.v2:2275, AngleClassType ]
+  MTConnect.v2:AngleClassType:
+  - [ UAObjectType, MTConnect.v2:2275, MTConnect.v2:AngleClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  AngularAccelerationClassType:
-  - [ UAObjectType, MTConnect.v2:2269, AngularAccelerationClassType ]
+  MTConnect.v2:AngularAccelerationClassType:
+  - [ UAObjectType, MTConnect.v2:2269, MTConnect.v2:AngularAccelerationClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  AngularVelocityClassType:
-  - [ UAObjectType, MTConnect.v2:2271, AngularVelocityClassType ]
+  MTConnect.v2:AngularVelocityClassType:
+  - [ UAObjectType, MTConnect.v2:2271, MTConnect.v2:AngularVelocityClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  AxisFeedrateClassType:
-  - [ UAObjectType, MTConnect.v2:2277, AxisFeedrateClassType ]
+  MTConnect.v2:AxisFeedrateClassType:
+  - [ UAObjectType, MTConnect.v2:2277, MTConnect.v2:AxisFeedrateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  ClockTimeClassType:
-  - [ UAObjectType, MTConnect.v2:2279, ClockTimeClassType ]
+  MTConnect.v2:ClockTimeClassType:
+  - [ UAObjectType, MTConnect.v2:2279, MTConnect.v2:ClockTimeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  ConcentrationClassType:
-  - [ UAObjectType, MTConnect.v2:2281, ConcentrationClassType ]
+  MTConnect.v2:ConcentrationClassType:
+  - [ UAObjectType, MTConnect.v2:2281, MTConnect.v2:ConcentrationClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  ConductivityClassType:
-  - [ UAObjectType, MTConnect.v2:2283, ConductivityClassType ]
+  MTConnect.v2:ConductivityClassType:
+  - [ UAObjectType, MTConnect.v2:2283, MTConnect.v2:ConductivityClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  DisplacementClassType:
-  - [ UAObjectType, MTConnect.v2:2285, DisplacementClassType ]
+  MTConnect.v2:DisplacementClassType:
+  - [ UAObjectType, MTConnect.v2:2285, MTConnect.v2:DisplacementClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  ElectricalEnergyClassType:
-  - [ UAObjectType, MTConnect.v2:2287, ElectricalEnergyClassType ]
+  MTConnect.v2:ElectricalEnergyClassType:
+  - [ UAObjectType, MTConnect.v2:2287, MTConnect.v2:ElectricalEnergyClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  EquipmentTimerClassType:
-  - [ UAObjectType, MTConnect.v2:2289, EquipmentTimerClassType ]
+  MTConnect.v2:EquipmentTimerClassType:
+  - [ UAObjectType, MTConnect.v2:2289, MTConnect.v2:EquipmentTimerClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  FillLevelClassType:
-  - [ UAObjectType, MTConnect.v2:2291, FillLevelClassType ]
+  MTConnect.v2:FillLevelClassType:
+  - [ UAObjectType, MTConnect.v2:2291, MTConnect.v2:FillLevelClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  FlowClassType:
-  - [ UAObjectType, MTConnect.v2:2293, FlowClassType ]
+  MTConnect.v2:FlowClassType:
+  - [ UAObjectType, MTConnect.v2:2293, MTConnect.v2:FlowClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  FrequencyClassType:
-  - [ UAObjectType, MTConnect.v2:2295, FrequencyClassType ]
+  MTConnect.v2:FrequencyClassType:
+  - [ UAObjectType, MTConnect.v2:2295, MTConnect.v2:FrequencyClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  LengthClassType:
-  - [ UAObjectType, MTConnect.v2:2297, LengthClassType ]
+  MTConnect.v2:LengthClassType:
+  - [ UAObjectType, MTConnect.v2:2297, MTConnect.v2:LengthClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  LinearForceClassType:
-  - [ UAObjectType, MTConnect.v2:2299, LinearForceClassType ]
+  MTConnect.v2:LinearForceClassType:
+  - [ UAObjectType, MTConnect.v2:2299, MTConnect.v2:LinearForceClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  LoadClassType:
-  - [ UAObjectType, MTConnect.v2:2263, LoadClassType ]
+  MTConnect.v2:LoadClassType:
+  - [ UAObjectType, MTConnect.v2:2263, MTConnect.v2:LoadClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  MassClassType:
-  - [ UAObjectType, MTConnect.v2:2301, MassClassType ]
+  MTConnect.v2:MassClassType:
+  - [ UAObjectType, MTConnect.v2:2301, MTConnect.v2:MassClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  PathFeedrateClassType:
-  - [ UAObjectType, MTConnect.v2:2303, PathFeedrateClassType ]
+  MTConnect.v2:PathFeedrateClassType:
+  - [ UAObjectType, MTConnect.v2:2303, MTConnect.v2:PathFeedrateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  PathPositionClassType:
-  - [ UAObjectType, MTConnect.v2:2305, PathPositionClassType ]
+  MTConnect.v2:PathPositionClassType:
+  - [ UAObjectType, MTConnect.v2:2305, MTConnect.v2:PathPositionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  PHClassType:
-  - [ UAObjectType, MTConnect.v2:2307, PHClassType ]
+  MTConnect.v2:PHClassType:
+  - [ UAObjectType, MTConnect.v2:2307, MTConnect.v2:PHClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  PositionClassType:
-  - [ UAObjectType, MTConnect.v2:2309, PositionClassType ]
+  MTConnect.v2:PositionClassType:
+  - [ UAObjectType, MTConnect.v2:2309, MTConnect.v2:PositionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  PowerFactorClassType:
-  - [ UAObjectType, MTConnect.v2:2311, PowerFactorClassType ]
+  MTConnect.v2:PowerFactorClassType:
+  - [ UAObjectType, MTConnect.v2:2311, MTConnect.v2:PowerFactorClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  PressureClassType:
-  - [ UAObjectType, MTConnect.v2:2313, PressureClassType ]
+  MTConnect.v2:PressureClassType:
+  - [ UAObjectType, MTConnect.v2:2313, MTConnect.v2:PressureClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  ProcessTimerClassType:
-  - [ UAObjectType, MTConnect.v2:2315, ProcessTimerClassType ]
+  MTConnect.v2:ProcessTimerClassType:
+  - [ UAObjectType, MTConnect.v2:2315, MTConnect.v2:ProcessTimerClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  ResistenceClassType:
-  - [ UAObjectType, MTConnect.v2:2317, ResistenceClassType ]
+  MTConnect.v2:ResistenceClassType:
+  - [ UAObjectType, MTConnect.v2:2317, MTConnect.v2:ResistenceClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  RotaryVelocityClassType:
-  - [ UAObjectType, MTConnect.v2:2319, RotaryVelocityClassType ]
+  MTConnect.v2:RotaryVelocityClassType:
+  - [ UAObjectType, MTConnect.v2:2319, MTConnect.v2:RotaryVelocityClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  SoundLevelClassType:
-  - [ UAObjectType, MTConnect.v2:2321, SoundLevelClassType ]
+  MTConnect.v2:SoundLevelClassType:
+  - [ UAObjectType, MTConnect.v2:2321, MTConnect.v2:SoundLevelClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  StrainClassType:
-  - [ UAObjectType, MTConnect.v2:2323, StrainClassType ]
+  MTConnect.v2:StrainClassType:
+  - [ UAObjectType, MTConnect.v2:2323, MTConnect.v2:StrainClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  TemperatureClassType:
-  - [ UAObjectType, MTConnect.v2:2325, TemperatureClassType ]
+  MTConnect.v2:TemperatureClassType:
+  - [ UAObjectType, MTConnect.v2:2325, MTConnect.v2:TemperatureClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  TensionClassType:
-  - [ UAObjectType, MTConnect.v2:2327, TensionClassType ]
+  MTConnect.v2:TensionClassType:
+  - [ UAObjectType, MTConnect.v2:2327, MTConnect.v2:TensionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  TiltClassType:
-  - [ UAObjectType, MTConnect.v2:2329, TiltClassType ]
+  MTConnect.v2:TiltClassType:
+  - [ UAObjectType, MTConnect.v2:2329, MTConnect.v2:TiltClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  TorqueClassType:
-  - [ UAObjectType, MTConnect.v2:2331, TorqueClassType ]
+  MTConnect.v2:TorqueClassType:
+  - [ UAObjectType, MTConnect.v2:2331, MTConnect.v2:TorqueClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  VelocityClassType:
-  - [ UAObjectType, MTConnect.v2:2335, VelocityClassType ]
+  MTConnect.v2:VelocityClassType:
+  - [ UAObjectType, MTConnect.v2:2335, MTConnect.v2:VelocityClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  ViscosityClassType:
-  - [ UAObjectType, MTConnect.v2:2339, ViscosityClassType ]
+  MTConnect.v2:ViscosityClassType:
+  - [ UAObjectType, MTConnect.v2:2339, MTConnect.v2:ViscosityClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  VoltageClassType:
-  - [ UAObjectType, MTConnect.v2:2341, VoltageClassType ]
+  MTConnect.v2:VoltageClassType:
+  - [ UAObjectType, MTConnect.v2:2341, MTConnect.v2:VoltageClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  VoltAmpereClassType:
-  - [ UAObjectType, MTConnect.v2:2333, VoltAmpereClassType ]
+  MTConnect.v2:VoltAmpereClassType:
+  - [ UAObjectType, MTConnect.v2:2333, MTConnect.v2:VoltAmpereClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  VoltAmpereReactiveClassType:
-  - [ UAObjectType, MTConnect.v2:2337, VoltAmpereReactiveClassType ]
+  MTConnect.v2:VoltAmpereReactiveClassType:
+  - [ UAObjectType, MTConnect.v2:2337, MTConnect.v2:VoltAmpereReactiveClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  WattageClassType:
-  - [ UAObjectType, MTConnect.v2:2343, WattageClassType ]
+  MTConnect.v2:WattageClassType:
+  - [ UAObjectType, MTConnect.v2:2343, MTConnect.v2:WattageClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2345, MTSampleClassType ]
+    - [ UAObjectType, MTConnect.v2:2345, MTConnect.v2:MTSampleClassType ]
 
-  MTControlledVocabEventClassType:
-  - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+  MTConnect.v2:MTControlledVocabEventClassType:
+  - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
-  ActuatorStateClassType:
-  - [ UAObjectType, MTConnect.v2:2146, ActuatorStateClassType ]
+  MTConnect.v2:ActuatorStateClassType:
+  - [ UAObjectType, MTConnect.v2:2146, MTConnect.v2:ActuatorStateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  AvailabilityClassType:
-  - [ UAObjectType, MTConnect.v2:2149, AvailabilityClassType ]
+  MTConnect.v2:AvailabilityClassType:
+  - [ UAObjectType, MTConnect.v2:2149, MTConnect.v2:AvailabilityClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  AxisCouplingClassType:
-  - [ UAObjectType, MTConnect.v2:2152, AxisCouplingClassType ]
+  MTConnect.v2:AxisCouplingClassType:
+  - [ UAObjectType, MTConnect.v2:2152, MTConnect.v2:AxisCouplingClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  AxisInterlockClassType:
-  - [ UAObjectType, MTConnect.v2:2155, AxisInterlockClassType ]
+  MTConnect.v2:AxisInterlockClassType:
+  - [ UAObjectType, MTConnect.v2:2155, MTConnect.v2:AxisInterlockClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  AxisStateClassType:
-  - [ UAObjectType, MTConnect.v2:2158, AxisStateClassType ]
+  MTConnect.v2:AxisStateClassType:
+  - [ UAObjectType, MTConnect.v2:2158, MTConnect.v2:AxisStateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  ChuckInterlockClassType:
-  - [ UAObjectType, MTConnect.v2:2161, ChuckInterlockClassType ]
+  MTConnect.v2:ChuckInterlockClassType:
+  - [ UAObjectType, MTConnect.v2:2161, MTConnect.v2:ChuckInterlockClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  ChuckStateClassType:
-  - [ UAObjectType, MTConnect.v2:2164, ChuckStateClassType ]
+  MTConnect.v2:ChuckStateClassType:
+  - [ UAObjectType, MTConnect.v2:2164, MTConnect.v2:ChuckStateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  CloseChuckClassType:
-  - [ UAObjectType, MTConnect.v2:2256, CloseChuckClassType ]
+  MTConnect.v2:CloseChuckClassType:
+  - [ UAObjectType, MTConnect.v2:2256, MTConnect.v2:CloseChuckClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  CloseDoorClassType:
-  - [ UAObjectType, MTConnect.v2:2250, CloseDoorClassType ]
+  MTConnect.v2:CloseDoorClassType:
+  - [ UAObjectType, MTConnect.v2:2250, MTConnect.v2:CloseDoorClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  CompositionStateClassType:
-  - [ UAObjectType, MTConnect.v2:2173, CompositionStateClassType ]
+  MTConnect.v2:CompositionStateClassType:
+  - [ UAObjectType, MTConnect.v2:2173, MTConnect.v2:CompositionStateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  ControllerModeClassType:
-  - [ UAObjectType, MTConnect.v2:2167, ControllerModeClassType ]
+  MTConnect.v2:ControllerModeClassType:
+  - [ UAObjectType, MTConnect.v2:2167, MTConnect.v2:ControllerModeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  ControllerModeOverrideClassType:
-  - [ UAObjectType, MTConnect.v2:2176, ControllerModeOverrideClassType ]
+  MTConnect.v2:ControllerModeOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:2176, MTConnect.v2:ControllerModeOverrideClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  DirectionClassType:
-  - [ UAObjectType, MTConnect.v2:2179, DirectionClassType ]
+  MTConnect.v2:DirectionClassType:
+  - [ UAObjectType, MTConnect.v2:2179, MTConnect.v2:DirectionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  DoorStateClassType:
-  - [ UAObjectType, MTConnect.v2:2182, DoorStateClassType ]
+  MTConnect.v2:DoorStateClassType:
+  - [ UAObjectType, MTConnect.v2:2182, MTConnect.v2:DoorStateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  EmergencyStopClassType:
-  - [ UAObjectType, MTConnect.v2:2185, EmergencyStopClassType ]
+  MTConnect.v2:EmergencyStopClassType:
+  - [ UAObjectType, MTConnect.v2:2185, MTConnect.v2:EmergencyStopClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  EndOfBarClassType:
-  - [ UAObjectType, MTConnect.v2:2188, EndOfBarClassType ]
+  MTConnect.v2:EndOfBarClassType:
+  - [ UAObjectType, MTConnect.v2:2188, MTConnect.v2:EndOfBarClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  EquipmentModeClassType:
-  - [ UAObjectType, MTConnect.v2:2191, EquipmentModeClassType ]
+  MTConnect.v2:EquipmentModeClassType:
+  - [ UAObjectType, MTConnect.v2:2191, MTConnect.v2:EquipmentModeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  ExecutionClassType:
-  - [ UAObjectType, MTConnect.v2:2170, ExecutionClassType ]
+  MTConnect.v2:ExecutionClassType:
+  - [ UAObjectType, MTConnect.v2:2170, MTConnect.v2:ExecutionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  FunctionalModeClassType:
-  - [ UAObjectType, MTConnect.v2:2194, FunctionalModeClassType ]
+  MTConnect.v2:FunctionalModeClassType:
+  - [ UAObjectType, MTConnect.v2:2194, MTConnect.v2:FunctionalModeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  InterfaceStateClassType:
-  - [ UAObjectType, MTConnect.v2:2227, InterfaceStateClassType ]
+  MTConnect.v2:InterfaceStateClassType:
+  - [ UAObjectType, MTConnect.v2:2227, MTConnect.v2:InterfaceStateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  MaterialChangeClassType:
-  - [ UAObjectType, MTConnect.v2:2235, MaterialChangeClassType ]
+  MTConnect.v2:MaterialChangeClassType:
+  - [ UAObjectType, MTConnect.v2:2235, MTConnect.v2:MaterialChangeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  MaterialFeedClassType:
-  - [ UAObjectType, MTConnect.v2:2231, MaterialFeedClassType ]
+  MTConnect.v2:MaterialFeedClassType:
+  - [ UAObjectType, MTConnect.v2:2231, MTConnect.v2:MaterialFeedClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  MaterialLoadClassType:
-  - [ UAObjectType, MTConnect.v2:2241, MaterialLoadClassType ]
+  MTConnect.v2:MaterialLoadClassType:
+  - [ UAObjectType, MTConnect.v2:2241, MTConnect.v2:MaterialLoadClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  MaterialRetractClassType:
-  - [ UAObjectType, MTConnect.v2:2238, MaterialRetractClassType ]
+  MTConnect.v2:MaterialRetractClassType:
+  - [ UAObjectType, MTConnect.v2:2238, MTConnect.v2:MaterialRetractClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  MaterialUnloadClassType:
-  - [ UAObjectType, MTConnect.v2:2244, MaterialUnloadClassType ]
+  MTConnect.v2:MaterialUnloadClassType:
+  - [ UAObjectType, MTConnect.v2:2244, MTConnect.v2:MaterialUnloadClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  OpenChuckClassType:
-  - [ UAObjectType, MTConnect.v2:2253, OpenChuckClassType ]
+  MTConnect.v2:OpenChuckClassType:
+  - [ UAObjectType, MTConnect.v2:2253, MTConnect.v2:OpenChuckClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  OpenDoorClassType:
-  - [ UAObjectType, MTConnect.v2:2247, OpenDoorClassType ]
+  MTConnect.v2:OpenDoorClassType:
+  - [ UAObjectType, MTConnect.v2:2247, MTConnect.v2:OpenDoorClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  PartChangeClassType:
-  - [ UAObjectType, MTConnect.v2:2259, PartChangeClassType ]
+  MTConnect.v2:PartChangeClassType:
+  - [ UAObjectType, MTConnect.v2:2259, MTConnect.v2:PartChangeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  PathModeClassType:
-  - [ UAObjectType, MTConnect.v2:2215, PathModeClassType ]
+  MTConnect.v2:PathModeClassType:
+  - [ UAObjectType, MTConnect.v2:2215, MTConnect.v2:PathModeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  PowerStateClassType:
-  - [ UAObjectType, MTConnect.v2:2218, PowerStateClassType ]
+  MTConnect.v2:PowerStateClassType:
+  - [ UAObjectType, MTConnect.v2:2218, MTConnect.v2:PowerStateClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  ProgramEditClassType:
-  - [ UAObjectType, MTConnect.v2:2221, ProgramEditClassType ]
+  MTConnect.v2:ProgramEditClassType:
+  - [ UAObjectType, MTConnect.v2:2221, MTConnect.v2:ProgramEditClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  RotaryModeClassType:
-  - [ UAObjectType, MTConnect.v2:2224, RotaryModeClassType ]
+  MTConnect.v2:RotaryModeClassType:
+  - [ UAObjectType, MTConnect.v2:2224, MTConnect.v2:RotaryModeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  SpindleInterlockClassType:
-  - [ UAObjectType, MTConnect.v2:2212, SpindleInterlockClassType ]
+  MTConnect.v2:SpindleInterlockClassType:
+  - [ UAObjectType, MTConnect.v2:2212, MTConnect.v2:SpindleInterlockClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2144, MTControlledVocabEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2144, MTConnect.v2:MTControlledVocabEventClassType ]
 
-  MTNumericEventClassType:
-  - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+  MTConnect.v2:MTNumericEventClassType:
+  - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
-  AxisFeedrateOverrideClassType:
-  - [ UAObjectType, MTConnect.v2:2347, AxisFeedrateOverrideClassType ]
+  MTConnect.v2:AxisFeedrateOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:2347, MTConnect.v2:AxisFeedrateOverrideClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
-  BlockCountClassType:
-  - [ UAObjectType, MTConnect.v2:2349, BlockCountClassType ]
+  MTConnect.v2:BlockCountClassType:
+  - [ UAObjectType, MTConnect.v2:2349, MTConnect.v2:BlockCountClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
-  HardnessClassType:
-  - [ UAObjectType, MTConnect.v2:2351, HardnessClassType ]
+  MTConnect.v2:HardnessClassType:
+  - [ UAObjectType, MTConnect.v2:2351, MTConnect.v2:HardnessClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
-  LineNumberClassType:
-  - [ UAObjectType, MTConnect.v2:2353, LineNumberClassType ]
+  MTConnect.v2:LineNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2353, MTConnect.v2:LineNumberClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
-  PartCountClassType:
-  - [ UAObjectType, MTConnect.v2:2355, PartCountClassType ]
+  MTConnect.v2:PartCountClassType:
+  - [ UAObjectType, MTConnect.v2:2355, MTConnect.v2:PartCountClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
-  PathFeedrateOverrideClassType:
-  - [ UAObjectType, MTConnect.v2:3628, PathFeedrateOverrideClassType ]
+  MTConnect.v2:PathFeedrateOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:3628, MTConnect.v2:PathFeedrateOverrideClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
-  RotaryVelocityOverrideClassType:
-  - [ UAObjectType, MTConnect.v2:2357, RotaryVelocityOverrideClassType ]
+  MTConnect.v2:RotaryVelocityOverrideClassType:
+  - [ UAObjectType, MTConnect.v2:2357, MTConnect.v2:RotaryVelocityOverrideClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2359, MTNumericEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2359, MTConnect.v2:MTNumericEventClassType ]
 
-  MTStringEventClassType:
-  - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+  MTConnect.v2:MTStringEventClassType:
+  - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2631, MTEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2631, MTConnect.v2:MTEventClassType ]
 
-  AssetChangedClassType:
-  - [ UAObjectType, MTConnect.v2:2405, AssetChangedClassType ]
+  MTConnect.v2:AssetChangedClassType:
+  - [ UAObjectType, MTConnect.v2:2405, MTConnect.v2:AssetChangedClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  AssetRemovedClassType:
-  - [ UAObjectType, MTConnect.v2:2407, AssetRemovedClassType ]
+  MTConnect.v2:AssetRemovedClassType:
+  - [ UAObjectType, MTConnect.v2:2407, MTConnect.v2:AssetRemovedClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  BlockClassType:
-  - [ UAObjectType, MTConnect.v2:2363, BlockClassType ]
+  MTConnect.v2:BlockClassType:
+  - [ UAObjectType, MTConnect.v2:2363, MTConnect.v2:BlockClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  CoupledAxesClassType:
-  - [ UAObjectType, MTConnect.v2:2365, CoupledAxesClassType ]
+  MTConnect.v2:CoupledAxesClassType:
+  - [ UAObjectType, MTConnect.v2:2365, MTConnect.v2:CoupledAxesClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  LineClassType:
-  - [ UAObjectType, MTConnect.v2:2409, LineClassType ]
+  MTConnect.v2:LineClassType:
+  - [ UAObjectType, MTConnect.v2:2409, MTConnect.v2:LineClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  LineLabelClassType:
-  - [ UAObjectType, MTConnect.v2:2367, LineLabelClassType ]
+  MTConnect.v2:LineLabelClassType:
+  - [ UAObjectType, MTConnect.v2:2367, MTConnect.v2:LineLabelClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  MaterialClassType:
-  - [ UAObjectType, MTConnect.v2:2369, MaterialClassType ]
+  MTConnect.v2:MaterialClassType:
+  - [ UAObjectType, MTConnect.v2:2369, MTConnect.v2:MaterialClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  MessageClassType:
-  - [ UAObjectType, MTConnect.v2:2403, MessageClassType ]
+  MTConnect.v2:MessageClassType:
+  - [ UAObjectType, MTConnect.v2:2403, MTConnect.v2:MessageClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  OperatorIdClassType:
-  - [ UAObjectType, MTConnect.v2:2371, OperatorIdClassType ]
+  MTConnect.v2:OperatorIdClassType:
+  - [ UAObjectType, MTConnect.v2:2371, MTConnect.v2:OperatorIdClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  PalletIdClassType:
-  - [ UAObjectType, MTConnect.v2:2373, PalletIdClassType ]
+  MTConnect.v2:PalletIdClassType:
+  - [ UAObjectType, MTConnect.v2:2373, MTConnect.v2:PalletIdClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  PartIdClassType:
-  - [ UAObjectType, MTConnect.v2:2375, PartIdClassType ]
+  MTConnect.v2:PartIdClassType:
+  - [ UAObjectType, MTConnect.v2:2375, MTConnect.v2:PartIdClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  PartNumberClassType:
-  - [ UAObjectType, MTConnect.v2:2377, PartNumberClassType ]
+  MTConnect.v2:PartNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2377, MTConnect.v2:PartNumberClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ProgramClassType:
-  - [ UAObjectType, MTConnect.v2:2379, ProgramClassType ]
+  MTConnect.v2:ProgramClassType:
+  - [ UAObjectType, MTConnect.v2:2379, MTConnect.v2:ProgramClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ProgramCommentClassType:
-  - [ UAObjectType, MTConnect.v2:2385, ProgramCommentClassType ]
+  MTConnect.v2:ProgramCommentClassType:
+  - [ UAObjectType, MTConnect.v2:2385, MTConnect.v2:ProgramCommentClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ProgramEditNameClassType:
-  - [ UAObjectType, MTConnect.v2:2381, ProgramEditNameClassType ]
+  MTConnect.v2:ProgramEditNameClassType:
+  - [ UAObjectType, MTConnect.v2:2381, MTConnect.v2:ProgramEditNameClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ProgramHeaderClassType:
-  - [ UAObjectType, MTConnect.v2:2383, ProgramHeaderClassType ]
+  MTConnect.v2:ProgramHeaderClassType:
+  - [ UAObjectType, MTConnect.v2:2383, MTConnect.v2:ProgramHeaderClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  SerialNumberClassType:
-  - [ UAObjectType, MTConnect.v2:2387, SerialNumberClassType ]
+  MTConnect.v2:SerialNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2387, MTConnect.v2:SerialNumberClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ToolAssetIdClassType:
-  - [ UAObjectType, MTConnect.v2:2389, ToolAssetIdClassType ]
+  MTConnect.v2:ToolAssetIdClassType:
+  - [ UAObjectType, MTConnect.v2:2389, MTConnect.v2:ToolAssetIdClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ToolNumberClassType:
-  - [ UAObjectType, MTConnect.v2:2391, ToolNumberClassType ]
+  MTConnect.v2:ToolNumberClassType:
+  - [ UAObjectType, MTConnect.v2:2391, MTConnect.v2:ToolNumberClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ToolOffsetClassType:
-  - [ UAObjectType, MTConnect.v2:2393, ToolOffsetClassType ]
+  MTConnect.v2:ToolOffsetClassType:
+  - [ UAObjectType, MTConnect.v2:2393, MTConnect.v2:ToolOffsetClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  UserClassType:
-  - [ UAObjectType, MTConnect.v2:2395, UserClassType ]
+  MTConnect.v2:UserClassType:
+  - [ UAObjectType, MTConnect.v2:2395, MTConnect.v2:UserClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  WireClassType:
-  - [ UAObjectType, MTConnect.v2:2397, WireClassType ]
+  MTConnect.v2:WireClassType:
+  - [ UAObjectType, MTConnect.v2:2397, MTConnect.v2:WireClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  WorkholdingClassType:
-  - [ UAObjectType, MTConnect.v2:2399, WorkholdingClassType ]
+  MTConnect.v2:WorkholdingClassType:
+  - [ UAObjectType, MTConnect.v2:2399, MTConnect.v2:WorkholdingClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  WorkOffsetClassType:
-  - [ UAObjectType, MTConnect.v2:2401, WorkOffsetClassType ]
+  MTConnect.v2:WorkOffsetClassType:
+  - [ UAObjectType, MTConnect.v2:2401, MTConnect.v2:WorkOffsetClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2361, MTStringEventClassType ]
+    - [ UAObjectType, MTConnect.v2:2361, MTConnect.v2:MTStringEventClassType ]
 
-  ActuatorClassType:
-  - [ UAObjectType, MTConnect.v2:2411, ActuatorClassType ]
+  MTConnect.v2:ActuatorClassType:
+  - [ UAObjectType, MTConnect.v2:2411, MTConnect.v2:ActuatorClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+    - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
-  CommunicationsClassType:
-  - [ UAObjectType, MTConnect.v2:2413, CommunicationsClassType ]
+  MTConnect.v2:CommunicationsClassType:
+  - [ UAObjectType, MTConnect.v2:2413, MTConnect.v2:CommunicationsClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+    - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
-  DataRangeClassType:
-  - [ UAObjectType, MTConnect.v2:2415, DataRangeClassType ]
+  MTConnect.v2:DataRangeClassType:
+  - [ UAObjectType, MTConnect.v2:2415, MTConnect.v2:DataRangeClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+    - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
-  HardwareClassType:
-  - [ UAObjectType, MTConnect.v2:2419, HardwareClassType ]
+  MTConnect.v2:HardwareClassType:
+  - [ UAObjectType, MTConnect.v2:2419, MTConnect.v2:HardwareClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+    - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
-  LogicProgramClassType:
-  - [ UAObjectType, MTConnect.v2:2417, LogicProgramClassType ]
+  MTConnect.v2:LogicProgramClassType:
+  - [ UAObjectType, MTConnect.v2:2417, MTConnect.v2:LogicProgramClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+    - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
-  MotionProgramClassType:
-  - [ UAObjectType, MTConnect.v2:2421, MotionProgramClassType ]
+  MTConnect.v2:MotionProgramClassType:
+  - [ UAObjectType, MTConnect.v2:2421, MTConnect.v2:MotionProgramClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+    - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
-  SystemClassType:
-  - [ UAObjectType, MTConnect.v2:2423, SystemClassType ]
+  MTConnect.v2:SystemClassType:
+  - [ UAObjectType, MTConnect.v2:2423, MTConnect.v2:SystemClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2629, MTConditionClassType ]
+    - [ UAObjectType, MTConnect.v2:2629, MTConnect.v2:MTConditionClassType ]
 
-  MTDataItemSubClassType:
-  - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+  MTConnect.v2:MTDataItemSubClassType:
+  - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11163, BaseConditionClassType ]
 
-  AbsoluteSubClassType:
-  - [ UAObjectType, MTConnect.v2:2478, AbsoluteSubClassType ]
+  MTConnect.v2:AbsoluteSubClassType:
+  - [ UAObjectType, MTConnect.v2:2478, MTConnect.v2:AbsoluteSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ActionSubClassType:
-  - [ UAObjectType, MTConnect.v2:2482, ActionSubClassType ]
+  MTConnect.v2:ActionSubClassType:
+  - [ UAObjectType, MTConnect.v2:2482, MTConnect.v2:ActionSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ActualSubClassType:
-  - [ UAObjectType, MTConnect.v2:2480, ActualSubClassType ]
+  MTConnect.v2:ActualSubClassType:
+  - [ UAObjectType, MTConnect.v2:2480, MTConnect.v2:ActualSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  AllSubClassType:
-  - [ UAObjectType, MTConnect.v2:2484, AllSubClassType ]
+  MTConnect.v2:AllSubClassType:
+  - [ UAObjectType, MTConnect.v2:2484, MTConnect.v2:AllSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  AlternatingSubClassType:
-  - [ UAObjectType, MTConnect.v2:2486, AlternatingSubClassType ]
+  MTConnect.v2:AlternatingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2486, MTConnect.v2:AlternatingSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  AScaleSubClassType:
-  - [ UAObjectType, MTConnect.v2:2488, AScaleSubClassType ]
+  MTConnect.v2:AScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2488, MTConnect.v2:AScaleSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  AuxiliarySubClassType:
-  - [ UAObjectType, MTConnect.v2:2490, AuxiliarySubClassType ]
+  MTConnect.v2:AuxiliarySubClassType:
+  - [ UAObjectType, MTConnect.v2:2490, MTConnect.v2:AuxiliarySubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  BadSubClassType:
-  - [ UAObjectType, MTConnect.v2:2492, BadSubClassType ]
+  MTConnect.v2:BadSubClassType:
+  - [ UAObjectType, MTConnect.v2:2492, MTConnect.v2:BadSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  BrinellSubClassType:
-  - [ UAObjectType, MTConnect.v2:2494, BrinellSubClassType ]
+  MTConnect.v2:BrinellSubClassType:
+  - [ UAObjectType, MTConnect.v2:2494, MTConnect.v2:BrinellSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  BScaleSubClassType:
-  - [ UAObjectType, MTConnect.v2:2496, BScaleSubClassType ]
+  MTConnect.v2:BScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2496, MTConnect.v2:BScaleSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  CommandedSubClassType:
-  - [ UAObjectType, MTConnect.v2:2498, CommandedSubClassType ]
+  MTConnect.v2:CommandedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2498, MTConnect.v2:CommandedSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ControlSubClassType:
-  - [ UAObjectType, MTConnect.v2:2502, ControlSubClassType ]
+  MTConnect.v2:ControlSubClassType:
+  - [ UAObjectType, MTConnect.v2:2502, MTConnect.v2:ControlSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  CScaleSubClassType:
-  - [ UAObjectType, MTConnect.v2:2504, CScaleSubClassType ]
+  MTConnect.v2:CScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2504, MTConnect.v2:CScaleSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  DelaySubClassType:
-  - [ UAObjectType, MTConnect.v2:2506, DelaySubClassType ]
+  MTConnect.v2:DelaySubClassType:
+  - [ UAObjectType, MTConnect.v2:2506, MTConnect.v2:DelaySubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  DirectSubClassType:
-  - [ UAObjectType, MTConnect.v2:2508, DirectSubClassType ]
+  MTConnect.v2:DirectSubClassType:
+  - [ UAObjectType, MTConnect.v2:2508, MTConnect.v2:DirectSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  DryRunSubClassType:
-  - [ UAObjectType, MTConnect.v2:2510, DryRunSubClassType ]
+  MTConnect.v2:DryRunSubClassType:
+  - [ UAObjectType, MTConnect.v2:2510, MTConnect.v2:DryRunSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  DScaleSubClassType:
-  - [ UAObjectType, MTConnect.v2:2512, DScaleSubClassType ]
+  MTConnect.v2:DScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2512, MTConnect.v2:DScaleSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  FixtureSubClassType:
-  - [ UAObjectType, MTConnect.v2:2514, FixtureSubClassType ]
+  MTConnect.v2:FixtureSubClassType:
+  - [ UAObjectType, MTConnect.v2:2514, MTConnect.v2:FixtureSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  GoodSubClassType:
-  - [ UAObjectType, MTConnect.v2:2500, GoodSubClassType ]
+  MTConnect.v2:GoodSubClassType:
+  - [ UAObjectType, MTConnect.v2:2500, MTConnect.v2:GoodSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  IncrementalSubClassType:
-  - [ UAObjectType, MTConnect.v2:2516, IncrementalSubClassType ]
+  MTConnect.v2:IncrementalSubClassType:
+  - [ UAObjectType, MTConnect.v2:2516, MTConnect.v2:IncrementalSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  JobSubClassType:
-  - [ UAObjectType, MTConnect.v2:2518, JobSubClassType ]
+  MTConnect.v2:JobSubClassType:
+  - [ UAObjectType, MTConnect.v2:2518, MTConnect.v2:JobSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  KineticSubClassType:
-  - [ UAObjectType, MTConnect.v2:2520, KineticSubClassType ]
+  MTConnect.v2:KineticSubClassType:
+  - [ UAObjectType, MTConnect.v2:2520, MTConnect.v2:KineticSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  LateralSubClassType:
-  - [ UAObjectType, MTConnect.v2:2522, LateralSubClassType ]
+  MTConnect.v2:LateralSubClassType:
+  - [ UAObjectType, MTConnect.v2:2522, MTConnect.v2:LateralSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  LeebSubClassType:
-  - [ UAObjectType, MTConnect.v2:2524, LeebSubClassType ]
+  MTConnect.v2:LeebSubClassType:
+  - [ UAObjectType, MTConnect.v2:2524, MTConnect.v2:LeebSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  LengthSubClassType:
-  - [ UAObjectType, MTConnect.v2:2526, LengthSubClassType ]
+  MTConnect.v2:LengthSubClassType:
+  - [ UAObjectType, MTConnect.v2:2526, MTConnect.v2:LengthSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  LinearSubClassType:
-  - [ UAObjectType, MTConnect.v2:2528, LinearSubClassType ]
+  MTConnect.v2:LinearSubClassType:
+  - [ UAObjectType, MTConnect.v2:2528, MTConnect.v2:LinearSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  LineSubClassType:
-  - [ UAObjectType, MTConnect.v2:2530, LineSubClassType ]
+  MTConnect.v2:LineSubClassType:
+  - [ UAObjectType, MTConnect.v2:2530, MTConnect.v2:LineSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  LoadedSubClassType:
-  - [ UAObjectType, MTConnect.v2:2532, LoadedSubClassType ]
+  MTConnect.v2:LoadedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2532, MTConnect.v2:LoadedSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  MachineAxisLockSubClassType:
-  - [ UAObjectType, MTConnect.v2:2534, MachineAxisLockSubClassType ]
+  MTConnect.v2:MachineAxisLockSubClassType:
+  - [ UAObjectType, MTConnect.v2:2534, MTConnect.v2:MachineAxisLockSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  MaintenanceSubClassType:
-  - [ UAObjectType, MTConnect.v2:2536, MaintenanceSubClassType ]
+  MTConnect.v2:MaintenanceSubClassType:
+  - [ UAObjectType, MTConnect.v2:2536, MTConnect.v2:MaintenanceSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ManualUnclampSubClassType:
-  - [ UAObjectType, MTConnect.v2:2538, ManualUnclampSubClassType ]
+  MTConnect.v2:ManualUnclampSubClassType:
+  - [ UAObjectType, MTConnect.v2:2538, MTConnect.v2:ManualUnclampSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  MaximumSubClassType:
-  - [ UAObjectType, MTConnect.v2:2540, MaximumSubClassType ]
+  MTConnect.v2:MaximumSubClassType:
+  - [ UAObjectType, MTConnect.v2:2540, MTConnect.v2:MaximumSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  MinimumSubClassType:
-  - [ UAObjectType, MTConnect.v2:2542, MinimumSubClassType ]
+  MTConnect.v2:MinimumSubClassType:
+  - [ UAObjectType, MTConnect.v2:2542, MTConnect.v2:MinimumSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  MohsSubClassType:
-  - [ UAObjectType, MTConnect.v2:2544, MohsSubClassType ]
+  MTConnect.v2:MohsSubClassType:
+  - [ UAObjectType, MTConnect.v2:2544, MTConnect.v2:MohsSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  MoleSubClassType:
-  - [ UAObjectType, MTConnect.v2:2546, MoleSubClassType ]
+  MTConnect.v2:MoleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2546, MTConnect.v2:MoleSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  MotionSubClassType:
-  - [ UAObjectType, MTConnect.v2:2548, MotionSubClassType ]
+  MTConnect.v2:MotionSubClassType:
+  - [ UAObjectType, MTConnect.v2:2548, MTConnect.v2:MotionSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  NoScaleSubClassType:
-  - [ UAObjectType, MTConnect.v2:2550, NoScaleSubClassType ]
+  MTConnect.v2:NoScaleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2550, MTConnect.v2:NoScaleSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  OperatingSubClassType:
-  - [ UAObjectType, MTConnect.v2:2552, OperatingSubClassType ]
+  MTConnect.v2:OperatingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2552, MTConnect.v2:OperatingSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  OperatorSubClassType:
-  - [ UAObjectType, MTConnect.v2:2554, OperatorSubClassType ]
+  MTConnect.v2:OperatorSubClassType:
+  - [ UAObjectType, MTConnect.v2:2554, MTConnect.v2:OperatorSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  OptionalStopSubClassType:
-  - [ UAObjectType, MTConnect.v2:2556, OptionalStopSubClassType ]
+  MTConnect.v2:OptionalStopSubClassType:
+  - [ UAObjectType, MTConnect.v2:2556, MTConnect.v2:OptionalStopSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  OverrideSubClassType:
-  - [ UAObjectType, MTConnect.v2:2558, OverrideSubClassType ]
+  MTConnect.v2:OverrideSubClassType:
+  - [ UAObjectType, MTConnect.v2:2558, MTConnect.v2:OverrideSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  PoweredSubClassType:
-  - [ UAObjectType, MTConnect.v2:2562, PoweredSubClassType ]
+  MTConnect.v2:PoweredSubClassType:
+  - [ UAObjectType, MTConnect.v2:2562, MTConnect.v2:PoweredSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  PrimarySubClassType:
-  - [ UAObjectType, MTConnect.v2:2560, PrimarySubClassType ]
+  MTConnect.v2:PrimarySubClassType:
+  - [ UAObjectType, MTConnect.v2:2560, MTConnect.v2:PrimarySubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ProbeSubClassType:
-  - [ UAObjectType, MTConnect.v2:2564, ProbeSubClassType ]
+  MTConnect.v2:ProbeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2564, MTConnect.v2:ProbeSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ProcessSubClassType:
-  - [ UAObjectType, MTConnect.v2:2566, ProcessSubClassType ]
+  MTConnect.v2:ProcessSubClassType:
+  - [ UAObjectType, MTConnect.v2:2566, MTConnect.v2:ProcessSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ProgrammedSubClassType:
-  - [ UAObjectType, MTConnect.v2:2568, ProgrammedSubClassType ]
+  MTConnect.v2:ProgrammedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2568, MTConnect.v2:ProgrammedSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  RadialSubClassType:
-  - [ UAObjectType, MTConnect.v2:2570, RadialSubClassType ]
+  MTConnect.v2:RadialSubClassType:
+  - [ UAObjectType, MTConnect.v2:2570, MTConnect.v2:RadialSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  RapidSubClassType:
-  - [ UAObjectType, MTConnect.v2:2572, RapidSubClassType ]
+  MTConnect.v2:RapidSubClassType:
+  - [ UAObjectType, MTConnect.v2:2572, MTConnect.v2:RapidSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  RelativeSubClassType:
-  - [ UAObjectType, MTConnect.v2:2574, RelativeSubClassType ]
+  MTConnect.v2:RelativeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2574, MTConnect.v2:RelativeSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  RemainingSubClassType:
-  - [ UAObjectType, MTConnect.v2:2576, RemainingSubClassType ]
+  MTConnect.v2:RemainingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2576, MTConnect.v2:RemainingSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  RequestSubClassType:
-  - [ UAObjectType, MTConnect.v2:2578, RequestSubClassType ]
+  MTConnect.v2:RequestSubClassType:
+  - [ UAObjectType, MTConnect.v2:2578, MTConnect.v2:RequestSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ResponseSubClassType:
-  - [ UAObjectType, MTConnect.v2:2580, ResponseSubClassType ]
+  MTConnect.v2:ResponseSubClassType:
+  - [ UAObjectType, MTConnect.v2:2580, MTConnect.v2:ResponseSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  RockwellSubClassType:
-  - [ UAObjectType, MTConnect.v2:2582, RockwellSubClassType ]
+  MTConnect.v2:RockwellSubClassType:
+  - [ UAObjectType, MTConnect.v2:2582, MTConnect.v2:RockwellSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  RotarySubClassType:
-  - [ UAObjectType, MTConnect.v2:2584, RotarySubClassType ]
+  MTConnect.v2:RotarySubClassType:
+  - [ UAObjectType, MTConnect.v2:2584, MTConnect.v2:RotarySubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  SetUpSubClassType:
-  - [ UAObjectType, MTConnect.v2:2586, SetUpSubClassType ]
+  MTConnect.v2:SetUpSubClassType:
+  - [ UAObjectType, MTConnect.v2:2586, MTConnect.v2:SetUpSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ShoreSubClassType:
-  - [ UAObjectType, MTConnect.v2:2588, ShoreSubClassType ]
+  MTConnect.v2:ShoreSubClassType:
+  - [ UAObjectType, MTConnect.v2:2588, MTConnect.v2:ShoreSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  StandardSubClassType:
-  - [ UAObjectType, MTConnect.v2:2590, StandardSubClassType ]
+  MTConnect.v2:StandardSubClassType:
+  - [ UAObjectType, MTConnect.v2:2590, MTConnect.v2:StandardSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  SwitchedSubClassType:
-  - [ UAObjectType, MTConnect.v2:2592, SwitchedSubClassType ]
+  MTConnect.v2:SwitchedSubClassType:
+  - [ UAObjectType, MTConnect.v2:2592, MTConnect.v2:SwitchedSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  TargetSubClassType:
-  - [ UAObjectType, MTConnect.v2:2594, TargetSubClassType ]
+  MTConnect.v2:TargetSubClassType:
+  - [ UAObjectType, MTConnect.v2:2594, MTConnect.v2:TargetSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ToolChangeStopSubClassType:
-  - [ UAObjectType, MTConnect.v2:2596, ToolChangeStopSubClassType ]
+  MTConnect.v2:ToolChangeStopSubClassType:
+  - [ UAObjectType, MTConnect.v2:2596, MTConnect.v2:ToolChangeStopSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ToolEdgeSubClassType:
-  - [ UAObjectType, MTConnect.v2:2598, ToolEdgeSubClassType ]
+  MTConnect.v2:ToolEdgeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2598, MTConnect.v2:ToolEdgeSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ToolGroupSubClassType:
-  - [ UAObjectType, MTConnect.v2:2600, ToolGroupSubClassType ]
+  MTConnect.v2:ToolGroupSubClassType:
+  - [ UAObjectType, MTConnect.v2:2600, MTConnect.v2:ToolGroupSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  ToolSubClassType:
-  - [ UAObjectType, MTConnect.v2:2602, ToolSubClassType ]
+  MTConnect.v2:ToolSubClassType:
+  - [ UAObjectType, MTConnect.v2:2602, MTConnect.v2:ToolSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  UasbleSubClassType:
-  - [ UAObjectType, MTConnect.v2:2604, UasbleSubClassType ]
+  MTConnect.v2:UasbleSubClassType:
+  - [ UAObjectType, MTConnect.v2:2604, MTConnect.v2:UasbleSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  VerticalSubClassType:
-  - [ UAObjectType, MTConnect.v2:2606, VerticalSubClassType ]
+  MTConnect.v2:VerticalSubClassType:
+  - [ UAObjectType, MTConnect.v2:2606, MTConnect.v2:VerticalSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  VickersSubClassType:
-  - [ UAObjectType, MTConnect.v2:2610, VickersSubClassType ]
+  MTConnect.v2:VickersSubClassType:
+  - [ UAObjectType, MTConnect.v2:2610, MTConnect.v2:VickersSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  VolumeSubClassType:
-  - [ UAObjectType, MTConnect.v2:2608, VolumeSubClassType ]
+  MTConnect.v2:VolumeSubClassType:
+  - [ UAObjectType, MTConnect.v2:2608, MTConnect.v2:VolumeSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  WeightSubClassType:
-  - [ UAObjectType, MTConnect.v2:2612, WeightSubClassType ]
+  MTConnect.v2:WeightSubClassType:
+  - [ UAObjectType, MTConnect.v2:2612, MTConnect.v2:WeightSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  WorkingSubClassType:
-  - [ UAObjectType, MTConnect.v2:2614, WorkingSubClassType ]
+  MTConnect.v2:WorkingSubClassType:
+  - [ UAObjectType, MTConnect.v2:2614, MTConnect.v2:WorkingSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]
 
-  WorkpieceSubClassType:
-  - [ UAObjectType, MTConnect.v2:2616, WorkpieceSubClassType ]
+  MTConnect.v2:WorkpieceSubClassType:
+  - [ UAObjectType, MTConnect.v2:2616, MTConnect.v2:WorkpieceSubClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MTConnect.v2:2476, MTDataItemSubClassType ]
+    - [ UAObjectType, MTConnect.v2:2476, MTConnect.v2:MTDataItemSubClassType ]

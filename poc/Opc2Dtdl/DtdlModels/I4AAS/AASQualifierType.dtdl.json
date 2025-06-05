@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ValueId",
+      "namespace": "http://opcfoundation.org/UA/I4AAS",
       "target": "dtmi:opcua:I4AAS:AASReferenceType"
     }
   ]

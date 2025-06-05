@@ -333,14 +333,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PresentValue",
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddDateListElements",
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -377,8 +379,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveDateListElements",
+      "namespace": "http://opcfoundation.org/UA/Scheduler",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

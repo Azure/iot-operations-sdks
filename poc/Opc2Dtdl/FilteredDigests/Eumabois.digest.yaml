@@ -1,41 +1,41 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ Woodworking:3004, WwEventCategoryEnumeration ]
+- UADataType: [ Woodworking:3004, Woodworking:WwEventCategoryEnumeration ]
   Enums:
     OTHER: 0
     DIAGNOSTIC: 1
@@ -43,7 +43,7 @@ DataTypes:
     WARNING: 3
     ALARM: 4
     ERROR: 5
-- UADataType: [ Woodworking:20, WwUnitModeEnumeration ]
+- UADataType: [ Woodworking:20, Woodworking:WwUnitModeEnumeration ]
   Enums:
     OTHER: 0
     AUTOMATIC: 1
@@ -51,19 +51,19 @@ DataTypes:
     MANUAL: 3
     SETUP: 4
     SLEEP: 5
-- UADataType: [ Woodworking:21, WwUnitStateEnumeration ]
+- UADataType: [ Woodworking:21, Woodworking:WwUnitStateEnumeration ]
   Enums:
     OFFLINE: 0
     STANDBY: 1
     READY: 2
     WORKING: 3
     ERROR: 4
-- UADataType: [ Woodworking:3003, WwMessageArgumentDataType ]
+- UADataType: [ Woodworking:3003, Woodworking:WwMessageArgumentDataType ]
   Fields:
-    Value: [ WwMessageArgumentValueDataType, 0 ]
-- UADataType: [ Woodworking:3002, WwMessageArgumentValueDataType ]
+    Value: [ Woodworking:WwMessageArgumentValueDataType, 0 ]
+- UADataType: [ Woodworking:3002, Woodworking:WwMessageArgumentValueDataType ]
   Fields:
-    Array: [ WwMessageArgumentValueDataType, 1 ]
+    Array: [ Woodworking:WwMessageArgumentValueDataType, 1 ]
     Boolean: [ Boolean, 0 ]
     Int16: [ Int16, 0 ]
     Int32: [ Int32, 0 ]

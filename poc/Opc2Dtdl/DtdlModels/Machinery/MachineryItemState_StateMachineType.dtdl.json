@@ -15,84 +15,104 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "Executing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Executing",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromExecutingToExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromExecutingToExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromExecutingToNotAvailable"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromExecutingToNotAvailable",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromExecutingToNotExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromExecutingToNotExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromExecutingToOutOfService"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromExecutingToOutOfService",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotAvailableToExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToNotAvailable"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotAvailableToNotAvailable",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToNotExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotAvailableToNotExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotAvailableToOutOfService"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotAvailableToOutOfService",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotExecutingToExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToNotAvailable"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotExecutingToNotAvailable",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToNotExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotExecutingToNotExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromNotExecutingToOutOfService"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromNotExecutingToOutOfService",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOutOfServiceToExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToNotAvailable"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOutOfServiceToNotAvailable",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToNotExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOutOfServiceToNotExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "FromOutOfServiceToOutOfService"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "FromOutOfServiceToOutOfService",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "NotAvailable"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "NotAvailable",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "NotExecuting"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "NotExecuting",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     },
     {
-      "@type": "Relationship",
-      "name": "OutOfService"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OutOfService",
+      "namespace": "http://opcfoundation.org/UA/Machinery"
     }
   ]
 }

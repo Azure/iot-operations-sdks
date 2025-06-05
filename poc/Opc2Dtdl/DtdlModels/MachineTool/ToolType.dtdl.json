@@ -36,44 +36,51 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlIdentifier1",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlIdentifier2",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "unsignedInteger",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ControlIdentifierInterpretation",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "dtmi:opcua:MachineTool:ToolType:dataType:ToolManagement;1",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LastUsage",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "time",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Locked",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PlannedForOperating",
+      "namespace": "http://opcfoundation.org/UA/MachineTool",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Relationship",
-      "name": "ToolLife"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ToolLife",
+      "namespace": "http://opcfoundation.org/UA/MachineTool"
     }
   ]
 }

@@ -1,34 +1,34 @@
 DataTypes:
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
@@ -38,23 +38,23 @@ DataTypes:
 
 DefinedTypes:
 
-  ExampleComponentType:
-  - [ UAObjectType, Machinery_Example:1009, ExampleComponentType ]
+  Machinery_Example:ExampleComponentType:
+  - [ UAObjectType, Machinery_Example:1009, Machinery_Example:ExampleComponentType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, Machinery_Example:5044, Identification ]
+    - [ UAObject, Machinery_Example:5044, Machinery_Example:Identification ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery:1005, MachineryComponentIdentificationType ]
+      - [ UAObjectType, Machinery:1005, Machinery:MachineryComponentIdentificationType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
-  ExampleMachineType:
-  - [ UAObjectType, Machinery_Example:1002, ExampleMachineType ]
+  Machinery_Example:ExampleMachineType:
+  - [ UAObjectType, Machinery_Example:1002, Machinery_Example:ExampleMachineType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, Machinery_Example:5007, MachineryBuildingBlocks ]
+    - [ UAObject, Machinery_Example:5007, Machinery:MachineryBuildingBlocks ]
     - HasTypeDefinition:
       - [ UAObjectType, 61, FolderType ]
     - HasModellingRule:

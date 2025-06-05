@@ -15,28 +15,33 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "DeviceZone",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:DeviceZoneType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Identification",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:IdentificationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MachineConfiguration",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MachineConfigurationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Operation",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:OperationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TCDSpecification",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.TCD",
       "target": "dtmi:opcua:PlasticsRubber_TCD:TCDSpecificationType"
     }
   ]

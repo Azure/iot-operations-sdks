@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "FryerCup_No",
+      "namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment",
       "target": "dtmi:opcua:CommercialKitchenEquipment:FryerParameterType"
     }
   ]

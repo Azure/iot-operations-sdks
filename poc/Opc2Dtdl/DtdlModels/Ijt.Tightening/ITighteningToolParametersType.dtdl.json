@@ -15,36 +15,43 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DesignType",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": "unsignedByte",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DriveMethod",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": "unsignedByte",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DriveType",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": "unsignedByte",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaxSpeed",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "MaxSpeed",
+            "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "PhysicalQuantity",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": "unsignedByte"
           }
         ]
@@ -52,18 +59,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MaxTorque",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "MaxTorque",
+            "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "PhysicalQuantity",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": "unsignedByte"
           }
         ]
@@ -71,18 +82,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MinTorque",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject" ],
+            "@type": [ "Field", "Qualified", "Subject" ],
             "name": "MinTorque",
+            "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
             "schema": "double"
           },
           {
+            "@type": [ "Field", "Qualified" ],
             "name": "PhysicalQuantity",
+            "namespace": "http://opcfoundation.org/UA/IJT.Base",
             "schema": "unsignedByte"
           }
         ]
@@ -90,14 +105,16 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MotorType",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ShutOffMethod",
+      "namespace": "http://opcfoundation.org/UA/IJT.Tightening",
       "schema": "unsignedByte",
       "writable": false
     }

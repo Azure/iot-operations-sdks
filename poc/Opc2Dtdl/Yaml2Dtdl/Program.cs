@@ -157,8 +157,8 @@
             {
                 foreach (KeyValuePair<string, OpcUaDefinedType> definedType in opcUaDigest.DefinedTypes)
                 {
-                    string modelId = TypeConverter.GetModelId(specName, definedType.Key);
-                    string outFileName = $"{definedType.Key}{destFileSuffix}";
+                    string modelId = TypeConverter.GetModelId(definedType.Value);
+                    string outFileName = $"{TypeConverter.Dequalify(definedType.Key)}{destFileSuffix}";
                     string outFilePath = Path.Combine(outFolderPath, outFileName);
 
                     DtdlInterface dtdlInterface = new DtdlInterface(modelId, definedType.Value, opcUaDigest.DataTypes, coreOpcUaDigest.DataTypes);

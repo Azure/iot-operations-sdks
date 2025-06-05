@@ -16,32 +16,37 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NestIdentifier",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Operator",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PartCarrierIdentifier",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessingMachineIdentifier",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "ProcessParameter",
+      "namespace": "http://opcfoundation.org/UA/GMS",
       "schema": {
         "@type": "Array",
         "elementSchema": "integer"

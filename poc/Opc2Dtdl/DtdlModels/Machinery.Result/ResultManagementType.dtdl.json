@@ -315,8 +315,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetLatestResult",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -357,8 +358,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetResultById",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -404,8 +406,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "GetResultIdListFiltered",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -467,8 +470,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "ReleaseResultHandle",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -499,12 +503,14 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Results"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Results",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ResultTransfer",
+      "namespace": "http://opcfoundation.org/UA/Machinery.Result",
       "target": "dtmi:opcua:Machinery_Result:ResultTransferType"
     }
   ]

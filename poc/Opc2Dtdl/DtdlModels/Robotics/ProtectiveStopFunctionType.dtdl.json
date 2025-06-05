@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Enabled",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": "boolean",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Active",
+      "namespace": "http://opcfoundation.org/UA/Robotics",
       "schema": "boolean",
       "writable": false
     }

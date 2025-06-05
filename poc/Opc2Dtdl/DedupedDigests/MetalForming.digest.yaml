@@ -1,56 +1,56 @@
 DataTypes:
-- UADataType: [ MetalForming:3004, CyclicPartInformationDataType ]
+- UADataType: [ MetalForming:3004, MetalForming:CyclicPartInformationDataType ]
   Fields:
     CycleCount: [ Counter, 0 ]
     PartId: [ String, 0 ]
-- UADataType: [ MetalForming:3003, CyclicProcessValueDataType ]
+- UADataType: [ MetalForming:3003, MetalForming:CyclicProcessValueDataType ]
   Fields:
     AnalogSignal: [ Number, 0 ]
     Setpoint: [ Number, 0 ]
     CycleCount: [ Counter, 0 ]
     IsActive: [ Boolean, 0 ]
-- UADataType: [ DI:6244, DeviceHealthEnumeration ]
+- UADataType: [ DI:6244, DI:DeviceHealthEnumeration ]
   Enums:
     NORMAL: 0
     FAILURE: 1
     CHECK_FUNCTION: 2
     OFF_SPEC: 3
     MAINTENANCE_REQUIRED: 4
-- UADataType: [ DI:6522, FetchResultDataType ]
+- UADataType: [ DI:6522, DI:FetchResultDataType ]
   Bases:
   - Structure
-- UADataType: [ DI:15888, TransferResultErrorDataType ]
+- UADataType: [ DI:15888, DI:TransferResultErrorDataType ]
   Fields:
     Status: [ Int32, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:15889, TransferResultDataDataType ]
+- UADataType: [ DI:15889, DI:TransferResultDataDataType ]
   Fields:
     SequenceNumber: [ Int32, 0 ]
     EndOfResults: [ Boolean, 0 ]
-    ParameterDefs: [ ParameterResultDataType, 1 ]
-- UADataType: [ DI:6525, ParameterResultDataType ]
+    ParameterDefs: [ DI:ParameterResultDataType, 1 ]
+- UADataType: [ DI:6525, DI:ParameterResultDataType ]
   Fields:
     NodePath: [ QualifiedName, 1 ]
     StatusCode: [ StatusCode, 0 ]
     Diagnostics: [ DiagnosticInfo, 0 ]
-- UADataType: [ DI:331, SoftwareVersionFileType ]
+- UADataType: [ DI:331, DI:SoftwareVersionFileType ]
   Enums:
     Current: 0
     Pending: 1
     Fallback: 2
-- UADataType: [ DI:333, UpdateBehavior ]
+- UADataType: [ DI:333, DI:UpdateBehavior ]
   Enums:
     KeepsParameters: 0
     WillDisconnect: 1
     RequiresPowerCycle: 2
     WillReboot: 3
     NeedsPreparation: 4
-- UADataType: [ IA:3003, LevelDisplayMode ]
+- UADataType: [ IA:3003, IA:LevelDisplayMode ]
   Enums:
     Dimmed: 0
     Blinking: 1
     Other: 2
-- UADataType: [ IA:3004, SignalColor ]
+- UADataType: [ IA:3004, IA:SignalColor ]
   Enums:
     Off: 0
     Red: 1
@@ -60,38 +60,38 @@ DataTypes:
     Purple: 5
     Cyan: 6
     White: 7
-- UADataType: [ IA:3005, SignalModeLight ]
+- UADataType: [ IA:3005, IA:SignalModeLight ]
   Enums:
     Continuous: 0
     Blinking: 1
     Flashing: 2
     Other: 3
-- UADataType: [ IA:3002, StacklightOperationMode ]
+- UADataType: [ IA:3002, IA:StacklightOperationMode ]
   Enums:
     Segmented: 0
     Levelmeter: 1
     Running_Light: 2
     Other: 3
-- UADataType: [ PADIM:1156, ResetModeEnum ]
+- UADataType: [ PADIM:1156, PADIM:ResetModeEnum ]
   Enums:
     Application: 1
     Communication: 2712
     Factory: 2713
-- UADataType: [ PADIM:1158, ExecutionModeEnum ]
+- UADataType: [ PADIM:1158, PADIM:ExecutionModeEnum ]
   Enums:
     Start: 2
     Abort: 255
-- UADataType: [ PADIM:1276, PatDictionaryEnum ]
+- UADataType: [ PADIM:1276, PADIM:PatDictionaryEnum ]
   Enums:
     CAS: 0
     PAT: 1
     User-defined: 2
-- UADataType: [ PADIM:1275, ChemicalSubstanceDataType ]
+- UADataType: [ PADIM:1275, PADIM:ChemicalSubstanceDataType ]
   Fields:
-    PatDictionary: [ PatDictionaryEnum, 0 ]
+    PatDictionary: [ PADIM:PatDictionaryEnum, 0 ]
     Label: [ LocalizedText, 0 ]
     Id: [ LocalizedText, 0 ]
-- UADataType: [ MachineTool:67, ChannelMode ]
+- UADataType: [ MachineTool:67, MachineTool:ChannelMode ]
   Enums:
     Automatic: 0
     MdaMdi: 1
@@ -101,25 +101,25 @@ DataTypes:
     Remote: 5
     Reference: 6
     Other: 7
-- UADataType: [ MachineTool:64, ChannelState ]
+- UADataType: [ MachineTool:64, MachineTool:ChannelState ]
   Enums:
     Active: 0
     Interrupted: 1
     Reset: 2
-- UADataType: [ MachineTool:71, EDMGeneratorState ]
+- UADataType: [ MachineTool:71, MachineTool:EDMGeneratorState ]
   Enums:
     Undefined: 0
     Ready: 1
     Active_Low_Voltage: 2
     Active_High_Voltage: 3
     Error: 4
-- UADataType: [ MachineTool:70, LaserState ]
+- UADataType: [ MachineTool:70, MachineTool:LaserState ]
   Enums:
     Undefined: 0
     Ready: 1
     Active: 2
     Error: 3
-- UADataType: [ MachineTool:65, MachineOperationMode ]
+- UADataType: [ MachineTool:65, MachineTool:MachineOperationMode ]
   Enums:
     Manual: 0
     Automatic: 1
@@ -127,20 +127,20 @@ DataTypes:
     AutoWithManualIntervention: 3
     Service: 4
     Other: 5
-- UADataType: [ MachineTool:63, PartQuality ]
+- UADataType: [ MachineTool:63, MachineTool:PartQuality ]
   Enums:
     CapabilityUnavailable: 0
     Good: 1
     Bad: 2
     NotYetMeasured: 3
     WillNotBeMeasured: 4
-- UADataType: [ MachineTool:62, ProcessIrregularity ]
+- UADataType: [ MachineTool:62, MachineTool:ProcessIrregularity ]
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
-- UADataType: [ MachineTool:68, ToolLifeIndication ]
+- UADataType: [ MachineTool:68, MachineTool:ToolLifeIndication ]
   Enums:
     Time: 0
     NumberOfParts: 1
@@ -150,7 +150,7 @@ DataTypes:
     Length: 5
     Diameter: 6
     Other: 7
-- UADataType: [ MachineTool:66, ToolLocked ]
+- UADataType: [ MachineTool:66, MachineTool:ToolLocked ]
   Enums:
     CapabilityUnavailable: 0
     ByOperator: 1
@@ -158,50 +158,50 @@ DataTypes:
     ToolLife: 3
     MeasurementError: 4
     Other: 5
-- UADataType: [ MachineTool:69, ToolManagement ]
+- UADataType: [ MachineTool:69, MachineTool:ToolManagement ]
   Enums:
     NumberBased: 0
     GroupBased: 1
     Other: 2
-- UADataType: [ isa95-jobcontrol:3005, ISA95EquipmentDataType ]
+- UADataType: [ isa95-jobcontrol:3005, isa95-jobcontrol:ISA95EquipmentDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     EquipmentUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3015, ISA95JobOrderAndStateDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3015, isa95-jobcontrol:ISA95JobOrderAndStateDataType ]
   Fields:
-    JobOrder: [ ISA95JobOrderDataType, 0 ]
-    State: [ ISA95StateDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3008, ISA95JobOrderDataType ]
+    JobOrder: [ isa95-jobcontrol:ISA95JobOrderDataType, 0 ]
+    State: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3008, isa95-jobcontrol:ISA95JobOrderDataType ]
   Fields:
     JobOrderID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
-    WorkMasterID: [ ISA95WorkMasterDataType, 1 ]
+    WorkMasterID: [ isa95-jobcontrol:ISA95WorkMasterDataType, 1 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
     Priority: [ Int16, 0 ]
-    JobOrderParameters: [ ISA95ParameterDataType, 1 ]
-    PersonnelRequirements: [ ISA95PersonnelDataType, 1 ]
-    EquipmentRequirements: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetRequirements: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialRequirements: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3013, ISA95JobResponseDataType ]
+    JobOrderParameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelRequirements: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentRequirements: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetRequirements: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialRequirements: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3013, isa95-jobcontrol:ISA95JobResponseDataType ]
   Fields:
     JobResponseID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
     JobOrderID: [ String, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    JobState: [ ISA95StateDataType, 1 ]
-    JobResponseData: [ ISA95ParameterDataType, 1 ]
-    PersonnelActuals: [ ISA95PersonnelDataType, 1 ]
-    EquipmentActuals: [ ISA95EquipmentDataType, 1 ]
-    PhysicalAssetActuals: [ ISA95PhysicalAssetDataType, 1 ]
-    MaterialActuals: [ ISA95MaterialDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3010, ISA95MaterialDataType ]
+    JobState: [ isa95-jobcontrol:ISA95StateDataType, 1 ]
+    JobResponseData: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+    PersonnelActuals: [ isa95-jobcontrol:ISA95PersonnelDataType, 1 ]
+    EquipmentActuals: [ isa95-jobcontrol:ISA95EquipmentDataType, 1 ]
+    PhysicalAssetActuals: [ isa95-jobcontrol:ISA95PhysicalAssetDataType, 1 ]
+    MaterialActuals: [ isa95-jobcontrol:ISA95MaterialDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3010, isa95-jobcontrol:ISA95MaterialDataType ]
   Fields:
     MaterialClassID: [ String, 0 ]
     MaterialDefinitionID: [ String, 0 ]
@@ -211,242 +211,242 @@ DataTypes:
     MaterialUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3003, ISA95ParameterDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3003, isa95-jobcontrol:ISA95ParameterDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subparameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3011, ISA95PersonnelDataType ]
+    Subparameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3011, isa95-jobcontrol:ISA95PersonnelDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PersonnelUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3012, ISA95PhysicalAssetDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3012, isa95-jobcontrol:ISA95PhysicalAssetDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 1 ]
     PhysicalAssetUse: [ String, 0 ]
     Quantity: [ DecimalString, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Properties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3002, ISA95PropertyDataType ]
+    Properties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3002, isa95-jobcontrol:ISA95PropertyDataType ]
   Fields:
     ID: [ String, 0 ]
     Value: [ null, 0 ]
     Description: [ LocalizedText, 1 ]
     EngineeringUnits: [ EUInformation, 0 ]
-    Subproperties: [ ISA95PropertyDataType, 1 ]
-- UADataType: [ isa95-jobcontrol:3006, ISA95StateDataType ]
+    Subproperties: [ isa95-jobcontrol:ISA95PropertyDataType, 1 ]
+- UADataType: [ isa95-jobcontrol:3006, isa95-jobcontrol:ISA95StateDataType ]
   Fields:
     BrowsePath: [ RelativePath, 0 ]
     StateText: [ LocalizedText, 0 ]
     StateNumber: [ UInt32, 0 ]
-- UADataType: [ isa95-jobcontrol:3007, ISA95WorkMasterDataType ]
+- UADataType: [ isa95-jobcontrol:3007, isa95-jobcontrol:ISA95WorkMasterDataType ]
   Fields:
     ID: [ String, 0 ]
     Description: [ LocalizedText, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3003, JobExecutionMode ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3003, Machinery.Jobs:JobExecutionMode ]
   Enums:
     SimulationMode: 0
     TestMode: 1
     ProductionMode: 2
-- UADataType: [ Machinery.Jobs:3006, JobResult ]
+- UADataType: [ Machinery.Jobs:3006, Machinery.Jobs:JobResult ]
   Enums:
     Unknown: 0
     Successful: 1
     Unsuccessful: 2
-- UADataType: [ Machinery.Jobs:3004, ProcessIrregularity ]
+- UADataType: [ Machinery.Jobs:3004, Machinery.Jobs:ProcessIrregularity ]
   Enums:
     CapabilityUnavailable: 0
     Detected: 1
     NotDetected: 2
     NotYetDetermined: 3
-- UADataType: [ Machinery.Jobs:3009, OutputInfoType ]
+- UADataType: [ Machinery.Jobs:3009, Machinery.Jobs:OutputInfoType ]
   Enums:
     OrderNumber: 0
     LotNumber: 1
     SerialNumber: 2
-- UADataType: [ Machinery.Jobs:3015, BOMComponentInformationDataType ]
+- UADataType: [ Machinery.Jobs:3015, Machinery.Jobs:BOMComponentInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     Quantity: [ Double, 0 ]
     EngineeringUnits: [ EUInformation, 0 ]
-- UADataType: [ Machinery.Jobs:3018, BOMInformationDataType ]
+- UADataType: [ Machinery.Jobs:3018, Machinery.Jobs:BOMInformationDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
-    ComponentInformation: [ BOMComponentInformationDataType, 1 ]
-- UADataType: [ Machinery.Jobs:3012, OutputInformationDataType ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
+    ComponentInformation: [ Machinery.Jobs:BOMComponentInformationDataType, 1 ]
+- UADataType: [ Machinery.Jobs:3012, Machinery.Jobs:OutputInformationDataType ]
   Fields:
     ItemNumber: [ String, 0 ]
-    OutputInfo: [ OutputInfoType, 0 ]
+    OutputInfo: [ Machinery.Jobs:OutputInfoType, 0 ]
     OrderNumber: [ String, 0 ]
     LotNumber: [ String, 0 ]
     SerialNumber: [ String, 0 ]
-- UADataType: [ Machinery.Jobs:3021, OutputPerformanceInfoDataType ]
+- UADataType: [ Machinery.Jobs:3021, Machinery.Jobs:OutputPerformanceInfoDataType ]
   Fields:
-    Identification: [ OutputInformationDataType, 0 ]
+    Identification: [ Machinery.Jobs:OutputInformationDataType, 0 ]
     StartTime: [ DateTime, 0 ]
     EndTime: [ DateTime, 0 ]
-    Parameters: [ ISA95ParameterDataType, 1 ]
+    Parameters: [ isa95-jobcontrol:ISA95ParameterDataType, 1 ]
 
 DefinedTypes:
 
-  FormingProcessConditionClassType:
-  - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+  MetalForming:FormingProcessConditionClassType:
+  - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 11164, ProcessConditionClassType ]
 
-  AllowableTiltingExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1011, AllowableTiltingExceededConditionClassType ]
+  MetalForming:AllowableTiltingExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1011, MetalForming:AllowableTiltingExceededConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
-  BreakthroughTonnageExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1014, BreakthroughTonnageExceededConditionClassType ]
+  MetalForming:BreakthroughTonnageExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1014, MetalForming:BreakthroughTonnageExceededConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
-  CorrectionValueOutOfRangeConditionClassType:
-  - [ UAObjectType, MetalForming:1020, CorrectionValueOutOfRangeConditionClassType ]
+  MetalForming:CorrectionValueOutOfRangeConditionClassType:
+  - [ UAObjectType, MetalForming:1020, MetalForming:CorrectionValueOutOfRangeConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
-  EccentricLoadExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1006, EccentricLoadExceededConditionClassType ]
+  MetalForming:EccentricLoadExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1006, MetalForming:EccentricLoadExceededConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
-  OverloadTriggeredConditionClassType:
-  - [ UAObjectType, MetalForming:1005, OverloadTriggeredConditionClassType ]
+  MetalForming:OverloadTriggeredConditionClassType:
+  - [ UAObjectType, MetalForming:1005, MetalForming:OverloadTriggeredConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
-  PositionOutOfRangeConditionClassType:
-  - [ UAObjectType, MetalForming:1017, PositionOutOfRangeConditionClassType ]
+  MetalForming:PositionOutOfRangeConditionClassType:
+  - [ UAObjectType, MetalForming:1017, MetalForming:PositionOutOfRangeConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
-  ProcessForceExceededConditionClassType:
-  - [ UAObjectType, MetalForming:1009, ProcessForceExceededConditionClassType ]
+  MetalForming:ProcessForceExceededConditionClassType:
+  - [ UAObjectType, MetalForming:1009, MetalForming:ProcessForceExceededConditionClassType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1023, FormingProcessConditionClassType ]
+    - [ UAObjectType, MetalForming:1023, MetalForming:FormingProcessConditionClassType ]
 
-  CyclicEventType:
-  - [ UAObjectType, MetalForming:1016, CyclicEventType ]
+  MetalForming:CyclicEventType:
+  - [ UAObjectType, MetalForming:1016, MetalForming:CyclicEventType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5019, CurrentProcessValue ]
+    - [ UAObject, MetalForming:5019, MetalForming:CurrentProcessValue ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
   - HasComponent:
-    - [ UAVariable, MetalForming:6055, CycleCount, Counter, 0, 3 ]
+    - [ UAVariable, MetalForming:6055, MetalForming:CycleCount, Counter, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
     - [ UAObjectType, 2041, BaseEventType ]
   - HasComponent:
-    - [ UAVariable, MetalForming:6056, PartId, String, 0, 3 ]
+    - [ UAVariable, MetalForming:6056, MetalForming:PartId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  FormingToolType:
-  - [ UAObjectType, MetalForming:1010, FormingToolType ]
+  MetalForming:FormingToolType:
+  - [ UAObjectType, MetalForming:1010, MetalForming:FormingToolType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:49, BaseToolType ]
+    - [ UAObjectType, MachineTool:49, MachineTool:BaseToolType ]
 
-  FormingMultiToolType:
-  - [ UAObjectType, MetalForming:1012, FormingMultiToolType ]
+  MetalForming:FormingMultiToolType:
+  - [ UAObjectType, MetalForming:1012, MetalForming:FormingMultiToolType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5005, <FormingTool> ]
+    - [ UAObject, MetalForming:5005, MetalForming:<FormingTool> ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1010, FormingToolType ]
+      - [ UAObjectType, MetalForming:1010, MetalForming:FormingToolType ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:51, MultiToolType ]
+    - [ UAObjectType, MachineTool:51, MachineTool:MultiToolType ]
 
-  ProcessWorkingUnitType:
-  - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
+  MetalForming:ProcessWorkingUnitType:
+  - [ UAObjectType, MetalForming:1004, MetalForming:ProcessWorkingUnitType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5010, <CyclicProcessValue> ]
+    - [ UAObject, MetalForming:5010, MetalForming:<CyclicProcessValue> ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+      - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, MetalForming:5009, <ProcessValue> ]
+    - [ UAObject, MetalForming:5009, MetalForming:<ProcessValue> ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+      - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]
     - HasModellingRule:
       - [ UAObject, 11508, OptionalPlaceholder ]
   - HasComponent:
-    - [ UAObject, MetalForming:5007, MachineryItemState ]
+    - [ UAObject, MetalForming:5007, MetalForming:MachineryItemState ]
     - HasTypeDefinition:
-      - [ UAObjectType, Machinery:1002, MachineryItemState_StateMachineType ]
+      - [ UAObjectType, Machinery:1002, Machinery:MachineryItemState_StateMachineType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MachineTool:41, WorkingUnitMonitoringType ]
+    - [ UAObjectType, MachineTool:41, MachineTool:WorkingUnitMonitoringType ]
 
-  FormingProcessWorkingUnitType:
-  - [ UAObjectType, MetalForming:1008, FormingProcessWorkingUnitType ]
+  MetalForming:FormingProcessWorkingUnitType:
+  - [ UAObjectType, MetalForming:1008, MetalForming:FormingProcessWorkingUnitType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5008, FormingPositions ]
+    - [ UAObject, MetalForming:5008, MetalForming:FormingPositions ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
+      - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, MetalForming:1004, ProcessWorkingUnitType ]
+    - [ UAObjectType, MetalForming:1004, MetalForming:ProcessWorkingUnitType ]
 
-  FormingPositionsType:
-  - [ UAObjectType, MetalForming:1003, FormingPositionsType ]
+  MetalForming:FormingPositionsType:
+  - [ UAObjectType, MetalForming:1003, MetalForming:FormingPositionsType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5016, BDC ]
+    - [ UAObject, MetalForming:5016, MetalForming:BDC ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+      - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5012, Retract ]
+    - [ UAObject, MetalForming:5012, MetalForming:Retract ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+      - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5013, Start ]
+    - [ UAObject, MetalForming:5013, MetalForming:Start ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+      - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5014, TDC ]
+    - [ UAObject, MetalForming:5014, MetalForming:TDC ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+      - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
   - HasComponent:
-    - [ UAObject, MetalForming:5015, Touch ]
+    - [ UAObject, MetalForming:5015, MetalForming:Touch ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
     - HasTypeDefinition:
-      - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+      - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
 
-  CyclicProcessValueType:
-  - [ UAObjectType, MetalForming:1007, CyclicProcessValueType ]
+  MetalForming:CyclicProcessValueType:
+  - [ UAObjectType, MetalForming:1007, MetalForming:CyclicProcessValueType ]
   - HasComponent:
-    - [ UAVariable, MetalForming:6020, CyclicProcessValue, CyclicProcessValueDataType, 0, 3 ]
+    - [ UAVariable, MetalForming:6020, MetalForming:CyclicProcessValue, MetalForming:CyclicProcessValueDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasSubtype_reverse:
-    - [ UAObjectType, Machinery.ProcessValues:1003, ProcessValueType ]
+    - [ UAObjectType, Machinery.ProcessValues:1003, Machinery.ProcessValues:ProcessValueType ]

@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Nr_SignalName",
+      "namespace": "http://opcfoundation.org/UA/PNRIO",
       "target": "dtmi:opcua:PNRIO:PnIoSignalType"
     }
   ]

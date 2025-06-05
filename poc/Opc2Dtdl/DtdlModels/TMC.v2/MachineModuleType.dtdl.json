@@ -16,72 +16,88 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:MachineModuleConfigurationType"
     },
     {
-      "@type": "Relationship",
-      "name": "ControlModules"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ControlModules",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "DefectDetectionSensors"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DefectDetectionSensors",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "EquipmentModules"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "EquipmentModules",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LiveStatus",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:MachineModuleLiveStatusType"
     },
     {
-      "@type": "Relationship",
-      "name": "MaterialBuffers"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaterialBuffers",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "MaterialLoadingPoints"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaterialLoadingPoints",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "MaterialLocations"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaterialLocations",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "MaterialOutputPoints"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaterialOutputPoints",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "MaterialRejectionPoints"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "MaterialRejectionPoints",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "PastSpecificationRecords"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "PastSpecificationRecords",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ProcessControlLoops"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProcessControlLoops",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
-      "name": "ProcessItems"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ProcessItems",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Production",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:MachineModuleProductionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Setup",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:MachineModuleSetupType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Specification",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:MachineModuleSpecificationType"
     }
   ]

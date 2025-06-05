@@ -38,8 +38,9 @@
   ],
   "contents": [
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "AddJobGroup",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -118,8 +119,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "FinishJobGroupById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -136,8 +138,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "InterruptJobGroupById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -154,8 +157,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "RemoveJobGroupById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -172,8 +176,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "StartJobGroupById",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -190,8 +195,9 @@
       }
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "JobGroup_Nr",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.ExtrusionLine",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_ExtrusionLine:JobGroupType"
     }
   ]

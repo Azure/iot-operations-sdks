@@ -15,14 +15,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "TypeOfCalibration",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "schema": "unsignedInteger",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "CalibrationPointSet",
+      "namespace": "http://opcfoundation.org/UA/PADIM",
       "target": "dtmi:opcua:PADIM:CalibrationPointSetType"
     }
   ]

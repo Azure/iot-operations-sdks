@@ -16,54 +16,65 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "EndTime",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "StartTime",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "dateTime",
       "writable": true
     },
     {
-      "@type": "Command",
-      "name": "AbortJob"
+      "@type": [ "Command", "Qualified" ],
+      "name": "AbortJob",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Command",
-      "name": "QueueJob"
+      "@type": [ "Command", "Qualified" ],
+      "name": "QueueJob",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Command",
-      "name": "ReleaseJob"
+      "@type": [ "Command", "Qualified" ],
+      "name": "ReleaseJob",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Command",
-      "name": "SuspendJob"
+      "@type": [ "Command", "Qualified" ],
+      "name": "SuspendJob",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
-      "name": "InputMaterials"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InputMaterials",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Instruction",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:InstructionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Lock",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:DI:LockingServicesType"
     },
     {
-      "@type": "Relationship",
-      "name": "OutputMaterials"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "OutputMaterials",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "State",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:ProductionStateMachineType"
     }
   ]

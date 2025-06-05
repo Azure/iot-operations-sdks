@@ -1,35 +1,42 @@
 ﻿<#@ template language="C#" linePragmas="false" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="OpcUaDigest" #>
+<#@ import namespace="SpecMapper" #>
     {
 <# if (this.isHistorized) { #>
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
 <# } else { #>
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
 <# } #>
-      "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))#>",
-<# if (this.SubVariables.Count == 0) { #>
-      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 6)#>,
+      "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
+      "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
+<# if (this.SubVars.Count == 0) { #>
+      "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, 6)#>,
 <# } else { #>
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-<# if (this.Variable.IsOptional) { #>
-            "@type": [ "Field", "Subject" ],
+<# if (GetIsOptional(this.definedType)) { #>
+            "@type": [ "Field", "Qualified", "Subject" ],
 <# } else { #>
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
 <# } #>
-            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(definedType.BrowseName))#>",
-            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.Variable.Datatype, this.Variable.ValueRank, definedType.BrowseName, 12)#>
+            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(definedType.BrowseName)))#>",
+            "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(definedType))#>",
+            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, this.definedType.Datatype, this.definedType.ValueRank, definedType.BrowseName, 12)#>
           },
-<# int ix = 1; foreach (KeyValuePair<string, VariableInfo> subVar in this.SubVariables) { #>
+<# int ix = 1; foreach (OpcUaDefinedType subVar in this.SubVars) { #>
           {
-<# if (!subVar.Value.IsOptional) { #>
-            "@type": [ "Field", "Required" ],
+<# if (GetIsOptional(subVar)) { #>
+            "@type": [ "Field", "Qualified" ],
+<# } else { #>
+            "@type": [ "Field", "Qualified", "Required" ],
 <# } #>
-            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(subVar.Key))#>",
-            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Value.Datatype, subVar.Value.ValueRank, 12)#>
-          }<#=ix < this.SubVariables.Count ? "," : ""#>
+            "name": "<#=TypeConverter.LegalizeName(TypeConverter.StripAngles(TypeConverter.Dequalify(subVar.BrowseName)))#>",
+            "namespace": "<#=SpecMapper.GetUriFromSpecName(TypeConverter.GetSpecName(subVar))#>",
+            "schema": <#=this.typeConverter.GetDtdlTypeFromOpcUaType(this.modelId, subVar.Datatype, subVar.ValueRank, 12)#>
+          }<#=ix < this.SubVars.Count ? "," : ""#>
 <# ix++; } #>
         ]
       },

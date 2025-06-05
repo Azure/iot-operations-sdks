@@ -54,19 +54,22 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RejectedMaterialMasterTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "RejectedMaterialMasterTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -74,25 +77,29 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RejectedMaterialRatio",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RejectedMaterialTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "RejectedMaterialTotal",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -100,26 +107,30 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "RejectionCountMasterTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "unsignedLong",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RejectionCountTotal",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "unsignedLong",
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "RejectionsRatio",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "SetRejectionMode",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",

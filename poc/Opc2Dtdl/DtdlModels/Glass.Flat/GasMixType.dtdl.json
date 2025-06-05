@@ -16,25 +16,29 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "GasFilling",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MixingRatio",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "schema": "integer",
       "writable": true
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Gas_1",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Gas_2",
+      "namespace": "http://opcfoundation.org/UA/Glass.Flat",
       "target": "dtmi:opcua:Glass_Flat:BaseMaterialType"
     }
   ]

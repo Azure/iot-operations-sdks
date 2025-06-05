@@ -24,7 +24,7 @@ namespace Yaml2Dtdl
                 return null;
             }
 
-            return TypeConverter.GetModelId(typeDefinition.NodeId.Substring(0, typeDefinition.NodeId.IndexOf(':')), typeDefinition.BrowseName);
+            return TypeConverter.GetModelId(typeDefinition);
         }
     }
 }

@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "MacAddress",
+      "namespace": "http://opcfoundation.org/UA/PROFINET",
       "schema": {
         "@type": "Array",
         "elementSchema": "unsignedByte"

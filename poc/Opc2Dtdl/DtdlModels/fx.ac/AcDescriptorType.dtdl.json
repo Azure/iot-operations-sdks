@@ -15,8 +15,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
-      "name": "DescriptorFile"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DescriptorFile",
+      "namespace": "http://opcfoundation.org/UA/FX.AC"
     }
   ]
 }

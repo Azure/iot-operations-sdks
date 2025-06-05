@@ -15,13 +15,15 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Data",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelDataType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Quality",
+      "namespace": "http://opcfoundation.org/UA/PNGSDGM",
       "target": "dtmi:opcua:PNGSDGM:GsdGenIoChannelQualityType"
     }
   ]

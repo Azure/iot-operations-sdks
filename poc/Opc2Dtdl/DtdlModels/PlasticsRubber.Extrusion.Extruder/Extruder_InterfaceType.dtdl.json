@@ -16,59 +16,70 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "SpecificOutput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "AdditionalDrives",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DrivesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Feeders",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_Extruder:FeedersType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MainDrive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MeltPressureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MeltTemperatureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "ScrewTemperatures",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Throughput",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MonitoredParameterType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Users",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.GeneralTypes",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:UsersType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "VacuumZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.Extruder",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     }
   ]

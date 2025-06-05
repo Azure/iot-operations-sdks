@@ -142,14 +142,16 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "DeviceHealth",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "dtmi:opcua:FX_AC:FxAssetType:dataType:DeviceHealthEnumeration;1",
       "writable": true
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "VerifyAsset",
+      "namespace": "http://opcfoundation.org/UA/FX.AC",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -212,12 +214,14 @@
       }
     },
     {
-      "@type": "Relationship",
-      "name": "Connectors"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Connectors",
+      "namespace": "http://opcfoundation.org/UA/FX.AC"
     },
     {
-      "@type": "Relationship",
-      "name": "DeviceHealthAlarms"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "DeviceHealthAlarms",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

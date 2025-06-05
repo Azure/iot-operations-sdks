@@ -16,20 +16,23 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "PercentComplete",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "unsignedByte",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "InstallationDelay",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "schema": "duration",
       "writable": false
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "InstallSoftwarePackage",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -64,8 +67,9 @@
       }
     },
     {
-      "@type": "Command",
+      "@type": [ "Command", "Qualified" ],
       "name": "InstallFiles",
+      "namespace": "http://opcfoundation.org/UA/DI",
       "request": {
         "@type": [ "CommandRequest", "Transparent" ],
         "name": "input",
@@ -85,36 +89,44 @@
       }
     },
     {
-      "@type": "Command",
-      "name": "Resume"
+      "@type": [ "Command", "Qualified" ],
+      "name": "Resume",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Idle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Idle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Installing"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Installing",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "Error"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "Error",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "IdleToInstalling"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "IdleToInstalling",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "InstallingToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InstallingToIdle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "InstallingToError"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "InstallingToError",
+      "namespace": "http://opcfoundation.org/UA/DI"
     },
     {
-      "@type": "Relationship",
-      "name": "ErrorToIdle"
+      "@type": [ "Relationship", "Qualified" ],
+      "name": "ErrorToIdle",
+      "namespace": "http://opcfoundation.org/UA/DI"
     }
   ]
 }

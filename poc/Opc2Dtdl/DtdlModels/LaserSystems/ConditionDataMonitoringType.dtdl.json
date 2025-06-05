@@ -16,38 +16,44 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Description",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerErrorLevel",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "LowerWarningLevel",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperErrorLevel",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "UpperWarningLevel",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "integer",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "Value",
+      "namespace": "http://opcfoundation.org/UA/LaserSystems",
       "schema": "integer",
       "writable": false
     }

@@ -16,8 +16,9 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Feedstock",
+      "namespace": "http://opcfoundation.org/UA/AdditiveManufacturing",
       "target": "dtmi:opcua:AdditiveManufacturing:FeedstockListType"
     }
   ]

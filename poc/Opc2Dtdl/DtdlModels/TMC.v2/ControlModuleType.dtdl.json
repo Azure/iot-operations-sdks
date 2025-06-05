@@ -16,23 +16,27 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Aggregates",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:ControlModuleAggregatesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Configuration",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:ControlModuleConfigurationType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "LiveStatus",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:ControlModuleLiveStatusType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Setup",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "target": "dtmi:opcua:TMC_v2:ControlModuleSetupType"
     }
   ]

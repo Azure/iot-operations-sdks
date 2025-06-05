@@ -15,43 +15,51 @@
   ],
   "contents": [
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "STO",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SS1",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SS2",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SOS",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SLS",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SDI",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SLA",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "SLP",
+      "namespace": "http://opcfoundation.org/UA/PDRV",
       "target": "dtmi:opcua:PDRV:SafetyFunctionType"
     }
   ]

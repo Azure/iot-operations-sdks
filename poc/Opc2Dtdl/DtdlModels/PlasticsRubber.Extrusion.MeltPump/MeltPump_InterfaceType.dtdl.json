@@ -16,24 +16,28 @@
   ],
   "contents": [
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "FeedRate",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
       "schema": "double",
       "writable": false
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "Drive",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:DriveType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "MeltPressures",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
       "target": "dtmi:opcua:PlasticsRubber_GeneralTypes:MeasuringDevicesType"
     },
     {
-      "@type": "Relationship",
+      "@type": [ "Relationship", "Qualified" ],
       "name": "TemperatureZones",
+      "namespace": "http://opcfoundation.org/UA/PlasticsRubber.Extrusion.MeltPump",
       "target": "dtmi:opcua:PlasticsRubber_Extrusion_GeneralTypes:ExtrusionTemperatureZonesType"
     }
   ]

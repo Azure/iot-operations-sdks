@@ -1,29 +1,29 @@
 DataTypes:
-- UADataType: [ Mining.ExternalStandards.IREDES:3009, Answer ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3009, Mining.ExternalStandards.IREDES:Answer ]
   Enums:
     Accepted: 0
     Delayed: 1
     AcceptedWithCondition: 2
     Denied: 3
-- UADataType: [ Mining.ExternalStandards.IREDES:3006, DispFlag ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3006, Mining.ExternalStandards.IREDES:DispFlag ]
   Enums:
     MachStart: 0
     FileLoad: 1
-- UADataType: [ Mining.ExternalStandards.IREDES:3018, LTPPMaction ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3018, Mining.ExternalStandards.IREDES:LTPPMaction ]
   Enums:
     Load: 0
     Dump: 1
     Parking: 2
     Workshop: 3
     Other: 4
-- UADataType: [ Mining.ExternalStandards.IREDES:3012, LTPPMptFromType ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3012, Mining.ExternalStandards.IREDES:LTPPMptFromType ]
   Enums:
     LoadPt: 0
     DumpPt: 1
     Parking: 2
     Workshop: 3
     Others: 4
-- UADataType: [ Mining.ExternalStandards.IREDES:3015, LTPPMptToType ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3015, Mining.ExternalStandards.IREDES:LTPPMptToType ]
   Enums:
     LoadPt: 0
     DumpPt: 1
@@ -31,402 +31,402 @@ DataTypes:
     Boulder: 3
     Workshop: 4
     Others: 5
-- UADataType: [ Mining.ExternalStandards.IREDES:3005, IRangle ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3005, Mining.ExternalStandards.IREDES:IRangle ]
   Bases:
   - Float
-- UADataType: [ Mining.ExternalStandards.IREDES:3008, AnyURI ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3008, Mining.ExternalStandards.IREDES:AnyURI ]
   Bases:
   - String
-- UADataType: [ Mining.ExternalStandards.IREDES:3001, IRtext ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3001, Mining.ExternalStandards.IREDES:IRtext ]
   Bases:
   - String
-- UADataType: [ Mining.ExternalStandards.IREDES:3002, IRtextLong ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3002, Mining.ExternalStandards.IREDES:IRtextLong ]
   Bases:
   - String
-- UADataType: [ Mining.ExternalStandards.IREDES:3000, IRtextShort ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3000, Mining.ExternalStandards.IREDES:IRtextShort ]
   Bases:
   - String
-- UADataType: [ Mining.ExternalStandards.IREDES:3007, IRVersion ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3007, Mining.ExternalStandards.IREDES:IRVersion ]
   Bases:
   - String
-- UADataType: [ Mining.ExternalStandards.IREDES:3003, IRLengthDataType ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3003, Mining.ExternalStandards.IREDES:IRLengthDataType ]
   Fields:
     Value: [ Double, 0 ]
     Unit: [ EUInformation, 0 ]
-- UADataType: [ Mining.ExternalStandards.IREDES:3004, JobAssignmentTimeDataType ]
+- UADataType: [ Mining.ExternalStandards.IREDES:3004, Mining.ExternalStandards.IREDES:JobAssignmentTimeDataType ]
   Fields:
     ExpectedFinishTime: [ DateTime, 0 ]
     ExpectedDuration: [ Duration, 0 ]
 
 DefinedTypes:
 
-  DisplayToOperatorType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1004, DisplayToOperatorType ]
+  Mining.ExternalStandards.IREDES:DisplayToOperatorType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1004, Mining.ExternalStandards.IREDES:DisplayToOperatorType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6030, AckFlag, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6030, Mining.ExternalStandards.IREDES:AckFlag, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6029, DispFlag, DispFlag, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6029, Mining.ExternalStandards.IREDES:DispFlag, Mining.ExternalStandards.IREDES:DispFlag, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6031, DispText, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6031, Mining.ExternalStandards.IREDES:DispText, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  EquipmentInfoType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1006, EquipmentInfoType ]
+  Mining.ExternalStandards.IREDES:EquipmentInfoType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1006, Mining.ExternalStandards.IREDES:EquipmentInfoType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6023, EqpInfo, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6023, Mining.ExternalStandards.IREDES:EqpInfo, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6024, EqpName, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6024, Mining.ExternalStandards.IREDES:EqpName, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6022, EqpSysVer, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6022, Mining.ExternalStandards.IREDES:EqpSysVer, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  GenHeadType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1009, GenHeadType ]
+  Mining.ExternalStandards.IREDES:GenHeadType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1009, Mining.ExternalStandards.IREDES:GenHeadType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  GenTrailerType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1015, GenTrailerType ]
+  Mining.ExternalStandards.IREDES:GenTrailerType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1015, Mining.ExternalStandards.IREDES:GenTrailerType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IREDESType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1005, IREDESType ]
+  Mining.ExternalStandards.IREDES:IREDESType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1005, Mining.ExternalStandards.IREDES:IREDESType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IRLHDTruckType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1030, IRLHDTruckType ]
+  Mining.ExternalStandards.IREDES:IRLHDTruckType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1030, Mining.ExternalStandards.IREDES:IRLHDTruckType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IRLTMMonType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1011, IRLTMMonType ]
+  Mining.ExternalStandards.IREDES:IRLTMMonType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1011, Mining.ExternalStandards.IREDES:IRLTMMonType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IRLTPlanType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1014, IRLTPlanType ]
+  Mining.ExternalStandards.IREDES:IRLTPlanType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1014, Mining.ExternalStandards.IREDES:IRLTPlanType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IRLTPPerfType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1026, IRLTPPerfType ]
+  Mining.ExternalStandards.IREDES:IRLTPPerfType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1026, Mining.ExternalStandards.IREDES:IRLTPPerfType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  IROptionType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1008, IROptionType ]
+  Mining.ExternalStandards.IREDES:IROptionType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1008, Mining.ExternalStandards.IREDES:IROptionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6034, OptionSchema, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6034, Mining.ExternalStandards.IREDES:OptionSchema, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  IRplanGenType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1017, IRplanGenType ]
+  Mining.ExternalStandards.IREDES:IRplanGenType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1017, Mining.ExternalStandards.IREDES:IRplanGenType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6075, Comment, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6075, Mining.ExternalStandards.IREDES:Comment, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6076, Project, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6076, Mining.ExternalStandards.IREDES:Project, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6077, WorkOrder, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6077, Mining.ExternalStandards.IREDES:WorkOrder, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  IRpPerfGenType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1013, IRpPerfGenType ]
+  Mining.ExternalStandards.IREDES:IRpPerfGenType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1013, Mining.ExternalStandards.IREDES:IRpPerfGenType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6066, Comment, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6066, Mining.ExternalStandards.IREDES:Comment, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  IRreplyType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1016, IRreplyType ]
+  Mining.ExternalStandards.IREDES:IRreplyType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1016, Mining.ExternalStandards.IREDES:IRreplyType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6092, Comment, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6092, Mining.ExternalStandards.IREDES:Comment, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  IRStatusGenType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1020, IRStatusGenType ]
+  Mining.ExternalStandards.IREDES:IRStatusGenType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1020, Mining.ExternalStandards.IREDES:IRStatusGenType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6082, Comment, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6082, Mining.ExternalStandards.IREDES:Comment, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6083, OperatorId, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6083, Mining.ExternalStandards.IREDES:OperatorId, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  IRWorkOrderGenType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1021, IRWorkOrderGenType ]
+  Mining.ExternalStandards.IREDES:IRWorkOrderGenType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1021, Mining.ExternalStandards.IREDES:IRWorkOrderGenType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6099, AssignmentTime, JobAssignmentTimeDataType, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6099, Mining.ExternalStandards.IREDES:AssignmentTime, Mining.ExternalStandards.IREDES:JobAssignmentTimeDataType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6109, Comment, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6109, Mining.ExternalStandards.IREDES:Comment, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6104, MachineId, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6104, Mining.ExternalStandards.IREDES:MachineId, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6105, OperatorId, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6105, Mining.ExternalStandards.IREDES:OperatorId, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6101, PriorityLevel, UInt32, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6101, Mining.ExternalStandards.IREDES:PriorityLevel, UInt32, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6106, SafetyAdvice, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6106, Mining.ExternalStandards.IREDES:SafetyAdvice, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6107, SpecialCondition, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6107, Mining.ExternalStandards.IREDES:SpecialCondition, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6108, SpecialTask, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6108, Mining.ExternalStandards.IREDES:SpecialTask, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6100, WorkOrderType, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6100, Mining.ExternalStandards.IREDES:WorkOrderType, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  IRWorkOrderReplyGenType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1010, IRWorkOrderReplyGenType ]
+  Mining.ExternalStandards.IREDES:IRWorkOrderReplyGenType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1010, Mining.ExternalStandards.IREDES:IRWorkOrderReplyGenType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6085, Answer, Answer, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6085, Mining.ExternalStandards.IREDES:Answer, Mining.ExternalStandards.IREDES:Answer, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6087, Condition, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6087, Mining.ExternalStandards.IREDES:Condition, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6086, Duration, Duration, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6086, Mining.ExternalStandards.IREDES:Duration, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6088, Extra, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6088, Mining.ExternalStandards.IREDES:Extra, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6089, Reason, String, 1, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6089, Mining.ExternalStandards.IREDES:Reason, String, 1, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LTPPaccPtsType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1018, LTPPaccPtsType ]
+  Mining.ExternalStandards.IREDES:LTPPaccPtsType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1018, Mining.ExternalStandards.IREDES:LTPPaccPtsType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6193, LTPPLcycl, UInt16, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6193, Mining.ExternalStandards.IREDES:LTPPLcycl, UInt16, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6194, LTPPLdist, Float, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6194, Mining.ExternalStandards.IREDES:LTPPLdist, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6189, LTPPLdrawPtID, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6189, Mining.ExternalStandards.IREDES:LTPPLdrawPtID, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6191, LTPPLdumpPtID, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6191, Mining.ExternalStandards.IREDES:LTPPLdumpPtID, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6192, LTPPLmass, Float, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6192, Mining.ExternalStandards.IREDES:LTPPLmass, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6000, LTPPLopObserv, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6000, Mining.ExternalStandards.IREDES:LTPPLopObserv, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LTPPLoadRepType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1019, LTPPLoadRepType ]
+  Mining.ExternalStandards.IREDES:LTPPLoadRepType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1019, Mining.ExternalStandards.IREDES:LTPPLoadRepType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6198, LTPPCyclTot, UInt64, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6198, Mining.ExternalStandards.IREDES:LTPPCyclTot, UInt64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6199, LTPPdistTot, Float, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6199, Mining.ExternalStandards.IREDES:LTPPdistTot, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6201, LTPPloadTot, Float, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6201, Mining.ExternalStandards.IREDES:LTPPloadTot, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6200, LTPPwrkDist, Float, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6200, Mining.ExternalStandards.IREDES:LTPPwrkDist, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LTPPMissionType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1028, LTPPMissionType ]
+  Mining.ExternalStandards.IREDES:LTPPMissionType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1028, Mining.ExternalStandards.IREDES:LTPPMissionType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6180, LTPPMaction, LTPPMaction, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6180, Mining.ExternalStandards.IREDES:LTPPMaction, Mining.ExternalStandards.IREDES:LTPPMaction, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6176, LTPPMarea, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6176, Mining.ExternalStandards.IREDES:LTPPMarea, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6169, LTPPMisSeq, UInt64, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6169, Mining.ExternalStandards.IREDES:LTPPMisSeq, UInt64, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6186, LTPPMopID, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6186, Mining.ExternalStandards.IREDES:LTPPMopID, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6183, LTPPMpayld, Float, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6183, Mining.ExternalStandards.IREDES:LTPPMpayld, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6172, LTPPMptFromID, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6172, Mining.ExternalStandards.IREDES:LTPPMptFromID, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6170, LTPPMptFromN, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6170, Mining.ExternalStandards.IREDES:LTPPMptFromN, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6171, LTPPMptFromType, LTPPMptFromType, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6171, Mining.ExternalStandards.IREDES:LTPPMptFromType, Mining.ExternalStandards.IREDES:LTPPMptFromType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6174, LTPPMptToID, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6174, Mining.ExternalStandards.IREDES:LTPPMptToID, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6173, LTPPMptToN, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6173, Mining.ExternalStandards.IREDES:LTPPMptToN, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6175, LTPPMptToType, LTPPMptToType, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6175, Mining.ExternalStandards.IREDES:LTPPMptToType, Mining.ExternalStandards.IREDES:LTPPMptToType, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6182, LTPPMtimeAct, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6182, Mining.ExternalStandards.IREDES:LTPPMtimeAct, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6185, LTPPMtramDist, Float, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6185, Mining.ExternalStandards.IREDES:LTPPMtramDist, Float, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6181, LTPPMwaitgen, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6181, Mining.ExternalStandards.IREDES:LTPPMwaitgen, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6179, LTPPMwaitPoint, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6179, Mining.ExternalStandards.IREDES:LTPPMwaitPoint, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  LTPPTimeRepType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1025, LTPPTimeRepType ]
+  Mining.ExternalStandards.IREDES:LTPPTimeRepType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1025, Mining.ExternalStandards.IREDES:LTPPTimeRepType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
 
-  LTPPwaitProcType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1022, LTPPwaitProcType ]
+  Mining.ExternalStandards.IREDES:LTPPwaitProcType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1022, Mining.ExternalStandards.IREDES:LTPPwaitProcType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6158, BlastDelay, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6158, Mining.ExternalStandards.IREDES:BlastDelay, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6159, CantDump, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6159, Mining.ExternalStandards.IREDES:CantDump, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6162, MineUtils, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6162, Mining.ExternalStandards.IREDES:MineUtils, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6161, NoRock, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6161, Mining.ExternalStandards.IREDES:NoRock, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6164, RoadMaint, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6164, Mining.ExternalStandards.IREDES:RoadMaint, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6160, Traffic, DateTime, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6160, Mining.ExternalStandards.IREDES:Traffic, DateTime, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  OpPerfLogType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1007, OpPerfLogType ]
+  Mining.ExternalStandards.IREDES:OpPerfLogType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1007, Mining.ExternalStandards.IREDES:OpPerfLogType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6046, Mworking, Duration, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6046, Mining.ExternalStandards.IREDES:Mworking, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6051, TurnedOff, Duration, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6051, Mining.ExternalStandards.IREDES:TurnedOff, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6048, WaitOperator, Duration, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6048, Mining.ExternalStandards.IREDES:WaitOperator, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6047, WaitProcess, Duration, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6047, Mining.ExternalStandards.IREDES:WaitProcess, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6049, WaitRepair, Duration, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6049, Mining.ExternalStandards.IREDES:WaitRepair, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6050, WaitSamples, Duration, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6050, Mining.ExternalStandards.IREDES:WaitSamples, Duration, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 78, Mandatory ]
 
@@ -435,15 +435,15 @@ DefinedTypes:
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6016, Comment, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6016, Mining.ExternalStandards.IREDES:Comment, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
   - HasComponent:
-    - [ UAVariable, Mining.ExternalStandards.IREDES:6015, Signature, String, 0, 3 ]
+    - [ UAVariable, Mining.ExternalStandards.IREDES:6015, Mining.ExternalStandards.IREDES:Signature, String, 0, 3 ]
     - HasModellingRule:
       - [ UAObject, 80, Optional ]
 
-  SiteHeadType:
-  - [ UAObjectType, Mining.ExternalStandards.IREDES:1012, SiteHeadType ]
+  Mining.ExternalStandards.IREDES:SiteHeadType:
+  - [ UAObjectType, Mining.ExternalStandards.IREDES:1012, Mining.ExternalStandards.IREDES:SiteHeadType ]
   - HasSubtype_reverse:
     - [ UAObjectType, 58, BaseObjectType ]

@@ -16,19 +16,22 @@
   ],
   "contents": [
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ActualLoadingRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ActualLoadingRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -36,19 +39,22 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "ActualUnloadingRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "ActualUnloadingRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -56,25 +62,29 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "LoadingRateState",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalLoadingRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "NominalLoadingRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -82,19 +92,22 @@
       "writable": false
     },
     {
-      "@type": "Property",
+      "@type": [ "Property", "Qualified" ],
       "name": "NominalUnloadingRate",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "NominalUnloadingRate",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -102,19 +115,22 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "StoredLot",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": {
         "@type": [ "Object", "Detail" ],
         "fields": [
           {
-            "@type": [ "Field", "Subject", "Required" ],
+            "@type": [ "Field", "Qualified", "Subject", "Required" ],
             "name": "StoredLot",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           },
           {
-            "@type": [ "Field", "Required" ],
+            "@type": [ "Field", "Qualified", "Required" ],
             "name": "ValueInBUoM",
+            "namespace": "http://opcfoundation.org/UA/TMC.v2",
             "schema": "double"
           }
         ]
@@ -122,8 +138,9 @@
       "writable": false
     },
     {
-      "@type": [ "Property", "Historized" ],
+      "@type": [ "Property", "Qualified", "Historized" ],
       "name": "UnloadingRateState",
+      "namespace": "http://opcfoundation.org/UA/TMC.v2",
       "schema": "string",
       "writable": false
     }
