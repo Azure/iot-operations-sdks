@@ -19,16 +19,10 @@ pub struct ConfigError {
     #[builder(default = "None")]
     pub code: Option<String>,
 
-    /// Array of event statuses that describe the status of each event.
+    /// Array of error details that describe the status of each error.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub details: Option<Vec<DetailsSchemaElementSchema>>,
-
-    /// A set of key-value pairs that contain service specific details set by the service.
-    #[serde(rename = "innerError")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub inner_error: Option<HashMap<String, String>>,
 
     /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
     #[serde(skip_serializing_if = "Option::is_none")]

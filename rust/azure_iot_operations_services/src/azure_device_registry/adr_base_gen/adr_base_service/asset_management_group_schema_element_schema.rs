@@ -14,24 +14,24 @@ use super::asset_management_group_action_schema_element_schema::AssetManagementG
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetManagementGroupSchemaElementSchema {
-    /// Actions for this management group.
+    /// Array of actions that are part of the management group. Each action can have an individual configuration.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub actions: Option<Vec<AssetManagementGroupActionSchemaElementSchema>>,
 
-    /// Default time out in seconds for the management group.
+    /// Default response timeout for all actions that are part of the management group.
     #[serde(rename = "defaultTimeOutInSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_time_out_in_seconds: Option<u32>,
 
-    /// The default MQTT topic for the management group.
+    /// Default MQTT topic path on which a client will receive the request for all actions that are part of the management group.
     #[serde(rename = "defaultTopic")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub default_topic: Option<String>,
 
-    /// Configuration for the mangement group.
+    /// Stringified JSON that contains connector-specific configuration for the management group.
     #[serde(rename = "managementGroupConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -40,7 +40,7 @@ pub struct AssetManagementGroupSchemaElementSchema {
     /// Name of the management group.
     pub name: String,
 
-    /// URI or type definition id in companion spec.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

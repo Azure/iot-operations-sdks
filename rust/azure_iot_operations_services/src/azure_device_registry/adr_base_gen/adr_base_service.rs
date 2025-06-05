@@ -24,6 +24,7 @@ mod asset_update_event_telemetry_serialization;
 mod authentication_schema;
 mod code_schema;
 mod config_error;
+mod config_status;
 mod create_or_update_discovered_asset_command_invoker;
 mod create_or_update_discovered_asset_request_payload;
 mod create_or_update_discovered_asset_request_payload_serialization;
@@ -155,6 +156,7 @@ pub mod client {
     pub use super::authentication_schema::*;
     pub use super::code_schema::*;
     pub use super::config_error::*;
+    pub use super::config_status::*;
     pub use super::create_or_update_discovered_asset_command_invoker::*;
     pub use super::create_or_update_discovered_asset_request_payload::*;
     pub use super::create_or_update_discovered_asset_request_schema::*;

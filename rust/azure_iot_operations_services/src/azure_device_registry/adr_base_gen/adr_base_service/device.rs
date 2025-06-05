@@ -36,35 +36,35 @@ pub struct Device {
     #[builder(default = "None")]
     pub endpoints: Option<DeviceEndpointsSchema>,
 
-    /// The unique identifier of the device.
+    /// The Device ID provided by the customer.
     #[serde(rename = "externalDeviceId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub external_device_id: Option<String>,
 
-    /// A timestamp that is updated each time the resource is modified.
+    /// A timestamp (in UTC) that is updated each time the resource is modified.
     #[serde(rename = "lastTransitionTime")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub last_transition_time: Option<DateTime<Utc>>,
 
-    /// Hardware manufacturer name.
+    /// Device manufacturer.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub manufacturer: Option<String>,
 
-    /// Model name.
+    /// Device model.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub model: Option<String>,
 
-    /// Operating system name.
+    /// Device operating system.
     #[serde(rename = "operatingSystem")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub operating_system: Option<String>,
 
-    /// Operating system version.
+    /// Device operating system version.
     #[serde(rename = "operatingSystemVersion")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

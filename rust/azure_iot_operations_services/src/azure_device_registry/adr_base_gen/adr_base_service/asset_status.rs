@@ -10,16 +10,16 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::asset_config_status_schema::AssetConfigStatusSchema;
 use super::asset_dataset_event_stream_status::AssetDatasetEventStreamStatus;
 use super::asset_management_group_status_schema_element_schema::AssetManagementGroupStatusSchemaElementSchema;
+use super::config_status::ConfigStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct AssetStatus {
-    /// The 'config' Field.
+    /// Defines the asset status config properties.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub config: Option<AssetConfigStatusSchema>,
+    pub config: Option<ConfigStatus>,
 
     /// Array of dataset statuses that describe the status of each dataset.
     #[serde(skip_serializing_if = "Option::is_none")]

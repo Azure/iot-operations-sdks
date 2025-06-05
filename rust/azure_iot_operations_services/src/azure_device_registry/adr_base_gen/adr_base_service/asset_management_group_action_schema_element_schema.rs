@@ -27,22 +27,22 @@ pub struct AssetManagementGroupActionSchemaElementSchema {
     /// Name of the action.
     pub name: String,
 
-    /// TargetUri of action.
+    /// The target URI on which a client can invoke the specific action.
     #[serde(rename = "targetUri")]
     pub target_uri: String,
 
-    /// Time out in seconds for the action
+    /// Response timeout for the action.
     #[serde(rename = "timeOutInSeconds")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub time_out_in_seconds: Option<u32>,
 
-    /// The MQTT topic.
+    /// The MQTT topic path on which a client will receive the request for the action.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub topic: Option<String>,
 
-    /// URI or type definition id in companion spec.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -27,13 +27,13 @@ pub struct AssetDatasetSchemaElementSchema {
     #[builder(default = "None")]
     pub dataset_configuration: Option<String>,
 
-    /// The address of the source of the data in the dataset (e.g. URL) so that a client can access the data source on the asset.
+    /// Name of the data source within a dataset.
     #[serde(rename = "dataSource")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub data_source: Option<String>,
 
-    /// Destinations for a Dataset.
+    /// Destinations for a dataset.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub destinations: Option<Vec<DatasetDestination>>,
@@ -41,7 +41,7 @@ pub struct AssetDatasetSchemaElementSchema {
     /// Name of the dataset.
     pub name: String,
 
-    /// URI or type definition id in companion spec.
+    /// URI or type definition ID.
     #[serde(rename = "typeRef")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -15,7 +15,7 @@ use super::trust_settings_schema::TrustSettingsSchema;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct InboundSchemaMapValueSchema {
-    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).
+    /// Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).
     #[serde(rename = "additionalConfiguration")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -24,7 +24,7 @@ pub struct InboundSchemaMapValueSchema {
     /// The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).
     pub address: String,
 
-    /// Definition of the client authentication mechanism to the host.
+    /// Defines the client authentication mechanism to the server.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub authentication: Option<AuthenticationSchema>,
@@ -33,7 +33,7 @@ pub struct InboundSchemaMapValueSchema {
     #[serde(rename = "endpointType")]
     pub endpoint_type: String,
 
-    /// Trust settings for the endpoint.
+    /// Defines server trust settings for the endpoint.
     #[serde(rename = "trustSettings")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
