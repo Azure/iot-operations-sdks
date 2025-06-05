@@ -154,7 +154,7 @@ async fn azure_device_registry_operations(
                 .as_ref()
                 .is_none_or(|config| config.version != device.version)
             {
-                device_status.config = Some(azure_device_registry::StatusConfig {
+                device_status.config = Some(azure_device_registry::ConfigStatus {
                     version: device.version,
                     ..Default::default()
                 });
@@ -244,7 +244,7 @@ async fn azure_device_registry_operations(
                 .as_ref()
                 .is_none_or(|config| config.version != asset.version)
             {
-                asset_status.config = Some(azure_device_registry::StatusConfig {
+                asset_status.config = Some(azure_device_registry::ConfigStatus {
                     version: asset.version,
                     ..Default::default()
                 });
