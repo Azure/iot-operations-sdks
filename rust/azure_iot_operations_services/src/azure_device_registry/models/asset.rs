@@ -14,7 +14,7 @@ use crate::azure_device_registry::{ConfigError, StatusConfig};
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
 
 /// Represents an Asset in the Azure Device Registry service.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Asset {
     /// The name of the asset.
     pub name: String,
@@ -25,7 +25,7 @@ pub struct Asset {
 }
 
 /// Represents the specification of an Asset in the Azure Device Registry service.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct AssetSpecification {
     /// URI or type definition ids.
     pub asset_type_refs: Vec<String>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
@@ -139,7 +139,7 @@ pub struct DiscoveredAssetSpecification {
 }
 
 /// Represents a dataset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Dataset {
     /// Configuration for the dataset.
     pub dataset_configuration: Option<String>,
@@ -175,7 +175,7 @@ pub struct DiscoveredDataset {
 }
 
 /// Represents a data point in a dataset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DatasetDataPoint {
     /// Configuration for the data point
     pub data_point_configuration: Option<String>,
@@ -203,7 +203,7 @@ pub struct DiscoveredDatasetDataPoint {
 }
 
 /// Represents the destination for a dataset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DatasetDestination {
     /// The configuration for the destination
     pub configuration: DestinationConfiguration,
@@ -221,7 +221,7 @@ pub struct DatasetDestination {
 // }
 
 /// Represents the destination for an event or stream.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct EventStreamDestination {
     /// The configuration for the destination
     pub configuration: DestinationConfiguration,
@@ -239,7 +239,7 @@ pub struct EventStreamDestination {
 // }
 
 /// A reference to the Device and Endpoint within the device
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DeviceRef {
     /// The name of the device
     pub device_name: String,
@@ -248,7 +248,7 @@ pub struct DeviceRef {
 }
 
 /// Represents an event in an asset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Event {
     /// Array of data points that are part of the event.
     pub data_points: Vec<EventDataPoint>, // if None on generated model, we can represent as empty vec
@@ -284,7 +284,7 @@ pub struct DiscoveredEvent {
 }
 
 /// Represents a management group
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ManagementGroup {
     /// Actions for this management group
     pub actions: Vec<ManagementGroupAction>, // if None on generated model, we can represent as empty vec
@@ -320,7 +320,7 @@ pub struct DiscoveredManagementGroup {
 }
 
 /// Represents a management group action
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ManagementGroupAction {
     /// Configuration for the action.
     pub action_configuration: Option<String>,
@@ -360,7 +360,7 @@ pub struct DiscoveredManagementGroupAction {
 }
 
 /// Represents a stream for an asset.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Stream {
     /// Destinations for a stream.
     pub destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
@@ -388,7 +388,7 @@ pub struct DiscoveredStream {
 }
 
 /// A data point in an event.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct EventDataPoint {
     /// The configuration for the data point in the event.
     pub data_point_configuration: Option<String>,
@@ -413,7 +413,7 @@ pub struct DiscoveredEventDataPoint {
 
 // TODO: turn into rust enums for which of these options can correlate to which destination enums
 /// The configuration for the destination
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct DestinationConfiguration {
     /// The key of the destination configuration.
     pub key: Option<String>,
@@ -430,7 +430,7 @@ pub struct DestinationConfiguration {
 }
 
 // ~~~~~~~~~~~~~~~~~~~Asset Status DTDL Equivalent Structs~~~~~~~
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the observed status of an asset.
 pub struct AssetStatus {
     /// The configuration of the asset.
@@ -445,7 +445,7 @@ pub struct AssetStatus {
     pub streams: Option<Vec<DatasetEventStreamStatus>>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for a dataset, event, or stream.
 pub struct DatasetEventStreamStatus {
     /// The name of the dataset, event, or stream.
@@ -456,7 +456,7 @@ pub struct DatasetEventStreamStatus {
     pub error: Option<ConfigError>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for a management group
 pub struct ManagementGroupStatus {
     /// A collection of actions associated with the management group.
@@ -465,7 +465,7 @@ pub struct ManagementGroupStatus {
     pub name: String,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the status for an action associated with a management group.
 pub struct ActionStatus {
     /// The configuration error of the management group action.
@@ -478,7 +478,7 @@ pub struct ActionStatus {
     pub response_message_schema_reference: Option<MessageSchemaReference>,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents a reference to a schema, including its name, version, and namespace.
 pub struct MessageSchemaReference {
     /// The name of the message schema.
@@ -550,7 +550,7 @@ impl From<MessageSchemaReference> for base_client_gen::MessageSchemaReference {
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Enums~~~~~~~
 // TODO: remove in favor of Rust enum
 /// The target of the event or stream.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum EventStreamTarget {
     /// MQTT
     Mqtt,
@@ -558,7 +558,7 @@ pub enum EventStreamTarget {
     Storage,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the retain policy.
 pub enum Retain {
     /// Should be retained.
@@ -568,7 +568,7 @@ pub enum Retain {
 }
 
 // TODO: remove in favor of Rust enum
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the target type for a dataset.
 pub enum DatasetTarget {
     /// Represents a broker state store dataset target.
@@ -579,7 +579,7 @@ pub enum DatasetTarget {
     Storage,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 /// Represents the type of action that can be performed in an asset management group.
 pub enum ActionType {
     /// Represents a call action type.
@@ -592,7 +592,7 @@ pub enum ActionType {
 
 /// Represents the MQTT Quality of Service level.
 /// Currently does not include Quality of Service 2.
-#[derive(Clone, Debug, Copy)]
+#[derive(Clone, Debug, Copy, PartialEq)]
 pub enum QoS {
     /// Quality of Service level 0 (At most once)
     AtMostOnce,
