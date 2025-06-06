@@ -229,14 +229,9 @@
       }
     }
   },
-  "configSchemas": {
-    "type": "object",
-    "description": "The connector-level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
-    "properties": {
-      "additionalConfigurationSchema": {
-        "$ref": "#/definitions/schema"
-      }
-    }
+  "additionalConfigurationSchema": {
+    "description": "The connector-level JSON schemas for the 'additional configuration' field. A JSON schema must be only if that field is used by this connector.",
+    "$ref": "#/definitions/schema"
   },
   "inboundEndpoints": {
     "type": "array",
