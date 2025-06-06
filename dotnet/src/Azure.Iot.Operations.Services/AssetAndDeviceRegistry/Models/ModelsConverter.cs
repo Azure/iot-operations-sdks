@@ -66,6 +66,26 @@ internal static class ModelsConverter
         };
     }
 
+    internal static ConfigStatus ToModel(this AdrBaseService.ConfigStatus source)
+    {
+        return new ConfigStatus
+        {
+            Error = source.Error?.ToModel(),
+            Version = source.Version,
+            LastTransitionTime = source.LastTransitionTime
+        };
+    }
+
+    internal static ConfigError ToModel(this AdrBaseService.ConfigError source)
+    {
+        return new ConfigError
+        {
+            Code = source.Code,
+            Details = source.Details?.Select(x => x.ToModel()).ToList(),
+            Message = source.Message,
+        };
+    }
+
     internal static AssetStatus ToModel(this AdrBaseService.AssetStatus source)
     {
         return new AssetStatus
@@ -381,7 +401,6 @@ internal static class ModelsConverter
     {
         return new TrustSettings
         {
-            IssuerList = source.IssuerList,
             TrustList = source.TrustList
         };
     }
@@ -392,16 +411,6 @@ internal static class ModelsConverter
         {
             Endpoints = source.Endpoints?.ToModel(),
             Config = source.Config?.ToModel()
-        };
-    }
-
-    internal static DeviceStatusConfig ToModel(this DeviceStatusConfigSchema source)
-    {
-        return new DeviceStatusConfig
-        {
-            Error = source.Error?.ToModel(),
-            Version = source.Version,
-            LastTransitionTime = source.LastTransitionTime
         };
     }
 
@@ -423,17 +432,6 @@ internal static class ModelsConverter
         };
     }
 
-    internal static ConfigError ToModel(this AdrBaseService.ConfigError source)
-    {
-        return new ConfigError
-        {
-            Code = source.Code,
-            Message = source.Message,
-            InnerError = source.InnerError,
-            Details = source.Details?.Select(x => x.ToModel()).ToList()
-        };
-    }
-
     internal static DetailsSchemaElement ToModel(this DetailsSchemaElementSchema source)
     {
         return new DetailsSchemaElement
@@ -442,16 +440,6 @@ internal static class ModelsConverter
             Message = source.Message,
             Info = source.Info,
             CorrelationId = source.CorrelationId
-        };
-    }
-
-    internal static AssetConfigStatus ToModel(this AssetConfigStatusSchema source)
-    {
-        return new AssetConfigStatus
-        {
-            Error = source.Error?.ToModel(),
-            LastTransitionTime = source.LastTransitionTime,
-            Version = source.Version
         };
     }
 

@@ -1,15 +1,24 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Text.Json.Serialization;
+
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 public record ConfigError
 {
-    public string? Code { get; set; }
+    /// <summary>
+    /// Error code for classification of errors (ex: '400', '404', '500', etc.).
+    /// </summary>
+    public string? Code { get; set; } = default;
 
-    public List<DetailsSchemaElement>? Details { get; set; }
+    /// <summary>
+    /// Array of error details that describe the status of each error.
+    /// </summary>
+    public List<DetailsSchemaElement>? Details { get; set; } = default;
 
-    public Dictionary<string, string>? InnerError { get; set; }
-
-    public string? Message { get; set; }
+    /// <summary>
+    /// Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).
+    /// </summary>
+    public string? Message { get; set; } = default;
 }

@@ -292,6 +292,16 @@ internal static class ProtocolConverter
         };
     }
 
+    internal static AdrBaseService.ConfigStatus ToProtocol(this ConfigStatus source)
+    {
+        return new()
+        {
+            Error = source.Error?.ToProtocol(),
+            LastTransitionTime = source.LastTransitionTime,
+            Version = source.Version,
+        };
+    }
+
     internal static AdrBaseService.AssetStatus ToProtocol(this AssetStatus source)
     {
         return new AdrBaseService.AssetStatus
@@ -324,16 +334,6 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AssetConfigStatusSchema ToProtocol(this AssetConfigStatus source)
-    {
-        return new AssetConfigStatusSchema
-        {
-            Error = source.Error?.ToProtocol(),
-            LastTransitionTime = source.LastTransitionTime,
-            Version = source.Version
-        };
-    }
-
     internal static AdrBaseService.AssetDatasetEventStreamStatus ToProtocol(this AssetDatasetEventStreamStatus source)
     {
         return new AdrBaseService.AssetDatasetEventStreamStatus
@@ -357,16 +357,6 @@ internal static class ProtocolConverter
     internal static AdrBaseService.Retain ToProtocol(this Retain source)
     {
         return (AdrBaseService.Retain)(int)source;
-    }
-
-    internal static DeviceStatusConfigSchema ToProtocol(this DeviceStatusConfig source)
-    {
-        return new DeviceStatusConfigSchema
-        {
-            Error = source.Error?.ToProtocol(),
-            LastTransitionTime = source.LastTransitionTime,
-            Version = source.Version
-        };
     }
 
     internal static DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
@@ -394,7 +384,6 @@ internal static class ProtocolConverter
             Code = source.Code,
             Message = source.Message,
             Details = source.Details?.Select(x => x.ToProtocol()).ToList(),
-            InnerError = source.InnerError
         };
     }
 

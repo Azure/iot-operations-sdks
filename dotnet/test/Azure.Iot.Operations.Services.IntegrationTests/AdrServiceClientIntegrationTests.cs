@@ -76,7 +76,7 @@ public class AdrServiceClientIntegrationTests
 
         var status = new DeviceStatus
         {
-            Config = new DeviceStatusConfig
+            Config = new ConfigStatus
             {
                 Error = null,
                 LastTransitionTime = expectedTime,
@@ -716,7 +716,7 @@ public class AdrServiceClientIntegrationTests
     {
         return new DeviceStatus
         {
-            Config = new DeviceStatusConfig
+            Config = new ConfigStatus
             {
                 Error = null,
                 LastTransitionTime = timeStamp,
@@ -739,7 +739,7 @@ public class AdrServiceClientIntegrationTests
             AssetName = TestAssetName,
             AssetStatus = new AssetStatus
             {
-                Config = new AssetConfigStatus
+                Config = new ConfigStatus
                 {
                     Error = null,
                     LastTransitionTime = timeStamp,
