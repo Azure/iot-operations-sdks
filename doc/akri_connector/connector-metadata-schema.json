@@ -50,6 +50,23 @@
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)",
       "default": "1.0.0"
     },
+    "isPreview": {
+      "type": "boolean",
+      "description": "True if this connector is considered a preview version.",
+      "default": "false"
+    },
+    "supportAcsaVolumes": {
+        "type": "boolean",
+        "description": "If this connector supports ACSA volumes.",
+        "default": "false"
+    },
+    "supportedDestinations" : {
+      "type": "array",
+      "description": "The array of destinations that this connector supports.",
+      "items": {
+        "type": "string"
+      }
+    },
     "maintainer": {
       "type": "string",
       "description": "A name and/or email of the maintainer of this connector."
