@@ -79,7 +79,6 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
             asset_creation_observation,
         ));
     }
-    panic!("device_creation_observer has been dropped");
 }
 
 // This function runs in a loop, waiting for asset creation notifications.
@@ -279,7 +278,7 @@ fn generate_endpoint_status(
             );
             Err(AdrConfigError {
                 message: Some("endpoint type is not supported".to_string()),
-                ..AdrConfigError::default()
+                ..Default::default()
             })
         }
     }
@@ -295,7 +294,7 @@ fn generate_asset_status(asset_client: &AssetClient) -> Result<(), AdrConfigErro
             );
             Err(AdrConfigError {
                 message: Some("asset manufacturer type is not supported".to_string()),
-                ..AdrConfigError::default()
+                ..Default::default()
             })
         }
     }

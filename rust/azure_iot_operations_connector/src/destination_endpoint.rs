@@ -138,7 +138,7 @@ impl Forwarder {
                         None,
                         state_store::SetOptions {
                             expires: None, // TODO: expiry?
-                            ..state_store::SetOptions::default()
+                            ..Default::default()
                         },
                     )
                     .await

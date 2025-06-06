@@ -695,14 +695,14 @@ impl AssetClient {
         // to our tracking for handling updates, and send the create notification
         // to the dataset creation observation
         for dataset_definition in dataset_definitions {
-            // ignore the result because it's just used to add the error to the dataset_config_errors if one is present
-            let _ = asset_client
-                .setup_new_dataset(dataset_definition, &default_dataset_destinations)
-                .map_err(|e|
-                    // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
-                    // the application since we can't forward data on it. If there's an update to the
-                    // definition, they'll get the create notification for it at that point if it's valid
-                    dataset_config_errors.push(e));
+            if let Err(e) =
+                asset_client.setup_new_dataset(dataset_definition, &default_dataset_destinations)
+            {
+                // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
+                // the application since we can't forward data on it. If there's an update to the
+                // definition, they'll get the create notification for it at that point if it's valid
+                dataset_config_errors.push(e);
+            }
         }
 
         // if there were any config errors, report them to the ADR service
@@ -863,18 +863,14 @@ impl AssetClient {
                     }
                 }
                 // it needs to be created
-                else {
-                    // ignore the result because it's just used to add the error to the dataset_config_errors if one is present
-                    let _ = self
-                        .setup_new_dataset(
-                            received_dataset_definition.clone(),
-                            &default_dataset_destinations,
-                        )
-                        .map_err(|e|
-                            // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
-                            // the application since we can't forward data on it. If there's an update to the
-                            // definition, they'll get the create notification for it at that point if it's valid
-                            dataset_config_errors.push(e));
+                else if let Err(e) = self.setup_new_dataset(
+                    received_dataset_definition.clone(),
+                    &default_dataset_destinations,
+                ) {
+                    // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
+                    // the application since we can't forward data on it. If there's an update to the
+                    // definition, they'll get the create notification for it at that point if it's valid
+                    dataset_config_errors.push(e);
                 }
             }
 
@@ -939,7 +935,7 @@ impl AssetClient {
                 error: status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
             }),
-            ..adr_models::AssetStatus::default()
+            ..Default::default()
         }
     }
 
@@ -1095,7 +1091,7 @@ impl AssetClient {
             let adr_asset_status = adr_models::AssetStatus {
                 config: current_asset_config,
                 datasets: Some(dataset_config_errors),
-                ..adr_models::AssetStatus::default()
+                ..Default::default()
             };
             // send status update to the service
             log::debug!(
@@ -1245,7 +1241,7 @@ impl DatasetClient {
                 message_schema_reference: current_message_schema_reference,
                 error: status.err(),
             }]),
-            ..adr_models::AssetStatus::default()
+            ..Default::default()
         };
 
         // send status update to the service
@@ -1367,7 +1363,7 @@ impl DatasetClient {
                 message_schema_reference: Some(message_schema_reference.clone()),
                 error: current_dataset_config_error,
             }]),
-            ..adr_models::AssetStatus::default()
+            ..Default::default()
         };
 
         // send status update to the service
