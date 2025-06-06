@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-use azure_iot_operations_connector::filemount::connector_config::{
-    ConnectorConfiguration, Protocol, TlsMode,
+use azure_iot_operations_connector::filemount::connector_artifacts::{
+    ConnectorArtifacts, LogLevel, Protocol, TlsMode,
 };
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use std::path::PathBuf;
+use std::time::Duration;
 
 fn get_test_directory() -> PathBuf {
     let mut path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    // TODO: make this platform independent
     path.push("../../eng/test/test-connector-mount-files");
     path
 }
@@ -19,22 +20,20 @@ fn get_connector_config_mount_path(dir_name: &str) -> PathBuf {
     path
 }
 
-fn get_trust_bundle_mount_path() -> PathBuf {
+fn get_broker_trust_bundle_mount_path() -> PathBuf {
     let mut path = get_test_directory();
     path.push("trust-bundle");
     path
 }
 
-// TODO: make real
-const FAKE_SAT_FILE: &str = "/path/to/sat/file";
-
 #[test]
-fn local_connector_config() {
+#[allow(clippy::similar_names)]
+fn local_connector_artifacts_tls() {
     let cc_mount_path = get_connector_config_mount_path("connector-config");
-    let trust_bundle_mount_path = get_trust_bundle_mount_path();
+    let trust_bundle_mount_path = get_broker_trust_bundle_mount_path();
     temp_env::with_vars(
         [
-            ("CONNECTOR_ID", Some("connector-id")),
+            ("CONNECTOR_ID", Some("connector_id")),
             (
                 "CONNECTOR_CONFIGURATION_MOUNT_PATH",
                 Some(cc_mount_path.to_str().unwrap()),
@@ -43,40 +42,116 @@ fn local_connector_config() {
                 "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
                 Some(trust_bundle_mount_path.to_str().unwrap()),
             ),
-            ("BROKER_SAT_MOUNT_PATH", Some(FAKE_SAT_FILE)),
         ],
         || {
-            // --- Create and validate the ConnectorConfiguration ---
-            let cc = ConnectorConfiguration::new_from_deployment().unwrap();
+            let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+            // -- Validate the ConnectorArtifacts --
             // NOTE: This value was set directly above in the environment variables
-            assert_eq!(cc.connector_id, "connector-id");
-            // NOTE: These values come from the MQTT_CONNECTION_CONFIGURATION file
-            assert_eq!(cc.mqtt_connection_configuration.host, "someHostName:1234");
-            assert_eq!(cc.mqtt_connection_configuration.keep_alive_seconds, 10);
-            assert_eq!(cc.mqtt_connection_configuration.max_inflight_messages, 10);
-            assert!(matches!(
-                cc.mqtt_connection_configuration.protocol,
-                Protocol::Mqtt
-            ));
-            assert_eq!(cc.mqtt_connection_configuration.session_expiry_seconds, 20);
-            assert!(matches!(
-                cc.mqtt_connection_configuration.tls.mode,
-                TlsMode::Enabled
-            ));
-            // NOTE: These values come from the DIAGNOSTICS file
-            // TODO: reenable test
-            //assert!(matches!(cc.diagnostics.logs.level, LogLevel::Trace));
+            assert_eq!(artifacts.connector_id, "connector_id");
             // NOTE: These values are paths specified in the environment variable
             assert_eq!(
-                cc.broker_ca_cert_trustbundle_path,
-                Some(get_trust_bundle_mount_path())
+                artifacts.broker_trust_bundle_mount,
+                Some(get_broker_trust_bundle_mount_path())
             );
-            assert_eq!(cc.broker_sat_path, Some(FAKE_SAT_FILE.to_string()));
+
+            // --- Validate the ConnectorConfiguration from the ConnectorArtifacts ---
+            let cc = &artifacts.connector_configuration;
+            // NOTE: These values come from the MQTT_CONNECTION_CONFIGURATION file
+            let mcc = &cc.mqtt_connection_configuration;
+            assert_eq!(mcc.host, "someHostName:1234");
+            assert_eq!(mcc.keep_alive_seconds, 10);
+            assert_eq!(mcc.max_inflight_messages, 10);
+            assert!(matches!(mcc.protocol, Protocol::Mqtt));
+            assert_eq!(mcc.session_expiry_seconds, 20);
+            assert!(matches!(mcc.tls.mode, TlsMode::Enabled));
+            // NOTE: These values come from the DIAGNOSTICS file
+            assert!(cc.diagnostics.is_some());
+            let diagnostics = cc.diagnostics.as_ref().unwrap();
+            assert!(matches!(diagnostics.logs.level, LogLevel::Trace));
 
             // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
-            assert!(cc.to_mqtt_connection_settings("-suffix").is_ok());
-            // TODO: validate - but need getters from MQTTCS first.
-            // Or maybe that's just for unit tests and this should just make a session
+            let conversion_result = artifacts.to_mqtt_connection_settings("-id_suffix");
+            assert!(conversion_result.is_ok());
+            let mcs = conversion_result.unwrap();
+            let expected_ca_file = trust_bundle_mount_path
+                .join("ca.txt")
+                .into_os_string()
+                .into_string()
+                .unwrap();
+            assert_eq!(mcs.client_id(), "connector_id-id_suffix");
+            assert_eq!(mcs.hostname(), "someHostName");
+            assert_eq!(mcs.tcp_port(), 1234);
+            assert_eq!(mcs.keep_alive(), &Duration::from_secs(10));
+            assert_eq!(mcs.receive_max(), 10);
+            assert_eq!(mcs.session_expiry(), &Duration::from_secs(20));
+            assert!(mcs.use_tls());
+            assert_eq!(mcs.ca_file(), &Some(expected_ca_file));
+
+            // --- Create a Session from the MqttConnectionSettings ---
+            let session_options = SessionOptionsBuilder::default()
+                .connection_settings(mcs.clone())
+                .build()
+                .unwrap();
+            assert!(Session::new(session_options).is_ok());
+        },
+    );
+}
+
+#[test]
+#[allow(clippy::similar_names)]
+fn local_connector_artifacts_no_tls() {
+    let cc_mount_path = get_connector_config_mount_path("connector-config-no-auth-no-tls");
+    temp_env::with_vars(
+        [
+            ("CONNECTOR_ID", Some("connector_id")),
+            (
+                "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                Some(cc_mount_path.to_str().unwrap()),
+            ),
+            ("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
+        ],
+        || {
+            let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+            // -- Validate the ConnectorArtifacts --
+            // NOTE: This value was set directly above in the environment variables
+            assert_eq!(artifacts.connector_id, "connector_id");
+            // NOTE: These values are paths specified in the environment variable
+            assert_eq!(artifacts.broker_trust_bundle_mount, None);
+
+            // --- Validate the ConnectorConfiguration from the ConnectorArtifacts ---
+            let cc = &artifacts.connector_configuration;
+            // NOTE: These values come from the MQTT_CONNECTION_CONFIGURATION file
+            let mcc = &cc.mqtt_connection_configuration;
+            assert_eq!(mcc.host, "someHostName:1234");
+            assert_eq!(mcc.keep_alive_seconds, 10);
+            assert_eq!(mcc.max_inflight_messages, 10);
+            assert!(matches!(mcc.protocol, Protocol::Mqtt));
+            assert_eq!(mcc.session_expiry_seconds, 20);
+            assert!(matches!(mcc.tls.mode, TlsMode::Disabled));
+            // NOTE: These values come from the DIAGNOSTICS file
+            assert!(cc.diagnostics.is_some());
+            let diagnostics = cc.diagnostics.as_ref().unwrap();
+            assert!(matches!(diagnostics.logs.level, LogLevel::Trace));
+
+            // --- Convert the ConnectorConfiguration to MqttConnectionSettings ---
+            let conversion_result = artifacts.to_mqtt_connection_settings("-id_suffix");
+            assert!(conversion_result.is_ok());
+            let mcs = conversion_result.unwrap();
+            assert_eq!(mcs.client_id(), "connector_id-id_suffix");
+            assert_eq!(mcs.hostname(), "someHostName");
+            assert_eq!(mcs.tcp_port(), 1234);
+            assert_eq!(mcs.keep_alive(), &Duration::from_secs(10));
+            assert_eq!(mcs.receive_max(), 10);
+            assert_eq!(mcs.session_expiry(), &Duration::from_secs(20));
+            assert!(!mcs.use_tls());
+            assert_eq!(mcs.ca_file(), &None);
+
+            // --- Create a Session from the MqttConnectionSettings ---
+            let session_options = SessionOptionsBuilder::default()
+                .connection_settings(mcs.clone())
+                .build()
+                .unwrap();
+            assert!(Session::new(session_options).is_ok());
         },
     );
 }
