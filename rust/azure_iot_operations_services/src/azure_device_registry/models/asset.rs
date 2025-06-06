@@ -73,7 +73,7 @@ pub struct Asset {
     pub streams: Vec<Stream>, // if None on generated model, we can represent as empty vec
     /// Globally unique, immutable, non-reusable id.
     pub uuid: Option<String>,
-    /// A read-only integer that is incremented each time the resource is modified the cloud.
+    /// An integer that is incremented each time the resource is modified in the cloud.
     pub version: Option<u64>,
 }
 
@@ -438,7 +438,7 @@ pub struct AssetStatus {
 pub struct DatasetEventStreamStatus {
     /// The name of the dataset, event, or stream.
     pub name: String,
-    /// The message schema reference object.
+    /// The message schema reference.
     pub message_schema_reference: Option<MessageSchemaReference>,
     /// The configuration error
     pub error: Option<ConfigError>,
@@ -460,9 +460,9 @@ pub struct ActionStatus {
     pub error: Option<ConfigError>,
     /// The name of the action. Must be unique within the status.managementGroup[i].actions array. This name is used to correlate between the spec and status management group action information.
     pub name: String,
-    /// The request message schema reference object.
+    /// The request message schema reference.
     pub request_message_schema_reference: Option<MessageSchemaReference>,
-    /// The response message schema reference object.
+    /// The response message schema reference.
     pub response_message_schema_reference: Option<MessageSchemaReference>,
 }
 
