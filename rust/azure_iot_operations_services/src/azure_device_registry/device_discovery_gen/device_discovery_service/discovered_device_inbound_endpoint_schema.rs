@@ -26,6 +26,12 @@ pub struct DiscoveredDeviceInboundEndpointSchema {
     #[serde(rename = "endpointType")]
     pub endpoint_type: String,
 
+    /// The 'lastUpdatedOn' Field.
+    #[serde(rename = "lastUpdatedOn")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub last_updated_on: Option<DateTime<Utc>>,
+
     /// The 'supportedAuthenticationMethods' Field.
     #[serde(rename = "supportedAuthenticationMethods")]
     #[serde(skip_serializing_if = "Option::is_none")]

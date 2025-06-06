@@ -70,6 +70,14 @@ test-case.workspace = true
 workspace = true
 
 [[example]]
+name = "adr_device_asset"
+required-features = ["azure_device_registry"]
+
+[[example]]
+name = "adr_discovery"
+required-features = ["azure_device_registry"]
+
+[[example]]
 name = "state_store_client"
 required-features = ["state_store"]
 

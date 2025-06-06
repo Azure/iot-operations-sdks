@@ -10,18 +10,20 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::discovered_device_inbound_endpoint_schema::DiscoveredDeviceInboundEndpointSchema;
-use super::discovered_device_outbound_endpoints_schema::DiscoveredDeviceOutboundEndpointsSchema;
+use super::akri_service_error::AkriServiceError;
+use super::asset_status::AssetStatus;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DiscoveredDeviceEndpoint {
-    /// The 'inbound' Field.
+pub struct UpdateAssetStatusResponseSchema {
+    /// The 'updateAssetStatusError' Field.
+    #[serde(rename = "updateAssetStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub inbound: Option<HashMap<String, DiscoveredDeviceInboundEndpointSchema>>,
+    pub update_asset_status_error: Option<AkriServiceError>,
 
-    /// The 'outbound' Field.
+    /// The 'updatedAssetStatus' Field.
+    #[serde(rename = "updatedAssetStatus")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub outbound: Option<DiscoveredDeviceOutboundEndpointsSchema>,
+    pub updated_asset_status: Option<AssetStatus>,
 }
