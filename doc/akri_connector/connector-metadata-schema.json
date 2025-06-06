@@ -195,6 +195,10 @@
             "type": "string",
             "description": "The version of the Azure IoT Operations MQTT package"
           },
+          "protocolPackageVersion": {
+            "type": "string",
+            "description": "The version of the Azure IoT Operations protocol package"
+          },
           "servicesPackageVersion": {
             "type": "string",
             "description": "The version of the Azure IoT Operations services package"
@@ -225,6 +229,15 @@
       }
     }
   },
+  "configSchemas": {
+    "type": "object",
+    "description": "The connector-level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
+    "properties": {
+      "additionalConfigurationSchema": {
+        "$ref": "#/definitions/schema"
+      }
+    }
+  },
   "inboundEndpoints": {
     "type": "array",
     "description": "The array of inbound endpoints in a device that this connector will be deployed for.",
@@ -235,15 +248,6 @@
           "endpointType": {
             "type": "string",
             "description": "The type of this inbound endpoint."
-          },
-          "configSchemas": {
-            "type": "object",
-            "description": "The inbound endpoint level JSON schemas for the various 'additional configuration' fields. A JSON schema must be provided for each 'additional configuration' only if that field is used by this connector.",
-            "properties": {
-              "additionalConfigurationSchema": {
-                "$ref": "#/definitions/schema"
-              }
-            }
           },
           "assets": {
             "type": "array",
