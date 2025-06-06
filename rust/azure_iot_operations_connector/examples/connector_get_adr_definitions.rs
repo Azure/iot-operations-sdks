@@ -17,8 +17,7 @@
 use std::{collections::HashMap, time::Duration};
 
 use azure_iot_operations_connector::filemount::{
-    azure_device_registry::DeviceEndpointCreateObservation,
-    connector_config::ConnectorConfiguration,
+    azure_device_registry::DeviceEndpointCreateObservation, connector_artifacts::ConnectorArtifacts,
 };
 use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -41,7 +40,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     // Get Connector Configuration
-    let connector_config = ConnectorConfiguration::new_from_deployment()?;
+    let connector_config = ConnectorArtifacts::new_from_deployment()?;
     let mqtt_connection_settings = connector_config.to_mqtt_connection_settings("0")?;
 
     // Create Session
@@ -150,7 +149,7 @@ async fn run_program(
                                     inbound_endpoint_name,
                                     Some(azure_device_registry::ConfigError {
                                         message: Some("endpoint type is not supported".to_string()),
-                                        ..azure_device_registry::ConfigError::default()
+                                        ..Default::default()
                                     }),
                                 );
                             }
@@ -158,7 +157,7 @@ async fn run_program(
                         let status = azure_device_registry::models::DeviceStatus {
                             config: Some(azure_device_registry::StatusConfig {
                                 version: device.specification.version,
-                                ..azure_device_registry::StatusConfig::default()
+                                ..Default::default()
                             }),
                             endpoints: endpoint_statuses,
                         };
@@ -250,14 +249,19 @@ async fn run_program(
                                                     name: dataset.name,
                                                 });
                                                 }
-                                                let updated_status = azure_device_registry::models::AssetStatus {
-                                                config: Some(azure_device_registry::StatusConfig {
-                                                    version: asset.specification.version,
-                                                    ..azure_device_registry::StatusConfig::default()
-                                                }),
-                                                datasets: Some(dataset_statuses),
-                                                ..azure_device_registry::models::AssetStatus::default()
-                                            };
+                                                let updated_status =
+                                                    azure_device_registry::models::AssetStatus {
+                                                        config: Some(
+                                                            azure_device_registry::StatusConfig {
+                                                                version: asset
+                                                                    .specification
+                                                                    .version,
+                                                                ..Default::default()
+                                                            },
+                                                        ),
+                                                        datasets: Some(dataset_statuses),
+                                                        ..Default::default()
+                                                    };
                                                 match azure_device_registry_client_clone
                                                     .update_asset_status(
                                                         asset_ref.device_name.clone(),
