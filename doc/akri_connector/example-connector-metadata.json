@@ -20,9 +20,6 @@
       "connectorPackageVersion": "1.0.0"
     }
   },
-  "kubernetes": {
-    "minimumKubernetesVersion": "1.23.0"
-  },
   "resourceRequirements": {
     "requests" : {
       "cpu": "500m",
@@ -85,7 +82,7 @@
                 }
               }
             },
-            "dataPointConfigSchema": {
+            "datasetDataPointConfigSchema": {
               "schema": {
                 "$schema": "http://json-schema.org/draft-07/schema#",
                 "$id": "https://contoso.com/dataPointConfig.schema.json",
@@ -106,6 +103,21 @@
                 "$id": "https://contoso.com/eventConfig.schema.json",
                 "title": "Event Config Schema",
                 "description": "The JSON schema for both the default event configuration field and all event-specific configuration fields",
+                "type": "object",
+                "properties": {
+                  "SomeEventsProperty": {
+                    "description": "Some configuration that is relevant to events",
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "eventDataPointConfigSchema": {
+              "schema": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "$id": "https://contoso.com/eventConfig.schema.json",
+                "title": "Event Datapoint Config Schema",
+                "description": "The JSON schema for both the default event datapoint configuration field and all event-specific datapoint configuration fields",
                 "type": "object",
                 "properties": {
                   "SomeEventsProperty": {
