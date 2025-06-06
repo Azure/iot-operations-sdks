@@ -24,24 +24,25 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
     {
        "messageId": "unique-id-for-chunked-message",
        "chunkIndex": 0,
-       "timeout" : 10000,
        "totalChunks": 5,
        "checksum": "message-hash"
      }
      ```
 
-  - `messageId, chunkIndex, timeout` - present for every chunk; `totalChunks, checksum` - present only for the first chunk. `messageId` is UUID, `timeout` is milliseconds.
+  - `messageId, chunkIndex` - present for every chunk; `totalChunks, checksum` - present only for the first chunk. `messageId` is UUID.
 
-**Chunk size calculation**:
+**Chunk size calculation:**
 
 - Maximum chunk size will be derived from the MQTT CONNECT packet's Maximum Packet Size.
 - A static overhead value will be subtracted from the Maximum Packet Size to account for MQTT packet headers, topic name, user properties, and other metadata.
 - The overhead size will be configurable, large enough to simplify calculations while ensuring we stay under the broker's limit.
 
-**Chunk Timeout Mechanism:**
+**Chunk Timeout Mechanism**
 
-- Set a single timeout period after receiving the first chunk.
-- If all chunks aren't received within this window, the message is considered failed.
+> [MQTT-3.3.2-6] | The PUBLISH packet sent to a Client by the Server MUST contain a Message Expiry Interval set to the received value minus the time that the message has been waiting in the Server.
+
+The receiving client uses the Message Expiry Interval from the first chunk as the timeout period for collecting all remaining chunks of the message.
+**Edge case:** Since the Message Expiry Interval is specified in seconds, chunked messages may behave differently than single messages when the expiry interval is very short (e.g., 1 second remaining). For a single large message, the QoS flow would complete even if the expiry interval expires during transmission. However, with chunking, if the remaining expiry interval is too short to receive all chunks, the message reassembly will fail due to timeout.
 
 **Checksum Algorithm Options for MQTT Message Chunking**
 
