@@ -303,7 +303,7 @@ impl DeviceEndpointClient {
         // Create status
         let version = self.specification.read().unwrap().version;
         let status = adr_models::DeviceStatus {
-            config: Some(azure_device_registry::StatusConfig {
+            config: Some(azure_device_registry::ConfigStatus {
                 version,
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now. TODO: report it though
@@ -333,7 +333,7 @@ impl DeviceEndpointClient {
             .unwrap()
             .adr_endpoints(version, &self.device_endpoint_ref.inbound_endpoint_name);
         let status = adr_models::DeviceStatus {
-            config: Some(azure_device_registry::StatusConfig {
+            config: Some(azure_device_registry::ConfigStatus {
                 version,
                 error: device_status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
@@ -668,13 +668,14 @@ pub struct AssetClient {
     connector_context: Arc<ConnectorContext>,
     /// The last definition of the asset that was received so we can filter out updates that only report status changes. Temporary
     #[getter(skip)]
-    last_specification: adr_models::AssetSpecification,
+    last_specification: adr_models::Asset,
     /// Internal watch sender for releasing dataset create/update notifications
     #[getter(skip)]
     release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
 }
 
 impl AssetClient {
+    #[allow(clippy::too_many_arguments)]
     pub(crate) async fn new(
         asset: adr_models::Asset,
         asset_status: adr_models::AssetStatus,
@@ -795,12 +796,11 @@ impl AssetClient {
         };
 
         // no matter whether we kept other fields or not, we will always fully replace the config status
-        new_status.config = Some(azure_device_registry::StatusConfig {
+        new_status.config = Some(azure_device_registry::ConfigStatus {
             version,
             error: status.err(),
             last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
         });
-        
 
         log::debug!("reporting asset status from app");
         // send status update to the service
@@ -829,80 +829,76 @@ impl AssetClient {
     pub async fn recv_update(&mut self) -> Option<()> {
         // release any pending dataset create/update notifications
         self.release_dataset_notifications_tx.send_modify(|()| ());
-        loop {
-            // handle the notification
-            // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
-            // get the update again because we'll pull the latest definition on the restart, so we don't need to get
-            // the notification again as an MQTT message.
-            let (updated_asset, _) = self.asset_update_observation.recv_notification().await?;
+        // handle the notification
+        // We set auto ack to true, so there's never an ack here to deal with. If we restart, then we'll implicitly
+        // get the update again because we'll pull the latest definition on the restart, so we don't need to get
+        // the notification again as an MQTT message.
+        let (updated_asset, _) = self.asset_update_observation.recv_notification().await?;
 
-            // update datasets
-            // remove the datasets that are no longer present in the new asset definition.
-            // This triggers deletion notification since this drops the update sender.
-            self.dataset_hashmap.retain(|dataset_name, _| {
-                updated_asset
-                    .datasets
-                    .iter()
-                    .any(|dataset| dataset.name == *dataset_name)
-            });
+        // update datasets
+        // remove the datasets that are no longer present in the new asset definition.
+        // This triggers deletion notification since this drops the update sender.
+        self.dataset_hashmap.retain(|dataset_name, _| {
+            updated_asset
+                .datasets
+                .iter()
+                .any(|dataset| dataset.name == *dataset_name)
+        });
 
-            // Get the new default dataset destination and track whether it's different or not from the current one
-            let default_dataset_destination_updated =
-                updated_asset.default_datasets_destinations
-                    != self
-                        .specification
-                        .read()
-                        .unwrap()
-                        .default_datasets_destinations;
-            let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
-                match destination_endpoint::Destination::new_dataset_destinations(
-                    &updated_asset.default_datasets_destinations,
-                    &self.asset_ref.inbound_endpoint_name,
-                    &self.connector_context,
-                ) {
-                    Ok(res) => res.into_iter().map(Arc::new).collect(),
-                    Err(e) => {
-                        log::error!(
-                            "Invalid default dataset destination for Asset {}: {e:?}",
-                            self.asset_ref.name
-                        );
-                        let adr_asset_status = Self::internal_asset_status(
-                            Err(e),
-                            updated_asset.version,
-                        );
-                        // send status update to the service
-                        Self::internal_report_status(
-                            adr_asset_status,
-                            &self.connector_context,
-                            &self.asset_ref,
-                            &self.status,
-                            "AssetClient::recv_update default_dataset_destination",
-                        )
-                        .await;
-                        // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
-                        vec![]
-                    }
-                };
+        // Get the new default dataset destination and track whether it's different or not from the current one
+        let default_dataset_destination_updated = updated_asset.default_datasets_destinations
+            != self
+                .specification
+                .read()
+                .unwrap()
+                .default_datasets_destinations;
+        let default_dataset_destinations: Vec<Arc<destination_endpoint::Destination>> =
+            match destination_endpoint::Destination::new_dataset_destinations(
+                &updated_asset.default_datasets_destinations,
+                &self.asset_ref.inbound_endpoint_name,
+                &self.connector_context,
+            ) {
+                Ok(res) => res.into_iter().map(Arc::new).collect(),
+                Err(e) => {
+                    log::error!(
+                        "Invalid default dataset destination for Asset {}: {e:?}",
+                        self.asset_ref.name
+                    );
+                    let adr_asset_status =
+                        Self::internal_asset_status(Err(e), updated_asset.version);
+                    // send status update to the service
+                    Self::internal_report_status(
+                        adr_asset_status,
+                        &self.connector_context,
+                        &self.asset_ref,
+                        &self.status,
+                        "AssetClient::recv_update default_dataset_destination",
+                    )
+                    .await;
+                    // set this to None because if all datasets have a destination specified, this might not cause the asset to be unusable
+                    vec![]
+                }
+            };
 
-            // if there are any config errors when creating the datasets, collect them all so we can report them at once
-            let mut dataset_config_errors = Vec::new();
+        // if there are any config errors when creating the datasets, collect them all so we can report them at once
+        let mut dataset_config_errors = Vec::new();
 
-            // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
-            for received_dataset_definition in &updated_asset.datasets {
-                // it already exists
-                if let Some((dataset_definition, dataset_update_tx)) = self
-                    .dataset_hashmap
-                    .get_mut(&received_dataset_definition.name)
+        // For all received datasets, check if the existing dataset needs an update or if a new one needs to be created
+        for received_dataset_definition in &updated_asset.datasets {
+            // it already exists
+            if let Some((dataset_definition, dataset_update_tx)) = self
+                .dataset_hashmap
+                .get_mut(&received_dataset_definition.name)
+            {
+                // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
+                // otherwise, only send an update if the dataset definition has changed
+                if default_dataset_destination_updated
+                    || received_dataset_definition != dataset_definition
                 {
-                    // if the default destination has changed, update all datasets. TODO: might be able to track whether a dataset uses a default to reduce updates needed here
-                    // otherwise, only send an update if the dataset definition has changed
-                    if default_dataset_destination_updated
-                        || received_dataset_definition != dataset_definition
-                    {
-                        // we need to make sure we have the updated definition for comparing next time
-                        *dataset_definition = received_dataset_definition.clone();
-                        // send update to the dataset
-                        let _ = dataset_update_tx
+                    // we need to make sure we have the updated definition for comparing next time
+                    *dataset_definition = received_dataset_definition.clone();
+                    // send update to the dataset
+                    let _ = dataset_update_tx
                             .send((
                                 received_dataset_definition.clone(),
                                 default_dataset_destinations.clone(),
@@ -914,36 +910,35 @@ impl AssetClient {
                                     e_dataset_definition.name
                                 );
                             });
-                    }
-                }
-                // it needs to be created
-                else if let Err(e) = self.setup_new_dataset(
-                    received_dataset_definition.clone(),
-                    &default_dataset_destinations,
-                ) {
-                    // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
-                    // the application since we can't forward data on it. If there's an update to the
-                    // definition, they'll get the create notification for it at that point if it's valid
-                    dataset_config_errors.push(e);
                 }
             }
-
-            // if there were any config errors on the datasets, report them to the ADR service
-            self.report_dataset_config_errors(
-                dataset_config_errors,
-                updated_asset.version,
-                "AssetClient::recv_update dataset_destination",
-            )
-            .await;
-
-            // update specification
-            let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
-            *unlocked_specification = AssetSpecification::from(updated_asset.clone());
-
-            self.last_specification = updated_asset;
-
-            return Some(());
+            // it needs to be created
+            else if let Err(e) = self.setup_new_dataset(
+                received_dataset_definition.clone(),
+                &default_dataset_destinations,
+            ) {
+                // If an error is returned, continue to process other datasets even if one isn't valid. Don't give this one to
+                // the application since we can't forward data on it. If there's an update to the
+                // definition, they'll get the create notification for it at that point if it's valid
+                dataset_config_errors.push(e);
+            }
         }
+
+        // if there were any config errors on the datasets, report them to the ADR service
+        self.report_dataset_config_errors(
+            dataset_config_errors,
+            updated_asset.version,
+            "AssetClient::recv_update dataset_destination",
+        )
+        .await;
+
+        // update specification
+        let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
+        *unlocked_specification = AssetSpecification::from(updated_asset.clone());
+
+        self.last_specification = updated_asset;
+
+        Some(())
     }
 
     // Returns a clone of the current asset specification
@@ -984,7 +979,7 @@ impl AssetClient {
         version: Option<u64>,
     ) -> adr_models::AssetStatus {
         adr_models::AssetStatus {
-            config: Some(azure_device_registry::StatusConfig {
+            config: Some(azure_device_registry::ConfigStatus {
                 version,
                 error: status.err(),
                 last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
@@ -1014,7 +1009,7 @@ impl AssetClient {
                         connector_context.default_timeout,
                     )
                     .await
-                    .map_err(|e| adr_error_into_retry_error(e, "Update Asset Status"))
+                    .map_err(|e| adr_error_into_retry_error(e, &format!("Update Asset Status for {log_identifier}")))
             },
         )
         .await
@@ -1061,13 +1056,18 @@ impl AssetClient {
             );
             // Get current message schema reference if there is one, so that it isn't overwritten
             let message_schema_reference =
-                self.status.read().unwrap()
-                        .datasets
-                        .as_ref()?
-                        .iter()
-                        .find(|dataset| dataset.name == dataset_definition.name)?
-                        .message_schema_reference
-                        .clone();
+                self.status
+                    .read()
+                    .unwrap()
+                    .datasets
+                    .as_ref()
+                    .and_then(|datasets| {
+                        datasets
+                            .iter()
+                            .find(|dataset| dataset.name == dataset_definition.name)?
+                            .message_schema_reference
+                            .clone()
+                    });
             // Don't give this dataset to the application or track it in our dataset_hashmap since
             // we can't forward data on it. If there's an update to the definition, they'll get the
             // create notification for it at that point if it's valid
@@ -1679,7 +1679,7 @@ pub enum Authentication {
 /// Represents the observed status of a Device and endpoint in the ADR Service.
 pub struct DeviceEndpointStatus {
     /// Defines the status for the Device.
-    pub config: Option<azure_device_registry::StatusConfig>,
+    pub config: Option<azure_device_registry::ConfigStatus>,
     /// Defines the status for the inbound endpoint.
     /// Specifies whether the inbound endpoint status has been reported, and if so, whether it was successful or not.
     pub inbound_endpoint_status: Option<Result<(), AdrConfigError>>, // different from adr
@@ -1699,7 +1699,7 @@ impl DeviceEndpointStatus {
     }
 
     /// Convenience function to turn [`DeviceEndpointStatus`] back into the
-    /// adr_models::DeviceStatus endpoints format
+    /// `adr_models::DeviceStatus` endpoints format
     pub(crate) fn adr_endpoints(
         &self,
         current_version: Option<u64>,
@@ -1710,9 +1710,7 @@ impl DeviceEndpointStatus {
         // If the version doesn't match, then clear the endpoint status since it hasn't been reported for this version yet
 
         // if the version doesn't match, then clear the endpoint status
-        if self.config.as_ref().and_then(|config| config.version) != current_version {
-            HashMap::new()
-        } else {
+        if self.config.as_ref().and_then(|config| config.version) == current_version {
             // if the version does match, or the status config hasn't been reported yet, maintain the existing endpoint status.
             if let Some(current_inbound_endpoint_status) = &self.inbound_endpoint_status {
                 HashMap::from([(
@@ -1722,6 +1720,8 @@ impl DeviceEndpointStatus {
             } else {
                 HashMap::new()
             }
+        } else {
+            HashMap::new()
         }
     }
 }
