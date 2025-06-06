@@ -24,7 +24,7 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
     {
        "messageId": "unique-id-for-chunked-message",
        "chunkIndex": 0,
-       "timeout" : "10000",
+       "timeout" : 10000,
        "totalChunks": 5,
        "checksum": "message-hash"
      }
@@ -57,13 +57,8 @@ SDK will provide user with options to inject their algorithm of choice or use SD
 - Receiving Process:
   - The Chunking aware client receives messages and identifies chunked messages by the presence of chunk metadata.
   - Chunks are stored in a temporary buffer, indexed by message ID and chunk index.
-  - When all chunks for a message ID are received, they are reassembled in order and message checksum verified.
+  - When all chunks for a message ID are received, they are reassembled in order and message checksum verified (see Checksum Algorithm Options for MQTT Message Chunking).
   - The reconstructed message is then processed as a single message by the application.
-
-### Benefits
-
-- **Property Preservation:** maintains topic, QoS, and other message properties consistently.
-- **Network Optimized:** allows efficient transmission of large payloads over constrained networks.
 
 ### Implementation Considerations
 
@@ -73,5 +68,49 @@ SDK will provide user with options to inject their algorithm of choice or use SD
 - **Performance Optimization:**
   - Concurrent chunk transmission
   - Efficient memory usage during reassembly
-- **Security:**
-  - Validate message integrity across chunks and prevent chunk injection attacks (see Checksum Algorithm Options for MQTT Message Chunking)
+  - Maximum reassembly buffer size limits (configurable)
+
+### Benefits
+
+- **Property Preservation:** maintains topic, QoS, and other message properties consistently.
+- **Network Optimized:** allows efficient transmission of large payloads over constrained networks.
+
+### Compatibility
+
+- Non-chunking-aware clients will receive individual chunks as separate messages.
+
+## Appendix
+
+### Message Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant Sender as Sending Client
+    participant Broker as MQTT Broker
+    participant Receiver as Receiving Client
+
+    Note over Sender: Large message (>max size)
+    Sender->>Sender: Split into chunks
+    Note right of Sender: Calculate chunk size:<br/>MaxPacketSize - Overhead
+
+    loop For each chunk
+        Sender->>Broker: MQTT PUBLISH with __chunk metadata
+        Note over Broker: No special handling<br/>required by broker
+        Broker->>Receiver: Forward chunk
+        Note over Receiver: First chucnk starts timeout count down
+        Receiver->>Receiver: Store in buffer
+        Note left of Receiver: Index by:<br/>messageId + chunkIndex
+    end
+
+    Note over Receiver: All chunks received
+    Receiver->>Receiver: Verify checksum
+    Note right of Receiver: SHA-256 or<br/>custom algorithm
+    Receiver->>Receiver: Reassemble message
+    Note over Receiver: Process complete message
+
+    rect rgba(255, 0, 0, 0.1)
+        Note over Sender,Receiver: Error Path
+        Receiver-->>Receiver: Timeout occurred
+        Receiver-->>Receiver: Cleanup buffers
+    end
+```
