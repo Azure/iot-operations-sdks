@@ -19,6 +19,7 @@ use crate::azure_device_registry::{
 use crate::common::dispatcher::{self, Receiver};
 
 /// Azure Device Registry base service generated code
+#[allow(clippy::doc_markdown)] // TODO: consider moving this to codegen
 mod adr_base_gen;
 /// Azure Device Registry device discovery generated code
 mod device_discovery_gen;
