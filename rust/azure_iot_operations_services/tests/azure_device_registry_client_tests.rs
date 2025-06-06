@@ -464,7 +464,7 @@ async fn observe_device_update_notifications() {
                 )
                 .await
                 .unwrap();
-            log::info!("[{log_identifier}] Device update observation completed.",);
+            log::info!("[{log_identifier}] Device update observation completed.");
 
             let first_notification_notify = Arc::new(Notify::new());
 
