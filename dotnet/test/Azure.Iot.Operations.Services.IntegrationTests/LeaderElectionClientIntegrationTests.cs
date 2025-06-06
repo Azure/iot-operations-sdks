@@ -28,7 +28,7 @@ public class LeaderElectionClientIntegrationTests
         Assert.Null(getCurrentLeaderResponse.CurrentLeader);
 
         CampaignResponse campaignResponse =
-            await leaderElectionClient.TryCampaignAsync(TimeSpan.FromMinutes(1));
+            await leaderElectionClient.TryCampaignAsync(TimeSpan.FromMicroseconds(1));
 
         Assert.True(campaignResponse.IsLeader);
 
