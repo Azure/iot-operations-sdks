@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -126,7 +127,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 string? requestedProtocolVersion = args.ApplicationMessage.UserProperties?.FirstOrDefault(p => p.Name == AkriSystemProperties.ProtocolVersion)?.Value;
                 if (!TryValidateRequestHeaders(args.ApplicationMessage, out CommandStatusCode? status, out string? statusMessage, out string? invalidPropertyName, out string? invalidPropertyValue))
                 {
-                    Trace.TraceWarning($"Command '{_commandName}' header validation failed. Status message: {statusMessage}");
+                    _applicationContext.Logger?.LogWarning("Command '{CommandName}' header validation failed. Status message: {StatusMessage}", _commandName, statusMessage);
 
                     await GetDispatcher()(
                         status != null ? async () => { await GenerateAndPublishResponseAsync(commandExpirationTime, args.ApplicationMessage.ResponseTopic!, args.ApplicationMessage.CorrelationData!, (CommandStatusCode)status, statusMessage, null, null, false, invalidPropertyName, invalidPropertyValue, requestedProtocolVersion).ConfigureAwait(false); }
@@ -158,7 +159,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (cachedResponse != null)
                 {
-                    Trace.TraceInformation($"Command '{_commandName}' has a cached response. Will use cached response instead of executing the command again.");
+                    _applicationContext.Logger?.LogInformation("Command '{CommandName}' has a cached response. Will use cached response instead of executing the command again.", _commandName);
 
                     await GetDispatcher()(
                         async () =>
@@ -188,12 +189,12 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     }
                     else
                     {
-                        Trace.TraceInformation($"No timestamp present in command request metadata.");
+                        _applicationContext.Logger?.LogInformation($"No timestamp present in command request metadata.");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceWarning($"Command '{_commandName}' invocation failed during response message contruction. Error message: {ex.Message}");
+                    _applicationContext.Logger?.LogWarning("Command '{CommandName}' invocation failed during response message contruction. Error message: {Message}", _commandName, ex.Message);
                     AkriMqttException? amex = ex as AkriMqttException;
                     CommandStatusCode statusCode = amex != null ? ErrorKindToStatusCode(amex.Kind) : CommandStatusCode.InternalServerError;
 
@@ -256,7 +257,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 isAppError = false;
                                 invalidPropertyName = nameof(ExecutionTimeout);
                                 invalidPropertyValue = XmlConvert.ToString(ExecutionTimeout);
-                                Trace.TraceWarning($"Command '{_commandName}' execution timed out after {cancellationTimeout.TotalSeconds} seconds.");
+                                _applicationContext.Logger?.LogWarning("Command '{CommandName}' execution timed out after {Seconds} seconds.", _commandName, cancellationTimeout.TotalSeconds);
                                 break;
                             case AkriMqttException amex:
                                 statusCode = CommandStatusCode.InternalServerError;
@@ -264,7 +265,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 isAppError = true;
                                 invalidPropertyName = amex?.HeaderName ?? amex?.PropertyName;
                                 invalidPropertyValue = amex?.HeaderValue ?? amex?.PropertyValue?.ToString();
-                                Trace.TraceWarning($"Command '{_commandName}' execution failed due to Akri Mqtt error: {amex}.");
+                                _applicationContext.Logger?.LogWarning("Command '{CommandName}' execution failed due to Akri Mqtt error: {Error}.", _commandName, amex);
                                 break;
                             default:
                                 statusCode = CommandStatusCode.InternalServerError;
@@ -272,7 +273,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                                 isAppError = true;
                                 invalidPropertyName = null;
                                 invalidPropertyValue = null;
-                                Trace.TraceWarning($"Command '{_commandName}' execution failed due to error: {ex}.");
+                                _applicationContext.Logger?.LogWarning("Command '{CommandName}' execution failed due to error: {Exception}.", _commandName, ex);
                                 break;
                         }
 
@@ -328,7 +329,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
 
                 _isRunning = true;
-                Trace.TraceInformation($"Command executor for '{_commandName}' started.");
+                _applicationContext.Logger?.LogInformation("Command executor for '{CommandName}' started.", _commandName);
             }
         }
 
@@ -347,7 +348,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 _isRunning = false;
                 _hasSubscribed = false;
             }
-            Trace.TraceInformation($"Command executor for '{_commandName}' stopped.");
+            _applicationContext.Logger?.LogInformation("Command executor for '{CommandName}' stopped.", _commandName);
         }
 
         private async Task SubscribeAsync(Dictionary<string, string>? TopicTokenMap = null, CancellationToken cancellationToken = default)
@@ -686,7 +687,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceWarning("Failed to stop the command executor while disposing it: {0}", ex);
+                    _applicationContext.Logger?.LogWarning("Failed to stop the command executor while disposing it: {Error}", ex);
                 }
 
                 _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;

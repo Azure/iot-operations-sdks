@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -71,7 +72,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         private async Task MessageReceivedCallbackAsync(MqttApplicationMessageReceivedEventArgs args)
         {
-            Trace.TraceInformation($"Telemetry received from {args.ApplicationMessage.Topic}");
+            _applicationContext.Logger?.LogInformation("Telemetry received from {Topic}", args.ApplicationMessage.Topic);
             string telemTopicFilter = GetTelemetryTopic();
 
             if (MqttTopicProcessor.DoesTopicMatchFilter(args.ApplicationMessage.Topic, telemTopicFilter))
@@ -118,7 +119,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                     }
                     else
                     {
-                        Trace.TraceInformation($"No timestamp present in telemetry received metadata.");
+                        _applicationContext.Logger?.LogInformation($"No timestamp present in telemetry received metadata.");
                     }
 
                     async Task TelemFunc()
@@ -193,7 +194,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 MqttClientSubscribeResult subAck = await _mqttClient.SubscribeAsync(mqttSubscribeOptions, cancellationToken).ConfigureAwait(false);
                 subAck.ThrowIfNotSuccessSubAck(topicFilter.QualityOfServiceLevel);
                 _isRunning = true;
-                Trace.TraceInformation($"Telemetry receiver subscribed for topic {telemTopicFilter}.");
+                _applicationContext.Logger?.LogInformation("Telemetry receiver subscribed for topic {Topic}.", telemTopicFilter);
             }
         }
 
@@ -211,7 +212,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
                 unsubAck.ThrowIfNotSuccessUnsubAck();
                 _isRunning = false;
-                Trace.TraceInformation($"Telemetry receiver unsubscribed for topic {telemTopicFilter}.");
+                _applicationContext.Logger?.LogInformation("Telemetry receiver unsubscribed for topic {Topic}.", telemTopicFilter);
             }
         }
 
@@ -263,7 +264,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                 }
                 catch (Exception ex)
                 {
-                    Trace.TraceWarning("Failed to stop the telemetry receiver while disposing it: {0}", ex);
+                    _applicationContext.Logger?.LogWarning("Failed to stop the telemetry receiver while disposing it: {Error}", ex);
                 }
 
                 _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;

@@ -3,6 +3,7 @@
 
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Retry;
+using Microsoft.Extensions.Logging;
 
 namespace Azure.Iot.Operations.Mqtt.Session
 {
@@ -61,6 +62,8 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// connect attempt if <see cref="RetryOnFirstConnect"/> is false.
         /// </remarks>
         public TimeSpan ConnectionAttemptTimeout { get; set; } = TimeSpan.FromSeconds(2);
+
+        public ILogger? logger { get; set; }
 
         internal void Validate()
         {

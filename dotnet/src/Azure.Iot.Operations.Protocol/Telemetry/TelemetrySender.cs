@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using Azure.Iot.Operations.Protocol.Models;
 using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace Azure.Iot.Operations.Protocol.Telemetry
 {
@@ -173,7 +174,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
                         IsRemote = false,
                     };
                 }
-                Trace.TraceInformation($"Telemetry sent successfully to the topic '{telemTopic}'");
+                _applicationContext.Logger?.LogInformation("Telemetry sent successfully to the topic '{TelemTopic}'", telemTopic);
             }
             catch (SerializationException ex)
             {

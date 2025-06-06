@@ -9,6 +9,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Converters;
 using Azure.Iot.Operations.Mqtt.Session.Exceptions;
 using Azure.Iot.Operations.Protocol.Retry;
+using Microsoft.Extensions.Logging;
 
 namespace Azure.Iot.Operations.Mqtt.Session
 {
@@ -31,6 +32,8 @@ namespace Azure.Iot.Operations.Mqtt.Session
         private readonly SemaphoreSlim _disconnectedEventLock = new(1);
 
         public event Func<MqttClientDisconnectedEventArgs, Task>? SessionLostAsync;
+
+        private readonly ILogger? _logger;
 
         /// <summary>
         /// Create a MQTT session client where the underlying MQTT client is created for you and the connection is maintained
@@ -58,7 +61,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
         {
             _sessionClientOptions = sessionClientOptions ?? new MqttSessionClientOptions();
             _sessionClientOptions.Validate();
-
+            _logger = _sessionClientOptions.logger;
             DisconnectedAsync += InternalDisconnectedAsync;
 
             _outgoingRequestList = new(_sessionClientOptions.MaxPendingMessages, _sessionClientOptions.PendingMessagesOverflowStrategy);
@@ -120,8 +123,8 @@ namespace Azure.Iot.Operations.Mqtt.Session
             // When called by this method, MaintainConnectionAsync should return a non-null value or throw.
             Debug.Assert(connectResult != null);
             _isDesiredConnected = true;
-            Trace.TraceInformation("Successfully connected the session client to the MQTT broker. This connection will now be maintained.");
-
+            _applicationContext.Logger?.LogInformation("Successfully connected the session client to the MQTT broker. This connection will now be maintained.");
+            
             return connectResult;
         }
 
@@ -176,7 +179,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             MqttSessionExpiredException e = new("The queued request cannot be completed now that the session client has been closed by the user.");
             await FinalizeSessionAsync(e, disconnectedArgs, cancellationToken);
             StopPublishingSubscribingAndUnsubscribing();
-            Trace.TraceInformation("Successfully disconnected the session client from the MQTT broker. This connection will no longer be maintained.");
+            _applicationContext.Logger?.LogInformation("Successfully disconnected the session client from the MQTT broker. This connection will no longer be maintained.");
         }
 
         /// <summary>
@@ -210,7 +213,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 }
                 catch (ObjectDisposedException)
                 {
-                    Trace.TraceWarning("Failed to remove a queued publish because the session client was already disposed.");
+                    _applicationContext.Logger?.LogWarning("Failed to remove a queued publish because the session client was already disposed.");
                 }
             });
 
@@ -253,7 +256,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 }
                 catch (ObjectDisposedException)
                 {
-                    Trace.TraceWarning("Failed to remove a queued subscribe because the session client was already disposed.");
+                    _applicationContext.Logger?.LogWarning("Failed to remove a queued subscribe because the session client was already disposed.");
                 }
             });
 
@@ -296,7 +299,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 }
                 catch (ObjectDisposedException)
                 {
-                    Trace.TraceWarning("Failed to remove a queued unsubscribe because the session client was already disposed.");
+                    _applicationContext.Logger?.LogWarning("Failed to remove a queued unsubscribe because the session client was already disposed.");
                 }
             });
 
@@ -323,7 +326,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                     }
                     catch (Exception e)
                     {
-                        Trace.TraceWarning("Encountered an error while disconnecting during disposal {0}", e);
+                        _applicationContext.Logger?.LogWarning("Encountered an error while disconnecting during disposal {0}", e);
                     }
                 }
 
@@ -356,7 +359,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     if (base.IsConnected)
                     {
-                        Trace.TraceInformation("Disconnect reported by underlying MQTT client, but it was already handled");
+                        _applicationContext.Logger?.LogInformation("Disconnect reported by underlying MQTT client, but it was already handled");
                         return;
                     }
 
@@ -368,13 +371,13 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
                     if (IsFatal(args.Reason))
                     {
-                        Trace.TraceInformation("Disconnect detected and it was due to fatal error. The client will not attempt to reconnect. Disconnect reason: {0}", args.Reason);
+                        _applicationContext.Logger?.LogInformation("Disconnect detected and it was due to fatal error. The client will not attempt to reconnect. Disconnect reason: {0}", args.Reason);
                         var retryException = new RetryExpiredException("A fatal error was encountered while trying to re-establish the session, so this request cannot be completed.", args.Exception);
                         await FinalizeSessionAsync(retryException, args, CancellationToken.None);
                         return;
                     }
 
-                    Trace.TraceInformation("Disconnect detected, starting reconnection. Disconnect reason: {0}", args.Reason);
+                    _applicationContext.Logger?.LogInformation("Disconnect detected, starting reconnection. Disconnect reason: {0}", args.Reason);
 
                     var options = MqttNetConverter.ToGeneric(UnderlyingMqttClient.Options, UnderlyingMqttClient);
 
@@ -484,12 +487,12 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     if (retryDelay.CompareTo(TimeSpan.Zero) > 0)
                     {
-                        Trace.TraceInformation("Waiting {0} before next reconnect attempt", retryDelay);
+                        _applicationContext.Logger?.LogInformation("Waiting {0} before next reconnect attempt", retryDelay);
                         await Task.Delay(retryDelay, cancellationToken);
                     }
 
                     cancellationToken.ThrowIfCancellationRequested();
-                    Trace.TraceInformation($"Trying to connect. Attempt number {attemptCount}");
+                    _applicationContext.Logger?.LogInformation($"Trying to connect. Attempt number {attemptCount}");
 
                     if (isReconnection || _sessionClientOptions.RetryOnFirstConnect)
                     {
@@ -531,7 +534,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
                     if (isReconnection)
                     {
-                        Trace.TraceInformation("Reconnection finished after successfully connecting to the MQTT broker again and re-joining the existing MQTT session.");
+                        _applicationContext.Logger?.LogInformation("Reconnection finished after successfully connecting to the MQTT broker again and re-joining the existing MQTT session.");
                     }
 
                     if (mostRecentConnectResult != null
@@ -546,13 +549,13 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     // This happens when reconnecting if the user attempts to manually disconnect the session client. When
                     // that happens, we simply want to end the reconnection logic and let the thread end without throwing.
-                    Trace.TraceInformation("Session client reconnection cancelled because the client is being closed.");
+                    _applicationContext.Logger?.LogInformation("Session client reconnection cancelled because the client is being closed.");
                     return null;
                 }
                 catch (Exception e)
                 {
                     lastException = e;
-                    Trace.TraceWarning($"Encountered an exception while connecting. May attempt to reconnect. {e}");
+                    _applicationContext.Logger?.LogWarning($"Encountered an exception while connecting. May attempt to reconnect. {e}");
                 }
 
                 attemptCount++;
@@ -589,7 +592,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             {
                 if (!_disposed)
                 {
-                    Trace.TraceInformation("Starting the session client's worker thread");
+                    _applicationContext.Logger?.LogInformation("Starting the session client's worker thread");
                     _ = Task.Run(() => ExecuteQueuedItemsAsync(_workerThreadsTaskCancellationTokenSource.Token), _workerThreadsTaskCancellationTokenSource.Token);
                 }
             }
@@ -601,7 +604,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             {
                 try
                 {
-                    Trace.TraceInformation("Stopping the session client's worker thread");
+                    _applicationContext.Logger?.LogInformation("Stopping the session client's worker thread");
                     _workerThreadsTaskCancellationTokenSource.Cancel(false);
                     _workerThreadsTaskCancellationTokenSource.Dispose();
                     _workerThreadsTaskCancellationTokenSource = new();
@@ -615,7 +618,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
 
         private async Task ResetMessagesStates(CancellationToken cancellationToken)
         {
-            Trace.TraceInformation("Resetting the state of all queued messages");
+            _applicationContext.Logger?.LogInformation("Resetting the state of all queued messages");
             await _outgoingRequestList.MarkMessagesAsUnsent(cancellationToken);
         }
 
@@ -647,7 +650,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             }
             catch (OperationCanceledException)
             {
-                Trace.TraceInformation("Publish message task cancelled.");
+                _applicationContext.Logger?.LogInformation("Publish message task cancelled.");
             }
             catch (Exception exception)
             {
@@ -655,7 +658,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
             }
             finally
             {
-                Trace.TraceInformation("Stopped publishing messages.");
+                _applicationContext.Logger?.LogInformation("Stopped publishing messages.");
             }
         }
 

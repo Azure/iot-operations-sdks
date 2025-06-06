@@ -108,7 +108,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
                 string testCaseName = Path.GetFileNameWithoutExtension(testCasePath);
                 using (StreamReader streamReader = File.OpenText($"{receiverCasesPath}/{testCaseName}.yaml"))
                 {
-                    Trace.TraceInformation($"Deserializing {receiverCasesPath}/{testCaseName}.yaml");
+                    _applicationContext.Logger?.LogInformation($"Deserializing {receiverCasesPath}/{testCaseName}.yaml");
                     TestCase testCase = yamlDeserializer.Deserialize<TestCase>(new Parser(streamReader));
                     if (!problematicTestCases.Contains(testCaseName) &&
                         !testCase.Requires.Contains(TestFeatureKind.Unobtanium) &&

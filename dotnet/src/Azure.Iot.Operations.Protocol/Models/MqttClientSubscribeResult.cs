@@ -85,7 +85,7 @@ namespace Azure.Iot.Operations.Protocol.Models
             // The granted QoS level is different from the requested QoS level
             if (((Int32)resultCode).CompareTo((Int32)requestedQos) != 0)
             {
-                Trace.TraceWarning($"The granted QoS level [{resultCode}] is different from the requested QoS level [{requestedQos}].");
+                _applicationContext.Logger?.LogWarning($"The granted QoS level [{resultCode}] is different from the requested QoS level [{requestedQos}].");
             }
 
             return resultCode is MqttClientSubscribeReasonCode.GrantedQoS0

@@ -5,6 +5,7 @@
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <AnalysisMode>Default</AnalysisMode>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>CA1848</NoWarn>
     </PropertyGroup>
 
     <Target Name="Build"/>

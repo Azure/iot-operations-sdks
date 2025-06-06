@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Mqtt
         {
             if (eventArgs.ReasonCode == MQTTnet.Protocol.MqttAuthenticateReasonCode.Success)
             {
-                Trace.TraceInformation("Received re-authentication response from MQTT broker with status {0}", eventArgs.ReasonCode);
+                _applicationContext.Logger?.LogInformation("Received re-authentication response from MQTT broker with status {0}", eventArgs.ReasonCode);
             }
             else
             {

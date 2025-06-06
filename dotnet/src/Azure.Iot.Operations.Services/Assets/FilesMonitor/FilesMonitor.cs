@@ -106,7 +106,7 @@ namespace Azure.Iot.Operations.Services.Assets.FileMonitor
                                     catch (IOException e)
                                     {
                                         // File may have been accessed by another process. Ignore error and try again.
-                                        Trace.TraceWarning("Failed to access file with path {0} due to error {1}", filePath, e);
+                                        _applicationContext.Logger?.LogWarning("Failed to access file with path {0} due to error {1}", filePath, e);
                                     }
                                 }
                             }

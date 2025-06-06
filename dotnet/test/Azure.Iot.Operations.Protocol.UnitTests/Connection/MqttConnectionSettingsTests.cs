@@ -446,7 +446,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
 
             if (File.Exists(envVarFilePath))
             {
-                Trace.TraceInformation("Loading environment variables from {envFile}" + new FileInfo(envVarFilePath).FullName);
+                _applicationContext.Logger?.LogInformation("Loading environment variables from {envFile}" + new FileInfo(envVarFilePath).FullName);
                 foreach (string line in File.ReadAllLines(envVarFilePath))
                 {
                     string[] parts = line.Split('=', StringSplitOptions.RemoveEmptyEntries);
@@ -460,7 +460,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Connection
             }
             else
             {
-                Trace.TraceWarning($"EnvFile Not found in path {new DirectoryInfo(".").FullName} {envVarFilePath}");
+                _applicationContext.Logger?.LogWarning($"EnvFile Not found in path {new DirectoryInfo(".").FullName} {envVarFilePath}");
             }
         }
 

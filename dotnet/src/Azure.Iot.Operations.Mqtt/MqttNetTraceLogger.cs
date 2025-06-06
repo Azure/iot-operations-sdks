@@ -19,7 +19,7 @@ public class MqttNetTraceLogger
             {
                 trace += Environment.NewLine + e.LogMessage.Exception.ToString();
             }
-            Trace.TraceInformation(trace);
+            _applicationContext.Logger?.LogInformation(trace);
         };
         return logger;
     }

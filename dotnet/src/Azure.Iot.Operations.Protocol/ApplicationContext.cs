@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Azure.Iot.Operations.Protocol
 {
@@ -16,6 +18,8 @@ namespace Azure.Iot.Operations.Protocol
         /// The HybridLogicalClock used by the application.
         /// </summary>
         public HybridLogicalClock ApplicationHlc { get; }
+
+        public ILogger? Logger { get; set; }
 
         /// <summary>
         /// Creates a new ApplicationContext with a HybridLogicalClock.

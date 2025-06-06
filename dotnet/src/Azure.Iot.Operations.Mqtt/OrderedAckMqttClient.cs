@@ -318,15 +318,15 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         }
         catch (OperationCanceledException)
         {
-            Trace.TraceInformation("Send acknowledgements task cancelled.");
+            _applicationContext.Logger?.LogInformation("Send acknowledgements task cancelled.");
         }
         catch (Exception exception)
         {
-            Trace.TraceWarning("Error while sending queued acknowledgements. {0}", exception);
+            _applicationContext.Logger?.LogWarning("Error while sending queued acknowledgements. {0}", exception);
         }
         finally
         {
-            Trace.TraceInformation("Stopped sending acknowledgements.");
+            _applicationContext.Logger?.LogInformation("Stopped sending acknowledgements.");
         }
     }
 
@@ -373,7 +373,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
                 }
                 catch (Exception e)
                 {
-                    Trace.TraceWarning("Encountered an error while disconnecting during disposal {0}", e);
+                    _applicationContext.Logger?.LogWarning("Encountered an error while disconnecting during disposal {0}", e);
                 }
             }
 

@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.Services.Assets
                         }
                         else
                         {
-                            Trace.TraceWarning($"Unexpected dataset with null or empty name found.");
+                            _applicationContext.Logger?.LogWarning($"Unexpected dataset with null or empty name found.");
                         }
                     }
                 }
@@ -165,7 +165,7 @@ namespace Azure.Iot.Operations.Services.Assets
                         }
                         else
                         {
-                            Trace.TraceWarning($"Unexpected event with null or empty name found.");
+                            _applicationContext.Logger?.LogWarning($"Unexpected event with null or empty name found.");
                         }
                     }
                 }
@@ -228,7 +228,7 @@ namespace Azure.Iot.Operations.Services.Assets
                         }
                         else
                         {
-                            Trace.TraceWarning($"Unexpected datapoint with null or empty name found.");
+                            _applicationContext.Logger?.LogWarning($"Unexpected datapoint with null or empty name found.");
                         }
                     }
                 }
@@ -356,7 +356,7 @@ namespace Azure.Iot.Operations.Services.Assets
                         }
                         else
                         {
-                            Trace.TraceWarning($"Unexpected status dataset with null or empty name found.");
+                            _applicationContext.Logger?.LogWarning($"Unexpected status dataset with null or empty name found.");
                         }
                     }
                 }
@@ -387,7 +387,7 @@ namespace Azure.Iot.Operations.Services.Assets
                         }
                         else
                         {
-                            Trace.TraceWarning($"Unexpected statusEvents with null or empty name found.");
+                            _applicationContext.Logger?.LogWarning($"Unexpected statusEvents with null or empty name found.");
                         }
                     }
                 }

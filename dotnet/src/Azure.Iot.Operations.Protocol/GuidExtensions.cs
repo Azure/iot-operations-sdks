@@ -22,7 +22,7 @@ namespace Azure.Iot.Operations.Protocol
             }
             catch (Exception ex)
             {
-                Trace.TraceInformation(ex.Message);
+                _applicationContext.Logger?.LogInformation(ex.Message);
                 return false;
             }
         }
