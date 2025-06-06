@@ -17,7 +17,8 @@ use azure_iot_operations_connector::{
     base_connector::{
         BaseConnector,
         managed_azure_device_registry::{
-            AssetClientCreationObservation, DatasetClient, DeviceEndpointClient,
+            AssetClient, AssetClientCreationObservation, DatasetClient,
+            DatasetClientCreationObservation, DeviceEndpointClient,
             DeviceEndpointClientCreationObservation,
         },
     },
@@ -33,6 +34,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations_mqtt", log::LevelFilter::Warn)
         .filter_module("azure_iot_operations_protocol", log::LevelFilter::Warn)
+        .filter_module("azure_iot_operations_services", log::LevelFilter::Warn)
+        .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
         .filter_module("notify_debouncer_full", log::LevelFilter::Off)
         .filter_module("notify::inotify", log::LevelFilter::Off)
         .init();
@@ -76,7 +79,6 @@ async fn run_program(mut device_creation_observation: DeviceEndpointClientCreati
             asset_creation_observation,
         ));
     }
-    panic!("device_creation_observer has been dropped");
 }
 
 // This function runs in a loop, waiting for asset creation notifications.
@@ -104,34 +106,20 @@ async fn run_device(
             }
             // Listen for a asset creation notifications
             res = asset_creation_observation.recv_notification() => {
-                if let Some((asset_client, _asset_update_observation, _asset_deletion_token)) = res {
+                if let Some((asset_client, _asset_deletion_token, dataset_creation_observation)) = res {
                     log::info!("Asset created: {asset_client:?}");
 
                     // now we should update the status of the asset
-                    let asset_status = match asset_client.specification().manufacturer.as_deref() {
-                        Some("Contoso") | None => Ok(()),
-                        Some(m) => {
-                            log::warn!(
-                                "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
-                                asset_client.asset_ref().name
-                            );
-                            Err(AdrConfigError {
-                                message: Some("asset manufacturer type is not supported".to_string()),
-                                ..AdrConfigError::default()
-                            })
-                        }
-                    };
+                    let asset_status = generate_asset_status(&asset_client);
 
                     asset_client.report_status(asset_status).await;
 
-                    for dataset in asset_client.datasets() {
-                        tokio::task::spawn({
-                            let dataset_clone = dataset.clone();
-                            async move {
-                                run_dataset(dataset_clone).await;
-                            }
-                        });
-                    }
+                    // Start handling the datasets for this asset
+                    // if we didn't accept the asset, then we still want to run this to wait for updates
+                    tokio::task::spawn(run_asset(
+                        asset_client,
+                        dataset_creation_observation,
+                    ));
                 } else {
                     log::error!("asset_creation_observer has been dropped");
                     break;
@@ -142,7 +130,44 @@ async fn run_device(
     panic!("asset_creation_observer has been dropped");
 }
 
-async fn run_dataset(dataset_client: DatasetClient) {
+// This function runs in a loop, waiting for dataset creation notifications.
+async fn run_asset(
+    mut asset_client: AssetClient,
+    mut dataset_creation_observation: DatasetClientCreationObservation,
+) {
+    loop {
+        tokio::select! {
+            biased;
+            // Listen for a asset update notifications
+            res = asset_client.recv_update() => {
+                if let Some(()) = res {
+                    log::info!("asset updated: {asset_client:?}");
+                    // now we should update the status of the asset
+                    let asset_status = generate_asset_status(&asset_client);
+
+                    asset_client
+                        .report_status(asset_status)
+                        .await;
+                } else {
+                    log::error!("No more Asset updates will be received");
+                    break;
+                }
+            }
+            // Listen for a dataset creation notifications
+            res = dataset_creation_observation.recv_notification() => {
+                if let Some(dataset_client) = res {
+                    tokio::task::spawn(run_dataset(dataset_client));
+                } else {
+                    log::error!("asset_creation_observer has been dropped");
+                    break;
+                }
+            }
+        }
+    }
+    panic!("asset_creation_observer has been dropped");
+}
+
+async fn run_dataset(mut dataset_client: DatasetClient) {
     log::info!("new Dataset: {dataset_client:?}");
 
     // now we should update the status of the dataset and report the message schema
@@ -161,22 +186,51 @@ async fn run_dataset(dataset_client: DatasetClient) {
         }
     }
     let mut count = 0;
+    // Timer will trigger the sampling of data
+    let mut timer = tokio::time::interval(Duration::from_secs(10));
     loop {
-        tokio::time::sleep(Duration::from_secs(10)).await;
-        let sample_data = mock_received_data(count);
-        let (transformed_data, _) =
-            derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
-                .unwrap();
-        match dataset_client.forward_data(transformed_data).await {
-            Ok(()) => {
-                log::info!(
-                    "data {} for {} forwarded",
-                    String::from_utf8(sample_data.payload).unwrap(),
-                    dataset_client.dataset_ref().dataset_name
-                );
-                count += 1;
+        tokio::select! {
+            biased;
+            // Listen for a dataset update notifications
+            res = dataset_client.recv_update() => {
+                if let Some(()) = res {
+                    log::info!("dataset updated: {dataset_client:?}");
+                    // now we should update the status of the dataset and report the message schema
+                    dataset_client.report_status(Ok(())).await;
+
+                    let sample_data = mock_received_data(0);
+
+                    let (_, message_schema) =
+                        derived_json::transform(sample_data, dataset_client.dataset_definition()).unwrap();
+                    match dataset_client.report_message_schema(message_schema).await {
+                        Ok(message_schema_reference) => {
+                            log::info!("Message Schema reported, reference returned: {message_schema_reference:?}");
+                        }
+                        Err(e) => {
+                            log::error!("Error reporting message schema: {e}");
+                        }
+                    }
+                } else {
+                    log::error!("Dataset has been deleted. No more dataset updates will be received");
+                    break;
+                }
             }
-            Err(e) => log::error!("error forwarding data: {e}"),
+            _ = timer.tick() => {
+                let sample_data = mock_received_data(count);
+                let (transformed_data, _) =
+                    derived_json::transform(sample_data.clone(), dataset_client.dataset_definition())
+                        .unwrap();
+                match dataset_client.forward_data(transformed_data).await {
+                    Ok(()) => {
+                        log::info!(
+                            "data {count} for {} forwarded",
+                            dataset_client.dataset_ref().dataset_name
+                        );
+                        count += 1;
+                    }
+                    Err(e) => log::error!("error forwarding data: {e}"),
+                }
+            }
         }
     }
 }
@@ -224,7 +278,23 @@ fn generate_endpoint_status(
             );
             Err(AdrConfigError {
                 message: Some("endpoint type is not supported".to_string()),
-                ..AdrConfigError::default()
+                ..Default::default()
+            })
+        }
+    }
+}
+
+fn generate_asset_status(asset_client: &AssetClient) -> Result<(), AdrConfigError> {
+    match asset_client.specification().manufacturer.as_deref() {
+        Some("Contoso") | None => Ok(()),
+        Some(m) => {
+            log::warn!(
+                "Asset '{}' not accepted. Manufacturer '{m}' not supported.",
+                asset_client.asset_ref().name
+            );
+            Err(AdrConfigError {
+                message: Some("asset manufacturer type is not supported".to_string()),
+                ..Default::default()
             })
         }
     }

@@ -1,0 +1,23 @@
+apiVersion: namespaces.deviceregistry.microsoft.com/v1beta1
+kind: Device
+metadata:
+  name: unique-thermostat
+  namespace: azure-iot-operations
+spec:
+  attributes:
+    deviceId: unique-thermostat
+    deviceType: thermostat
+  enabled: true
+  endpoints:
+    inbound:
+      unique-endpoint:
+        additionalConfiguration: '{"outer": "outervalue", "nested": {"inner": 2}}'
+        address: http://rest-server-service.azure-iot-operations.svc.cluster.local:80
+        authentication:
+          method: UsernamePassword
+          usernamePasswordCredentials:
+            usernameSecretName: rest-server-auth-creds/username
+            passwordSecretName: rest-server-auth-creds/password
+        endpointType: rest-thermostat
+  uuid: 1234-5678-9012-3456
+  version: 2
