@@ -180,12 +180,14 @@ impl From<ConfigStatus> for base_client_gen::ConfigStatus {
     }
 }
 
-impl From<base_client_gen::ConfigStatus> for StatusConfig {
+impl From<base_client_gen::ConfigStatus> for ConfigStatus {
     fn from(value: base_client_gen::ConfigStatus) -> Self {
-        StatusConfig {
+        ConfigStatus {
+            error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
         }
+    }
 }
 
 impl From<ConfigError> for base_client_gen::ConfigError {
