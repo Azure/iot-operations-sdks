@@ -7,7 +7,7 @@ use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
-use crate::azure_device_registry::{ConfigError, StatusConfig};
+use crate::azure_device_registry::{ConfigError, ConfigStatus};
 use crate::azure_device_registry::{
     adr_base_gen::adr_base_service::client as base_client_gen,
     device_discovery_gen::device_discovery_service::client as discovery_client_gen,
@@ -345,7 +345,7 @@ impl From<base_client_gen::AuthenticationSchema> for Authentication {
 /// Represents the observed status of a Device in the ADR Service.
 pub struct DeviceStatus {
     ///  Defines the status config properties.
-    pub config: Option<StatusConfig>,
+    pub config: Option<ConfigStatus>,
     /// Defines the device status for inbound/outbound endpoints.
     pub endpoints: HashMap<String, Option<ConfigError>>,
 }
@@ -374,7 +374,7 @@ impl From<DeviceStatus> for base_client_gen::DeviceStatus {
             })
         };
         base_client_gen::DeviceStatus {
-            config: value.config.map(StatusConfig::into),
+            config: value.config.map(ConfigStatus::into),
             endpoints,
         }
     }

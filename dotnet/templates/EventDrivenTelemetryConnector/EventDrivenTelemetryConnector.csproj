@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Iot.Operations.Connector" Version="0.10.4-akri" />
+    <PackageReference Include="Azure.Iot.Operations.Connector" Version="0.10.5-akri" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 </Project>

@@ -107,7 +107,7 @@ impl AssetUpdateObservation {
 // ~~~~~~~~~~~~~~~~~~Status/ConfigError DTDL Equivalent Structs~~~~~~~~~~~~~
 #[derive(Clone, Debug, Default, PartialEq)]
 /// Represents the configuration status.
-pub struct StatusConfig {
+pub struct ConfigStatus {
     /// Error details for status.
     pub error: Option<ConfigError>,
     /// The last time the configuration has been modified.
@@ -170,8 +170,8 @@ impl From<discovery_client_gen::CodeSchema> for base_client_gen::CodeSchema {
     }
 }
 
-impl From<StatusConfig> for base_client_gen::ConfigStatus {
-    fn from(value: StatusConfig) -> Self {
+impl From<ConfigStatus> for base_client_gen::ConfigStatus {
+    fn from(value: ConfigStatus) -> Self {
         base_client_gen::ConfigStatus {
             error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
@@ -183,11 +183,9 @@ impl From<StatusConfig> for base_client_gen::ConfigStatus {
 impl From<base_client_gen::ConfigStatus> for StatusConfig {
     fn from(value: base_client_gen::ConfigStatus) -> Self {
         StatusConfig {
-            error: value.error.map(Into::into),
             last_transition_time: value.last_transition_time,
             version: value.version,
         }
-    }
 }
 
 impl From<ConfigError> for base_client_gen::ConfigError {
