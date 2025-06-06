@@ -10,17 +10,18 @@ use azure_iot_operations_mqtt::{
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry::{self, models};
 
-/// Replace these values with the actual values for your device, inbound endpoint, and asset.
-/// They must be present in the Azure Device Registry Service for the example to work correctly.
+// Replace these values with the actual values for your device, inbound endpoint, and asset.
+// They must be present in the Azure Device Registry Service for the example to work correctly.
 const DEVICE_NAME: &str = "my-thermostat";
 const INBOUND_ENDPOINT_NAME: &str = "my-rest-endpoint";
 const ASSET_NAME: &str = "my-rest-thermostat-asset";
 const VALID_ENDPOINT_TYPE: &str = "rest-thermostat";
+const TIMEOUT: Duration = Duration::from_secs(10);
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::Builder::new()
-        .filter_level(log::LevelFilter::max())
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
@@ -63,15 +64,13 @@ async fn azure_device_registry_operations(
     azure_device_registry_client: azure_device_registry::Client<SessionManagedClient>,
     exit_handle: SessionExitHandle,
 ) {
-    let timeout = Duration::from_secs(10);
-
     // observe for updates for our Device + Inbound Endpoint
     // TODO: uncomment once service supports this
     // match azure_device_registry_client
     //     .observe_device_update_notifications(
     //         DEVICE_NAME.to_string(),
     //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         timeout,
+    //         TIMEOUT,
     //     )
     //     .await
     // {
@@ -91,14 +90,14 @@ async fn azure_device_registry_operations(
     //     }
     // };
 
-    // // observe for updates for our Asset
+    // observe for updates for our Asset
     // TODO: uncomment once service supports this
     // match azure_device_registry_client
     //     .observe_asset_update_notifications(
     //         DEVICE_NAME.to_string(),
     //         INBOUND_ENDPOINT_NAME.to_string(),
     //         ASSET_NAME.to_string(),
-    //         timeout,
+    //         TIMEOUT,
     //     )
     //     .await
     // {
@@ -118,171 +117,25 @@ async fn azure_device_registry_operations(
     //     }
     // };
 
-    // Get Device + Inbound Endpoint details and send status update
-    match azure_device_registry_client
-        .get_device(
-            DEVICE_NAME.to_string(),
-            INBOUND_ENDPOINT_NAME.to_string(),
-            timeout,
-        )
-        .await
-    {
-        Ok(device) => {
-            log::info!("Device details: {device:?}");
-            // get the current status so that we can update it in place
-            let mut device_status = match azure_device_registry_client
-                .get_device_status(
-                    DEVICE_NAME.to_string(),
-                    INBOUND_ENDPOINT_NAME.to_string(),
-                    timeout,
-                )
-                .await
-            {
-                Ok(status) => {
-                    log::info!("Device status: {status:?}");
-                    status
-                }
-                Err(e) => {
-                    log::error!("Get device status request failed: {e}");
-                    models::DeviceStatus::default()
-                }
-            };
-
-            // if config isn't present on status or the version is out of date, then we should update/add it
-            if device_status
-                .config
-                .as_ref()
-                .is_none_or(|config| config.version != device.version)
-            {
-                device_status.config = Some(azure_device_registry::ConfigStatus {
-                    version: device.version,
-                    ..Default::default()
-                });
-            }
-
-            let mut endpoint_statuses = HashMap::new();
-            for (endpoint_name, endpoint) in device.endpoints.unwrap().inbound {
-                if endpoint.endpoint_type == VALID_ENDPOINT_TYPE {
-                    log::info!("Endpoint '{endpoint_name}' accepted");
-                    // adding endpoint to status hashmap with None ConfigError to show that we accept the endpoint with no errors
-                    endpoint_statuses.insert(endpoint_name, None);
-                } else {
-                    // if we don't support the endpoint type, then we can report that error
-                    log::warn!(
-                        "Endpoint '{endpoint_name}' not accepted. Endpoint type '{}' not supported.",
-                        endpoint.endpoint_type
-                    );
-                    endpoint_statuses.insert(
-                        endpoint_name,
-                        Some(azure_device_registry::ConfigError {
-                            message: Some("endpoint type is not supported".to_string()),
-                            ..azure_device_registry::ConfigError::default()
-                        }),
-                    );
-                }
-            }
-            device_status.endpoints = endpoint_statuses;
-            log::info!("Device status to send as update: {device_status:?}");
-            // TODO: uncomment once service supports this
-            // match azure_device_registry_client
-            //     .update_device_plus_endpoint_status(
-            //         DEVICE_NAME.to_string(),
-            //         INBOUND_ENDPOINT_NAME.to_string(),
-            //         device_status,
-            //         timeout,
-            //     )
-            //     .await
-            // {
-            //     Ok(updated_status) => {
-            //         log::info!("Updated Device sttus: {updated_status:?}");
-            //     }
-            //     Err(e) => {
-            //         log::error!("Update device status request failed: {e}");
-            //     }
-            // };
+    // run device operations and log any errors
+    match device_operations(&azure_device_registry_client).await {
+        Ok(()) => {
+            log::info!("Device operations completed successfully");
         }
         Err(e) => {
-            log::error!("Get device request failed: {e}");
+            log::error!("Device operations failed: {e}");
         }
     };
 
-    // Get Asset details and send status update
-    match azure_device_registry_client
-        .get_asset(
-            DEVICE_NAME.to_string(),
-            INBOUND_ENDPOINT_NAME.to_string(),
-            ASSET_NAME.to_string(),
-            timeout,
-        )
-        .await
-    {
-        Ok(asset) => {
-            log::info!("Asset details: {asset:?}");
-            // get the current status so that we can update it in place
-            let mut asset_status = match azure_device_registry_client
-                .get_asset_status(
-                    DEVICE_NAME.to_string(),
-                    INBOUND_ENDPOINT_NAME.to_string(),
-                    ASSET_NAME.to_string(),
-                    timeout,
-                )
-                .await
-            {
-                Ok(status) => {
-                    log::info!("Asset status: {status:?}");
-                    status
-                }
-                Err(e) => {
-                    log::error!("Get Asset status request failed: {e}");
-                    models::AssetStatus::default()
-                }
-            };
-
-            // if config isn't present on status or the version is out of date, then we should update/add it
-            if asset_status
-                .config
-                .as_ref()
-                .is_none_or(|config| config.version != asset.version)
-            {
-                asset_status.config = Some(azure_device_registry::ConfigStatus {
-                    version: asset.version,
-                    ..Default::default()
-                });
-            }
-
-            let mut dataset_statuses = Vec::new();
-            for dataset in asset.datasets {
-                dataset_statuses.push(models::DatasetEventStreamStatus {
-                    error: None,
-                    message_schema_reference: None,
-                    name: dataset.name,
-                });
-            }
-            asset_status.datasets = Some(dataset_statuses);
-            log::info!("Asset status to send as update: {asset_status:?}");
-            // TODO: uncomment once service supports this
-            // match azure_device_registry_client
-            //     .update_asset_status(
-            //         DEVICE_NAME.to_string(),
-            //         INBOUND_ENDPOINT_NAME.to_string(),
-            //         ASSET_NAME.to_string(),
-            //         asset_status,
-            //         timeout,
-            //     )
-            //     .await
-            // {
-            //     Ok(updated_status) => {
-            //         log::info!("Updated Asset status: {updated_status:?}");
-            //     }
-            //     Err(e) => {
-            //         log::error!("Update asset status request failed: {e}");
-            //     }
-            // }
+    // run asset operations and log any errors
+    match asset_operations(&azure_device_registry_client).await {
+        Ok(()) => {
+            log::info!("Asset operations completed successfully");
         }
         Err(e) => {
-            log::error!("Get asset request failed: {e}");
+            log::error!("Asset operations failed: {e}");
         }
-    }
+    };
 
     // Unobserve must be called on clean-up to prevent getting notifications for this in the future
     // TODO: uncomment once service supports this
@@ -290,7 +143,7 @@ async fn azure_device_registry_operations(
     //     .unobserve_device_update_notifications(
     //         DEVICE_NAME.to_string(),
     //         INBOUND_ENDPOINT_NAME.to_string(),
-    //         timeout,
+    //         TIMEOUT,
     //     )
     //     .await
     // {
@@ -309,7 +162,7 @@ async fn azure_device_registry_operations(
     //         DEVICE_NAME.to_string(),
     //         INBOUND_ENDPOINT_NAME.to_string(),
     //         ASSET_NAME.to_string(),
-    //         timeout,
+    //         TIMEOUT,
     //     )
     //     .await
     // {
@@ -334,11 +187,150 @@ async fn azure_device_registry_operations(
 
     log::info!("Exiting session");
     match exit_handle.try_exit().await {
-        Ok(()) => log::error!("Session exited gracefully"),
+        Ok(()) => log::info!("Session exited gracefully"),
         Err(e) => {
             log::error!("Graceful session exit failed: {e}");
             log::error!("Forcing session exit");
             exit_handle.exit_force().await;
         }
-    };
+    }
+}
+
+async fn device_operations(
+    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    // Get Device + Inbound Endpoint details and send status update
+    let device = azure_device_registry_client
+        .get_device(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await?;
+    log::info!("Device details: {device:?}");
+
+    // get the current status so that we can update it in place
+    let mut device_status = azure_device_registry_client
+        .get_device_status(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await?;
+    log::info!("Device status: {device_status:?}");
+
+    // if config isn't present on status or the version is out of date, then we should update/add it
+    if device_status
+        .config
+        .as_ref()
+        .is_none_or(|config| config.version != device.version)
+    {
+        device_status.config = Some(azure_device_registry::ConfigStatus {
+            version: device.version,
+            error: None,
+            last_transition_time: Some(chrono::Utc::now()),
+        });
+    }
+
+    // build the statuses for the endpoints
+    let mut endpoint_statuses = HashMap::new();
+    for (endpoint_name, endpoint) in device.endpoints.unwrap().inbound {
+        if endpoint.endpoint_type == VALID_ENDPOINT_TYPE {
+            log::info!("Endpoint '{endpoint_name}' accepted");
+            // adding endpoint to status hashmap with None ConfigError to show that we accept the endpoint with no errors
+            endpoint_statuses.insert(endpoint_name, None);
+        } else {
+            // if we don't support the endpoint type, then we can report that error
+            log::warn!(
+                "Endpoint '{endpoint_name}' not accepted. Endpoint type '{}' not supported.",
+                endpoint.endpoint_type
+            );
+            endpoint_statuses.insert(
+                endpoint_name,
+                Some(azure_device_registry::ConfigError {
+                    message: Some("endpoint type is not supported".to_string()),
+                    ..Default::default()
+                }),
+            );
+        }
+    }
+    device_status.endpoints = endpoint_statuses;
+
+    // send the fully updated status to Azure Device Registry
+    log::info!("Device status to send as update: {device_status:?}");
+    // TODO: uncomment once service supports this
+    // let updated_device_status = azure_device_registry_client
+    //     .update_device_plus_endpoint_status(
+    //         DEVICE_NAME.to_string(),
+    //         INBOUND_ENDPOINT_NAME.to_string(),
+    //         device_status,
+    //         TIMEOUT,
+    //     )
+    //     .await?;
+    // log::info!("Updated Device sttus: {updated_device_status:?}");
+
+    Ok(())
+}
+
+async fn asset_operations(
+    azure_device_registry_client: &azure_device_registry::Client<SessionManagedClient>,
+) -> Result<(), Box<dyn std::error::Error>> {
+    // Get Asset details and send status update
+    let asset = azure_device_registry_client
+        .get_asset(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            ASSET_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await?;
+    log::info!("Asset details: {asset:?}");
+
+    // get the current status so that we can update it in place
+    let mut asset_status = azure_device_registry_client
+        .get_asset_status(
+            DEVICE_NAME.to_string(),
+            INBOUND_ENDPOINT_NAME.to_string(),
+            ASSET_NAME.to_string(),
+            TIMEOUT,
+        )
+        .await?;
+    log::info!("Asset status: {asset_status:?}");
+
+    // if config isn't present on status or the version is out of date, then we should update/add it
+    if asset_status
+        .config
+        .as_ref()
+        .is_none_or(|config| config.version != asset.version)
+    {
+        asset_status.config = Some(azure_device_registry::ConfigStatus {
+            version: asset.version,
+            error: None,
+            last_transition_time: Some(chrono::Utc::now()),
+        });
+    }
+
+    let mut dataset_statuses = Vec::new();
+    for dataset in asset.datasets {
+        dataset_statuses.push(models::DatasetEventStreamStatus {
+            error: None,
+            message_schema_reference: None,
+            name: dataset.name,
+        });
+    }
+    asset_status.datasets = Some(dataset_statuses);
+    log::info!("Asset status to send as update: {asset_status:?}");
+    // TODO: uncomment once service supports this
+    // let updated_asset_status = azure_device_registry_client
+    //     .update_asset_status(
+    //         DEVICE_NAME.to_string(),
+    //         INBOUND_ENDPOINT_NAME.to_string(),
+    //         ASSET_NAME.to_string(),
+    //         asset_status,
+    //         TIMEOUT,
+    //     )
+    //     .await?;
+    // log::info!("Updated Asset status: {updated_asset_status:?}");
+
+    Ok(())
 }
