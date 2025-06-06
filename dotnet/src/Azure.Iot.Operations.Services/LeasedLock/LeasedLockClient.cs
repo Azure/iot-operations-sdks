@@ -207,6 +207,11 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             options ??= new AcquireLockRequestOptions();
 
+            if (leaseDuration.TotalMilliseconds < 1)
+            {
+                throw new ArgumentException("Lease duration must be at least 1 millisecond.", nameof(leaseDuration));
+            }
+
             StateStoreValue value = string.IsNullOrEmpty(options.SessionId)
                 ? new StateStoreValue(LockHolderName)
                 : new StateStoreValue(string.Format(ValueFormat, LockHolderName, options.SessionId));
