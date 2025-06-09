@@ -170,7 +170,7 @@
           }
         }
       },
-      "isEndpointTlsEnabled" : "true"
+      "isEndpointTlsEnabled" : true
     }
   ]
 }
