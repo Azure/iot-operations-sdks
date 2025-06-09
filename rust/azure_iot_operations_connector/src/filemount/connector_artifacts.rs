@@ -652,8 +652,10 @@ mod tests {
             "PERSISTENT_VOLUME_MOUNT_PATH",
             &persistent_volume_manager.index_file_contents(),
         );
-        connector_configuration_mount
-            .add_file("ADDITIONAL_CONNECTOR_CONFIGURATION", ADDITIONAL_CONNECTOR_CONFIGURATION_JSON);
+        connector_configuration_mount.add_file(
+            "ADDITIONAL_CONNECTOR_CONFIGURATION",
+            ADDITIONAL_CONNECTOR_CONFIGURATION_JSON,
+        );
 
         let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
 
