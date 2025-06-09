@@ -27,6 +27,11 @@ internal class ChunkedMessageAssembler
     private TimeSpan? _timeout;
 
     /// <summary>
+    /// Gets the current buffer size in bytes of all stored chunks.
+    /// </summary>
+    public long CurrentBufferSize { get; private set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ChunkedMessageAssembler"/> class.
     /// </summary>
     /// <param name="totalChunks">The total number of chunks expected (may be updated later).</param>
@@ -73,7 +78,9 @@ internal class ChunkedMessageAssembler
                 return false;
             }
 
+            var chunkSize = args.ApplicationMessage.Payload.Length;
             _chunks[chunkIndex] = args;
+            CurrentBufferSize += chunkSize;
             return true;
         }
     }

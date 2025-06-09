@@ -20,8 +20,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             var options = new ChunkingOptions
             {
                 Enabled = true,
-                StaticOverhead = 500, // Use modest overhead to ensure small messages aren't chunked
-                ChunkTimeout = TimeSpan.FromSeconds(10)
+                StaticOverhead = 500 // Use modest overhead to ensure small messages aren't chunked
             };
 
             await using var chunkingClient = new ChunkingMqttPubSubClient(mqttClient, options);
@@ -91,8 +90,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             var options = new ChunkingOptions
             {
                 Enabled = true,
-                StaticOverhead = 500,
-                ChunkTimeout = TimeSpan.FromSeconds(30)
+                StaticOverhead = 500
             };
 
             await using var chunkingClient = new ChunkingMqttPubSubClient(mqttClient, options);

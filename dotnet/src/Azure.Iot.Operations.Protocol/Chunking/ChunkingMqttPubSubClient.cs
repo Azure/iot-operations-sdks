@@ -169,6 +169,20 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
     {
         reassembledArgs = null;
 
+        // Check global buffer size limit before processing
+        if (_chunkingOptions.ReassemblyBufferSizeLimit > 0)
+        {
+            var currentTotalBufferSize = CalculateTotalBufferSize();
+            var chunkSize = args.ApplicationMessage.Payload.Length;
+
+            // If adding this chunk would exceed the global limit, reject it
+            if (currentTotalBufferSize + chunkSize > _chunkingOptions.ReassemblyBufferSizeLimit)
+            {
+                // Log or handle buffer limit exceeded (could throw exception or return false)
+                return false;
+            }
+        }
+
         // Get or create the message assembler
         var assembler = _messageAssemblers.GetOrAdd(
             metadata.MessageId,
@@ -246,5 +260,14 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
         {
             _messageAssemblers.TryRemove(key, out _);
         }
+    }
+
+    /// <summary>
+    /// Calculates the total buffer size across all active message assemblers.
+    /// </summary>
+    /// <returns>The total buffer size in bytes.</returns>
+    private long CalculateTotalBufferSize()
+    {
+        return _messageAssemblers.Values.Sum(assembler => assembler.CurrentBufferSize);
     }
 }
