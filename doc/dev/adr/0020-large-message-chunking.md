@@ -53,13 +53,22 @@ SDK will provide user with options to inject their algorithm of choice or use SD
 - Sending Process:
   - When a payload exceeds the maximum packet size, the message is split into fixed-size chunks (with potentially smaller last chunk)
   - Each chunk is sent as a separate MQTT message with the same topic but with chunk metadata.
-  - Effort should be made to minimize user properties copied over to every chunk: first chunk will have full set of original user properties and the rest only those that are necessary to reassemble original message (ex.: ```$partition``` property to support shared subscriptions:).
+  - Effort should be made to minimize user properties copied over to every chunk: first chunk will have full set of original user properties and the rest only those that are necessary to reassemble original message (ex.: ```$partition``` property to support shared subscriptions).
   - QoS settings are maintained across all chunks.
 - Receiving Process:
   - The Chunking aware client receives messages and identifies chunked messages by the presence of chunk metadata.
   - Chunks are stored in a temporary buffer, indexed by message ID and chunk index.
   - When all chunks for a message ID are received, they are reassembled in order and message checksum verified (see Checksum Algorithm Options for MQTT Message Chunking).
   - The reconstructed message is then processed as a single message by the application.
+- Receiving Failures:
+  - Message timeout interval ended before all chunks received.
+  - Reassembly buffer size limit reached before all chunks received.
+  - Calculated checksum does not match checksumm from chunk metadata.
+
+**Configuration settings:**
+- Enable/Disable
+- Overhead size
+- Reassembly buffer size limit
 
 ### Implementation Considerations
 
@@ -98,20 +107,33 @@ sequenceDiagram
         Sender->>Broker: MQTT PUBLISH with __chunk metadata
         Note over Broker: No special handling<br/>required by broker
         Broker->>Receiver: Forward chunk
-        Note over Receiver: First chucnk starts timeout count down
+        Note over Receiver: First chunk starts timeout countdown
         Receiver->>Receiver: Store in buffer
         Note left of Receiver: Index by:<br/>messageId + chunkIndex
     end
 
-    Note over Receiver: All chunks received
-    Receiver->>Receiver: Verify checksum
-    Note right of Receiver: SHA-256 or<br/>custom algorithm
-    Receiver->>Receiver: Reassemble message
-    Note over Receiver: Process complete message
-
-    rect rgba(255, 0, 0, 0.1)
-        Note over Sender,Receiver: Error Path
-        Receiver-->>Receiver: Timeout occurred
-        Receiver-->>Receiver: Cleanup buffers
+    alt Success Path
+        Note over Receiver: All chunks received
+        Receiver->>Receiver: Verify checksum
+        Note right of Receiver: SHA-256 or<br/>custom algorithm
+        Receiver->>Receiver: Reassemble message
+        Note over Receiver: Process complete message
+    else Failure: Timeout
+        Note over Receiver: Message Expiry Interval exceeded
+        Receiver->>Receiver: Timeout occurred
+        Receiver->>Receiver: Cleanup buffers
+        Note over Receiver: Notify application:<br/>ChunkTimeoutError
+    else Failure: Buffer Limit
+        Note over Receiver: Reassembly buffer full
+        Receiver->>Receiver: Reject new chunks
+        Receiver->>Receiver: Cleanup oldest incomplete messages
+        Note over Receiver: Notify application:<br/>BufferLimitExceededError
+    else Failure: Checksum Mismatch
+        Note over Receiver: All chunks received
+        Receiver->>Receiver: Calculate checksum
+        Note over Receiver: Checksum verification failed
+        Receiver->>Receiver: Discard reassembled message
+        Receiver->>Receiver: Cleanup buffers
+        Note over Receiver: Notify application:<br/>ChecksumMismatchError
     end
 ```
