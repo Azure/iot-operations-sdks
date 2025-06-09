@@ -2,33 +2,6 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "aioConnectorMetadataSchemaVersion": "1.0",
-  "definitions": {
-    "schema": {
-      "type": "object",
-      "description": "The schema for a stringified JSON schema fields such as 'additionalConfigurationSchema'. Must provide inline schema xor the file that contains the schema. These schemas may be used to define the default values of unspecified fields.",
-      "properties": {
-        "schema": {
-          "$ref": "http://json-schema.org/draft-07/schema#"
-        },
-        "schemaFile": {
-          "type": "string",
-          "description": "A path to another file that contains the schema. Typically, both the connector metadata file and its schema files live in the same container registry alongside the connector image."
-        }
-      },
-      "oneOf": [
-        {
-          "required": [
-            "schema"
-          ]
-        },
-        {
-          "required": [
-            "schemaFile"
-          ]
-        }
-      ]
-    }
-  },
   "properties": {
     "aioConnectorMetadataSchemaVersion": {
       "type": "string",
@@ -241,7 +214,7 @@
   },
   "additionalConfigurationSchema": {
     "description": "The connector-level JSON schemas for the 'additional configuration' field. A JSON schema must be only if that field is used by this connector.",
-    "$ref": "#/definitions/schema"
+    "$ref": "http://json-schema.org/draft-07/schema#"
   },
   "inboundEndpoints": {
     "type": "array",
@@ -263,25 +236,25 @@
                 "description": "The JSON schemas for the asset-level stringified JSON fields. A JSON schema must be provided for each field only if that field is used by this connector.",
                 "properties": {
                   "datasetConfigurationSchema": {
-                    "$ref": "#/definitions/schema"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "datasetDataPointConfigurationSchema": {
-                    "$ref": "#/definitions/schema"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "eventConfigurationSchema": {
-                    "$ref": "#/definitions/schema"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "eventDataPointConfigSchema": {
-                    "$ref": "#/definitions/schema"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "streamConfigurationSchema": {
-                    "$ref": "#/definitions/schema"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "managementGroupConfigurationSchema": {
-                    "$ref": "#/definitions/schema"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   },
                   "actionConfigurationSchema": {
-                    "$ref": "#/definitions/schema"
+                    "$ref": "http://json-schema.org/draft-07/schema#"
                   }
                 }
               },
