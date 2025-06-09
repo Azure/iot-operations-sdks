@@ -467,7 +467,7 @@ mod test {
                 },
                 "temp": {
                     "type": "integer"
-                },
+                }
             }
         }"#;
 
