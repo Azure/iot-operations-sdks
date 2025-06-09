@@ -311,12 +311,16 @@
           "version": {
             "type": "string",
             "description": "The version of the protocol of this inbound endpoint."
+          },
+          "isEndpointTlsEnabled": {
+            "type": "boolean",
+            "description": "True if this endpoint has TLS enabled and all connections to this endpoint must use TLS."
           }
         },
         "required": [
           "endpointType",
           "version",
-          "configSchemas"
+          "isEndpointTlsEnabled"
         ]
       }
     ]

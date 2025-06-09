@@ -34,38 +34,36 @@
     "minVersion": "1.0.0",
     "maxVersion": "2.0.0"
   },
+  "additionalConfigurationSchema": {
+    "schema": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "$id": "https://contoso.com/connectorConfig.schema.json",
+      "title": "Connector Configuration Schema",
+      "description": "The JSON schema for the connector additional configuration field",
+      "type": "object",
+      "properties": {
+        "SomeConnectorConfiguration": {
+          "description": "Some configurable value that is relevant to the connector as a whole",
+          "type": "integer"
+        },
+        "SomeOtherConnectorConfiguration": {
+          "properties": {
+            "SomeEndpointConfiguration": {
+              "description": "Some other configurable value that is relevant to the connector as a whole",
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  },
   "inboundEndpoints": [
     {
       "name": "RestInboundEndpoint",
       "version": "1.0",
-      "configSchemas": {
-        "additionalConfigurationSchema": {
-          "schema": {
-            "$schema": "http://json-schema.org/draft-07/schema#",
-            "$id": "https://contoso.com/deviceEndpointConfig.schema.json",
-            "title": "Device Endpoint Config Schema",
-            "description": "The JSON schema for the device endpoint additional configuration field",
-            "type": "object",
-            "properties": {
-              "SomeEndpointConfiguration": {
-                "description": "Some configurable value that is relevant to endpoints",
-                "type": "integer"
-              },
-              "SomeOtherEndpointConfiguration": {
-                "properties": {
-                  "SomeEndpointConfiguration": {
-                    "description": "Some configurable value that is relevant to endpoints",
-                    "type": "integer"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "asset": {
-        "configSchemas": {
-          "datasetConfigSchema": {
+        "configurationSchemas": {
+          "datasetConfigurationSchema": {
             "schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "$id": "https://contoso.com/datasetConfig.schema.json",
@@ -80,7 +78,7 @@
               }
             }
           },
-          "datasetDataPointConfigSchema": {
+          "datasetDataPointConfigurationSchema": {
             "schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "$id": "https://contoso.com/dataPointConfig.schema.json",
@@ -95,7 +93,7 @@
               }
             }
           },
-          "eventConfigSchema": {
+          "eventConfigurationSchema": {
             "schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "$id": "https://contoso.com/eventConfig.schema.json",
@@ -110,7 +108,7 @@
               }
             }
           },
-          "eventDataPointConfigSchema": {
+          "eventDataPointConfigurationSchema": {
             "schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "$id": "https://contoso.com/eventConfig.schema.json",
@@ -125,7 +123,7 @@
               }
             }
           },
-          "streamConfigSchema": {
+          "streamConfigurationSchema": {
             "schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "$id": "https://contoso.com/streamConfig.schema.json",
@@ -140,7 +138,7 @@
               }
             }
           },
-          "managementGroupConfigSchema": {
+          "managementGroupConfigurationSchema": {
             "schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "$id": "https://contoso.com/managementGroupConfig.schema.json",
@@ -155,7 +153,7 @@
               }
             }
           },
-          "processControlConfigSchema": {
+          "processControlConfigurationSchema": {
             "schema": {
               "$schema": "http://json-schema.org/draft-07/schema#",
               "$id": "https://contoso.com/processControlConfig.schema.json",
@@ -171,7 +169,8 @@
             }
           }
         }
-      }
+      },
+      "isEndpointTlsEnabled" : "true"
     }
   ]
 }
