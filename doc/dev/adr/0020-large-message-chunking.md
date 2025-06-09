@@ -87,7 +87,7 @@ SDK will provide user with options to inject their algorithm of choice or use SD
 
 ### Compatibility
 
-- Non-chunking-aware clients will receive individual chunks as separate messages.
+- Non-chunking-aware clients will receive individual chunks as separate messages. Chunks reassembly could be implemented on the application side, given chunking implementation is known.
 
 ## Appendix
 
