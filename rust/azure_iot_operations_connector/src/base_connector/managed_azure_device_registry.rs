@@ -306,7 +306,7 @@ impl DeviceEndpointClient {
             config: Some(azure_device_registry::ConfigStatus {
                 version,
                 error: device_status.err(),
-                last_transition_time: None, // this field will be removed, so we don't need to worry about it for now. TODO: report it though
+                last_transition_time: Some(chrono::Utc::now()),
             }),
             // inserts the inbound endpoint name with None if there's no error, or Some(AdrConfigError) if there is
             endpoints: HashMap::from([(
@@ -336,7 +336,7 @@ impl DeviceEndpointClient {
             config: Some(azure_device_registry::ConfigStatus {
                 version,
                 error: device_status.err(),
-                last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
+                last_transition_time: Some(chrono::Utc::now()),
             }),
             // Endpoints are merged on the service, so sending an empty map won't update anything
             endpoints: current_endpoints,
@@ -539,7 +539,7 @@ impl AssetClientCreationObservation {
                                         self.connector_context.default_timeout,
                                     )
                                     .await
-                                    .map_err(|e| adr_error_into_retry_error(e, "Get Asset Definition"))
+                                    .map_err(|e| adr_error_into_retry_error(e, "Get Asset Status"))
                             },
                         )
                         .await {
@@ -666,9 +666,6 @@ pub struct AssetClient {
     >,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
-    /// The last definition of the asset that was received so we can filter out updates that only report status changes. Temporary
-    #[getter(skip)]
-    last_specification: adr_models::Asset,
     /// Internal watch sender for releasing dataset create/update notifications
     #[getter(skip)]
     release_dataset_notifications_tx: tokio::sync::watch::Sender<()>,
@@ -688,7 +685,7 @@ impl AssetClient {
     ) -> Self {
         let status = Arc::new(RwLock::new(asset_status));
         let dataset_definitions = asset.datasets.clone();
-        let specification = AssetSpecification::from(asset.clone());
+        let specification = AssetSpecification::from(asset);
         let specification_version = specification.version;
 
         // Create the default dataset destinations from the asset definition
@@ -705,7 +702,7 @@ impl AssetClient {
                         asset_ref.name
                     );
                     let adr_asset_status =
-                        Self::internal_asset_status(Err(e), specification_version);
+                        Self::internal_asset_status(&status, Err(e), specification_version);
                     // send status update to the service
                     Self::internal_report_status(
                         adr_asset_status,
@@ -731,7 +728,6 @@ impl AssetClient {
             dataset_creation_tx,
             dataset_hashmap: HashMap::new(),
             connector_context,
-            last_specification: asset,
             release_dataset_notifications_tx: tokio::sync::watch::Sender::new(()),
         };
 
@@ -775,32 +771,8 @@ impl AssetClient {
     /// # Panics
     /// if the specification or status mutexes have been poisoned, which should not be possible
     pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
-        // if the config is present and the version doesn't match, clear everything that we aren't explicitly trying to report,
-        // since it's all from an old version. Otherwise, if the config status doesn't exist, or the version matches, keep everything
-        // and just modify what we're explicitly trying to set
         let version = self.specification.read().unwrap().version;
-        let mut new_status = {
-            let current_status = self.status.read().unwrap();
-            if let Some(config) = &current_status.config {
-                // version matches
-                if config.version == version {
-                    current_status.clone()
-                } else {
-                    // config out of date, clear everything
-                    adr_models::AssetStatus::default()
-                }
-            } else {
-                // config not reported
-                current_status.clone()
-            }
-        };
-
-        // no matter whether we kept other fields or not, we will always fully replace the config status
-        new_status.config = Some(azure_device_registry::ConfigStatus {
-            version,
-            error: status.err(),
-            last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
-        });
+        let new_status = Self::internal_asset_status(&self.status, status, version);
 
         log::debug!("reporting asset status from app");
         // send status update to the service
@@ -815,7 +787,7 @@ impl AssetClient {
     }
 
     /// Used to receive updates for the Asset from the Azure Device Registry Service.
-    /// This function returning `Some(())` indicates that the asset specification and status have been
+    /// This function returning `Some(())` indicates that the asset specification has been
     /// updated in place. The function returns [`None`] if there will be no more notifications.
     /// Receiving an update will also trigger update/creation/deletion notifications for datasets that
     /// are linked to this asset. To ensure the asset update is received before dataset notifications,
@@ -865,7 +837,7 @@ impl AssetClient {
                         self.asset_ref.name
                     );
                     let adr_asset_status =
-                        Self::internal_asset_status(Err(e), updated_asset.version);
+                        Self::internal_asset_status(&self.status, Err(e), updated_asset.version);
                     // send status update to the service
                     Self::internal_report_status(
                         adr_asset_status,
@@ -934,9 +906,7 @@ impl AssetClient {
 
         // update specification
         let mut unlocked_specification = self.specification.write().unwrap(); // unwrap can't fail unless lock is poisoned
-        *unlocked_specification = AssetSpecification::from(updated_asset.clone());
-
-        self.last_specification = updated_asset;
+        *unlocked_specification = AssetSpecification::from(updated_asset);
 
         Some(())
     }
@@ -950,6 +920,10 @@ impl AssetClient {
     }
 
     /// Returns a clone of the current asset status
+    /// Note that this is the value of the last reported status (or the status
+    /// from when the asset was first received if one hasn't been reported yet),
+    /// so it is possible that this is not the latest value that the ADR service has
+    ///
     /// # Panics
     /// if the status mutex has been poisoned, which should not be possible
     #[must_use]
@@ -973,19 +947,49 @@ impl AssetClient {
         (*self.device_status.read().unwrap()).clone()
     }
 
-    /// Internal helper function to create an [`adr_models::AssetStatus`] from a Result and version
-    fn internal_asset_status(
-        status: Result<(), AdrConfigError>,
+    /// Internal helper to get an `adr_models::AssetStatus` that can be used as a starting place
+    /// to modify the current status with whatever new things we want to report
+    ///
+    /// If the config is present and the version doesn't match, clear everything, since it's all from an old version.
+    /// Otherwise, if the config status doesn't exist, or the version matches, keep everything.
+    /// Then, the caller of this function can modify only what they are explicitly reporting, and all other fields will
+    /// be either maintained or will be their default values if this is the first time reporting for a new version.
+    fn current_status_to_modify(
+        locked_current_status: &Arc<RwLock<adr_models::AssetStatus>>,
         version: Option<u64>,
     ) -> adr_models::AssetStatus {
-        adr_models::AssetStatus {
-            config: Some(azure_device_registry::ConfigStatus {
-                version,
-                error: status.err(),
-                last_transition_time: None, // this field will be removed, so we don't need to worry about it for now
-            }),
-            ..Default::default()
+        let current_status = locked_current_status.read().unwrap();
+        if let Some(config) = &current_status.config {
+            // version matches
+            if config.version == version {
+                current_status.clone()
+            } else {
+                // config out of date, clear everything
+                adr_models::AssetStatus::default()
+            }
+        } else {
+            // config not reported, assume anything reported so far is for this version
+            current_status.clone()
         }
+    }
+
+    /// Internal helper function to create an updated [`adr_models::AssetStatus`] from the current status,
+    /// the new Result and the version that the status is for
+    fn internal_asset_status(
+        locked_current_status: &Arc<RwLock<adr_models::AssetStatus>>,
+        new_status_result: Result<(), AdrConfigError>,
+        version: Option<u64>,
+    ) -> adr_models::AssetStatus {
+        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut new_status = Self::current_status_to_modify(locked_current_status, version);
+
+        // no matter whether we kept other fields or not, we will always fully replace the config status
+        new_status.config = Some(azure_device_registry::ConfigStatus {
+            version,
+            error: new_status_result.err(),
+            last_transition_time: Some(chrono::Utc::now()),
+        });
+        new_status
     }
 
     pub(crate) async fn internal_report_status(
@@ -1108,24 +1112,10 @@ impl AssetClient {
         log_identifier: &str,
     ) {
         if !dataset_config_errors.is_empty() {
-            // if the config is present and the version doesn't match, clear everything that we aren't explicitly trying to report,
-            // since it's all from an old version. Otherwise, if the config status doesn't exist, or the version matches, keep everything
-            // and just modify what we're explicitly trying to set
-            let mut new_status = {
-                let current_status = self.status.read().unwrap();
-                if let Some(config) = &current_status.config {
-                    // version matches
-                    if config.version == specification_version {
-                        current_status.clone()
-                    } else {
-                        // config out of date, clear everything
-                        adr_models::AssetStatus::default()
-                    }
-                } else {
-                    // config not reported
-                    current_status.clone()
-                }
-            };
+            // get current or cleared (if it's out of date) status as our base to modify only what we're explicitly trying to set
+            let mut new_status =
+                Self::current_status_to_modify(&self.status, specification_version);
+
             // TODO: do a proper find/update here instead of replacing the whole datasets vec
             new_status.datasets = Some(dataset_config_errors);
 
@@ -1252,24 +1242,11 @@ impl DatasetClient {
     /// # Panics
     /// if the asset status or specification mutexes have been poisoned, which should not be possible
     pub async fn report_status(&self, status: Result<(), AdrConfigError>) {
-        // if the config is present and the version doesn't match, clear everything that we aren't explicitly trying to report,
-        // since it's all from an old version. Otherwise, if the config status doesn't exist, or the version matches, keep everything
-        // and just modify what we're explicitly trying to set
-        let mut new_status = {
-            let current_status = self.asset_status.read().unwrap();
-            if let Some(config) = &current_status.config {
-                // version matches
-                if config.version == self.asset_specification.read().unwrap().version {
-                    current_status.clone()
-                } else {
-                    // config out of date, clear everything
-                    adr_models::AssetStatus::default()
-                }
-            } else {
-                // config not reported
-                current_status.clone()
-            }
-        };
+        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut new_status = AssetClient::current_status_to_modify(
+            &self.asset_status,
+            self.asset_specification.read().unwrap().version,
+        );
 
         // if dataset is already in the current status, then update the existing dataset with the new error
         // Otherwise if the dataset isn't present, or no datasets have been reported yet, then add it with the new error
@@ -1374,24 +1351,11 @@ impl DatasetClient {
             }
         })?;
 
-        // if the config is present and the version doesn't match, clear everything that we aren't explicitly trying to report,
-        // since it's all from an old version. Otherwise, if the config status doesn't exist, or the version matches, keep everything
-        // and just modify what we're explicitly trying to set
-        let mut new_status = {
-            let current_status = self.asset_status.read().unwrap();
-            if let Some(config) = &current_status.config {
-                // version matches
-                if config.version == self.asset_specification.read().unwrap().version {
-                    current_status.clone()
-                } else {
-                    // config out of date, clear everything
-                    adr_models::AssetStatus::default()
-                }
-            } else {
-                // config not reported
-                current_status.clone()
-            }
-        };
+        // get current or cleared (if it's out of date) asset status as our base to modify only what we're explicitly trying to set
+        let mut new_status = AssetClient::current_status_to_modify(
+            &self.asset_status,
+            self.asset_specification.read().unwrap().version,
+        );
 
         // if dataset is already in the current status, then update the existing dataset with the new message schema
         // Otherwise if the dataset isn't present, or no datasets have been reported yet, then add it with the new message schema
@@ -1463,7 +1427,7 @@ impl DatasetClient {
                     // TODO: we could delete the dataset here, but the current implementation would just wait for a new valid definition, which seems okay for now?
                     log::error!(
                         "Ignoring update. Invalid dataset destination for updated dataset: {} {e:?}",
-                        updated_dataset.name.clone()
+                        updated_dataset.name
                     );
                     self.report_status(Err(e)).await;
                     continue;

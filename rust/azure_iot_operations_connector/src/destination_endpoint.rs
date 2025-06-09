@@ -88,6 +88,7 @@ impl Forwarder {
                     Err(AdrConfigError {
                                 code: None,
                                 details: None,
+                                // TODO: this may not be true
                                 message: Some("Asset must have default dataset destinations if dataset doesn't have destinations".to_string()),
                             })?
                 } else {
