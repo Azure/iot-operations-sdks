@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Globalization;
-
 namespace Azure.Iot.Operations.Protocol.Chunking;
 
 /// <summary>
@@ -21,16 +18,6 @@ public class ChunkingOptions
     /// to account for headers, topic names, and other metadata.
     /// </summary>
     public int StaticOverhead { get; set; } = ChunkingConstants.DefaultStaticOverhead;
-
-    /// <summary>
-    /// Gets or sets the timeout duration for reassembling chunked messages.
-    /// </summary>
-    public TimeSpan ChunkTimeout { get; set; } = TimeSpan.Parse(ChunkingConstants.DefaultChunkTimeout, CultureInfo.InvariantCulture);
-
-    /// <summary>
-    /// Gets or sets the maximum time to wait for all chunks to arrive.
-    /// </summary>
-    public TimeSpan MaxReassemblyTime { get; set; } = TimeSpan.FromMinutes(2);
 
     /// <summary>
     /// Gets or sets the checksum algorithm to use for message integrity verification.

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
 using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using Azure.Iot.Operations.Protocol.Chunking;
 using Azure.Iot.Operations.Protocol.Events;
 using Azure.Iot.Operations.Protocol.Models;
-using Xunit;
 
 namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking;
 
@@ -111,7 +106,6 @@ public class ChunkedMessageSplitterTests
             Enabled = true,
             StaticOverhead = 100,
             ChecksumAlgorithm = ChunkingChecksumAlgorithm.SHA256,
-            ChunkTimeout = TimeSpan.FromSeconds(30)
         };
         var splitter = new ChunkedMessageSplitter(options);
 
@@ -123,7 +117,8 @@ public class ChunkedMessageSplitterTests
 
         var originalMessage = new MqttApplicationMessage("test/topic")
         {
-            Payload = new ReadOnlySequence<byte>(payload)
+            Payload = new ReadOnlySequence<byte>(payload),
+            MessageExpiryInterval = 30u, // Set expiry interval to 30 seconds
         };
 
         var maxPacketSize = 1000;
@@ -143,11 +138,12 @@ public class ChunkedMessageSplitterTests
         Assert.NotNull(firstChunkMetadata!.MessageId);
         Assert.NotNull(firstChunkMetadata.TotalChunks);
         Assert.NotNull(firstChunkMetadata.Checksum);
-        Assert.NotNull(firstChunkMetadata.Timeout);
 
         Assert.Equal(0, firstChunkMetadata.ChunkIndex);
         Assert.Equal(2, firstChunkMetadata.TotalChunks);
-        Assert.Equal("00:00:30", firstChunkMetadata.Timeout);
+
+        // Check that MessageExpiryInterval is set (30 seconds)
+        Assert.Equal(30u, chunks[0].MessageExpiryInterval);
 
         // Get the messageId from the first chunk
         var messageId = firstChunkMetadata.MessageId;
@@ -160,12 +156,14 @@ public class ChunkedMessageSplitterTests
         // Second chunk should not contain totalChunks or checksum
         Assert.NotNull(secondChunkMetadata);
         Assert.NotNull(secondChunkMetadata!.MessageId);
-        Assert.NotNull(secondChunkMetadata.Timeout);
         Assert.Null(secondChunkMetadata.TotalChunks);
         Assert.Null(secondChunkMetadata.Checksum);
 
         Assert.Equal(messageId, secondChunkMetadata.MessageId);
         Assert.Equal(1, secondChunkMetadata.ChunkIndex);
+
+        // Check that MessageExpiryInterval is set on second chunk too (30 seconds)
+        Assert.Equal(30u, chunks[1].MessageExpiryInterval);
     }
 
     [Fact]
@@ -351,7 +349,7 @@ public class ChunkedMessageSplitterTests
         var checksum = firstChunkMetadata.Checksum;
 
         // Update assembler with metadata
-        assembler.UpdateMetadata(totalChunks, checksum);
+        assembler.UpdateMetadata(totalChunks, checksum, null);
 
         // Add all chunks
         foreach (var chunk in chunks)

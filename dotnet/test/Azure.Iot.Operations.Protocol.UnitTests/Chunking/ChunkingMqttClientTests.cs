@@ -137,7 +137,6 @@ public class ChunkingMqttClientTests
             Assert.NotEmpty(metadata!.MessageId);
             messageIds.Add(metadata.MessageId);
             Assert.True(metadata.ChunkIndex >= 0);
-            Assert.True(metadata.Timeout == ChunkingConstants.DefaultChunkTimeout);
 
             // First chunk should have totalChunks and checksum
             if (metadata.ChunkIndex == 0)
@@ -274,8 +273,7 @@ public class ChunkingMqttClientTests
         Dictionary<string, object> metadata = new()
         {
             { ChunkingConstants.MessageIdField, messageId },
-            { ChunkingConstants.ChunkIndexField, chunkIndex },
-            { ChunkingConstants.TimeoutField, ChunkingConstants.DefaultChunkTimeout }
+            { ChunkingConstants.ChunkIndexField, chunkIndex }
         };
 
         // Add totalChunks and checksum for first chunk

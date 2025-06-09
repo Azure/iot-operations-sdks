@@ -43,7 +43,7 @@ public IReadOnlyList<MqttApplicationMessage> SplitMessage(MqttApplicationMessage
         for (var chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++)
         {
             var chunkPayload = ChunkedMessageSplitter.ExtractChunkPayload(payload, chunkIndex, maxChunkSize);
-            var chunkMessage = CreateChunk(message, chunkPayload, userProperties, messageId, chunkIndex, totalChunks, checksum);
+            var chunkMessage = ChunkedMessageSplitter.CreateChunk(message, chunkPayload, userProperties, messageId, chunkIndex, totalChunks, checksum);
             chunks.Add(chunkMessage);
         }
 
@@ -90,7 +90,7 @@ public IReadOnlyList<MqttApplicationMessage> SplitMessage(MqttApplicationMessage
         return payload.Slice(chunkStart, chunkLength);
     }
 
-    private MqttApplicationMessage CreateChunk(
+    private static MqttApplicationMessage CreateChunk(
         MqttApplicationMessage originalMessage,
         ReadOnlySequence<byte> chunkPayload,
         List<MqttUserProperty> userProperties,
@@ -101,8 +101,8 @@ public IReadOnlyList<MqttApplicationMessage> SplitMessage(MqttApplicationMessage
     {
         // Create chunk metadata
         var metadata = chunkIndex == 0
-            ? ChunkMetadata.CreateFirstChunk(messageId, totalChunks, checksum, _options.ChunkTimeout)
-            : ChunkMetadata.CreateSubsequentChunk(messageId, chunkIndex, _options.ChunkTimeout);
+            ? ChunkMetadata.CreateFirstChunk(messageId, totalChunks, checksum)
+            : ChunkMetadata.CreateSubsequentChunk(messageId, chunkIndex);
 
         // Serialize the metadata to JSON
         var metadataJson = JsonSerializer.Serialize(metadata);

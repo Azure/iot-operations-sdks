@@ -24,6 +24,7 @@ internal class ChunkedMessageAssembler
     private int _totalChunks;
     private string? _checksum;
     private readonly ChunkingChecksumAlgorithm _checksumAlgorithm;
+    private TimeSpan? _timeout;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChunkedMessageAssembler"/> class.
@@ -46,12 +47,14 @@ internal class ChunkedMessageAssembler
     /// </summary>
     /// <param name="totalChunks">The total number of chunks expected.</param>
     /// <param name="checksum">The checksum of the complete message.</param>
-    public void UpdateMetadata(int totalChunks, string? checksum)
+    /// <param name="timeout">The timeout duration extracted from MessageExpiryInterval.</param>
+    public void UpdateMetadata(int totalChunks, string? checksum, TimeSpan? timeout)
     {
         lock (_lock)
         {
             _totalChunks = totalChunks;
             _checksum = checksum;
+            _timeout = timeout;
         }
     }
 
@@ -190,8 +193,13 @@ internal class ChunkedMessageAssembler
     /// </summary>
     /// <param name="timeout">The timeout duration.</param>
     /// <returns>True if the assembler has expired, false otherwise.</returns>
-    public bool HasExpired(TimeSpan timeout)
+    public bool HasExpired()
     {
-        return DateTime.UtcNow - _creationTime > timeout;
+        if (!_timeout.HasValue)
+        {
+            return false; // No timeout set, never expires
+        }
+
+        return DateTime.UtcNow - _creationTime > _timeout.Value;
     }
 }

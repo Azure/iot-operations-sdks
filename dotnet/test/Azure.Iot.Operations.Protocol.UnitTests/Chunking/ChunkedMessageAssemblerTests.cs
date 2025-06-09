@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
             var checksum = ChecksumCalculator.CalculateChecksum(ros, ChunkingChecksumAlgorithm.SHA256);
 
             var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
-            assembler.UpdateMetadata(2, checksum); // Set the correct checksum
+            assembler.UpdateMetadata(2, checksum, null); // Set the correct checksum
 
             var chunk0 = CreateMqttMessageEventArgs(payload1);
             var chunk1 = CreateMqttMessageEventArgs(payload2);
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
         {
             // Arrange
             var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
-            assembler.UpdateMetadata(2, "invalid-checksum"); // Set incorrect checksum
+            assembler.UpdateMetadata(2, "invalid-checksum", null); // Set incorrect checksum
 
             var chunk0 = CreateMqttMessageEventArgs("payload1");
             var chunk1 = CreateMqttMessageEventArgs("payload2");
@@ -154,9 +154,12 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
             var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
             var shortTimeout = TimeSpan.FromMilliseconds(1);
 
+            // Set timeout via metadata update
+            assembler.UpdateMetadata(2, "test-checksum", shortTimeout);
+
             // Act
             Thread.Sleep(10); // Ensure timeout is exceeded
-            var result = assembler.HasExpired(shortTimeout);
+            var result = assembler.HasExpired();
 
             // Assert
             Assert.True(result);
@@ -169,8 +172,26 @@ namespace Azure.Iot.Operations.Protocol.UnitTests.Chunking
             var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
             var longTimeout = TimeSpan.FromMinutes(5);
 
+            // Set timeout via metadata update
+            assembler.UpdateMetadata(2, "test-checksum", longTimeout);
+
             // Act
-            var result = assembler.HasExpired(longTimeout);
+            var result = assembler.HasExpired();
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void HasExpired_ReturnsFalseWhenNoTimeoutSet()
+        {
+            // Arrange
+            var assembler = new ChunkedMessageAssembler(2, ChunkingChecksumAlgorithm.SHA256);
+
+            // Don't set any timeout via metadata update
+
+            // Act
+            var result = assembler.HasExpired();
 
             // Assert
             Assert.False(result);

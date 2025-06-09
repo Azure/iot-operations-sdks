@@ -25,11 +25,6 @@ public static class ChunkingConstants
     public const string ChunkIndexField = "chunkIndex";
 
     /// <summary>
-    /// JSON field name for the timeout value within the chunk metadata.
-    /// </summary>
-    public const string TimeoutField = "timeout";
-
-    /// <summary>
     /// JSON field name for the total number of chunks within the chunk metadata.
     /// </summary>
     public const string TotalChunksField = "totalChunks";
@@ -38,11 +33,6 @@ public static class ChunkingConstants
     /// JSON field name for the message checksum within the chunk metadata.
     /// </summary>
     public const string ChecksumField = "checksum";
-
-    /// <summary>
-    /// Default timeout for chunk reassembly in ISO 8601 format.
-    /// </summary>
-    public const string DefaultChunkTimeout = "00:00:10";
 
     /// <summary>
     /// Default static overhead value subtracted from the maximum packet size.

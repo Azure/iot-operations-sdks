@@ -23,6 +23,7 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
     private readonly ConcurrentDictionary<string, ChunkedMessageAssembler> _messageAssemblers = new();
     private readonly ChunkedMessageSplitter _messageSplitter;
     private int _maxPacketSize;
+    private readonly Timer? _cleanupTimer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChunkingMqttPubSubClient"/> class.
@@ -38,6 +39,13 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
         UpdateMaxPacketSizeFromConnectResult(_innerClient.GetConnectResult());
 
         _innerClient.ApplicationMessageReceivedAsync += HandleApplicationMessageReceivedAsync;
+
+        // Start the cleanup timer
+        _cleanupTimer = new Timer(
+            _ => CleanupExpiredAssemblers(),
+            null,
+            TimeSpan.FromMinutes(1),
+            TimeSpan.FromMinutes(1));
     }
 
     public event Func<MqttApplicationMessageReceivedEventArgs, Task>? ApplicationMessageReceivedAsync;
@@ -80,6 +88,9 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
     {
         // Clean up resources
         _messageAssemblers.Clear();
+
+        // Dispose cleanup timer
+        _cleanupTimer?.Dispose();
 
         // Detach events
         _innerClient.ApplicationMessageReceivedAsync -= HandleApplicationMessageReceivedAsync;
@@ -166,10 +177,13 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
         // Add this chunk to the assembler
         if (assembler.AddChunk(metadata.ChunkIndex, args))
         {
-            // If this was the first chunk, update total chunks and checksum
+            // If this was the first chunk, update total chunks, checksum, and extract timeout from MessageExpiryInterval
             if (metadata.ChunkIndex == 0 && metadata.TotalChunks.HasValue)
             {
-                assembler.UpdateMetadata(metadata.TotalChunks.Value, metadata.Checksum);
+                var timeout = args.ApplicationMessage.MessageExpiryInterval > 0
+                    ? TimeSpan.FromSeconds(args.ApplicationMessage.MessageExpiryInterval)
+                    : (TimeSpan?)null;
+                assembler.UpdateMetadata(metadata.TotalChunks.Value, metadata.Checksum, timeout);
             }
 
             // Check if we have all the chunks
@@ -210,6 +224,27 @@ public class ChunkingMqttPubSubClient : IMqttPubSubClient
         catch (JsonException)
         {
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Cleans up expired message assemblers to prevent memory leaks.
+    /// </summary>
+    private void CleanupExpiredAssemblers()
+    {
+        var expiredKeys = new List<string>();
+
+        foreach (var kvp in _messageAssemblers)
+        {
+            if (kvp.Value.HasExpired())
+            {
+                expiredKeys.Add(kvp.Key);
+            }
+        }
+
+        foreach (var key in expiredKeys)
+        {
+            _messageAssemblers.TryRemove(key, out _);
         }
     }
 }
