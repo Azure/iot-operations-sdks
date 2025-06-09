@@ -60,13 +60,6 @@
       "description": "If this connector supports ACSA volumes.",
       "default": "false"
     },
-    "supportedDestinations": {
-      "type": "array",
-      "description": "The array of destinations that this connector supports.",
-      "items": {
-        "type": "string"
-      }
-    },
     "maintainer": {
       "type": "string",
       "description": "A name and/or email of the maintainer of this connector."
@@ -290,6 +283,27 @@
                   "actionConfigurationSchema": {
                     "$ref": "#/definitions/schema"
                   }
+                }
+              },
+              "supportedEventDestinations": {
+                "type": "array",
+                "description": "The array of destinations that this asset's events supports.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "supportedDatasetDestinations": {
+                "type": "array",
+                "description": "The array of destinations that this asset's datasets supports.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "supportedStreamDestinations": {
+                "type": "array",
+                "description": "The array of destinations that this asset's streams supports.",
+                "items": {
+                  "type": "string"
                 }
               }
             }
