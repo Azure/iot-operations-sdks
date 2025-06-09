@@ -252,7 +252,7 @@
         "properties": {
           "endpointType": {
             "type": "string",
-            "description": "The type of this inbound endpoint."
+            "description": "The type of this inbound endpoint including the version like 'Microsoft.Media:1.2.0'"
           },
           "asset": {
             "type": "object",
@@ -292,6 +292,13 @@
                   "type": "string"
                 }
               },
+              "defaultEventDestinations": {
+                "type": "array",
+                "description": "The array of destinations that this asset's events will go to by default unless event-specific destinations are specified.",
+                "items": {
+                  "type": "string"
+                }
+              },
               "supportedDatasetDestinations": {
                 "type": "array",
                 "description": "The array of destinations that this asset's datasets supports.",
@@ -299,9 +306,23 @@
                   "type": "string"
                 }
               },
+              "defaultDatasetDestinations": {
+                "type": "array",
+                "description": "The array of destinations that this asset's datasets will go to by default unless dataset-specific destinations are specified.",
+                "items": {
+                  "type": "string"
+                }
+              },
               "supportedStreamDestinations": {
                 "type": "array",
                 "description": "The array of destinations that this asset's streams supports.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "defaultStreamDestinations": {
+                "type": "array",
+                "description": "The array of destinations that this asset's streams will go to by default unless stream-specific destinations are specified.",
                 "items": {
                   "type": "string"
                 }
