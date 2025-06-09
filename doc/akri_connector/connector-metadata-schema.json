@@ -30,7 +30,7 @@
     },
     "supportAcsaVolumes": {
       "type": "boolean",
-      "description": "If this connector supports ACSA volumes.",
+      "description": "If this connector supports Azure Container Storage enabled by Azure Arc.",
       "default": "false"
     },
     "maintainer": {
