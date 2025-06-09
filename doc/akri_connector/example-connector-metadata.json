@@ -59,8 +59,8 @@
   },
   "inboundEndpoints": [
     {
-      "name": "RestInboundEndpoint",
-      "version": "1.0",
+      "endpointType": "Microsoft.Http:v1",
+      "version": "2.0",
       "asset": {
         "configurationSchemas": {
           "datasetConfigurationSchema": {
@@ -168,7 +168,13 @@
               }
             }
           }
-        }
+        },
+        "supportedEventDestinations": ["Mqtt"],
+        "defaultEventDestinations": ["Mqtt"],
+        "supportedDatasetDestinations": ["Mqtt"],
+        "defaultDatasetDestinations": ["Mqtt"],
+        "supportedStreamDestinations": ["Mqtt"],
+        "defaultStreamDestinations": ["Mqtt"]
       },
       "isEndpointTlsEnabled" : true
     }

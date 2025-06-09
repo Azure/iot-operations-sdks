@@ -11,8 +11,8 @@
   "supportedArchitectures": ["linux/amd64"],
   "inboundEndpoints": [
     {
-      "name": "RestInboundEndpoint",
-      "version": "1.0",
+      "endpointType": "Microsoft.Http:v1",
+      "version": "2.0",
       "configSchemas": {
         "datasetConfigSchema": {
           "schema": {
