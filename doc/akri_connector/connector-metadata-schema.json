@@ -310,7 +310,7 @@
           },
           "version": {
             "type": "string",
-            "description": "The version of this inbound endpoint."
+            "description": "The version of the protocol of this inbound endpoint."
           }
         },
         "required": [
