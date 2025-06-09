@@ -42,7 +42,10 @@ We will implement sdk-level message chunking as part of the Protocol layer to tr
 > [MQTT-3.3.2-6] | The PUBLISH packet sent to a Client by the Server MUST contain a Message Expiry Interval set to the received value minus the time that the message has been waiting in the Server.
 
 The receiving client uses the Message Expiry Interval from the first chunk as the timeout period for collecting all remaining chunks of the message.
-**Edge case:** Since the Message Expiry Interval is specified in seconds, chunked messages may behave differently than single messages when the expiry interval is very short (e.g., 1 second remaining). For a single large message, the QoS flow would complete even if the expiry interval expires during transmission. However, with chunking, if the remaining expiry interval is too short to receive all chunks, the message reassembly will fail due to timeout.
+
+Edge case:
+- Since the Message Expiry Interval is specified in seconds, chunked messages may behave differently than single messages when the expiry interval is very short (e.g., 1 second remaining). For a single large message, the QoS flow would complete even if the expiry interval expires during transmission. However, with chunking, if the remaining expiry interval is too short to receive all chunks, the message reassembly will fail due to timeout.
+- In case of QoS 0 and no Message Expiry Interval (forever message) if any of the chunks lost during transmission client will never cleanup assembler buffer for this message, thus use of the chunking should be restricted to QoS 1/2.
 
 **Checksum Algorithm Options for MQTT Message Chunking**
 
