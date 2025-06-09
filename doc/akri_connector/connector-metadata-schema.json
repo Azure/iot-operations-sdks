@@ -28,7 +28,7 @@
       "description": "True if this connector is considered a preview version.",
       "default": "false"
     },
-    "supportAcsaVolumes": {
+    "supportAcsaVolumes": { // May not be necessary? Varun is checking
       "type": "boolean",
       "description": "If this connector supports Azure Container Storage enabled by Azure Arc.",
       "default": "false"
@@ -212,7 +212,7 @@
       }
     }
   },
-  "additionalConfigurationSchema": {
+  "connectorConfigurationSchema": {
     "description": "The connector-level JSON schemas for the 'additional configuration' field. A JSON schema must be only if that field is used by this connector.",
     "$ref": "http://json-schema.org/draft-07/schema#"
   },

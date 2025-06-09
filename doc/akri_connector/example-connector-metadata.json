@@ -34,7 +34,7 @@
     "minVersion": "1.0.0",
     "maxVersion": "2.0.0"
   },
-  "additionalConfigurationSchema": {
+  "connectorConfigurationSchema": {
     "schema": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "$id": "https://contoso.com/connectorConfig.schema.json",
