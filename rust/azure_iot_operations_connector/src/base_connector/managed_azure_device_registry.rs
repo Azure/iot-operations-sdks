@@ -1107,7 +1107,7 @@ impl AssetClient {
     /// Convenience function to report a vector of dataset errors to the ADR service
     async fn report_dataset_config_errors(
         &self,
-        dataset_config_errors: Vec<adr_models::DatasetEventStreamStatus>,
+        mut dataset_config_errors: Vec<adr_models::DatasetEventStreamStatus>,
         specification_version: Option<u64>,
         log_identifier: &str,
     ) {
@@ -1116,8 +1116,20 @@ impl AssetClient {
             let mut new_status =
                 Self::current_status_to_modify(&self.status, specification_version);
 
-            // TODO: do a proper find/update here instead of replacing the whole datasets vec
-            new_status.datasets = Some(dataset_config_errors);
+            // remove all dataset statuses that are in the new errors vec and already exist, because we will replace them
+            new_status
+                .datasets
+                .get_or_insert_with(Vec::new)
+                .retain(|dataset_status| {
+                    !dataset_config_errors
+                        .iter()
+                        .any(|new_dataset_status| new_dataset_status.name == dataset_status.name)
+                });
+            // append all of the new and updated statuses to the datasets statuses, without modifying any of the old ones
+            new_status
+                .datasets
+                .get_or_insert_with(Vec::new)
+                .append(&mut dataset_config_errors);
 
             // send status update to the service
             log::debug!(
