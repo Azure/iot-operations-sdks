@@ -28,7 +28,7 @@
       "description": "True if this connector is considered a preview version.",
       "default": "false"
     },
-    "supportAcsaVolumes": { // May not be necessary? Varun is checking
+    "supportAcsaVolumes": {
       "type": "boolean",
       "description": "If this connector supports Azure Container Storage enabled by Azure Arc.",
       "default": "false"
